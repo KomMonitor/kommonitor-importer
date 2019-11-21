@@ -45,7 +45,7 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>${project.basedir}/src/main/resources/kommonitor_dataImportAPI.yaml</inputSpec>
+                                    <inputSpec>${project.parent.basedir}/swagger-definitions/kommonitor_dataImportAPI.yaml</inputSpec>
                                     <!-- target to generate java server code -->
                                     <language>spring</language>
                                     <output>${project.basedir}</output>
