@@ -13,6 +13,7 @@ import org.n52.kommonitor.importer.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.importer.models.ImportDataSourceType;
 import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators;
+import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ import javax.validation.constraints.*;
  * ImportIndicatorPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-19T09:41:06.276+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -157,6 +158,9 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("dataSource")
   private ImportDataSourceType dataSource = null;
+
+  @JsonProperty("propertyMapping")
+  private IndicatorPropertyMappingType propertyMapping = null;
 
   public ImportIndicatorPOSTInputType datasetName(String datasetName) {
     this.datasetName = datasetName;
@@ -567,6 +571,27 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
+  public ImportIndicatorPOSTInputType propertyMapping(IndicatorPropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
+    return this;
+  }
+
+  /**
+   * Definitions for mapping datasource properties to spatial resource properties for Indicators
+   * @return propertyMapping
+  **/
+  @ApiModelProperty(value = "Definitions for mapping datasource properties to spatial resource properties for Indicators")
+
+  @Valid
+
+  public IndicatorPropertyMappingType getPropertyMapping() {
+    return propertyMapping;
+  }
+
+  public void setPropertyMapping(IndicatorPropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -594,12 +619,13 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
         Objects.equals(this.allowedRoles, importIndicatorPOSTInputType.allowedRoles) &&
         Objects.equals(this.refrencesToOtherIndicators, importIndicatorPOSTInputType.refrencesToOtherIndicators) &&
         Objects.equals(this.refrencesToGeoresources, importIndicatorPOSTInputType.refrencesToGeoresources) &&
-        Objects.equals(this.dataSource, importIndicatorPOSTInputType.dataSource);
+        Objects.equals(this.dataSource, importIndicatorPOSTInputType.dataSource) &&
+        Objects.equals(this.propertyMapping, importIndicatorPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, refrencesToOtherIndicators, refrencesToGeoresources, dataSource);
+    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, refrencesToOtherIndicators, refrencesToGeoresources, dataSource, propertyMapping);
   }
 
   @Override
@@ -625,6 +651,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     sb.append("    refrencesToOtherIndicators: ").append(toIndentedString(refrencesToOtherIndicators)).append("\n");
     sb.append("    refrencesToGeoresources: ").append(toIndentedString(refrencesToGeoresources)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
+    sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");
     return sb.toString();
   }

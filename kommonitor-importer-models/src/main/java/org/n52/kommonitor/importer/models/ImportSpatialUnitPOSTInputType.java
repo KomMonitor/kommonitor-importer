@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
 import org.n52.kommonitor.importer.models.ImportDataSourceType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
-import org.n52.kommonitor.importer.models.SpatialUnitPropertyMappingType;
+import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * ImportSpatialUnitPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-19T09:41:06.276+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
 
 public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private ImportDataSourceType dataSource = null;
 
   @JsonProperty("propertyMapping")
-  private SpatialUnitPropertyMappingType propertyMapping = null;
+  private SpatialResourcePropertyMappingType propertyMapping = null;
 
   public ImportSpatialUnitPOSTInputType spatialUnitLevel(String spatialUnitLevel) {
     this.spatialUnitLevel = spatialUnitLevel;
@@ -196,25 +196,25 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
-  public ImportSpatialUnitPOSTInputType propertyMapping(SpatialUnitPropertyMappingType propertyMapping) {
+  public ImportSpatialUnitPOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
     return this;
   }
 
   /**
-   * Definitions for mapping datasource properties to Spatial Unit properties
+   * Definitions for mapping datasource properties to spatial resource properties for Spatial Units
    * @return propertyMapping
   **/
-  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to Spatial Unit properties")
+  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to spatial resource properties for Spatial Units")
   @NotNull
 
   @Valid
 
-  public SpatialUnitPropertyMappingType getPropertyMapping() {
+  public SpatialResourcePropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
 
-  public void setPropertyMapping(SpatialUnitPropertyMappingType propertyMapping) {
+  public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
   }
 

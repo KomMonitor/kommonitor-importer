@@ -9,9 +9,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
-import org.n52.kommonitor.importer.models.GeoresourcePropertyMappingType;
 import org.n52.kommonitor.importer.models.ImportDataSourceType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
+import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
  * ImportGeoresourcePOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-19T09:41:06.276+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -156,7 +156,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   private ImportDataSourceType dataSource = null;
 
   @JsonProperty("propertyMapping")
-  private GeoresourcePropertyMappingType propertyMapping = null;
+  private SpatialResourcePropertyMappingType propertyMapping = null;
 
   public ImportGeoresourcePOSTInputType datasetName(String datasetName) {
     this.datasetName = datasetName;
@@ -399,25 +399,25 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
-  public ImportGeoresourcePOSTInputType propertyMapping(GeoresourcePropertyMappingType propertyMapping) {
+  public ImportGeoresourcePOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
     return this;
   }
 
   /**
-   * Definitions for mapping datasource properties to Georesource properties
+   * Definitions for mapping datasource properties to spatial resource properties for Georesources
    * @return propertyMapping
   **/
-  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to Georesource properties")
+  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to spatial resource properties for Georesources")
   @NotNull
 
   @Valid
 
-  public GeoresourcePropertyMappingType getPropertyMapping() {
+  public SpatialResourcePropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
 
-  public void setPropertyMapping(GeoresourcePropertyMappingType propertyMapping) {
+  public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
   }
 

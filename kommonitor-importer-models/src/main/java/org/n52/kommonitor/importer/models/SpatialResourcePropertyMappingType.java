@@ -11,16 +11,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SpatialUnitPropertyMappingType
+ * SpatialResourcePropertyMappingType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-19T09:41:06.276+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
 
-public class SpatialUnitPropertyMappingType  implements Serializable {
+public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("idProperty")
-  private String idProperty = null;
+  @JsonProperty("identifierProperty")
+  private String identifierProperty = null;
 
   @JsonProperty("nameProperty")
   private String nameProperty = null;
@@ -31,28 +31,27 @@ public class SpatialUnitPropertyMappingType  implements Serializable {
   @JsonProperty("validEndDateProperty")
   private String validEndDateProperty = null;
 
-  public SpatialUnitPropertyMappingType idProperty(String idProperty) {
-    this.idProperty = idProperty;
+  public SpatialResourcePropertyMappingType identifierProperty(String identifierProperty) {
+    this.identifierProperty = identifierProperty;
     return this;
   }
 
   /**
    * The property that contains each feature's unique identifier
-   * @return idProperty
+   * @return identifierProperty
   **/
-  @ApiModelProperty(required = true, value = "The property that contains each feature's unique identifier")
-  @NotNull
+  @ApiModelProperty(value = "The property that contains each feature's unique identifier")
 
 
-  public String getIdProperty() {
-    return idProperty;
+  public String getIdentifierProperty() {
+    return identifierProperty;
   }
 
-  public void setIdProperty(String idProperty) {
-    this.idProperty = idProperty;
+  public void setIdentifierProperty(String identifierProperty) {
+    this.identifierProperty = identifierProperty;
   }
 
-  public SpatialUnitPropertyMappingType nameProperty(String nameProperty) {
+  public SpatialResourcePropertyMappingType nameProperty(String nameProperty) {
     this.nameProperty = nameProperty;
     return this;
   }
@@ -73,7 +72,7 @@ public class SpatialUnitPropertyMappingType  implements Serializable {
     this.nameProperty = nameProperty;
   }
 
-  public SpatialUnitPropertyMappingType validStartDateProperty(String validStartDateProperty) {
+  public SpatialResourcePropertyMappingType validStartDateProperty(String validStartDateProperty) {
     this.validStartDateProperty = validStartDateProperty;
     return this;
   }
@@ -93,7 +92,7 @@ public class SpatialUnitPropertyMappingType  implements Serializable {
     this.validStartDateProperty = validStartDateProperty;
   }
 
-  public SpatialUnitPropertyMappingType validEndDateProperty(String validEndDateProperty) {
+  public SpatialResourcePropertyMappingType validEndDateProperty(String validEndDateProperty) {
     this.validEndDateProperty = validEndDateProperty;
     return this;
   }
@@ -122,24 +121,24 @@ public class SpatialUnitPropertyMappingType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpatialUnitPropertyMappingType spatialUnitPropertyMappingType = (SpatialUnitPropertyMappingType) o;
-    return Objects.equals(this.idProperty, spatialUnitPropertyMappingType.idProperty) &&
-        Objects.equals(this.nameProperty, spatialUnitPropertyMappingType.nameProperty) &&
-        Objects.equals(this.validStartDateProperty, spatialUnitPropertyMappingType.validStartDateProperty) &&
-        Objects.equals(this.validEndDateProperty, spatialUnitPropertyMappingType.validEndDateProperty);
+    SpatialResourcePropertyMappingType spatialResourcePropertyMappingType = (SpatialResourcePropertyMappingType) o;
+    return Objects.equals(this.identifierProperty, spatialResourcePropertyMappingType.identifierProperty) &&
+        Objects.equals(this.nameProperty, spatialResourcePropertyMappingType.nameProperty) &&
+        Objects.equals(this.validStartDateProperty, spatialResourcePropertyMappingType.validStartDateProperty) &&
+        Objects.equals(this.validEndDateProperty, spatialResourcePropertyMappingType.validEndDateProperty);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(idProperty, nameProperty, validStartDateProperty, validEndDateProperty);
+    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SpatialUnitPropertyMappingType {\n");
+    sb.append("class SpatialResourcePropertyMappingType {\n");
     
-    sb.append("    idProperty: ").append(toIndentedString(idProperty)).append("\n");
+    sb.append("    identifierProperty: ").append(toIndentedString(identifierProperty)).append("\n");
     sb.append("    nameProperty: ").append(toIndentedString(nameProperty)).append("\n");
     sb.append("    validStartDateProperty: ").append(toIndentedString(validStartDateProperty)).append("\n");
     sb.append("    validEndDateProperty: ").append(toIndentedString(validEndDateProperty)).append("\n");

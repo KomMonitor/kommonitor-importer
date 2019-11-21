@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * DatasetReferenceType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-19T09:41:06.276+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
 
 public class DatasetReferenceType  implements Serializable {
   private static final long serialVersionUID = 1L;
