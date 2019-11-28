@@ -12,16 +12,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * PayloadType
+ * The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.
  */
+@ApiModel(description = "The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class PayloadType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
-   * Specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some data
+   * specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some remote data.
    */
   public enum InputTypeEnum {
     DATA("DATA"),
@@ -63,10 +64,10 @@ public class PayloadType  implements Serializable {
   }
 
   /**
-   * Specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some data
+   * specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some remote data.
    * @return inputType
   **/
-  @ApiModelProperty(value = "Specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some data")
+  @ApiModelProperty(value = "specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some remote data.")
 
 
   public InputTypeEnum getInputType() {
@@ -83,10 +84,10 @@ public class PayloadType  implements Serializable {
   }
 
   /**
-   * The content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)
+   * the content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)
    * @return content
   **/
-  @ApiModelProperty(value = "The content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)")
+  @ApiModelProperty(value = "the content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)")
 
 
   public String getContent() {

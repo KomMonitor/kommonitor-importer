@@ -11,10 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SpatialResourcePropertyMappingType
+ * Definitions for mapping datasource properties to required properties for spatial units and georesources
  */
+@ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -37,10 +38,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   }
 
   /**
-   * The property that contains each feature's unique identifier
+   * the property that contains each feature's unique identifier
    * @return identifierProperty
   **/
-  @ApiModelProperty(value = "The property that contains each feature's unique identifier")
+  @ApiModelProperty(value = "the property that contains each feature's unique identifier")
 
 
   public String getIdentifierProperty() {
@@ -57,10 +58,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   }
 
   /**
-   * The property that contains each feature's unique name
+   * the property that contains each feature's unique name
    * @return nameProperty
   **/
-  @ApiModelProperty(required = true, value = "The property that contains each feature's unique name")
+  @ApiModelProperty(required = true, value = "the property that contains each feature's unique name")
   @NotNull
 
 
@@ -78,10 +79,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   }
 
   /**
-   * The property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)
+   * the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)
    * @return validStartDateProperty
   **/
-  @ApiModelProperty(value = "The property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)")
+  @ApiModelProperty(value = "the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)")
 
 
   public String getValidStartDateProperty() {
@@ -98,10 +99,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   }
 
   /**
-   * The property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)
+   * the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)
    * @return validEndDateProperty
   **/
-  @ApiModelProperty(value = "The property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)")
+  @ApiModelProperty(value = "the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)")
 
 
   public String getValidEndDateProperty() {

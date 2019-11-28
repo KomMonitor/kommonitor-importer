@@ -1,7 +1,8 @@
 definitions:
 
   Import_SpatialUnitPOSTInputType:
-    type: "object"
+    description: Definitions for importing an new spatial unit
+    type: object
     required:
       - spatialUnitLevel
       - metadata
@@ -25,17 +26,16 @@ definitions:
         type: string
         description: the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
       jsonSchema:
-            type: "string"
-            description: "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property."
+            type: string
+            description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
-        $ref: "#/definitions/ImportDataSourceType"
-        description: "Contains information for retrieving Spatial Units from an underlying datasource"
+        $ref: "#/definitions/DataSourceType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
-        description: "Definitions for mapping datasource properties to spatial resource properties for Spatial Units"
 
   Import_GeoresourcePOSTInputType:
-    type: "object"
+    description: Definitions for importing an new georesource
+    type: object
     required:
       - datasetName
       - metadata
@@ -58,7 +58,7 @@ definitions:
           type: string
       applicableTopics:
         type: array
-        description: "array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics"
+        description: Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.
         items:
           type: string
       isPOI:
@@ -97,16 +97,16 @@ definitions:
           - gray
           - black
       jsonSchema:
-            type: "string"
-            description: "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property."
+            type: string
+            description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
-        $ref: "#/definitions/ImportDataSourceType"
+        $ref: "#/definitions/DataSourceType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
-        description: "Definitions for mapping datasource properties to spatial resource properties for Georesources"
 
   Import_IndicatorPOSTInputType:
-    type: "object"
+    description: Definitions for importing an new indicator
+    type: object
     required:
       - datasetName
       - applicableSpatialUnit
@@ -140,7 +140,7 @@ definitions:
         description: identifier/name of the spatial unit level
       applicableTopics:
         type: array
-        description: "array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics"
+        description: Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.
         items:
           type: string
       metadata:
@@ -159,11 +159,11 @@ definitions:
           - COMPUTATION
           - AGGREGATION
       abbreviation:
-        type: "string"
-        description: "abbreviated mark of the indicator"
+        type: string
+        description: abbreviated mark of the indicator
       interpretation:
-        type: "string"
-        description: "interpretation of the indicator values"
+        type: string
+        description: interpretation of the indicator values
       isHeadlineIndicator:
         type: boolean
         description: boolean value indicating if the indicator is a headline indicator
@@ -183,37 +183,25 @@ definitions:
         description: list of role identifiers that have read access rights for this dataset
         items:
           type: string
-      refrencesToOtherIndicators:
+      referencesToOtherIndicators:
+        description: Array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here.
         type: array
-        description: "array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here"
         items:
           type: object
-          properties:
-            indicatorId:
-              type: string
-              description: identifier of the referenced indicator
-            referenceDescription:
-              type: string
-              description: short description of how the indicator is referenced to the superior one
-      refrencesToGeoresources:
+          $ref: "#/definitions/ResourceReferenceType"
+      referencesToGeoresources:
+        description: Array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here.
         type: array
-        description: "array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here"
         items:
           type: object
-          properties:
-            georesourceId:
-              type: string
-              description: identifier of the referenced georesource
-            referenceDescription:
-              type: string
-              description: short description of how the georesource is referenced to the indicator
+          $ref: "#/definitions/ResourceReferenceType"
       dataSource:
-        $ref: "#/definitions/ImportDataSourceType"
+        $ref: "#/definitions/DataSourceType"
       propertyMapping:
         $ref: "#/definitions/IndicatorPropertyMappingType"
-        description: "Definitions for mapping datasource properties to spatial resource properties for Indicators"
 
   CommonMetadataType:
+    description: Various metadata information about the resource that will be imported
     type: object
     required:
       - description
@@ -251,15 +239,15 @@ definitions:
       updateInterval:
         type: string
         enum:
-          - "ARBITRARY"
-          - "MONTHLY"
-          - "QUARTERLY"
-          - "HALF_YEARLY"
-          - "YEARLY"
+          - ARBITRARY
+          - MONTHLY
+          - QUARTERLY
+          - HALF_YEARLY
+          - YEARLY
 
   PeriodOfValidityType:
+    description: Definition of the period of validity of a certain dataset
     type: object
-    description: definition of the period of validity of a certain dataset
     required:
       - startDate
     properties:
@@ -273,98 +261,54 @@ definitions:
         description: an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.
 
   AvailablePeriodsOfValidityType:
+    description: Array of periods of validity, each consisting of a start and end date
     type: array
-    description: "array of periods of validity, each consisting of a start and end date"
     items:
       $ref: "#/definitions/PeriodOfValidityType"
 
-  IndicatorReferenceType:
-    type: object
-    description: a reference to another indicator, e.g. a sub-indicator that is used to compute the main indicator
-    required:
-      - referencedIndicatorId
-      - referencedIndicatorName
-      - referencedIndicatorDescription
-    properties:
-      referencedIndicatorId:
-        type: string
-        description: unique identifier of the referenced indicator
-      referencedIndicatorName:
-        type: string
-        description: the meaningful name of the referenced indicator
-      referencedIndicatorDescription:
-        type: string
-        description: a meaningful description of how the referenced indicator is related to the main indicator
-
-  GeoresourceReferenceType:
-    type: object
-    description: a reference to georesource, e.g. a resource that is used to compute the main indicator
-    required:
-      - referencedGeoresourceId
-      - referencedGeoresourceName
-      - referencedGeoresourceDescription
-    properties:
-      referencedGeoresourceId:
-        type: string
-        description: unique identifier of the referenced georesource
-      referencedGeoresourceName:
-        type: string
-        description: the meaningful name of the referenced georesource
-      referencedGeoresourceDescription:
-        type: string
-        description: a meaningful description of how the referenced georesource is related to the main indicator
-
-  OgcServicesType:
-    type: "object"
-    required:
-      - wmsUrl
-      - wfsUrl
-      - defaultStyleName
-      - spatialUnit
-    properties:
-      spatialUnit:
-        type: string
-        description: the name of the spatial unit
-      wmsUrl:
-        type: string
-        description: the URL of a running WMS instance serving the spatial features of the associated dataset
-      wfsUrl:
-        type: string
-        description: the URL of a running WFS instance serving the spatial features of the associated dataset
-      defaultStyleName:
-        type: string
-        description: the name of the default style (SLD) that is published and applied to the associated dataset
-
   DefaultClassificationMappingType:
-    type: "object"
+    description: Definition of a default classification mapping for indicator values
+    type: object
     required:
       - items
       - colorBrewerSchemeName
     properties:
       colorBrewerSchemeName:
         type: string
-        description: "the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily."
+        description: the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
       items:
         type: array
-        description: "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values"
+        description: array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values
         items:
           $ref: "#/definitions/DefaultClassificationMappingItemType"
 
   DefaultClassificationMappingItemType:
-    type: "object"
+    description: Definition of a classification for a certain indicator value interval
+    type: object
     required:
       - defaultColorAsHex
       - defaultCustomRating
     properties:
       defaultColorAsHex:
         type: string
-        description: "the default color for the specified value interval as hex string inclusive leading #, i.e. '#ffffff'"
+        description: the default color for the specified value interval as hex string inclusive leading (i.e. '#ffffff')
       defaultCustomRating:
         type: string
-        description: "the default custom rating string for the specified value interval, i.e. 'very high'/'very low' or 'good'/'bad'"
+        description: the default custom rating string for the specified value interval, i.e. 'very high'/'very low' or 'good'/'bad'
 
-  ImportDataSourceType:
-    type: "object"
+  ResourceReferenceType:
+    description: Reference on another resource
+    properties:
+      resourceId:
+        type: string
+        description: identifier of the referenced resource
+      referenceDescription:
+        type: string
+        description: short description of how the resource is referenced to the superior one
+
+  DataSourceType:
+    description: Holds various information about the datasource for importing new resources
+    type: object
     required:
       - type
       - payload
@@ -373,7 +317,7 @@ definitions:
     properties:
       type:
         type: string
-        description: "the source format from which geodata or indicator data can be extracted"
+        description: the source format from which geodata or indicator data can be extracted
         enum:
           - WFS
           - GEOJSON
@@ -387,77 +331,84 @@ definitions:
         $ref: "#/definitions/PayloadType"
       datasetReference:
         $ref: "#/definitions/DatasetReferenceType"
-        description: "If the data source configured via sourceFormat and payload has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.), the respective name/reference of the target feature dataset must be submitted here"
-
+        
   FormatType:
-    type: "object"
+    description: The format of the dataset that will be imported from the datasource
+    type: object
     required:
       - mimeType
     properties:
       mimeType:
         type: string
-        description: "The MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml"
+        description: the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
       schema:
         type: string
-        description: "The schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)"
+        description: the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
       encoding:
         type: string
-        description: "Encoding procedure or character set used (e.g. raw, base64, or UTF-8)"
+        description: encoding procedure or character set used (e.g. raw, base64, or UTF-8)
 
   PayloadType:
-    type: "object"
+    description: The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.
+    type: object
     properties:
       inputType:
         type: string
-        description: "Specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some data"
+        description: specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some remote data.
         enum:
           - DATA
           - REFERENCE
       content:
         type: string
-        description: "The content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)"
+        description: the content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)
 
   DatasetReferenceType:
-    type: "object"
+    description: The respective name/reference of the target feature dataset in case of the underlying data source has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.)
+    type: object
     required:
       - type
       - value
     properties:
       type:
         type: string
-        description: "Type of the dataset reference. Can be an attribute for tabular data or FeatureType if the underlying datasource is Feature like."
+        description: Type of the dataset reference. Can be an attribute for tabular data or FeatureType if the underlying datasource is Feature like.
         enum:
           - ATTRIBUTE
           - FEATURE_TYPE
       name:
         type: string
-        description: "Name of the attribute that contains a certain value for referencing the target dataset."
+        description: name of the attribute that contains a certain value for referencing the target dataset
       value:
         type: string
-        description: "The value that specifies the target dataset to be referenced."
+        description: the value that specifies the target dataset to be referenced
 
   SpatialResourcePropertyMappingType:
-    type: "object"
+    description: Definitions for mapping datasource properties to required properties for spatial units and georesources
+    type: object
     required:
       - idProperty
       - nameProperty
     properties:
       identifierProperty:
         type: string
-        description: "The property that contains each feature's unique identifier"
+        description: the property that contains each feature's unique identifier
       nameProperty:
         type: string
-        description: "The property that contains each feature's unique name"
+        description: the property that contains each feature's unique name
       validStartDateProperty:
         type: string
-        description: "The property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)"
+        description: the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)
       validEndDateProperty:
         type: string
-        description: "The property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)"
+        description: the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)
   
   IndicatorPropertyMappingType:
-    type: "object"
+    description: Definitions for mapping datasource properties to required properties for indicators
+    type: object
     required:
+      - spatialReferenceKeyProperty
+      - indicatorValueProperty
+      - timestampProperty
     properties:
       spatialReferenceKeyProperty:
         type: string

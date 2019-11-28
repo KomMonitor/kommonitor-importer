@@ -11,10 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * IndicatorPropertyMappingType
+ * Definitions for mapping datasource properties to required properties for indicators
  */
+@ApiModel(description = "Definitions for mapping datasource properties to required properties for indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class IndicatorPropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -37,7 +38,8 @@ public class IndicatorPropertyMappingType  implements Serializable {
    * property that contains the identifier of the spatial feature to which the values shall be applied
    * @return spatialReferenceKeyProperty
   **/
-  @ApiModelProperty(value = "property that contains the identifier of the spatial feature to which the values shall be applied")
+  @ApiModelProperty(required = true, value = "property that contains the identifier of the spatial feature to which the values shall be applied")
+  @NotNull
 
 
   public String getSpatialReferenceKeyProperty() {
@@ -57,7 +59,8 @@ public class IndicatorPropertyMappingType  implements Serializable {
    * property that contains the numeric value of the indicator
    * @return indicatorValueProperty
   **/
-  @ApiModelProperty(value = "property that contains the numeric value of the indicator")
+  @ApiModelProperty(required = true, value = "property that contains the numeric value of the indicator")
+  @NotNull
 
 
   public String getIndicatorValueProperty() {
@@ -77,7 +80,8 @@ public class IndicatorPropertyMappingType  implements Serializable {
    * property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)
    * @return timestampProperty
   **/
-  @ApiModelProperty(value = "property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)")
+  @ApiModelProperty(required = true, value = "property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)")
+  @NotNull
 
 
   public String getTimestampProperty() {

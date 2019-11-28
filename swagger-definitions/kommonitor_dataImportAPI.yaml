@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-  description: "erster Entwurf einer Daten-Import-API, die den Import räumlicher Daten (SpatialUnits, Georesources und Indicators) von beliebigen Datenquellen und Koordinatenreferenzsystemen ermöglicht."
+  description: "Data Import API that enables the import of spatial data (spatial units, georesources and indicators) from various datasoruces into the KomMonitor Data Management layer."
   version: "0.0.1"
   title: "KomMonitor Data Import API"
   termsOfService: "http://swagger.io/terms/"
   contact:
-    email: "christian.danowski-buhren@hs-bochum.de"
+    email: "s.drost@52north.org"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -13,11 +13,11 @@ host: "localhost:8087"
 basePath: "/import"
 tags:
 - name: "spatial-units"
-  description: "spatial units/levels, for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)"
+  description: "Spatial units/levels for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)"
 - name: "georesources"
-  description: "Georesource necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)"
+  description: "Additional georesources that are necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)"
 - name: "indicators"
-  description: "indicators"
+  description: "Municipal indicators that provide statiscial time series information"
 schemes:
 - "http"
 - "https"
@@ -34,8 +34,8 @@ paths:
     post:
       tags:
       - "spatial-units"
-      summary: "Import a new spatial-unit"
-      description: "Import a new spatial unit for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API"
+      summary: "Import a new spatial unit"
+      description: "Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API"
       operationId: "importSpatialUnit"
       consumes:
       - "application/json"
@@ -56,6 +56,7 @@ paths:
         401:
           $ref: "#/responses/UnauthorizedError"
         405:
+          description: "Invalid input"
 
   ########## GEO RESOURCES
   /georesources:

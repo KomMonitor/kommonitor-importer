@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
-import org.n52.kommonitor.importer.models.ImportDataSourceType;
+import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
@@ -15,10 +15,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * ImportSpatialUnitPOSTInputType
+ * Definitions for importing an new spatial unit
  */
+@ApiModel(description = "Definitions for importing an new spatial unit")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -42,7 +43,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private String jsonSchema = null;
 
   @JsonProperty("dataSource")
-  private ImportDataSourceType dataSource = null;
+  private DataSourceType dataSource = null;
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
@@ -159,10 +160,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   }
 
   /**
-   * a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
+   * A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
    * @return jsonSchema
   **/
-  @ApiModelProperty(required = true, value = "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.")
+  @ApiModelProperty(required = true, value = "A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.")
   @NotNull
 
 
@@ -174,25 +175,25 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.jsonSchema = jsonSchema;
   }
 
-  public ImportSpatialUnitPOSTInputType dataSource(ImportDataSourceType dataSource) {
+  public ImportSpatialUnitPOSTInputType dataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
     return this;
   }
 
   /**
-   * Contains information for retrieving Spatial Units from an underlying datasource
+   * Get dataSource
    * @return dataSource
   **/
-  @ApiModelProperty(required = true, value = "Contains information for retrieving Spatial Units from an underlying datasource")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid
 
-  public ImportDataSourceType getDataSource() {
+  public DataSourceType getDataSource() {
     return dataSource;
   }
 
-  public void setDataSource(ImportDataSourceType dataSource) {
+  public void setDataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
   }
 
@@ -202,10 +203,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   }
 
   /**
-   * Definitions for mapping datasource properties to spatial resource properties for Spatial Units
+   * Get propertyMapping
    * @return propertyMapping
   **/
-  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to spatial resource properties for Spatial Units")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid

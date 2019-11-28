@@ -14,10 +14,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * DefaultClassificationMappingType
+ * Definition of a default classification mapping for indicator values
  */
+@ApiModel(description = "Definition of a default classification mapping for indicator values")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class DefaultClassificationMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;

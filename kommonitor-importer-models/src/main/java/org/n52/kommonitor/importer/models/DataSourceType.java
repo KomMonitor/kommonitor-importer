@@ -15,12 +15,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * ImportDataSourceType
+ * Holds various information about the datasource for importing new resources
  */
+@ApiModel(description = "Holds various information about the datasource for importing new resources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
-public class ImportDataSourceType  implements Serializable {
+public class DataSourceType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
@@ -74,7 +75,7 @@ public class ImportDataSourceType  implements Serializable {
   @JsonProperty("datasetReference")
   private DatasetReferenceType datasetReference = null;
 
-  public ImportDataSourceType type(TypeEnum type) {
+  public DataSourceType type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -95,7 +96,7 @@ public class ImportDataSourceType  implements Serializable {
     this.type = type;
   }
 
-  public ImportDataSourceType format(FormatType format) {
+  public DataSourceType format(FormatType format) {
     this.format = format;
     return this;
   }
@@ -116,7 +117,7 @@ public class ImportDataSourceType  implements Serializable {
     this.format = format;
   }
 
-  public ImportDataSourceType payload(PayloadType payload) {
+  public DataSourceType payload(PayloadType payload) {
     this.payload = payload;
     return this;
   }
@@ -138,16 +139,16 @@ public class ImportDataSourceType  implements Serializable {
     this.payload = payload;
   }
 
-  public ImportDataSourceType datasetReference(DatasetReferenceType datasetReference) {
+  public DataSourceType datasetReference(DatasetReferenceType datasetReference) {
     this.datasetReference = datasetReference;
     return this;
   }
 
   /**
-   * If the data source configured via sourceFormat and payload has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.), the respective name/reference of the target feature dataset must be submitted here
+   * Get datasetReference
    * @return datasetReference
   **/
-  @ApiModelProperty(value = "If the data source configured via sourceFormat and payload has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.), the respective name/reference of the target feature dataset must be submitted here")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -168,11 +169,11 @@ public class ImportDataSourceType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImportDataSourceType importDataSourceType = (ImportDataSourceType) o;
-    return Objects.equals(this.type, importDataSourceType.type) &&
-        Objects.equals(this.format, importDataSourceType.format) &&
-        Objects.equals(this.payload, importDataSourceType.payload) &&
-        Objects.equals(this.datasetReference, importDataSourceType.datasetReference);
+    DataSourceType dataSourceType = (DataSourceType) o;
+    return Objects.equals(this.type, dataSourceType.type) &&
+        Objects.equals(this.format, dataSourceType.format) &&
+        Objects.equals(this.payload, dataSourceType.payload) &&
+        Objects.equals(this.datasetReference, dataSourceType.datasetReference);
   }
 
   @Override
@@ -183,7 +184,7 @@ public class ImportDataSourceType  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImportDataSourceType {\n");
+    sb.append("class DataSourceType {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    format: ").append(toIndentedString(format)).append("\n");

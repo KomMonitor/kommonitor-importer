@@ -11,10 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * FormatType
+ * The format of the dataset that will be imported from the datasource
  */
+@ApiModel(description = "The format of the dataset that will be imported from the datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class FormatType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -34,10 +35,10 @@ public class FormatType  implements Serializable {
   }
 
   /**
-   * The MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
+   * the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
    * @return mimeType
   **/
-  @ApiModelProperty(required = true, value = "The MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml")
+  @ApiModelProperty(required = true, value = "the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml")
   @NotNull
 
 
@@ -55,10 +56,10 @@ public class FormatType  implements Serializable {
   }
 
   /**
-   * The schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
+   * the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
    * @return schema
   **/
-  @ApiModelProperty(value = "The schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)")
+  @ApiModelProperty(value = "the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)")
 
 
   public String getSchema() {
@@ -75,10 +76,10 @@ public class FormatType  implements Serializable {
   }
 
   /**
-   * Encoding procedure or character set used (e.g. raw, base64, or UTF-8)
+   * encoding procedure or character set used (e.g. raw, base64, or UTF-8)
    * @return encoding
   **/
-  @ApiModelProperty(value = "Encoding procedure or character set used (e.g. raw, base64, or UTF-8)")
+  @ApiModelProperty(value = "encoding procedure or character set used (e.g. raw, base64, or UTF-8)")
 
 
   public String getEncoding() {

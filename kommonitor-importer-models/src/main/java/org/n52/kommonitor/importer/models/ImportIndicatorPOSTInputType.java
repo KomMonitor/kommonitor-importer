@@ -9,21 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
+import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.DefaultClassificationMappingType;
-import org.n52.kommonitor.importer.models.ImportDataSourceType;
-import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputTypeRefrencesToGeoresources;
-import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
+import org.n52.kommonitor.importer.models.ResourceReferenceType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * ImportIndicatorPOSTInputType
+ * Definitions for importing an new indicator
  */
+@ApiModel(description = "Definitions for importing an new indicator")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -148,16 +148,16 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
   @Valid
   private List<String> allowedRoles = new ArrayList<String>();
 
-  @JsonProperty("refrencesToOtherIndicators")
+  @JsonProperty("referencesToOtherIndicators")
   @Valid
-  private List<ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators> refrencesToOtherIndicators = null;
+  private List<ResourceReferenceType> referencesToOtherIndicators = null;
 
-  @JsonProperty("refrencesToGeoresources")
+  @JsonProperty("referencesToGeoresources")
   @Valid
-  private List<ImportIndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources = null;
+  private List<ResourceReferenceType> referencesToGeoresources = null;
 
   @JsonProperty("dataSource")
-  private ImportDataSourceType dataSource = null;
+  private DataSourceType dataSource = null;
 
   @JsonProperty("propertyMapping")
   private IndicatorPropertyMappingType propertyMapping = null;
@@ -235,10 +235,10 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
   }
 
   /**
-   * array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics
+   * Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.
    * @return applicableTopics
   **/
-  @ApiModelProperty(required = true, value = "array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics")
+  @ApiModelProperty(required = true, value = "Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.")
   @NotNull
 
 
@@ -492,65 +492,65 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     this.allowedRoles = allowedRoles;
   }
 
-  public ImportIndicatorPOSTInputType refrencesToOtherIndicators(List<ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators> refrencesToOtherIndicators) {
-    this.refrencesToOtherIndicators = refrencesToOtherIndicators;
+  public ImportIndicatorPOSTInputType referencesToOtherIndicators(List<ResourceReferenceType> referencesToOtherIndicators) {
+    this.referencesToOtherIndicators = referencesToOtherIndicators;
     return this;
   }
 
-  public ImportIndicatorPOSTInputType addRefrencesToOtherIndicatorsItem(ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators refrencesToOtherIndicatorsItem) {
-    if (this.refrencesToOtherIndicators == null) {
-      this.refrencesToOtherIndicators = new ArrayList<ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators>();
+  public ImportIndicatorPOSTInputType addReferencesToOtherIndicatorsItem(ResourceReferenceType referencesToOtherIndicatorsItem) {
+    if (this.referencesToOtherIndicators == null) {
+      this.referencesToOtherIndicators = new ArrayList<ResourceReferenceType>();
     }
-    this.refrencesToOtherIndicators.add(refrencesToOtherIndicatorsItem);
+    this.referencesToOtherIndicators.add(referencesToOtherIndicatorsItem);
     return this;
   }
 
   /**
-   * array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here
-   * @return refrencesToOtherIndicators
+   * Array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here.
+   * @return referencesToOtherIndicators
   **/
-  @ApiModelProperty(value = "array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here")
+  @ApiModelProperty(value = "Array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here.")
 
   @Valid
 
-  public List<ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators> getRefrencesToOtherIndicators() {
-    return refrencesToOtherIndicators;
+  public List<ResourceReferenceType> getReferencesToOtherIndicators() {
+    return referencesToOtherIndicators;
   }
 
-  public void setRefrencesToOtherIndicators(List<ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators> refrencesToOtherIndicators) {
-    this.refrencesToOtherIndicators = refrencesToOtherIndicators;
+  public void setReferencesToOtherIndicators(List<ResourceReferenceType> referencesToOtherIndicators) {
+    this.referencesToOtherIndicators = referencesToOtherIndicators;
   }
 
-  public ImportIndicatorPOSTInputType refrencesToGeoresources(List<ImportIndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources) {
-    this.refrencesToGeoresources = refrencesToGeoresources;
+  public ImportIndicatorPOSTInputType referencesToGeoresources(List<ResourceReferenceType> referencesToGeoresources) {
+    this.referencesToGeoresources = referencesToGeoresources;
     return this;
   }
 
-  public ImportIndicatorPOSTInputType addRefrencesToGeoresourcesItem(ImportIndicatorPOSTInputTypeRefrencesToGeoresources refrencesToGeoresourcesItem) {
-    if (this.refrencesToGeoresources == null) {
-      this.refrencesToGeoresources = new ArrayList<ImportIndicatorPOSTInputTypeRefrencesToGeoresources>();
+  public ImportIndicatorPOSTInputType addReferencesToGeoresourcesItem(ResourceReferenceType referencesToGeoresourcesItem) {
+    if (this.referencesToGeoresources == null) {
+      this.referencesToGeoresources = new ArrayList<ResourceReferenceType>();
     }
-    this.refrencesToGeoresources.add(refrencesToGeoresourcesItem);
+    this.referencesToGeoresources.add(referencesToGeoresourcesItem);
     return this;
   }
 
   /**
-   * array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here
-   * @return refrencesToGeoresources
+   * Array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here.
+   * @return referencesToGeoresources
   **/
-  @ApiModelProperty(value = "array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here")
+  @ApiModelProperty(value = "Array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here.")
 
   @Valid
 
-  public List<ImportIndicatorPOSTInputTypeRefrencesToGeoresources> getRefrencesToGeoresources() {
-    return refrencesToGeoresources;
+  public List<ResourceReferenceType> getReferencesToGeoresources() {
+    return referencesToGeoresources;
   }
 
-  public void setRefrencesToGeoresources(List<ImportIndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources) {
-    this.refrencesToGeoresources = refrencesToGeoresources;
+  public void setReferencesToGeoresources(List<ResourceReferenceType> referencesToGeoresources) {
+    this.referencesToGeoresources = referencesToGeoresources;
   }
 
-  public ImportIndicatorPOSTInputType dataSource(ImportDataSourceType dataSource) {
+  public ImportIndicatorPOSTInputType dataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
     return this;
   }
@@ -563,11 +563,11 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @Valid
 
-  public ImportDataSourceType getDataSource() {
+  public DataSourceType getDataSource() {
     return dataSource;
   }
 
-  public void setDataSource(ImportDataSourceType dataSource) {
+  public void setDataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
   }
 
@@ -577,10 +577,10 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
   }
 
   /**
-   * Definitions for mapping datasource properties to spatial resource properties for Indicators
+   * Get propertyMapping
    * @return propertyMapping
   **/
-  @ApiModelProperty(value = "Definitions for mapping datasource properties to spatial resource properties for Indicators")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -617,15 +617,15 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
         Objects.equals(this.lowestSpatialUnitForComputation, importIndicatorPOSTInputType.lowestSpatialUnitForComputation) &&
         Objects.equals(this.defaultClassificationMapping, importIndicatorPOSTInputType.defaultClassificationMapping) &&
         Objects.equals(this.allowedRoles, importIndicatorPOSTInputType.allowedRoles) &&
-        Objects.equals(this.refrencesToOtherIndicators, importIndicatorPOSTInputType.refrencesToOtherIndicators) &&
-        Objects.equals(this.refrencesToGeoresources, importIndicatorPOSTInputType.refrencesToGeoresources) &&
+        Objects.equals(this.referencesToOtherIndicators, importIndicatorPOSTInputType.referencesToOtherIndicators) &&
+        Objects.equals(this.referencesToGeoresources, importIndicatorPOSTInputType.referencesToGeoresources) &&
         Objects.equals(this.dataSource, importIndicatorPOSTInputType.dataSource) &&
         Objects.equals(this.propertyMapping, importIndicatorPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, refrencesToOtherIndicators, refrencesToGeoresources, dataSource, propertyMapping);
+    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, referencesToOtherIndicators, referencesToGeoresources, dataSource, propertyMapping);
   }
 
   @Override
@@ -648,8 +648,8 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     sb.append("    lowestSpatialUnitForComputation: ").append(toIndentedString(lowestSpatialUnitForComputation)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
     sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
-    sb.append("    refrencesToOtherIndicators: ").append(toIndentedString(refrencesToOtherIndicators)).append("\n");
-    sb.append("    refrencesToGeoresources: ").append(toIndentedString(refrencesToGeoresources)).append("\n");
+    sb.append("    referencesToOtherIndicators: ").append(toIndentedString(referencesToOtherIndicators)).append("\n");
+    sb.append("    referencesToGeoresources: ").append(toIndentedString(referencesToGeoresources)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");

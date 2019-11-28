@@ -21,17 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:15:04.699+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:49:54.613+01:00")
 
 @Api(value = "spatial-units", description = "the spatial-units API")
 public interface SpatialUnitsApi {
 
-    @ApiOperation(value = "Import a new spatial-unit", nickname = "importSpatialUnit", notes = "Import a new spatial unit for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API", authorizations = {
+    @ApiOperation(value = "Import a new spatial unit", nickname = "importSpatialUnit", notes = "Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API", authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "spatial-units", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "API key is missing or invalid") })
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
+        @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/spatial-units",
         consumes = { "application/json" },
         method = RequestMethod.POST)

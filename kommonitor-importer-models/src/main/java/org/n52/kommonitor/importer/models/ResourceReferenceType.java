@@ -11,50 +11,51 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators
+ * Reference on another resource
  */
+@ApiModel(description = "Reference on another resource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
-public class ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serializable {
+public class ResourceReferenceType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("indicatorId")
-  private String indicatorId = null;
+  @JsonProperty("resourceId")
+  private String resourceId = null;
 
   @JsonProperty("referenceDescription")
   private String referenceDescription = null;
 
-  public ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorId(String indicatorId) {
-    this.indicatorId = indicatorId;
+  public ResourceReferenceType resourceId(String resourceId) {
+    this.resourceId = resourceId;
     return this;
   }
 
   /**
-   * identifier of the referenced indicator
-   * @return indicatorId
+   * identifier of the referenced resource
+   * @return resourceId
   **/
-  @ApiModelProperty(value = "identifier of the referenced indicator")
+  @ApiModelProperty(value = "identifier of the referenced resource")
 
 
-  public String getIndicatorId() {
-    return indicatorId;
+  public String getResourceId() {
+    return resourceId;
   }
 
-  public void setIndicatorId(String indicatorId) {
-    this.indicatorId = indicatorId;
+  public void setResourceId(String resourceId) {
+    this.resourceId = resourceId;
   }
 
-  public ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators referenceDescription(String referenceDescription) {
+  public ResourceReferenceType referenceDescription(String referenceDescription) {
     this.referenceDescription = referenceDescription;
     return this;
   }
 
   /**
-   * short description of how the indicator is referenced to the superior one
+   * short description of how the resource is referenced to the superior one
    * @return referenceDescription
   **/
-  @ApiModelProperty(value = "short description of how the indicator is referenced to the superior one")
+  @ApiModelProperty(value = "short description of how the resource is referenced to the superior one")
 
 
   public String getReferenceDescription() {
@@ -74,22 +75,22 @@ public class ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators  implements 
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators importIndicatorPOSTInputTypeRefrencesToOtherIndicators = (ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators) o;
-    return Objects.equals(this.indicatorId, importIndicatorPOSTInputTypeRefrencesToOtherIndicators.indicatorId) &&
-        Objects.equals(this.referenceDescription, importIndicatorPOSTInputTypeRefrencesToOtherIndicators.referenceDescription);
+    ResourceReferenceType resourceReferenceType = (ResourceReferenceType) o;
+    return Objects.equals(this.resourceId, resourceReferenceType.resourceId) &&
+        Objects.equals(this.referenceDescription, resourceReferenceType.referenceDescription);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorId, referenceDescription);
+    return Objects.hash(resourceId, referenceDescription);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImportIndicatorPOSTInputTypeRefrencesToOtherIndicators {\n");
+    sb.append("class ResourceReferenceType {\n");
     
-    sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
+    sb.append("    resourceId: ").append(toIndentedString(resourceId)).append("\n");
     sb.append("    referenceDescription: ").append(toIndentedString(referenceDescription)).append("\n");
     sb.append("}");
     return sb.toString();

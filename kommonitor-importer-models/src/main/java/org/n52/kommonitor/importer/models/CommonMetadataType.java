@@ -14,10 +14,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * CommonMetadataType
+ * Various metadata information about the resource that will be imported
  */
+@ApiModel(description = "Various metadata information about the resource that will be imported")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class CommonMetadataType  implements Serializable {
   private static final long serialVersionUID = 1L;

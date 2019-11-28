@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
-import org.n52.kommonitor.importer.models.ImportDataSourceType;
+import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
@@ -18,10 +18,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * ImportGeoresourcePOSTInputType
+ * Definitions for importing an new georesource
  */
+@ApiModel(description = "Definitions for importing an new georesource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -153,7 +154,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   private String jsonSchema = null;
 
   @JsonProperty("dataSource")
-  private ImportDataSourceType dataSource = null;
+  private DataSourceType dataSource = null;
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
@@ -261,10 +262,10 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   }
 
   /**
-   * array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics
+   * Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.
    * @return applicableTopics
   **/
-  @ApiModelProperty(required = true, value = "array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics")
+  @ApiModelProperty(required = true, value = "Array of thematic categories for which the dataset is applicable. Note that the used topicName has to be defined under /topics.")
   @NotNull
 
 
@@ -362,10 +363,10 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   }
 
   /**
-   * a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
+   * A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
    * @return jsonSchema
   **/
-  @ApiModelProperty(required = true, value = "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.")
+  @ApiModelProperty(required = true, value = "A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.")
   @NotNull
 
 
@@ -377,7 +378,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
     this.jsonSchema = jsonSchema;
   }
 
-  public ImportGeoresourcePOSTInputType dataSource(ImportDataSourceType dataSource) {
+  public ImportGeoresourcePOSTInputType dataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
     return this;
   }
@@ -391,11 +392,11 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
 
   @Valid
 
-  public ImportDataSourceType getDataSource() {
+  public DataSourceType getDataSource() {
     return dataSource;
   }
 
-  public void setDataSource(ImportDataSourceType dataSource) {
+  public void setDataSource(DataSourceType dataSource) {
     this.dataSource = dataSource;
   }
 
@@ -405,10 +406,10 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   }
 
   /**
-   * Definitions for mapping datasource properties to spatial resource properties for Georesources
+   * Get propertyMapping
    * @return propertyMapping
   **/
-  @ApiModelProperty(required = true, value = "Definitions for mapping datasource properties to spatial resource properties for Georesources")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid

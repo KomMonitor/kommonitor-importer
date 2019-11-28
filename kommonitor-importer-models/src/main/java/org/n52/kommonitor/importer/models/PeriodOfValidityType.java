@@ -12,11 +12,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * definition of the period of validity of a certain dataset
+ * Definition of the period of validity of a certain dataset
  */
-@ApiModel(description = "definition of the period of validity of a certain dataset")
+@ApiModel(description = "Definition of the period of validity of a certain dataset")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:13:28.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class PeriodOfValidityType  implements Serializable {
   private static final long serialVersionUID = 1L;
