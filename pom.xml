@@ -10,7 +10,6 @@
 		<module>kommonitor-importer-models</module>
 		<module>kommonitor-importer-api</module>
 		<module>kommonitor-importer-app</module>
-        <module>kommonitor-data-management-api-client</module>
     </modules>
 	<name>KomMonitor Importer</name>
 	<description>Data importer for KomMonitor</description>
