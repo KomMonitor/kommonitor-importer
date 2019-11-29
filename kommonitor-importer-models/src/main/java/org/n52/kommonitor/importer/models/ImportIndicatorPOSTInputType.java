@@ -11,6 +11,7 @@ import java.util.List;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
 import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.DefaultClassificationMappingType;
+import org.n52.kommonitor.importer.models.ImporterDefinitionType;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.ResourceReferenceType;
 import java.io.Serializable;
@@ -23,7 +24,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new indicator")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -158,6 +159,9 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("dataSource")
   private DataSourceType dataSource = null;
+
+  @JsonProperty("importer")
+  private ImporterDefinitionType importer = null;
 
   @JsonProperty("propertyMapping")
   private IndicatorPropertyMappingType propertyMapping = null;
@@ -571,6 +575,27 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
+  public ImportIndicatorPOSTInputType importer(ImporterDefinitionType importer) {
+    this.importer = importer;
+    return this;
+  }
+
+  /**
+   * Get importer
+   * @return importer
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public ImporterDefinitionType getImporter() {
+    return importer;
+  }
+
+  public void setImporter(ImporterDefinitionType importer) {
+    this.importer = importer;
+  }
+
   public ImportIndicatorPOSTInputType propertyMapping(IndicatorPropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
     return this;
@@ -620,12 +645,13 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
         Objects.equals(this.referencesToOtherIndicators, importIndicatorPOSTInputType.referencesToOtherIndicators) &&
         Objects.equals(this.referencesToGeoresources, importIndicatorPOSTInputType.referencesToGeoresources) &&
         Objects.equals(this.dataSource, importIndicatorPOSTInputType.dataSource) &&
+        Objects.equals(this.importer, importIndicatorPOSTInputType.importer) &&
         Objects.equals(this.propertyMapping, importIndicatorPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, referencesToOtherIndicators, referencesToGeoresources, dataSource, propertyMapping);
+    return Objects.hash(datasetName, indicatorType, applicableSpatialUnit, applicableTopics, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, referencesToOtherIndicators, referencesToGeoresources, dataSource, importer, propertyMapping);
   }
 
   @Override
@@ -651,6 +677,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     sb.append("    referencesToOtherIndicators: ").append(toIndentedString(referencesToOtherIndicators)).append("\n");
     sb.append("    referencesToGeoresources: ").append(toIndentedString(referencesToGeoresources)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
+    sb.append("    importer: ").append(toIndentedString(importer)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");
     return sb.toString();

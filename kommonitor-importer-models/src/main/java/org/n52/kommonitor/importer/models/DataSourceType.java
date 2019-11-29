@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.importer.models.DatasetReferenceType;
-import org.n52.kommonitor.importer.models.FormatType;
 import org.n52.kommonitor.importer.models.PayloadType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Holds various information about the datasource for importing new resources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
 
 public class DataSourceType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -66,9 +65,6 @@ public class DataSourceType  implements Serializable {
   @JsonProperty("type")
   private TypeEnum type = null;
 
-  @JsonProperty("format")
-  private FormatType format = null;
-
   @JsonProperty("payload")
   private PayloadType payload = null;
 
@@ -94,27 +90,6 @@ public class DataSourceType  implements Serializable {
 
   public void setType(TypeEnum type) {
     this.type = type;
-  }
-
-  public DataSourceType format(FormatType format) {
-    this.format = format;
-    return this;
-  }
-
-  /**
-   * Get format
-   * @return format
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public FormatType getFormat() {
-    return format;
-  }
-
-  public void setFormat(FormatType format) {
-    this.format = format;
   }
 
   public DataSourceType payload(PayloadType payload) {
@@ -171,14 +146,13 @@ public class DataSourceType  implements Serializable {
     }
     DataSourceType dataSourceType = (DataSourceType) o;
     return Objects.equals(this.type, dataSourceType.type) &&
-        Objects.equals(this.format, dataSourceType.format) &&
         Objects.equals(this.payload, dataSourceType.payload) &&
         Objects.equals(this.datasetReference, dataSourceType.datasetReference);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, format, payload, datasetReference);
+    return Objects.hash(type, payload, datasetReference);
   }
 
   @Override
@@ -187,7 +161,6 @@ public class DataSourceType  implements Serializable {
     sb.append("class DataSourceType {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    format: ").append(toIndentedString(format)).append("\n");
     sb.append("    payload: ").append(toIndentedString(payload)).append("\n");
     sb.append("    datasetReference: ").append(toIndentedString(datasetReference)).append("\n");
     sb.append("}");

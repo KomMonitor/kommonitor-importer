@@ -30,6 +30,8 @@ definitions:
             description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
         $ref: "#/definitions/DataSourceType"
+      importer:
+        $ref: "#/definitions/ImporterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
 
@@ -97,10 +99,12 @@ definitions:
           - gray
           - black
       jsonSchema:
-            type: string
-            description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
+        type: string
+        description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
         $ref: "#/definitions/DataSourceType"
+      importer:
+        $ref: "#/definitions/ImporterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
 
@@ -187,16 +191,16 @@ definitions:
         description: Array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here.
         type: array
         items:
-          type: object
           $ref: "#/definitions/ResourceReferenceType"
       referencesToGeoresources:
         description: Array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here.
         type: array
         items:
-          type: object
           $ref: "#/definitions/ResourceReferenceType"
       dataSource:
         $ref: "#/definitions/DataSourceType"
+      importer:
+        $ref: "#/definitions/ImporterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/IndicatorPropertyMappingType"
 
@@ -260,12 +264,6 @@ definitions:
         format: date
         description: an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.
 
-  AvailablePeriodsOfValidityType:
-    description: Array of periods of validity, each consisting of a start and end date
-    type: array
-    items:
-      $ref: "#/definitions/PeriodOfValidityType"
-
   DefaultClassificationMappingType:
     description: Definition of a default classification mapping for indicator values
     type: object
@@ -325,28 +323,10 @@ definitions:
           - GML
           - EXCEL
           - CSV
-      format:
-        $ref: "#/definitions/FormatType"
       payload:
         $ref: "#/definitions/PayloadType"
       datasetReference:
-        $ref: "#/definitions/DatasetReferenceType"
-        
-  FormatType:
-    description: The format of the dataset that will be imported from the datasource
-    type: object
-    required:
-      - mimeType
-    properties:
-      mimeType:
-        type: string
-        description: the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
-      schema:
-        type: string
-        description: the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
-      encoding:
-        type: string
-        description: encoding procedure or character set used (e.g. raw, base64, or UTF-8)
+        $ref: "#/definitions/DatasetReferenceType"  
 
   PayloadType:
     description: The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.
@@ -419,3 +399,94 @@ definitions:
       timestampProperty:
         type: string
         description: property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)
+
+  ImporterType:
+    description: Importer that enables the decoding of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
+    type: object
+    required:
+      - name
+      - mimeType
+    properties:
+      name:
+        type: string
+        description: unique name of the importer
+      mimeType:
+        type: array
+        description: list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the importer
+        items:
+          type: string
+      schemas:
+        type: array
+        description: list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the importer
+        items:
+          type: string
+      encodings:
+        type: array
+        description: list of encodings that are supported by the importer
+        items:
+          type: string
+      parameters:
+        type: array
+        description: list of additional parameters that are required for decoding a certain dataset format
+        items:
+          $ref: "#/definitions/ImporterParameterType"
+
+  ImporterDefinitionType:
+    description: Definition of an importer that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
+    type: object
+    required:
+      - name
+      - mimeType
+    properties:
+      name:
+        type: string
+        description: unique name of the importer
+      mimeType:
+        type: string
+        description: the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
+      schema:
+        type: string
+        description: the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
+      encoding:
+        type: string
+        description: encoding procedure or character set used (e.g. raw, base64, or UTF-8)
+      parameters:
+        type: array
+        description: list of additional format related parameters that are required for decoding
+        items:
+          $ref: "#/definitions/ImporterParameterValueType"
+
+  ImporterParameterType:
+    description: Definition of an additional parameter that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: name of the decoding parameter
+      description:
+        type: string
+        description: description of the decoding parameter
+      type:
+        type: string
+        description: type of the parameter
+        enum:
+          - string
+          - number
+          - boolean
+          - array
+      
+  ImporterParameterValueType:
+    description: Additional parameter as key-value-pair that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+        description: name of the decoding parameter
+      value:
+        type: string
+        description: value of the decoding parameter

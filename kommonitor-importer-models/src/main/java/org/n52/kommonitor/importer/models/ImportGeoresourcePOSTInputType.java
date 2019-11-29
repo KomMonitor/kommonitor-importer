@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
 import org.n52.kommonitor.importer.models.DataSourceType;
+import org.n52.kommonitor.importer.models.ImporterDefinitionType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new georesource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -155,6 +156,9 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
 
   @JsonProperty("dataSource")
   private DataSourceType dataSource = null;
+
+  @JsonProperty("importer")
+  private ImporterDefinitionType importer = null;
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
@@ -400,6 +404,27 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
+  public ImportGeoresourcePOSTInputType importer(ImporterDefinitionType importer) {
+    this.importer = importer;
+    return this;
+  }
+
+  /**
+   * Get importer
+   * @return importer
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public ImporterDefinitionType getImporter() {
+    return importer;
+  }
+
+  public void setImporter(ImporterDefinitionType importer) {
+    this.importer = importer;
+  }
+
   public ImportGeoresourcePOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
     return this;
@@ -443,12 +468,13 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
         Objects.equals(this.poiSymbolColor, importGeoresourcePOSTInputType.poiSymbolColor) &&
         Objects.equals(this.jsonSchema, importGeoresourcePOSTInputType.jsonSchema) &&
         Objects.equals(this.dataSource, importGeoresourcePOSTInputType.dataSource) &&
+        Objects.equals(this.importer, importGeoresourcePOSTInputType.importer) &&
         Objects.equals(this.propertyMapping, importGeoresourcePOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, applicableTopics, isPOI, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema, dataSource, propertyMapping);
+    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, applicableTopics, isPOI, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema, dataSource, importer, propertyMapping);
   }
 
   @Override
@@ -467,6 +493,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
     sb.append("    poiSymbolColor: ").append(toIndentedString(poiSymbolColor)).append("\n");
     sb.append("    jsonSchema: ").append(toIndentedString(jsonSchema)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
+    sb.append("    importer: ").append(toIndentedString(importer)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");
     return sb.toString();

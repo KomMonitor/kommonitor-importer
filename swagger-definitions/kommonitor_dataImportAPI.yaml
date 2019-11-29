@@ -49,10 +49,11 @@ paths:
       responses:
         201:
           description: "Created"
-          headers:
-            location:
+          schema:
+            type: array
+            description: URIs of the newly created spatial unit resources
+            items:
               type: string
-              description: identifier of the created spatial unit resource
         401:
           $ref: "#/responses/UnauthorizedError"
         405:
@@ -78,10 +79,11 @@ paths:
       responses:
         201:
           description: "Created"
-          headers:
-            location:
+          schema:
+            type: array
+            description: URIs of the newly created georesources
+            items:
               type: string
-              description: identifier of the created geo-resource resource
         401:
           $ref: "#/responses/UnauthorizedError"
         405:
@@ -107,12 +109,62 @@ paths:
         responses:
           201:
             description: "Created"
-            headers:
-              location:
+            schema:
+              type: array
+              description: URIs of the newly created indicator resources
+              items:
                 type: string
-                description: identifier of the created indicator
+          401:
+            $ref: "#/responses/UnauthorizedError"
           405:
             description: "Invalid input"
+
+  /importers:
+    get:
+      tags:
+      - "importers"
+      summary: "Retrieve information about all available importers"
+      description: "Retrieve information such like supported formats and importing options about all available importers for decoding datasets and importing them into the KomMonitor Data Management layer"
+      operationId: "getImporters"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            description: array of all available importers
+            items:
+              $ref: "./definitions.yaml#/definitions/ImporterType"
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /importers/{name}:
+    parameters:
+      - name: "name"
+        in: "path"
+        description: "unique name of the importer"
+        required: true
+        type: string
+    get:
+      tags:
+      - "importers"
+      summary: "Retreive information about the selected importer"
+      description: "Retrieve information such like supported formats and decoding options about the selected importer for decoding a certain dataset and importing it into the KomMonitor Data Management layer"
+      operationId: "getImporterByName"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "./definitions.yaml#/definitions/ImporterType"
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
 
 responses:
   UnauthorizedError:

@@ -21,20 +21,21 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-21T17:15:04.699+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:03:48.485+01:00")
 
 @Api(value = "indicators", description = "the indicators API")
 public interface IndicatorsApi {
 
-    @ApiOperation(value = "Import a new indicator dataset", nickname = "importIndicator", notes = "Import an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /indicators of KomMonitor Data Management API", authorizations = {
+    @ApiOperation(value = "Import a new indicator dataset", nickname = "importIndicator", notes = "Import an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /indicators of KomMonitor Data Management API", response = String.class, responseContainer = "List", authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "indicators", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 201, message = "Created", response = String.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/indicators",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> importIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody ImportIndicatorPOSTInputType indicatorData);
+    ResponseEntity<List<String>> importIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody ImportIndicatorPOSTInputType indicatorData);
 
 }
