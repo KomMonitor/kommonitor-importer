@@ -411,10 +411,8 @@ definitions:
         type: string
         description: unique name of the importer
       mimeType:
-        type: array
-        description: list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the importer
-        items:
-          type: string
+        type: string
+        description: MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the importer
       schemas:
         type: array
         description: list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the importer
