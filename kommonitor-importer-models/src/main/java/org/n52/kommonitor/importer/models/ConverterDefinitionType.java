@@ -7,20 +7,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.kommonitor.importer.models.ImporterParameterValueType;
+import org.n52.kommonitor.importer.models.ConverterParameterValueType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Definition of an importer that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
+ * Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
  */
-@ApiModel(description = "Definition of an importer that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
+@ApiModel(description = "Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
 
-public class ImporterDefinitionType  implements Serializable {
+public class ConverterDefinitionType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("name")
@@ -37,18 +37,18 @@ public class ImporterDefinitionType  implements Serializable {
 
   @JsonProperty("parameters")
   @Valid
-  private List<ImporterParameterValueType> parameters = null;
+  private List<ConverterParameterValueType> parameters = null;
 
-  public ImporterDefinitionType name(String name) {
+  public ConverterDefinitionType name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * unique name of the importer
+   * unique name of the conveter
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "unique name of the importer")
+  @ApiModelProperty(required = true, value = "unique name of the conveter")
   @NotNull
 
 
@@ -60,7 +60,7 @@ public class ImporterDefinitionType  implements Serializable {
     this.name = name;
   }
 
-  public ImporterDefinitionType mimeType(String mimeType) {
+  public ConverterDefinitionType mimeType(String mimeType) {
     this.mimeType = mimeType;
     return this;
   }
@@ -81,7 +81,7 @@ public class ImporterDefinitionType  implements Serializable {
     this.mimeType = mimeType;
   }
 
-  public ImporterDefinitionType schema(String schema) {
+  public ConverterDefinitionType schema(String schema) {
     this.schema = schema;
     return this;
   }
@@ -101,7 +101,7 @@ public class ImporterDefinitionType  implements Serializable {
     this.schema = schema;
   }
 
-  public ImporterDefinitionType encoding(String encoding) {
+  public ConverterDefinitionType encoding(String encoding) {
     this.encoding = encoding;
     return this;
   }
@@ -121,14 +121,14 @@ public class ImporterDefinitionType  implements Serializable {
     this.encoding = encoding;
   }
 
-  public ImporterDefinitionType parameters(List<ImporterParameterValueType> parameters) {
+  public ConverterDefinitionType parameters(List<ConverterParameterValueType> parameters) {
     this.parameters = parameters;
     return this;
   }
 
-  public ImporterDefinitionType addParametersItem(ImporterParameterValueType parametersItem) {
+  public ConverterDefinitionType addParametersItem(ConverterParameterValueType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ImporterParameterValueType>();
+      this.parameters = new ArrayList<ConverterParameterValueType>();
     }
     this.parameters.add(parametersItem);
     return this;
@@ -142,11 +142,11 @@ public class ImporterDefinitionType  implements Serializable {
 
   @Valid
 
-  public List<ImporterParameterValueType> getParameters() {
+  public List<ConverterParameterValueType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<ImporterParameterValueType> parameters) {
+  public void setParameters(List<ConverterParameterValueType> parameters) {
     this.parameters = parameters;
   }
 
@@ -159,12 +159,12 @@ public class ImporterDefinitionType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImporterDefinitionType importerDefinitionType = (ImporterDefinitionType) o;
-    return Objects.equals(this.name, importerDefinitionType.name) &&
-        Objects.equals(this.mimeType, importerDefinitionType.mimeType) &&
-        Objects.equals(this.schema, importerDefinitionType.schema) &&
-        Objects.equals(this.encoding, importerDefinitionType.encoding) &&
-        Objects.equals(this.parameters, importerDefinitionType.parameters);
+    ConverterDefinitionType converterDefinitionType = (ConverterDefinitionType) o;
+    return Objects.equals(this.name, converterDefinitionType.name) &&
+        Objects.equals(this.mimeType, converterDefinitionType.mimeType) &&
+        Objects.equals(this.schema, converterDefinitionType.schema) &&
+        Objects.equals(this.encoding, converterDefinitionType.encoding) &&
+        Objects.equals(this.parameters, converterDefinitionType.parameters);
   }
 
   @Override
@@ -175,7 +175,7 @@ public class ImporterDefinitionType  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImporterDefinitionType {\n");
+    sb.append("class ConverterDefinitionType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    mimeType: ").append(toIndentedString(mimeType)).append("\n");

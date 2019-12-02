@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
+import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.DataSourceType;
-import org.n52.kommonitor.importer.models.ImporterDefinitionType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new spatial unit")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:04:22.865+01:00")
 
 public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -46,8 +46,8 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   @JsonProperty("dataSource")
   private DataSourceType dataSource = null;
 
-  @JsonProperty("importer")
-  private ImporterDefinitionType importer = null;
+  @JsonProperty("converter")
+  private ConverterDefinitionType converter = null;
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
@@ -201,25 +201,25 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
-  public ImportSpatialUnitPOSTInputType importer(ImporterDefinitionType importer) {
-    this.importer = importer;
+  public ImportSpatialUnitPOSTInputType converter(ConverterDefinitionType converter) {
+    this.converter = converter;
     return this;
   }
 
   /**
-   * Get importer
-   * @return importer
+   * Get converter
+   * @return converter
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public ImporterDefinitionType getImporter() {
-    return importer;
+  public ConverterDefinitionType getConverter() {
+    return converter;
   }
 
-  public void setImporter(ImporterDefinitionType importer) {
-    this.importer = importer;
+  public void setConverter(ConverterDefinitionType converter) {
+    this.converter = converter;
   }
 
   public ImportSpatialUnitPOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
@@ -261,13 +261,13 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.nextUpperHierarchyLevel, importSpatialUnitPOSTInputType.nextUpperHierarchyLevel) &&
         Objects.equals(this.jsonSchema, importSpatialUnitPOSTInputType.jsonSchema) &&
         Objects.equals(this.dataSource, importSpatialUnitPOSTInputType.dataSource) &&
-        Objects.equals(this.importer, importSpatialUnitPOSTInputType.importer) &&
+        Objects.equals(this.converter, importSpatialUnitPOSTInputType.converter) &&
         Objects.equals(this.propertyMapping, importSpatialUnitPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitLevel, periodOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, jsonSchema, dataSource, importer, propertyMapping);
+    return Objects.hash(spatialUnitLevel, periodOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, jsonSchema, dataSource, converter, propertyMapping);
   }
 
   @Override
@@ -282,7 +282,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
     sb.append("    jsonSchema: ").append(toIndentedString(jsonSchema)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
-    sb.append("    importer: ").append(toIndentedString(importer)).append("\n");
+    sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");
     return sb.toString();

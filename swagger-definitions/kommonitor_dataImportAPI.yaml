@@ -119,13 +119,13 @@ paths:
           405:
             description: "Invalid input"
 
-  /importers:
+  /converters:
     get:
       tags:
-      - "importers"
-      summary: "Retrieve information about all available importers"
-      description: "Retrieve information such like supported formats and importing options about all available importers for decoding datasets and importing them into the KomMonitor Data Management layer"
-      operationId: "getImporters"
+      - "converters"
+      summary: "Retrieve information about all available converters"
+      description: "Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer"
+      operationId: "getConverters"
       produces:
       - "application/json"
       responses:
@@ -133,34 +133,34 @@ paths:
           description: "OK"
           schema:
             type: array
-            description: array of all available importers
+            description: array of all available converters
             items:
-              $ref: "./definitions.yaml#/definitions/ImporterType"
+              $ref: "./definitions.yaml#/definitions/ConverterType"
         400:
           description: "Invalid status value"
         401:
           $ref: "#/responses/UnauthorizedError"
 
-  /importers/{name}:
+  /converters/{name}:
     parameters:
       - name: "name"
         in: "path"
-        description: "unique name of the importer"
+        description: "unique name of the converter"
         required: true
         type: string
     get:
       tags:
-      - "importers"
-      summary: "Retreive information about the selected importer"
-      description: "Retrieve information such like supported formats and decoding options about the selected importer for decoding a certain dataset and importing it into the KomMonitor Data Management layer"
-      operationId: "getImporterByName"
+      - "converters"
+      summary: "Retreive information about the selected converters"
+      description: "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer"
+      operationId: "getConverterByName"
       produces:
       - "application/json"
       responses:
         200:
           description: "OK"
           schema:
-            $ref: "./definitions.yaml#/definitions/ImporterType"
+            $ref: "./definitions.yaml#/definitions/ConverterType"
         400:
           description: "Invalid status value"
         401:

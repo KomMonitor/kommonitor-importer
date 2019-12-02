@@ -16,9 +16,9 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definition of an additional parameter that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:02:28.735+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
 
-public class ImporterParameterType  implements Serializable {
+public class ConverterParameterType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("name")
@@ -65,7 +65,7 @@ public class ImporterParameterType  implements Serializable {
   @JsonProperty("type")
   private TypeEnum type = null;
 
-  public ImporterParameterType name(String name) {
+  public ConverterParameterType name(String name) {
     this.name = name;
     return this;
   }
@@ -86,7 +86,7 @@ public class ImporterParameterType  implements Serializable {
     this.name = name;
   }
 
-  public ImporterParameterType description(String description) {
+  public ConverterParameterType description(String description) {
     this.description = description;
     return this;
   }
@@ -106,7 +106,7 @@ public class ImporterParameterType  implements Serializable {
     this.description = description;
   }
 
-  public ImporterParameterType type(TypeEnum type) {
+  public ConverterParameterType type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -135,10 +135,10 @@ public class ImporterParameterType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImporterParameterType importerParameterType = (ImporterParameterType) o;
-    return Objects.equals(this.name, importerParameterType.name) &&
-        Objects.equals(this.description, importerParameterType.description) &&
-        Objects.equals(this.type, importerParameterType.type);
+    ConverterParameterType converterParameterType = (ConverterParameterType) o;
+    return Objects.equals(this.name, converterParameterType.name) &&
+        Objects.equals(this.description, converterParameterType.description) &&
+        Objects.equals(this.type, converterParameterType.type);
   }
 
   @Override
@@ -149,7 +149,7 @@ public class ImporterParameterType  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImporterParameterType {\n");
+    sb.append("class ConverterParameterType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");

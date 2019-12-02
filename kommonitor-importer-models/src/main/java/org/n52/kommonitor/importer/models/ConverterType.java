@@ -7,20 +7,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.kommonitor.importer.models.ImporterParameterType;
+import org.n52.kommonitor.importer.models.ConverterParameterType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Importer that enables the decoding of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
+ * Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
  */
-@ApiModel(description = "Importer that enables the decoding of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
+@ApiModel(description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T10:46:19.046+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
 
-public class ImporterType  implements Serializable {
+public class ConverterType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("name")
@@ -39,18 +39,18 @@ public class ImporterType  implements Serializable {
 
   @JsonProperty("parameters")
   @Valid
-  private List<ImporterParameterType> parameters = null;
+  private List<ConverterParameterType> parameters = null;
 
-  public ImporterType name(String name) {
+  public ConverterType name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * unique name of the importer
+   * unique name of the converter
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "unique name of the importer")
+  @ApiModelProperty(required = true, value = "unique name of the converter")
   @NotNull
 
 
@@ -62,16 +62,16 @@ public class ImporterType  implements Serializable {
     this.name = name;
   }
 
-  public ImporterType mimeType(String mimeType) {
+  public ConverterType mimeType(String mimeType) {
     this.mimeType = mimeType;
     return this;
   }
 
   /**
-   * MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the importer
+   * MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the converter
    * @return mimeType
   **/
-  @ApiModelProperty(required = true, value = "MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the importer")
+  @ApiModelProperty(required = true, value = "MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the converter")
   @NotNull
 
 
@@ -83,12 +83,12 @@ public class ImporterType  implements Serializable {
     this.mimeType = mimeType;
   }
 
-  public ImporterType schemas(List<String> schemas) {
+  public ConverterType schemas(List<String> schemas) {
     this.schemas = schemas;
     return this;
   }
 
-  public ImporterType addSchemasItem(String schemasItem) {
+  public ConverterType addSchemasItem(String schemasItem) {
     if (this.schemas == null) {
       this.schemas = new ArrayList<String>();
     }
@@ -97,10 +97,10 @@ public class ImporterType  implements Serializable {
   }
 
   /**
-   * list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the importer
+   * list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter
    * @return schemas
   **/
-  @ApiModelProperty(value = "list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the importer")
+  @ApiModelProperty(value = "list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter")
 
 
   public List<String> getSchemas() {
@@ -111,12 +111,12 @@ public class ImporterType  implements Serializable {
     this.schemas = schemas;
   }
 
-  public ImporterType encodings(List<String> encodings) {
+  public ConverterType encodings(List<String> encodings) {
     this.encodings = encodings;
     return this;
   }
 
-  public ImporterType addEncodingsItem(String encodingsItem) {
+  public ConverterType addEncodingsItem(String encodingsItem) {
     if (this.encodings == null) {
       this.encodings = new ArrayList<String>();
     }
@@ -125,10 +125,10 @@ public class ImporterType  implements Serializable {
   }
 
   /**
-   * list of encodings that are supported by the importer
+   * list of encodings that are supported by the converter
    * @return encodings
   **/
-  @ApiModelProperty(value = "list of encodings that are supported by the importer")
+  @ApiModelProperty(value = "list of encodings that are supported by the converter")
 
 
   public List<String> getEncodings() {
@@ -139,14 +139,14 @@ public class ImporterType  implements Serializable {
     this.encodings = encodings;
   }
 
-  public ImporterType parameters(List<ImporterParameterType> parameters) {
+  public ConverterType parameters(List<ConverterParameterType> parameters) {
     this.parameters = parameters;
     return this;
   }
 
-  public ImporterType addParametersItem(ImporterParameterType parametersItem) {
+  public ConverterType addParametersItem(ConverterParameterType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ImporterParameterType>();
+      this.parameters = new ArrayList<ConverterParameterType>();
     }
     this.parameters.add(parametersItem);
     return this;
@@ -160,11 +160,11 @@ public class ImporterType  implements Serializable {
 
   @Valid
 
-  public List<ImporterParameterType> getParameters() {
+  public List<ConverterParameterType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<ImporterParameterType> parameters) {
+  public void setParameters(List<ConverterParameterType> parameters) {
     this.parameters = parameters;
   }
 
@@ -177,12 +177,12 @@ public class ImporterType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImporterType importerType = (ImporterType) o;
-    return Objects.equals(this.name, importerType.name) &&
-        Objects.equals(this.mimeType, importerType.mimeType) &&
-        Objects.equals(this.schemas, importerType.schemas) &&
-        Objects.equals(this.encodings, importerType.encodings) &&
-        Objects.equals(this.parameters, importerType.parameters);
+    ConverterType converterType = (ConverterType) o;
+    return Objects.equals(this.name, converterType.name) &&
+        Objects.equals(this.mimeType, converterType.mimeType) &&
+        Objects.equals(this.schemas, converterType.schemas) &&
+        Objects.equals(this.encodings, converterType.encodings) &&
+        Objects.equals(this.parameters, converterType.parameters);
   }
 
   @Override
@@ -193,7 +193,7 @@ public class ImporterType  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImporterType {\n");
+    sb.append("class ConverterType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    mimeType: ").append(toIndentedString(mimeType)).append("\n");

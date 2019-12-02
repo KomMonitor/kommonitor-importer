@@ -30,8 +30,8 @@ definitions:
             description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
         $ref: "#/definitions/DataSourceType"
-      importer:
-        $ref: "#/definitions/ImporterDefinitionType"
+      converter:
+        $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
 
@@ -103,8 +103,8 @@ definitions:
         description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
         $ref: "#/definitions/DataSourceType"
-      importer:
-        $ref: "#/definitions/ImporterDefinitionType"
+      converter:
+        $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/SpatialResourcePropertyMappingType"
 
@@ -199,8 +199,8 @@ definitions:
           $ref: "#/definitions/ResourceReferenceType"
       dataSource:
         $ref: "#/definitions/DataSourceType"
-      importer:
-        $ref: "#/definitions/ImporterDefinitionType"
+      converter:
+        $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
         $ref: "#/definitions/IndicatorPropertyMappingType"
 
@@ -400,8 +400,8 @@ definitions:
         type: string
         description: property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)
 
-  ImporterType:
-    description: Importer that enables the decoding of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
+  ConverterType:
+    description: Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
     type: object
     required:
       - name
@@ -409,28 +409,28 @@ definitions:
     properties:
       name:
         type: string
-        description: unique name of the importer
+        description: unique name of the converter
       mimeType:
         type: string
-        description: MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the importer
+        description: MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the converter
       schemas:
         type: array
-        description: list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the importer
+        description: list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter
         items:
           type: string
       encodings:
         type: array
-        description: list of encodings that are supported by the importer
+        description: list of encodings that are supported by the converter
         items:
           type: string
       parameters:
         type: array
         description: list of additional parameters that are required for decoding a certain dataset format
         items:
-          $ref: "#/definitions/ImporterParameterType"
+          $ref: "#/definitions/ConverterParameterType"
 
-  ImporterDefinitionType:
-    description: Definition of an importer that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
+  ConverterDefinitionType:
+    description: Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
     type: object
     required:
       - name
@@ -438,7 +438,7 @@ definitions:
     properties:
       name:
         type: string
-        description: unique name of the importer
+        description: unique name of the conveter
       mimeType:
         type: string
         description: the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
@@ -452,9 +452,9 @@ definitions:
         type: array
         description: list of additional format related parameters that are required for decoding
         items:
-          $ref: "#/definitions/ImporterParameterValueType"
+          $ref: "#/definitions/ConverterParameterValueType"
 
-  ImporterParameterType:
+  ConverterParameterType:
     description: Definition of an additional parameter that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
     type: object
     required:
@@ -475,7 +475,7 @@ definitions:
           - boolean
           - array
       
-  ImporterParameterValueType:
+  ConverterParameterValueType:
     description: Additional parameter as key-value-pair that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
     type: object
     required:
