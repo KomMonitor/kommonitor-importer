@@ -488,3 +488,15 @@ definitions:
       value:
         type: string
         description: value of the decoding parameter
+
+  Error:
+    description: A default error that will be responded if an unexpected server error occurs
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string

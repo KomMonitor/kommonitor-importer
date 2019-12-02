@@ -5,6 +5,7 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.models.Error;
 import org.n52.kommonitor.importer.models.ImportGeoresourcePOSTInputType;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:03:48.485+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
 @Api(value = "georesources", description = "the georesources API")
 public interface GeoresourcesApi {
@@ -31,8 +32,9 @@ public interface GeoresourcesApi {
     }, tags={ "georesources", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = String.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 405, message = "Invalid input") })
+        @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
     @RequestMapping(value = "/georesources",
         consumes = { "application/json" },
         method = RequestMethod.POST)

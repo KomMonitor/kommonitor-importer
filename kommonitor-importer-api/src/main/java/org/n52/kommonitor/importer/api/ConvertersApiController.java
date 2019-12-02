@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.api;
 
 import org.n52.kommonitor.importer.models.ConverterType;
+import org.n52.kommonitor.importer.models.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:41:56.747+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
 @Controller
 public class ConvertersApiController implements ConvertersApi {

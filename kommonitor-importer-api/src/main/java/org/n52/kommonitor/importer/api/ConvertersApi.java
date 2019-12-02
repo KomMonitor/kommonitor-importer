@@ -6,6 +6,7 @@
 package org.n52.kommonitor.importer.api;
 
 import org.n52.kommonitor.importer.models.ConverterType;
+import org.n52.kommonitor.importer.models.Error;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:41:56.747+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
 @Api(value = "converters", description = "the converters API")
 public interface ConvertersApi {
@@ -31,8 +32,8 @@ public interface ConvertersApi {
     }, tags={ "converters", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = ConverterType.class),
-        @ApiResponse(code = 400, message = "Invalid status value"),
-        @ApiResponse(code = 401, message = "API key is missing or invalid") })
+        @ApiResponse(code = 401, message = "API key is missing or invalid"),
+        @ApiResponse(code = 404, message = "A converter with the specified name was not found", response = Error.class) })
     @RequestMapping(value = "/converters/{name}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
@@ -44,7 +45,6 @@ public interface ConvertersApi {
     }, tags={ "converters", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = ConverterType.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid status value"),
         @ApiResponse(code = 401, message = "API key is missing or invalid") })
     @RequestMapping(value = "/converters",
         produces = { "application/json" }, 

@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.models.Error;
 import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-29T14:03:48.485+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
 @Controller
 public class IndicatorsApiController implements IndicatorsApi {

@@ -54,10 +54,16 @@ paths:
             description: URIs of the newly created spatial unit resources
             items:
               type: string
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
         401:
           $ref: "#/responses/UnauthorizedError"
-        405:
-          description: "Invalid input"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
 
   ########## GEO RESOURCES
   /georesources:
@@ -84,10 +90,16 @@ paths:
             description: URIs of the newly created georesources
             items:
               type: string
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
         401:
           $ref: "#/responses/UnauthorizedError"
-        405:
-          description: "Invalid input"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
 
 ######## INDICATORS
   /indicators:
@@ -114,10 +126,16 @@ paths:
               description: URIs of the newly created indicator resources
               items:
                 type: string
+          400:
+            description: "Bad Request"
+            schema:
+              $ref: './definitions.yaml#/definitions/Error'
           401:
             $ref: "#/responses/UnauthorizedError"
-          405:
-            description: "Invalid input"
+          default:
+            description: Unexpected error
+            schema:
+              $ref: './definitions.yaml#/definitions/Error'
 
   /converters:
     get:
@@ -136,8 +154,6 @@ paths:
             description: array of all available converters
             items:
               $ref: "./definitions.yaml#/definitions/ConverterType"
-        400:
-          description: "Invalid status value"
         401:
           $ref: "#/responses/UnauthorizedError"
 
@@ -161,10 +177,12 @@ paths:
           description: "OK"
           schema:
             $ref: "./definitions.yaml#/definitions/ConverterType"
-        400:
-          description: "Invalid status value"
         401:
           $ref: "#/responses/UnauthorizedError"
+        404:
+          description: "A converter with the specified name was not found"
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
 
 responses:
   UnauthorizedError:
