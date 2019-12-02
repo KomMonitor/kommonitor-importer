@@ -497,6 +497,6 @@ definitions:
       - message
     properties:
       code:
-        type: string
+        type: integer
       message:
         type: string

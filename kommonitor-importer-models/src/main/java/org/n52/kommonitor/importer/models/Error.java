@@ -15,18 +15,18 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A default error that will be responded if an unexpected server error occurs")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:53:55.407+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T17:28:10.079+01:00")
 
 public class Error  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("code")
-  private String code = null;
+  private Integer code = null;
 
   @JsonProperty("message")
   private String message = null;
 
-  public Error code(String code) {
+  public Error code(Integer code) {
     this.code = code;
     return this;
   }
@@ -39,11 +39,11 @@ public class Error  implements Serializable {
   @NotNull
 
 
-  public String getCode() {
+  public Integer getCode() {
     return code;
   }
 
-  public void setCode(String code) {
+  public void setCode(Integer code) {
     this.code = code;
   }
 
