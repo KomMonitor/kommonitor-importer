@@ -34,15 +34,15 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     }
 
     public Set<String> getSupportedSchemas() {
-        return Collections.unmodifiableSet(supportedSchemas);
+        return supportedSchemas != null ? Collections.unmodifiableSet(supportedSchemas) : null;
     }
 
     public Set<String> getSupportedEncodings() {
-        return Collections.unmodifiableSet(supportedEncodings);
+        return supportedEncodings != null ? Collections.unmodifiableSet(supportedEncodings) : null;
     }
 
     public Set<ConverterParameters> getConverterParameters() {
-        return Collections.unmodifiableSet(converterParameters);
+        return converterParameters != null ? Collections.unmodifiableSet(converterParameters) : null;
     }
 
     /**

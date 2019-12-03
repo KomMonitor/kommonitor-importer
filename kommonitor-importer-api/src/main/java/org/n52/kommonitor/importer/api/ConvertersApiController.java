@@ -1,32 +1,39 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
+import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
+import org.n52.kommonitor.importer.api.utils.ErrorFactory;
+import org.n52.kommonitor.importer.converter.AbstractConverter;
+import org.n52.kommonitor.importer.converter.Converter;
+import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.models.ConverterType;
 import org.n52.kommonitor.importer.models.Error;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
 @Controller
 public class ConvertersApiController implements ConvertersApi {
 
     private static final Logger log = LoggerFactory.getLogger(ConvertersApiController.class);
+
+    @Autowired
+    private ConverterRepository converterRepository;
+
+    @Autowired
+    private ConverterEncoder encoder;
 
     private final ObjectMapper objectMapper;
 
@@ -38,32 +45,21 @@ public class ConvertersApiController implements ConvertersApi {
         this.request = request;
     }
 
-    public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<ConverterType>(objectMapper.readValue("{  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : \"mimeType\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}", ConverterType.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<ConverterType>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+    public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
+        Optional<Converter> converterOpt = converterRepository.getImporter(name);
+        if (!converterOpt.isPresent()) {
+            Error error = ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), "No converter found for the specified name: " + name);
+            ResponseEntity entity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+            return entity;
         }
+        return new ResponseEntity<ConverterType>(encoder.encode((AbstractConverter) converterOpt.get()), HttpStatus.OK);
 
-        return new ResponseEntity<ConverterType>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<ConverterType>> getConverters() {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<ConverterType>>(objectMapper.readValue("[ {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : \"mimeType\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}, {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : \"mimeType\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<ConverterType>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<List<ConverterType>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<ConverterType>>(converterRepository.getAll().stream()
+                .map(c -> encoder.encode((AbstractConverter) c))
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
 }
