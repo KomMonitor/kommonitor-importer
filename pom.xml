@@ -25,6 +25,7 @@
 		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
 		<jts.version>1.16.1</jts.version>
 		<springfox-swagger.version>2.9.2</springfox-swagger.version>
+		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
 	</properties>
 
 	<dependencyManagement>
@@ -85,5 +86,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire.version}</version>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
