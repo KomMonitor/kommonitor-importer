@@ -227,7 +227,7 @@ paths:
         401:
           $ref: "#/responses/UnauthorizedError"
         404:
-          description: "The specified datasource type is not supported"
+          description: "No support for the specified datasource type"
           schema:
             $ref: './definitions.yaml#/definitions/Error'
 

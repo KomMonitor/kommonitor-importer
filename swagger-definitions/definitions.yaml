@@ -309,15 +309,14 @@ definitions:
     type: object
     required:
       - type
-      - payload
     properties:
       type:
         type: string
-        description: the datasource from which geodata or indicator data should be retrieved
+        description: the type of datasource from which geodata or indicator data should be retrieved
         enum:
           - DB
           - FILE
-          - PLAIN
+          - INLINE
           - URL
       parameters:
         type: array
@@ -334,7 +333,7 @@ definitions:
     properties:
       type:
         type: string
-        description: the datasource from which geodata or indicator data should be retrieved
+        description: the type of datasource from which geodata or indicator data should be retrieved
         enum:
           - DB
           - FILE

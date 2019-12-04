@@ -19,13 +19,13 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Holds various information about the datasource for importing new resources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T17:03:10.914+01:00")
 
 public class DataSourceDefinitionType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
-   * the datasource from which geodata or indicator data should be retrieved
+   * the type of datasource from which geodata or indicator data should be retrieved
    */
   public enum TypeEnum {
     DB("DB"),
@@ -72,10 +72,10 @@ public class DataSourceDefinitionType  implements Serializable {
   }
 
   /**
-   * the datasource from which geodata or indicator data should be retrieved
+   * the type of datasource from which geodata or indicator data should be retrieved
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "the datasource from which geodata or indicator data should be retrieved")
+  @ApiModelProperty(required = true, value = "the type of datasource from which geodata or indicator data should be retrieved")
   @NotNull
 
 
