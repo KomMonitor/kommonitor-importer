@@ -167,7 +167,7 @@ paths:
     get:
       tags:
       - "converters"
-      summary: "Retreive information about the selected converters"
+      summary: "Retrieve information about the selected converters"
       description: "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer"
       operationId: "getConverterByName"
       produces:
@@ -181,6 +181,53 @@ paths:
           $ref: "#/responses/UnauthorizedError"
         404:
           description: "A converter with the specified name was not found"
+          schema:
+            $ref: './definitions.yaml#/definitions/Error'
+
+  /datasourceTypes:
+    get:
+      tags:
+      - "datasources"
+      summary: "Retrieve information about all supported datasource types"
+      description: "Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer"
+      operationId: "getSupportedDataSourceTypes"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            description: array of all available datasource types
+            items:
+              $ref: "./definitions.yaml#/definitions/DataSourceType"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /datasourceTypes/{type}:
+    parameters:
+      - name: "type"
+        in: "path"
+        description: "unique type of the datasource"
+        required: true
+        type: string
+    get:
+      tags:
+      - "datasources"
+      summary: "Retrieve information about the selected datasource type"
+      description: "Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer"
+      operationId: "getSupportedDataSourceTypeByType"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "./definitions.yaml#/definitions/DataSourceType"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        404:
+          description: "The specified datasource type is not supported"
           schema:
             $ref: './definitions.yaml#/definitions/Error'
 

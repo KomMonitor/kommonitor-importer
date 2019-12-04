@@ -29,7 +29,7 @@ definitions:
             type: string
             description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
-        $ref: "#/definitions/DataSourceType"
+        $ref: "#/definitions/DataSourceDefinitionType"
       converter:
         $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
@@ -102,7 +102,7 @@ definitions:
         type: string
         description: A JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property.
       dataSource:
-        $ref: "#/definitions/DataSourceType"
+        $ref: "#/definitions/DataSourceDefinitionType"
       converter:
         $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
@@ -198,7 +198,7 @@ definitions:
         items:
           $ref: "#/definitions/ResourceReferenceType"
       dataSource:
-        $ref: "#/definitions/DataSourceType"
+        $ref: "#/definitions/DataSourceDefinitionType"
       converter:
         $ref: "#/definitions/ConverterDefinitionType"
       propertyMapping:
@@ -310,23 +310,46 @@ definitions:
     required:
       - type
       - payload
-      - idPropertyName
-      - namePropertyName
     properties:
       type:
         type: string
-        description: the source format from which geodata or indicator data can be extracted
+        description: the datasource from which geodata or indicator data should be retrieved
         enum:
-          - WFS
-          - GEOJSON
-          - SHAPE
-          - GML
-          - EXCEL
-          - CSV
-      payload:
-        $ref: "#/definitions/PayloadType"
-      datasetReference:
-        $ref: "#/definitions/DatasetReferenceType"  
+          - DB
+          - FILE
+          - PLAIN
+          - URL
+      parameters:
+        type: array
+        description: list with descriptions of additional parameters that are required for retrieving datasets from a datasource
+        items:
+          $ref: "#/definitions/ParameterType"
+
+  DataSourceDefinitionType:
+    description: Holds various information about the datasource for importing new resources
+    type: object
+    required:
+      - type
+      - payload
+    properties:
+      type:
+        type: string
+        description: the datasource from which geodata or indicator data should be retrieved
+        enum:
+          - DB
+          - FILE
+          - PLAIN
+          - URL
+      parameters:
+        type: array
+        description: list of additional parameters as key-value-pairs that are required for retrieving datasets from a datasource
+        items:
+          $ref: "#/definitions/ParameterValueType"
+
+      # payload:
+      #   $ref: "#/definitions/PayloadType"
+      # datasetReference:
+      #   $ref: "#/definitions/DatasetReferenceType"  
 
   PayloadType:
     description: The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.
@@ -425,9 +448,9 @@ definitions:
           type: string
       parameters:
         type: array
-        description: list of additional parameters that are required for decoding a certain dataset format
+        description: list with descriptions of additional parameters that are required for decoding a certain dataset format
         items:
-          $ref: "#/definitions/ConverterParameterType"
+          $ref: "#/definitions/ParameterType"
 
   ConverterDefinitionType:
     description: Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
@@ -450,22 +473,23 @@ definitions:
         description: encoding procedure or character set used (e.g. raw, base64, or UTF-8)
       parameters:
         type: array
-        description: list of additional format related parameters that are required for decoding
+        description: list of additional format related parameters as key-value-pairs that are required for decoding
         items:
-          $ref: "#/definitions/ConverterParameterValueType"
+          $ref: "#/definitions/ParameterValueType"
 
-  ConverterParameterType:
-    description: Definition of an additional parameter that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
+  ParameterType:
+    description: Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource |
+     or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)
     type: object
     required:
       - name
     properties:
       name:
         type: string
-        description: name of the decoding parameter
+        description: name of the parameter
       description:
         type: string
-        description: description of the decoding parameter
+        description: description of the parameter
       type:
         type: string
         description: type of the parameter
@@ -475,8 +499,9 @@ definitions:
           - boolean
           - array
       
-  ConverterParameterValueType:
-    description: Additional parameter as key-value-pair that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
+  ParameterValueType:
+    description: Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource |
+     or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)
     type: object
     required:
       - name
@@ -484,10 +509,10 @@ definitions:
     properties:
       name:
         type: string
-        description: name of the decoding parameter
+        description: name of the parameter
       value:
         type: string
-        description: value of the decoding parameter
+        description: value of the parameter
 
   Error:
     description: A default error that will be responded if an unexpected server error occurs

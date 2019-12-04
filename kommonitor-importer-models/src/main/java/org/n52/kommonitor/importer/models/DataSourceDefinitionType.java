@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.kommonitor.importer.models.ParameterType;
+import org.n52.kommonitor.importer.models.ParameterValueType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
 
-public class DataSourceType  implements Serializable {
+public class DataSourceDefinitionType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   /**
@@ -64,9 +64,9 @@ public class DataSourceType  implements Serializable {
 
   @JsonProperty("parameters")
   @Valid
-  private List<ParameterType> parameters = null;
+  private List<ParameterValueType> parameters = null;
 
-  public DataSourceType type(TypeEnum type) {
+  public DataSourceDefinitionType type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -87,32 +87,32 @@ public class DataSourceType  implements Serializable {
     this.type = type;
   }
 
-  public DataSourceType parameters(List<ParameterType> parameters) {
+  public DataSourceDefinitionType parameters(List<ParameterValueType> parameters) {
     this.parameters = parameters;
     return this;
   }
 
-  public DataSourceType addParametersItem(ParameterType parametersItem) {
+  public DataSourceDefinitionType addParametersItem(ParameterValueType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ParameterType>();
+      this.parameters = new ArrayList<ParameterValueType>();
     }
     this.parameters.add(parametersItem);
     return this;
   }
 
   /**
-   * list with descriptions of additional parameters that are required for retrieving datasets from a datasource
+   * list of additional parameters as key-value-pairs that are required for retrieving datasets from a datasource
    * @return parameters
   **/
-  @ApiModelProperty(value = "list with descriptions of additional parameters that are required for retrieving datasets from a datasource")
+  @ApiModelProperty(value = "list of additional parameters as key-value-pairs that are required for retrieving datasets from a datasource")
 
   @Valid
 
-  public List<ParameterType> getParameters() {
+  public List<ParameterValueType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<ParameterType> parameters) {
+  public void setParameters(List<ParameterValueType> parameters) {
     this.parameters = parameters;
   }
 
@@ -125,9 +125,9 @@ public class DataSourceType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DataSourceType dataSourceType = (DataSourceType) o;
-    return Objects.equals(this.type, dataSourceType.type) &&
-        Objects.equals(this.parameters, dataSourceType.parameters);
+    DataSourceDefinitionType dataSourceDefinitionType = (DataSourceDefinitionType) o;
+    return Objects.equals(this.type, dataSourceDefinitionType.type) &&
+        Objects.equals(this.parameters, dataSourceDefinitionType.parameters);
   }
 
   @Override
@@ -138,7 +138,7 @@ public class DataSourceType  implements Serializable {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DataSourceType {\n");
+    sb.append("class DataSourceDefinitionType {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");

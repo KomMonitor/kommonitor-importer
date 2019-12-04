@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.kommonitor.importer.models.ConverterParameterType;
+import org.n52.kommonitor.importer.models.ParameterType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
 
 public class ConverterType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class ConverterType  implements Serializable {
 
   @JsonProperty("parameters")
   @Valid
-  private List<ConverterParameterType> parameters = null;
+  private List<ParameterType> parameters = null;
 
   public ConverterType name(String name) {
     this.name = name;
@@ -139,32 +139,32 @@ public class ConverterType  implements Serializable {
     this.encodings = encodings;
   }
 
-  public ConverterType parameters(List<ConverterParameterType> parameters) {
+  public ConverterType parameters(List<ParameterType> parameters) {
     this.parameters = parameters;
     return this;
   }
 
-  public ConverterType addParametersItem(ConverterParameterType parametersItem) {
+  public ConverterType addParametersItem(ParameterType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ConverterParameterType>();
+      this.parameters = new ArrayList<ParameterType>();
     }
     this.parameters.add(parametersItem);
     return this;
   }
 
   /**
-   * list of additional parameters that are required for decoding a certain dataset format
+   * list with descriptions of additional parameters that are required for decoding a certain dataset format
    * @return parameters
   **/
-  @ApiModelProperty(value = "list of additional parameters that are required for decoding a certain dataset format")
+  @ApiModelProperty(value = "list with descriptions of additional parameters that are required for decoding a certain dataset format")
 
   @Valid
 
-  public List<ConverterParameterType> getParameters() {
+  public List<ParameterType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<ConverterParameterType> parameters) {
+  public void setParameters(List<ParameterType> parameters) {
     this.parameters = parameters;
   }
 

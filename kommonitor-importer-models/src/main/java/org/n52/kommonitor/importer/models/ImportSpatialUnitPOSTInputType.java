@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
-import org.n52.kommonitor.importer.models.DataSourceType;
+import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
 import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new spatial unit")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:04:22.865+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
 
 public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private String jsonSchema = null;
 
   @JsonProperty("dataSource")
-  private DataSourceType dataSource = null;
+  private DataSourceDefinitionType dataSource = null;
 
   @JsonProperty("converter")
   private ConverterDefinitionType converter = null;
@@ -179,7 +179,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.jsonSchema = jsonSchema;
   }
 
-  public ImportSpatialUnitPOSTInputType dataSource(DataSourceType dataSource) {
+  public ImportSpatialUnitPOSTInputType dataSource(DataSourceDefinitionType dataSource) {
     this.dataSource = dataSource;
     return this;
   }
@@ -193,11 +193,11 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
 
   @Valid
 
-  public DataSourceType getDataSource() {
+  public DataSourceDefinitionType getDataSource() {
     return dataSource;
   }
 
-  public void setDataSource(DataSourceType dataSource) {
+  public void setDataSource(DataSourceDefinitionType dataSource) {
     this.dataSource = dataSource;
   }
 
