@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
@@ -42,6 +43,7 @@ public class ConvertersApiController implements ConvertersApi {
     @org.springframework.beans.factory.annotation.Autowired
     public ConvertersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
+        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         this.request = request;
     }
 
@@ -58,7 +60,7 @@ public class ConvertersApiController implements ConvertersApi {
 
     public ResponseEntity<List<ConverterType>> getConverters() {
         return new ResponseEntity<List<ConverterType>>(converterRepository.getAll().stream()
-                .map(c -> encoder.encode((AbstractConverter) c))
+                .map(c -> encoder.simpleEncode((AbstractConverter) c))
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 

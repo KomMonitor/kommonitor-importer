@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * An abstract converter that defines methods for converting a dataset that comes in a certain format
- * into the internal KomMonitor models for spatial resources and indicator values.
+ * An abstract converter that encapsulates definitions of supported format types for a converter
  *
  * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
