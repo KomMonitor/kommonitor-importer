@@ -1,0 +1,21 @@
+title KomMonitor Import\n(Component view)
+
+Participant Management UI as MUI
+Participant Import API as IAPI
+
+Participant Management API Client as MCL
+Participant Management API as MAPI
+
+
+MUI->+IAPI:GET /converters
+IAPI-->-MUI:GET /converters: List<Converter>
+
+MUI->+IAPI:GET /datasourceTypes
+IAPI-->-MUI:GET /datasourceTypes: List<DatasourceType>
+
+MUI->+IAPI:POST /georesource (DatasourceDefinition, ConverterDefinition, PropertyMapping, ...)
+IAPI->+MCL:addGeoresource(GeoresourcePOSTInput)
+MCL->+MAPI:POST /georesources (GeoresourcePOSTInput)
+MAPI-->-MCL:POST /georesources: 201
+MCL-->-IAPI:addGeoresource: HttpInfo
+IAPI-->-MUI:POST /georesource: 201

@@ -316,8 +316,9 @@ definitions:
         enum:
           - DB
           - FILE
-          - INLINE
-          - URL
+          - FTP
+          - HTTP
+          - INLINE  
       parameters:
         type: array
         description: list with descriptions of additional parameters that are required for retrieving datasets from a datasource
@@ -329,7 +330,6 @@ definitions:
     type: object
     required:
       - type
-      - payload
     properties:
       type:
         type: string
@@ -337,8 +337,9 @@ definitions:
         enum:
           - DB
           - FILE
-          - PLAIN
-          - URL
+          - FTP
+          - HTTP
+          - INLINE
       parameters:
         type: array
         description: list of additional parameters as key-value-pairs that are required for retrieving datasets from a datasource

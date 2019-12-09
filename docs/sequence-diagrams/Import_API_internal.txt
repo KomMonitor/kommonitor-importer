@@ -1,0 +1,15 @@
+title KomMonitor Import\n(Internal view)
+
+Participant Management UI as MUI
+Participant Import API as IAPI
+Participant DatasourceRetriever as DR
+Participant Converter as CONV
+Participant Encoder as ENC
+
+MUI->+IAPI:POST /georesource\n(DatasourceDefinition, ConverterDefinition, PropertyMapping, ...)
+IAPI->+DR:retrieveDataset(DatasourceDefinition)
+DR-->-IAPI:retrieveDataset: Dataset
+IAPI->+CONV:convertSpatialResource(ConverterDefinition, Dataset, PropertyMapping)
+CONV-->-IAPI:convertSpatialResource: SpatialResource
+IAPI->+ENC:encodeRequest(SpatialResource, ...)
+ENC-->-IAPI:encodeRequest: GeoresourcePOSTInput
