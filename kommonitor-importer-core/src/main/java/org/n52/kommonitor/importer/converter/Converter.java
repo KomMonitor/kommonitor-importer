@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.converter;
 
+import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.Indicator;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
@@ -16,21 +17,21 @@ public interface Converter {
     String getName();
 
     /**
-     * Converts a dataset into a {@link SpatialResource} according to a given {@link ConverterDefinitionType}
+     * Converts a {@link Dataset} into a {@link SpatialResource}  Faccording to a given {@link ConverterDefinitionType}
      *
      * @param importerDefinition the {@link ConverterDefinitionType} used to decode the dataset
-     * @param datasource         definition of the datasource that contains a dataset
-     * @return the decoded {@link SpatialResource}
+     * @param dataset            the {@link Dataset} that contains the data to convert
+     * @return the converted {@link SpatialResource}
      */
-    SpatialResource convertSpatialResource(ConverterDefinitionType importerDefinition, DataSourceType datasource);
+    SpatialResource convertSpatialResource(ConverterDefinitionType importerDefinition, Dataset dataset);
 
     /**
      * Decodes a dataset into a {@link Indicator} according to a given {@link ConverterDefinitionType}
      *
      * @param importerDefinition the {@link ConverterDefinitionType} used to decode the dataset
-     * @param datasource         definition of the datasource that contains a dataset
-     * @return the decoded {@link Indicator}
+     * @param dataset            the {@link Dataset} that contains the data to convert
+     * @return the converted {@link Indicator}
      */
-    Indicator convertIndicator(ConverterDefinitionType importerDefinition, DataSourceType datasource);
+    Indicator convertIndicator(ConverterDefinitionType importerDefinition, Dataset dataset);
 
 }

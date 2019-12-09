@@ -47,34 +47,34 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     /**
      * Initializes the unique name for the converter
      */
-    public abstract void initName();
+    public abstract String initName();
 
     /**
      * Initializes the supported MIME-type for the converter
      */
-    public abstract void initSupportedMimeType();
+    public abstract String initSupportedMimeType();
 
     /**
      * Initializes a set of supported schemas for the converter
      */
-    public abstract void initSupportedSchemas();
+    public abstract Set<String> initSupportedSchemas();
 
     /**
      * Initializes a set of supported encodings for the converter
      */
-    public abstract void initSupportedEncoding();
+    public abstract Set<String> initSupportedEncoding();
 
     /**
      * Initializes the set of additional parameters for the converter
      */
-    public abstract void initConverterParameters();
+    public abstract Set<ConverterParameters> initConverterParameters();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        initName();
-        initSupportedMimeType();
-        initSupportedSchemas();
-        initSupportedEncoding();
-        initConverterParameters();
+        this.name = initName();
+        this.supportedMimeType = initSupportedMimeType();
+        this.supportedSchemas = initSupportedSchemas();
+        this.supportedEncodings = initSupportedEncoding();
+        this.converterParameters = initConverterParameters();
     }
 }

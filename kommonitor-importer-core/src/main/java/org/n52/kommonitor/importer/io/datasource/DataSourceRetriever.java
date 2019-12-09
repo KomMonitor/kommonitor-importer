@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.io.datasource;
 
+import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
 
 /**

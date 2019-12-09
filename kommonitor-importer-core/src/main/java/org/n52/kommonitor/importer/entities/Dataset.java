@@ -1,4 +1,4 @@
-package org.n52.kommonitor.importer.io.datasource;
+package org.n52.kommonitor.importer.entities;
 
 /**
  * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
@@ -9,6 +9,7 @@ public class Dataset<T> {
 
     public Dataset(T data) {
         this.data = data;
+
     }
 
     public T getData() {
