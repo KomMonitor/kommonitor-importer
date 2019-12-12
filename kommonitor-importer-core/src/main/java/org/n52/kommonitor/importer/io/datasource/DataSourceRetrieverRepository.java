@@ -24,7 +24,7 @@ public class DataSourceRetrieverRepository {
      * @param type the type of a certain {@link AbstractDataSourceRetriever} implementation
      * @return an {@link Optional} describing the found {@link AbstractDataSourceRetriever} implementation
      */
-    public Optional<AbstractDataSourceRetriever> getDatasourceRetreiver(String type) {
+    public Optional<AbstractDataSourceRetriever> getDatasourceRetriever(String type) {
         Optional<AbstractDataSourceRetriever> retrieverOpt = this.retrieverList.stream()
                 .filter(i -> i.getType().equals(type))
                 .findFirst();

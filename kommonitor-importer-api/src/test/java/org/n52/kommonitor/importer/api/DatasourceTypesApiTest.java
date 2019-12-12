@@ -5,11 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
 import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
-import org.n52.kommonitor.importer.converter.AbstractConverter;
-import org.n52.kommonitor.importer.converter.ConverterParameters;
-import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
@@ -69,7 +65,7 @@ public class DatasourceTypesApiTest {
     @DisplayName("Test getSupportedDataSourceTypeByType responds with OK status code")
     public void testGetSupportedDataSourceTypeByType() throws Exception {
         prepareMocks();
-        Mockito.when(repository.getDatasourceRetreiver(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
+        Mockito.when(repository.getDatasourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
 
         this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isOk())
@@ -82,7 +78,7 @@ public class DatasourceTypesApiTest {
     @Test
     @DisplayName("Test getConverterByName responds with NotFound status code")
     public void testGetSupportedDataSourceTypeByTypeNotFound() throws Exception {
-        Mockito.when(repository.getDatasourceRetreiver(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
+        Mockito.when(repository.getDatasourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
 
         this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isNotFound())

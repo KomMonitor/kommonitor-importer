@@ -1,17 +1,11 @@
 package org.n52.kommonitor.importer.api.encoder;
 
-import org.n52.kommonitor.importer.converter.AbstractConverter;
-import org.n52.kommonitor.importer.converter.ConverterParameters;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
-import org.n52.kommonitor.importer.io.datasource.DataSourceRetriever;
-import org.n52.kommonitor.importer.models.ConverterParameterType;
-import org.n52.kommonitor.importer.models.ConverterType;
 import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.ParameterType;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
