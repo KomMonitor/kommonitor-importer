@@ -6,7 +6,7 @@ package org.n52.kommonitor.importer.converter;
  *
  * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class ConverterParameters {
+public class ConverterParameter {
 
     private String name;
 
@@ -14,7 +14,7 @@ public class ConverterParameters {
 
     private ParameterTypeValues type;
 
-    public ConverterParameters(String name, String description, ParameterTypeValues type) {
+    public ConverterParameter(String name, String description, ParameterTypeValues type) {
         this.name = name;
         this.description = description;
         this.type = type;

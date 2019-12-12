@@ -1,8 +1,7 @@
 package org.n52.kommonitor.importer.api.encoder;
 
 import org.n52.kommonitor.importer.converter.AbstractConverter;
-import org.n52.kommonitor.importer.converter.ConverterParameters;
-import org.n52.kommonitor.importer.models.ConverterParameterType;
+import org.n52.kommonitor.importer.converter.ConverterParameter;
 import org.n52.kommonitor.importer.models.ConverterType;
 import org.n52.kommonitor.importer.models.ParameterType;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,7 @@ public class ConverterEncoder {
         if (converter.getConverterParameters() != null && !converter.getConverterParameters().isEmpty()) {
             converterType.setParameters(converter.getConverterParameters()
                     .stream()
-                    .map(this::encodeParameters)
+                    .map(this::encodeParameter)
                     .collect(Collectors.toList()));
         }
 
@@ -57,16 +56,16 @@ public class ConverterEncoder {
     }
 
     /**
-     * Encodes an {@link ConverterParameters} into a corresponding type for API responses
+     * Encodes an {@link ConverterParameter} into a corresponding type for API responses
      *
-     * @param parameters the {@link ConverterParameters} to convert
+     * @param parameter the {@link ConverterParameter} to convert
      * @return the encoded parameters as {@link ParameterType}
      */
-    public ParameterType encodeParameters(ConverterParameters parameters) {
+    public ParameterType encodeParameter(ConverterParameter parameter) {
         ParameterType paramType = new ParameterType();
-        paramType.setName(parameters.getName());
-        paramType.setDescription(parameters.getDescription());
-        paramType.setType(ParameterType.TypeEnum.valueOf(parameters.getType().name()));
+        paramType.setName(parameter.getName());
+        paramType.setDescription(parameter.getDescription());
+        paramType.setType(ParameterType.TypeEnum.valueOf(parameter.getType().name()));
         return paramType;
     }
 }

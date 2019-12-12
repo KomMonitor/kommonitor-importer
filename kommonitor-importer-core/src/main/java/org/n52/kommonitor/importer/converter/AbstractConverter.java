@@ -20,7 +20,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
 
     private Set<String> supportedEncodings;
 
-    private Set<ConverterParameters> converterParameters;
+    private Set<ConverterParameter> converterParameters;
 
 
     @Override
@@ -40,7 +40,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         return supportedEncodings != null ? Collections.unmodifiableSet(supportedEncodings) : null;
     }
 
-    public Set<ConverterParameters> getConverterParameters() {
+    public Set<ConverterParameter> getConverterParameters() {
         return converterParameters != null ? Collections.unmodifiableSet(converterParameters) : null;
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     /**
      * Initializes the set of additional parameters for the converter
      */
-    public abstract Set<ConverterParameters> initConverterParameters();
+    public abstract Set<ConverterParameter> initConverterParameters();
 
     @Override
     public void afterPropertiesSet() throws Exception {
