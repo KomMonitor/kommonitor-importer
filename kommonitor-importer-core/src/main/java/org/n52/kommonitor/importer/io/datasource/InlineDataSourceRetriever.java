@@ -1,6 +1,8 @@
 package org.n52.kommonitor.importer.io.datasource;
 
 import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,8 @@ import java.util.Set;
 public class InlineDataSourceRetriever extends AbstractDataSourceRetriever<String> {
 
     private static final String TYPE = "INLINE";
-    public static final String PARAM_PAYLOAD = "payload";
-    public static final String PARAM_PAYLOAD_DESC = "The payload as plain text";
+    private static final String PARAM_PAYLOAD = "payload";
+    private static final String PARAM_PAYLOAD_DESC = "The payload as plain text";
 
     @Override
     protected String initType() {
@@ -26,7 +28,7 @@ public class InlineDataSourceRetriever extends AbstractDataSourceRetriever<Strin
     }
 
     @Override
-    protected Set<DataSourceParameter> initSupportedConverterParameters() {
+    protected Set<DataSourceParameter> initSupportedParameters() {
         Set<DataSourceParameter> parameters = new HashSet<>();
         DataSourceParameter payloadParam = new DataSourceParameter(PARAM_PAYLOAD, PARAM_PAYLOAD_DESC, DataSourceParameter.ParameterTypeValues.STRING);
         parameters.add(payloadParam);
@@ -34,10 +36,10 @@ public class InlineDataSourceRetriever extends AbstractDataSourceRetriever<Strin
     }
 
     @Override
-    public Dataset<String> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException {
+    public Dataset<String> retrieveDataset(DataSourceDefinitionType datasource) throws ImportParameterException {
         Optional<String> payload = this.getParameterValue(PARAM_PAYLOAD, datasource.getParameters());
         if (!payload.isPresent()) {
-            throw new DataSourceRetrieverException("Could not find parameter: " + PARAM_PAYLOAD);
+            throw new ImportParameterException("Missing parameter: " + PARAM_PAYLOAD);
         }
         return new Dataset<String>(payload.get());
     }

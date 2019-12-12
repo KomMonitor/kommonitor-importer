@@ -1,6 +1,5 @@
 package org.n52.kommonitor.importer.io.datasource;
 
-import org.n52.kommonitor.importer.models.ParameterType;
 import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -49,12 +48,12 @@ public abstract class AbstractDataSourceRetriever<T> implements DataSourceRetrie
 
     protected abstract String initType();
 
-    protected abstract Set<DataSourceParameter> initSupportedConverterParameters();
+    protected abstract Set<DataSourceParameter> initSupportedParameters();
 
     @Override
     public void afterPropertiesSet() throws Exception {
         type = initType();
-        dataSourceParameters = initSupportedConverterParameters();
+        dataSourceParameters = initSupportedParameters();
     }
 
 }
