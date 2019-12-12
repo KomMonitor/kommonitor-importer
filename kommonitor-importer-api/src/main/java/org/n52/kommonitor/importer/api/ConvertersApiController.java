@@ -48,13 +48,13 @@ public class ConvertersApiController implements ConvertersApi {
     }
 
     public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
-        Optional<Converter> converterOpt = converterRepository.getImporter(name);
+        Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);
         if (!converterOpt.isPresent()) {
             Error error = ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), "No converter found for the specified name: " + name);
             ResponseEntity entity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
             return entity;
         }
-        return new ResponseEntity<ConverterType>(encoder.encode((AbstractConverter) converterOpt.get()), HttpStatus.OK);
+        return new ResponseEntity<ConverterType>(encoder.encode(converterOpt.get()), HttpStatus.OK);
 
     }
 

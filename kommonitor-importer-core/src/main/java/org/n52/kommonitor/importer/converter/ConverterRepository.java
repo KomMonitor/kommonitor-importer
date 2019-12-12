@@ -16,7 +16,7 @@ import java.util.Optional;
 public class ConverterRepository {
 
     @Autowired
-    private List<Converter> converterList;
+    private List<AbstractConverter> converterList;
 
     /**
      * Retrieve a certain {@link Converter} implementation by its name
@@ -24,8 +24,8 @@ public class ConverterRepository {
      * @param name the name of  a certain {@link Converter} implementation
      * @return an {@link Optional} describing the found {@link Converter} implementation
      */
-    public Optional<Converter> getImporter(String name) {
-        Optional<Converter> converterOpt = this.converterList.stream()
+    public Optional<AbstractConverter> getConverter(String name) {
+        Optional<AbstractConverter> converterOpt = this.converterList.stream()
                 .filter(i -> i.getName().equals(name))
                 .findFirst();
         return converterOpt;
@@ -36,7 +36,7 @@ public class ConverterRepository {
      *
      * @return a list of all registered {@link Converter} implementations
      */
-    public List<Converter> getAll() {
+    public List<AbstractConverter> getAll() {
         return Collections.unmodifiableList(this.converterList);
     }
 }
