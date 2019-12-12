@@ -1,6 +1,8 @@
 package org.n52.kommonitor.importer.io.datasource;
 
 import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
 
 /**
@@ -19,6 +21,6 @@ public interface DataSourceRetriever<T> {
      * @return a {@link Dataset} of type T
      * @throws DataSourceRetrieverException
      */
-    Dataset<T> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException;
+    Dataset<T> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException, ImportParameterException;
 
 }
