@@ -1,4 +1,4 @@
-package org.n52.kommonitor.importer.io.datasource;
+package org.n52.kommonitor.importer.exceptions;
 
 /**
  * An exception for errors that occur when trying to retrieve a dataset from a datasource
