@@ -122,6 +122,11 @@
                 <artifactId>gt-epsg-extension</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-geojson</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
 
             <!-- Import dependency management from Spring Boot -->
             <dependency>

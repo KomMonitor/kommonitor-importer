@@ -36,6 +36,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-geojson</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-codegen-maven-plugin</artifactId>
         </dependency>
@@ -70,7 +74,8 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>${project.parent.basedir}/docs/swagger/kommonitor_dataImportAPI.yaml</inputSpec>
+                                    <inputSpec>${project.parent.basedir}/docs/swagger/kommonitor_dataImportAPI.yaml
+                                    </inputSpec>
                                     <!-- target to generate java server code -->
                                     <language>spring</language>
                                     <output>${project.basedir}</output>
@@ -80,7 +85,8 @@
                                     <generateApis>true</generateApis>
 
                                     <configHelp>${swagger-codegen.configHelp}</configHelp>
-                                    <generateSupportingFiles>${swagger-codegen.supportingFiles}</generateSupportingFiles>
+                                    <generateSupportingFiles>${swagger-codegen.supportingFiles}
+                                    </generateSupportingFiles>
                                     <!-- pass any necessary config options -->
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
