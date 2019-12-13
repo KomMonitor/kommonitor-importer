@@ -2,6 +2,7 @@ package org.n52.kommonitor.importer.entities;
 
 import org.locationtech.jts.geom.Geometry;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -13,10 +14,10 @@ import java.util.Optional;
 public class SpatialResource {
     private String id;
     private String name;
-    private LocalDateTime startDate;
-    private Optional<LocalDateTime> endDate;
     private Geometry geom;
-
+    private Optional<String> arisenFrom;
+    private Optional<LocalDate> startDate;
+    private Optional<LocalDate> endDate;
 
     public String getId() {
         return id;
@@ -34,19 +35,35 @@ public class SpatialResource {
         this.name = name;
     }
 
-    public LocalDateTime getStartDate() {
+    public Geometry getGeom() {
+        return geom;
+    }
+
+    public void setGeom(Geometry geom) {
+        this.geom = geom;
+    }
+
+    public Optional<String> getArisenFrom() {
+        return arisenFrom;
+    }
+
+    public void setArisenFrom(String arisenFrom) {
+        this.arisenFrom = Optional.ofNullable(arisenFrom);
+    }
+
+    public Optional<LocalDate> getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = Optional.ofNullable(startDate);
     }
 
-    public Optional<LocalDateTime> getEndDate() {
+    public Optional<LocalDate> getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = Optional.ofNullable(endDate);
     }
 }
