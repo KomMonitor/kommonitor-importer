@@ -11,6 +11,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,23 +43,26 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     private ObjectMapper mapper;
     private GeometryJSON geomJson;
 
-
-    public String encodeSpatialresources(List<SpatialResource> spatialResource) {
+    public JsonNode encodeSpatialResourcesAsJsonNode(List<SpatialResource> spatialResource) {
         ObjectNode rootNode = mapper.createObjectNode();
         rootNode.put(FIELD_NAME_TYPE, TYPE_VALUE_FEATURE_COLLECTION);
         ArrayNode featuresArrayNode = mapper.createArrayNode();
         spatialResource.forEach(s -> {
             try {
-                featuresArrayNode.add(encodeSpatialresourceAsJsonNode(s));
+                featuresArrayNode.add(encodeSpatialResourceAsJsonNode(s));
             } catch (JsonProcessingException e) {
                 LOG.warn("Could not encode geometry: {}", s.getGeom().toText());
             }
         });
         rootNode.set(FIELD_NAME_FEATURES, featuresArrayNode);
-        return rootNode.textValue();
+        return rootNode;
     }
 
-    public JsonNode encodeSpatialresourceAsJsonNode(SpatialResource resource) throws JsonProcessingException {
+    public String encodeSpatialResourcesAsString(List<SpatialResource> spatialResource) throws JsonProcessingException {
+        return mapper.writeValueAsString(spatialResource);
+    }
+
+    public JsonNode encodeSpatialResourceAsJsonNode(SpatialResource resource) throws JsonProcessingException {
         ObjectNode featureNode = mapper.createObjectNode();
         featureNode.put(FIELD_NAME_TYPE, TYPE_VALUE_FEATURE);
         featureNode.set(FIELD_NAME_PROPERTIES, encodeProperties(resource));
