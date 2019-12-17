@@ -1,17 +1,13 @@
 package org.n52.kommonitor.importer.decoder;
 
-import org.geotools.data.DataUtilities;
-import org.geotools.data.Query;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.filter.Filters;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.filter.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,11 +17,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import static org.opengis.filter.Filter.INCLUDE;
 
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
@@ -48,20 +41,20 @@ public class FeatureDecoder {
      * @throws DecodingException
      */
     public SpatialResource decodeFeature(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
-        String id = getStringPropertyValue(feature, propertyMapping.getIdentifierProperty());
-        String name = getStringPropertyValue(feature, propertyMapping.getNameProperty());
+        String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
+        String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
         LocalDate startDate = propertyMapping.getValidStartDateProperty() == null ? null :
-                getDatePropertyValue(feature, propertyMapping.getValidStartDateProperty());
+                getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
         LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
-                getDatePropertyValue(feature, propertyMapping.getValidEndDateProperty());
+                getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
         Geometry geom = getGeometry(feature, feature.getFeatureType());
 
         return new SpatialResource(id, name, geom, null, startDate, endDate);
     }
 
     /**
-     *      * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
-     *      * and the geometry
+     * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
+     * and the geometry
      *
      * @param featureCollection
      * @param propertyMappingType
@@ -103,7 +96,7 @@ public class FeatureDecoder {
      * @return the value of the fetched feature property as String
      * @throws DecodingException if the property value could not be parsed as String
      */
-    protected String getStringPropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {
+    protected String getPropertyValueAsString(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
         if (!(propertyValue instanceof String)) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, String.class.getName()));
@@ -119,7 +112,7 @@ public class FeatureDecoder {
      * @return the value of the fetched feature property as Date
      * @throws DecodingException if the property value could not be parsed as {@link LocalDate}
      */
-    protected LocalDate getDatePropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {
+    protected LocalDate getPropertyValueAsDate(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
         LocalDate date = null;
         if (propertyValue instanceof String) {
@@ -137,7 +130,7 @@ public class FeatureDecoder {
         return date;
     }
 
-    private Object getPropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {
+    protected Object getPropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = feature.getAttribute(propertyName);
         if (propertyValue == null) {
             throw new DecodingException(String.format("Property '%s' does not exist.", propertyName));
