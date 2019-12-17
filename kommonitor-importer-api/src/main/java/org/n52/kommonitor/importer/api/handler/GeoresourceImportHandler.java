@@ -8,6 +8,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ImportGeoresourcePOSTInputType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,15 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
     private GeoresourcesApi apiClient;
 
     @Override
-    public ResponseEntity importResource(ImportGeoresourcePOSTInputType importResourceType, AbstractConverter converter, ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException, RestClientException {
-        List<SpatialResource> spatialResources = converter.convertSpatialResources(converterDefinition, dataset, importResourceType.getPropertyMapping());
+    public ResponseEntity importResource(ImportGeoresourcePOSTInputType importResourceType,
+                                         AbstractConverter converter,
+                                         ConverterDefinitionType converterDefinition,
+                                         Dataset dataset)
+            throws ConverterException, RestClientException, ImportParameterException {
+        List<SpatialResource> spatialResources = converter.convertSpatialResources(
+                converterDefinition,
+                dataset,
+                importResourceType.getPropertyMapping());
         GeoresourcePOSTInputType georesourcePostInput = encoder.encode(importResourceType, spatialResources);
 
         ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);

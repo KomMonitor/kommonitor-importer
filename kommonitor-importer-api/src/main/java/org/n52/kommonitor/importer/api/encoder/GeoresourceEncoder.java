@@ -35,7 +35,7 @@ public class GeoresourceEncoder {
         geoResource.setPoiMarkerColor(org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType.PoiMarkerColorEnum.valueOf(importType.getPoiMarkerColor().name()));
         geoResource.setPoiSymbolBootstrap3Name(importType.getPoiSymbolBootstrap3Name());
         geoResource.setPoiSymbolColor(org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType.PoiSymbolColorEnum.valueOf(importType.getPoiSymbolColor().name()));
-        geoResource.setGeoJsonString(spatialResourceEncoder.encodeSpatialresources(spatialResource));
+        geoResource.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResource));
         return geoResource;
     }
 
