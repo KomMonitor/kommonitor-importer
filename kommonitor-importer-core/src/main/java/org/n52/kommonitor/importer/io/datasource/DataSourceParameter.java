@@ -4,7 +4,7 @@ package org.n52.kommonitor.importer.io.datasource;
  * Encapsulates a specific datasource related parameter that is required for retrieving a dataset
  * from a certain data source.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class DataSourceParameter {
 

@@ -16,7 +16,7 @@ import java.util.List;
  * Encodes a {@link ImportGeoresourcePOSTInputType} and a {@link List<SpatialResource>} into a {@link GeoresourcePOSTInputType}
  * for usage within a {@link org.n52.kommonitor.importer.api.GeoresourcesApi} client.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class GeoresourceEncoder {

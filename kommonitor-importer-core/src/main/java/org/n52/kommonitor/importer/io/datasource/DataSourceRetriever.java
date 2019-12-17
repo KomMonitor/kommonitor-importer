@@ -8,7 +8,7 @@ import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
 /**
  * An interface for retrieving datasets from a certain datasource type
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public interface DataSourceRetriever<T> {
 

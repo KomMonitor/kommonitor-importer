@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Helper class for encoding {@link List<SpatialResource>} into GeoJSON FeatureCollection
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class SpatialResourceJsonEncoder implements InitializingBean {

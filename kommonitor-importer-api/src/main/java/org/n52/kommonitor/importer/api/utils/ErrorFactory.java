@@ -5,7 +5,7 @@ import org.n52.kommonitor.importer.models.Error;
 /**
  * Helper class for constructing {@link Error} objects for HTTP responses
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ErrorFactory {
 

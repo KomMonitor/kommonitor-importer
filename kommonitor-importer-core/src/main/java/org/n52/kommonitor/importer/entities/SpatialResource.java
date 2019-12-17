@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * A spatial resource that encapsulates the GeoJSON values for spatial units and georesources
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class SpatialResource {
     private String id;

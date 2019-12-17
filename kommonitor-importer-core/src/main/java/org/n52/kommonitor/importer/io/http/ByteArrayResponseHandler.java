@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Handler for {@link HttpResponse} instances that generates a byte array from the response object
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ByteArrayResponseHandler implements ResponseHandler<byte[]> {
     @Override

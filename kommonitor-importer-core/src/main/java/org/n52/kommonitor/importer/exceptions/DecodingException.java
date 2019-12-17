@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.exceptions;
 /**
  * Indicates that a decoding operation failed
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class DecodingException extends Exception {
 

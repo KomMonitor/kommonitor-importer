@@ -4,7 +4,7 @@ package org.n52.kommonitor.importer.converter;
  * Encapsulates additional converter specific parameters that are required for converting a dataset from a certain
  * datasource into the internal KomMonitor models for spatial resources and indicator values.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ConverterParameter {
 

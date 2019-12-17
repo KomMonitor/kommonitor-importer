@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.entities;
 import java.util.List;
 
 /**
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class Indicator {
 

@@ -30,7 +30,7 @@ import java.util.Optional;
  * The import has to be implemented by extending classes by the use of a certain API client that will send a typed
  * import request to the KomMonitor Data Management.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public abstract class AbstractImportHandler<T> {
 

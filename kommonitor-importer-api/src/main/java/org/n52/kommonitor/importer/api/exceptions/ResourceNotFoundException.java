@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.api.exceptions;
 /**
  * Indicates that a certain resource was not found
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(Class clazz, String type) {

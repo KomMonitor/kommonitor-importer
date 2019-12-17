@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.exceptions;
 /**
  * An exception for errors that occur when trying to retrieve a dataset from a datasource
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class DataSourceRetrieverException extends Exception {
     public DataSourceRetrieverException() {

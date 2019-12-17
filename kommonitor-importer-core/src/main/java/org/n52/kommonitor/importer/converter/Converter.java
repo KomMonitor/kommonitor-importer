@@ -16,7 +16,7 @@ import java.util.List;
  * An interface for converting spatial resources and indicators from a certain dataset format into
  * internal KomMonitor models for spatial resources and indicator values
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public interface Converter {
 

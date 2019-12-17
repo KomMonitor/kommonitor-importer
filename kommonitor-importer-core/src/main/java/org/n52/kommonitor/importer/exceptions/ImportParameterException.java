@@ -5,7 +5,7 @@ package org.n52.kommonitor.importer.exceptions;
  * or {@link org.n52.kommonitor.importer.converter.ConverterParameter}) has been defined so that
  * an import request can not be resolved properly.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ImportParameterException extends RuntimeException {
     public ImportParameterException() {

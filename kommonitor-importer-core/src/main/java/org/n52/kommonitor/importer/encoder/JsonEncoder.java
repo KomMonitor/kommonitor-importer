@@ -6,7 +6,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 /**
  * Helper class to encode spatial resources and indicators into JSON format.
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class JsonEncoder {
 

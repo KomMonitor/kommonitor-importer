@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class WFSv1Converter extends AbstractConverter {

@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.api.exceptions;
 /**
  * Indicates that the import of a new resource failed
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class ImportException extends RuntimeException {
 

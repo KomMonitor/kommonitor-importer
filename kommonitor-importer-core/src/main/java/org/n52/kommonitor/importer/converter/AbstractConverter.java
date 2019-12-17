@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public abstract class AbstractConverter implements InitializingBean, Converter {
 

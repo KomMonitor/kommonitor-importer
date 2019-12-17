@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Helper class for executing HTTP requests
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public class HttpHelper {
 

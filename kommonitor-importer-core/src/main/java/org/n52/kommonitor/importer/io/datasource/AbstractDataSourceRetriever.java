@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * An abstract data source retriever that encapsulates definitions for supported data source types
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public abstract class AbstractDataSourceRetriever<T> implements DataSourceRetriever<T>, InitializingBean {
 

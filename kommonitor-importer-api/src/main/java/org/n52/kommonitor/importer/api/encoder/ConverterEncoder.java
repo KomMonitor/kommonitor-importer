@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Helper class for encoding an {@link AbstractConverter} into {@link ConverterType}
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class ConverterEncoder {

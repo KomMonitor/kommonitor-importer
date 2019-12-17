@@ -30,7 +30,7 @@ import static org.opengis.filter.Filter.INCLUDE;
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
  *
- * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class FeatureDecoder {
@@ -38,6 +38,15 @@ public class FeatureDecoder {
     private static final Logger LOG = LoggerFactory.getLogger(FeatureDecoder.class);
 
 
+    /**
+     * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
+     * and the geometry
+     *
+     * @param feature         {@link SimpleFeature} to decode
+     * @param propertyMapping definition of property mappings
+     * @return {@link SpatialResource}
+     * @throws DecodingException
+     */
     public SpatialResource decodeFeature(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
         String id = getStringPropertyValue(feature, propertyMapping.getIdentifierProperty());
         String name = getStringPropertyValue(feature, propertyMapping.getNameProperty());
@@ -50,6 +59,14 @@ public class FeatureDecoder {
         return new SpatialResource(id, name, geom, null, startDate, endDate);
     }
 
+    /**
+     *      * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
+     *      * and the geometry
+     *
+     * @param featureCollection
+     * @param propertyMappingType
+     * @return
+     */
     public List<SpatialResource> decodeFeatureCollection(SimpleFeatureCollection featureCollection,
                                                          SpatialResourcePropertyMappingType propertyMappingType) {
         List<SpatialResource> result = new ArrayList<>();
