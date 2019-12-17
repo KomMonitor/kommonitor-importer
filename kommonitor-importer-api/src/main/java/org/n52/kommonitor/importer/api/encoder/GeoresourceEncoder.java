@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api.encoder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.models.CommonMetadataType;
@@ -23,7 +24,7 @@ public class GeoresourceEncoder {
     @Autowired
     private SpatialResourceJsonEncoder spatialResourceEncoder;
 
-    public GeoresourcePOSTInputType encode(ImportGeoresourcePOSTInputType importType, List<SpatialResource> spatialResource) {
+    public GeoresourcePOSTInputType encode(ImportGeoresourcePOSTInputType importType, List<SpatialResource> spatialResource) throws JsonProcessingException {
         GeoresourcePOSTInputType geoResource = new GeoresourcePOSTInputType();
         geoResource.setAllowedRoles(importType.getAllowedRoles());
         geoResource.setApplicableTopics(importType.getApplicableTopics());

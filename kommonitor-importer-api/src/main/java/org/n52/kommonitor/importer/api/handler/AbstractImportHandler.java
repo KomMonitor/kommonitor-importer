@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -15,6 +16,7 @@ import org.n52.kommonitor.importer.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
@@ -51,46 +53,22 @@ public abstract class AbstractImportHandler<T> {
      * Data Management API if the import was succesful or {@link ResponseEntity<Error>} that holds an error message
      * if the import failed.
      */
-    public ResponseEntity handleImportRequest(T importResourceType, DataSourceDefinitionType datasourceDefinition, ConverterDefinitionType converterDefinition) {
+    public ResponseEntity handleImportRequest(T importResourceType, DataSourceDefinitionType datasourceDefinition, ConverterDefinitionType converterDefinition) throws ImportParameterException, ImportException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDatasourceRetriever(datasourceDefinition.getType().name());
 
         if (!retrieverOpt.isPresent()) {
-            String message = "Datasource type not found: " + datasourceDefinition.getType().name();
-            LOG.error(message, message);
-            Error error = ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(),
-                    "No support for the specified datasource type: " + datasourceDefinition.getType().name());
-            ResponseEntity entity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            return entity;
+            throw new ImportParameterException("No support for the specified datasource type: " + datasourceDefinition.getType().name());
         }
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         if (!converterOpt.isPresent()) {
-            String message = "Converter type not found: " + converterDefinition.getName();
-            LOG.error(message, message);
-            Error error = ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(),
-                    "No support for the specified converter: " + converterDefinition.getName());
-            ResponseEntity entity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            return entity;
+            throw new ImportParameterException("No support for the specified converter: " + converterDefinition.getName());
         }
         try {
             Dataset dataset = retrieverOpt.get().retrieveDataset(datasourceDefinition);
 
             return importResource(importResourceType, converterOpt.get(), converterDefinition, dataset);
         } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
-            String message = "Error while importing resource: ";
-            LOG.error(message, ex.getMessage());
-            LOG.debug(message, ex);
-            Error error = ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    ex.getMessage());
-            ResponseEntity entity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
-            return entity;
-        } catch (ImportParameterException ex) {
-            String message = "Invalid request parameters: ";
-            LOG.error(message, ex.getMessage());
-            LOG.debug(message, ex);
-            Error error = ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(),
-                    ex.getMessage());
-            ResponseEntity entity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-            return entity;
+            throw new ImportException("Error while importing resource", ex);
         }
     }
 

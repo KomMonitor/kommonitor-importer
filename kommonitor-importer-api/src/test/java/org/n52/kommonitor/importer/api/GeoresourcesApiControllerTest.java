@@ -204,7 +204,7 @@ public class GeoresourcesApiControllerTest {
         return geoImport;
     }
 
-    private void prepareMocks() throws ConverterException {
+    private void prepareMocks() throws ConverterException, ImportParameterException {
         Mockito.when(converter.convertSpatialResources(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),

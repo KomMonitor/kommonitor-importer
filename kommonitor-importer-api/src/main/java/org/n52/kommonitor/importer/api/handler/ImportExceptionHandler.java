@@ -1,14 +1,16 @@
 package org.n52.kommonitor.importer.api.handler;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class ImportExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ImportExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         String fieldErrorMessage = "";
@@ -47,6 +49,27 @@ public class ImportExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(),
                         String.format("%s%n%s", fieldErrorMessage, globalErrorMessage)));
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity handleResourceNotFoundExceptions(ResourceNotFoundException ex) {
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(ImportParameterException.class)
+    public ResponseEntity handleImportParameterExceptions(ImportParameterException ex) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(ImportException.class)
+    public ResponseEntity handleImportExceptions(ImportException ex) {
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
     }
 
 }

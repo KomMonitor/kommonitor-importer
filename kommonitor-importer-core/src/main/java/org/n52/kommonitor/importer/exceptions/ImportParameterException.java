@@ -7,7 +7,7 @@ package org.n52.kommonitor.importer.exceptions;
  *
  * @author @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class ImportParameterException extends Exception {
+public class ImportParameterException extends RuntimeException {
     public ImportParameterException() {
         super();
     }
