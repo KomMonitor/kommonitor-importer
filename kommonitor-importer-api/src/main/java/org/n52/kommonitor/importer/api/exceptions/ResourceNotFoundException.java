@@ -1,4 +1,4 @@
-package org.n52.kommonitor.importer.api;
+package org.n52.kommonitor.importer.api.exceptions;
 
 /**
  * Indicates that a certain resource was not found
