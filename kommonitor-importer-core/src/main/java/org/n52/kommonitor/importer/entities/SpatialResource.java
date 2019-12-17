@@ -2,6 +2,7 @@ package org.n52.kommonitor.importer.entities;
 
 import org.locationtech.jts.geom.Geometry;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -19,11 +20,25 @@ public class SpatialResource {
     private Optional<LocalDate> startDate;
     private Optional<LocalDate> endDate;
 
+    public SpatialResource() {
+
+    }
+
+
+    public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate) {
+        this.id = id;
+        this.name = name;
+        this.geom = geom;
+        this.arisenFrom = Optional.ofNullable(arisenFrom);
+        this.startDate = Optional.ofNullable(startDate);
+        this.endDate = Optional.ofNullable(endDate);
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NotNull String id) {
         this.id = id;
     }
 
@@ -31,7 +46,7 @@ public class SpatialResource {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
@@ -39,7 +54,7 @@ public class SpatialResource {
         return geom;
     }
 
-    public void setGeom(Geometry geom) {
+    public void setGeom(@NotNull Geometry geom) {
         this.geom = geom;
     }
 
