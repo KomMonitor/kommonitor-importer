@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
+import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterParameter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
-@ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class})
+@ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ImportExceptionHandler.class})
 public class ConvertersApiControllerTest {
 
     private static final String CONVERTER_NAME = "Test converter";
@@ -90,7 +91,8 @@ public class ConvertersApiControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.message")
-                        .value("No converter found for the specified name: " + CONVERTER_NAME));
+                        .value(String.format("Resource '%s' with identifier '%s' was not found.",
+                                AbstractConverter.class.getName(), CONVERTER_NAME)));
     }
 
     private void prepareMocks() {

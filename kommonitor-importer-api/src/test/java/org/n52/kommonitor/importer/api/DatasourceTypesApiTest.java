@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
+import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
@@ -31,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
-@ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class})
+@ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ImportExceptionHandler.class})
 public class DatasourceTypesApiTest {
 
     private static final String DATASOURCE_TYPE = "INLINE";
@@ -85,11 +86,13 @@ public class DatasourceTypesApiTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.message")
-                        .value("No support for the specified datasource type: " + DATASOURCE_TYPE));
+                        .value(String.format("Resource '%s' with identifier '%s' was not found.",
+                                AbstractDataSourceRetriever.class.getName(), DATASOURCE_TYPE)));
     }
 
     private void prepareMocks() {
         Mockito.when(retriever.getType()).thenReturn(DATASOURCE_TYPE);
-        Mockito.when(retriever.getDataSourceParameters()).thenReturn(new HashSet<>(Arrays.asList(new DataSourceParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
+        Mockito.when(retriever.getDataSourceParameters())
+                .thenReturn(new HashSet<>(Arrays.asList(new DataSourceParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
     }
 }

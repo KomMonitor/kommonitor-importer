@@ -8,6 +8,7 @@ import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.Converter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
+import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.models.ConverterType;
 import org.n52.kommonitor.importer.models.Error;
 import org.slf4j.Logger;
@@ -50,9 +51,7 @@ public class ConvertersApiController implements ConvertersApi {
     public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);
         if (!converterOpt.isPresent()) {
-            Error error = ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), "No converter found for the specified name: " + name);
-            ResponseEntity entity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-            return entity;
+            throw new ResourceNotFoundException(AbstractConverter.class, name);
         }
         return new ResponseEntity<ConverterType>(encoder.encode(converterOpt.get()), HttpStatus.OK);
 
