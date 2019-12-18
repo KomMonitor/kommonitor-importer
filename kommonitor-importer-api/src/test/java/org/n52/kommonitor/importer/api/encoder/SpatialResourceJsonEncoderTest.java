@@ -26,8 +26,6 @@ public class SpatialResourceJsonEncoderTest {
     private static final String RESOURCE_ARISEN_FROM = "testRefId";
     private static final String RESOURCE_TYPE_FEATURE = "Feature";
     private static final String RESOURCE_TYPE_FEATURE_COLLECTION = "FeatureCollection";
-    private static final String RESOURCE_FIELD_NAME_GEOMETRY = "geometry";
-    private static final String RESOURCE_FIELD_NAME_PROPERTIES = "properties";
 
     private LocalDate startDate;
     private LocalDate endDate;
