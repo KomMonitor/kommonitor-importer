@@ -31,7 +31,6 @@ public class SpatialResourceJsonEncoderTest {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private Geometry geom;
     private SpatialResource resource;
     private SpatialResourceJsonEncoder encoder;
 
