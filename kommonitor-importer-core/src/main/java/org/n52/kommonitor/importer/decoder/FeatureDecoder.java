@@ -43,13 +43,15 @@ public class FeatureDecoder {
     public SpatialResource decodeFeature(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
         String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
         String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
+        String arisenFrom = propertyMapping.getArisenFromProperty() == null ? null :
+                getPropertyValueAsString(feature, propertyMapping.getArisenFromProperty());
         LocalDate startDate = propertyMapping.getValidStartDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
         LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
         Geometry geom = getGeometry(feature, feature.getFeatureType());
 
-        return new SpatialResource(id, name, geom, null, startDate, endDate);
+        return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate);
     }
 
     /**
