@@ -31,19 +31,19 @@ public abstract class AbstractDataSourceRetriever<T> implements DataSourceRetrie
         return parameterValueList.stream()
                 .filter(p -> p.getName().equals(paramName))
                 .findFirst()
-                .map(p -> p.getValue());
+                .map(ParameterValueType::getValue);
     }
 
     public Optional<Integer> getParameterIntegerValue(String paramName, List<ParameterValueType> parameterValueList) {
-        return getParameterValue(paramName, parameterValueList).map(p -> Integer.parseInt(p));
+        return getParameterValue(paramName, parameterValueList).map(Integer::parseInt);
     }
 
     public Optional<Float> getParameterFloatValue(String paramName, List<ParameterValueType> parameterValueList) {
-        return getParameterValue(paramName, parameterValueList).map(p -> Float.parseFloat(p));
+        return getParameterValue(paramName, parameterValueList).map(Float::parseFloat);
     }
 
     public Optional<Boolean> getParameterBooleanValue(String paramName, List<ParameterValueType> parameterValueList) {
-        return getParameterValue(paramName, parameterValueList).map(p -> Boolean.parseBoolean(p));
+        return getParameterValue(paramName, parameterValueList).map(Boolean::parseBoolean);
     }
 
     protected abstract String initType();

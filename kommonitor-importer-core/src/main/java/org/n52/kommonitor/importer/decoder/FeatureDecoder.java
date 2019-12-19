@@ -55,11 +55,11 @@ public class FeatureDecoder {
     }
 
     /**
-     * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
+     * Decode a {@link SimpleFeatureCollection} as {@link List<SpatialResource>} by mapping certain properties
      * and the geometry
      *
-     * @param featureCollection
-     * @param propertyMappingType
+     * @param featureCollection   {@link SimpleFeatureCollection} to decode
+     * @param propertyMappingType definition of property mappings
      * @return
      */
     public List<SpatialResource> decodeFeatureCollection(SimpleFeatureCollection featureCollection,
