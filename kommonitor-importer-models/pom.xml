@@ -58,7 +58,7 @@
                                     <!-- pass any necessary config options -->
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
-                                        <dateLibrary>joda</dateLibrary>
+                                        <dateLibrary>java8</dateLibrary>
                                         <serializableModel>true</serializableModel>
                                     </configOptions>
                                 </configuration>

@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
 
 public class ConverterType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class ConverterType  implements Serializable {
 
   public ConverterType addSchemasItem(String schemasItem) {
     if (this.schemas == null) {
-      this.schemas = new ArrayList<String>();
+      this.schemas = new ArrayList<>();
     }
     this.schemas.add(schemasItem);
     return this;
@@ -118,7 +118,7 @@ public class ConverterType  implements Serializable {
 
   public ConverterType addEncodingsItem(String encodingsItem) {
     if (this.encodings == null) {
-      this.encodings = new ArrayList<String>();
+      this.encodings = new ArrayList<>();
     }
     this.encodings.add(encodingsItem);
     return this;
@@ -146,7 +146,7 @@ public class ConverterType  implements Serializable {
 
   public ConverterType addParametersItem(ParameterType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ParameterType>();
+      this.parameters = new ArrayList<>();
     }
     this.parameters.add(parametersItem);
     return this;

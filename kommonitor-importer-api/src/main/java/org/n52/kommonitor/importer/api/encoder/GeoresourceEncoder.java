@@ -42,8 +42,8 @@ public class GeoresourceEncoder {
 
     private org.n52.kommonitor.datamanagement.api.models.PeriodOfValidityType encodePeriodOfValidity(PeriodOfValidityType pOV) {
         org.n52.kommonitor.datamanagement.api.models.PeriodOfValidityType res = new org.n52.kommonitor.datamanagement.api.models.PeriodOfValidityType();
-        res.setEndDate(LocalDate.of(pOV.getEndDate().getYear(), pOV.getEndDate().getMonthOfYear(), pOV.getEndDate().getDayOfMonth()));
-        res.setStartDate(LocalDate.of(pOV.getStartDate().getYear(), pOV.getStartDate().getMonthOfYear(), pOV.getStartDate().getDayOfMonth()));
+        res.setStartDate(pOV.getStartDate());
+        res.setEndDate(pOV.getEndDate());
         return res;
     }
 
@@ -53,7 +53,7 @@ public class GeoresourceEncoder {
         res.setDatabasis(meta.getDatabasis());
         res.setDatasource(meta.getDatasource());
         res.setDescription(meta.getDescription());
-        res.setLastUpdate(LocalDate.of(meta.getLastUpdate().getYear(), meta.getLastUpdate().getMonthOfYear(), meta.getLastUpdate().getDayOfMonth()));
+        res.setLastUpdate(meta.getLastUpdate());
         res.setLiterature(meta.getLiterature());
         res.setNote(meta.getNote());
         res.setSridEPSG(meta.getSridEPSG());

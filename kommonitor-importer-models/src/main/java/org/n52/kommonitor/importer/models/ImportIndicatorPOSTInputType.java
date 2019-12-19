@@ -24,7 +24,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new indicator")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -79,7 +79,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("applicableTopics")
   @Valid
-  private List<String> applicableTopics = new ArrayList<String>();
+  private List<String> applicableTopics = new ArrayList<>();
 
   @JsonProperty("metadata")
   private CommonMetadataType metadata = null;
@@ -137,7 +137,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("tags")
   @Valid
-  private List<String> tags = new ArrayList<String>();
+  private List<String> tags = new ArrayList<>();
 
   @JsonProperty("lowestSpatialUnitForComputation")
   private String lowestSpatialUnitForComputation = null;
@@ -147,7 +147,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("allowedRoles")
   @Valid
-  private List<String> allowedRoles = new ArrayList<String>();
+  private List<String> allowedRoles = new ArrayList<>();
 
   @JsonProperty("referencesToOtherIndicators")
   @Valid
@@ -503,7 +503,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   public ImportIndicatorPOSTInputType addReferencesToOtherIndicatorsItem(ResourceReferenceType referencesToOtherIndicatorsItem) {
     if (this.referencesToOtherIndicators == null) {
-      this.referencesToOtherIndicators = new ArrayList<ResourceReferenceType>();
+      this.referencesToOtherIndicators = new ArrayList<>();
     }
     this.referencesToOtherIndicators.add(referencesToOtherIndicatorsItem);
     return this;
@@ -532,7 +532,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   public ImportIndicatorPOSTInputType addReferencesToGeoresourcesItem(ResourceReferenceType referencesToGeoresourcesItem) {
     if (this.referencesToGeoresources == null) {
-      this.referencesToGeoresources = new ArrayList<ResourceReferenceType>();
+      this.referencesToGeoresources = new ArrayList<>();
     }
     this.referencesToGeoresources.add(referencesToGeoresourcesItem);
     return this;

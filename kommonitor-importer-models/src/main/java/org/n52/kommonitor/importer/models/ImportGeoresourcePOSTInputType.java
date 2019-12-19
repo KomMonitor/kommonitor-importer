@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new georesource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
 
   @JsonProperty("applicableTopics")
   @Valid
-  private List<String> applicableTopics = new ArrayList<String>();
+  private List<String> applicableTopics = new ArrayList<>();
 
   @JsonProperty("isPOI")
   private Boolean isPOI = false;
@@ -234,7 +234,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
 
   public ImportGeoresourcePOSTInputType addAllowedRolesItem(String allowedRolesItem) {
     if (this.allowedRoles == null) {
-      this.allowedRoles = new ArrayList<String>();
+      this.allowedRoles = new ArrayList<>();
     }
     this.allowedRoles.add(allowedRolesItem);
     return this;

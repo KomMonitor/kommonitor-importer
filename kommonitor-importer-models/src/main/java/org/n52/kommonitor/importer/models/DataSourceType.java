@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Holds various information about the datasource for importing new resources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T09:26:54.596+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
 
 public class DataSourceType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public class DataSourceType  implements Serializable {
 
   public DataSourceType addParametersItem(ParameterType parametersItem) {
     if (this.parameters == null) {
-      this.parameters = new ArrayList<ParameterType>();
+      this.parameters = new ArrayList<>();
     }
     this.parameters.add(parametersItem);
     return this;
