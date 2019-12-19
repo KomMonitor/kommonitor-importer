@@ -59,7 +59,7 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     }
 
     public String encodeSpatialResourcesAsString(List<SpatialResource> spatialResource) throws JsonProcessingException {
-        return mapper.writeValueAsString(spatialResource);
+        return mapper.writeValueAsString(encodeSpatialResourcesAsJsonNode(spatialResource));
     }
 
     public JsonNode encodeSpatialResourceAsJsonNode(SpatialResource resource) throws JsonProcessingException {
