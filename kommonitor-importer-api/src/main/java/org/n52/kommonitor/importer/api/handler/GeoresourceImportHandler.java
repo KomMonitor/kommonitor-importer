@@ -37,7 +37,7 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
     private GeoresourcesApi apiClient;
 
     @Override
-    public ResponseEntity importResource(ImportGeoresourcePOSTInputType importResourceType,
+    public ResponseEntity<List<String>> importResource(ImportGeoresourcePOSTInputType importResourceType,
                                          AbstractConverter converter,
                                          ConverterDefinitionType converterDefinition,
                                          Dataset dataset)

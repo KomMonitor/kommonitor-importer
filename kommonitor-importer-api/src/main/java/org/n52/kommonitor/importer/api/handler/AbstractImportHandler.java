@@ -53,7 +53,7 @@ public abstract class AbstractImportHandler<T> {
      * Data Management API if the import was succesful or {@link ResponseEntity<Error>} that holds an error message
      * if the import failed.
      */
-    public ResponseEntity handleImportRequest(T importResourceType, DataSourceDefinitionType datasourceDefinition, ConverterDefinitionType converterDefinition) throws ImportParameterException, ImportException {
+    public ResponseEntity<List<String>> handleImportRequest(T importResourceType, DataSourceDefinitionType datasourceDefinition, ConverterDefinitionType converterDefinition) throws ImportParameterException, ImportException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDatasourceRetriever(datasourceDefinition.getType().name());
 
         if (!retrieverOpt.isPresent()) {
@@ -72,5 +72,5 @@ public abstract class AbstractImportHandler<T> {
         }
     }
 
-    public abstract ResponseEntity importResource(T importResourceType, AbstractConverter converter, ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
+    public abstract ResponseEntity<List<String>> importResource(T importResourceType, AbstractConverter converter, ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
 }
