@@ -399,7 +399,7 @@ definitions:
       validEndDateProperty:
         type: string
         description: the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)
-      arisenFrom:
+      arisenFromProperty:
         type: string
         description: the property that contains an ID that references a former spatial feature that over time evolved into the respective feature
 

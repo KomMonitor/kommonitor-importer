@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T09:26:54.596+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T09:35:29.090+01:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -32,8 +32,8 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   @JsonProperty("validEndDateProperty")
   private String validEndDateProperty = null;
 
-  @JsonProperty("arisenFrom")
-  private String arisenFrom = null;
+  @JsonProperty("arisenFromProperty")
+  private String arisenFromProperty = null;
 
   public SpatialResourcePropertyMappingType identifierProperty(String identifierProperty) {
     this.identifierProperty = identifierProperty;
@@ -116,24 +116,24 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     this.validEndDateProperty = validEndDateProperty;
   }
 
-  public SpatialResourcePropertyMappingType arisenFrom(String arisenFrom) {
-    this.arisenFrom = arisenFrom;
+  public SpatialResourcePropertyMappingType arisenFromProperty(String arisenFromProperty) {
+    this.arisenFromProperty = arisenFromProperty;
     return this;
   }
 
   /**
    * the property that contains an ID that references a former spatial feature that over time evolved into the respective feature
-   * @return arisenFrom
+   * @return arisenFromProperty
   **/
   @ApiModelProperty(value = "the property that contains an ID that references a former spatial feature that over time evolved into the respective feature")
 
 
-  public String getArisenFrom() {
-    return arisenFrom;
+  public String getArisenFromProperty() {
+    return arisenFromProperty;
   }
 
-  public void setArisenFrom(String arisenFrom) {
-    this.arisenFrom = arisenFrom;
+  public void setArisenFromProperty(String arisenFromProperty) {
+    this.arisenFromProperty = arisenFromProperty;
   }
 
 
@@ -150,12 +150,12 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
         Objects.equals(this.nameProperty, spatialResourcePropertyMappingType.nameProperty) &&
         Objects.equals(this.validStartDateProperty, spatialResourcePropertyMappingType.validStartDateProperty) &&
         Objects.equals(this.validEndDateProperty, spatialResourcePropertyMappingType.validEndDateProperty) &&
-        Objects.equals(this.arisenFrom, spatialResourcePropertyMappingType.arisenFrom);
+        Objects.equals(this.arisenFromProperty, spatialResourcePropertyMappingType.arisenFromProperty);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFrom);
+    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty);
   }
 
   @Override
@@ -167,7 +167,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     sb.append("    nameProperty: ").append(toIndentedString(nameProperty)).append("\n");
     sb.append("    validStartDateProperty: ").append(toIndentedString(validStartDateProperty)).append("\n");
     sb.append("    validEndDateProperty: ").append(toIndentedString(validEndDateProperty)).append("\n");
-    sb.append("    arisenFrom: ").append(toIndentedString(arisenFrom)).append("\n");
+    sb.append("    arisenFromProperty: ").append(toIndentedString(arisenFromProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }
