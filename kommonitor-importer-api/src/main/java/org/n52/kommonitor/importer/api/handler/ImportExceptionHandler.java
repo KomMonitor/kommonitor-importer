@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
+import org.apache.commons.io.IOUtils;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.api.utils.ErrorFactory;
@@ -8,11 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +52,15 @@ public class ImportExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(),
                         String.format("%s%n%s", fieldErrorMessage, globalErrorMessage)));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity handleHttpMessageNotReadableExceptions(HttpMessageNotReadableException ex) throws IOException {
+        LOG.error("Failed reading HTTP message", ex.getMessage());
+        LOG.debug(String.format("Failed reading HTTP message with body: '%s'", IOUtils.toString(ex.getHttpInputMessage().getBody())), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getLocalizedMessage()));
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
