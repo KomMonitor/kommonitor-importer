@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GeoresourcesApiController.class)
-@ContextConfiguration(classes = {GeoresourcesApiController.class, ConverterEncoder.class, GeoresourceImportHandler.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {GeoresourcesApiController.class, GeoresourceImportHandler.class, ImportExceptionHandler.class})
 public class GeoresourcesApiControllerTest {
 
     private static final String CREATED_RESOURCE_ID = "testID";

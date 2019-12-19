@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "org.n52.kommonitor.importer" , "io.swagger.configuration"})
+@ComponentScan(basePackages = { "io.swagger", "org.n52.kommonitor.importer", "org.n52.kommonitor.datamanagement" , "io.swagger.configuration"})
 public class KommonitorImporterApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {

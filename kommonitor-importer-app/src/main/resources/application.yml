@@ -8,6 +8,9 @@ spring:
     date-format: io.swagger.RFC3339DateFormat
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+logging:
+  level:
+    org.n52.kommonitor: DEBUG
 springfox:
   documentation:
     swagger:

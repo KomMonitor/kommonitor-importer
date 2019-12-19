@@ -68,6 +68,9 @@ public abstract class AbstractImportHandler<T> {
 
             return importResource(importResourceType, converterOpt.get(), converterDefinition, dataset);
         } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
+            String baseMessage = "Error while importing resource.";
+            LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
+            LOG.debug(String.format("%s%n%s", baseMessage, importResourceType), ex);
             throw new ImportException("Error while importing resource", ex);
         }
     }
