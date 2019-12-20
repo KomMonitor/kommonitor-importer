@@ -64,6 +64,8 @@ public abstract class AbstractImportHandler<T> {
             throw new ImportParameterException("No support for the specified converter: " + converterDefinition.getName());
         }
         try {
+            LOG.info("Retrieving dataset from datasource: {}", datasourceDefinition.getType());
+            LOG.debug("Datasource definition: {}", datasourceDefinition);
             Dataset dataset = retrieverOpt.get().retrieveDataset(datasourceDefinition);
 
             return importResource(importResourceType, converterOpt.get(), converterDefinition, dataset);

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Controller
 public class ConvertersApiController implements ConvertersApi {
 
-    private static final Logger log = LoggerFactory.getLogger(ConvertersApiController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConvertersApiController.class);
 
     @Autowired
     private ConverterRepository converterRepository;
@@ -46,6 +46,8 @@ public class ConvertersApiController implements ConvertersApi {
     }
 
     public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
+        LOG.info("Recevied 'getConverterByName' request for name: {}", name);
+
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);
         if (!converterOpt.isPresent()) {
             throw new ResourceNotFoundException(AbstractConverter.class, name);
@@ -55,6 +57,8 @@ public class ConvertersApiController implements ConvertersApi {
     }
 
     public ResponseEntity<List<ConverterType>> getConverters() {
+        LOG.info("Recevied 'getConverters' request");
+
         return new ResponseEntity<List<ConverterType>>(converterRepository.getAll().stream()
                 .map(c -> encoder.simpleEncode((AbstractConverter) c))
                 .collect(Collectors.toList()), HttpStatus.OK);

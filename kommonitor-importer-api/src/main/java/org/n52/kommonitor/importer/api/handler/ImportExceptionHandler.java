@@ -65,7 +65,7 @@ public class ImportExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity handleResourceNotFoundExceptions(ResourceNotFoundException ex) {
-
+        LOG.error(String.format("No '%s' resource available with requested id '%s' ", ex.getResource(), ex.getType()));
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
     }

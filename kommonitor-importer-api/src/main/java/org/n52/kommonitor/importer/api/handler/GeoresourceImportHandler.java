@@ -12,6 +12,8 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ImportGeoresourcePOSTInputType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ import java.util.List;
 public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeoresourcePOSTInputType> {
     private static final String LOCATION_HEADER_KEY = "location";
 
+    private final static Logger LOG = LoggerFactory.getLogger(GeoresourceImportHandler.class);
+
     @Autowired
     private GeoresourceEncoder encoder;
 
@@ -38,10 +42,12 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
 
     @Override
     public ResponseEntity<List<String>> importResource(ImportGeoresourcePOSTInputType importResourceType,
-                                         AbstractConverter converter,
-                                         ConverterDefinitionType converterDefinition,
-                                         Dataset dataset)
+                                                       AbstractConverter converter,
+                                                       ConverterDefinitionType converterDefinition,
+                                                       Dataset dataset)
             throws ConverterException, RestClientException, ImportParameterException {
+        LOG.info("Converting dataset with converter: {}", converter.getName());
+        LOG.debug("Converter definition: {}", converterDefinition);
         List<SpatialResource> spatialResources = converter.convertSpatialResources(
                 converterDefinition,
                 dataset,
@@ -53,6 +59,8 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
             throw new ImportParameterException("Could not encode SpatialResoure.", ex);
         }
 
+        LOG.info("Perform 'addGeoresource' request for georesource dataset: {}", georesourcePostInput.getDatasetName());
+        LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
         ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
         return ResponseEntity

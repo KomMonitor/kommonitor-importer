@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Controller
 public class DatasourceTypesApiController implements DatasourceTypesApi {
 
-    private static final Logger log = LoggerFactory.getLogger(DatasourceTypesApiController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatasourceTypesApiController.class);
 
     @Autowired
     private DataSourceRetrieverRepository retrieverRepository;
@@ -46,6 +46,8 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
     }
 
     public ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource", required = true) @PathVariable("type") String type) {
+        LOG.info("Recevied 'getSupportedDataSourceTypeByType' request for type: {}", type);
+
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDatasourceRetriever(type);
         if (!retrieverOpt.isPresent()) {
             throw new ResourceNotFoundException(AbstractDataSourceRetriever.class, type);
@@ -54,6 +56,8 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
     }
 
     public ResponseEntity<List<DataSourceType>> getSupportedDataSourceTypes() {
+        LOG.info("Recevied 'getSupportedDataSourceTypes' request");
+        
         return new ResponseEntity<List<DataSourceType>>(retrieverRepository.getAll().stream()
                 .map(r -> encoder.simpleEncode(r))
                 .collect(Collectors.toList()), HttpStatus.OK);

@@ -36,7 +36,7 @@ import java.util.*;
 @Controller
 public class GeoresourcesApiController implements GeoresourcesApi {
 
-    private static final Logger log = LoggerFactory.getLogger(GeoresourcesApiController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GeoresourcesApiController.class);
 
     @Autowired
     private ConverterRepository converterRepository;
@@ -58,6 +58,8 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     }
 
     public ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+        LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getDatasetName());
+        LOG.debug("Received 'importGeoresource' request with body: {}", featureData);
         return importHandler.handleImportRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
