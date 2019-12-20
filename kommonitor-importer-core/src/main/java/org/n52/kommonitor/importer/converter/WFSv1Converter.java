@@ -34,9 +34,6 @@ public class WFSv1Converter extends AbstractConverter {
     private static final String WFS_SCHEMA_110 = "http://schemas.opengis.net/wfs/1.1.0/wfs.xsd";
     private static final String DEFAULT_ENCODING = "UTF-8";
 
-//    @Autowired
-//    private FeatureDecoder featureDecoder;
-
     @Override
     public String initName() {
         return NAME;
@@ -123,32 +120,5 @@ public class WFSv1Converter extends AbstractConverter {
 
         return new FeatureDecoder().decodeFeatureCollection(collection, propertyMapping);
     }
-
-//    private List<SpatialResource> convertSpatialResources(InputStream dataset, SpatialResourcePropertyMappingType propertyMapping) throws IOException, XmlException, XPathExpressionException, ParserConfigurationException, SAXException {
-//        List<SpatialResource> result = new ArrayList<>();
-//        String namespace = "http://www.kreis-re.de/namespaces/Geofachdaten";
-//        String schemaLocation = getClass().getResource("/kreis-re.xsd").toString();
-//        Configuration configuration = new ApplicationSchemaConfiguration(namespace, schemaLocation);
-//        Parser parser = new Parser(configuration);
-//
-//        SimpleFeatureCollection fc = (SimpleFeatureCollection) parser.parse(dataset);
-//
-//
-//        FeatureCollectionDocument featureColDoc = FeatureCollectionDocument.Factory.parse(dataset);
-//        FeaturePropertyType[] features = featureColDoc.getFeatureCollection2().getFeatureMemberArray();
-//
-//        List<SpatialResource> result = new ArrayList<>();
-//        XPath xPath = XPathFactory.newInstance().newXPath();
-//        String expression = "./" + propertyMapping.getIdentifierProperty();
-//        FeaturePropertyDocument featurePropDoc = FeaturePropertyDocument.Factory.parse(features[0].newInputStream());
-//        for (int i = 0; i < features.length; i++) {
-//            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder builder = builderFactory.newDocumentBuilder();
-//            Document xmlDocument = builder.parse(features[i].newInputStream());
-//            String id = xPath.compile(expression).evaluate(xmlDocument.getFirstChild());
-//            System.out.println(id);
-//        }
-//        return result;
-//    }
 }
 
