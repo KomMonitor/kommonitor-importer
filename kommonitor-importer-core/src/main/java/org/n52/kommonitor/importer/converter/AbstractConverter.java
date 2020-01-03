@@ -1,6 +1,9 @@
 package org.n52.kommonitor.importer.converter;
 
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Import;
 
 import java.util.Collections;
 import java.util.Set;
@@ -26,6 +29,42 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     @Override
     public String getName() {
         return name;
+    }
+
+    /**
+     * Validates if the specified {@link ConverterDefinitionType} contains definitions that are supported
+     * by a certain converter. If any definition contains values that are not supported, an {@link ImportParameterException}
+     * will be thrown.
+     *
+     * @param converterDefinition contains definition values for the converter
+     * @throws ImportParameterException that contains information about the unvalid definition values
+     */
+    public void validateDefinition(ConverterDefinitionType converterDefinition) throws ImportParameterException {
+        StringBuilder builder = new StringBuilder();
+        boolean isValid = true;
+        if (!supportedMimeType.equals(converterDefinition.getMimeType())) {
+            isValid = false;
+            builder.append(String.format("Unsupported MIME type '%s' for converter '%s'. Supported MIME type is '%s'.",
+                    converterDefinition.getMimeType(), getName(), getSupportedMimeType()));
+        }
+        if (!supportedSchemas.contains(converterDefinition.getSchema())) {
+            isValid = false;
+            builder.append(System.lineSeparator());
+            builder.append(String.format("Unsupported schema '%s' for converter '%s'. Supported schemas are '%s'.",
+                    converterDefinition.getSchema(), getName(), getSupportedSchemas()));
+        }
+        if (!supportedEncodings.contains(converterDefinition.getEncoding())) {
+            isValid = false;
+            builder.append(System.lineSeparator());
+            builder.append(String.format("Unsupported encoding '%s' for converter '%s'. Supported encodings are '%s'.",
+                    converterDefinition.getEncoding(), getName(), getSupportedEncodings()));
+        }
+        //TODO validate converterParameters
+        // (depends on the possibiility to differentiate between mandatory and optional parameters)
+
+        if (!isValid) {
+            throw new ImportParameterException(builder.toString());
+        }
     }
 
     public String getSupportedMimeType() {
