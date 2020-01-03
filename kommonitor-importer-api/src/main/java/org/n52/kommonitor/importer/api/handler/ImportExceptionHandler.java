@@ -57,8 +57,8 @@ public class ImportExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity handleHttpMessageNotReadableExceptions(HttpMessageNotReadableException ex) throws IOException {
-        LOG.error("Failed reading HTTP message", ex.getMessage());
-        LOG.debug(String.format("Failed reading HTTP message with body: '%s'", IOUtils.toString(ex.getHttpInputMessage().getBody())), ex);
+        LOG.error("Failed reading HTTP message: {}", ex.getMessage());
+        LOG.debug("Failed reading HTTP message", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getLocalizedMessage()));
     }

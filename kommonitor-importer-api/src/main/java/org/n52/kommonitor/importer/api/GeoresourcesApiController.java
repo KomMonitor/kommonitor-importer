@@ -59,7 +59,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
 
     public ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getDatasetName());
-        LOG.debug("Received 'importGeoresource' request with body: {}", featureData);
+        LOG.debug("'importGeoresource' POST request body: {}", featureData);
         return importHandler.handleImportRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
