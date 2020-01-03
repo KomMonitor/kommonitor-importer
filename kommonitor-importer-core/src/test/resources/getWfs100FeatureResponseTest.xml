@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection
+        xmlns:ns0="http://www.kreis-re.de/namespaces/Geofachdaten"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:gml="http://www.opengis.net/gml"
+        xmlns:ns2="http://www.opengis.net/ogc"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xml="http://www.w3.org/XML/1998/namespace"
+        xmlns:wfs="http://www.opengis.net/wfs"
+        xmlns:tas="http://www.supportgis.de/transaction/simulation"
+>
+    <gml:boundedBy>
+        <gml:Box>
+            <gml:coord>
+                <gml:X>358819.811463</gml:X>
+                <gml:Y>5708990.820100</gml:Y>
+            </gml:coord>
+            <gml:coord>
+                <gml:X>387207.792000</gml:X>
+                <gml:Y>5726540.667000</gml:Y>
+            </gml:coord>
+        </gml:Box>
+    </gml:boundedBy>
+    <gml:featureMember>
+        <ns0:Indikatoren_20190520 fid='SGd8d40447f44b46bd955189940f30f712'>
+            <gml:description>NULL</gml:description>
+            <ns0:geometrie>
+                <gml:MultiPolygon srsName='EPSG:25832'>
+                    <gml:polygonMember>
+                        <gml:Polygon>
+                            <gml:outerBoundaryIs>
+                                <gml:LinearRing>
+                                    <gml:coordinates>384891.959000,5713511.444100 384898.084000,5713509.140100
+                                        384947.758000,5713522.865100 385030.730000,5713539.248000
+                                        385066.910000,5713546.403100 385092.721000,5713551.505100
+                                        385098.455000,5713552.622000 385112.951000,5713555.084100
+                                        385119.442000,5713556.186100 385128.859000,5713557.783000
+                                        385132.300000,5713558.368100 385133.202300,5713558.521500
+                                        385134.777700,5713554.304400 385151.093000,5713510.632000
+                                        385154.706000,5713500.234000 385157.596000,5713490.651100
+                                        385159.626000,5713482.175100 385160.470000,5713476.821100
+                                        385161.139000,5713468.054000 385161.094000,5713458.988000
+                                        385160.673000,5713450.202000 385158.007000,5713425.583100
+                                        385156.364000,5713410.437100 385154.977000,5713394.743100
+                                        385154.716000,5713388.165000 385155.819000,5713383.809100
+                                        385160.652500,5713379.295000 385161.053000,5713378.921000
+                                        385162.400900,5713366.289300 385162.881100,5713339.144100
+                                        385156.876400,5713233.284700 385154.010800,5713217.153500
+                                        385144.189800,5713184.540300 385135.932700,5713162.577600
+                                        385118.805300,5713106.278500 385108.270800,5713050.657000
+                                        385093.998800,5712955.513600 385090.069000,5712911.599100
+                                        385089.847800,5712909.126800 385089.496400,5712905.199500
+                                        385087.862700,5712904.293600 385081.635900,5712900.840300
+                                        385074.551700,5712896.911600 385072.065600,5712895.532900
+                                        385062.303200,5712888.761800 385060.126300,5712887.428500
+                                        385058.039600,5712886.085900 385055.966500,5712884.729900
+                                        385053.881200,5712883.315100 385051.831900,5712881.844500
+                                        385049.835400,5712880.364300 385047.846400,5712878.870800
+                                        385045.837100,5712877.325900 385043.836600,5712875.735700
+                                        385041.789600,5712874.074500 385038.769900,5712871.572600
+                                        385031.354400,5712865.303100 385016.723700,5712852.850900
+                                        384997.799800,5712836.720100 384978.826900,5712820.547000
+                                        384963.923800,5712807.859300 384955.872100,5712801.035300
+                                        384951.994000,5712797.778900 384949.037500,5712795.320600
+                                        384946.116100,5712792.938400 384943.166200,5712790.599200
+                                        384940.215000,5712788.299500 384937.241300,5712785.999300
+                                        384934.164500,5712783.658000 384930.945200,5712781.273000
+                                        384927.662200,5712778.881200 384924.445500,5712776.550400
+                                        384921.539400,5712774.467000 384918.975200,5712772.678900
+                                        384916.535100,5712771.014700 384914.362200,5712769.540900
+                                        384912.171900,5712768.056800 384909.702200,5712766.391400
+                                        384907.140700,5712764.699700 384904.311000,5712762.886900
+                                        384901.220400,5712760.935300 384898.053200,5712758.948100
+                                        384894.851300,5712756.970800 384891.631400,5712755.033600
+                                        384888.368500,5712753.099100 384884.423600,5712750.787200
+                                        384877.300100,5712746.685700 384864.572200,5712739.418800
+                                        384848.186300,5712730.082200 384831.696900,5712720.689600
+                                        384818.237800,5712713.022700 384810.039700,5712708.352200
+                                        384806.445800,5712706.305300 384806.392000,5712706.274800
+                                        384809.820000,5712702.475000 384764.929000,5712676.920000
+                                        384752.030000,5712669.282000 384739.403000,5712661.183100
+                                        384726.989000,5712652.773000 384715.267000,5712644.220100
+                                        384704.974400,5712636.399100 384703.986000,5712635.648000
+                                        384702.112000,5712646.800100 384699.999000,5712654.478000
+                                        384699.721000,5712655.489000 384696.793000,5712666.153100
+                                        384693.707000,5712677.394000 384685.051000,5712689.969100
+                                        384689.902000,5712706.905000 384696.435000,5712710.556000
+                                        384712.741000,5712720.725000 384696.746000,5712735.717100
+                                        384684.487000,5712748.831100 384666.073000,5712766.167000
+                                        384646.290000,5712782.850000 384623.650000,5712800.895000
+                                        384610.117000,5712780.822100 384572.360000,5712804.998000
+                                        384518.820000,5712829.721100 384485.744000,5712850.621000
+                                        384484.537000,5712872.776100 384456.438000,5712871.473000
+                                        384422.613000,5712860.717100 384399.468000,5712882.230100
+                                        384376.430000,5712891.233000 384357.823000,5712892.513100
+                                        384341.189000,5712889.345100 384339.058000,5712900.265100
+                                        384337.782000,5712915.273000 384336.211000,5712927.692000
+                                        384333.538000,5712937.843100 384321.665000,5712965.786100
+                                        384307.527000,5712991.189000 384294.469000,5713039.271000
+                                        384281.413000,5713087.365100 384268.376000,5713135.400100
+                                        384253.158000,5713191.486000 384261.774000,5713199.354100
+                                        384289.738000,5713216.672100 384297.916000,5713220.103000
+                                        384306.679000,5713223.418000 384384.928000,5713241.438000
+                                        384463.181000,5713254.501100 384515.036000,5713260.549100
+                                        384528.107000,5713262.073900 384556.549000,5713265.391100
+                                        384577.320000,5713267.819100 384578.916000,5713275.513100
+                                        384579.300900,5713277.371000 384579.829000,5713279.923100
+                                        384576.426000,5713282.798100 384559.005000,5713297.525100
+                                        384616.052000,5713347.142100 384739.617000,5713454.734000
+                                        384833.009000,5713536.104100 384856.049000,5713556.186100
+                                        384861.954000,5713559.950000 384891.959000,5713511.444100
+                                    </gml:coordinates>
+                                </gml:LinearRing>
+                            </gml:outerBoundaryIs>
+                        </gml:Polygon>
+                    </gml:polygonMember>
+                </gml:MultiPolygon>
+            </ns0:geometrie>
+            <ns0:Baublock_ID>_170</ns0:Baublock_ID>
+            <ns0:EreignisintervallStart>2019-05-06</ns0:EreignisintervallStart>
+            <ns0:EreignisintervallEnde>2019-05-28</ns0:EreignisintervallEnde>
+            <ns0:dmg_einwstr_gesbev_last>0</ns0:dmg_einwstr_gesbev_last>
+            <ns0:dmg_einwstr_gesbev_last_Bev>0.0</ns0:dmg_einwstr_gesbev_last_Bev>
+            <ns0:dmg_einwstr_gesbev_last_Fl>0.0</ns0:dmg_einwstr_gesbev_last_Fl>
+            <ns0:dmg_ethnstr_gesbev_last>0.0</ns0:dmg_ethnstr_gesbev_last>
+            <ns0:dmg_ethnstr_gesbev_last_Bev>0.0</ns0:dmg_ethnstr_gesbev_last_Bev>
+            <ns0:dmg_ethnstr_gesbev_last_Fl>0.0</ns0:dmg_ethnstr_gesbev_last_Fl>
+            <ns0:dmg_altrstr_drchschnaltr>48.30769230769231</ns0:dmg_altrstr_drchschnaltr>
+            <ns0:dmg_altrstr_drchschnaltHrt>25.0</ns0:dmg_altrstr_drchschnaltHrt>
+            <ns0:dmg_altrstr_altrmdn>52.0</ns0:dmg_altrstr_altrmdn>
+            <ns0:dmg_altrstr_jngrarbtn>4</ns0:dmg_altrstr_jngrarbtn>
+            <ns0:dmg_altrstr_frtgschrarbtn>6</ns0:dmg_altrstr_frtgschrarbtn>
+            <ns0:dmg_altrstr_erwrbsfhg>11</ns0:dmg_altrstr_erwrbsfhg>
+            <ns0:dmg_einwstr_gesbev>13</ns0:dmg_einwstr_gesbev>
+            <ns0:dmg_einwstr_frn>6</ns0:dmg_einwstr_frn>
+            <ns0:dmg_einwstr_maenr>7</ns0:dmg_einwstr_maenr>
+            <ns0:dmg_einwstr_famstndLdg>7</ns0:dmg_einwstr_famstndLdg>
+            <ns0:dmg_einwstr_famstndGschdn>3</ns0:dmg_einwstr_famstndGschdn>
+            <ns0:dmg_einwstr_frchtbrktsziff>0.0</ns0:dmg_einwstr_frchtbrktsziff>
+            <ns0:dmg_einwstr_hptwhnstz>12</ns0:dmg_einwstr_hptwhnstz>
+            <ns0:dmg_ethnstr_drchschnaltr>0.0</ns0:dmg_ethnstr_drchschnaltr>
+            <ns0:dmg_ethnstr_drchschnaltHrt>0.0</ns0:dmg_ethnstr_drchschnaltHrt>
+            <ns0:dmg_ethnstr_altrmdn>0.0</ns0:dmg_ethnstr_altrmdn>
+            <ns0:dmg_ethnstr_frchtbrktsziff>0.0</ns0:dmg_ethnstr_frchtbrktsziff>
+            <ns0:dmg_altrstr_jngrarbtn_Bev>30.76923076923077</ns0:dmg_altrstr_jngrarbtn_Bev>
+            <ns0:dmg_altrstr_frtgschrarbtn_Bev>46.15384615384615</ns0:dmg_altrstr_frtgschrarbtn_Bev>
+            <ns0:dmg_altrstr_erwrbsfhg_Bev>84.61538461538461</ns0:dmg_altrstr_erwrbsfhg_Bev>
+            <ns0:dmg_einwstr_gesbev_Bev>100.0</ns0:dmg_einwstr_gesbev_Bev>
+            <ns0:dmg_ethnstr_gesbev_Bev>100.0</ns0:dmg_ethnstr_gesbev_Bev>
+            <ns0:dmg_einwstr_frn_Bev>46.15384615384615</ns0:dmg_einwstr_frn_Bev>
+            <ns0:dmg_einwstr_maenr_Bev>53.84615384615385</ns0:dmg_einwstr_maenr_Bev>
+            <ns0:dmg_einwstr_famstndLdg_Bev>53.84615384615385</ns0:dmg_einwstr_famstndLdg_Bev>
+            <ns0:dmg_einwstr_famstndGschdn_Bev>23.076923076923077</ns0:dmg_einwstr_famstndGschdn_Bev>
+            <ns0:dmg_einwstr_hptwhnstz_Bev>92.3076923076923</ns0:dmg_einwstr_hptwhnstz_Bev>
+            <ns0:dmg_altrstr_jngrarbtn_Fl>0.0007930</ns0:dmg_altrstr_jngrarbtn_Fl>
+            <ns0:dmg_altrstr_frtgschrarbtn_Fl>0.001189380781378981</ns0:dmg_altrstr_frtgschrarbtn_Fl>
+            <ns0:dmg_altrstr_erwrbsfhg_Fl>0.0021805314325281312</ns0:dmg_altrstr_erwrbsfhg_Fl>
+            <ns0:dmg_einwstr_gesbev_Fl>0.002576991692987792</ns0:dmg_einwstr_gesbev_Fl>
+            <ns0:dmg_einwstr_frn_Fl>0.001189380781378981</ns0:dmg_einwstr_frn_Fl>
+            <ns0:dmg_einwstr_maenr_Fl>0.0013876109116088108</ns0:dmg_einwstr_maenr_Fl>
+            <ns0:dmg_einwstr_famstndLdg_Fl>0.0013876109116088108</ns0:dmg_einwstr_famstndLdg_Fl>
+            <ns0:dmg_einwstr_famstndGschdn_Fl>0.0005950</ns0:dmg_einwstr_famstndGschdn_Fl>
+            <ns0:dmg_einwstr_hptwhnstz_Fl>0.002378761562757962</ns0:dmg_einwstr_hptwhnstz_Fl>
+        </ns0:Indikatoren_20190520>
+    </gml:featureMember>
+    <gml:featureMember>
+        <ns0:Indikatoren_20190520 fid='SG08ffe90ba2934e28b3eb48b79c0ea8d8'>
+            <gml:description>NULL</gml:description>
+            <ns0:geometrie>
+                <gml:MultiPolygon srsName='EPSG:25832'>
+                    <gml:polygonMember>
+                        <gml:Polygon>
+                            <gml:outerBoundaryIs>
+                                <gml:LinearRing>
+                                    <gml:coordinates>382873.833000,5712039.950000 382880.193000,5712038.889100
+                                        382880.278900,5712038.882500 382881.888000,5712038.758000
+                                        382890.797000,5712038.854100 382946.476000,5712032.767100
+                                        382946.180900,5712022.863600 382945.946000,5712014.980100
+                                        382947.055000,5712000.000000 382947.298000,5711996.715000
+                                        382949.122000,5711980.231100 382950.851000,5711971.156000
+                                        382952.990800,5711965.574900 382955.099000,5711960.076000
+                                        382942.788900,5711946.884800 382940.705200,5711945.009300
+                                        382938.376600,5711942.922200 382936.006200,5711940.797800
+                                        382933.745200,5711938.771000 382931.951800,5711937.162300
+                                        382930.813400,5711936.141100 382929.668800,5711935.114100
+                                        382927.912700,5711933.538400 382926.081200,5711931.896300
+                                        382924.788700,5711930.737500 382923.247500,5711929.354400
+                                        382920.082900,5711926.512000 382915.464400,5711922.364300
+                                        382910.853600,5711918.231500 382906.255100,5711914.109900
+                                        382901.637500,5711909.964300 382898.203200,5711906.884100
+                                        382896.109500,5711905.011200 382894.731900,5711903.778900
+                                        382892.514800,5711901.920300 382890.704500,5711900.146300
+                                        382888.164200,5711897.839600 382885.555400,5711895.469300
+                                        382882.807800,5711892.994700 382880.783200,5711891.206500
+                                        382879.212900,5711889.878300 382876.519500,5711887.730800
+                                        382875.409400,5711886.837500 382874.964300,5711886.455200
+                                        382870.488300,5711891.191200 382870.396200,5711891.288700
+                                        382867.088000,5711894.769100 382863.554000,5711898.566700
+                                        382859.473400,5711903.063900 382854.927200,5711908.137300
+                                        382850.250800,5711913.379700 382845.880000,5711918.288600
+                                        382842.274300,5711922.350200 382839.682800,5711925.302600
+                                        382837.998700,5711927.292500 382836.908400,5711928.694000
+                                        382836.127600,5711929.840200 382835.499800,5711930.925100
+                                        382834.969700,5711932.036200 382834.531100,5711933.197400
+                                        382834.190700,5711934.391700 382833.948600,5711935.590200
+                                        382833.792500,5711936.778300 382833.710800,5711937.994400
+                                        382833.714700,5711939.435800 382833.846800,5711941.586700
+                                        382834.161100,5711945.116200 382834.678600,5711950.414300
+                                        382835.358400,5711957.218300 382836.126300,5711964.837100
+                                        382836.918800,5711972.572400 382837.682400,5711979.733800
+                                        382838.358900,5711985.614300 382838.905500,5711989.846800
+                                        382839.321000,5711992.653300 382839.652400,5711994.612700
+                                        382839.981800,5711996.287800 382840.392400,5711998.033300
+                                        382840.933300,5711999.983400 382841.618500,5712002.137100
+                                        382842.439800,5712004.442800 382843.360100,5712006.802400
+                                        382844.313800,5712009.079100 382845.254300,5712011.195400
+                                        382846.224000,5712013.257900 382847.355400,5712015.529000
+                                        382848.756500,5712018.184300 382850.391200,5712021.104700
+                                        382852.120400,5712024.008200 382853.847200,5712026.752700
+                                        382855.558100,5712029.371700 382857.268700,5712031.907600
+                                        382859.087500,5712034.524600 382861.188800,5712037.544700
+                                        382865.795000,5712043.982100 382873.833000,5712039.950000
+                                    </gml:coordinates>
+                                </gml:LinearRing>
+                            </gml:outerBoundaryIs>
+                        </gml:Polygon>
+                    </gml:polygonMember>
+                </gml:MultiPolygon>
+            </ns0:geometrie>
+            <ns0:Baublock_ID>_152</ns0:Baublock_ID>
+            <ns0:EreignisintervallStart>2019-05-06</ns0:EreignisintervallStart>
+            <ns0:EreignisintervallEnde>2019-05-28</ns0:EreignisintervallEnde>
+            <ns0:dmg_einwstr_gesbev_last>0</ns0:dmg_einwstr_gesbev_last>
+            <ns0:dmg_einwstr_gesbev_last_Bev>0.0</ns0:dmg_einwstr_gesbev_last_Bev>
+            <ns0:dmg_einwstr_gesbev_last_Fl>0.0</ns0:dmg_einwstr_gesbev_last_Fl>
+            <ns0:dmg_ethnstr_gesbev_last>0.0</ns0:dmg_ethnstr_gesbev_last>
+            <ns0:dmg_ethnstr_gesbev_last_Bev>0.0</ns0:dmg_ethnstr_gesbev_last_Bev>
+            <ns0:dmg_ethnstr_gesbev_last_Fl>0.0</ns0:dmg_ethnstr_gesbev_last_Fl>
+            <ns0:dmg_altrstr_drchschnaltr>49.59722222222222</ns0:dmg_altrstr_drchschnaltr>
+            <ns0:dmg_altrstr_drchschnaltHrt>31.0</ns0:dmg_altrstr_drchschnaltHrt>
+            <ns0:dmg_altrstr_altrmdn>55.0</ns0:dmg_altrstr_altrmdn>
+            <ns0:dmg_altrstr_BrflchundHch>3</ns0:dmg_altrstr_BrflchundHch>
+            <ns0:dmg_altrstr_jngrarbtn>9</ns0:dmg_altrstr_jngrarbtn>
+            <ns0:dmg_altrstr_mittlarbtn>11</ns0:dmg_altrstr_mittlarbtn>
+            <ns0:dmg_altrstr_frtgschrarbtn>9</ns0:dmg_altrstr_frtgschrarbtn>
+            <ns0:dmg_altrstr_altrarbtn>6</ns0:dmg_altrstr_altrarbtn>
+            <ns0:dmg_altrstr_jngrrntnr>18</ns0:dmg_altrstr_jngrrntnr>
+            <ns0:dmg_altrstr_altrrntnr>3</ns0:dmg_altrstr_altrrntnr>
+            <ns0:dmg_altrstr_hchbtgt>5</ns0:dmg_altrstr_hchbtgt>
+            <ns0:dmg_altrstr_jgnd>8</ns0:dmg_altrstr_jgnd>
+            <ns0:dmg_altrstr_erwrbsfhg>38</ns0:dmg_altrstr_erwrbsfhg>
+            <ns0:dmg_altrstr_altrbev>26</ns0:dmg_altrstr_altrbev>
+            <ns0:dmg_mbltgr_buggygos>4</ns0:dmg_mbltgr_buggygos>
+            <ns0:dmg_mbltgr_gogos>18</ns0:dmg_mbltgr_gogos>
+            <ns0:dmg_mbltgr_slowgos>3</ns0:dmg_mbltgr_slowgos>
+            <ns0:dmg_mbltgr_nogos>5</ns0:dmg_mbltgr_nogos>
+            <ns0:dmg_einwstr_gesbev>72</ns0:dmg_einwstr_gesbev>
+            <ns0:dmg_einwstr_frn>43</ns0:dmg_einwstr_frn>
+            <ns0:dmg_einwstr_maenr>29</ns0:dmg_einwstr_maenr>
+            <ns0:dmg_einwstr_famstndLdg>26</ns0:dmg_einwstr_famstndLdg>
+            <ns0:dmg_einwstr_famstndVhrt>32</ns0:dmg_einwstr_famstndVhrt>
+            <ns0:dmg_einwstr_famstndVwt>7</ns0:dmg_einwstr_famstndVwt>
+            <ns0:dmg_einwstr_famstndGschdn>7</ns0:dmg_einwstr_famstndGschdn>
+            <ns0:dmg_einwstr_altrqtnt_Bev>68.42105263157895</ns0:dmg_einwstr_altrqtnt_Bev>
+            <ns0:dmg_einwstr_jgndqtnt_Bev>21.052631578947366</ns0:dmg_einwstr_jgndqtnt_Bev>
+            <ns0:dmg_einwstr_untrstqtnt_Bev>89.47368421052632</ns0:dmg_einwstr_untrstqtnt_Bev>
+            <ns0:dmg_einwstr_frchtbrktsziff>0.0</ns0:dmg_einwstr_frchtbrktsziff>
+            <ns0:dmg_einwstr_hptwhnstz>69</ns0:dmg_einwstr_hptwhnstz>
+            <ns0:dmg_einwstr_zwtwhnstz>3</ns0:dmg_einwstr_zwtwhnstz>
+            <ns0:dmg_ethnstr_drchschnaltr>0.0</ns0:dmg_ethnstr_drchschnaltr>
+            <ns0:dmg_ethnstr_drchschnaltHrt>0.0</ns0:dmg_ethnstr_drchschnaltHrt>
+            <ns0:dmg_ethnstr_altrmdn>0.0</ns0:dmg_ethnstr_altrmdn>
+            <ns0:dmg_ethnstr_frchtbrktsziff>0.0</ns0:dmg_ethnstr_frchtbrktsziff>
+            <ns0:dmg_altrstr_jngrarbtn_Bev>12.5</ns0:dmg_altrstr_jngrarbtn_Bev>
+            <ns0:dmg_altrstr_mittlarbtn_Bev>15.277777777777779</ns0:dmg_altrstr_mittlarbtn_Bev>
+            <ns0:dmg_altrstr_frtgschrarbtn_Bev>12.5</ns0:dmg_altrstr_frtgschrarbtn_Bev>
+            <ns0:dmg_altrstr_altrarbtn_Bev>8.333333333333332</ns0:dmg_altrstr_altrarbtn_Bev>
+            <ns0:dmg_altrstr_jngrrntnr_Bev>25.0</ns0:dmg_altrstr_jngrrntnr_Bev>
+            <ns0:dmg_altrstr_hchbtgt_Bev>6.944444444444445</ns0:dmg_altrstr_hchbtgt_Bev>
+            <ns0:dmg_altrstr_jgnd_Bev>11.11111111111111</ns0:dmg_altrstr_jgnd_Bev>
+            <ns0:dmg_altrstr_erwrbsfhg_Bev>52.77777777777778</ns0:dmg_altrstr_erwrbsfhg_Bev>
+            <ns0:dmg_altrstr_altrbev_Bev>36.11111111111111</ns0:dmg_altrstr_altrbev_Bev>
+            <ns0:dmg_einwstr_gesbev_Bev>100.0</ns0:dmg_einwstr_gesbev_Bev>
+            <ns0:dmg_mbltgr_buggygos_Bev>5.555555555555555</ns0:dmg_mbltgr_buggygos_Bev>
+            <ns0:dmg_mbltgr_gogos_Bev>25.0</ns0:dmg_mbltgr_gogos_Bev>
+            <ns0:dmg_mbltgr_nogos_Bev>6.944444444444445</ns0:dmg_mbltgr_nogos_Bev>
+            <ns0:dmg_ethnstr_gesbev_Bev>100.0</ns0:dmg_ethnstr_gesbev_Bev>
+            <ns0:dmg_einwstr_frn_Bev>59.72222222222222</ns0:dmg_einwstr_frn_Bev>
+            <ns0:dmg_einwstr_maenr_Bev>40.27777777777778</ns0:dmg_einwstr_maenr_Bev>
+            <ns0:dmg_einwstr_famstndLdg_Bev>36.11111111111111</ns0:dmg_einwstr_famstndLdg_Bev>
+            <ns0:dmg_einwstr_famstndVhrt_Bev>44.44444444444444</ns0:dmg_einwstr_famstndVhrt_Bev>
+            <ns0:dmg_einwstr_famstndVwt_Bev>44.44444444444444</ns0:dmg_einwstr_famstndVwt_Bev>
+            <ns0:dmg_einwstr_famstndGschdn_Bev>9.722222222222223</ns0:dmg_einwstr_famstndGschdn_Bev>
+            <ns0:dmg_einwstr_hptwhnstz_Bev>95.83333333333334</ns0:dmg_einwstr_hptwhnstz_Bev>
+            <ns0:dmg_altrstr_BrflchundHch_Fl>0.022725547694082183</ns0:dmg_altrstr_BrflchundHch_Fl>
+            <ns0:dmg_altrstr_jngrarbtn_Fl>0.06817664308224655</ns0:dmg_altrstr_jngrarbtn_Fl>
+            <ns0:dmg_altrstr_mittlarbtn_Fl>0.08332700821163468</ns0:dmg_altrstr_mittlarbtn_Fl>
+            <ns0:dmg_altrstr_frtgschrarbtn_Fl>0.06817664308224655</ns0:dmg_altrstr_frtgschrarbtn_Fl>
+            <ns0:dmg_altrstr_altrarbtn_Fl>0.045451095388164366</ns0:dmg_altrstr_altrarbtn_Fl>
+            <ns0:dmg_altrstr_jngrrntnr_Fl>0.1363532861644931</ns0:dmg_altrstr_jngrrntnr_Fl>
+            <ns0:dmg_altrstr_altrrntnr_Fl>0.022725547694082183</ns0:dmg_altrstr_altrrntnr_Fl>
+            <ns0:dmg_altrstr_hchbtgt_Fl>0.03787591282347031</ns0:dmg_altrstr_hchbtgt_Fl>
+            <ns0:dmg_altrstr_jgnd_Fl>0.06060146051755249</ns0:dmg_altrstr_jgnd_Fl>
+            <ns0:dmg_altrstr_erwrbsfhg_Fl>0.2878569374583744</ns0:dmg_altrstr_erwrbsfhg_Fl>
+            <ns0:dmg_altrstr_altrbev_Fl>0.1969547466820456</ns0:dmg_altrstr_altrbev_Fl>
+            <ns0:dmg_mbltgr_buggygos_Fl>0.030300730258776245</ns0:dmg_mbltgr_buggygos_Fl>
+            <ns0:dmg_mbltgr_gogos_Fl>0.1363532861644931</ns0:dmg_mbltgr_gogos_Fl>
+            <ns0:dmg_mbltgr_slowgos_Fl>0.022725547694082183</ns0:dmg_mbltgr_slowgos_Fl>
+            <ns0:dmg_mbltgr_nogos_Fl>0.03787591282347031</ns0:dmg_mbltgr_nogos_Fl>
+            <ns0:dmg_einwstr_gesbev_Fl>0.5454131446579724</ns0:dmg_einwstr_gesbev_Fl>
+            <ns0:dmg_einwstr_frn_Fl>0.3257328502818446</ns0:dmg_einwstr_frn_Fl>
+            <ns0:dmg_einwstr_maenr_Fl>0.21968029437612777</ns0:dmg_einwstr_maenr_Fl>
+            <ns0:dmg_einwstr_famstndLdg_Fl>0.1969547466820456</ns0:dmg_einwstr_famstndLdg_Fl>
+            <ns0:dmg_einwstr_famstndVhrt_Fl>0.24240584207020996</ns0:dmg_einwstr_famstndVhrt_Fl>
+            <ns0:dmg_einwstr_famstndVwt_Fl>0.053026277952858435</ns0:dmg_einwstr_famstndVwt_Fl>
+            <ns0:dmg_einwstr_famstndGschdn_Fl>0.053026277952858435</ns0:dmg_einwstr_famstndGschdn_Fl>
+            <ns0:dmg_einwstr_hptwhnstz_Fl>0.5226875969638902</ns0:dmg_einwstr_hptwhnstz_Fl>
+            <ns0:dmg_einwstr_zwtwhnstz_Fl>0.022725547694082183</ns0:dmg_einwstr_zwtwhnstz_Fl>
+        </ns0:Indikatoren_20190520>
+    </gml:featureMember>
+    <gml:featureMember>
+        <ns0:Indikatoren_20190520 fid='SG11ff592eb16f4ea29c701421d76ba2e0'>
+            <gml:description>NULL</gml:description>
+            <ns0:geometrie>
+                <gml:MultiPolygon srsName='EPSG:25832'>
+                    <gml:polygonMember>
+                        <gml:Polygon>
+                            <gml:outerBoundaryIs>
+                                <gml:LinearRing>
+                                    <gml:coordinates>386191.579000,5717673.594100 386192.551000,5717671.755100
+                                        386193.321000,5717670.298100 386193.938000,5717669.129100
+                                        386195.000000,5717667.119100 386196.405000,5717664.462000
+                                        386196.212000,5717659.411100 386196.170000,5717658.326000
+                                        386203.534000,5717642.602000 386204.250000,5717641.076000
+                                        386207.524000,5717638.113000 386207.545000,5717638.093100
+                                        386211.229000,5717634.760000 386224.035000,5717623.170000
+                                        386228.138000,5717620.304000 386229.220000,5717619.548100
+                                        386234.289000,5717616.008000 386253.068000,5717602.892100
+                                        386254.963000,5717598.971100 386271.282000,5717565.218100
+                                        386275.137400,5717559.953900 386274.177300,5717559.207300
+                                        386271.686300,5717557.497800 386268.414400,5717555.325600
+                                        386265.136600,5717553.153300 386262.566300,5717551.454900
+                                        386261.149500,5717550.518300 386259.894800,5717549.679800
+                                        386257.659000,5717548.190500 386254.783400,5717546.281600
+                                        386252.220800,5717544.576200 386250.048300,5717543.134200
+                                        386247.912700,5717541.725000 386246.075700,5717540.508400
+                                        386244.239500,5717539.288700 386242.186900,5717537.928700
+                                        386240.334100,5717536.696600 386238.576300,5717535.528500
+                                        386236.722500,5717534.301800 386235.198100,5717533.287400
+                                        386234.132900,5717532.569200 386233.345300,5717532.031400
+                                        386232.496600,5717531.449400 386231.170300,5717530.539300
+                                        386229.368100,5717529.299300 386227.489800,5717528.008800
+                                        386225.550000,5717526.675500 386223.382900,5717525.182900
+                                        386221.102000,5717523.612000 386218.822000,5717522.041600
+                                        386216.632400,5717520.532600 386214.940800,5717519.359500
+                                        386213.750600,5717518.530300 386212.675200,5717517.777000
+                                        386211.621500,5717517.034900 386205.885400,5717513.585500
+                                        386201.265900,5717518.263500 386150.882000,5717569.286100
+                                        386133.153000,5717590.725000 386120.079700,5717605.426700
+                                        386115.267500,5717610.838400 386134.679000,5717627.881000
+                                        386139.878000,5717632.670000 386187.771000,5717678.136900
+                                        386191.579000,5717673.594100
+                                    </gml:coordinates>
+                                </gml:LinearRing>
+                            </gml:outerBoundaryIs>
+                        </gml:Polygon>
+                    </gml:polygonMember>
+                </gml:MultiPolygon>
+            </ns0:geometrie>
+            <ns0:Baublock_ID>_638</ns0:Baublock_ID>
+            <ns0:EreignisintervallStart>2019-05-06</ns0:EreignisintervallStart>
+            <ns0:EreignisintervallEnde>2019-05-28</ns0:EreignisintervallEnde>
+            <ns0:dmg_einwstr_gesbev_last>0</ns0:dmg_einwstr_gesbev_last>
+            <ns0:dmg_einwstr_gesbev_last_Bev>0.0</ns0:dmg_einwstr_gesbev_last_Bev>
+            <ns0:dmg_einwstr_gesbev_last_Fl>0.0</ns0:dmg_einwstr_gesbev_last_Fl>
+            <ns0:dmg_ethnstr_gesbev_last>0.0</ns0:dmg_ethnstr_gesbev_last>
+            <ns0:dmg_ethnstr_gesbev_last_Bev>0.0</ns0:dmg_ethnstr_gesbev_last_Bev>
+            <ns0:dmg_ethnstr_gesbev_last_Fl>0.0</ns0:dmg_ethnstr_gesbev_last_Fl>
+            <ns0:dmg_altrstr_drchschnaltr>49.348837209302324</ns0:dmg_altrstr_drchschnaltr>
+            <ns0:dmg_altrstr_drchschnaltHrt>26.404761904761905</ns0:dmg_altrstr_drchschnaltHrt>
+            <ns0:dmg_altrstr_altrmdn>56.5</ns0:dmg_altrstr_altrmdn>
+            <ns0:dmg_altrstr_klnstkndr>3</ns0:dmg_altrstr_klnstkndr>
+            <ns0:dmg_altrstr_grndschlk>3</ns0:dmg_altrstr_grndschlk>
+            <ns0:dmg_altrstr_BrflchundHch>3</ns0:dmg_altrstr_BrflchundHch>
+            <ns0:dmg_altrstr_jngrarbtn>6</ns0:dmg_altrstr_jngrarbtn>
+            <ns0:dmg_altrstr_mittlarbtn>17</ns0:dmg_altrstr_mittlarbtn>
+            <ns0:dmg_altrstr_frtgschrarbtn>13</ns0:dmg_altrstr_frtgschrarbtn>
+            <ns0:dmg_altrstr_altrarbtn>8</ns0:dmg_altrstr_altrarbtn>
+            <ns0:dmg_altrstr_jngrrntnr>19</ns0:dmg_altrstr_jngrrntnr>
+            <ns0:dmg_altrstr_altrrntnr>9</ns0:dmg_altrstr_altrrntnr>
+            <ns0:dmg_altrstr_jgnd>12</ns0:dmg_altrstr_jgnd>
+            <ns0:dmg_altrstr_erwrbsfhg>44</ns0:dmg_altrstr_erwrbsfhg>
+            <ns0:dmg_altrstr_altrbev>30</ns0:dmg_altrstr_altrbev>
+            <ns0:dmg_mbltgr_buggygos>4</ns0:dmg_mbltgr_buggygos>
+            <ns0:dmg_mbltgr_gogos>19</ns0:dmg_mbltgr_gogos>
+            <ns0:dmg_mbltgr_slowgos>9</ns0:dmg_mbltgr_slowgos>
+            <ns0:dmg_einwstr_gesbev>86</ns0:dmg_einwstr_gesbev>
+            <ns0:dmg_einwstr_frn>44</ns0:dmg_einwstr_frn>
+            <ns0:dmg_einwstr_maenr>42</ns0:dmg_einwstr_maenr>
+            <ns0:dmg_einwstr_famstndLdg>25</ns0:dmg_einwstr_famstndLdg>
+            <ns0:dmg_einwstr_famstndVhrt>52</ns0:dmg_einwstr_famstndVhrt>
+            <ns0:dmg_einwstr_famstndVwt>3</ns0:dmg_einwstr_famstndVwt>
+            <ns0:dmg_einwstr_famstndGschdn>6</ns0:dmg_einwstr_famstndGschdn>
+            <ns0:dmg_einwstr_altrqtnt_Bev>68.18181818181817</ns0:dmg_einwstr_altrqtnt_Bev>
+            <ns0:dmg_einwstr_jgndqtnt_Bev>27.27272727272727</ns0:dmg_einwstr_jgndqtnt_Bev>
+            <ns0:dmg_einwstr_untrstqtnt_Bev>95.45454545454544</ns0:dmg_einwstr_untrstqtnt_Bev>
+            <ns0:dmg_einwstr_frchtbrktsziff>0.0</ns0:dmg_einwstr_frchtbrktsziff>
+            <ns0:dmg_einwstr_hptwhnstz>84</ns0:dmg_einwstr_hptwhnstz>
+            <ns0:dmg_ethnstr_drchschnaltr>0.0</ns0:dmg_ethnstr_drchschnaltr>
+            <ns0:dmg_ethnstr_drchschnaltHrt>0.0</ns0:dmg_ethnstr_drchschnaltHrt>
+            <ns0:dmg_ethnstr_altrmdn>0.0</ns0:dmg_ethnstr_altrmdn>
+            <ns0:dmg_ethnstr_frchtbrktsziff>0.0</ns0:dmg_ethnstr_frchtbrktsziff>
+            <ns0:dmg_altrstr_klnstkndr_Bev>3.488372093023256</ns0:dmg_altrstr_klnstkndr_Bev>
+            <ns0:dmg_altrstr_grndschlk_Bev>3.488372093023256</ns0:dmg_altrstr_grndschlk_Bev>
+            <ns0:dmg_altrstr_BrflchundHch_Bev>3.488372093023256</ns0:dmg_altrstr_BrflchundHch_Bev>
+            <ns0:dmg_altrstr_jngrarbtn_Bev>6.976744186046512</ns0:dmg_altrstr_jngrarbtn_Bev>
+            <ns0:dmg_altrstr_mittlarbtn_Bev>19.767441860465116</ns0:dmg_altrstr_mittlarbtn_Bev>
+            <ns0:dmg_altrstr_frtgschrarbtn_Bev>15.11627906976744</ns0:dmg_altrstr_frtgschrarbtn_Bev>
+            <ns0:dmg_altrstr_altrarbtn_Bev>9.30232558139535</ns0:dmg_altrstr_altrarbtn_Bev>
+            <ns0:dmg_altrstr_jngrrntnr_Bev>22.093023255813954</ns0:dmg_altrstr_jngrrntnr_Bev>
+            <ns0:dmg_altrstr_altrrntnr_Bev>10.465116279069768</ns0:dmg_altrstr_altrrntnr_Bev>
+            <ns0:dmg_altrstr_jgnd_Bev>13.953488372093023</ns0:dmg_altrstr_jgnd_Bev>
+            <ns0:dmg_altrstr_erwrbsfhg_Bev>51.162790697674424</ns0:dmg_altrstr_erwrbsfhg_Bev>
+            <ns0:dmg_altrstr_altrbev_Bev>34.883720930232556</ns0:dmg_altrstr_altrbev_Bev>
+            <ns0:dmg_einwstr_gesbev_Bev>100.0</ns0:dmg_einwstr_gesbev_Bev>
+            <ns0:dmg_mbltgr_buggygos_Bev>4.651162790697675</ns0:dmg_mbltgr_buggygos_Bev>
+            <ns0:dmg_mbltgr_gogos_Bev>22.093023255813954</ns0:dmg_mbltgr_gogos_Bev>
+            <ns0:dmg_mbltgr_slowgos_Bev>10.465116279069768</ns0:dmg_mbltgr_slowgos_Bev>
+            <ns0:dmg_ethnstr_gesbev_Bev>100.0</ns0:dmg_ethnstr_gesbev_Bev>
+            <ns0:dmg_einwstr_frn_Bev>51.162790697674424</ns0:dmg_einwstr_frn_Bev>
+            <ns0:dmg_einwstr_maenr_Bev>48.837209302325576</ns0:dmg_einwstr_maenr_Bev>
+            <ns0:dmg_einwstr_famstndLdg_Bev>29.069767441860467</ns0:dmg_einwstr_famstndLdg_Bev>
+            <ns0:dmg_einwstr_famstndVhrt_Bev>60.46511627906976</ns0:dmg_einwstr_famstndVhrt_Bev>
+            <ns0:dmg_einwstr_famstndVwt_Bev>60.46511627906976</ns0:dmg_einwstr_famstndVwt_Bev>
+            <ns0:dmg_einwstr_famstndGschdn_Bev>6.976744186046512</ns0:dmg_einwstr_famstndGschdn_Bev>
+            <ns0:dmg_einwstr_hptwhnstz_Bev>97.67441860465115</ns0:dmg_einwstr_hptwhnstz_Bev>
+            <ns0:dmg_altrstr_jngrarbtn_Fl>0.04716520246302935</ns0:dmg_altrstr_jngrarbtn_Fl>
+            <ns0:dmg_altrstr_mittlarbtn_Fl>0.1336347403119165</ns0:dmg_altrstr_mittlarbtn_Fl>
+            <ns0:dmg_altrstr_frtgschrarbtn_Fl>0.10219127200323025</ns0:dmg_altrstr_frtgschrarbtn_Fl>
+            <ns0:dmg_altrstr_altrarbtn_Fl>0.06288693661737246</ns0:dmg_altrstr_altrarbtn_Fl>
+            <ns0:dmg_altrstr_jngrrntnr_Fl>0.1493564744662596</ns0:dmg_altrstr_jngrrntnr_Fl>
+            <ns0:dmg_altrstr_altrrntnr_Fl>0.07074780369454402</ns0:dmg_altrstr_altrrntnr_Fl>
+            <ns0:dmg_altrstr_jgnd_Fl>0.0943304049260587</ns0:dmg_altrstr_jgnd_Fl>
+            <ns0:dmg_altrstr_erwrbsfhg_Fl>0.34587815139554856</ns0:dmg_altrstr_erwrbsfhg_Fl>
+            <ns0:dmg_altrstr_altrbev_Fl>0.23582601231514674</ns0:dmg_altrstr_altrbev_Fl>
+            <ns0:dmg_mbltgr_buggygos_Fl>0.03144346830868623</ns0:dmg_mbltgr_buggygos_Fl>
+            <ns0:dmg_mbltgr_gogos_Fl>0.1493564744662596</ns0:dmg_mbltgr_gogos_Fl>
+            <ns0:dmg_mbltgr_slowgos_Fl>0.07074780369454402</ns0:dmg_mbltgr_slowgos_Fl>
+            <ns0:dmg_einwstr_gesbev_Fl>0.676034568636754</ns0:dmg_einwstr_gesbev_Fl>
+            <ns0:dmg_einwstr_frn_Fl>0.34587815139554856</ns0:dmg_einwstr_frn_Fl>
+            <ns0:dmg_einwstr_maenr_Fl>0.3301564172412054</ns0:dmg_einwstr_maenr_Fl>
+            <ns0:dmg_einwstr_famstndLdg_Fl>0.19652167692928896</ns0:dmg_einwstr_famstndLdg_Fl>
+            <ns0:dmg_einwstr_famstndVhrt_Fl>0.408765088012921</ns0:dmg_einwstr_famstndVhrt_Fl>
+            <ns0:dmg_einwstr_famstndGschdn_Fl>0.04716520246302935</ns0:dmg_einwstr_famstndGschdn_Fl>
+            <ns0:dmg_einwstr_hptwhnstz_Fl>0.6603128344824108</ns0:dmg_einwstr_hptwhnstz_Fl>
+        </ns0:Indikatoren_20190520>
+    </gml:featureMember>
+</wfs:FeatureCollection>
