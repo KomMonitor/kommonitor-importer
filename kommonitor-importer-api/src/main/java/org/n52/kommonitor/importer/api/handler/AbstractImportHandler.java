@@ -34,6 +34,8 @@ import java.util.Optional;
  */
 public abstract class AbstractImportHandler<T> {
 
+    protected static final String LOCATION_HEADER_KEY = "location";
+
     private final Logger LOG = LoggerFactory.getLogger(this.getClass().getName());
 
     @Autowired

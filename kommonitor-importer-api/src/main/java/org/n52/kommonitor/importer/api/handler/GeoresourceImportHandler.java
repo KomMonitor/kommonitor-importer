@@ -23,14 +23,14 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 
 /**
- * Handles a georesource import request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
- * mapping
+ * Handles a Georesource import request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
+ * encoding it into a {@link GeoresourcePOSTInputType} in order to request the KomMonitor DataManagement API
+ * for creating new Georesource.
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
 public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeoresourcePOSTInputType> {
-    private static final String LOCATION_HEADER_KEY = "location";
 
     private final static Logger LOG = LoggerFactory.getLogger(GeoresourceImportHandler.class);
 
@@ -56,13 +56,15 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
         try {
             georesourcePostInput = encoder.encode(importResourceType, spatialResources);
         } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode SpatialResoure.", ex);
+            throw new ImportParameterException("Could not encode georesource.", ex);
         }
 
         LOG.info("Perform 'addGeoresource' request for georesource dataset: {}", georesourcePostInput.getDatasetName());
         LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
         ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
+        LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", locations);
+        
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(locations);
