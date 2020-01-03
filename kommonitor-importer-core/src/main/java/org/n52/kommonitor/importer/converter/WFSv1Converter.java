@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -67,21 +67,29 @@ public class WFSv1Converter extends AbstractConverter {
     }
 
     @Override
-    public List<SpatialResource> convertSpatialResources(ConverterDefinitionType importerDefinition, Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
+    public List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
+                                                         Dataset dataset,
+                                                         SpatialResourcePropertyMappingType propertyMapping)
+            throws ConverterException, ImportParameterException {
+        InputStream input = null;
         if (dataset.getData() instanceof String) {
-            return convertSpatialResources(importerDefinition, (String) dataset.getData(), propertyMapping);
-        } else if (dataset.getData() instanceof InputStream) {
             try {
-                return convertSpatialResources(importerDefinition, (InputStream) dataset.getData(), propertyMapping);
-            } catch (ParserConfigurationException | SAXException | IOException ex) {
-                throw new ConverterException("Error while parsing dataset.", ex);
+                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
+            } catch (UnsupportedEncodingException ex) {
+                throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.", converterDefinition.getEncoding()), ex);
             }
+        } else if (dataset.getData() instanceof InputStream) {
+            input = (InputStream) dataset.getData();
         } else {
             throw new ConverterException(String.format("Dataset type '%s' is not supported. Supported types are: '%s'",
                     dataset.getData().getClass().getName(),
                     Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
         }
-
+        try {
+            return convertSpatialResources(converterDefinition, input, propertyMapping);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
     }
 
     /**
@@ -105,17 +113,18 @@ public class WFSv1Converter extends AbstractConverter {
     }
 
     @Override
-    public List<Indicator> convertIndicators(ConverterDefinitionType importerDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) {
+    public List<Indicator> convertIndicators(ConverterDefinitionType importerDefinition,
+                                             Dataset dataset,
+                                             IndicatorPropertyMappingType propertyMapping) {
         return null;
     }
 
-
-    protected List<SpatialResource> convertSpatialResources(ConverterDefinitionType importerDefinition, String dataset, SpatialResourcePropertyMappingType propertyMapping) {
-        return null;
-    }
-
-    protected List<SpatialResource> convertSpatialResources(ConverterDefinitionType importerDefinition, InputStream dataset, SpatialResourcePropertyMappingType propertyMapping) throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
-        GML gml = getGmlParserForSchema(importerDefinition.getSchema());
+    private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
+                                                          InputStream dataset,
+                                                          SpatialResourcePropertyMappingType propertyMapping)
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
+        GML gml = getGmlParserForSchema(converterDefinition.getSchema());
+        gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
         return new FeatureDecoder().decodeFeatureCollection(collection, propertyMapping);
