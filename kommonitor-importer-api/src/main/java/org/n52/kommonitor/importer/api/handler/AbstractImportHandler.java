@@ -63,6 +63,7 @@ public abstract class AbstractImportHandler<T> {
         if (!converterOpt.isPresent()) {
             throw new ImportParameterException("No support for the specified converter: " + converterDefinition.getName());
         }
+        converterOpt.get().validateDefinition(converterDefinition);
         try {
             LOG.info("Retrieving dataset from datasource: {}", datasourceDefinition.getType());
             LOG.debug("Datasource definition: {}", datasourceDefinition);
