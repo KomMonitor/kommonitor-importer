@@ -1,5 +1,7 @@
 package org.n52.kommonitor.importer.entities;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -7,23 +9,32 @@ import java.time.LocalDateTime;
  */
 public class TimeseriesValue {
 
-    private double value;
+    private float value;
 
-    private LocalDateTime timestamp;
+    private LocalDate timestamp;
 
-    public double getValue() {
+    public TimeseriesValue (){
+
+    }
+
+    public TimeseriesValue(@NotNull float value, @NotNull LocalDate timestamp) {
+        this.value = value;
+        this.timestamp = timestamp;
+    }
+
+    public float getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(@NotNull float value) {
         this.value = value;
     }
 
-    public LocalDateTime getTimestamp() {
+    public LocalDate getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(@NotNull LocalDate timestamp) {
         this.timestamp = timestamp;
     }
 }
