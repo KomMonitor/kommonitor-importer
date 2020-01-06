@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
-import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -16,8 +15,6 @@ import org.n52.kommonitor.importer.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
@@ -76,7 +73,7 @@ public abstract class AbstractImportHandler<T> {
             String baseMessage = "Error while importing resource.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
             LOG.debug(String.format("%s%n%s", baseMessage, importResourceType), ex);
-            throw new ImportException("Error while importing resource", ex);
+            throw new ImportException("Unexpected error while importing resource", ex);
         }
     }
 

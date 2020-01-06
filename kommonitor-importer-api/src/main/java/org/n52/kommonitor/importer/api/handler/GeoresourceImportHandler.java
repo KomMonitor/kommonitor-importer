@@ -56,15 +56,15 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
         try {
             georesourcePostInput = encoder.encode(importResourceType, spatialResources);
         } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode georesource.", ex);
+            throw new ImportParameterException("Could not encode Georesource.", ex);
         }
 
-        LOG.info("Perform 'addGeoresource' request for georesource dataset: {}", georesourcePostInput.getDatasetName());
+        LOG.info("Perform 'addGeoresource' request for Georesource dataset: {}", georesourcePostInput.getDatasetName());
         LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
         ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
         LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", locations);
-        
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(locations);

@@ -1,11 +1,8 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.datamanagement.api.models.SpatialUnitPOSTInputType;
-import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
 import org.n52.kommonitor.importer.api.encoder.SpatialUnitEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -61,7 +58,7 @@ public class SpatialUnitImportHandler extends AbstractImportHandler<ImportSpatia
             throw new ImportParameterException("Could not encode SpatialUnit.", ex);
         }
 
-        LOG.info("Perform 'addSpatialUnit' request for spatial unit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
+        LOG.info("Perform 'addSpatialUnit' request for SpatialUnit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
         LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPostInput);
         ResponseEntity<Void> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
