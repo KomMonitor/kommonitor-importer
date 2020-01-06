@@ -1,5 +1,7 @@
 package org.n52.kommonitor.importer.decoder;
 
+import org.geotools.data.DataUtilities;
+import org.geotools.data.simple.SimpleFeatureCollection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -9,16 +11,21 @@ import org.locationtech.jts.geom.Point;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
+import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
@@ -33,8 +40,8 @@ class FeatureDecoderTest {
     }
 
     @Test
-    @DisplayName("Test single feature decoding")
-    void testDecodeFeature() throws DecodingException {
+    @DisplayName("Test single feature decoding to SpatialResource")
+    void testDecodeFeatureToSpatialResource() throws DecodingException {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("id");
         mapping.setNameProperty("name");
@@ -56,7 +63,7 @@ class FeatureDecoderTest {
         Mockito.when(feature.getAttribute("geometry")).thenReturn(geom);
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
-        SpatialResource resource = decoder.decodeFeature(feature, mapping);
+        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
 
         Assertions.assertEquals("testId", resource.getId());
         Assertions.assertEquals("testName", resource.getName());
@@ -65,8 +72,8 @@ class FeatureDecoderTest {
     }
 
     @Test
-    @DisplayName("Test single feature decoding for optional properties")
-    void testDecodeFeatureForOptionalProperties() throws DecodingException {
+    @DisplayName("Test single feature decoding to SpatialResource for optional properties")
+    void testDecodeFeatureToSpatialResourceForOptionalProperties() throws DecodingException {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("id");
         mapping.setNameProperty("name");
@@ -84,7 +91,7 @@ class FeatureDecoderTest {
         Mockito.when(feature.getAttribute("geometry")).thenReturn(geom);
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
-        SpatialResource resource = decoder.decodeFeature(feature, mapping);
+        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
 
         Assertions.assertFalse(resource.getStartDate().isPresent());
         Assertions.assertFalse(resource.getEndDate().isPresent());
@@ -155,6 +162,39 @@ class FeatureDecoderTest {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         Assertions.assertEquals(df.format(date), dtf.format(decoder.getPropertyValueAsDate(feature, attName)));
+    }
+
+    @Test
+    @DisplayName("Test get Float property value for a Float property type")
+    void testGetFloatPropertyValueForFloatProperty() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        float value = 0.123f;
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertEquals(value, decoder.getPropertyValueAsFloat(feature, attName));
+    }
+
+    @Test
+    @DisplayName("Test get Float property value for a String property type")
+    void testGetFloatPropertyValueForStringProperty() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        String value = "0.123";
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertEquals(Float.parseFloat(value), decoder.getPropertyValueAsFloat(feature, attName));
+    }
+
+    @Test
+    @DisplayName("Test get Float property value should throw an exception for a non parsable String")
+    void testGetFloatPropertyValueThrowsExceptionForNonParsableString() {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        String value = "not-a-number";
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertThrows(DecodingException.class, () -> decoder.getPropertyValueAsFloat(feature, attName));
     }
 
     @Test

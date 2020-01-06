@@ -3,8 +3,11 @@ package org.n52.kommonitor.importer.decoder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.locationtech.jts.geom.Geometry;
+import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
+import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
+import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -12,16 +15,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
+ * and {@link IndicatorValue} entities
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
@@ -38,9 +41,9 @@ public class FeatureDecoder {
      * @param feature         {@link SimpleFeature} to decode
      * @param propertyMapping definition of property mappings
      * @return {@link SpatialResource}
-     * @throws DecodingException
+     * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    public SpatialResource decodeFeature(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
+    public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
         String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
         String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
         String arisenFrom = propertyMapping.getArisenFromProperty() == null ? null :
@@ -60,21 +63,97 @@ public class FeatureDecoder {
      *
      * @param featureCollection   {@link SimpleFeatureCollection} to decode
      * @param propertyMappingType definition of property mappings
-     * @return
+     * @return {@link List<SpatialResource>}
      */
-    public List<SpatialResource> decodeFeatureCollection(SimpleFeatureCollection featureCollection,
-                                                         SpatialResourcePropertyMappingType propertyMappingType) {
+    public List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
+                                                                           SpatialResourcePropertyMappingType propertyMappingType) {
         List<SpatialResource> result = new ArrayList<>();
         SimpleFeatureIterator iterator = featureCollection.features();
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             try {
-                result.add(decodeFeature(feature, propertyMappingType));
+                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType));
             } catch (DecodingException e) {
-                LOG.warn("Could not decode feature {}", feature.getID());
+                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
             }
         }
         return result;
+    }
+
+    /**
+     * Decode a {@link  List<SimpleFeature>} as {@link IndicatorValue} by mapping certain properties
+     *
+     * @param spatialRefKey       the spatial reference key for the {@link IndicatorValue} to which all the
+     *                            {@link SimpleFeature} entities belong
+     * @param features            {@link  List<SimpleFeature>} to decode
+     * @param propertyMappingType definition of property mappings
+     * @return {@link IndicatorValue}
+     * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
+     */
+    public IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, IndicatorPropertyMappingType propertyMappingType) {
+        List<TimeseriesValue> timeSeries = new ArrayList<>();
+        features.forEach(f -> {
+            try {
+                float indicatorValue = getPropertyValueAsFloat(f, propertyMappingType.getIndicatorValueProperty());
+                LocalDate timeStamp = getPropertyValueAsDate(f, propertyMappingType.getTimestampProperty());
+                timeSeries.add(new TimeseriesValue(indicatorValue, timeStamp));
+            } catch (DecodingException e) {
+                LOG.warn("Could not decode feature {}. Cause: {}.", f.getID(), e.getMessage());
+            }
+        });
+
+        return new IndicatorValue(spatialRefKey, timeSeries);
+    }
+
+    /**
+     * Decode a {@link SimpleFeatureCollection} as {@link List<IndicatorValue>} by mapping certain properties
+     * and the geometry
+     *
+     * @param featureCollection   {@link SimpleFeatureCollection} to decode
+     * @param propertyMappingType definition of property mappings
+     * @return {@link List<IndicatorValue>}
+     */
+    public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
+                                                                         IndicatorPropertyMappingType propertyMappingType) throws IOException {
+        List<IndicatorValue> result = new ArrayList<>();
+        Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, propertyMappingType);
+        groupedFeatures.forEach((k, v) -> {
+            result.add(decodeFeaturesToIndicatorValues(k, v, propertyMappingType));
+        });
+
+        return result;
+    }
+
+    /**
+     * Groups a {@link SimpleFeatureCollection} by common values of a spatial reference key property that
+     * is defined within a {@link IndicatorPropertyMappingType}.
+     * The grouping results in a {@link Map<String, List<SimpleFeature>>} with the distinct spatial reference key values
+     * as map keys and the {@link SimpleFeature} entities belonging to the spatial reference keys value as values.
+     *
+     * @param featureCollection   the {@link SimpleFeatureCollection} to group
+     * @param propertyMappingType {@link IndicatorPropertyMappingType} that contains the definition of the reference key property
+     * @return a {@link Map} that contains the {@link SimpleFeature} entities grouped by its spatial reference key values
+     */
+    protected Map<String, List<SimpleFeature>> groupFeatureCollection(SimpleFeatureCollection featureCollection, IndicatorPropertyMappingType propertyMappingType) {
+        Map<String, List<SimpleFeature>> groupedFeatures = new HashMap();
+        SimpleFeatureIterator iterator = featureCollection.features();
+        while (iterator.hasNext()) {
+            SimpleFeature feature = iterator.next();
+            try {
+                String refKey = getPropertyValueAsString(feature, propertyMappingType.getSpatialReferenceKeyProperty());
+                if (groupedFeatures.containsKey(refKey)) {
+                    groupedFeatures.get(refKey).add(feature);
+                } else {
+                    List<SimpleFeature> featureList = new ArrayList<>();
+                    featureList.add(feature);
+                    groupedFeatures.put(refKey, featureList);
+                }
+            } catch (DecodingException e) {
+                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+            }
+
+        }
+        return groupedFeatures;
     }
 
     /**
@@ -104,6 +183,30 @@ public class FeatureDecoder {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, String.class.getName()));
         }
         return (String) propertyValue;
+    }
+
+    /**
+     * Gets the value from a {@link SimpleFeature} property as Float
+     *
+     * @param feature      the {@link SimpleFeature} to fetch the property from
+     * @param propertyName name of the property to fetch
+     * @return the value of the fetched feature property as Float
+     * @throws DecodingException if the property value could not be parsed as Float
+     */
+    protected float getPropertyValueAsFloat(SimpleFeature feature, String propertyName) throws DecodingException {
+        Object propertyValue = getPropertyValue(feature, propertyName);
+        if (propertyValue instanceof Float) {
+            return (Float) propertyValue;
+        } else if (propertyValue instanceof String) {
+            try {
+                return Float.parseFloat((String) propertyValue);
+            } catch (NumberFormatException ex) {
+                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
+            }
+
+        } else {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
+        }
     }
 
     /**
