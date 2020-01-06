@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,10 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
-import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
 import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
-import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
+import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -31,7 +31,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,9 +38,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -124,6 +123,7 @@ public class GeoresourcesApiControllerTest {
     @DisplayName("Test importGeoresource responds with 400 status code for ImportParameterException")
     public void testImportGeoresourceForImportParameterException() throws Exception {
         prepareMocks();
+
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
         Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
@@ -204,7 +204,7 @@ public class GeoresourcesApiControllerTest {
         return geoImport;
     }
 
-    private void prepareMocks() throws ConverterException, ImportParameterException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
         Mockito.when(converter.convertSpatialResources(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),
@@ -214,5 +214,10 @@ public class GeoresourcesApiControllerTest {
         headers.add("location", CREATED_RESOURCE_ID);
         ResponseEntity<Void> response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any())).thenReturn(response);
+
+        GeoresourcePOSTInputType geo = Mockito.mock(GeoresourcePOSTInputType.class);
+        Mockito.when(geo.getDatasetName()).thenReturn("testDataset");
+
+        Mockito.when(encoder.encode(Mockito.any(ImportGeoresourcePOSTInputType.class), Mockito.anyList())).thenReturn(geo);
     }
 }
