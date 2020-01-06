@@ -3,6 +3,8 @@ package org.n52.kommonitor.importer.models;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
@@ -22,9 +24,11 @@ public class PeriodOfValidityType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("startDate")
+  @JsonSerialize(using = ToStringSerializer.class)
   private LocalDate startDate = null;
 
   @JsonProperty("endDate")
+  @JsonSerialize(using = ToStringSerializer.class)
   private LocalDate endDate = null;
 
   public PeriodOfValidityType startDate(LocalDate startDate) {
