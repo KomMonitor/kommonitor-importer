@@ -1,14 +1,13 @@
 package org.n52.kommonitor.importer.converter;
 
 import org.n52.kommonitor.importer.entities.Dataset;
-import org.n52.kommonitor.importer.entities.Indicator;
+import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
-import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
@@ -32,12 +31,12 @@ public interface Converter {
     List<SpatialResource> convertSpatialResources(ConverterDefinitionType importerDefinition, Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
 
     /**
-     * Decodes a dataset into {@link List<Indicator>} according to a given {@link ConverterDefinitionType}
+     * Decodes a dataset into {@link List<IndicatorValue>} according to a given {@link ConverterDefinitionType}
      *
      * @param importerDefinition the {@link ConverterDefinitionType} used to decode the dataset
      * @param dataset            the {@link Dataset} that contains the data to convert
-     * @return the converted {@link List<Indicator>}
+     * @return the converted {@link List<IndicatorValue>}
      */
-    List<Indicator> convertIndicators(ConverterDefinitionType importerDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
+    List<IndicatorValue> convertIndicators(ConverterDefinitionType importerDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
 
 }

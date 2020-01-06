@@ -4,14 +4,13 @@ import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
-import org.n52.kommonitor.importer.entities.Indicator;
+import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -71,22 +70,22 @@ public class WFSv1Converter extends AbstractConverter {
                                                          Dataset dataset,
                                                          SpatialResourcePropertyMappingType propertyMapping)
             throws ConverterException, ImportParameterException {
-        InputStream input = null;
-        if (dataset.getData() instanceof String) {
-            try {
-                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
-            } catch (UnsupportedEncodingException ex) {
-                throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.", converterDefinition.getEncoding()), ex);
-            }
-        } else if (dataset.getData() instanceof InputStream) {
-            input = (InputStream) dataset.getData();
-        } else {
-            throw new ConverterException(String.format("Dataset type '%s' is not supported. Supported types are: '%s'",
-                    dataset.getData().getClass().getName(),
-                    Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
-        }
+        InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertSpatialResources(converterDefinition, input, propertyMapping);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
+    }
+
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                  Dataset dataset,
+                                                  IndicatorPropertyMappingType propertyMapping) throws ConverterException {
+        InputStream input = getInputStream(converterDefinition, dataset);
+        try {
+            return convertIndicators(converterDefinition, input, propertyMapping);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -112,13 +111,6 @@ public class WFSv1Converter extends AbstractConverter {
         }
     }
 
-    @Override
-    public List<Indicator> convertIndicators(ConverterDefinitionType importerDefinition,
-                                             Dataset dataset,
-                                             IndicatorPropertyMappingType propertyMapping) {
-        return null;
-    }
-
     private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
@@ -127,7 +119,37 @@ public class WFSv1Converter extends AbstractConverter {
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
-        return new FeatureDecoder().decodeFeatureCollection(collection, propertyMapping);
+        return new FeatureDecoder().decodeFeatureCollectionToSpatialResources(collection, propertyMapping);
+    }
+
+    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                   InputStream dataset,
+                                                   IndicatorPropertyMappingType propertyMapping)
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
+        GML gml = getGmlParserForSchema(converterDefinition.getSchema());
+        gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
+        SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
+
+        return new FeatureDecoder().decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
+    }
+
+    private InputStream getInputStream(ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException {
+        InputStream input = null;
+        if (dataset.getData() instanceof String) {
+            try {
+                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
+            } catch (UnsupportedEncodingException ex) {
+                throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.",
+                        converterDefinition.getEncoding()), ex);
+            }
+        } else if (dataset.getData() instanceof InputStream) {
+            input = (InputStream) dataset.getData();
+        } else {
+            throw new ConverterException(String.format("Dataset type '%s' is not supported. Supported types are: '%s'",
+                    dataset.getData().getClass().getName(),
+                    Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
+        }
+        return input;
     }
 }
 
