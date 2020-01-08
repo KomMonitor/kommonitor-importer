@@ -2,11 +2,17 @@ package org.n52.kommonitor.importer.decoder;
 
 import org.geotools.data.DataUtilities;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.geometry.GeometryBuilder;
+import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -16,6 +22,9 @@ import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.TransformException;
 import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
@@ -41,7 +50,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test single feature decoding to SpatialResource")
-    void testDecodeFeatureToSpatialResource() throws DecodingException {
+    void testDecodeFeatureToSpatialResource() throws DecodingException, FactoryException {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("id");
         mapping.setNameProperty("name");
@@ -52,15 +61,15 @@ class FeatureDecoderTest {
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
         Mockito.when(descriptor.getLocalName()).thenReturn("geometry");
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
+        Mockito.when(featureType.getCoordinateReferenceSystem()).thenReturn(CRS.decode("EPSG:32632"));
 
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(mapping.getIdentifierProperty())).thenReturn("testId");
         Mockito.when(feature.getAttribute(mapping.getNameProperty())).thenReturn("testName");
         Mockito.when(feature.getAttribute(mapping.getValidStartDateProperty())).thenReturn("2019-12-17");
         Mockito.when(feature.getAttribute(mapping.getValidEndDateProperty())).thenReturn("2020-12-17");
-
-        Geometry geom = Mockito.mock(Point.class);
-        Mockito.when(feature.getAttribute("geometry")).thenReturn(geom);
+        Mockito.when(feature.getAttribute("geometry"))
+                .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
         SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
@@ -73,7 +82,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test single feature decoding to SpatialResource for optional properties")
-    void testDecodeFeatureToSpatialResourceForOptionalProperties() throws DecodingException {
+    void testDecodeFeatureToSpatialResourceForOptionalProperties() throws DecodingException, FactoryException, TransformException {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("id");
         mapping.setNameProperty("name");
@@ -82,13 +91,13 @@ class FeatureDecoderTest {
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
         Mockito.when(descriptor.getLocalName()).thenReturn("geometry");
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
+        Mockito.when(featureType.getCoordinateReferenceSystem()).thenReturn(CRS.decode("EPSG:32632"));
 
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(mapping.getIdentifierProperty())).thenReturn("testId");
         Mockito.when(feature.getAttribute(mapping.getNameProperty())).thenReturn("testName");
-
-        Geometry geom = Mockito.mock(Point.class);
-        Mockito.when(feature.getAttribute("geometry")).thenReturn(geom);
+        Mockito.when(feature.getAttribute("geometry"))
+                .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
         SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
