@@ -50,7 +50,7 @@ public class FeatureDecoder {
      * @return {@link SpatialResource}
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping) throws DecodingException {
+    public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs) throws DecodingException {
         String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
         String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
         String arisenFrom = propertyMapping.getArisenFromProperty() == null ? null :
@@ -59,7 +59,7 @@ public class FeatureDecoder {
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
         LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
-        Geometry geom = getGeometry(feature, feature.getFeatureType());
+        Geometry geom = getGeometry(feature, feature.getFeatureType(), crs);
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate);
     }
@@ -73,13 +73,14 @@ public class FeatureDecoder {
      * @return {@link List<SpatialResource>}
      */
     public List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
-                                                                           SpatialResourcePropertyMappingType propertyMappingType) {
+                                                                           SpatialResourcePropertyMappingType propertyMappingType,
+                                                                           CoordinateReferenceSystem crs) {
         List<SpatialResource> result = new ArrayList<>();
         SimpleFeatureIterator iterator = featureCollection.features();
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             try {
-                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType));
+                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, crs));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
             }
@@ -170,11 +171,11 @@ public class FeatureDecoder {
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
      */
-    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
+    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType, CoordinateReferenceSystem crs) throws DecodingException {
         String geomName = simpleFeatureType.getGeometryDescriptor().getLocalName();
         Geometry geom = (Geometry) feature.getAttribute(geomName);
         try {
-            return reprojectGeomToWgs84(geom, feature.getFeatureType().getCoordinateReferenceSystem());
+            return reprojectGeomToWgs84(geom, crs);
         } catch (FactoryException | TransformException ex) {
             throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", EPSG_4326), ex);
         }

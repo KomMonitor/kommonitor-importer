@@ -61,7 +61,6 @@ class FeatureDecoderTest {
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
         Mockito.when(descriptor.getLocalName()).thenReturn("geometry");
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
-        Mockito.when(featureType.getCoordinateReferenceSystem()).thenReturn(CRS.decode("EPSG:32632"));
 
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(mapping.getIdentifierProperty())).thenReturn("testId");
@@ -72,7 +71,7 @@ class FeatureDecoderTest {
                 .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
-        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
+        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping, CRS.decode("EPSG:32632"));
 
         Assertions.assertEquals("testId", resource.getId());
         Assertions.assertEquals("testName", resource.getName());
@@ -91,7 +90,6 @@ class FeatureDecoderTest {
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
         Mockito.when(descriptor.getLocalName()).thenReturn("geometry");
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
-        Mockito.when(featureType.getCoordinateReferenceSystem()).thenReturn(CRS.decode("EPSG:32632"));
 
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(mapping.getIdentifierProperty())).thenReturn("testId");
@@ -100,7 +98,7 @@ class FeatureDecoderTest {
                 .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
 
-        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping);
+        SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping, CRS.decode("EPSG:32632"));
 
         Assertions.assertFalse(resource.getStartDate().isPresent());
         Assertions.assertFalse(resource.getEndDate().isPresent());
