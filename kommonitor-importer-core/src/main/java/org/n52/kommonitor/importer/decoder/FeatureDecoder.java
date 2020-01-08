@@ -2,6 +2,8 @@ package org.n52.kommonitor.importer.decoder;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
+import org.geotools.geometry.jts.JTS;
+import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -11,6 +13,10 @@ import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -32,6 +38,7 @@ import java.util.*;
 public class FeatureDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeatureDecoder.class);
+    public static final String EPSG_4326 = "EPSG:4326";
 
 
     /**
@@ -157,16 +164,35 @@ public class FeatureDecoder {
     }
 
     /**
-     * Gets the value from a {@link Geometry} property of a feature
+     * Gets the {@link Geometry} of a feature within WGS 84 coordinate reference system
      *
      * @param feature           the {@link SimpleFeature} to fetch the geometry from
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
      */
-    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) {
+    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
         String geomName = simpleFeatureType.getGeometryDescriptor().getLocalName();
         Geometry geom = (Geometry) feature.getAttribute(geomName);
-        return geom;
+        try {
+            return reprojectGeomToWgs84(geom, feature.getFeatureType().getCoordinateReferenceSystem());
+        } catch (FactoryException | TransformException ex) {
+            throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", EPSG_4326), ex);
+        }
+    }
+
+    /**
+     * Reprojects a {@link Geometry} from a source CRS into WGS 84 CRS
+     *
+     * @param geom      {@link Geometry} to reproject
+     * @param sourceCrs {@link CoordinateReferenceSystem} of the feature geometry
+     * @return the reprojected {@link Geometry}
+     * @throws FactoryException
+     * @throws TransformException
+     */
+    protected Geometry reprojectGeomToWgs84(Geometry geom, CoordinateReferenceSystem sourceCrs)
+            throws FactoryException, TransformException {
+        MathTransform transform = CRS.findMathTransform(sourceCrs, CRS.decode(EPSG_4326));
+        return JTS.transform(geom, transform);
     }
 
     /**

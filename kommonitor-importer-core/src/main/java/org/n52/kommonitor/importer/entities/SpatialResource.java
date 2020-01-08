@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * A spatial resource that encapsulates the GeoJSON values for spatial units and georesources
+ * A spatial resource that encapsulates the GeoJSON values for spatial units and georesources.
+ * Note that the geometries are implicit inthe WGS 84 coordinate system.
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
