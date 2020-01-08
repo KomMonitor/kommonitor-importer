@@ -12,12 +12,15 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
+import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,6 +46,10 @@ public class WFSv1ConverterTest {
         convDef.setMimeType(MIME_TYPE);
         convDef.setSchema(WFS_SCHEMA);
         convDef.setEncoding(ENCODING);
+        ParameterValueType param = new ParameterValueType();
+        param.setName("CRS");
+        param.setValue("EPSG:25832");
+        convDef.setParameters(Arrays.asList(param));
 
         propertyMapping = new SpatialResourcePropertyMappingType();
         propertyMapping.setIdentifierProperty("Baublock_ID");
@@ -90,6 +97,29 @@ public class WFSv1ConverterTest {
     @DisplayName("Test convert SpatialResources for WFS datasource throws ConverterException for non parsable dataset")
     void testConvertSpatialResourcesForWfsDatasourceThrowsConverterExceptionForNotParsableDataset() {
         Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");
+
+        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
+    }
+
+    @Test
+    @DisplayName("Test convert SpatialResources for WFS datasource throws ImportParameterException for unavailable CRS parameter")
+    void testConvertSpatialResourcesForWfsDatasourceThrowsImporParameterExceptionForUnavaliableParameter() {
+        InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+        convDef.setParameters(Collections.EMPTY_LIST);
+
+        Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
+    }
+
+    @Test
+    @DisplayName("Test convert SpatialResources for WFS datasource throws ConverterException for unvalid CRS parameter")
+    void testConvertSpatialResourcesForWfsDatasourceThrowsConverterExceptionForNonValidParameter() {
+        InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+        ParameterValueType param = new ParameterValueType();
+        param.setName("CRS");
+        param.setValue("non-valid-epsg-code");
+        convDef.setParameters(Arrays.asList(param));
 
         Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
     }

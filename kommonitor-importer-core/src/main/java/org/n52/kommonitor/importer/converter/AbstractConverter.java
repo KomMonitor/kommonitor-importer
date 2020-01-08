@@ -2,10 +2,13 @@ package org.n52.kommonitor.importer.converter;
 
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
+import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Import;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -81,6 +84,13 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
 
     public Set<ConverterParameter> getConverterParameters() {
         return converterParameters != null ? Collections.unmodifiableSet(converterParameters) : null;
+    }
+
+    public Optional<String> getParameterValue(String paramName, List<ParameterValueType> parameterValueList) {
+        return parameterValueList.stream()
+                .filter(p -> p.getName().equals(paramName))
+                .findFirst()
+                .map(ParameterValueType::getValue);
     }
 
     /**

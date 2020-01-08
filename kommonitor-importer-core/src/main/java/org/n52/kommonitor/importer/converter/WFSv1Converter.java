@@ -2,6 +2,7 @@ package org.n52.kommonitor.importer.converter;
 
 import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.referencing.CRS;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -11,16 +12,14 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
+import org.opengis.referencing.FactoryException;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
@@ -32,6 +31,7 @@ public class WFSv1Converter extends AbstractConverter {
     private static final String WFS_SCHEMA_100 = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
     private static final String WFS_SCHEMA_110 = "http://schemas.opengis.net/wfs/1.1.0/wfs.xsd";
     private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String PARAM_CRS = "CRS";
 
     @Override
     public String initName() {
@@ -62,7 +62,10 @@ public class WFSv1Converter extends AbstractConverter {
 
     @Override
     public Set<ConverterParameter> initConverterParameters() {
-        return null;
+        Set<ConverterParameter> params = new HashSet();
+        ConverterParameter crsParam = createCrsParameter();
+        params.add(crsParam);
+        return params;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class WFSv1Converter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertSpatialResources(converterDefinition, input, propertyMapping);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException | FactoryException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -86,7 +89,7 @@ public class WFSv1Converter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertIndicators(converterDefinition, input, propertyMapping);
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException | FactoryException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -114,20 +117,34 @@ public class WFSv1Converter extends AbstractConverter {
     private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, FactoryException {
         GML gml = getGmlParserForSchema(converterDefinition.getSchema());
+
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
+
+        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
+        if (!crsOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
+        }
+
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
-        return new FeatureDecoder().decodeFeatureCollectionToSpatialResources(collection, propertyMapping);
+        return new FeatureDecoder().decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                    InputStream dataset,
                                                    IndicatorPropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, FactoryException {
         GML gml = getGmlParserForSchema(converterDefinition.getSchema());
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
+
+        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
+        if (!crsOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
+        }
+        gml.setCoordinateReferenceSystem(CRS.decode(crsOpt.get()));
+
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
         return new FeatureDecoder().decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
@@ -150,6 +167,11 @@ public class WFSv1Converter extends AbstractConverter {
                     Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
         }
         return input;
+    }
+
+    private ConverterParameter createCrsParameter() {
+        String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
+        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING);
     }
 }
 
