@@ -2,8 +2,6 @@ package org.n52.kommonitor.importer.decoder;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.geometry.jts.JTS;
-import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -11,14 +9,15 @@ import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -38,8 +37,9 @@ import java.util.*;
 public class FeatureDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeatureDecoder.class);
-    public static final String EPSG_4326 = "EPSG:4326";
 
+    @Autowired
+    private GeometryHelper geomHelper;
 
     /**
      * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
@@ -50,7 +50,9 @@ public class FeatureDecoder {
      * @return {@link SpatialResource}
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature, SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs) throws DecodingException {
+    public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature,
+                                                          SpatialResourcePropertyMappingType propertyMapping,
+                                                          CoordinateReferenceSystem sourceCrs) throws DecodingException {
         String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
         String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
         String arisenFrom = propertyMapping.getArisenFromProperty() == null ? null :
@@ -59,7 +61,12 @@ public class FeatureDecoder {
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
         LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
-        Geometry geom = getGeometry(feature, feature.getFeatureType(), crs);
+        Geometry geom = null;
+        try {
+            geom = geomHelper.reprojectGeomToWgs84(getGeometry(feature, feature.getFeatureType()), sourceCrs);
+        } catch (FactoryException | TransformException ex) {
+            throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", GeometryHelper.EPSG_4326), ex);
+        }
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate);
     }
@@ -74,13 +81,13 @@ public class FeatureDecoder {
      */
     public List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
                                                                            SpatialResourcePropertyMappingType propertyMappingType,
-                                                                           CoordinateReferenceSystem crs) {
+                                                                           CoordinateReferenceSystem sourceCrs) {
         List<SpatialResource> result = new ArrayList<>();
         SimpleFeatureIterator iterator = featureCollection.features();
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             try {
-                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, crs));
+                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, sourceCrs));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
             }
@@ -171,30 +178,12 @@ public class FeatureDecoder {
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
      */
-    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType, CoordinateReferenceSystem crs) throws DecodingException {
+    protected Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
         String geomName = simpleFeatureType.getGeometryDescriptor().getLocalName();
         Geometry geom = (Geometry) feature.getAttribute(geomName);
-        try {
-            return reprojectGeomToWgs84(geom, crs);
-        } catch (FactoryException | TransformException ex) {
-            throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", EPSG_4326), ex);
-        }
+        return geom;
     }
 
-    /**
-     * Reprojects a {@link Geometry} from a source CRS into WGS 84 CRS
-     *
-     * @param geom      {@link Geometry} to reproject
-     * @param sourceCrs {@link CoordinateReferenceSystem} of the feature geometry
-     * @return the reprojected {@link Geometry}
-     * @throws FactoryException
-     * @throws TransformException
-     */
-    protected Geometry reprojectGeomToWgs84(Geometry geom, CoordinateReferenceSystem sourceCrs)
-            throws FactoryException, TransformException {
-        MathTransform transform = CRS.findMathTransform(sourceCrs, CRS.decode(EPSG_4326));
-        return JTS.transform(geom, transform);
-    }
 
     /**
      * Gets the value from a {@link SimpleFeature} property as String
@@ -269,4 +258,6 @@ public class FeatureDecoder {
         }
         return propertyValue;
     }
+
+
 }

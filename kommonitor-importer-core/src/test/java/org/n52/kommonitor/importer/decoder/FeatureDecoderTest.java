@@ -10,21 +10,27 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.mockito.Mockito;
+import org.n52.kommonitor.importer.converter.WFSv1Converter;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
@@ -39,14 +45,12 @@ import java.util.Map;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {FeatureDecoder.class, GeometryHelper.class})
 class FeatureDecoderTest {
 
-    private static FeatureDecoder decoder;
-
-    @BeforeAll
-    static void setUp() {
-        decoder = new FeatureDecoder();
-    }
+    @Autowired
+    FeatureDecoder decoder;
 
     @Test
     @DisplayName("Test single feature decoding to SpatialResource")
