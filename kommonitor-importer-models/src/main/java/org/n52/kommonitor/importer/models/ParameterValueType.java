@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:14:58.429+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class ParameterValueType  implements Serializable {
   private static final long serialVersionUID = 1L;

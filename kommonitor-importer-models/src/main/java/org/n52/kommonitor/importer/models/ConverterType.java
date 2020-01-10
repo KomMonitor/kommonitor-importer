@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class ConverterType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -27,7 +27,8 @@ public class ConverterType  implements Serializable {
   private String name = null;
 
   @JsonProperty("mimeType")
-  private String mimeType = null;
+  @Valid
+  private List<String> mimeType = new ArrayList<>();
 
   @JsonProperty("schemas")
   @Valid
@@ -62,24 +63,29 @@ public class ConverterType  implements Serializable {
     this.name = name;
   }
 
-  public ConverterType mimeType(String mimeType) {
+  public ConverterType mimeType(List<String> mimeType) {
     this.mimeType = mimeType;
     return this;
   }
 
+  public ConverterType addMimeTypeItem(String mimeTypeItem) {
+    this.mimeType.add(mimeTypeItem);
+    return this;
+  }
+
   /**
-   * MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the converter
+   * list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter
    * @return mimeType
   **/
-  @ApiModelProperty(required = true, value = "MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that is supported by the converter")
+  @ApiModelProperty(required = true, value = "list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter")
   @NotNull
 
 
-  public String getMimeType() {
+  public List<String> getMimeType() {
     return mimeType;
   }
 
-  public void setMimeType(String mimeType) {
+  public void setMimeType(List<String> mimeType) {
     this.mimeType = mimeType;
   }
 

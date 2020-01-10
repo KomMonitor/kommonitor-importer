@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Holds various information about the datasource for importing new resources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class DataSourceDefinitionType  implements Serializable {
   private static final long serialVersionUID = 1L;

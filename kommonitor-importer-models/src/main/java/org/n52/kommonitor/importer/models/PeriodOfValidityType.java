@@ -3,8 +3,6 @@ package org.n52.kommonitor.importer.models;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
@@ -14,21 +12,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Definition of the period of validity of a certain dataset
+ * definition of the period of validity of a certain dataset
  */
-@ApiModel(description = "Definition of the period of validity of a certain dataset")
+@ApiModel(description = "definition of the period of validity of a certain dataset")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class PeriodOfValidityType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("startDate")
-  @JsonSerialize(using = ToStringSerializer.class)
   private LocalDate startDate = null;
 
   @JsonProperty("endDate")
-  @JsonSerialize(using = ToStringSerializer.class)
   private LocalDate endDate = null;
 
   public PeriodOfValidityType startDate(LocalDate startDate) {

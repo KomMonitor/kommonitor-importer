@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A default error that will be responded if an unexpected server error occurs")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T17:28:10.079+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class Error  implements Serializable {
   private static final long serialVersionUID = 1L;

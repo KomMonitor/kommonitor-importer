@@ -14,11 +14,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Definition of a default classification mapping for indicator values
+ * DefaultClassificationMappingType
  */
-@ApiModel(description = "Definition of a default classification mapping for indicator values")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class DefaultClassificationMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -28,7 +27,7 @@ public class DefaultClassificationMappingType  implements Serializable {
 
   @JsonProperty("items")
   @Valid
-  private List<DefaultClassificationMappingItemType> items = new ArrayList<>();
+  private List<DefaultClassificationMappingItemType> items = null;
 
   public DefaultClassificationMappingType colorBrewerSchemeName(String colorBrewerSchemeName) {
     this.colorBrewerSchemeName = colorBrewerSchemeName;
@@ -36,11 +35,10 @@ public class DefaultClassificationMappingType  implements Serializable {
   }
 
   /**
-   * the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
+   * the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
    * @return colorBrewerSchemeName
   **/
-  @ApiModelProperty(required = true, value = "the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.")
-  @NotNull
+  @ApiModelProperty(value = "the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.")
 
 
   public String getColorBrewerSchemeName() {
@@ -57,6 +55,9 @@ public class DefaultClassificationMappingType  implements Serializable {
   }
 
   public DefaultClassificationMappingType addItemsItem(DefaultClassificationMappingItemType itemsItem) {
+    if (this.items == null) {
+      this.items = new ArrayList<>();
+    }
     this.items.add(itemsItem);
     return this;
   }
@@ -65,8 +66,7 @@ public class DefaultClassificationMappingType  implements Serializable {
    * array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values
    * @return items
   **/
-  @ApiModelProperty(required = true, value = "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values")
-  @NotNull
+  @ApiModelProperty(value = "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values")
 
   @Valid
 

@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T18:54:04.581+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class ConverterDefinitionType  implements Serializable {
   private static final long serialVersionUID = 1L;

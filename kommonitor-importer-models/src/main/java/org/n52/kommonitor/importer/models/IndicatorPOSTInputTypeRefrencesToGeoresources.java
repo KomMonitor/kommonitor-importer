@@ -11,51 +11,50 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Reference on another resource
+ * IndicatorPOSTInputTypeRefrencesToGeoresources
  */
-@ApiModel(description = "Reference on another resource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:32:58.267+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
-public class ResourceReferenceType  implements Serializable {
+public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("resourceId")
-  private String resourceId = null;
+  @JsonProperty("georesourceId")
+  private String georesourceId = null;
 
   @JsonProperty("referenceDescription")
   private String referenceDescription = null;
 
-  public ResourceReferenceType resourceId(String resourceId) {
-    this.resourceId = resourceId;
+  public IndicatorPOSTInputTypeRefrencesToGeoresources georesourceId(String georesourceId) {
+    this.georesourceId = georesourceId;
     return this;
   }
 
   /**
-   * identifier of the referenced resource
-   * @return resourceId
+   * identifier of the referenced georesource
+   * @return georesourceId
   **/
-  @ApiModelProperty(value = "identifier of the referenced resource")
+  @ApiModelProperty(value = "identifier of the referenced georesource")
 
 
-  public String getResourceId() {
-    return resourceId;
+  public String getGeoresourceId() {
+    return georesourceId;
   }
 
-  public void setResourceId(String resourceId) {
-    this.resourceId = resourceId;
+  public void setGeoresourceId(String georesourceId) {
+    this.georesourceId = georesourceId;
   }
 
-  public ResourceReferenceType referenceDescription(String referenceDescription) {
+  public IndicatorPOSTInputTypeRefrencesToGeoresources referenceDescription(String referenceDescription) {
     this.referenceDescription = referenceDescription;
     return this;
   }
 
   /**
-   * short description of how the resource is referenced to the superior one
+   * short description of how the georesource is referenced to the indicator
    * @return referenceDescription
   **/
-  @ApiModelProperty(value = "short description of how the resource is referenced to the superior one")
+  @ApiModelProperty(value = "short description of how the georesource is referenced to the indicator")
 
 
   public String getReferenceDescription() {
@@ -75,22 +74,22 @@ public class ResourceReferenceType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ResourceReferenceType resourceReferenceType = (ResourceReferenceType) o;
-    return Objects.equals(this.resourceId, resourceReferenceType.resourceId) &&
-        Objects.equals(this.referenceDescription, resourceReferenceType.referenceDescription);
+    IndicatorPOSTInputTypeRefrencesToGeoresources indicatorPOSTInputTypeRefrencesToGeoresources = (IndicatorPOSTInputTypeRefrencesToGeoresources) o;
+    return Objects.equals(this.georesourceId, indicatorPOSTInputTypeRefrencesToGeoresources.georesourceId) &&
+        Objects.equals(this.referenceDescription, indicatorPOSTInputTypeRefrencesToGeoresources.referenceDescription);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(resourceId, referenceDescription);
+    return Objects.hash(georesourceId, referenceDescription);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ResourceReferenceType {\n");
+    sb.append("class IndicatorPOSTInputTypeRefrencesToGeoresources {\n");
     
-    sb.append("    resourceId: ").append(toIndentedString(resourceId)).append("\n");
+    sb.append("    georesourceId: ").append(toIndentedString(georesourceId)).append("\n");
     sb.append("    referenceDescription: ").append(toIndentedString(referenceDescription)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -11,51 +11,50 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Reference on another resource
+ * IndicatorPOSTInputTypeRefrencesToOtherIndicators
  */
-@ApiModel(description = "Reference on another resource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:32:58.267+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
-public class ResourceReferenceType  implements Serializable {
+public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("resourceId")
-  private String resourceId = null;
+  @JsonProperty("indicatorId")
+  private String indicatorId = null;
 
   @JsonProperty("referenceDescription")
   private String referenceDescription = null;
 
-  public ResourceReferenceType resourceId(String resourceId) {
-    this.resourceId = resourceId;
+  public IndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorId(String indicatorId) {
+    this.indicatorId = indicatorId;
     return this;
   }
 
   /**
-   * identifier of the referenced resource
-   * @return resourceId
+   * identifier of the referenced indicator
+   * @return indicatorId
   **/
-  @ApiModelProperty(value = "identifier of the referenced resource")
+  @ApiModelProperty(value = "identifier of the referenced indicator")
 
 
-  public String getResourceId() {
-    return resourceId;
+  public String getIndicatorId() {
+    return indicatorId;
   }
 
-  public void setResourceId(String resourceId) {
-    this.resourceId = resourceId;
+  public void setIndicatorId(String indicatorId) {
+    this.indicatorId = indicatorId;
   }
 
-  public ResourceReferenceType referenceDescription(String referenceDescription) {
+  public IndicatorPOSTInputTypeRefrencesToOtherIndicators referenceDescription(String referenceDescription) {
     this.referenceDescription = referenceDescription;
     return this;
   }
 
   /**
-   * short description of how the resource is referenced to the superior one
+   * short description of how the indicator is referenced to the superior one
    * @return referenceDescription
   **/
-  @ApiModelProperty(value = "short description of how the resource is referenced to the superior one")
+  @ApiModelProperty(value = "short description of how the indicator is referenced to the superior one")
 
 
   public String getReferenceDescription() {
@@ -75,22 +74,22 @@ public class ResourceReferenceType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ResourceReferenceType resourceReferenceType = (ResourceReferenceType) o;
-    return Objects.equals(this.resourceId, resourceReferenceType.resourceId) &&
-        Objects.equals(this.referenceDescription, resourceReferenceType.referenceDescription);
+    IndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorPOSTInputTypeRefrencesToOtherIndicators = (IndicatorPOSTInputTypeRefrencesToOtherIndicators) o;
+    return Objects.equals(this.indicatorId, indicatorPOSTInputTypeRefrencesToOtherIndicators.indicatorId) &&
+        Objects.equals(this.referenceDescription, indicatorPOSTInputTypeRefrencesToOtherIndicators.referenceDescription);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(resourceId, referenceDescription);
+    return Objects.hash(indicatorId, referenceDescription);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ResourceReferenceType {\n");
+    sb.append("class IndicatorPOSTInputTypeRefrencesToOtherIndicators {\n");
     
-    sb.append("    resourceId: ").append(toIndentedString(resourceId)).append("\n");
+    sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    referenceDescription: ").append(toIndentedString(referenceDescription)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class IndicatorPropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;

@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-19T09:35:29.090+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
