@@ -28,7 +28,7 @@ public class ConverterType  implements Serializable {
 
   @JsonProperty("mimeType")
   @Valid
-  private List<String> mimeType = new ArrayList<>();
+  private List<String> mimeTypes = new ArrayList<>();
 
   @JsonProperty("schemas")
   @Valid
@@ -63,13 +63,13 @@ public class ConverterType  implements Serializable {
     this.name = name;
   }
 
-  public ConverterType mimeType(List<String> mimeType) {
-    this.mimeType = mimeType;
+  public ConverterType mimeTypes(List<String> mimeType) {
+    this.mimeTypes = mimeType;
     return this;
   }
 
   public ConverterType addMimeTypeItem(String mimeTypeItem) {
-    this.mimeType.add(mimeTypeItem);
+    this.mimeTypes.add(mimeTypeItem);
     return this;
   }
 
@@ -81,12 +81,12 @@ public class ConverterType  implements Serializable {
   @NotNull
 
 
-  public List<String> getMimeType() {
-    return mimeType;
+  public List<String> getMimeTypes() {
+    return mimeTypes;
   }
 
-  public void setMimeType(List<String> mimeType) {
-    this.mimeType = mimeType;
+  public void setMimeTypes(List<String> mimeType) {
+    this.mimeTypes = mimeType;
   }
 
   public ConverterType schemas(List<String> schemas) {
@@ -185,7 +185,7 @@ public class ConverterType  implements Serializable {
     }
     ConverterType converterType = (ConverterType) o;
     return Objects.equals(this.name, converterType.name) &&
-        Objects.equals(this.mimeType, converterType.mimeType) &&
+        Objects.equals(this.mimeTypes, converterType.mimeTypes) &&
         Objects.equals(this.schemas, converterType.schemas) &&
         Objects.equals(this.encodings, converterType.encodings) &&
         Objects.equals(this.parameters, converterType.parameters);
@@ -193,7 +193,7 @@ public class ConverterType  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mimeType, schemas, encodings, parameters);
+    return Objects.hash(name, mimeTypes, schemas, encodings, parameters);
   }
 
   @Override
@@ -202,7 +202,7 @@ public class ConverterType  implements Serializable {
     sb.append("class ConverterType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    mimeType: ").append(toIndentedString(mimeType)).append("\n");
+    sb.append("    mimeType: ").append(toIndentedString(mimeTypes)).append("\n");
     sb.append("    schemas: ").append(toIndentedString(schemas)).append("\n");
     sb.append("    encodings: ").append(toIndentedString(encodings)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");

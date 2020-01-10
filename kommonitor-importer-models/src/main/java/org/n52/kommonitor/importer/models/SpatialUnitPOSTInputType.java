@@ -177,7 +177,6 @@ public class SpatialUnitPOSTInputType  implements Serializable {
    * @return geoJsonString
   **/
   @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
-  @NotNull
 
 
   public String getGeoJsonString() {
