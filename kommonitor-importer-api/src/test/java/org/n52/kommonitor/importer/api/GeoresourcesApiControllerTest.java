@@ -3,7 +3,9 @@ package org.n52.kommonitor.importer.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
@@ -38,6 +39,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -81,9 +83,14 @@ public class GeoresourcesApiControllerTest {
 
     private static ImportGeoresourcePOSTInputType geoImportBody;
 
+    private static ObjectMapper mapper;
+
     @BeforeAll
     static void init() {
         geoImportBody = createGeoresourceImportType();
+        mapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
     @Test
@@ -95,7 +102,7 @@ public class GeoresourcesApiControllerTest {
 
         this.mockMvc.perform(post("/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(geoImportBody)))
+                .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.[0]").value(CREATED_RESOURCE_ID));
@@ -107,7 +114,7 @@ public class GeoresourcesApiControllerTest {
         prepareMocks();
         Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
-        JsonNode json = new ObjectMapper().valueToTree(geoImportBody);
+        JsonNode json = mapper.valueToTree(geoImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
 
@@ -131,7 +138,7 @@ public class GeoresourcesApiControllerTest {
 
         this.mockMvc.perform(post("/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(geoImportBody)))
+                .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
@@ -148,7 +155,7 @@ public class GeoresourcesApiControllerTest {
 
         this.mockMvc.perform(post("/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(geoImportBody)))
+                .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
@@ -165,16 +172,22 @@ public class GeoresourcesApiControllerTest {
 
         this.mockMvc.perform(post("/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(geoImportBody)))
+                .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
-
     private static ImportGeoresourcePOSTInputType createGeoresourceImportType() {
         ImportGeoresourcePOSTInputType geoImport = new ImportGeoresourcePOSTInputType();
-        geoImport.setDatasetName("testDataset");
+
+        GeoresourcePOSTInputType geoPostBody = new GeoresourcePOSTInputType();
+        geoPostBody.setDatasetName("testDataset");
+
+        PeriodOfValidityType pov = new PeriodOfValidityType();
+        pov.setStartDate(LocalDate.now());
+        pov.setEndDate(LocalDate.now());
+        geoPostBody.setPeriodOfValidity(pov);
 
         CommonMetadataType meta = new CommonMetadataType();
         meta.setDescription("metadataDescription");
@@ -182,10 +195,9 @@ public class GeoresourcesApiControllerTest {
         meta.setDatasource("metadataDatasource");
         meta.setContact("metadataContact");
         meta.setUpdateInterval(CommonMetadataType.UpdateIntervalEnum.ARBITRARY);
-        geoImport.setMetadata(meta);
+        geoPostBody.setMetadata(meta);
 
-        geoImport.setApplicableTopics(Arrays.asList("testTopic"));
-        geoImport.setJsonSchema("");
+        geoImport.setGeoresourcePostBody(geoPostBody);
 
         DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
         dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);

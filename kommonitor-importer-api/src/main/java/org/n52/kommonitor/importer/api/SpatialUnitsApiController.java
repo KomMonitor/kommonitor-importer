@@ -54,7 +54,7 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
     }
 
     public ResponseEntity<List<String>> importSpatialUnit(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
-        LOG.info("Received 'importSpatialUnit' request for spatial unit level: {}", featureData.getSpatialUnitLevel());
+        LOG.info("Received 'importSpatialUnit' request for spatial unit level: {}", featureData.getSpatialUnitPostBody().getSpatialUnitLevel());
         LOG.debug("'importSpatialUnit' request POST body: {}", featureData);
         return importHandler.handleImportRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }

@@ -7,7 +7,11 @@ package org.n52.kommonitor.importer.api;
 
 import org.n52.kommonitor.importer.models.ConverterType;
 import org.n52.kommonitor.importer.models.Error;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +23,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.IOException;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
+import java.util.Optional;
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T14:19:13.423+01:00")
 
 @Api(value = "converters", description = "the converters API")
 public interface ConvertersApi {
 
-    @ApiOperation(value = "Retreive information about the selected converters", nickname = "getConverterByName", notes = "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer", response = ConverterType.class, authorizations = {
+    Logger log = LoggerFactory.getLogger(ConvertersApi.class);
+
+    default Optional<ObjectMapper> getObjectMapper() {
+        return Optional.empty();
+    }
+
+    default Optional<HttpServletRequest> getRequest() {
+        return Optional.empty();
+    }
+
+    default Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
+
+    @ApiOperation(value = "Retrieve information about the selected converters", nickname = "getConverterByName", notes = "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer", response = ConverterType.class, authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "converters", })
     @ApiResponses(value = { 
@@ -37,7 +58,21 @@ public interface ConvertersApi {
     @RequestMapping(value = "/converters/{name}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name);
+    default ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}", ConverterType.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ConvertersApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
     @ApiOperation(value = "Retrieve information about all available converters", nickname = "getConverters", notes = "Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer", response = ConverterType.class, responseContainer = "List", authorizations = {
@@ -49,6 +84,20 @@ public interface ConvertersApi {
     @RequestMapping(value = "/converters",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<ConverterType>> getConverters();
+    default ResponseEntity<List<ConverterType>> getConverters() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}, {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ConvertersApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 }

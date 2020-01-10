@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
-import org.n52.kommonitor.datamanagement.api.models.SpatialUnitPOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
 import org.n52.kommonitor.importer.api.encoder.SpatialUnitEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
@@ -87,9 +86,14 @@ public class SpatialUnitApiControllerTest {
 
     private static ImportSpatialUnitPOSTInputType spatialUnitImportBody;
 
+    private static ObjectMapper mapper;
+
     @BeforeAll
     static void init() {
         spatialUnitImportBody = createSpatialUnitImportType();
+        mapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
     @Test
@@ -101,9 +105,7 @@ public class SpatialUnitApiControllerTest {
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper()
-                        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
-                        .writeValueAsString(spatialUnitImportBody)))
+                .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.[0]").value(CREATED_RESOURCE_ID));
@@ -115,7 +117,7 @@ public class SpatialUnitApiControllerTest {
         prepareMocks();
         Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
-        JsonNode json = new ObjectMapper().valueToTree(spatialUnitImportBody);
+        JsonNode json = mapper.valueToTree(spatialUnitImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
 
@@ -139,7 +141,7 @@ public class SpatialUnitApiControllerTest {
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(spatialUnitImportBody)))
+                .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
@@ -156,7 +158,7 @@ public class SpatialUnitApiControllerTest {
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(spatialUnitImportBody)))
+                .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
@@ -173,14 +175,15 @@ public class SpatialUnitApiControllerTest {
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
-                .content(new ObjectMapper().writeValueAsString(spatialUnitImportBody)))
+                .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
     private static ImportSpatialUnitPOSTInputType createSpatialUnitImportType() {
-        ImportSpatialUnitPOSTInputType input = new ImportSpatialUnitPOSTInputType();
+        ImportSpatialUnitPOSTInputType spatialUnitImport = new ImportSpatialUnitPOSTInputType();
+        SpatialUnitPOSTInputType spatialUnitPostBody = new SpatialUnitPOSTInputType();
 
         CommonMetadataType meta = new CommonMetadataType();
         meta.setDescription("metadataDescription");
@@ -188,33 +191,32 @@ public class SpatialUnitApiControllerTest {
         meta.setDatasource("metadataDatasource");
         meta.setContact("metadataContact");
         meta.setUpdateInterval(CommonMetadataType.UpdateIntervalEnum.ARBITRARY);
-        input.setMetadata(meta);
-
-        ConverterDefinitionType converter = new ConverterDefinitionType();
-        converter.setName("testConverter");
-        converter.setMimeType("application/xml");
-        input.setConverter(converter);
-
-        DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
-        dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);
-        input.setDataSource(dataSource);
-
-        SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
-        mapping.setIdentifierProperty("idProp");
-        mapping.setNameProperty("nameProp");
-        input.setPropertyMapping(mapping);
-
-        input.setJsonSchema("testSchema");
-        input.setNextLowerHierarchyLevel("testLowerLevel");
-        input.setNextUpperHierarchyLevel("testUpperLevel");
+        spatialUnitPostBody.setMetadata(meta);
 
         PeriodOfValidityType periodOfValidity = new PeriodOfValidityType();
         periodOfValidity.setStartDate(LocalDate.now());
         periodOfValidity.setEndDate(LocalDate.now());
-        input.setPeriodOfValidity(periodOfValidity);
+        spatialUnitPostBody.setPeriodOfValidity(periodOfValidity);
 
-        input.setSpatialUnitLevel("testLevel");
-        return input;
+        spatialUnitPostBody.setSpatialUnitLevel("testLevel");
+
+        spatialUnitImport.setSpatialUnitPostBody(spatialUnitPostBody);
+
+        ConverterDefinitionType converter = new ConverterDefinitionType();
+        converter.setName("testConverter");
+        converter.setMimeType("application/xml");
+        spatialUnitImport.setConverter(converter);
+
+        DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
+        dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);
+        spatialUnitImport.setDataSource(dataSource);
+
+        SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
+        mapping.setIdentifierProperty("idProp");
+        mapping.setNameProperty("nameProp");
+        spatialUnitImport.setPropertyMapping(mapping);
+
+        return spatialUnitImport;
     }
 
     private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {

@@ -45,7 +45,9 @@ public class ConverterEncoder {
     public ConverterType simpleEncode(AbstractConverter converter) {
         ConverterType converterType = new ConverterType();
         converterType.setName(converter.getName());
-        converterType.setMimeType(converter.getSupportedMimeType());
+        if (converter.getSupportedMimeTypes() != null && !converter.getSupportedMimeTypes().isEmpty()) {
+            converterType.setMimeTypes(new ArrayList<>(converter.getSupportedMimeTypes()));
+        }
         if (converter.getSupportedSchemas() != null && !converter.getSupportedSchemas().isEmpty()) {
             converterType.setSchemas(new ArrayList<>(converter.getSupportedSchemas()));
         }

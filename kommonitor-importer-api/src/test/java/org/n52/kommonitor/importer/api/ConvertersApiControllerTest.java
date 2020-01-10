@@ -61,7 +61,7 @@ public class ConvertersApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$[0].name").value(CONVERTER_NAME))
-                .andExpect(jsonPath("$[0].mimeType").value(CONVERTER_MIME_TYPE))
+                .andExpect(jsonPath("$[0].mimeType[0]").value(CONVERTER_MIME_TYPE))
                 .andExpect(jsonPath("$[0].parameters[0]").doesNotExist());
     }
 
@@ -75,7 +75,7 @@ public class ConvertersApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.name").value(CONVERTER_NAME))
-                .andExpect(jsonPath("$.mimeType").value(CONVERTER_MIME_TYPE))
+                .andExpect(jsonPath("$.mimeType[0]").value(CONVERTER_MIME_TYPE))
                 .andExpect(jsonPath("$.parameters[0].name").value(PARAM_NAME))
                 .andExpect(jsonPath("$.parameters[0].description").value(PARAM_DESC));
 
@@ -97,7 +97,7 @@ public class ConvertersApiControllerTest {
 
     private void prepareMocks() {
         Mockito.when(converter.getName()).thenReturn(CONVERTER_NAME);
-        Mockito.when(converter.getSupportedMimeType()).thenReturn(CONVERTER_MIME_TYPE);
+        Mockito.when(converter.getSupportedMimeTypes()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_MIME_TYPE)));
         Mockito.when(converter.getSupportedSchemas()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_SCHEMA)));
         Mockito.when(converter.getConverterParameters()).thenReturn(new HashSet<>(Arrays.asList(new ConverterParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
     }

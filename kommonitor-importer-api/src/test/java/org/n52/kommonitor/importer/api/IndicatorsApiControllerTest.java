@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorPOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorImportHandler;
@@ -175,6 +174,7 @@ public class IndicatorsApiControllerTest {
 
     private static ImportIndicatorPOSTInputType createGeoresourceImportType() {
         ImportIndicatorPOSTInputType indicatorImport = new ImportIndicatorPOSTInputType();
+        IndicatorPOSTInputType indicatorPostBody = new IndicatorPOSTInputType();
 
         CommonMetadataType meta = new CommonMetadataType();
         meta.setDescription("metadataDescription");
@@ -182,20 +182,19 @@ public class IndicatorsApiControllerTest {
         meta.setDatasource("metadataDatasource");
         meta.setContact("metadataContact");
         meta.setUpdateInterval(CommonMetadataType.UpdateIntervalEnum.ARBITRARY);
-        indicatorImport.setMetadata(meta);
+        indicatorPostBody.setMetadata(meta);
 
-        indicatorImport.setAbbreviation("testAbr");
-        indicatorImport.setAllowedRoles(Arrays.asList("testRole"));
-        indicatorImport.setApplicableTopics(Arrays.asList("testTopic"));
-        indicatorImport.setApplicableSpatialUnit("testSpatialUnitId");
+        indicatorPostBody.setAbbreviation("testAbr");
+        indicatorPostBody.setAllowedRoles(Arrays.asList("testRole"));
+        indicatorPostBody.setApplicableSpatialUnit("testSpatialUnitId");
 
         ConverterDefinitionType converter = new ConverterDefinitionType();
         converter.setName("testConverter");
         converter.setMimeType("application/xml");
         indicatorImport.setConverter(converter);
 
-        indicatorImport.setCreationType(ImportIndicatorPOSTInputType.CreationTypeEnum.INSERTION);
-        indicatorImport.setDatasetName("testDataset");
+        indicatorPostBody.setCreationType(IndicatorPOSTInputType.CreationTypeEnum.INSERTION);
+        indicatorPostBody.setDatasetName("testDataset");
 
         DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
         dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);
@@ -207,17 +206,18 @@ public class IndicatorsApiControllerTest {
         DefaultClassificationMappingType classMapping = new DefaultClassificationMappingType();
         classMapping.setColorBrewerSchemeName("testColorSchema");
         classMapping.setItems(Arrays.asList(classItemMapping));
-        indicatorImport.setDefaultClassificationMapping(classMapping);
+        indicatorPostBody.setDefaultClassificationMapping(classMapping);
 
-        indicatorImport.setIndicatorType(ImportIndicatorPOSTInputType.IndicatorTypeEnum.STATUS_ABSOLUTE);
-        indicatorImport.setInterpretation("testInterpretation");
-        indicatorImport.setIsHeadlineIndicator(false);
-        indicatorImport.setLowestSpatialUnitForComputation("testId");
-        indicatorImport.setProcessDescription("testProcessDesc");
-        indicatorImport.setReferencesToGeoresources(Collections.EMPTY_LIST);
-        indicatorImport.setReferencesToOtherIndicators(Collections.EMPTY_LIST);
-        indicatorImport.setTags(Collections.EMPTY_LIST);
-        indicatorImport.setUnit("testUnit");
+        indicatorPostBody.setIndicatorType(IndicatorPOSTInputType.IndicatorTypeEnum.STATUS_ABSOLUTE);
+        indicatorPostBody.setInterpretation("testInterpretation");
+        indicatorPostBody.setIsHeadlineIndicator(false);
+        indicatorPostBody.setLowestSpatialUnitForComputation("testId");
+        indicatorPostBody.setProcessDescription("testProcessDesc");
+        indicatorPostBody.setTags(Collections.EMPTY_LIST);
+        indicatorPostBody.setUnit("testUnit");
+        indicatorPostBody.setTopicReference("testRef");
+
+        indicatorImport.setIndicatorPostBody(indicatorPostBody);
 
         IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
         mapping.setSpatialReferenceKeyProperty("refProp");

@@ -54,7 +54,7 @@ public class IndicatorsApiController implements IndicatorsApi {
     }
 
     public ResponseEntity<List<String>> importIndicator(@ApiParam(value = "indicator data", required = true) @Valid @RequestBody ImportIndicatorPOSTInputType indicatorData) {
-        LOG.info("Received 'importIndicator' request for dataset name: {}", indicatorData.getDatasetName());
+        LOG.info("Received 'importIndicator' request for dataset name: {}", indicatorData.getIndicatorPostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", indicatorData);
         return importHandler.handleImportRequest(indicatorData, indicatorData.getDataSource(), indicatorData.getConverter());
     }

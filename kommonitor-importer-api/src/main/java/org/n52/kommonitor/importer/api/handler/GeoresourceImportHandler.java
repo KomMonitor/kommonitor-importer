@@ -2,7 +2,7 @@ package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePOSTInputType;
+import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;

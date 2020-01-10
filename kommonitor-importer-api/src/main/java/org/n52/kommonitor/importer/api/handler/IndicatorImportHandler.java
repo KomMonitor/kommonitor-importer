@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorPOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -10,6 +9,7 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputType;
+import org.n52.kommonitor.importer.models.IndicatorPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

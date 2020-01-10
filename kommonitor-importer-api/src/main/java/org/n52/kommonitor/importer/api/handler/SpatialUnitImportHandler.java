@@ -2,7 +2,6 @@ package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
-import org.n52.kommonitor.datamanagement.api.models.SpatialUnitPOSTInputType;
 import org.n52.kommonitor.importer.api.encoder.SpatialUnitEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -11,6 +10,7 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ImportSpatialUnitPOSTInputType;
+import org.n52.kommonitor.importer.models.SpatialUnitPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

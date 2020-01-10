@@ -7,7 +7,11 @@ package org.n52.kommonitor.importer.api;
 
 import org.n52.kommonitor.importer.models.DataSourceType;
 import org.n52.kommonitor.importer.models.Error;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +23,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.IOException;
 import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-04T14:17:33.692+01:00")
+import java.util.Optional;
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T14:19:13.423+01:00")
 
 @Api(value = "datasourceTypes", description = "the datasourceTypes API")
 public interface DatasourceTypesApi {
+
+    Logger log = LoggerFactory.getLogger(DatasourceTypesApi.class);
+
+    default Optional<ObjectMapper> getObjectMapper() {
+        return Optional.empty();
+    }
+
+    default Optional<HttpServletRequest> getRequest() {
+        return Optional.empty();
+    }
+
+    default Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
 
     @ApiOperation(value = "Retrieve information about the selected datasource type", nickname = "getSupportedDataSourceTypeByType", notes = "Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer", response = DataSourceType.class, authorizations = {
         @Authorization(value = "basicAuth")
@@ -33,11 +54,25 @@ public interface DatasourceTypesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = DataSourceType.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "The specified datasource type is not supported", response = Error.class) })
+        @ApiResponse(code = 404, message = "No support for the specified datasource type", response = Error.class) })
     @RequestMapping(value = "/datasourceTypes/{type}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource",required=true) @PathVariable("type") String type);
+    default ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource",required=true) @PathVariable("type") String type) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"type\" : \"DB\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}", DataSourceType.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default DatasourceTypesApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
     @ApiOperation(value = "Retrieve information about all supported datasource types", nickname = "getSupportedDataSourceTypes", notes = "Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer", response = DataSourceType.class, responseContainer = "List", authorizations = {
@@ -49,6 +84,20 @@ public interface DatasourceTypesApi {
     @RequestMapping(value = "/datasourceTypes",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<DataSourceType>> getSupportedDataSourceTypes();
+    default ResponseEntity<List<DataSourceType>> getSupportedDataSourceTypes() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"type\" : \"DB\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}, {  \"type\" : \"DB\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default DatasourceTypesApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 }
