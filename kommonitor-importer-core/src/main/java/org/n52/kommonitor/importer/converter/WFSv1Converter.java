@@ -128,6 +128,9 @@ public class WFSv1Converter extends AbstractConverter {
 
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
 
+        if (converterDefinition.getParameters() == null) {
+            throw new ImportParameterException("Missing converter parameters");
+        }
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
         if (!crsOpt.isPresent()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
@@ -144,12 +147,6 @@ public class WFSv1Converter extends AbstractConverter {
             throws ImportParameterException, ParserConfigurationException, SAXException, IOException, FactoryException {
         GML gml = getGmlParserForSchema(converterDefinition.getSchema());
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
-
-        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
-        }
-        gml.setCoordinateReferenceSystem(CRS.decode(crsOpt.get()));
 
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 

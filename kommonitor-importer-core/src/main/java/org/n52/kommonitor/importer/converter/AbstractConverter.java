@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
@@ -43,28 +44,31 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
      */
     public void validateDefinition(ConverterDefinitionType converterDefinition) throws ImportParameterException {
         StringBuilder builder = new StringBuilder();
-        boolean isValid = true;
+        AtomicBoolean isValid = new AtomicBoolean(true);
         if (!supportedMimeTypes.contains(converterDefinition.getMimeType())) {
-            isValid = false;
+            isValid.set(false);
             builder.append(String.format("Unsupported MIME type '%s' for converter '%s'. Supported MIME-types are '%s'.",
                     converterDefinition.getMimeType(), getName(), getSupportedMimeTypes()));
+            builder.append(System.lineSeparator());
         }
         if (!supportedSchemas.contains(converterDefinition.getSchema())) {
-            isValid = false;
-            builder.append(System.lineSeparator());
+            isValid.set(false);
             builder.append(String.format("Unsupported schema '%s' for converter '%s'. Supported schemas are '%s'.",
                     converterDefinition.getSchema(), getName(), getSupportedSchemas()));
+            builder.append(System.lineSeparator());
         }
         if (!supportedEncodings.contains(converterDefinition.getEncoding())) {
-            isValid = false;
+            isValid.set(false);
             builder.append(System.lineSeparator());
             builder.append(String.format("Unsupported encoding '%s' for converter '%s'. Supported encodings are '%s'.",
                     converterDefinition.getEncoding(), getName(), getSupportedEncodings()));
+            builder.append(System.lineSeparator());
         }
+
         //TODO validate converterParameters
         // (depends on the possibiility to differentiate between mandatory and optional parameters)
 
-        if (!isValid) {
+        if (!isValid.get()) {
             throw new ImportParameterException(builder.toString());
         }
     }
