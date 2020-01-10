@@ -65,6 +65,31 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.n52.kommonitor</groupId>
+                                            <artifactId>kommonitor-api-specs</artifactId>
+                                            <version>0.0.1-SNAPSHOT</version>
+                                            <type>jar</type>
+                                            <includes>specs/data-importer/definitions.yaml,specs/data-importer/kommonitor_dataImportAPI.yaml,specs/data-management/definitions.yaml</includes>
+                                            <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
                         <version>${swagger-codegen.version}</version>
@@ -74,7 +99,7 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>${project.parent.basedir}/docs/swagger/kommonitor_dataImportAPI.yaml
+                                    <inputSpec>${project.basedir}/src/main/resources/specs/data-importer/kommonitor_dataImportAPI.yaml
                                     </inputSpec>
                                     <!-- target to generate java server code -->
                                     <language>spring</language>
