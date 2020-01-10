@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.n52.kommonitor</groupId>
+        <artifactId>kommonitor-importer</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.n52.kommonitor</groupId>
+    <artifactId>kommonitor-data-management-api-client</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+        <springfox-swagger.version>2.9.2</springfox-swagger.version>
+        <swagger-codegen.version>2.4.10</swagger-codegen.version>
+        <surefire-plugin.version>3.0.0-M3</surefire-plugin.version>
+        <swagger-codegen.configHelp>false</swagger-codegen.configHelp>
+        <swagger-codegen.supportingFiles>true</swagger-codegen.supportingFiles>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kommonitor-importer-models</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>2.4.10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring-boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>${spring-boot.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>generate-client</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.n52.kommonitor</groupId>
+                                            <artifactId>kommonitor-api-specs</artifactId>
+                                            <version>0.0.1-SNAPSHOT</version>
+                                            <type>jar</type>
+                                            <includes>
+                                                specs/data-management/definitions.yaml,specs/data-management/kommonitor_dataAccessAPI.yaml
+                                            </includes>
+                                            <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-codegen-maven-plugin</artifactId>
+                        <version>${swagger-codegen.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <inputSpec>
+                                        ${project.basedir}/src/main/resources/specs/data-management/kommonitor_dataAccessAPI.yaml
+                                    </inputSpec>
+                                    <!-- target to generate java server code -->
+                                    <language>java</language>
+                                    <library>resttemplate</library>
+                                    <output>${project.basedir}</output>
+                                    <apiPackage>org.n52.kommonitor.datamanagement.api.client</apiPackage>
+                                    <modelPackage>org.n52.kommonitor.importer.models</modelPackage>
+                                    <generateApis>true</generateApis>
+                                    <configHelp>${swagger-codegen.configHelp}</configHelp>
+                                    <generateSupportingFiles>${swagger-codegen.supportingFiles}
+                                    </generateSupportingFiles>
+                                    <!-- pass any necessary config options -->
+                                    <configOptions>
+                                        <sourceFolder>src/main/java</sourceFolder>
+                                        <dateLibrary>java8</dateLibrary>
+                                    </configOptions>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>

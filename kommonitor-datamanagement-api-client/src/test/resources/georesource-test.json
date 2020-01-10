@@ -1,0 +1,27 @@
+{
+  "datasetName": "Test dataset",
+  "metadata": {
+    "description": "Test POI",
+    "sridEPSG": 4326,
+    "datasource": "Amt der Stadt Test",
+    "databasis": null,
+    "note": null,
+    "literature": null,
+    "contact": "Amt der Stadt Test",
+    "lastUpdate": "2019-11-25",
+    "updateInterval": "ARBITRARY"
+  },
+  "periodOfValidity": {
+    "startDate": "2019-11-25",
+    "endDate": "2020-11-25"
+  },
+  "applicableTopics": [
+    "Wohnen"
+  ],
+  "allowedRoles": null,
+  "isPOI": true,
+  "poiSymbolBootstrap3Name": "home",
+  "poiMarkerColor": "blue",
+  "poiSymbolColor": "white",
+  "geoJsonString": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"properties\": {},\n      \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [\n          7.652063369750977,\n          51.935067792151706\n        ]\n      }\n    }\n  ]\n}"
+}

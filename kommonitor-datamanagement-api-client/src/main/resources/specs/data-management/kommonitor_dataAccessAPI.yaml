@@ -1,0 +1,1504 @@
+swagger: '2.0'
+info:
+  description: "erster Entwurf einer Datenzugriffs-API, die den Zugriff auf die KomMonitor-Datenhaltungsschicht kapselt."
+  version: "0.0.1"
+  title: "KomMonitor Data Access API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "christian.danowski-buhren@hs-bochum.de"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8085"
+basePath: "/management"
+tags:
+- name: "topics"
+  description: "Topic information"
+- name: "roles"
+  description: "Role information"
+- name: "users"
+  description: "User information"
+- name: "spatial-units"
+  description: "spatial units/levels, for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)"
+- name: "georesources"
+  description: "Georesource necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)"
+- name: "indicators"
+  description: "indicators"
+- name: "process-scripts"
+  description: "Interfaces to manage process scripts"
+schemes:
+- "http"
+- "https"
+securityDefinitions:
+  # basicAuth: abcdef12345
+   basicAuth:
+     type: basic
+
+security:
+  - basicAuth: []
+
+paths:
+
+  /topics:
+    post:
+      tags:
+      - "topics"
+      summary: "Register a new topic"
+      description: "Add/Register a topic"
+      operationId: "addTopic"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "topic-data"
+        in: "body"
+        description: "topic input data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/TopicInputType"
+      responses:
+        201:
+          description: "Created"
+          headers:
+            location:
+              type: string
+              description: identifier of the created topic
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "topics"
+      summary: "retrieve information about available topics"
+      description: "retrieve information about available topics"
+      operationId: "getTopics"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: './definitions.yaml#/definitions/TopicOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+
+  /topics/{topicId}:
+    parameters:
+      - name: "topicId"
+        in: "path"
+        description: "unique identifier of the topic"
+        required: true
+        type: string
+    get:
+      tags:
+      - "topics"
+      summary: "retrieve information about the selected topic"
+      description: "retrieve information about the selected topic"
+      operationId: "getTopicById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/TopicOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "topics"
+      summary: "Modify topic information"
+      description: "Modify topic information"
+      operationId: "updateTopic"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "topic-data"
+        in: "body"
+        description: "topic input data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/TopicInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the modified topic
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "topics"
+      summary: "Delete the topic"
+      description: "Delete the topic"
+      operationId: "deleteTopic"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /roles:
+    post:
+      tags:
+      - "roles"
+      summary: "Register a new role"
+      description: "Add/Register a role"
+      operationId: "addRole"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "role-data"
+        in: "body"
+        description: "role input data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/RoleInputType"
+      responses:
+        201:
+          description: "Created"
+          headers:
+            location:
+              type: string
+              description: identifier of the created role
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "roles"
+      summary: "retrieve information about available roles"
+      description: "retrieve information about available roles"
+      operationId: "getRoles"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: './definitions.yaml#/definitions/RoleOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+
+  /roles/{roleId}:
+    parameters:
+      - name: "roleId"
+        in: "path"
+        description: "unique identifier of the role"
+        required: true
+        type: string
+    put:
+      tags:
+      - "roles"
+      summary: "Modify role information"
+      description: "Modify role information"
+      operationId: "updateRole"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "role-data"
+        in: "body"
+        description: "role input data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/RoleInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the modified role
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "roles"
+      summary: "retrieve information about the selected role"
+      description: "retrieve information about the selected role"
+      operationId: "getRoleById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/RoleOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+    delete:
+      tags:
+      - "roles"
+      summary: "Delete the role"
+      description: "Delete the role"
+      operationId: "deleteRole"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /users:
+    post:
+      tags:
+      - "users"
+      summary: "Register a new user"
+      description: "Add/Register a user"
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "user-data"
+        in: "body"
+        description: "user data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/UserInputType"
+      responses:
+        201:
+          description: "Created"
+          headers:
+            location:
+              type: string
+              description: identifier of the created user
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "users"
+      summary: "retrieve information about available users and their roles"
+      description: "retrieve information about available users and their roles"
+      operationId: "getUsers"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: './definitions.yaml#/definitions/UserOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+
+  /users/{userId}:
+    parameters:
+      - name: "userId"
+        in: "path"
+        description: "unique identifier of the user"
+        required: true
+        type: string
+    put:
+      tags:
+      - "users"
+      summary: "Modify user information"
+      description: "Modify user information"
+      operationId: "updateUser"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "user-data"
+        in: "body"
+        description: "user data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/UserInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the modified user
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "users"
+      summary: "retrieve information about the selected user and his/her role"
+      description: "retrieve information about the selected user and his/her role"
+      operationId: "getUserById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/UserOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+    delete:
+      tags:
+      - "users"
+      summary: "Delete the user"
+      description: "Delete the user"
+      operationId: "deleteUser"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+
+  /spatial-units:
+    post:
+      tags:
+      - "spatial-units"
+      summary: "Add a new spatial-unit"
+      description: "Add/Register a spatial unit for a certain period of time"
+      operationId: "addSpatialUnitAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "feature-data"
+        in: "body"
+        description: "feature data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/SpatialUnitPOSTInputType"
+      responses:
+        201:
+          description: "Created"
+          headers:
+            location:
+              type: string
+              description: identifier of the created spatial unit resource
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "spatial-units"
+      summary: "retrieve information about available features of different spatial units/levels"
+      description: "retrieve information about available features of different spatial units/levels"
+      operationId: "getSpatialUnits"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: './definitions.yaml#/definitions/SpatialUnitOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+
+  /spatial-units/{spatialUnitId}:
+    parameters:
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+    get:
+      tags:
+      - "spatial-units"
+      summary: "retrieve information about available features of the selected spatial unit/level"
+      description: "retrieve information about available features of the selected spatial unit/level"
+      operationId: "getSpatialUnitsById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/SpatialUnitOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "spatial-units"
+      summary: "Modify/Update the features of the selected spatial-unit"
+      description: "Modify/Update the features of the selected spatial-unit. The interface expects a full upload of all geometries for the spatial unit. Internally, those geometries are compared to the existing ones to mark 'old' geometries that are no longer in use as outdated. Hence, each geometric object is only persisted once and its use is controlled by time validity marks."
+      operationId: "updateSpatialUnitAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "feature-data"
+        in: "body"
+        description: "feature data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/SpatialUnitPUTInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created spatial unit resource
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    patch:
+      tags:
+      - "spatial-units"
+      summary: "Modify/Update the metadata of the selected spatial-unit"
+      description: "Modify/Update the metadata of the selected spatial-unit. This replaces the formerly stored metadata."
+      operationId: "updateSpatialUnitMetadataAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "metadata"
+        in: "body"
+        description: "metadata input"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/SpatialUnitPATCHInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created spatial unit resource
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "spatial-units"
+      summary: "Delete the features/contents of the selected spatial-unit"
+      description: "Delete the features/contents of the selected spatial-unit"
+      operationId: "deleteSpatialUnitById"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /spatial-units/{spatialUnitId}/schema:
+    parameters:
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+    get:
+      tags:
+      - "spatial-units"
+      summary: "retrieve the JSON schema for the selected spatial unit/level"
+      description: "retrieve the JSON schema for the selected spatial unit/level. The JSON schema indicates the property structure of the dataset."
+      operationId: "getSpatialUnitsSchemaById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /spatial-units/{spatialUnitId}/allFeatures:
+    parameters:
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+    get:
+      tags:
+      - "spatial-units"
+      summary: "retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity)"
+      description: "retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity)"
+      operationId: "getAllSpatialUnitFeaturesById"
+      parameters:
+        - name: "simplifyGeometries"
+          in: "query"
+          description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+          required: false
+          type: string
+          default: original
+          enum:
+            - original
+            - weak
+            - medium
+            - strong
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /spatial-units/{spatialUnitId}/{year}/{month}/{day}:
+    parameters:
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+      - name: "year"
+        in: "path"
+        description: "year for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "month"
+        in: "path"
+        description: "month for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "day"
+        in: "path"
+        description: "day for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+    get:
+      tags:
+      - "spatial-units"
+      summary: "retrieve the features according to the selected spatial unit/level and selected year and month as GeoJSON"
+      description: "retrieve the features according to the selected spatial unit/level and selected year and month as GeoJSON"
+      operationId: "getSpatialUnitsByIdAndYearAndMonth"
+      produces:
+      - "application/octed-stream"
+      parameters:
+        - name: "simplifyGeometries"
+          in: "query"
+          description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+          required: false
+          type: string
+          default: original
+          enum:
+            - original
+            - weak
+            - medium
+            - strong
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+            format: byte
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+    delete:
+      tags:
+      - "spatial-units"
+      summary: "Delete the features/contents of the selected spatial-unit, year and month"
+      description: "Delete the features/contents of the selected spatial-unit, year and month"
+      operationId: "deleteSpatialUnitByIdAndYearAndMonth"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  ########## GEO RESOURCES
+  /georesources:
+    post:
+      tags:
+      - "georesources"
+      summary: "Add a new geo-resource"
+      description: "Add/Register a geo-resource dataset for a certain period of time"
+      operationId: "addGeoresourceAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "feature-data"
+        in: "body"
+        description: "feature data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/GeoresourcePOSTInputType"
+      responses:
+        201:
+          description: "Created"
+          headers:
+            location:
+              type: string
+              description: identifier of the created geo-resource resource
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "georesources"
+      summary: "retrieve information about available features of different geo-resource datasets"
+      description: "retrieve information about available features of different geo-resource datasets"
+      operationId: "getGeoresources"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: array
+            items:
+              $ref: './definitions.yaml#/definitions/GeoresourceOverviewType'
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /georesources/{georesourceId}:
+    parameters:
+      - name: "georesourceId"
+        in: "path"
+        description: "identifier of the geo-resource dataset"
+        required: true
+        type: string
+    get:
+      tags:
+      - "georesources"
+      summary: "retrieve information about available features of the selected geo-resource dataset"
+      description: "retrieve information about available features of the selected geo-resource dataset"
+      operationId: "getGeoresourceById"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/GeoresourceOverviewType'
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "georesources"
+      summary: "Modify/Update the features of the selected geo-resource dataset"
+      description: "Modify/Update the features of the selected geo-resource dataset.  The interface expects a full upload of all geometries for the spatial unit. Internally, those geometries are compared to the existing ones to mark 'old' geometries that are no longer in use as outdated. Hence, each geometric object is only persisted once and its use is controlled by time validity marks."
+      operationId: "updateGeoresourceAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "feature-data"
+        in: "body"
+        description: "feature data"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/GeoresourcePUTInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created geo-resource dataset
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    patch:
+      tags:
+      - "georesources"
+      summary: "Modify/Update the metadata of the selected geo-resource dataset"
+      description: "Modify/Update the metadata of the selected geo-resource dataset. This replaces the formerly stored metadata."
+      operationId: "updateGeoresourceMetadataAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "metadata"
+        in: "body"
+        description: "metadata input"
+        required: true
+        schema:
+          $ref: "./definitions.yaml#/definitions/GeoresourcePATCHInputType"
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created geo-resource dataset
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "georesources"
+      summary: "Delete the features/contents of the selected geo-resource dataset"
+      description: "Delete the features/contents of the selected geo-resource dataset"
+      operationId: "deleteGeoresourceById"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /georesources/{georesourceId}/schema:
+    parameters:
+      - name: "georesourceId"
+        in: "path"
+        description: "the identifier of the geo-resource dataset"
+        required: true
+        type: string
+    get:
+      tags:
+      - "georesources"
+      summary: "retrieve the JSON schema for the selected geo-resource dataset"
+      description: "retrieve the JSON schema for the selected geo-resource dataset. The JSON schema indicates the property structure of the dataset."
+      operationId: "getGeoresourceSchemaByLevel"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /georesources/{georesourceId}/allFeatures:
+    parameters:
+      - name: "georesourceId"
+        in: "path"
+        description: "the identifier of the geo-resource dataset"
+        required: true
+        type: string
+    get:
+      tags:
+      - "georesources"
+      summary: "retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)"
+      description: "retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)"
+      operationId: "getAllGeoresourceFeaturesById"
+      parameters:
+        - name: "simplifyGeometries"
+          in: "query"
+          description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+          required: false
+          type: string
+          default: original
+          enum:
+            - original
+            - weak
+            - medium
+            - strong
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /georesources/{georesourceId}/{year}/{month}/{day}:
+    parameters:
+      - name: "georesourceId"
+        in: "path"
+        description: "identifier of the geo-resource dataset"
+        required: true
+        type: string
+      - name: "year"
+        in: "path"
+        description: "year for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "month"
+        in: "path"
+        description: "month for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "day"
+        in: "path"
+        description: "day for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+    get:
+      tags:
+      - "georesources"
+      summary: "retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON"
+      description: "retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON"
+      operationId: "getGeoresourceByIdAndYearAndMonth"
+      parameters:
+        - name: "simplifyGeometries"
+          in: "query"
+          description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+          required: false
+          type: string
+          default: original
+          enum:
+            - original
+            - weak
+            - medium
+            - strong
+      produces:
+      - "application/octed-stream"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+            format: byte
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+    delete:
+      tags:
+      - "georesources"
+      summary: "Delete the features/contents of the selected geo-resource dataset, selected by year and month"
+      description: "Delete the features/contents of the selected geo-resource dataset, selected by year and month"
+      operationId: "deleteGeoresourceByIdAndYearAndMonth"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+
+
+######## INDICATORS
+  /indicators:
+      post:
+        tags:
+        - "indicators"
+        summary: "Add a new indicator dataset"
+        description: "Add/Register an indicator dataset for a certain period of time and spatial unit/level"
+        operationId: "addIndicatorAsBody"
+        consumes:
+        - "application/json"
+        parameters:
+        - name: "indicator-data"
+          in: "body"
+          description: "indicator data"
+          required: true
+          schema:
+            $ref: './definitions.yaml#/definitions/IndicatorPOSTInputType'
+        responses:
+          201:
+            description: "Created"
+            headers:
+              location:
+                type: string
+                description: identifier of the created indicator
+          405:
+            description: "Invalid input"
+      get:
+        tags:
+        - "indicators"
+        summary: "retrieve information about available indicators"
+        description: "retrieve information about available indicators"
+        operationId: "getIndicators"
+        produces:
+        - "application/json"
+        responses:
+          200:
+            description: "OK"
+            schema:
+              type: array
+              items:
+                $ref: './definitions.yaml#/definitions/IndicatorOverviewType'
+          401:
+            $ref: "#/responses/UnauthorizedError"
+          400:
+            description: "Invalid status value"
+
+  /indicators/{indicatorId}:
+      parameters:
+      - name: "indicatorId"
+        in: "path"
+        description: "unique identifier of the selected indicator dataset"
+        required: true
+        type: string
+      get:
+          tags:
+          - "indicators"
+          summary: "retrieve information about the selected indicator"
+          description: "retrieve information about the selected indicator"
+          operationId: "getIndicatorById"
+          produces:
+          - "application/json"
+          responses:
+            200:
+              description: "OK"
+              schema:
+                $ref: './definitions.yaml#/definitions/IndicatorOverviewType'
+            400:
+              description: "Invalid status value"
+            401:
+              $ref: "#/responses/UnauthorizedError"
+      put:
+        tags:
+        - "indicators"
+        summary: "Modify/Update the contents of the selected indicator dataset"
+        description: "Modify/Update the contents of the selected indicator dataset"
+        operationId: "updateIndicatorAsBody"
+        consumes:
+        - "application/json"
+        parameters:
+        - name: "indicator-data"
+          in: "body"
+          description: "indicator data"
+          required: true
+          schema:
+            $ref: './definitions.yaml#/definitions/IndicatorPUTInputType'
+        responses:
+          200:
+            description: "OK - Updated"
+            headers:
+              location:
+                type: string
+                description: identifier of the modified indicator
+          401:
+            $ref: "#/responses/UnauthorizedError"
+          405:
+            description: "Invalid input"
+      patch:
+        tags:
+        - "indicators"
+        summary: "Modify/Update the metadata of the selected indicator dataset"
+        description: "Modify/Update the metadata of the selected indicator dataset. This replaces the formerly stored metadata."
+        operationId: "updateIndicatorMetadataAsBody"
+        consumes:
+        - "application/json"
+        parameters:
+        - name: "metadata"
+          in: "body"
+          description: "metadata input"
+          required: true
+          schema:
+            $ref: './definitions.yaml#/definitions/IndicatorPATCHInputType'
+        responses:
+          200:
+            description: "OK"
+            headers:
+              location:
+                type: string
+                description: identifier of the modified indicator
+          401:
+            $ref: "#/responses/UnauthorizedError"
+          405:
+            description: "Invalid input"
+      delete:
+        tags:
+        - "indicators"
+        summary: "Delete the features/contents of the selected indicator dataset"
+        description: "Delete the features/contents of the selected indicator dataset"
+        operationId: "deleteIndicatorById"
+        responses:
+          200:
+            description: "OK"
+          401:
+            $ref: "#/responses/UnauthorizedError"
+
+  /indicators/{indicatorId}/{spatialUnitId}:
+      parameters:
+      - name: "indicatorId"
+        in: "path"
+        description: "unique identifier of the selected indicator dataset"
+        required: true
+        type: string
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+      get:
+          tags:
+          - "indicators"
+          summary: "retrieve the indicator for the selected spatial unit as GeoJSON"
+          description: "retrieve the indicator for the selected spatial unit as GeoJSON"
+          operationId: "getIndicatorBySpatialUnitIdAndId"
+          parameters:
+            - name: "simplifyGeometries"
+              in: "query"
+              description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+              required: false
+              type: string
+              default: original
+              enum:
+                - original
+                - weak
+                - medium
+                - strong
+          produces:
+          - "application/octed-stream"
+          responses:
+            200:
+              description: "OK"
+              schema:
+                type: string
+                format: byte
+            400:
+              description: "Invalid status value"
+            401:
+              $ref: "#/responses/UnauthorizedError"
+      delete:
+        tags:
+        - "indicators"
+        summary: "Delete the features/contents of the selected indicator dataset for the selected spatial unit"
+        description: "Delete the features/contents of the selected indicator dataset for the selected spatial unit"
+        operationId: "deleteIndicatorByIdAndSpatialUnitId"
+        responses:
+          200:
+            description: "OK"
+          401:
+            $ref: "#/responses/UnauthorizedError"
+
+  /indicators/{indicatorId}/{spatialUnitId}/without-geometry:
+      parameters:
+      - name: "indicatorId"
+        in: "path"
+        description: "unique identifier of the selected indicator dataset"
+        required: true
+        type: string
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+      get:
+          tags:
+          - "indicators"
+          summary: "retrieve the indicator values and other properties for the selected spatial unit. It does not include the spatial geometries!"
+          description: "retrieve the indicator values and other properties for the selected spatial unit. It does not include the spatial geometries!"
+          operationId: "getIndicatorBySpatialUnitIdAndIdWithoutGeometry"
+          produces:
+          - "application/json"
+          responses:
+            200:
+              description: "OK"
+              schema:
+                type: array
+                items:
+                  $ref: "./definitions.yaml#/definitions/IndicatorPropertiesWithoutGeomType"
+            400:
+              description: "Invalid status value"
+            401:
+              $ref: "#/responses/UnauthorizedError"
+
+  /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}:
+      parameters:
+      - name: "indicatorId"
+        in: "path"
+        description: "unique identifier of the selected indicator dataset"
+        required: true
+        type: string
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+      - name: "year"
+        in: "path"
+        description: "year for which the indicator shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "month"
+        in: "path"
+        description: "month for which the indicator shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "day"
+        in: "path"
+        description: "day for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      get:
+          tags:
+          - "indicators"
+          summary: "retrieve the indicator for the selected spatial unit, year and month as GeoJSON"
+          description: "retrieve the indicator for the selected spatial unit, year and month as GeoJSON"
+          operationId: "getIndicatorBySpatialUnitIdAndIdAndYearAndMonth"
+          parameters:
+            - name: "simplifyGeometries"
+              in: "query"
+              description: "Controls simplification of feature geometries. Each option will preserve topology to neighbour features. Simplification increases from 'weak' to 'strong', while 'original' will return original feature geometries without any simplification."
+              required: false
+              type: string
+              default: original
+              enum:
+                - original
+                - weak
+                - medium
+                - strong
+          produces:
+          - "application/octed-stream"
+          responses:
+            200:
+              description: "OK"
+              schema:
+                type: string
+                format: byte
+            400:
+              description: "Invalid status value"
+            401:
+              $ref: "#/responses/UnauthorizedError"
+      delete:
+        tags:
+        - "indicators"
+        summary: "Delete the features/contents of the selected indicator dataset, selected by year and month"
+        description: "Delete the features/contents of the selected indicator dataset, selected by year and month"
+        operationId: "deleteIndicatorByIdAndYearAndMonth"
+        responses:
+          200:
+            description: "OK"
+          401:
+            $ref: "#/responses/UnauthorizedError"
+
+  /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}/without-geometry:
+      parameters:
+      - name: "indicatorId"
+        in: "path"
+        description: "unique identifier of the selected indicator dataset"
+        required: true
+        type: string
+      - name: "spatialUnitId"
+        in: "path"
+        description: "the unique identifier of the spatial level"
+        required: true
+        type: string
+      - name: "year"
+        in: "path"
+        description: "year for which the indicator shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "month"
+        in: "path"
+        description: "month for which the indicator shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      - name: "day"
+        in: "path"
+        description: "day for which datasets shall be queried"
+        required: true
+        type: "number"
+        format: "int32"
+      get:
+          tags:
+          - "indicators"
+          summary: "retrieve the indicator values and other properties for the selected spatial unit, year and month. It does not include the spatial geometries!"
+          description: "retrieve the indicator values and other properties for the selected spatial unit, year and month. It does not include the spatial geometries!"
+          operationId: "getIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithoutGeometry"
+          produces:
+          - "application/json"
+          responses:
+            200:
+              description: "OK"
+              schema:
+                type: array
+                items:
+                  $ref: "./definitions.yaml#/definitions/IndicatorPropertiesWithoutGeomType"
+            400:
+              description: "Invalid status value"
+            401:
+              $ref: "#/responses/UnauthorizedError"
+
+
+######## PROCESS SCRIPTS
+  /process-scripts:
+      post:
+        tags:
+        - "process-scripts"
+        summary: "Register a new process script"
+        description: "Register a process script associated to a certain indicator"
+        operationId: "addProcessScriptAsBody"
+        consumes:
+        - "application/json"
+        parameters:
+        - name: "process-script-data"
+          in: "body"
+          description: "details necessary to register the process script"
+          required: true
+          schema:
+            $ref: './definitions.yaml#/definitions/ProcessScriptPOSTInputType'
+        responses:
+          201:
+            description: "Created"
+            headers:
+              location:
+                type: string
+                description: identifier of the created process script
+          401:
+            $ref: "#/responses/UnauthorizedError"
+          405:
+            description: "Invalid input"
+      get:
+        tags:
+        - "process-scripts"
+        summary: "retrieve information about available process scripts"
+        description: "retrieve information about available process scripts"
+        operationId: "getProcessScripts"
+        produces:
+        - "application/json"
+        responses:
+          200:
+            description: "OK"
+            schema:
+              type: array
+              items:
+                $ref: './definitions.yaml#/definitions/ProcessScriptOverviewType'
+          400:
+            description: "Invalid status value"
+          401:
+            $ref: "#/responses/UnauthorizedError"
+
+
+  /process-scripts/usingIndicatorId/{indicatorId}:
+    parameters:
+    - name: "indicatorId"
+      in: "path"
+      description: "unique identifier of the selected indicator dataset"
+      required: true
+      type: string
+    get:
+      tags:
+      - "process-scripts"
+      summary: "retrieve information about the associated process script for a certain indicator"
+      description: "retrieve information about the associated process script for a certain indicator"
+      operationId: "getProcessScriptForIndicator"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/ProcessScriptOverviewType'
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+    put:
+      tags:
+      - "process-scripts"
+      summary: "Modify/Update an existing process script"
+      description: "Modify/Update an existing process script associated to a certain indicator"
+      operationId: "updateProcessScriptAsBody"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "process-script-data"
+        in: "body"
+        description: "details necessary to modify the process script"
+        required: true
+        schema:
+          $ref: './definitions.yaml#/definitions/ProcessScriptPUTInputType'
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created process script
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "process-scripts"
+      summary: "Delete the process script"
+      description: "Delete the process script associated to the specified indicator"
+      operationId: "deleteProcessScript"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /process-scripts/usingIndicatorId/{indicatorId}/scriptCode:
+    parameters:
+    - name: "indicatorId"
+      in: "path"
+      description: "unique identifier of the selected indicator dataset"
+      required: true
+      type: string
+    get:
+      tags:
+      - "process-scripts"
+      summary: "retrieve the process script code associated to a certain indicator as JavaScript file"
+      description: "retrieve the process script code associated to a certain indicator as JavaScript file"
+      operationId: "getProcessScriptCodeForIndicator"
+      produces:
+      - "application/javascript"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+            format: byte
+            description: the JavaScript NodeJS code containing executable code to compute the associated indicator.
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /process-scripts/{scriptId}:
+    parameters:
+    - name: "scriptId"
+      in: "path"
+      description: "unique identifier of the selected script"
+      required: true
+      type: string
+    get:
+      tags:
+      - "process-scripts"
+      summary: "retrieve information about the associated process script for a certain scriptId"
+      description: "retrieve information about the associated process script for a certain scriptId"
+      operationId: "getProcessScriptForScriptId"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: './definitions.yaml#/definitions/ProcessScriptOverviewType'
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+    put:
+      tags:
+      - "process-scripts"
+      summary: "Modify/Update an existing process script"
+      description: "Modify/Update an existing process script associated to a certain scriptId"
+      operationId: "updateProcessScriptAsBodyByScriptId"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "process-script-data"
+        in: "body"
+        description: "details necessary to modify the process script"
+        required: true
+        schema:
+          $ref: './definitions.yaml#/definitions/ProcessScriptPUTInputType'
+      responses:
+        200:
+          description: "OK"
+          headers:
+            location:
+              type: string
+              description: identifier of the created process script
+        401:
+          $ref: "#/responses/UnauthorizedError"
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "process-scripts"
+      summary: "Delete the process script"
+      description: "Delete the process script associated to the specified scriptId"
+      operationId: "deleteProcessScriptByScriptId"
+      responses:
+        200:
+          description: "OK"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /process-scripts/{scriptId}/scriptCode:
+    parameters:
+    - name: "scriptId"
+      in: "path"
+      description: "unique identifier of the selected script"
+      required: true
+      type: string
+    get:
+      tags:
+      - "process-scripts"
+      summary: "retrieve the process script code associated to a certain indicator as JavaScript file"
+      description: "retrieve the process script code associated to a certain indicator as JavaScript file"
+      operationId: "getProcessScriptCode"
+      produces:
+      - "application/javascript"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+            format: byte
+            description: the JavaScript NodeJS code containing executable code to compute the associated indicator.
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+  /process-scripts/template:
+    get:
+      tags:
+      - "process-scripts"
+      summary: "retrieve an empty script template, that defines how to implement process scripts for KomMonitor as JavaScript file."
+      description: "retrieve an empty script template, that defines how to implement process scripts for KomMonitor. The script works as a template for a NodeJS module. Hence, it predefines required methods that are called by the executing processing engine (a NodeJS runtimne environment). As a script developer, those predefined methods have to be implemented. The template contains detailed documentation on how to implement those methods."
+      operationId: "getProcessScriptTemplate"
+      produces:
+      - "application/javascript"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: string
+            format: byte
+            description: the JavaScript NodeJS code containing executable code to compute the associated indicator.
+        400:
+          description: "Invalid status value"
+        401:
+          $ref: "#/responses/UnauthorizedError"
+
+
+responses:
+  UnauthorizedError:
+    description: API key is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
+
+
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

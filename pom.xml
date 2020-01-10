@@ -11,6 +11,7 @@
         <module>kommonitor-importer-api</module>
         <module>kommonitor-importer-app</module>
         <module>kommonitor-importer-core</module>
+        <module>kommonitor-datamanagement-api-client</module>
     </modules>
     <name>KomMonitor Importer</name>
     <description>Data importer for KomMonitor</description>
@@ -137,12 +138,6 @@
                 <artifactId>gt-metadata</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
-
-
-
-
-
-
 
             <!-- Import dependency management from Spring Boot -->
             <dependency>

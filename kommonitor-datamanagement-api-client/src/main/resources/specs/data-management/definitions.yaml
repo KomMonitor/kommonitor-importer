@@ -1,0 +1,1171 @@
+definitions:
+
+  ProcessScriptPOSTInputType:
+    type: object
+    required:
+      - name
+      - description
+      - associatedIndicatorId
+      - scriptCodeBase64
+      - requiredIndicatorIds
+      - requiredGeoresourceIds
+      - variableProcessParameters
+    properties:
+      name:
+        type: string
+        description: name of the process script
+      description:
+        type: string
+        description: short description of the scripts content (what does it do)
+      associatedIndicatorId:
+        type: string
+        description: unique identifier of the associated indicator (e.g. the indicator that is computed by a script or for which the values shall be aggregated to another spatial unit)
+      scriptCodeBase64:
+        type: string
+        description: the actual script code (JavaScript) as BASE64 encoded string
+      requiredIndicatorIds:
+        type: array
+        description: identifiers of indicators that are used within the script.
+        items:
+          type: string
+      requiredGeoresourceIds:
+        type: array
+        description: identifiers of georesources that are used within the script.
+        items:
+          type: string
+      variableProcessParameters:
+        type: array
+        description: list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation
+        items:
+          $ref: '#/definitions/ProcessInputType'
+
+  ProcessScriptPUTInputType:
+    type: object
+    required:
+      - name
+      - description
+      - scriptCodeBase64
+      - requiredIndicatorIds
+      - requiredGeoresourceIds
+      - variableProcessParameters
+    properties:
+      name:
+        type: string
+        description: name of the process script
+      description:
+        type: string
+        description: short description of the scripts content (what does it do)
+      scriptCodeBase64:
+        type: string
+        description: the actual script code (JavaScript) as BASE64 encoded string
+      requiredIndicatorIds:
+        type: array
+        description: identifiers of indicators that are used within the script.
+        items:
+          type: string
+      requiredGeoresourceIds:
+        type: array
+        description: identifiers of georesources that are used within the script.
+        items:
+          type: string
+      variableProcessParameters:
+        type: array
+        description: list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation
+        items:
+          $ref: '#/definitions/ProcessInputType'
+
+  ProcessInputType:
+    type: object
+    required:
+      - name
+      - description
+      - dataType
+      - defaultValue
+    properties:
+      name:
+        type: string
+        description: the name of the process input parameter
+      description:
+        type: string
+        description: a short description of the process input
+      dataType:
+        type: string
+        description: the data type of the process input
+        enum:
+          - string
+          - boolean
+          - integer
+          - double
+      defaultValue:
+        type: string
+        description: the default value of the process parameter
+      maxParameterValueForNumericInputs:
+        type: number
+        description: the maximum value that is allowed for the process parameter
+      minParameterValueForNumericInputs:
+        type: number
+        description: the minimum value that is allowed for the process parameter
+
+  ProcessOutputType:
+    type: object
+    required:
+      - name
+      - description
+      - dataType
+    properties:
+      name:
+        type: string
+        description: the name of the process output parameter
+      description:
+        type: string
+        description: a short description of the process output
+      dataType:
+        type: string
+        description: the data type of the process output
+        enum:
+          - boolean # for scripts that compute an indicator and persist it via Data Access API
+          - GeoJSON
+
+  ProcessScriptOverviewType:
+    type: object
+    required:
+      - name
+      - description
+      - scriptId
+      - indicatorId
+      - requiredIndicatorIds
+      - requiredGeoresourceIds
+      - variableProcessParameters
+    properties:
+      name:
+        type: string
+        description: name of the process script
+      description:
+        type: string
+        description: short description of the scripts content (what does it do)
+      scriptId:
+        type: string
+        description: unique identifier of the process script
+      indicatorId:
+        type: string
+        description: unique identifier of the associated indicator (e.g. the indicator that is computed by a script or for which the values shall be aggregated to another spatial unit)
+      requiredIndicatorIds:
+        type: array
+        description: identifiers of indicators that are used within the script.
+        items:
+          type: string
+      requiredGeoresourceIds:
+        type: array
+        description: identifiers of georesources that are used within the script.
+        items:
+          type: string
+      variableProcessParameters:
+        type: array
+        description: list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation
+        items:
+          $ref: '#/definitions/ProcessInputType'
+
+  TopicInputType:
+    type: "object"
+    required:
+      - topicName
+      - topicDescription
+      - topicType
+    properties:
+      topicName:
+        type: string
+        description: the topic name
+      topicDescription:
+        type: string
+        description: short description of the topic
+      topicType:
+        type: string
+        description: topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
+        enum:
+          - main
+          - sub
+      subTopics:
+        type: array
+        description: optional list of subTopics
+        items:
+          $ref: '#/definitions/TopicInputType'
+
+  TopicOverviewType:
+    type: "object"
+    required:
+      - topicId
+      - topicName
+      - topicDescription
+      - topicType
+    properties:
+      topicId:
+        type: string
+        description: the identifier of the topic
+      topicName:
+        type: string
+        description: the topic name
+      topicDescription:
+        type: string
+        description: short description of the topic
+      topicType:
+        type: string
+        description: topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
+        enum:
+          - main
+          - sub
+      subTopics:
+        type: array
+        description: optional list of subTopics
+        items:
+          $ref: '#/definitions/TopicOverviewType'
+
+  RoleInputType:
+    type: "object"
+    required:
+      - roleName
+      - accessibleGeoresources
+      - accessibleIndicators
+    properties:
+      roleName:
+        type: string
+        description: the role name
+      accessibleGeoresources:
+        type: array
+        description: mandatory list of identifiers of georesources that this role is allowed to retrieve. Specify 'ALL' to enable access to all existing georesources. If unspecified, than full content restriction is assumed (this means that this role cannot access any content).
+        items:
+          type: string
+      accessibleIndicators:
+        type: array
+        description: mandatory list of identifiers of indicators that this role is allowed to retrieve. Specify 'ALL' to enable access to all existing georesources. If unspecified, than full content restriction is assumed (this means that this role cannot access any content).
+        items:
+          type: string
+
+  RoleOverviewType:
+    type: "object"
+    required:
+      - roleId
+      - roleName
+      - priviledges
+    properties:
+      roleId:
+        type: string
+        description: the unique role identifier
+      roleName:
+        type: string
+        description: the role name
+      priviledges:
+        type: array
+        description: list of priviledges that are associated to this role. They indicate, what operations and data can be accessed by users.
+        items:
+          type: string
+
+  UserInputType:
+    type: "object"
+    required:
+      - userName
+      - password
+      - roles
+    properties:
+      userName:
+        type: string
+        description: the user name from the login credentials
+      password:
+        type: string
+        description: the user password from the login credentials
+      roles:
+        type: array
+        description: list of role identifiers; the user is associated with the rights/priviledges of each specififed role.
+        items:
+          type: string
+          description: the roleId of the role, that shall be applioed to the user
+
+  UserOverviewType:
+    type: "object"
+    required:
+      - userId
+      - userName
+      - roles
+    properties:
+      userId:
+        type: string
+        description: the unique identifier of the user
+      userName:
+        type: string
+        description: the user name from the login credentials
+      roles:
+        type: array
+        description: list of roles the user is associated with
+        items:
+          $ref: '#/definitions/RoleOverviewType'
+
+  SpatialUnitPOSTInputType:
+    type: "object"
+    required:
+      - spatialUnitLevel
+      - periodOfValidity
+      - metadata
+      - geoJsonString
+    properties:
+      spatialUnitLevel:
+        type: string
+        description: the name and identifier of the spatial unit level the features apply to
+      periodOfValidity:
+        $ref: "#/definitions/PeriodOfValidityType"
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      nextLowerHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
+      nextUpperHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
+      jsonSchema:
+            type: "string"
+            description: "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property."
+      geoJsonString:
+            type: "string"
+            description: "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'"
+
+  SpatialUnitPATCHInputType:
+    type: "object"
+    required:
+      - metadata
+    properties:
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      nextLowerHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
+      nextUpperHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
+
+  SpatialUnitPUTInputType:
+    type: "object"
+    required:
+      - periodOfValidity
+      - geoJsonString
+    properties:
+      periodOfValidity:
+        $ref: "#/definitions/PeriodOfValidityType"
+      geoJsonString:
+            type: "string"
+            description: "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'"
+
+  SpatialUnitOverviewType:
+    type: "object"
+    required:
+      - spatialUnitId
+      - spatialUnitLevel
+      - metadata
+      - nextLowerHierarchyLevel
+      - nextUpperHierarchyLevel
+      - availablePeriodsOfValidity
+      - wmsUrl
+      - wfsUrl
+    properties:
+      spatialUnitId:
+        type: string
+        description: the unique identifier of the spatial unit level the features apply to
+      spatialUnitLevel:
+        type: string
+        description: the name of the spatial unit level the features apply to
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      nextLowerHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
+      nextUpperHierarchyLevel:
+        type: string
+        description: the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
+      availablePeriodsOfValidity:
+        $ref: "#/definitions/AvailablePeriodsOfValidityType"
+      wmsUrl:
+        type: string
+        description: the URL of a running WMS instance serving the spatial features of the associated dataset
+      wfsUrl:
+        type: string
+        description: the URL of a running WFS instance serving the spatial features of the associated dataset
+
+  GeoresourcePOSTInputType:
+    type: "object"
+    required:
+      - datasetName
+      - periodOfValidity
+      - metadata
+      - geoJsonString
+    properties:
+      datasetName:
+        type: string
+        description: the meaningful name of the dataset
+      periodOfValidity:
+        $ref: "#/definitions/PeriodOfValidityType"
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity"
+      isPOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains points of interest
+        default: false
+      isLOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains lines of interest
+        default: false
+      isAOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains areas of interest
+        default: false
+      loiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for lines of interest
+      loiDashArrayString:
+        type: string
+        description: sring of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)
+      aoiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for areas of interest
+      poiSymbolBootstrap3Name:
+        type: string
+        description: If georesource is a POI then custom POI marker symbol can be set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home" for a home symbol or "education" for a students hat symbol)
+      poiMarkerColor:
+        type: string
+        description: If georesource is a POI then custom POI marker color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+      poiSymbolColor:
+        type: string
+        description: If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+      jsonSchema:
+            type: "string"
+            description: "a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property."
+      geoJsonString:
+            type: "string"
+            description: "a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset"
+
+  GeoresourcePATCHInputType:
+    type: "object"
+    required:
+      - metadata
+    properties:
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      datasetName:
+        type: string
+        description: the meaningful name of the dataset
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity "
+      isPOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains points of interest
+        default: false
+      isLOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains lines of interest
+        default: false
+      isAOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains areas of interest
+        default: false
+      loiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for lines of interest
+      loiDashArrayString:
+        type: string
+        description: sring of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)
+      aoiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for areas of interest
+      poiSymbolBootstrap3Name:
+        type: string
+        description: If georesource is a POI then custom POI marker symbol can be set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home" for a home symbol or "education" for a students hat symbol)
+      poiMarkerColor:
+        type: string
+        description: If georesource is a POI then custom POI marker color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+      poiSymbolColor:
+        type: string
+        description: If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+
+  GeoresourcePUTInputType:
+    type: "object"
+    required:
+      - periodOfValidity
+      - geoJsonString
+    properties:
+      periodOfValidity:
+        $ref: "#/definitions/PeriodOfValidityType"
+      geoJsonString:
+            type: "string"
+            description: "a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset"
+
+  GeoresourceOverviewType:
+    type: "object"
+    required:
+      - datasetName
+      - georesourceId
+      - metadata
+      - availablePeriodsOfValidity
+      - topicReference
+      - isPOI
+      - isLOI
+      - isAOI
+      - wmsUrl
+      - wfsUrl
+    properties:
+      datasetName:
+        type: string
+        description: the meaningful name of the dataset
+      georesourceId:
+        type: string
+        description: the unique identifier of the dataset
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      availablePeriodsOfValidity:
+        $ref: "#/definitions/AvailablePeriodsOfValidityType"
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity "
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      isPOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains points of interest
+      isLOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains lines of interest
+        default: false
+      isAOI:
+        type: boolean
+        description: boolean value indicating if the dataset contains areas of interest
+        default: false
+      loiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for lines of interest
+      loiDashArrayString:
+        type: string
+        description: sring of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)
+      aoiColor:
+        type: string
+        description: color name or color code (i.e. hex number) for areas of interest
+      poiSymbolBootstrap3Name:
+        type: string
+        description: If georesource is a POI then custom POI marker symbol can be set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home" for a home symbol or "education" for a students hat symbol)
+      poiMarkerColor:
+        type: string
+        description: If georesource is a POI then custom POI marker color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+      poiSymbolColor:
+        type: string
+        description: If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names
+        enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+      wmsUrl:
+        type: string
+        description: the URL of a running WMS instance serving the spatial features of the associated dataset
+      wfsUrl:
+        type: string
+        description: the URL of a running WFS instance serving the spatial features of the associated dataset
+
+  CommonMetadataType:
+    type: object
+    required:
+      - description
+      - sridEPSG
+      - datasource
+      - contact
+      - updateInterval
+    properties:
+      description:
+        type: string
+        description: description of the dataset
+      sridEPSG:
+        type: number
+        format: int32
+        description: the coordinate reference system of the dataset as EPSG code
+      datasource:
+        type: string
+        description: information about the origin/source of the dataset
+      databasis:
+        type: string
+        description: information about data used as a basis to generate the dataset
+      note:
+        type: string
+        description: an optional note with background information about the dataset
+      literature:
+        type: string
+        description: an optional hint to literature about the dataset (e.g. URL or book/article name)
+      contact:
+        type: string
+        description: contact details where additional information can be achieved
+      lastUpdate:
+        type: string
+        format: date
+        description: a timestamp representing the lastUpdate according to ISO 8601 (e.g. 2018-01-30)
+      updateInterval:
+        type: string
+        enum:
+          - "ARBITRARY"
+          - "MONTHLY"
+          - "QUARTERLY"
+          - "HALF_YEARLY"
+          - "YEARLY"
+
+  PeriodOfValidityType:
+    type: object
+    description: definition of the period of validity of a certain dataset
+    required:
+      - startDate
+    properties:
+      startDate:
+        type: string
+        format: date
+        description: a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)
+      endDate:
+        type: string
+        format: date
+        description: an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.
+
+  AvailablePeriodsOfValidityType:
+    type: array
+    description: "array of periods of validity, each consisting of a start and end date"
+    items:
+      $ref: "#/definitions/PeriodOfValidityType"
+
+  IndicatorReferenceType:
+    type: object
+    description: a reference to another indicator, e.g. a sub-indicator that is used to compute the main indicator
+    required:
+      - referencedIndicatorId
+      - referencedIndicatorName
+      - referencedIndicatorDescription
+    properties:
+      referencedIndicatorId:
+        type: string
+        description: unique identifier of the referenced indicator
+      referencedIndicatorName:
+        type: string
+        description: the meaningful name of the referenced indicator
+      referencedIndicatorDescription:
+        type: string
+        description: a meaningful description of how the referenced indicator is related to the main indicator
+
+  GeoresourceReferenceType:
+    type: object
+    description: a reference to georesource, e.g. a resource that is used to compute the main indicator
+    required:
+      - referencedGeoresourceId
+      - referencedGeoresourceName
+      - referencedGeoresourceDescription
+    properties:
+      referencedGeoresourceId:
+        type: string
+        description: unique identifier of the referenced georesource
+      referencedGeoresourceName:
+        type: string
+        description: the meaningful name of the referenced georesource
+      referencedGeoresourceDescription:
+        type: string
+        description: a meaningful description of how the referenced georesource is related to the main indicator
+
+  IndicatorOverviewType:
+    type: object
+    required:
+      - indicatorName
+      - characteristicValue
+      - indicatorId
+      - unit
+      - metadata
+      - processDescription
+      - creationType
+      - applicableSpatialUnits
+      - applicableDates
+      - topicReference
+      - ogcServices
+      - abbreviation
+      - isHeadlineIndicator
+      - interpretation
+      - tags
+    properties:
+      indicatorName:
+        type: "string"
+        description: "name of the indicator"
+      characteristicValue:
+        type: string
+        description: the distuingishing characteristic value of the indicator
+      indicatorId:
+        type: string
+        description: unique identifier of this resource
+      indicatorType:
+        type: string
+        description: indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
+        enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+      unit:
+        type: string
+        description: unit of the indicator values
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      processDescription:
+        type: string
+        description: description about how the indicator was computed
+      applicableSpatialUnits:
+              type: array
+              description: "array of spatial unit levels for which the dataset is applicable"
+              items:
+                type: string
+      applicableDates:
+        type: "array"
+        description: array of applicable dates (year and month and day as YEAR-MONTH-DAY) according to ISO 8601 (e.g. 2018-01-30)
+        items:
+          type: string
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity "
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      referencedIndicators:
+        type: array
+        description: list of references to other indicators
+        items:
+          $ref: "#/definitions/IndicatorReferenceType"
+      referencedGeoresources:
+        type: array
+        description: list of references to georesources
+        items:
+          $ref: "#/definitions/GeoresourceReferenceType"
+      creationType:
+        type: string
+        description: indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
+        enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+      lowestSpatialUnitForComputation:
+        type: string
+        description: identifier/name of the lowest spatial unit for which the indicator can be computed and thus is available (only necessary for computable indicators)
+      defaultClassificationMapping:
+        $ref: "#/definitions/DefaultClassificationMappingType"
+      ogcServices:
+        type: array
+        description: list of available OGC services for that indicator for different spatial units
+        items:
+          $ref: "#/definitions/OgcServicesType"
+      abbreviation:
+        type: "string"
+        description: "abbreviated mark of the indicator"
+      interpretation:
+        type: "string"
+        description: "interpretation of the indicator values"
+      isHeadlineIndicator:
+        type: boolean
+        description: boolean value indicating if the indicator is a headline indicator
+        default: false
+      tags:
+        type: array
+        description: list of tag labels for the indicator
+        items:
+          type: string
+
+  OgcServicesType:
+    type: "object"
+    required:
+      - wmsUrl
+      - wfsUrl
+      - defaultStyleName
+      - spatialUnit
+    properties:
+      spatialUnit:
+        type: string
+        description: the name of the spatial unit
+      wmsUrl:
+        type: string
+        description: the URL of a running WMS instance serving the spatial features of the associated dataset
+      wfsUrl:
+        type: string
+        description: the URL of a running WFS instance serving the spatial features of the associated dataset
+      defaultStyleName:
+        type: string
+        description: the name of the default style (SLD) that is published and applied to the associated dataset
+
+  IndicatorPropertiesWithoutGeomType:
+    type: "object"
+    required:
+      - ID
+      - NAME
+      - validStartDate
+    properties:
+      ID:
+        type: string
+        description: the id of the spatial feature
+      NAME:
+        type: string
+        description: the name of the spatial feature
+      validStartDate:
+        type: string
+        description: the start date from which on the spatial feature is valid
+      validEndDate:
+        type: string
+        description: the end date until the spatial feature is valid - or null if not set
+    additionalProperties:
+        type: string
+
+  IndicatorPOSTInputType:
+    type: "object"
+    required:
+      - datasetName
+      - applicableSpatialUnit
+      - topicReference
+      - metadata
+      - processDescription
+      - unit
+      - creationType
+      - defaultClassificationMapping
+      - isHeadlineIndicator
+      - interpretation
+    properties:
+      datasetName:
+        type: string
+        description: the meaningful name of the indicator
+      characteristicValue:
+        type: string
+        description: the distuingishing characteristic value of the indicator
+      indicatorType:
+        type: string
+        description: indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
+        enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+      applicableSpatialUnit:
+        type: string
+        description: identifier/name of the spatial unit level
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity "
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      processDescription:
+        type: string
+        description: description about how the indicator was computed
+      unit:
+        type: string
+        description: unit of the indicator values
+      creationType:
+        type: string
+        description: indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
+        enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+      abbreviation:
+        type: "string"
+        description: "abbreviated mark of the indicator"
+      interpretation:
+        type: "string"
+        description: "interpretation of the indicator values"
+      isHeadlineIndicator:
+        type: boolean
+        description: boolean value indicating if the indicator is a headline indicator
+        default: false
+      tags:
+        type: array
+        description: list of tag labels for the indicator
+        items:
+          type: string
+      lowestSpatialUnitForComputation:
+        type: string
+        description: identifier/name of the lowest spatial unit for which the indicator can be computed and thus is available (only necessary for computable indicators)
+      defaultClassificationMapping:
+        $ref: "#/definitions/DefaultClassificationMappingType"
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      refrencesToOtherIndicators:
+        type: array
+        description: "array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those other indicators can be referenced here"
+        items:
+          type: object
+          properties:
+            indicatorId:
+              type: string
+              description: identifier of the referenced indicator
+            referenceDescription:
+              type: string
+              description: short description of how the indicator is referenced to the superior one
+      refrencesToGeoresources:
+        type: array
+        description: "array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here"
+        items:
+          type: object
+          properties:
+            georesourceId:
+              type: string
+              description: identifier of the referenced georesource
+            referenceDescription:
+              type: string
+              description: short description of how the georesource is referenced to the indicator
+      indicatorValues:
+        type: array
+        description: an array of entries containing indicator values and mapping to spatial features via identifiers
+        items:
+          type: object
+          properties:
+            spatialReferenceKey:
+              type: string
+              description: identifier (uuid) of the spatial feature to which the values shall be applied
+            valueMapping:
+              type: array
+              description: an array of entries mapping an indicator value to a timestamp as mapping key
+              items:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date
+                    description: timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)
+                  indicatorValue:
+                    type: number
+                    format: float
+                    description: the numeric extent of the indicator for the timestamp
+
+  DefaultClassificationMappingType:
+    type: "object"
+    properties:
+      colorBrewerSchemeName:
+        type: string
+        description: "the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily."
+      items:
+        type: array
+        description: "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values"
+        items:
+          $ref: "#/definitions/DefaultClassificationMappingItemType"
+
+  DefaultClassificationMappingItemType:
+    type: "object"
+    required:
+      - defaultColorAsHex
+      - defaultCustomRating
+    properties:
+      defaultColorAsHex:
+        type: string
+        description: "the default color for the specified value interval as hex string inclusive leading #, i.e. '#ffffff'"
+      defaultCustomRating:
+        type: string
+        description: "the default custom rating string for the specified value interval, i.e. 'very high'/'very low' or 'good'/'bad'"
+
+  IndicatorPATCHInputType:
+    type: "object"
+    required:
+      - topicReference
+      - metadata
+      - unit
+      - processDescription
+      - isHeadlineIndicator
+      - interpretation
+    properties:
+      datasetName:
+        type: string
+        description: the meaningful name of the indicator
+      characteristicValue:
+        type: string
+        description: the distuingishing characteristic value of the indicator
+      indicatorType:
+        type: string
+        description: indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
+        enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+      creationType:
+        type: string
+        description: indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
+        enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+      topicReference:
+        type: string
+        description: "id of the last topic hierarchy entity "
+      metadata:
+        $ref: "#/definitions/CommonMetadataType"
+      processDescription:
+        type: string
+        description: description about how the indicator was computed
+      unit:
+        type: string
+        description: unit of the indicator values
+      allowedRoles:
+        type: array
+        description: list of role identifiers that have read access rights for this dataset
+        items:
+          type: string
+      lowestSpatialUnitForComputation:
+        type: string
+        description: identifier/name of the lowest spatial unit for which the indicator can be computed and thus is available (only necessary for computable indicators)
+      defaultClassificationMapping:
+        $ref: "#/definitions/DefaultClassificationMappingType"
+      abbreviation:
+        type: "string"
+        description: "abbreviated mark of the indicator"
+      interpretation:
+        type: "string"
+        description: "interpretation of the indicator values"
+      isHeadlineIndicator:
+        type: boolean
+        description: boolean value indicating if the indicator is a headline indicator
+        default: false
+      tags:
+        type: array
+        description: list of tag labels for the indicator
+        items:
+          type: string
+      refrencesToOtherIndicators:
+        type: array
+        description: "array of references to other indicators. E.g., if an indicator is defined by combining four other indicators, then the identifiers of those four indicators can be referenced here"
+        items:
+          type: object
+          properties:
+            indicatorId:
+              type: string
+              description: identifier of the referenced indicator
+            referenceDescription:
+              type: string
+              description: short description of how the indicator is referenced to the superior one
+      refrencesToGeoresources:
+        type: array
+        description: "array of references to other georesource datasets. E.g., if an indicator is defined by performing geometric-topological operations, then the identifiers of those required georesources can be referenced here"
+        items:
+          type: object
+          properties:
+            georesourceId:
+              type: string
+              description: identifier of the referenced georesource
+            referenceDescription:
+              type: string
+              description: short description of how the georesource is referenced to the indicator
+
+  IndicatorPUTInputType:
+    type: "object"
+    required:
+      - applicableSpatialUnit
+      - indicatorValues
+    properties:
+      defaultClassificationMapping:
+        $ref: "#/definitions/DefaultClassificationMappingType"
+      applicableSpatialUnit:
+        type: string
+      indicatorValues:
+        type: array
+        description: an array of entries containing indicator values and mapping to spatial features via identifiers
+        items:
+          type: object
+          properties:
+            spatialReferenceKey:
+              type: string
+              description: identifier (uuid) of the spatial feature to which the values shall be applied
+            valueMapping:
+              type: array
+              description: an array of entries mapping an indicator value to a timestamp as mapping key
+              items:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date
+                    description: timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)
+                  indicatorValue:
+                    type: number
+                    format: float
+                    description: the numeric extent of the indicator for the timestamp
