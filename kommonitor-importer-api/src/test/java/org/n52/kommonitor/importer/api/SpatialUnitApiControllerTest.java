@@ -12,11 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
-import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
-import org.n52.kommonitor.importer.api.encoder.SpatialUnitEncoder;
-import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
+import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.SpatialUnitImportHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -44,7 +41,6 @@ import org.springframework.web.client.RestClientException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -79,7 +75,7 @@ public class SpatialUnitApiControllerTest {
     private AbstractDataSourceRetriever retriever;
 
     @MockBean
-    private SpatialUnitEncoder encoder;
+    private SpatialResourceJsonEncoder encoder;
 
     @MockBean
     private SpatialUnitsApi apiClient;
@@ -233,7 +229,7 @@ public class SpatialUnitApiControllerTest {
         SpatialUnitPOSTInputType spatialUnit = Mockito.mock(SpatialUnitPOSTInputType.class);
         Mockito.when(spatialUnit.getSpatialUnitLevel()).thenReturn("testLevel");
 
-        Mockito.when(encoder.encode(Mockito.any(ImportSpatialUnitPOSTInputType.class), Mockito.anyList())).thenReturn(spatialUnit);
+        Mockito.when(encoder.encodeSpatialResourcesAsString(Mockito.anyList())).thenReturn("");
     }
 
 }

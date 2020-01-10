@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
-import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
+import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -76,7 +76,7 @@ public class GeoresourcesApiControllerTest {
     private AbstractDataSourceRetriever retriever;
 
     @MockBean
-    private GeoresourceEncoder encoder;
+    private SpatialResourceJsonEncoder encoder;
 
     @MockBean
     private GeoresourcesApi apiClient;
@@ -230,6 +230,6 @@ public class GeoresourcesApiControllerTest {
         GeoresourcePOSTInputType geo = Mockito.mock(GeoresourcePOSTInputType.class);
         Mockito.when(geo.getDatasetName()).thenReturn("testDataset");
 
-        Mockito.when(encoder.encode(Mockito.any(ImportGeoresourcePOSTInputType.class), Mockito.anyList())).thenReturn(geo);
+        Mockito.when(encoder.encodeSpatialResourcesAsString(Mockito.anyList())).thenReturn("");
     }
 }

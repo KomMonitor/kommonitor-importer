@@ -2,8 +2,8 @@ package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
-import org.n52.kommonitor.importer.api.encoder.GeoresourceEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -35,7 +35,7 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
     private final static Logger LOG = LoggerFactory.getLogger(GeoresourceImportHandler.class);
 
     @Autowired
-    private GeoresourceEncoder encoder;
+    private SpatialResourceJsonEncoder spatialResourceEncoder;
 
     @Autowired
     private GeoresourcesApi apiClient;
@@ -52,9 +52,10 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
                 converterDefinition,
                 dataset,
                 importResourceType.getPropertyMapping());
-        GeoresourcePOSTInputType georesourcePostInput = null;
+        GeoresourcePOSTInputType georesourcePostInput = importResourceType.getGeoresourcePostBody();
         try {
-            georesourcePostInput = encoder.encode(importResourceType, spatialResources);
+
+            georesourcePostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
         } catch (JsonProcessingException ex) {
             throw new ImportParameterException("Could not encode Georesource.", ex);
         }

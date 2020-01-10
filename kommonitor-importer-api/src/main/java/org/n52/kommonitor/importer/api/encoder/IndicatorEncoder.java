@@ -31,20 +31,6 @@ public class IndicatorEncoder {
         return indicator;
     }
 
-//    private IndicatorPOSTInputTypeRefrencesToOtherIndicators encodeIndicatorReferences(ResourceReferenceType reference) {
-//        IndicatorPOSTInputTypeRefrencesToOtherIndicators result = new IndicatorPOSTInputTypeRefrencesToOtherIndicators();
-//        result.setIndicatorId(reference.getResourceId());
-//        result.setReferenceDescription(reference.getReferenceDescription());
-//        return result;
-//    }
-//
-//    private IndicatorPOSTInputTypeRefrencesToGeoresources encodeGeoresourceReferences(ResourceReferenceType reference) {
-//        IndicatorPOSTInputTypeRefrencesToGeoresources result = new IndicatorPOSTInputTypeRefrencesToGeoresources();
-//        result.setGeoresourceId(reference.getResourceId());
-//        result.setReferenceDescription(reference.getReferenceDescription());
-//        return result;
-//    }
-
     private IndicatorPOSTInputTypeIndicatorValues encodeIndicatorValues(IndicatorValue indicatorValues) {
         IndicatorPOSTInputTypeIndicatorValues result = new IndicatorPOSTInputTypeIndicatorValues();
         result.setSpatialReferenceKey(indicatorValues.getSpatialReferenceKey());
@@ -60,24 +46,4 @@ public class IndicatorEncoder {
         result.setTimestamp(timeseriesValue.getTimestamp());
         return result;
     }
-
-//    private org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingType encodeDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
-//        org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingType result
-//                = new org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingType();
-//        result.setColorBrewerSchemeName(defaultClassificationMapping.getColorBrewerSchemeName());
-//        result.setItems(defaultClassificationMapping.getItems().stream()
-//                .map(dCM -> encodeMappingItems(dCM))
-//                .collect(Collectors.toList()));
-//        return result;
-//    }
-//
-//    private org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingItemType encodeMappingItems(DefaultClassificationMappingItemType dCM) {
-//        org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingItemType result
-//                = new org.n52.kommonitor.datamanagement.api.models.DefaultClassificationMappingItemType();
-//        result.setDefaultColorAsHex(dCM.getDefaultColorAsHex());
-//        result.setDefaultCustomRating(dCM.getDefaultCustomRating());
-//        return result;
-//    }
-
-
 }
