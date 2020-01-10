@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
@@ -14,6 +15,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,7 +29,7 @@ import java.util.List;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WFSv1Converter.class})
+@ContextConfiguration(classes = {WFSv1Converter.class, GeometryHelper.class, FeatureDecoder.class})
 public class WFSv1ConverterTest {
 
     private final static String WFS_SCHEMA = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";

@@ -20,11 +20,13 @@ public class AbstractConverterTest {
     private static final String MIME_TYPE = "application/xml";
     private static final String ENCODING = "UTF-8";
     private static final String SCHEMA = "http://schemas.opengis.net/gml/3.2.1/gml.xsd";
+    private static Set supportedMimeTypes;
     private static Set supportedSchemas;
     private static Set supportedEncodings;
 
     @BeforeAll
     static void init() {
+        supportedMimeTypes = new HashSet<>(Arrays.asList(MIME_TYPE));
         supportedSchemas = new HashSet(Arrays.asList(SCHEMA));
         supportedEncodings = new HashSet<>(Arrays.asList(ENCODING));
     }
@@ -60,7 +62,7 @@ public class AbstractConverterTest {
     private AbstractConverter prepareMock() throws Exception {
         AbstractConverter converter = Mockito.mock(AbstractConverter.class, Mockito.CALLS_REAL_METHODS);
         Mockito.when(converter.initName()).thenReturn(NAME);
-        Mockito.when(converter.initSupportedMimeType()).thenReturn(MIME_TYPE);
+        Mockito.when(converter.initSupportedMimeType()).thenReturn(supportedMimeTypes);
         Mockito.when(converter.initSupportedSchemas()).thenReturn(supportedSchemas);
         Mockito.when(converter.initSupportedEncoding()).thenReturn(supportedEncodings);
         converter.afterPropertiesSet();

@@ -13,6 +13,7 @@ import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.opengis.referencing.FactoryException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -27,11 +28,13 @@ import java.util.*;
 @Component
 public class WFSv1Converter extends AbstractConverter {
     private static final String NAME = "org.n52.kommonitor.importer.converter.wfs.v1";
-    private static final String MIME_TYPE = "application/xml";
     private static final String WFS_SCHEMA_100 = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
     private static final String WFS_SCHEMA_110 = "http://schemas.opengis.net/wfs/1.1.0/wfs.xsd";
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
+
+    @Autowired
+    private FeatureDecoder featureDecoder;
 
     @Override
     public String initName() {
@@ -39,8 +42,11 @@ public class WFSv1Converter extends AbstractConverter {
     }
 
     @Override
-    public String initSupportedMimeType() {
-        return MIME_TYPE;
+    public Set<String> initSupportedMimeType() {
+        Set<String> mimeTypes = new HashSet<>();
+        mimeTypes.add("application/xml");
+        mimeTypes.add("test/xml");
+        return mimeTypes;
     }
 
     @Override
@@ -129,7 +135,7 @@ public class WFSv1Converter extends AbstractConverter {
 
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
-        return new FeatureDecoder().decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
+        return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
@@ -147,7 +153,7 @@ public class WFSv1Converter extends AbstractConverter {
 
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
-        return new FeatureDecoder().decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
+        return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
     }
 
     private InputStream getInputStream(ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException {

@@ -4,7 +4,6 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
 import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Import;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +19,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
 
     private String name;
 
-    private String supportedMimeType;
+    private Set<String> supportedMimeTypes;
 
     private Set<String> supportedSchemas;
 
@@ -45,10 +44,10 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     public void validateDefinition(ConverterDefinitionType converterDefinition) throws ImportParameterException {
         StringBuilder builder = new StringBuilder();
         boolean isValid = true;
-        if (!supportedMimeType.equals(converterDefinition.getMimeType())) {
+        if (!supportedMimeTypes.contains(converterDefinition.getMimeType())) {
             isValid = false;
-            builder.append(String.format("Unsupported MIME type '%s' for converter '%s'. Supported MIME type is '%s'.",
-                    converterDefinition.getMimeType(), getName(), getSupportedMimeType()));
+            builder.append(String.format("Unsupported MIME type '%s' for converter '%s'. Supported MIME-types are '%s'.",
+                    converterDefinition.getMimeType(), getName(), getSupportedMimeTypes()));
         }
         if (!supportedSchemas.contains(converterDefinition.getSchema())) {
             isValid = false;
@@ -70,8 +69,8 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         }
     }
 
-    public String getSupportedMimeType() {
-        return supportedMimeType;
+    public Set<String> getSupportedMimeTypes() {
+        return supportedMimeTypes;
     }
 
     public Set<String> getSupportedSchemas() {
@@ -99,9 +98,9 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     public abstract String initName();
 
     /**
-     * Initializes the supported MIME-type for the converter
+     * Initializes the supported MIME-types for the converter
      */
-    public abstract String initSupportedMimeType();
+    public abstract Set<String> initSupportedMimeType();
 
     /**
      * Initializes a set of supported schemas for the converter
@@ -121,7 +120,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     @Override
     public void afterPropertiesSet() throws Exception {
         this.name = initName();
-        this.supportedMimeType = initSupportedMimeType();
+        this.supportedMimeTypes = initSupportedMimeType();
         this.supportedSchemas = initSupportedSchemas();
         this.supportedEncodings = initSupportedEncoding();
         this.converterParameters = initConverterParameters();
