@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:02:58.461+01:00")
 
 public class ConverterType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class ConverterType  implements Serializable {
   @JsonProperty("name")
   private String name = null;
 
-  @JsonProperty("mimeType")
+  @JsonProperty("mimeTypes")
   @Valid
   private List<String> mimeTypes = new ArrayList<>();
 
@@ -63,19 +63,19 @@ public class ConverterType  implements Serializable {
     this.name = name;
   }
 
-  public ConverterType mimeTypes(List<String> mimeType) {
-    this.mimeTypes = mimeType;
+  public ConverterType mimeTypes(List<String> mimeTypes) {
+    this.mimeTypes = mimeTypes;
     return this;
   }
 
-  public ConverterType addMimeTypeItem(String mimeTypeItem) {
-    this.mimeTypes.add(mimeTypeItem);
+  public ConverterType addMimeTypesItem(String mimeTypesItem) {
+    this.mimeTypes.add(mimeTypesItem);
     return this;
   }
 
   /**
    * list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter
-   * @return mimeType
+   * @return mimeTypes
   **/
   @ApiModelProperty(required = true, value = "list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter")
   @NotNull
@@ -85,8 +85,8 @@ public class ConverterType  implements Serializable {
     return mimeTypes;
   }
 
-  public void setMimeTypes(List<String> mimeType) {
-    this.mimeTypes = mimeType;
+  public void setMimeTypes(List<String> mimeTypes) {
+    this.mimeTypes = mimeTypes;
   }
 
   public ConverterType schemas(List<String> schemas) {
@@ -202,7 +202,7 @@ public class ConverterType  implements Serializable {
     sb.append("class ConverterType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    mimeType: ").append(toIndentedString(mimeTypes)).append("\n");
+    sb.append("    mimeTypes: ").append(toIndentedString(mimeTypes)).append("\n");
     sb.append("    schemas: ").append(toIndentedString(schemas)).append("\n");
     sb.append("    encodings: ").append(toIndentedString(encodings)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");

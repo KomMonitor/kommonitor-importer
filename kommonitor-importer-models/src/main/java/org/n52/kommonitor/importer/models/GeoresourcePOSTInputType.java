@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  * GeoresourcePOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:02:58.461+01:00")
 
 public class GeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -489,7 +489,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
    * a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset
    * @return geoJsonString
   **/
-  @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset")
+  @ApiModelProperty(value = "a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset")
 
 
   public String getGeoJsonString() {
@@ -553,6 +553,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
     sb.append("    poiMarkerColor: ").append(toIndentedString(poiMarkerColor)).append("\n");
     sb.append("    poiSymbolColor: ").append(toIndentedString(poiSymbolColor)).append("\n");
     sb.append("    jsonSchema: ").append(toIndentedString(jsonSchema)).append("\n");
+    sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
     sb.append("}");
     return sb.toString();
   }

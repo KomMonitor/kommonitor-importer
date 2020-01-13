@@ -19,13 +19,13 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new georesource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:02:58.461+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("georesourcePostBody")
-  private GeoresourcePOSTInputType georesourcePostBody = null;
+  @JsonProperty("georesourcePutBody")
+  private GeoresourcePOSTInputType georesourcePutBody = null;
 
   @JsonProperty("dataSource")
   private DataSourceDefinitionType dataSource = null;
@@ -36,26 +36,25 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
 
-  public ImportGeoresourcePOSTInputType georesourcePostBody(GeoresourcePOSTInputType georesourcePostBody) {
-    this.georesourcePostBody = georesourcePostBody;
+  public ImportGeoresourcePOSTInputType georesourcePutBody(GeoresourcePOSTInputType georesourcePutBody) {
+    this.georesourcePutBody = georesourcePutBody;
     return this;
   }
 
   /**
-   * Get georesourcePostBody
-   * @return georesourcePostBody
+   * Get georesourcePutBody
+   * @return georesourcePutBody
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 
-  public GeoresourcePOSTInputType getGeoresourcePostBody() {
-    return georesourcePostBody;
+  public GeoresourcePOSTInputType getGeoresourcePutBody() {
+    return georesourcePutBody;
   }
 
-  public void setGeoresourcePostBody(GeoresourcePOSTInputType georesourcePostBody) {
-    this.georesourcePostBody = georesourcePostBody;
+  public void setGeoresourcePutBody(GeoresourcePOSTInputType georesourcePutBody) {
+    this.georesourcePutBody = georesourcePutBody;
   }
 
   public ImportGeoresourcePOSTInputType dataSource(DataSourceDefinitionType dataSource) {
@@ -134,7 +133,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
       return false;
     }
     ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType = (ImportGeoresourcePOSTInputType) o;
-    return Objects.equals(this.georesourcePostBody, importGeoresourcePOSTInputType.georesourcePostBody) &&
+    return Objects.equals(this.georesourcePutBody, importGeoresourcePOSTInputType.georesourcePutBody) &&
         Objects.equals(this.dataSource, importGeoresourcePOSTInputType.dataSource) &&
         Objects.equals(this.converter, importGeoresourcePOSTInputType.converter) &&
         Objects.equals(this.propertyMapping, importGeoresourcePOSTInputType.propertyMapping);
@@ -142,7 +141,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(georesourcePostBody, dataSource, converter, propertyMapping);
+    return Objects.hash(georesourcePutBody, dataSource, converter, propertyMapping);
   }
 
   @Override
@@ -150,7 +149,7 @@ public class ImportGeoresourcePOSTInputType  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class ImportGeoresourcePOSTInputType {\n");
     
-    sb.append("    georesourcePostBody: ").append(toIndentedString(georesourcePostBody)).append("\n");
+    sb.append("    georesourcePutBody: ").append(toIndentedString(georesourcePutBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
