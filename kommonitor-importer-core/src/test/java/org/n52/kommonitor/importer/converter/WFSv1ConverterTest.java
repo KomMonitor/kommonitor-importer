@@ -9,10 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.models.ConverterDefinitionType;
+import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -37,7 +39,8 @@ public class WFSv1ConverterTest {
     private final static String ENCODING = "UTF-8";
 
     private static ConverterDefinitionType convDef;
-    private static SpatialResourcePropertyMappingType propertyMapping;
+    private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
+    private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
     @Autowired
     private WFSv1Converter converter;
@@ -53,11 +56,16 @@ public class WFSv1ConverterTest {
         param.setValue("EPSG:25832");
         convDef.setParameters(Arrays.asList(param));
 
-        propertyMapping = new SpatialResourcePropertyMappingType();
-        propertyMapping.setIdentifierProperty("Baublock_ID");
-        propertyMapping.setNameProperty("Baublock_ID");
-        propertyMapping.setValidStartDateProperty("EreignisintervallStart");
-        propertyMapping.setValidEndDateProperty("EreignisintervallEnde");
+        spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
+        spatialResourcePropertyMapping.setIdentifierProperty("Baublock_ID");
+        spatialResourcePropertyMapping.setNameProperty("Baublock_ID");
+        spatialResourcePropertyMapping.setValidStartDateProperty("EreignisintervallStart");
+        spatialResourcePropertyMapping.setValidEndDateProperty("EreignisintervallEnde");
+
+        indicatorPropertyMapping = new IndicatorPropertyMappingType();
+        indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");
+        indicatorPropertyMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
+        indicatorPropertyMapping.setTimestampProperty("EreignisintervallStart");
     }
 
     @Test
@@ -80,7 +88,18 @@ public class WFSv1ConverterTest {
         InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
         Dataset<InputStream> dataset = new Dataset<>(input);
 
-        List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, propertyMapping);
+        List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
+
+        Assertions.assertEquals(3, spatialResources.size());
+    }
+
+    @Test
+    @DisplayName("Test convert Indicators for WFS 1.0.0 datasource")
+    void testConvertIndicatorsForWfs100Datasource() throws ConverterException {
+        InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+
+        List<IndicatorValue> spatialResources = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);
 
         Assertions.assertEquals(3, spatialResources.size());
     }
@@ -96,21 +115,39 @@ public class WFSv1ConverterTest {
     }
 
     @Test
+    @DisplayName("Test convert Indicators for WFS datasource throws ConverterException for unsupported dataset type")
+    void testConvertIndicatorsForWfsDatasourceThrowsConverterExceptionForUnsupportedDatasetType() {
+        ConverterDefinitionType convDef = Mockito.mock(ConverterDefinitionType.class);
+        IndicatorPropertyMappingType propertyMapping = Mockito.mock(IndicatorPropertyMappingType.class);
+        Dataset<Double> dataset = new Dataset<>(123.123);
+
+        Assertions.assertThrows(ConverterException.class, () -> converter.convertIndicators(convDef, dataset, propertyMapping));
+    }
+
+    @Test
     @DisplayName("Test convert SpatialResources for WFS datasource throws ConverterException for non parsable dataset")
     void testConvertSpatialResourcesForWfsDatasourceThrowsConverterExceptionForNotParsableDataset() {
         Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");
 
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
+        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
+    }
+
+    @Test
+    @DisplayName("Test convert Indicators for WFS datasource throws ConverterException for non parsable dataset")
+    void testConvertIndicatorForWfsDatasourceThrowsConverterExceptionForNotParsableDataset() {
+        Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");
+
+        Assertions.assertThrows(ConverterException.class, () -> converter.convertIndicators(convDef, dataset, indicatorPropertyMapping));
     }
 
     @Test
     @DisplayName("Test convert SpatialResources for WFS datasource throws ImportParameterException for unavailable CRS parameter")
-    void testConvertSpatialResourcesForWfsDatasourceThrowsImporParameterExceptionForUnavaliableParameter() {
+    void testConvertSpatialResourcesForWfsDatasourceThrowsImporParameterExceptionForUnavailableParameter() {
         InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
         Dataset<InputStream> dataset = new Dataset<>(input);
         convDef.setParameters(Collections.EMPTY_LIST);
 
-        Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
+        Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
 
     @Test
@@ -123,7 +160,8 @@ public class WFSv1ConverterTest {
         param.setValue("non-valid-epsg-code");
         convDef.setParameters(Arrays.asList(param));
 
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
+        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
+
 
 }
