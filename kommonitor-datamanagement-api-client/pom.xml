@@ -25,7 +25,9 @@
         <swagger-codegen.version>2.4.10</swagger-codegen.version>
         <surefire-plugin.version>3.0.0-M3</surefire-plugin.version>
         <swagger-codegen.configHelp>false</swagger-codegen.configHelp>
-        <swagger-codegen.supportingFiles>true</swagger-codegen.supportingFiles>
+        <swagger-codegen.supportingFiles>false</swagger-codegen.supportingFiles>
+        <swagger-codegen.generateApi>true</swagger-codegen.generateApi>
+        <swagger-codegen.generateModels>false</swagger-codegen.generateModels>
     </properties>
 
     <dependencies>
@@ -134,8 +136,9 @@
                                     <library>resttemplate</library>
                                     <output>${project.basedir}</output>
                                     <apiPackage>org.n52.kommonitor.datamanagement.api.client</apiPackage>
-                                    <modelPackage>org.n52.kommonitor.importer.models</modelPackage>
-                                    <generateApis>true</generateApis>
+                                    <modelPackage>org.n52.kommonitor.datamanagement.api.models</modelPackage>
+                                    <generateApis>${swagger-codegen.generateApi}</generateApis>
+                                    <generateModels>${swagger-codegen.generateModels}</generateModels>
                                     <configHelp>${swagger-codegen.configHelp}</configHelp>
                                     <generateSupportingFiles>${swagger-codegen.supportingFiles}
                                     </generateSupportingFiles>

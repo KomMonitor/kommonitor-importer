@@ -51,7 +51,9 @@
                                             <artifactId>kommonitor-api-specs</artifactId>
                                             <version>0.0.1-SNAPSHOT</version>
                                             <type>jar</type>
-                                            <includes>specs/data-importer/definitions.yaml,specs/data-importer/kommonitor_dataImportAPI.yaml,specs/data-management/definitions.yaml</includes>
+                                            <includes>
+                                                specs/data-importer/definitions.yaml,specs/data-importer/kommonitor_dataImportAPI.yaml,specs/data-management/definitions.yaml,specs/data-management/kommonitor_dataAccessAPI.yaml
+                                            </includes>
                                             <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
@@ -69,7 +71,9 @@
                                     <goal>generate</goal>
                                 </goals>
                                 <configuration>
-                                    <inputSpec>${project.basedir}/src/main/resources/specs/data-importer/kommonitor_dataImportAPI.yaml</inputSpec>
+                                    <inputSpec>
+                                        ${project.basedir}/src/main/resources/specs/data-importer/kommonitor_dataImportAPI.yaml
+                                    </inputSpec>
                                     <!-- target to generate java server code -->
                                     <language>spring</language>
                                     <output>${project.basedir}</output>
@@ -78,7 +82,8 @@
                                     <generateApis>false</generateApis>
 
                                     <configHelp>${swagger-codegen.configHelp}</configHelp>
-                                    <generateSupportingFiles>${swagger-codegen.supportingFiles}</generateSupportingFiles>
+                                    <generateSupportingFiles>${swagger-codegen.supportingFiles}
+                                    </generateSupportingFiles>
                                     <!-- pass any necessary config options -->
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
