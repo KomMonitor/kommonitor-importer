@@ -33,8 +33,13 @@ public class WFSv1Converter extends AbstractConverter {
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
 
-    @Autowired
     private FeatureDecoder featureDecoder;
+
+    @Autowired
+    public WFSv1Converter(FeatureDecoder featureDecoder) {
+        this.featureDecoder = featureDecoder;
+    }
+
 
     @Override
     public String initName() {

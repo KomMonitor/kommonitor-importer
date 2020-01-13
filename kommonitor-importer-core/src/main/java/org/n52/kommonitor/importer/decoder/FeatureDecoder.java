@@ -38,8 +38,13 @@ public class FeatureDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(FeatureDecoder.class);
 
-    @Autowired
     private GeometryHelper geomHelper;
+
+    @Autowired
+    public FeatureDecoder(GeometryHelper geometryHelper) {
+        this.geomHelper = geometryHelper;
+    }
+
 
     /**
      * Decode a {@link SimpleFeature} as {@link SpatialResource} by mapping certain properties
