@@ -18,9 +18,6 @@ import org.n52.kommonitor.importer.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.importer.models.ParameterValueType;
 import org.n52.kommonitor.importer.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -30,8 +27,6 @@ import java.util.List;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {WFSv1Converter.class, GeometryHelper.class, FeatureDecoder.class})
 public class WFSv1ConverterTest {
 
     private final static String WFS_SCHEMA = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
@@ -42,11 +37,14 @@ public class WFSv1ConverterTest {
     private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
     private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
-    @Autowired
-    private WFSv1Converter converter;
+    private static WFSv1Converter converter;
 
     @BeforeAll
-    static void init() {
+    static void init() throws Exception {
+        GeometryHelper geomHelper = new GeometryHelper();
+        geomHelper.afterPropertiesSet();
+        converter = new WFSv1Converter(new FeatureDecoder(geomHelper));
+
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);
         convDef.setSchema(WFS_SCHEMA);
