@@ -1,8 +1,8 @@
 package org.n52.kommonitor.importer.converter;
 
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.models.ConverterDefinitionType;
-import org.n52.kommonitor.importer.models.ParameterValueType;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ParameterValueType;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Collections;

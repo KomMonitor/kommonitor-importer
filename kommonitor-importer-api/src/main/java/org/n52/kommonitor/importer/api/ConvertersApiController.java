@@ -7,7 +7,7 @@ import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
-import org.n52.kommonitor.importer.models.ConverterType;
+import org.n52.kommonitor.models.ConverterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

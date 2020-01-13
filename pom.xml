@@ -7,7 +7,7 @@
     <artifactId>kommonitor-importer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>kommonitor-importer-models</module>
+        <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
         <module>kommonitor-importer-app</module>
         <module>kommonitor-importer-core</module>
@@ -35,7 +35,7 @@
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>kommonitor-importer-models</artifactId>
+                <artifactId>kommonitor-models</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

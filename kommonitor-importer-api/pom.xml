@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>kommonitor-importer-models</artifactId>
+            <artifactId>kommonitor-models</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -105,7 +105,7 @@
                                     <language>spring</language>
                                     <output>${project.basedir}</output>
                                     <apiPackage>org.n52.kommonitor.importer.api</apiPackage>
-                                    <modelPackage>org.n52.kommonitor.importer.models</modelPackage>
+                                    <modelPackage>org.n52.kommonitor.models</modelPackage>
                                     <generateModels>false</generateModels>
                                     <generateApis>true</generateApis>
 

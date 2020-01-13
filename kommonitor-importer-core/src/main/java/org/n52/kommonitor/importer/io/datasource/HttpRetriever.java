@@ -4,11 +4,9 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.http.HttpHelper;
-import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
+import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;

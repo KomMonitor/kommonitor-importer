@@ -13,15 +13,12 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.junit.Test;
 import org.junit.Ignore;
-import org.n52.kommonitor.datamanagement.api.models.TopicInputType;
-import org.n52.kommonitor.datamanagement.api.models.TopicOverviewType;
+import org.junit.Test;
+import org.n52.kommonitor.models.TopicInputType;
+import org.n52.kommonitor.models.TopicOverviewType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for TopicsApi

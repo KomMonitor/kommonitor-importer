@@ -2,8 +2,8 @@ package org.n52.kommonitor.importer.api.encoder;
 
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
-import org.n52.kommonitor.importer.models.DataSourceType;
-import org.n52.kommonitor.importer.models.ParameterType;
+import org.n52.kommonitor.models.DataSourceType;
+import org.n52.kommonitor.models.ParameterType;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;

@@ -15,13 +15,10 @@ package org.n52.kommonitor.datamanagement.api.client;
 
 import org.junit.Test;
 import org.junit.Ignore;
-import org.n52.kommonitor.datamanagement.api.models.RoleInputType;
-import org.n52.kommonitor.datamanagement.api.models.RoleOverviewType;
+import org.n52.kommonitor.models.RoleInputType;
+import org.n52.kommonitor.models.RoleOverviewType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for RolesApi

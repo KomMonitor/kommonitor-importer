@@ -15,12 +15,12 @@ package org.n52.kommonitor.datamanagement.api.client;
 
 import java.math.BigDecimal;
 
-import org.n52.kommonitor.datamanagement.api.models.SpatialUnitOverviewType;
-import org.n52.kommonitor.datamanagement.api.models.SpatialUnitPATCHInputType;
-import org.n52.kommonitor.datamanagement.api.models.SpatialUnitPUTInputType;
-import org.n52.kommonitor.importer.models.SpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.SpatialUnitOverviewType;
+import org.n52.kommonitor.models.SpatialUnitPATCHInputType;
+import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.n52.kommonitor.models.SpatialUnitPUTInputType;
 
 import java.util.List;
 

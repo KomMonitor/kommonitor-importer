@@ -15,13 +15,10 @@ package org.n52.kommonitor.datamanagement.api.client;
 
 import org.junit.Test;
 import org.junit.Ignore;
-import org.n52.kommonitor.datamanagement.api.models.UserInputType;
-import org.n52.kommonitor.datamanagement.api.models.UserOverviewType;
+import org.n52.kommonitor.models.UserInputType;
+import org.n52.kommonitor.models.UserOverviewType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for UsersApi

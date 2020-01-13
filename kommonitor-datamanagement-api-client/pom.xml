@@ -33,7 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>kommonitor-importer-models</artifactId>
+            <artifactId>kommonitor-models</artifactId>
         </dependency>
 
         <dependency>
@@ -136,7 +136,7 @@
                                     <library>resttemplate</library>
                                     <output>${project.basedir}</output>
                                     <apiPackage>org.n52.kommonitor.datamanagement.api.client</apiPackage>
-                                    <modelPackage>org.n52.kommonitor.datamanagement.api.models</modelPackage>
+                                    <modelPackage>org.n52.kommonitor.models</modelPackage>
                                     <generateApis>${swagger-codegen.generateApi}</generateApis>
                                     <generateModels>${swagger-codegen.generateModels}</generateModels>
                                     <configHelp>${swagger-codegen.configHelp}</configHelp>

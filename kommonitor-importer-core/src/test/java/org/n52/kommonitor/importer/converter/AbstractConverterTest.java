@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ConverterDefinitionType;
 
 import java.util.Arrays;
 import java.util.HashSet;

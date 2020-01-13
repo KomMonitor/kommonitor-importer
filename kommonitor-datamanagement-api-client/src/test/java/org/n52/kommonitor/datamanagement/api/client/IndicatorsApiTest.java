@@ -16,11 +16,8 @@ package org.n52.kommonitor.datamanagement.api.client;
 import java.math.BigDecimal;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorOverviewType;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorPATCHInputType;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorPUTInputType;
-import org.n52.kommonitor.datamanagement.api.models.IndicatorPropertiesWithoutGeomType;
-import org.n52.kommonitor.importer.models.IndicatorPOSTInputType;
+import org.n52.kommonitor.importer.models.*;
+import org.n52.kommonitor.models.*;
 
 import java.util.List;
 

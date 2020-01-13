@@ -2,11 +2,10 @@ package org.n52.kommonitor.datamanagement.api.client;
 
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptOverviewType;
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPOSTInputType;
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPUTInputType;
+import org.n52.kommonitor.models.ProcessScriptOverviewType;
+import org.n52.kommonitor.models.ProcessScriptPOSTInputType;
+import org.n52.kommonitor.models.ProcessScriptPUTInputType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +18,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T15:34:17.820+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T17:05:28.208+01:00")
 @Component("org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi")
 public class ProcessScriptsApi {
     private ApiClient apiClient;

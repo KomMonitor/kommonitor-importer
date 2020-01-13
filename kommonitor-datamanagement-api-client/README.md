@@ -75,10 +75,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.n52.kommonitor.datamanagement.api.*;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.importer.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
-
-import java.io.File;
-import java.util.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;import org.n52.kommonitor.models.GeoresourcePOSTInputType;
 
 public class GeoresourcesApiExample {
 

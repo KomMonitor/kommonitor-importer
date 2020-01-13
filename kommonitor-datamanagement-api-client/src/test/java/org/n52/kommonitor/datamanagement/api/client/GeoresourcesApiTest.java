@@ -23,11 +23,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourceOverviewType;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePATCHInputType;
-import org.n52.kommonitor.datamanagement.api.models.GeoresourcePUTInputType;
 
-import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
+import org.n52.kommonitor.models.GeoresourceOverviewType;
+import org.n52.kommonitor.models.GeoresourcePATCHInputType;
+import org.n52.kommonitor.models.GeoresourcePOSTInputType;
+import org.n52.kommonitor.models.GeoresourcePUTInputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.HttpHeaders;

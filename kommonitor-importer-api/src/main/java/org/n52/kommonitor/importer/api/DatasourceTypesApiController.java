@@ -7,7 +7,7 @@ import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
-import org.n52.kommonitor.importer.models.DataSourceType;
+import org.n52.kommonitor.models.DataSourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

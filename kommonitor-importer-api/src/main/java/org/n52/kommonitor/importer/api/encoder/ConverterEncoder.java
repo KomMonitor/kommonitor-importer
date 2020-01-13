@@ -2,8 +2,8 @@ package org.n52.kommonitor.importer.api.encoder;
 
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterParameter;
-import org.n52.kommonitor.importer.models.ConverterType;
-import org.n52.kommonitor.importer.models.ParameterType;
+import org.n52.kommonitor.models.ConverterType;
+import org.n52.kommonitor.models.ParameterType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

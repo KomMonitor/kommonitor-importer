@@ -3,7 +3,7 @@ package org.n52.kommonitor.importer.io.datasource;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.models.DataSourceDefinitionType;
+import org.n52.kommonitor.models.DataSourceDefinitionType;
 
 /**
  * An interface for retrieving datasets from a certain datasource type

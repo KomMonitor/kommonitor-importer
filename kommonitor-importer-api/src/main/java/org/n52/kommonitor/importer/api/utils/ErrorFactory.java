@@ -1,6 +1,6 @@
 package org.n52.kommonitor.importer.api.utils;
 
-import org.n52.kommonitor.importer.models.Error;
+import org.n52.kommonitor.models.Error;
 
 /**
  * Helper class for constructing {@link Error} objects for HTTP responses

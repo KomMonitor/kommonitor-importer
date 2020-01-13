@@ -3,15 +3,15 @@ package org.n52.kommonitor.importer.api.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
-import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
+import org.n52.kommonitor.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.models.ConverterDefinitionType;
-import org.n52.kommonitor.importer.models.ImportGeoresourcePOSTInputType;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

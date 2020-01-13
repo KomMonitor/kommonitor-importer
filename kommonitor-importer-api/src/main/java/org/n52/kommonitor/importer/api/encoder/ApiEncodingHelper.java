@@ -1,7 +1,5 @@
 package org.n52.kommonitor.importer.api.encoder;
 
-import org.n52.kommonitor.importer.models.CommonMetadataType;
-import org.n52.kommonitor.importer.models.PeriodOfValidityType;
 import org.springframework.stereotype.Component;
 
 /**

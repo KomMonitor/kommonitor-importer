@@ -13,16 +13,13 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptOverviewType;
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPOSTInputType;
-import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPUTInputType;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.n52.kommonitor.models.ProcessScriptOverviewType;
+import org.n52.kommonitor.models.ProcessScriptPOSTInputType;
+import org.n52.kommonitor.models.ProcessScriptPUTInputType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for ProcessScriptsApi

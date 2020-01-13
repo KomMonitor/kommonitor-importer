@@ -3,10 +3,10 @@ package org.n52.kommonitor.importer.api.encoder;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
-import org.n52.kommonitor.importer.models.ImportIndicatorPOSTInputType;
-import org.n52.kommonitor.importer.models.IndicatorPOSTInputType;
-import org.n52.kommonitor.importer.models.IndicatorPOSTInputTypeIndicatorValues;
-import org.n52.kommonitor.importer.models.IndicatorPOSTInputTypeValueMapping;
+import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
+import org.n52.kommonitor.models.IndicatorPOSTInputType;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeValueMapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

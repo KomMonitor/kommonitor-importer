@@ -1,6 +1,6 @@
 package org.n52.kommonitor.importer.io.datasource;
 
-import org.n52.kommonitor.importer.models.ParameterValueType;
+import org.n52.kommonitor.models.ParameterValueType;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Collections;
