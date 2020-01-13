@@ -27,7 +27,7 @@ import org.n52.kommonitor.datamanagement.api.models.TopicOverviewType;
 /**
  * TopicOverviewType
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T14:56:01.370+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T15:34:17.820+01:00")
 public class TopicOverviewType {
   @JsonProperty("topicId")
   private String topicId = null;

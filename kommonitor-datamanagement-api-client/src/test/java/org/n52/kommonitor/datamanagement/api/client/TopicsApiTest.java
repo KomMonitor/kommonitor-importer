@@ -13,10 +13,10 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.n52.kommonitor.importer.models.TopicInputType;
-import org.n52.kommonitor.importer.models.TopicOverviewType;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.n52.kommonitor.datamanagement.api.models.TopicInputType;
+import org.n52.kommonitor.datamanagement.api.models.TopicOverviewType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

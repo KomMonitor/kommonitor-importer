@@ -13,10 +13,10 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.n52.kommonitor.importer.models.UserInputType;
-import org.n52.kommonitor.importer.models.UserOverviewType;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.n52.kommonitor.datamanagement.api.models.UserInputType;
+import org.n52.kommonitor.datamanagement.api.models.UserOverviewType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,14 +31,13 @@ public class UsersApiTest {
 
     private final UsersApi api = new UsersApi();
 
-    
+
     /**
      * Register a new user
-     *
+     * <p>
      * Add/Register a user
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void addUserTest() {
@@ -47,14 +46,13 @@ public class UsersApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * Delete the user
-     *
+     * <p>
      * Delete the user
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void deleteUserTest() {
@@ -63,14 +61,13 @@ public class UsersApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve information about the selected user and his/her role
-     *
+     * <p>
      * retrieve information about the selected user and his/her role
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getUserByIdTest() {
@@ -79,14 +76,13 @@ public class UsersApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve information about available users and their roles
-     *
+     * <p>
      * retrieve information about available users and their roles
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void getUsersTest() {
@@ -94,14 +90,13 @@ public class UsersApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * Modify user information
-     *
+     * <p>
      * Modify user information
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updateUserTest() {
@@ -111,5 +106,5 @@ public class UsersApiTest {
 
         // TODO: test validations
     }
-    
+
 }

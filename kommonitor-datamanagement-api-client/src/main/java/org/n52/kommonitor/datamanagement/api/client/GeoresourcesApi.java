@@ -3,16 +3,16 @@ package org.n52.kommonitor.datamanagement.api.client;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import java.math.BigDecimal;
-import org.n52.kommonitor.importer.models.GeoresourceOverviewType;
-import org.n52.kommonitor.importer.models.GeoresourcePATCHInputType;
-import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
-import org.n52.kommonitor.importer.models.GeoresourcePUTInputType;
+import org.n52.kommonitor.datamanagement.api.models.GeoresourceOverviewType;
+import org.n52.kommonitor.datamanagement.api.models.GeoresourcePATCHInputType;
+import org.n52.kommonitor.datamanagement.api.models.GeoresourcePUTInputType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.n52.kommonitor.importer.models.GeoresourcePOSTInputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -28,7 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-10T14:00:35.064+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T15:34:17.820+01:00")
 @Component("org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi")
 public class GeoresourcesApi {
     private ApiClient apiClient;

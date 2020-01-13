@@ -13,9 +13,9 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.n52.kommonitor.importer.models.ProcessScriptOverviewType;
-import org.n52.kommonitor.importer.models.ProcessScriptPOSTInputType;
-import org.n52.kommonitor.importer.models.ProcessScriptPUTInputType;
+import org.n52.kommonitor.datamanagement.api.models.ProcessScriptOverviewType;
+import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPOSTInputType;
+import org.n52.kommonitor.datamanagement.api.models.ProcessScriptPUTInputType;
 import org.junit.Test;
 import org.junit.Ignore;
 

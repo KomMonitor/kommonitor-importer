@@ -14,18 +14,15 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
 import java.math.BigDecimal;
-import org.n52.kommonitor.importer.models.IndicatorOverviewType;
-import org.n52.kommonitor.importer.models.IndicatorPATCHInputType;
-import org.n52.kommonitor.importer.models.IndicatorPOSTInputType;
-import org.n52.kommonitor.importer.models.IndicatorPUTInputType;
-import org.n52.kommonitor.importer.models.IndicatorPropertiesWithoutGeomType;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.n52.kommonitor.datamanagement.api.models.IndicatorOverviewType;
+import org.n52.kommonitor.datamanagement.api.models.IndicatorPATCHInputType;
+import org.n52.kommonitor.datamanagement.api.models.IndicatorPUTInputType;
+import org.n52.kommonitor.datamanagement.api.models.IndicatorPropertiesWithoutGeomType;
+import org.n52.kommonitor.importer.models.IndicatorPOSTInputType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for IndicatorsApi

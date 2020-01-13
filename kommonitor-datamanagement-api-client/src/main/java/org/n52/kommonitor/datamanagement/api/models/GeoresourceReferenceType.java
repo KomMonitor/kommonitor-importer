@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
  * a reference to georesource, e.g. a resource that is used to compute the main indicator
  */
 @ApiModel(description = "a reference to georesource, e.g. a resource that is used to compute the main indicator")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T14:56:01.370+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-13T15:34:17.820+01:00")
 public class GeoresourceReferenceType {
   @JsonProperty("referencedGeoresourceId")
   private String referencedGeoresourceId = null;
