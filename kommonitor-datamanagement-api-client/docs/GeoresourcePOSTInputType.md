@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **poiMarkerColor** | [**PoiMarkerColorEnum**](#PoiMarkerColorEnum) | If georesource is a POI then custom POI marker color can be set by specifying one of the following color names |  [optional]
 **poiSymbolColor** | [**PoiSymbolColorEnum**](#PoiSymbolColorEnum) | If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names |  [optional]
 **jsonSchema** | **String** | a JSON schema as string that defines the data model for this dataset. It can be used to validate the geoJsonString property. |  [optional]
-**geoJsonString** | **String** | a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset | 
+**geoJsonString** | **String** | a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset |  [optional]
 
 
 <a name="PoiMarkerColorEnum"></a>
