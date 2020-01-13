@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * SpatialUnitPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:37:10.215+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:27:33.052+01:00")
 
 public class SpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -176,7 +176,7 @@ public class SpatialUnitPOSTInputType  implements Serializable {
    * a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'
    * @return geoJsonString
   **/
-  @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
+  @ApiModelProperty(value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
 
 
   public String getGeoJsonString() {

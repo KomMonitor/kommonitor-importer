@@ -15,11 +15,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Definitions for importing an new indicator from a certain datasource
+ * Definitions for importing an new indicator
  */
-@ApiModel(description = "Definitions for importing an new indicator from a certain datasource")
+@ApiModel(description = "Definitions for importing an new indicator")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:02:58.461+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T15:27:33.052+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
