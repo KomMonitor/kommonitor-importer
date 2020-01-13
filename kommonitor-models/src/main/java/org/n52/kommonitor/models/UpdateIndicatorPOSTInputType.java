@@ -7,25 +7,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.IndicatorPUTInputType;
+import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Definitions for importing an new spatial unit from a certain datasource
+ * Definitions for updating a new indicator from a certain datasource
  */
-@ApiModel(description = "Definitions for importing an new spatial unit from a certain datasource")
+@ApiModel(description = "Definitions for updating a new indicator from a certain datasource")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:37:59.179+01:00")
 
-public class ImportSpatialUnitPOSTInputType  implements Serializable {
+public class UpdateIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("spatialUnitPostBody")
-  private SpatialUnitPOSTInputType spatialUnitPostBody = null;
+  @JsonProperty("indicatorId")
+  private String indicatorId = null;
+
+  @JsonProperty("indicatorPutBody")
+  private IndicatorPUTInputType indicatorPutBody = null;
 
   @JsonProperty("dataSource")
   private DataSourceDefinitionType dataSource = null;
@@ -34,31 +37,52 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private ConverterDefinitionType converter = null;
 
   @JsonProperty("propertyMapping")
-  private SpatialResourcePropertyMappingType propertyMapping = null;
+  private IndicatorPropertyMappingType propertyMapping = null;
 
-  public ImportSpatialUnitPOSTInputType spatialUnitPostBody(SpatialUnitPOSTInputType spatialUnitPostBody) {
-    this.spatialUnitPostBody = spatialUnitPostBody;
+  public UpdateIndicatorPOSTInputType indicatorId(String indicatorId) {
+    this.indicatorId = indicatorId;
     return this;
   }
 
   /**
-   * Get spatialUnitPostBody
-   * @return spatialUnitPostBody
+   * the unique ID of the indicator that shall be updated
+   * @return indicatorId
+  **/
+  @ApiModelProperty(required = true, value = "the unique ID of the indicator that shall be updated")
+  @NotNull
+
+
+  public String getIndicatorId() {
+    return indicatorId;
+  }
+
+  public void setIndicatorId(String indicatorId) {
+    this.indicatorId = indicatorId;
+  }
+
+  public UpdateIndicatorPOSTInputType indicatorPutBody(IndicatorPUTInputType indicatorPutBody) {
+    this.indicatorPutBody = indicatorPutBody;
+    return this;
+  }
+
+  /**
+   * Get indicatorPutBody
+   * @return indicatorPutBody
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid
 
-  public SpatialUnitPOSTInputType getSpatialUnitPostBody() {
-    return spatialUnitPostBody;
+  public IndicatorPUTInputType getIndicatorPutBody() {
+    return indicatorPutBody;
   }
 
-  public void setSpatialUnitPostBody(SpatialUnitPOSTInputType spatialUnitPostBody) {
-    this.spatialUnitPostBody = spatialUnitPostBody;
+  public void setIndicatorPutBody(IndicatorPUTInputType indicatorPutBody) {
+    this.indicatorPutBody = indicatorPutBody;
   }
 
-  public ImportSpatialUnitPOSTInputType dataSource(DataSourceDefinitionType dataSource) {
+  public UpdateIndicatorPOSTInputType dataSource(DataSourceDefinitionType dataSource) {
     this.dataSource = dataSource;
     return this;
   }
@@ -80,7 +104,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.dataSource = dataSource;
   }
 
-  public ImportSpatialUnitPOSTInputType converter(ConverterDefinitionType converter) {
+  public UpdateIndicatorPOSTInputType converter(ConverterDefinitionType converter) {
     this.converter = converter;
     return this;
   }
@@ -102,7 +126,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.converter = converter;
   }
 
-  public ImportSpatialUnitPOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
+  public UpdateIndicatorPOSTInputType propertyMapping(IndicatorPropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
     return this;
   }
@@ -116,11 +140,11 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
 
   @Valid
 
-  public SpatialResourcePropertyMappingType getPropertyMapping() {
+  public IndicatorPropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
 
-  public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
+  public void setPropertyMapping(IndicatorPropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
   }
 
@@ -133,24 +157,26 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType = (ImportSpatialUnitPOSTInputType) o;
-    return Objects.equals(this.spatialUnitPostBody, importSpatialUnitPOSTInputType.spatialUnitPostBody) &&
-        Objects.equals(this.dataSource, importSpatialUnitPOSTInputType.dataSource) &&
-        Objects.equals(this.converter, importSpatialUnitPOSTInputType.converter) &&
-        Objects.equals(this.propertyMapping, importSpatialUnitPOSTInputType.propertyMapping);
+    UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType = (UpdateIndicatorPOSTInputType) o;
+    return Objects.equals(this.indicatorId, updateIndicatorPOSTInputType.indicatorId) &&
+        Objects.equals(this.indicatorPutBody, updateIndicatorPOSTInputType.indicatorPutBody) &&
+        Objects.equals(this.dataSource, updateIndicatorPOSTInputType.dataSource) &&
+        Objects.equals(this.converter, updateIndicatorPOSTInputType.converter) &&
+        Objects.equals(this.propertyMapping, updateIndicatorPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitPostBody, dataSource, converter, propertyMapping);
+    return Objects.hash(indicatorId, indicatorPutBody, dataSource, converter, propertyMapping);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ImportSpatialUnitPOSTInputType {\n");
+    sb.append("class UpdateIndicatorPOSTInputType {\n");
     
-    sb.append("    spatialUnitPostBody: ").append(toIndentedString(spatialUnitPostBody)).append("\n");
+    sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
+    sb.append("    indicatorPutBody: ").append(toIndentedString(indicatorPutBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");

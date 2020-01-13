@@ -4,9 +4,15 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.CommonMetadataType;
+import org.n52.kommonitor.models.DefaultClassificationMappingType;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +22,7 @@ import javax.validation.constraints.*;
  * IndicatorPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
 
 public class IndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;

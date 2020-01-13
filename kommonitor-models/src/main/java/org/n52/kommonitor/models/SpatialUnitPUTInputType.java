@@ -2,8 +2,10 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import org.n52.kommonitor.models.PeriodOfValidityType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -13,7 +15,7 @@ import javax.validation.constraints.*;
  * SpatialUnitPUTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
 
 public class SpatialUnitPUTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;

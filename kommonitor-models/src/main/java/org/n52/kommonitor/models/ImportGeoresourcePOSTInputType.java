@@ -2,9 +2,13 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.DataSourceDefinitionType;
+import org.n52.kommonitor.models.GeoresourcePOSTInputType;
+import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -15,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new georesource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:37:59.179+01:00")
 
 public class ImportGeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
