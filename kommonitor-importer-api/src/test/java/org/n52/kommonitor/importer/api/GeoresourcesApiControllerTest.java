@@ -341,12 +341,10 @@ public class GeoresourcesApiControllerTest {
                 .thenReturn(Arrays.asList(new SpatialResource()));
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
-        ResponseEntity<Void> response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-        Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any(GeoresourcePOSTInputType.class))).thenReturn(response);
-        Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class))).thenReturn(response);
-
-        GeoresourcePOSTInputType geo = Mockito.mock(GeoresourcePOSTInputType.class);
-        Mockito.when(geo.getDatasetName()).thenReturn("testDataset");
+        Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any(GeoresourcePOSTInputType.class)))
+                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.CREATED));
+        Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class)))
+                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 
         Mockito.when(encoder.encodeSpatialResourcesAsString(Mockito.anyList())).thenReturn("");
     }

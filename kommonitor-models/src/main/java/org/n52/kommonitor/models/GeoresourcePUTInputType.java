@@ -56,7 +56,6 @@ public class GeoresourcePUTInputType  implements Serializable {
    * @return geoJsonString
   **/
   @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and properties specific to the dataset")
-  @NotNull
 
 
   public String getGeoJsonString() {
