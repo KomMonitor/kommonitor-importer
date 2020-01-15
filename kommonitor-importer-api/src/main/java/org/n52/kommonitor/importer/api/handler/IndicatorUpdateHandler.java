@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
+@Component
 public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicatorPOSTInputType> {
 
     private final static Logger LOG = LoggerFactory.getLogger(IndicatorUpdateHandler.class);
