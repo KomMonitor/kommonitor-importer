@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import org.n52.kommonitor.models.GeoresourceOverviewType;
@@ -81,9 +82,6 @@ public class GeoresourcesApiTest {
      */
     @org.junit.jupiter.api.Test
     public void addGeoresourceAsBodyTest() throws IOException {
-        InputStream input = this.getClass().getResourceAsStream("/georesource-test.json");
-        GeoresourcePOSTInputType georesource = mapper.readValue(input, GeoresourcePOSTInputType.class);
-
         HttpHeaders headers = new HttpHeaders();
         mockServer.expect(ExpectedCount.once(),
                 requestTo(BASE_PATH + "/georesources"))
@@ -91,7 +89,7 @@ public class GeoresourcesApiTest {
                 .andRespond(withStatus(HttpStatus.CREATED)
                 );
 
-        api.addGeoresourceAsBody(georesource);
+        api.addGeoresourceAsBody(Mockito.mock(GeoresourcePOSTInputType.class));
 
         mockServer.verify();
     }
@@ -209,8 +207,8 @@ public class GeoresourcesApiTest {
      */
     @org.junit.jupiter.api.Test
     public void getGeoresourcesTest() throws IOException {
-        InputStream input = this.getClass().getResourceAsStream("/georesource-test.json");
-        GeoresourceOverviewType georesource = mapper.readValue(input, GeoresourceOverviewType.class);
+        GeoresourceOverviewType georesource = new GeoresourceOverviewType();
+        georesource.setGeoresourceId("testId");
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(BASE_PATH + "/georesources"))
@@ -224,7 +222,7 @@ public class GeoresourcesApiTest {
 
         mockServer.verify();
         Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals(georesource, response.get(0));
+        Assertions.assertEquals("testId", response.get(0).getGeoresourceId());
     }
 
     /**
@@ -235,13 +233,19 @@ public class GeoresourcesApiTest {
      * @throws RestClientException if the Api call fails
      */
     @org.junit.jupiter.api.Test
-    @Disabled
-    public void updateGeoresourceAsBodyTest() {
-        String georesourceId = null;
-        GeoresourcePUTInputType featureData = null;
-        api.updateGeoresourceAsBody(georesourceId, featureData);
+    public void updateGeoresourceAsBodyTest() throws IOException {
+        String resourceId = "testId";
 
-        // TODO: test validations
+        HttpHeaders headers = new HttpHeaders();
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(BASE_PATH + "/georesources/" + resourceId))
+                .andExpect(method(HttpMethod.PUT))
+                .andRespond(withStatus(HttpStatus.OK)
+                );
+
+        api.updateGeoresourceAsBodyWithHttpInfo(resourceId, Mockito.mock(GeoresourcePUTInputType.class));
+
+        mockServer.verify();
     }
 
     /**

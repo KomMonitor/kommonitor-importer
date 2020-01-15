@@ -13,63 +13,109 @@
 
 package org.n52.kommonitor.datamanagement.api.client;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.n52.kommonitor.models.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.models.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.client.ExpectedCount;
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 import java.util.List;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 /**
  * API tests for IndicatorsApi
  */
-@Ignore
+@RestClientTest(IndicatorsApi.class)
+@ContextConfiguration(classes = {ApiClient.class, IndicatorsApi.class, RestTemplate.class})
 public class IndicatorsApiTest {
 
-    private final IndicatorsApi api = new IndicatorsApi();
+    private static final String BASE_PATH = "http://localhost:8085/management";
 
-    
+    @Autowired
+    private IndicatorsApi api;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private ObjectMapper mapper;
+
+    private MockRestServiceServer mockServer;
+
+    @BeforeEach
+    private void init() throws IOException {
+        api.getApiClient().setBasePath(BASE_PATH);
+        mockServer = MockRestServiceServer.createServer(restTemplate);
+    }
+
+
     /**
      * Add a new indicator dataset
-     *
+     * <p>
      * Add/Register an indicator dataset for a certain period of time and spatial unit/level
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void addIndicatorAsBodyTest() {
-        IndicatorPOSTInputType indicatorData = null;
-        api.addIndicatorAsBody(indicatorData);
+        HttpHeaders headers = new HttpHeaders();
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(BASE_PATH + "/indicators"))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.CREATED)
+                );
 
-        // TODO: test validations
+        api.addIndicatorAsBody(Mockito.mock(IndicatorPOSTInputType.class));
+
+        mockServer.verify();
     }
-    
+
     /**
      * Delete the features/contents of the selected indicator dataset
-     *
+     * <p>
      * Delete the features/contents of the selected indicator dataset
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void deleteIndicatorByIdTest() {
         String indicatorId = null;
         api.deleteIndicatorById(indicatorId);
 
         // TODO: test validations
     }
-    
+
     /**
      * Delete the features/contents of the selected indicator dataset for the selected spatial unit
-     *
+     * <p>
      * Delete the features/contents of the selected indicator dataset for the selected spatial unit
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void deleteIndicatorByIdAndSpatialUnitIdTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -77,16 +123,16 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * Delete the features/contents of the selected indicator dataset, selected by year and month
-     *
+     * <p>
      * Delete the features/contents of the selected indicator dataset, selected by year and month
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void deleteIndicatorByIdAndYearAndMonthTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -97,32 +143,32 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve information about the selected indicator
-     *
+     * <p>
      * retrieve information about the selected indicator
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void getIndicatorByIdTest() {
         String indicatorId = null;
         IndicatorOverviewType response = api.getIndicatorById(indicatorId);
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve the indicator for the selected spatial unit as GeoJSON
-     *
+     * <p>
      * retrieve the indicator for the selected spatial unit as GeoJSON
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void getIndicatorBySpatialUnitIdAndIdTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -131,16 +177,16 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve the indicator for the selected spatial unit, year and month as GeoJSON
-     *
+     * <p>
      * retrieve the indicator for the selected spatial unit, year and month as GeoJSON
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void getIndicatorBySpatialUnitIdAndIdAndYearAndMonthTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -152,16 +198,16 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve the indicator values and other properties for the selected spatial unit, year and month. It does not include the spatial geometries!
-     *
+     * <p>
      * retrieve the indicator values and other properties for the selected spatial unit, year and month. It does not include the spatial geometries!
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void getIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithoutGeometryTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -172,16 +218,16 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve the indicator values and other properties for the selected spatial unit. It does not include the spatial geometries!
-     *
+     * <p>
      * retrieve the indicator values and other properties for the selected spatial unit. It does not include the spatial geometries!
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void getIndicatorBySpatialUnitIdAndIdWithoutGeometryTest() {
         String indicatorId = null;
         String spatialUnitId = null;
@@ -189,48 +235,66 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
     /**
      * retrieve information about available indicators
-     *
+     * <p>
      * retrieve information about available indicators
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
-    public void getIndicatorsTest() {
+    public void getIndicatorsTest() throws JsonProcessingException {
+        IndicatorOverviewType indicator = new IndicatorOverviewType();
+        indicator.setIndicatorId("testId");
+
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(BASE_PATH + "/indicators"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(Arrays.asList(indicator)))
+                );
+
         List<IndicatorOverviewType> response = api.getIndicators();
 
-        // TODO: test validations
+        mockServer.verify();
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals("testId", response.get(0).getIndicatorId());
     }
-    
+
     /**
      * Modify/Update the contents of the selected indicator dataset
-     *
+     * <p>
      * Modify/Update the contents of the selected indicator dataset
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void updateIndicatorAsBodyTest() {
-        String indicatorId = null;
-        IndicatorPUTInputType indicatorData = null;
-        api.updateIndicatorAsBody(indicatorId, indicatorData);
+        String resourceId = "testId";
 
-        // TODO: test validations
+        HttpHeaders headers = new HttpHeaders();
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(BASE_PATH + "/indicators/" + resourceId))
+                .andExpect(method(HttpMethod.PUT))
+                .andRespond(withStatus(HttpStatus.OK)
+                );
+
+        api.updateIndicatorAsBodyWithHttpInfo(resourceId, Mockito.mock(IndicatorPUTInputType.class));
+
+        mockServer.verify();
     }
-    
+
     /**
      * Modify/Update the metadata of the selected indicator dataset
-     *
+     * <p>
      * Modify/Update the metadata of the selected indicator dataset. This replaces the formerly stored metadata.
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
+    @Disabled
     public void updateIndicatorMetadataAsBodyTest() {
         String indicatorId = null;
         IndicatorPATCHInputType metadata = null;
@@ -238,5 +302,5 @@ public class IndicatorsApiTest {
 
         // TODO: test validations
     }
-    
+
 }
