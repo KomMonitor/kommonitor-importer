@@ -70,7 +70,7 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
         LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", locations);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .body(locations);
     }
 }
