@@ -8,6 +8,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;
@@ -31,6 +32,10 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
     @Autowired
     private IndicatorsApi apiClient;
+
+    public boolean supports(Object requestType) {
+        return requestType instanceof UpdateIndicatorPOSTInputType;
+    }
 
     @Override
     protected ResponseEntity<List<String>> performRequestHandling(UpdateIndicatorPOSTInputType requestResourceType,

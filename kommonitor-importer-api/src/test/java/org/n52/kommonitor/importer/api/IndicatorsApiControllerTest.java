@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorImportHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorUpdateHandler;
+import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -51,7 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(IndicatorsApiController.class)
-@ContextConfiguration(classes = {IndicatorsApiController.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ImportExceptionHandler.class})
 public class IndicatorsApiControllerTest {
 
     private static final String CREATED_RESOURCE_ID = "testID";

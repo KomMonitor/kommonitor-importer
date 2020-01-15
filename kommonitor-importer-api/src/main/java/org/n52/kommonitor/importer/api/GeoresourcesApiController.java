@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import springfox.documentation.RequestHandler;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +37,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     private DataSourceRetrieverRepository retrieverRepository;
 
     @Autowired
-    private GeoresourceImportHandler importHandler;
-
-    @Autowired
-    private GeoresourceUpdateHandler updateHandler;
+    private RequestHandlerRepository requestHandlerRepository;
 
     private final ObjectMapper objectMapper;
 
@@ -53,15 +52,23 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     public ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
-        return importHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+
+        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
+        if (!requestHandlertOpt.isPresent()) {
+            throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
+        }
+        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
     @Override
     public ResponseEntity<List<String>> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'updateGeoresource' request for Georesource: {}", featureData.getGeoresourceId());
         LOG.debug("'updateGeoresource' POST request body: {}", featureData);
-        return updateHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+
+        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
+        if (!requestHandlertOpt.isPresent()) {
+            throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
+        }
+        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
-
-
 }

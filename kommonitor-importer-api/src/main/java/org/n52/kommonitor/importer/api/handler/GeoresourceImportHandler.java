@@ -40,6 +40,10 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     @Autowired
     private GeoresourcesApi apiClient;
 
+    public boolean supports(Object requestType){
+        return requestType instanceof ImportGeoresourcePOSTInputType;
+    }
+
     @Override
     public ResponseEntity<List<String>> performRequestHandling(ImportGeoresourcePOSTInputType requestResourceType,
                                                                AbstractConverter converter,

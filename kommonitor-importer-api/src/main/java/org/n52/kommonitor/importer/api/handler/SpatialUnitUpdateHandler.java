@@ -9,6 +9,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
 import org.n52.kommonitor.models.SpatialUnitPUTInputType;
 import org.n52.kommonitor.models.UpdateSpatialUnitPOSTInputType;
 import org.slf4j.Logger;
@@ -38,6 +39,10 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
 
     @Autowired
     private SpatialUnitsApi apiClient;
+
+    public boolean supports(Object requestType) {
+        return requestType instanceof UpdateSpatialUnitPOSTInputType;
+    }
 
     @Override
     protected ResponseEntity<List<String>> performRequestHandling(UpdateSpatialUnitPOSTInputType requestResourceType,

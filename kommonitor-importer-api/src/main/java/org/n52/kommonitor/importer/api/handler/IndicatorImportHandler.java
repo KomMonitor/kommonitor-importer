@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.IndicatorPOSTInputType;
+import org.n52.kommonitor.models.UpdateGeoresourcePOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,10 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
 
     @Autowired
     private IndicatorsApi apiClient;
+
+    public boolean supports(Object requestType) {
+        return requestType instanceof ImportIndicatorPOSTInputType;
+    }
 
     @Override
     public ResponseEntity<List<String>> performRequestHandling(ImportIndicatorPOSTInputType importResourceType,

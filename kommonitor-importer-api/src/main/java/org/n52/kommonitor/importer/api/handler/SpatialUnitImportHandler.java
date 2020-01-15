@@ -11,6 +11,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
 import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ import java.util.List;
 public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpatialUnitPOSTInputType> {
 
     private final static Logger LOG = LoggerFactory.getLogger(SpatialUnitImportHandler.class);
+
+    public boolean supports(Object requestType) {
+        return requestType instanceof ImportSpatialUnitPOSTInputType;
+    }
 
     @Autowired
     private SpatialResourceJsonEncoder spatialResourceEncoder;

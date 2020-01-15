@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
+import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.api.handler.SpatialUnitImportHandler;
 import org.n52.kommonitor.importer.api.handler.SpatialUnitUpdateHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -53,7 +54,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GeoresourcesApiController.class)
-@ContextConfiguration(classes = {SpatialUnitsApiController.class, SpatialUnitImportHandler.class, SpatialUnitUpdateHandler.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {SpatialUnitsApiController.class, RequestHandlerRepository.class, SpatialUnitImportHandler.class, SpatialUnitUpdateHandler.class, ImportExceptionHandler.class})
 public class SpatialUnitApiControllerTest {
     private static final String CREATED_RESOURCE_ID = "testID";
 

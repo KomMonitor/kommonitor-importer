@@ -37,6 +37,9 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
     @Autowired
     private GeoresourcesApi apiClient;
 
+    public boolean supports(Object requestType) {
+        return requestType instanceof UpdateGeoresourcePOSTInputType;
+    }
 
     @Override
     public ResponseEntity<List<String>> performRequestHandling(UpdateGeoresourcePOSTInputType requestResourceType,

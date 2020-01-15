@@ -1,5 +1,8 @@
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
+import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.api.handler.SpatialUnitImportHandler;
 import org.n52.kommonitor.importer.api.handler.SpatialUnitUpdateHandler;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
@@ -33,10 +37,7 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
     private DataSourceRetrieverRepository retrieverRepository;
 
     @Autowired
-    private SpatialUnitImportHandler importHandler;
-
-    @Autowired
-    private SpatialUnitUpdateHandler updateHandler;
+    private RequestHandlerRepository requestHandlerRepository;
 
     private final ObjectMapper objectMapper;
 
@@ -51,14 +52,24 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
     public ResponseEntity<List<String>> importSpatialUnit(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
         LOG.info("Received 'importSpatialUnit' request for spatial unit level: {}", featureData.getSpatialUnitPostBody().getSpatialUnitLevel());
         LOG.debug("'importSpatialUnit' request POST body: {}", featureData);
-        return importHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+
+        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
+        if (!requestHandlertOpt.isPresent()) {
+            throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
+        }
+        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
     @Override
     public ResponseEntity<List<String>> updateSpatialUnit(@Valid UpdateSpatialUnitPOSTInputType featureData) {
         LOG.info("Received 'updateSpatialUnit' request for spatial unit: {}", featureData.getSpatialUnitId());
         LOG.debug("'updateSpatialUnit' request POST body: {}", featureData);
-        return updateHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+
+        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
+        if (!requestHandlertOpt.isPresent()) {
+            throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
+        }
+        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
 }

@@ -42,6 +42,14 @@ public abstract class AbstractRequestHandler<T> {
     private DataSourceRetrieverRepository retrieverRepository;
 
     /**
+     * Checks if a certain request type is supported by this request handler
+     *
+     * @param requestType the request type to check
+     * @return true if the request type is supported
+     */
+    public abstract boolean supports(Object requestType);
+
+    /**
      * Handles a certain request for importing or updating a certain resource by performing the dataset retrieving and converting
      * as well as the import/update of the converted resource.
      *
