@@ -93,7 +93,6 @@ public class SpatialUnitPUTInputType  implements Serializable {
     sb.append("class SpatialUnitPUTInputType {\n");
     
     sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
-    sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
     sb.append("}");
     return sb.toString();
   }

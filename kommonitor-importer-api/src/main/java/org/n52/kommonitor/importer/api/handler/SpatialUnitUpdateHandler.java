@@ -64,7 +64,7 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
         }
 
         LOG.info("Perform 'updateSpatialUnit' request for SpatialUnit: {}", requestResourceType.getSpatialUnitId());
-        LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPutInput);
+        LOG.debug("'updateSpatialUnit' request PUT body: {}", spatialUnitPutInput);
         ResponseEntity<Void> response = apiClient.updateSpatialUnitAsBodyWithHttpInfo(requestResourceType.getSpatialUnitId(), spatialUnitPutInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
         LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", locations);

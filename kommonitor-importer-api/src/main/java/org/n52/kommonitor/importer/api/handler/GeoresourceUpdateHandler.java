@@ -62,10 +62,10 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
         }
 
         LOG.info("Perform 'updateGeoresource' request for Georesource dataset: {}", requestResourceType.getGeoresourceId());
-        LOG.debug("'addGeoresource' request POST body: {}", georesourcePutInput);
+        LOG.debug("'updateGeoresource' request PUT body: {}", georesourcePutInput);
         ResponseEntity<Void> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addGeoresource' request. Updated Georesources: {}", locations);
+        LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", locations);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

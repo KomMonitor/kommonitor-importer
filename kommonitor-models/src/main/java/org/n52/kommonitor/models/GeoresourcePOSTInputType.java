@@ -523,9 +523,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
         Objects.equals(this.aoiColor, georesourcePOSTInputType.aoiColor) &&
         Objects.equals(this.poiSymbolBootstrap3Name, georesourcePOSTInputType.poiSymbolBootstrap3Name) &&
         Objects.equals(this.poiMarkerColor, georesourcePOSTInputType.poiMarkerColor) &&
-        Objects.equals(this.poiSymbolColor, georesourcePOSTInputType.poiSymbolColor) &&
-        Objects.equals(this.jsonSchema, georesourcePOSTInputType.jsonSchema) &&
-        Objects.equals(this.geoJsonString, georesourcePOSTInputType.geoJsonString);
+        Objects.equals(this.poiSymbolColor, georesourcePOSTInputType.poiSymbolColor);
   }
 
   @Override
