@@ -5,10 +5,10 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.models.ConverterType;
-import org.n52.kommonitor.models.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.models.ConverterType;
+import org.n52.kommonitor.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T14:19:13.423+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:43:47.021+01:00")
 
 @Api(value = "converters", description = "the converters API")
 public interface ConvertersApi {
@@ -54,7 +54,7 @@ public interface ConvertersApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}", ConverterType.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"mimeTypes\" : [ \"mimeTypes\", \"mimeTypes\" ],  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}", ConverterType.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,7 +80,7 @@ public interface ConvertersApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}, {  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"mimeType\" : [ \"mimeType\", \"mimeType\" ],  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"mimeTypes\" : [ \"mimeTypes\", \"mimeTypes\" ],  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]}, {  \"mimeTypes\" : [ \"mimeTypes\", \"mimeTypes\" ],  \"encodings\" : [ \"encodings\", \"encodings\" ],  \"schemas\" : [ \"schemas\", \"schemas\" ],  \"name\" : \"name\",  \"parameters\" : [ {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  }, {    \"name\" : \"name\",    \"description\" : \"description\",    \"type\" : \"string\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
