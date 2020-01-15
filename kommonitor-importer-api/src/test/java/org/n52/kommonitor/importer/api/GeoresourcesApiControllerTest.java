@@ -28,7 +28,6 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.*;
-import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -58,7 +57,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {GeoresourcesApiController.class, RequestHandlerRepository.class, GeoresourceImportHandler.class, GeoresourceUpdateHandler.class, ImportExceptionHandler.class})
 public class GeoresourcesApiControllerTest {
 
-    private static final String CREATED_RESOURCE_ID = "testID";
+    private static final String RESOURCE_ID = "testID";
 
     @Autowired
     private MockMvc mockMvc;
@@ -83,11 +82,14 @@ public class GeoresourcesApiControllerTest {
 
     private static ImportGeoresourcePOSTInputType geoImportBody;
 
+    private static UpdateGeoresourcePOSTInputType geoUpdateBody;
+
     private static ObjectMapper mapper;
 
     @BeforeAll
     static void init() {
         geoImportBody = createGeoresourceImportType();
+        geoUpdateBody = createGeoresourceUpdateType();
         mapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -105,7 +107,7 @@ public class GeoresourcesApiControllerTest {
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(CREATED_RESOURCE_ID));
+                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
     }
 
     @Test
@@ -178,6 +180,90 @@ public class GeoresourcesApiControllerTest {
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
+    @Test
+    @DisplayName("Test updateGeoresource responds with 201 status code")
+    public void testUpdateGeoresource() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/georesources/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(geoUpdateBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test updateGeoresource responds with 400 status code for non valid request content")
+    public void testUpdateGeoresourceForNonValidRequestContent() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        JsonNode json = mapper.valueToTree(geoUpdateBody);
+        ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
+
+        this.mockMvc.perform(post("/georesources/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(json.toString()))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateGeoresource responds with 400 status code for ImportParameterException")
+    public void testUpdateGeoresourceForImportParameterException() throws Exception {
+        prepareMocks();
+
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenThrow(new ImportParameterException("Missing parameter: testParam"));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/georesources/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(geoUpdateBody)))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateGeoresource responds with 500 status code for DataSourceRetrieverException")
+    public void testUpdateGeoresourceForDataSourceRetrieverException() throws Exception {
+        prepareMocks();
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/georesources/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(geoUpdateBody)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateGeoresource responds with 500 status code for RestClientException")
+    public void testUpdateGeoresourceForRestClientException() throws Exception {
+        prepareMocks();
+        Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class)))
+                .thenThrow(new RestClientException("Error while requesting DataManagement API"));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/georesources/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(geoUpdateBody)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
+
     private static ImportGeoresourcePOSTInputType createGeoresourceImportType() {
         ImportGeoresourcePOSTInputType geoImport = new ImportGeoresourcePOSTInputType();
 
@@ -216,6 +302,37 @@ public class GeoresourcesApiControllerTest {
         return geoImport;
     }
 
+    private static UpdateGeoresourcePOSTInputType createGeoresourceUpdateType() {
+        UpdateGeoresourcePOSTInputType geoUpdate = new UpdateGeoresourcePOSTInputType();
+
+        geoUpdate.setGeoresourceId(RESOURCE_ID);
+
+        GeoresourcePUTInputType geoPutBody = new GeoresourcePUTInputType();
+        PeriodOfValidityType pov = new PeriodOfValidityType();
+        pov.setStartDate(LocalDate.now());
+        pov.setEndDate(LocalDate.now());
+        geoPutBody.setPeriodOfValidity(pov);
+
+        geoUpdate.setGeoresourcePutBody(geoPutBody);
+
+        ConverterDefinitionType converter = new ConverterDefinitionType();
+        converter.setName("testConverter");
+        converter.setMimeType("application/xml");
+        geoUpdate.setConverter(converter);
+
+        DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
+        dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);
+        geoUpdate.setDataSource(dataSource);
+
+        SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
+        mapping.setIdentifierProperty("idProp");
+        mapping.setNameProperty("nameProp");
+        geoUpdate.setPropertyMapping(mapping);
+
+        return geoUpdate;
+    }
+
+
     private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
         Mockito.when(converter.convertSpatialResources(
                 Mockito.any(ConverterDefinitionType.class),
@@ -223,9 +340,10 @@ public class GeoresourcesApiControllerTest {
                 Mockito.any(SpatialResourcePropertyMappingType.class)))
                 .thenReturn(Arrays.asList(new SpatialResource()));
         HttpHeaders headers = new HttpHeaders();
-        headers.add("location", CREATED_RESOURCE_ID);
+        headers.add("location", RESOURCE_ID);
         ResponseEntity<Void> response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-        Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any())).thenReturn(response);
+        Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any(GeoresourcePOSTInputType.class))).thenReturn(response);
+        Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class))).thenReturn(response);
 
         GeoresourcePOSTInputType geo = Mockito.mock(GeoresourcePOSTInputType.class);
         Mockito.when(geo.getDatasetName()).thenReturn("testDataset");

@@ -68,7 +68,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
         LOG.info("Successfully executed 'addGeoresource' request. Updated Georesources: {}", locations);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .body(locations);
     }
 }
