@@ -52,13 +52,13 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         indicatorPutInput = encoder.encode(requestResourceType, spatialResources);
 
         LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
-        LOG.debug("'addIndicator' request POST body: {}", indicatorPutInput);
+        LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
         ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(requestResourceType.getIndicatorId(), indicatorPutInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
         LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", locations);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .body(locations);
     }
 }

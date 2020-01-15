@@ -55,7 +55,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ImportExceptionHandler.class})
 public class IndicatorsApiControllerTest {
 
-    private static final String CREATED_RESOURCE_ID = "testID";
+    private static final String RESOURCE_ID = "testID";
 
     @Autowired
     private MockMvc mockMvc;
@@ -79,10 +79,12 @@ public class IndicatorsApiControllerTest {
     private IndicatorsApi apiClient;
 
     private static ImportIndicatorPOSTInputType indicatorImportBody;
+    private static UpdateIndicatorPOSTInputType indicatorUpdateBody;
 
     @BeforeAll
     static void init() {
         indicatorImportBody = createGeoresourceImportType();
+        indicatorUpdateBody = createGeoresourceUpdateType();
     }
 
     @Test
@@ -97,7 +99,7 @@ public class IndicatorsApiControllerTest {
                 .content(new ObjectMapper().writeValueAsString(indicatorImportBody)))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(CREATED_RESOURCE_ID));
+                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
     }
 
     @Test
@@ -170,6 +172,91 @@ public class IndicatorsApiControllerTest {
                 .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
+    @Test
+    @DisplayName("Test updateIndicator responds with 200 status code")
+    public void testUpdateIndicator() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test updateIndicator responds with 400 status code for non valid request content")
+    public void testUpdateIndicatorForNonValidRequestContent() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        JsonNode json = new ObjectMapper().valueToTree(indicatorUpdateBody);
+        ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
+        ((ObjectNode) json).set("metadata", null);
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(json.toString()))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateIndicator responds with 400 status code for ImportParameterException")
+    public void testUpdateIndicatorForImportParameterException() throws Exception {
+        prepareMocks();
+
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenThrow(new ImportParameterException("Missing parameter: testParam"));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateIndicators responds with 500 status code for DataSourceRetrieverException")
+    public void testUpdateIndicatorForDataSourceRetrieverException() throws Exception {
+        prepareMocks();
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
+
+    @Test
+    @DisplayName("Test updateIndicator responds with 500 status code for RestClientException")
+    public void testUpdateIndicatorForRestClientException() throws Exception {
+        prepareMocks();
+        Mockito.when(apiClient.updateIndicatorAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(IndicatorPUTInputType.class)))
+                .thenThrow(new RestClientException("Error while requesting DataManagement API"));
+        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
+
 
     private static ImportIndicatorPOSTInputType createGeoresourceImportType() {
         ImportIndicatorPOSTInputType indicatorImport = new ImportIndicatorPOSTInputType();
@@ -227,6 +314,42 @@ public class IndicatorsApiControllerTest {
         return indicatorImport;
     }
 
+    private static UpdateIndicatorPOSTInputType createGeoresourceUpdateType() {
+        UpdateIndicatorPOSTInputType indicatorUpdate = new UpdateIndicatorPOSTInputType();
+        IndicatorPUTInputType indicatorPutBody = new IndicatorPUTInputType();
+
+        indicatorPutBody.setApplicableSpatialUnit("testSpatialUnitId");
+
+        DefaultClassificationMappingItemType classItemMapping = new DefaultClassificationMappingItemType();
+        classItemMapping.setDefaultColorAsHex("#2f8f67");
+        classItemMapping.setDefaultCustomRating("testRating");
+        DefaultClassificationMappingType classMapping = new DefaultClassificationMappingType();
+        classMapping.setColorBrewerSchemeName("testColorSchema");
+        classMapping.setItems(Arrays.asList(classItemMapping));
+        indicatorPutBody.setDefaultClassificationMapping(classMapping);
+
+        indicatorUpdate.setIndicatorPutBody(indicatorPutBody);
+        indicatorUpdate.setIndicatorId(RESOURCE_ID);
+
+        ConverterDefinitionType converter = new ConverterDefinitionType();
+        converter.setName("testConverter");
+        converter.setMimeType("application/xml");
+        indicatorUpdate.setConverter(converter);
+
+        DataSourceDefinitionType dataSource = new DataSourceDefinitionType();
+        dataSource.setType(DataSourceDefinitionType.TypeEnum.DB);
+        indicatorUpdate.setDataSource(dataSource);
+
+        IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
+        mapping.setSpatialReferenceKeyProperty("refProp");
+        mapping.setIndicatorValueProperty("valProp");
+        mapping.setTimestampProperty("timestampProp");
+        indicatorUpdate.setPropertyMapping(mapping);
+
+        return indicatorUpdate;
+
+    }
+
     private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
         Mockito.when(converter.convertIndicators(
                 Mockito.any(ConverterDefinitionType.class),
@@ -234,14 +357,17 @@ public class IndicatorsApiControllerTest {
                 Mockito.any(IndicatorPropertyMappingType.class)))
                 .thenReturn(Arrays.asList(new IndicatorValue()));
         HttpHeaders headers = new HttpHeaders();
-        headers.add("location", CREATED_RESOURCE_ID);
-        ResponseEntity<Void> response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-        Mockito.when(apiClient.addIndicatorAsBodyWithHttpInfo(Mockito.any())).thenReturn(response);
+        headers.add("location", RESOURCE_ID);
 
-        IndicatorPOSTInputType indicator = Mockito.mock(IndicatorPOSTInputType.class);
-        Mockito.when(indicator.getDatasetName()).thenReturn("testDataset");
+        Mockito.when(apiClient.addIndicatorAsBodyWithHttpInfo(Mockito.any()))
+                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.CREATED));
+        Mockito.when(apiClient.updateIndicatorAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(IndicatorPUTInputType.class)))
+                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 
-        Mockito.when(encoder.encode(Mockito.any(ImportIndicatorPOSTInputType.class), Mockito.anyList())).thenReturn(indicator);
+        Mockito.when(encoder.encode(Mockito.any(ImportIndicatorPOSTInputType.class), Mockito.anyList()))
+                .thenReturn(Mockito.mock(IndicatorPOSTInputType.class));
+        Mockito.when(encoder.encode(Mockito.any(UpdateIndicatorPOSTInputType.class), Mockito.anyList()))
+                .thenReturn(Mockito.mock(IndicatorPUTInputType.class));
     }
 
 
