@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
+import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
 import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -53,16 +54,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GeoresourcesApiController.class)
-@ContextConfiguration(classes = {GeoresourcesApiController.class, GeoresourceImportHandler.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {GeoresourcesApiController.class, GeoresourceImportHandler.class, GeoresourceUpdateHandler.class, ImportExceptionHandler.class})
 public class GeoresourcesApiControllerTest {
 
     private static final String CREATED_RESOURCE_ID = "testID";
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private GeoresourceImportHandler handler;
 
     @MockBean
     private ConverterRepository converterRepository;

@@ -1,11 +1,15 @@
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
+import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
+import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.models.UpdateGeoresourcePOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,9 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     @Autowired
     private GeoresourceImportHandler importHandler;
 
+    @Autowired
+    private GeoresourceUpdateHandler updateHandler;
+
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
@@ -46,7 +53,14 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     public ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
-        return importHandler.handleImportRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+        return importHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+    }
+
+    @Override
+    public ResponseEntity<List<String>> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) {
+        LOG.info("Received 'updateGeoresource' request for Georesource: {}", featureData.getGeoresourceId());
+        LOG.debug("'updateGeoresource' POST request body: {}", featureData);
+        return updateHandler.handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
 
