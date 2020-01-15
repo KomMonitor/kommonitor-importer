@@ -3,10 +3,7 @@ package org.n52.kommonitor.importer.api.encoder;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
-import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
-import org.n52.kommonitor.models.IndicatorPOSTInputType;
-import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
-import org.n52.kommonitor.models.IndicatorPOSTInputTypeValueMapping;
+import org.n52.kommonitor.models.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +20,16 @@ public class IndicatorEncoder {
 
     public IndicatorPOSTInputType encode(ImportIndicatorPOSTInputType importResourceType, List<IndicatorValue> indicatorValues) {
         IndicatorPOSTInputType indicator = importResourceType.getIndicatorPostBody();
+        if (indicatorValues != null) {
+            indicator.setIndicatorValues(indicatorValues.stream()
+                    .map(this::encodeIndicatorValues)
+                    .collect(Collectors.toList()));
+        }
+        return indicator;
+    }
+
+    public IndicatorPUTInputType encode(UpdateIndicatorPOSTInputType importResourceType, List<IndicatorValue> indicatorValues) {
+        IndicatorPUTInputType indicator = importResourceType.getIndicatorPutBody();
         if (indicatorValues != null) {
             indicator.setIndicatorValues(indicatorValues.stream()
                     .map(this::encodeIndicatorValues)

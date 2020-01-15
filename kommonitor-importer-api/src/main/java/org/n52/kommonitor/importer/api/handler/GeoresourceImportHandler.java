@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
-public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeoresourcePOSTInputType> {
+public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeoresourcePOSTInputType> {
 
     private final static Logger LOG = LoggerFactory.getLogger(GeoresourceImportHandler.class);
 
@@ -41,18 +41,18 @@ public class GeoresourceImportHandler extends AbstractImportHandler<ImportGeores
     private GeoresourcesApi apiClient;
 
     @Override
-    public ResponseEntity<List<String>> importResource(ImportGeoresourcePOSTInputType importResourceType,
-                                                       AbstractConverter converter,
-                                                       ConverterDefinitionType converterDefinition,
-                                                       Dataset dataset)
+    public ResponseEntity<List<String>> performRequestHandling(ImportGeoresourcePOSTInputType requestResourceType,
+                                                               AbstractConverter converter,
+                                                               ConverterDefinitionType converterDefinition,
+                                                               Dataset dataset)
             throws ConverterException, RestClientException, ImportParameterException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
         List<SpatialResource> spatialResources = converter.convertSpatialResources(
                 converterDefinition,
                 dataset,
-                importResourceType.getPropertyMapping());
-        GeoresourcePOSTInputType georesourcePostInput = importResourceType.getGeoresourcePostBody();
+                requestResourceType.getPropertyMapping());
+        GeoresourcePOSTInputType georesourcePostInput = requestResourceType.getGeoresourcePostBody();
         try {
 
             georesourcePostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));

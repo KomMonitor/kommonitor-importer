@@ -9,8 +9,8 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
-import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.SpatialUnitPUTInputType;
+import org.n52.kommonitor.models.UpdateSpatialUnitPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +22,16 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 
 /**
- * Handles a SpatialUnit import request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
- * encoding it into a {@link SpatialUnitPOSTInputType} in order to request the KomMonitor DataManagement API
- * for creating new SpatialUnits.
+ * Handles a SpatialUnit update request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
+ * encoding it into a {@link SpatialUnitPUTInputType} in order to request the KomMonitor DataManagement API
+ * for updating existing SpatialUnits.
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
-public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpatialUnitPOSTInputType> {
+public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpatialUnitPOSTInputType> {
 
-    private final static Logger LOG = LoggerFactory.getLogger(SpatialUnitImportHandler.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SpatialUnitUpdateHandler.class);
 
     @Autowired
     private SpatialResourceJsonEncoder spatialResourceEncoder;
@@ -40,29 +40,29 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     private SpatialUnitsApi apiClient;
 
     @Override
-    public ResponseEntity<List<String>> performRequestHandling(ImportSpatialUnitPOSTInputType importResourceType,
-                                                               AbstractConverter converter,
-                                                               ConverterDefinitionType converterDefinition,
-                                                               Dataset dataset)
+    protected ResponseEntity<List<String>> performRequestHandling(UpdateSpatialUnitPOSTInputType requestResourceType,
+                                                                  AbstractConverter converter,
+                                                                  ConverterDefinitionType converterDefinition,
+                                                                  Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
         List<SpatialResource> spatialResources = converter.convertSpatialResources(
                 converterDefinition,
                 dataset,
-                importResourceType.getPropertyMapping());
-        SpatialUnitPOSTInputType spatialUnitPostInput = importResourceType.getSpatialUnitPostBody();
+                requestResourceType.getPropertyMapping());
+        SpatialUnitPUTInputType spatialUnitPutInput = requestResourceType.getSpatialUnitPutBody();
         try {
-            spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
+            spatialUnitPutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
         } catch (JsonProcessingException ex) {
             throw new ImportParameterException("Could not encode SpatialUnit.", ex);
         }
 
-        LOG.info("Perform 'addSpatialUnit' request for SpatialUnit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
-        LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPostInput);
-        ResponseEntity<Void> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
+        LOG.info("Perform 'updateSpatialUnit' request for SpatialUnit: {}", requestResourceType.getSpatialUnitId());
+        LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPutInput);
+        ResponseEntity<Void> response = apiClient.updateSpatialUnitAsBodyWithHttpInfo(requestResourceType.getSpatialUnitId(), spatialUnitPutInput);
         List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addSpatialUnit' request. Created SpatialUnits: {}", locations);
+        LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", locations);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
