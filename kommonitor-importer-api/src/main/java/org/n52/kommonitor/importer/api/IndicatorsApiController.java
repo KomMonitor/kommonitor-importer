@@ -57,7 +57,7 @@ public class IndicatorsApiController implements IndicatorsApi {
     }
 
     @Override
-    public ResponseEntity<List<String>> importIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) {
+    public ResponseEntity<List<String>> updateIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) {
         LOG.info("Received 'updateIndicator' request for Indicator: {}", indicatorData.getIndicatorId());
         LOG.debug("'updateGeoresource' POST request body: {}", indicatorData);
 

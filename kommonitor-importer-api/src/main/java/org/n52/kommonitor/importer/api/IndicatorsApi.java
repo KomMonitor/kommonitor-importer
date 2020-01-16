@@ -5,25 +5,32 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:43:47.021+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
 
 @Api(value = "indicators", description = "the indicators API")
 public interface IndicatorsApi {
@@ -70,7 +77,7 @@ public interface IndicatorsApi {
     }
 
 
-    @ApiOperation(value = "Update a new indicator dataset", nickname = "importIndicator", notes = "Update an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /indicators of KomMonitor Data Management API", response = String.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "Update a new indicator dataset", nickname = "updateIndicator", notes = "Update an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /indicators of KomMonitor Data Management API", response = String.class, responseContainer = "List", authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "indicators", })
     @ApiResponses(value = { 
@@ -81,7 +88,7 @@ public interface IndicatorsApi {
     @RequestMapping(value = "/indicators/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<List<String>> importIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody UpdateIndicatorPOSTInputType indicatorData) {
+    default ResponseEntity<List<String>> updateIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody UpdateIndicatorPOSTInputType indicatorData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

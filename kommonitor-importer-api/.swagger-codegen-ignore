@@ -1,2 +1,7 @@
-# Only API interfaces should be updated but not the implementing *Controller classes
-**/*Controller.java
+# Only API interfaces should be updated but not the implementing Controller classes
+**/ConvertersApiController.java
+**/DatasourceTypesApiController.java
+**/GeoresourcesApiController.java
+**/IndicatorsApiController.java
+**/SpatialUnitsApiController.java
+**/UploadApiController.java
