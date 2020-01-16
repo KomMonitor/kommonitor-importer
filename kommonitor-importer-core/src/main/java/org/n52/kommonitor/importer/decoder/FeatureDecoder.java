@@ -115,7 +115,12 @@ public class FeatureDecoder {
         features.forEach(f -> {
             try {
                 float indicatorValue = getPropertyValueAsFloat(f, propertyMappingType.getIndicatorValueProperty());
-                LocalDate timeStamp = getPropertyValueAsDate(f, propertyMappingType.getTimestampProperty());
+                LocalDate timeStamp = null;
+                if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
+                    timeStamp = propertyMappingType.getTimestamp();
+                } else {
+                    timeStamp = getPropertyValueAsDate(f, propertyMappingType.getTimestampProperty());
+                }
                 timeSeries.add(new TimeseriesValue(indicatorValue, timeStamp));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", f.getID(), e.getMessage());
