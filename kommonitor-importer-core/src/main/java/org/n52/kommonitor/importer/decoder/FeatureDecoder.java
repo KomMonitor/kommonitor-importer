@@ -176,7 +176,8 @@ public class FeatureDecoder {
         // or the FeatureCollection may contain the same SimpleFeature multiple times and each of these Features
         // contains different TimeseriesValues that all belongs to a common Indicator
         if (propertyMapping.getTimeseriesMappings().size() == 1) {
-            return decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping.getSpatialReferenceKeyProperty(), propertyMapping.getTimeseriesMappings().get(0));
+            return decodeFeatureCollectionToIndicatorValues(featureCollection,
+                    propertyMapping.getSpatialReferenceKeyProperty(), propertyMapping.getTimeseriesMappings().get(0));
         }
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
         // all TimeSeriesValues of a common Indicator on its own within its properties
@@ -192,7 +193,13 @@ public class FeatureDecoder {
                         LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
                     }
                 });
-                result.add(new IndicatorValue());
+                try {
+                    result.add(new IndicatorValue(getPropertyValueAsString(feature,
+                            propertyMapping.getSpatialReferenceKeyProperty()), timeSeriesValues));
+                } catch (DecodingException e) {
+                    LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                }
+
             }
         }
 

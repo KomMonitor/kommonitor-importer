@@ -29,10 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
@@ -51,9 +48,13 @@ class FeatureDecoderTest {
     private static final String REF_KEY_PROP = "refKey";
     private static final String REF_KEY_PROP_VALUE = "testRefKey";
     private static final String VALUE_PROP = "value";
-    private static final String VALUE_PROP_VALUE = "12.123";
+    private static final String VALUE_PROP_2 = "value2";
+    private static final float VALUE_PROP_VALUE = 12.123f;
+    private static final float VALUE_PROP_2_VALUE = 24.621f;
     private static final String TIMESTAMP_PROP = "timestamp";
+    private static final String TIMESTAMP_PROP_2 = "timestamp2";
     private static final String TIMESTAMP_PROP_VALUE = "2020-01-01";
+    private static final String TIMESTAMP_PROP_2_VALUE = "2020-09-15";
 
     private static FeatureDecoder decoder;
 
@@ -91,7 +92,10 @@ class FeatureDecoderTest {
     private IndicatorPropertyMappingType createIndicatorPropertyMapping() {
         IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
         mapping.setSpatialReferenceKeyProperty(REF_KEY_PROP);
-        mapping.setTimeseriesMappings(Arrays.asList(createTimeseriesPropertyMapping()));
+
+        List timeseriesMappingList = new ArrayList();
+        timeseriesMappingList.add(createTimeseriesPropertyMapping());
+        mapping.setTimeseriesMappings(timeseriesMappingList);
         return mapping;
     }
 
@@ -176,7 +180,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test FeatureCollection decoding to Indicator")
-    void testDecodeFeatureCollectionToIndicators() throws DecodingException, FactoryException, IOException {
+    void testDecodeFeatureCollectionToIndicatorsForSingleTimeseriesMapping() throws DecodingException, FactoryException, IOException {
         IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
         mapping.getTimeseriesMappings().get(0).setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
@@ -195,6 +199,37 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test FeatureCollection decoding to Indicator")
+    void testDecodeFeatureCollectionToIndicatorsForMultipleTimeseriesMapping() throws DecodingException, FactoryException, IOException {
+        IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
+        mapping.getTimeseriesMappings().get(0).setTimestampProperty(TIMESTAMP_PROP);
+
+        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
+        timeseriesMapping.setIndicatorValueProperty(VALUE_PROP_2);
+        timeseriesMapping.setTimestampProperty(TIMESTAMP_PROP_2);
+
+        mapping.addTimeseriesMappingsItem(timeseriesMapping);
+
+        SimpleFeature feature = mockSimpleFeature();
+        Mockito.when(feature.getAttribute(VALUE_PROP_2)).thenReturn(VALUE_PROP_2_VALUE);
+        Mockito.when(feature.getAttribute(TIMESTAMP_PROP_2)).thenReturn(TIMESTAMP_PROP_2_VALUE);
+
+        SimpleFeatureCollection featureCollection = Mockito.mock(SimpleFeatureCollection.class);
+        SimpleFeatureIterator iterator = Mockito.mock(SimpleFeatureIterator.class);
+        Mockito.when(featureCollection.features()).thenReturn(iterator);
+        Mockito.when(iterator.hasNext()).thenReturn(true, false);
+        Mockito.when(iterator.next()).thenReturn(feature);
+
+        List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping);
+
+        Assertions.assertEquals(REF_KEY_PROP_VALUE, indicators.get(0).getSpatialReferenceKey());
+        Assertions.assertEquals(VALUE_PROP_VALUE, indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicators.get(0).getTimeSeriesValueList().get(0).getTimestamp());
+        Assertions.assertEquals(VALUE_PROP_2_VALUE, indicators.get(0).getTimeSeriesValueList().get(1).getValue(), 0.0001);
+        Assertions.assertEquals(LocalDate.of(2020, 9, 15), indicators.get(0).getTimeSeriesValueList().get(1).getTimestamp());
+    }
+
+    @Test
     @DisplayName("Test FeatureCollection grouping")
     void testGroupFeatureCollection() throws DecodingException, FactoryException, IOException {
         IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
@@ -204,7 +239,6 @@ class FeatureDecoderTest {
         Mockito.when(f2.getAttribute(REF_KEY_PROP)).thenReturn("testRefKey");
         SimpleFeature f3 = Mockito.mock(SimpleFeature.class);
         Mockito.when(f3.getAttribute(REF_KEY_PROP)).thenReturn("anotherTestRefKey");
-
 
         SimpleFeatureCollection featureCollection = Mockito.mock(SimpleFeatureCollection.class);
         SimpleFeatureIterator iterator = Mockito.mock(SimpleFeatureIterator.class);
