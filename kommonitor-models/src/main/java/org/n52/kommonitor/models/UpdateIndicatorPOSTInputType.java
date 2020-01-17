@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
@@ -21,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for updating a new indicator from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T12:53:22.647+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T14:30:37.706+01:00")
 
 public class UpdateIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -38,9 +36,8 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   @JsonProperty("converter")
   private ConverterDefinitionType converter = null;
 
-  @JsonProperty("propertyMappings")
-  @Valid
-  private List<IndicatorPropertyMappingType> propertyMappings = null;
+  @JsonProperty("propertyMapping")
+  private IndicatorPropertyMappingType propertyMapping = null;
 
   public UpdateIndicatorPOSTInputType indicatorId(String indicatorId) {
     this.indicatorId = indicatorId;
@@ -129,33 +126,26 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
     this.converter = converter;
   }
 
-  public UpdateIndicatorPOSTInputType propertyMappings(List<IndicatorPropertyMappingType> propertyMappings) {
-    this.propertyMappings = propertyMappings;
-    return this;
-  }
-
-  public UpdateIndicatorPOSTInputType addPropertyMappingsItem(IndicatorPropertyMappingType propertyMappingsItem) {
-    if (this.propertyMappings == null) {
-      this.propertyMappings = new ArrayList<>();
-    }
-    this.propertyMappings.add(propertyMappingsItem);
+  public UpdateIndicatorPOSTInputType propertyMapping(IndicatorPropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
     return this;
   }
 
   /**
-   * list of property mappings for indicator values and
-   * @return propertyMappings
+   * Get propertyMapping
+   * @return propertyMapping
   **/
-  @ApiModelProperty(value = "list of property mappings for indicator values and")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   @Valid
 
-  public List<IndicatorPropertyMappingType> getPropertyMappings() {
-    return propertyMappings;
+  public IndicatorPropertyMappingType getPropertyMapping() {
+    return propertyMapping;
   }
 
-  public void setPropertyMappings(List<IndicatorPropertyMappingType> propertyMappings) {
-    this.propertyMappings = propertyMappings;
+  public void setPropertyMapping(IndicatorPropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
   }
 
 
@@ -172,12 +162,12 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
         Objects.equals(this.indicatorPutBody, updateIndicatorPOSTInputType.indicatorPutBody) &&
         Objects.equals(this.dataSource, updateIndicatorPOSTInputType.dataSource) &&
         Objects.equals(this.converter, updateIndicatorPOSTInputType.converter) &&
-        Objects.equals(this.propertyMappings, updateIndicatorPOSTInputType.propertyMappings);
+        Objects.equals(this.propertyMapping, updateIndicatorPOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorId, indicatorPutBody, dataSource, converter, propertyMappings);
+    return Objects.hash(indicatorId, indicatorPutBody, dataSource, converter, propertyMapping);
   }
 
   @Override
@@ -189,7 +179,7 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
     sb.append("    indicatorPutBody: ").append(toIndentedString(indicatorPutBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
-    sb.append("    propertyMappings: ").append(toIndentedString(propertyMappings)).append("\n");
+    sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("}");
     return sb.toString();
   }
