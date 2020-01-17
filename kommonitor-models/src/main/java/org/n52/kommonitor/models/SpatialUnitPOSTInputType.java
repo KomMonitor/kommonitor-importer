@@ -202,7 +202,8 @@ public class SpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.metadata, spatialUnitPOSTInputType.metadata) &&
         Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPOSTInputType.nextLowerHierarchyLevel) &&
         Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPOSTInputType.nextUpperHierarchyLevel) &&
-        Objects.equals(this.jsonSchema, spatialUnitPOSTInputType.jsonSchema);
+        Objects.equals(this.jsonSchema, spatialUnitPOSTInputType.jsonSchema) &&
+        Objects.equals(this.geoJsonString, spatialUnitPOSTInputType.geoJsonString);
   }
 
   @Override
@@ -221,7 +222,6 @@ public class SpatialUnitPOSTInputType  implements Serializable {
     sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
     sb.append("    jsonSchema: ").append(toIndentedString(jsonSchema)).append("\n");
-    sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
     sb.append("}");
     return sb.toString();
   }
