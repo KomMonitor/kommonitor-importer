@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for updating a new indicator from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:37:59.179+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T14:30:37.706+01:00")
 
 public class UpdateIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;

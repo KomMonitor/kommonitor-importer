@@ -38,6 +38,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestClientException;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
@@ -307,8 +308,12 @@ public class IndicatorsApiControllerTest {
 
         IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
         mapping.setSpatialReferenceKeyProperty("refProp");
-        mapping.setIndicatorValueProperty("valProp");
-        mapping.setTimestampProperty("timestampProp");
+
+        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
+        timeseriesMapping.setIndicatorValueProperty("valProp");
+        timeseriesMapping.setTimestampProperty("timestampProp");
+        mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+
         indicatorImport.setPropertyMapping(mapping);
 
         return indicatorImport;
@@ -342,8 +347,12 @@ public class IndicatorsApiControllerTest {
 
         IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
         mapping.setSpatialReferenceKeyProperty("refProp");
-        mapping.setIndicatorValueProperty("valProp");
-        mapping.setTimestampProperty("timestampProp");
+
+        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
+        timeseriesMapping.setIndicatorValueProperty("valProp");
+        timeseriesMapping.setTimestampProperty("timestampProp");
+        mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+
         indicatorUpdate.setPropertyMapping(mapping);
 
         return indicatorUpdate;

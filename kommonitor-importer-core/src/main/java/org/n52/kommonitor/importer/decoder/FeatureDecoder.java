@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
+import org.n52.kommonitor.models.TimeseriesMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
@@ -101,22 +102,19 @@ public class FeatureDecoder {
     }
 
     /**
-     * Decode a {@link  List<SimpleFeature>} as {@link IndicatorValue} by mapping certain properties
+     * Decode a {@link  List<SimpleFeature>} as {@link IndicatorValue} by mapping certain feature properties
      *
-     * @param spatialRefKey       the spatial reference key for the {@link IndicatorValue} to which all the
-     *                            {@link SimpleFeature} entities belong
-     * @param features            {@link  List<SimpleFeature>} to decode
-     * @param propertyMappingType definition of property mappings
+     * @param spatialRefKey         the spatial reference key for the {@link IndicatorValue} to which all the
+     *                              {@link SimpleFeature} entities belong
+     * @param features              {@link  List<SimpleFeature>} to decode
+     * @param timeSeriesMappingType definition of property mappings
      * @return {@link IndicatorValue}
-     * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    public IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, IndicatorPropertyMappingType propertyMappingType) {
+    public IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType) {
         List<TimeseriesValue> timeSeries = new ArrayList<>();
         features.forEach(f -> {
             try {
-                float indicatorValue = getPropertyValueAsFloat(f, propertyMappingType.getIndicatorValueProperty());
-                LocalDate timeStamp = getPropertyValueAsDate(f, propertyMappingType.getTimestampProperty());
-                timeSeries.add(new TimeseriesValue(indicatorValue, timeStamp));
+                timeSeries.add(decodeFeatureToTimeseriesValue(f, timeSeriesMappingType));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", f.getID(), e.getMessage());
             }
@@ -126,20 +124,84 @@ public class FeatureDecoder {
     }
 
     /**
-     * Decode a {@link SimpleFeatureCollection} as {@link List<IndicatorValue>} by mapping certain properties
-     * and the geometry
+     * Decode a {@link SimpleFeature} as {@link TimeseriesValue} by mapping certain feature properties
      *
-     * @param featureCollection   {@link SimpleFeatureCollection} to decode
+     * @param feature             the {@link SimpleFeature} to decode
      * @param propertyMappingType definition of property mappings
+     * @return the decoded {@link TimeseriesValue}
+     * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
+     */
+    public TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType) throws DecodingException {
+        float indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
+        LocalDate timeStamp = null;
+        if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
+            timeStamp = propertyMappingType.getTimestamp();
+        } else {
+            timeStamp = getPropertyValueAsDate(feature, propertyMappingType.getTimestampProperty());
+        }
+        return new TimeseriesValue(indicatorValue, timeStamp);
+    }
+
+    /**
+     * Decode a {@link SimpleFeatureCollection} as {@link List<IndicatorValue>} by mapping certain properties
+     * and the geometry.
+     * Note, that this method should be used if the FeatureCollection contains only a single TimeseriesValues
+     * or the FeatureCollection contains the same SimpleFeature multiple times and each of these Features
+     * contains different TimeseriesValues that all belongs to a common Indicator
+     *
+     * @param featureCollection    {@link SimpleFeatureCollection} to decode
+     * @param referenceKeyProperty the property that contains the key tha references a spatial resource an indicator is related to
+     * @param timeseriesMapping    definition of property mappings for timeseries
      * @return {@link List<IndicatorValue>}
      */
     public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
-                                                                         IndicatorPropertyMappingType propertyMappingType) throws IOException {
+                                                                         String referenceKeyProperty,
+                                                                         TimeseriesMappingType timeseriesMapping) throws IOException {
         List<IndicatorValue> result = new ArrayList<>();
-        Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, propertyMappingType);
+        Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, referenceKeyProperty);
         groupedFeatures.forEach((k, v) -> {
-            result.add(decodeFeaturesToIndicatorValues(k, v, propertyMappingType));
+            result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping));
         });
+
+        return result;
+    }
+
+    public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
+                                                                         IndicatorPropertyMappingType propertyMapping) throws IOException {
+        //TODO implement a more dedicated solution for differentiate
+        // various options of how TimeSeriesValues are encoded
+        // as feature properties
+        List<IndicatorValue> result = new ArrayList<>();
+        // if there is only a single property mapping, the FeatureCollection may contain only single TimeseriesValues
+        // or the FeatureCollection may contain the same SimpleFeature multiple times and each of these Features
+        // contains different TimeseriesValues that all belongs to a common Indicator
+        if (propertyMapping.getTimeseriesMappings().size() == 1) {
+            return decodeFeatureCollectionToIndicatorValues(featureCollection,
+                    propertyMapping.getSpatialReferenceKeyProperty(), propertyMapping.getTimeseriesMappings().get(0));
+        }
+        // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
+        // all TimeSeriesValues of a common Indicator on its own within its properties
+        else {
+            SimpleFeatureIterator iterator = featureCollection.features();
+            while (iterator.hasNext()) {
+                List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
+                SimpleFeature feature = iterator.next();
+                propertyMapping.getTimeseriesMappings().forEach(pM -> {
+                    try {
+                        timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM));
+                    } catch (DecodingException e) {
+                        LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                    }
+                });
+                try {
+                    result.add(new IndicatorValue(getPropertyValueAsString(feature,
+                            propertyMapping.getSpatialReferenceKeyProperty()), timeSeriesValues));
+                } catch (DecodingException e) {
+                    LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                }
+
+            }
+        }
 
         return result;
     }
@@ -150,17 +212,17 @@ public class FeatureDecoder {
      * The grouping results in a {@link Map<String, List<SimpleFeature>>} with the distinct spatial reference key values
      * as map keys and the {@link SimpleFeature} entities belonging to the spatial reference keys value as values.
      *
-     * @param featureCollection   the {@link SimpleFeatureCollection} to group
-     * @param propertyMappingType {@link IndicatorPropertyMappingType} that contains the definition of the reference key property
+     * @param featureCollection    the {@link SimpleFeatureCollection} to group
+     * @param referenceKeyProperty property that contains the reference key which will be used for grouping features
      * @return a {@link Map} that contains the {@link SimpleFeature} entities grouped by its spatial reference key values
      */
-    protected Map<String, List<SimpleFeature>> groupFeatureCollection(SimpleFeatureCollection featureCollection, IndicatorPropertyMappingType propertyMappingType) {
+    protected Map<String, List<SimpleFeature>> groupFeatureCollection(SimpleFeatureCollection featureCollection, String referenceKeyProperty) {
         Map<String, List<SimpleFeature>> groupedFeatures = new HashMap();
         SimpleFeatureIterator iterator = featureCollection.features();
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             try {
-                String refKey = getPropertyValueAsString(feature, propertyMappingType.getSpatialReferenceKeyProperty());
+                String refKey = getPropertyValueAsString(feature, referenceKeyProperty);
                 if (groupedFeatures.containsKey(refKey)) {
                     groupedFeatures.get(refKey).add(feature);
                 } else {

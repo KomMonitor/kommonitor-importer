@@ -12,13 +12,11 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.ParameterValueType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -61,8 +59,12 @@ public class WFSv1ConverterTest {
 
         indicatorPropertyMapping = new IndicatorPropertyMappingType();
         indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");
-        indicatorPropertyMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
-        indicatorPropertyMapping.setTimestampProperty("EreignisintervallStart");
+
+        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
+        timeseriesMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
+        timeseriesMapping.setTimestampProperty("EreignisintervallStart");
+
+        indicatorPropertyMapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
     }
 
     @Test
