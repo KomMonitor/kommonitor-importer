@@ -43,6 +43,7 @@ public class FileStorageService implements InitializingBean {
 
     public void setFileStorageLocation(String fileStorageLocation) {
         this.fileStorageLocation = fileStorageLocation;
+        LOG.info("File storage location: " + fileStorageLocation);
     }
 
     /**
@@ -50,21 +51,16 @@ public class FileStorageService implements InitializingBean {
      *
      * @param file     {@link MultipartFile} to store
      * @param fileName name that will be used to store the
+     * @return name of the stored {@link File}
      * @throws IOException
      */
-    public void store(@NotNull MultipartFile file, @Nullable String fileName) throws IOException {
-        if (fileName != null) {
-            FileUtils.writeByteArrayToFile(
-                    new File(FilenameUtils.concat(basePath.toString(), fileName)),
-                    file.getBytes()
-            );
-        } else {
-            FileUtils.writeByteArrayToFile(
-                    new File(FilenameUtils.concat(basePath.toString(), file.getOriginalFilename())),
-                    file.getBytes()
-            );
-        }
-
+    public String store(@NotNull MultipartFile file, @Nullable String fileName) throws IOException {
+        String name = fileName != null ? fileName : file.getOriginalFilename();
+        FileUtils.writeByteArrayToFile(
+                new File(FilenameUtils.concat(basePath.toString(), name)),
+                file.getBytes()
+        );
+        return name;
     }
 
     /**
