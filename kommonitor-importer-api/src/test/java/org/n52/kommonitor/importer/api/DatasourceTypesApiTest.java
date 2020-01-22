@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
-import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
+import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
-@ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ApiExceptionHandler.class})
 public class DatasourceTypesApiTest {
 
     private static final String DATASOURCE_TYPE = "INLINE";

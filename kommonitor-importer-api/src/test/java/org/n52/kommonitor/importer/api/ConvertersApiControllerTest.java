@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
-import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
+import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterParameter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
-@ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ApiExceptionHandler.class})
 public class ConvertersApiControllerTest {
 
     private static final String CONVERTER_NAME = "Test converter";

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
-import org.n52.kommonitor.importer.api.handler.ImportExceptionHandler;
+import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorImportHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorUpdateHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
@@ -38,7 +38,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestClientException;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
@@ -53,7 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(IndicatorsApiController.class)
-@ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ImportExceptionHandler.class})
+@ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ApiExceptionHandler.class})
 public class IndicatorsApiControllerTest {
 
     private static final String RESOURCE_ID = "testID";

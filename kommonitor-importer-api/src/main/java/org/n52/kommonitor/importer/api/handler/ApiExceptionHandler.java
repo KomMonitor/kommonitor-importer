@@ -24,8 +24,8 @@ import java.util.Map;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @ControllerAdvice
-public class ImportExceptionHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(ImportExceptionHandler.class);
+public class ApiExceptionHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
