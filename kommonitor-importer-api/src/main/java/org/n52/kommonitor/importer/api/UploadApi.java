@@ -7,6 +7,7 @@ package org.n52.kommonitor.importer.api;
 
 import org.n52.kommonitor.models.Error;
 import org.springframework.core.io.Resource;
+import org.n52.kommonitor.models.UploadedFileType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import javax.validation.constraints.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-22T08:55:12.468+01:00")
 
 @Api(value = "upload", description = "the upload API")
 public interface UploadApi {
@@ -47,6 +48,32 @@ public interface UploadApi {
     default Optional<String> getAcceptHeader() {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
+
+    @ApiOperation(value = "Get a list of files", nickname = "getUploadedFiles", notes = "Retrieve a list of information for all uploaded files", response = UploadedFileType.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "basicAuth")
+    }, tags={ "upload", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = UploadedFileType.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "API key is missing or invalid") })
+    @RequestMapping(value = "/upload",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<List<UploadedFileType>> getUploadedFiles() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"name\" : \"name\",  \"contentType\" : \"contentType\"}, {  \"name\" : \"name\",  \"contentType\" : \"contentType\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default UploadApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 
     @ApiOperation(value = "Upload a file", nickname = "upload", notes = "Upload a file that can be used as datasource for importing or updating a KomMonitor resource.", response = String.class, authorizations = {
         @Authorization(value = "basicAuth")

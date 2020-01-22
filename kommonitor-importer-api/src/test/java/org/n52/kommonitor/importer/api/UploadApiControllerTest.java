@@ -19,8 +19,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,6 +54,21 @@ public class UploadApiControllerTest {
                 .file(multipartFile).param("filename", fileName))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").value(fileName));
+    }
+
+    @Test
+    @DisplayName("Test get uploaded files responds with 200 status code")
+    void testGetUploadedFiles() throws Exception {
+        String fileName = "test.xml";
+        File file = Mockito.mock(File.class);
+        Mockito.when(file.getName()).thenReturn(fileName);
+
+        Mockito.when(storageService.getAll()).thenReturn(Collections.singletonList(file));
+
+        this.mockMvc.perform(get("/upload"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$[0].name").value(fileName));
     }
 
     @Test

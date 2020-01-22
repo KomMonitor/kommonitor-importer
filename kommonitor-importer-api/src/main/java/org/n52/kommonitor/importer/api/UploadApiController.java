@@ -3,7 +3,10 @@ package org.n52.kommonitor.importer.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.exceptions.UploadException;
+import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.io.file.FileStorageService;
+import org.n52.kommonitor.models.ConverterType;
+import org.n52.kommonitor.models.UploadedFileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
 
@@ -48,5 +55,30 @@ public class UploadApiController implements UploadApi {
         } catch (IOException e) {
             throw new UploadException(file);
         }
+    }
+
+    public ResponseEntity<List<UploadedFileType>> getUploadedFiles() {
+        LOG.info("Recevied 'getUploadedFiles' request");
+
+        List<UploadedFileType> fileList = storageService.getAll()
+                .stream()
+                .map(f -> createUploadedFileType(f))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<List<UploadedFileType>>(fileList, HttpStatus.OK);
+    }
+
+    private UploadedFileType createUploadedFileType(File file) {
+        UploadedFileType fileType = new UploadedFileType();
+        fileType.setName(file.getName());
+
+        try {
+            String contentType = storageService.getMetadata(FileStorageService.META_MIMETYPE, file);
+            fileType.setContentType(contentType);
+        } catch (IOException e) {
+            LOG.warn(String.format("Could not get metadata '%s' for file '%s'", FileStorageService.META_MIMETYPE, file.getName()));
+        }
+
+        return fileType;
     }
 }
