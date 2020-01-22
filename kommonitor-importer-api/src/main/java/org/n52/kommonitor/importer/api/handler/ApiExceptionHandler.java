@@ -2,6 +2,7 @@ package org.n52.kommonitor.importer.api.handler;
 
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
+import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.slf4j.Logger;
@@ -76,8 +77,8 @@ public class ApiExceptionHandler {
                 .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
     }
 
-    @ExceptionHandler(ImportException.class)
-    public ResponseEntity handleImportExceptions(ImportException ex) {
+    @ExceptionHandler({ImportException.class, UploadException.class})
+    public ResponseEntity handleImportExceptions(Exception ex) {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));

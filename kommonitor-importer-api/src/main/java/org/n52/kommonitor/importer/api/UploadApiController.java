@@ -2,9 +2,8 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
-import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.importer.io.file.FileStorageService;
-import org.n52.kommonitor.models.ConverterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
 
@@ -48,7 +46,7 @@ public class UploadApiController implements UploadApi {
             String name = storageService.store(file, filename);
             return new ResponseEntity<String>(name, HttpStatus.CREATED);
         } catch (IOException e) {
-            throw new ImportException(String.format("Could not store uploaded file '%s'", filename != null ? filename : file.getOriginalFilename()));
+            throw new UploadException(file);
         }
     }
 }
