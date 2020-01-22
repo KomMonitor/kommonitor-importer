@@ -14,9 +14,13 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Collection;
 
 /**
@@ -28,6 +32,8 @@ import java.util.Collection;
 @EnableConfigurationProperties
 @ConfigurationProperties("kommonitor.importer")
 public class FileStorageService implements InitializingBean {
+
+    public static final String META_MIMETYPE = "meta.mimetype";
 
     private static final Logger LOG = LoggerFactory.getLogger(FileStorageService.class);
 
@@ -49,18 +55,38 @@ public class FileStorageService implements InitializingBean {
     /**
      * Stores a file from a {@link MultipartFile} at the configured base directory
      *
-     * @param file     {@link MultipartFile} to store
-     * @param fileName name that will be used to store the
+     * @param multipartFile {@link MultipartFile} to store
+     * @param fileName      name that will be used to store the
      * @return name of the stored {@link File}
      * @throws IOException
      */
-    public String store(@NotNull MultipartFile file, @Nullable String fileName) throws IOException {
-        String name = fileName != null ? fileName : file.getOriginalFilename();
+    public String store(@NotNull MultipartFile multipartFile, @Nullable String fileName) throws IOException {
+        String name = fileName != null ? fileName : multipartFile.getOriginalFilename();
+        File file = new File(FilenameUtils.concat(basePath.toString(), name));
         FileUtils.writeByteArrayToFile(
                 new File(FilenameUtils.concat(basePath.toString(), name)),
-                file.getBytes()
+                multipartFile.getBytes()
         );
+
+        UserDefinedFileAttributeView view = Files.getFileAttributeView(file.toPath(), UserDefinedFileAttributeView.class);
+        view.write(META_MIMETYPE, ByteBuffer.wrap(multipartFile.getContentType().getBytes()));
         return name;
+    }
+
+    /**
+     * Gets the metadata from a file that are stored as {@link UserDefinedFileAttributeView}
+     *
+     * @param metaName the name of the metadata
+     * @param file {@link File} to get the metadata from
+     * @return requested metadata value
+     * @throws IOException
+     */
+    public String getMetadata(String metaName, File file) throws IOException {
+        UserDefinedFileAttributeView view = Files.getFileAttributeView(file.toPath(), UserDefinedFileAttributeView.class);
+        ByteBuffer buffer = ByteBuffer.allocate(view.size(metaName));
+        view.read(metaName, buffer);
+        buffer.flip();
+        return StandardCharsets.UTF_8.decode(buffer).toString();
     }
 
     /**

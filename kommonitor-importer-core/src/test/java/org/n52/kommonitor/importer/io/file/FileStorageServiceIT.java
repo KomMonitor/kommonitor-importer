@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +38,12 @@ public class FileStorageServiceIT {
         String fileName = "test.txt";
 
         storageService.store(file, "test.txt");
-        Assertions.assertTrue(storageService.get(fileName).exists());
+        File storedFile = storageService.get(fileName);
+        Assertions.assertTrue(storedFile.exists());
+
+        String contentTypeMeta = storageService.getMetadata(FileStorageService.META_MIMETYPE, storedFile);
+        Assertions.assertEquals("text/xml", contentTypeMeta);
+        Assertions.assertThrows(IOException.class, () -> storageService.getMetadata("non-valid-metaName", storedFile));
 
         storageService.delete(fileName);
         Assertions.assertFalse(storageService.get(fileName).exists());
@@ -70,10 +76,6 @@ public class FileStorageServiceIT {
         String fileName2 = "test4.txt";
         Mockito.when(file2.getOriginalFilename()).thenReturn(fileName2);
         storageService.store(file2, null);
-
-//        Collection<File> fileList = storageService.getAll();
-//
-//        Assertions.assertEquals(2, fileList.size());
     }
 
     @Test
