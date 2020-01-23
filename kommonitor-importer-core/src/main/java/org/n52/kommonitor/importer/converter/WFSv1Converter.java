@@ -13,6 +13,8 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.referencing.FactoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -156,25 +158,6 @@ public class WFSv1Converter extends AbstractConverter {
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
         return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
-    }
-
-    private InputStream getInputStream(ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException {
-        InputStream input = null;
-        if (dataset.getData() instanceof String) {
-            try {
-                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
-            } catch (UnsupportedEncodingException ex) {
-                throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.",
-                        converterDefinition.getEncoding()), ex);
-            }
-        } else if (dataset.getData() instanceof InputStream) {
-            input = (InputStream) dataset.getData();
-        } else {
-            throw new ConverterException(String.format("Dataset type '%s' is not supported. Supported types are: '%s'",
-                    dataset.getData().getClass().getName(),
-                    Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
-        }
-        return input;
     }
 
     private ConverterParameter createCrsParameter() {

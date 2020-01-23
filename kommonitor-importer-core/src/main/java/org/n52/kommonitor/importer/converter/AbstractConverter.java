@@ -1,14 +1,16 @@
 package org.n52.kommonitor.importer.converter;
 
+import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.ParameterValueType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -17,6 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 public abstract class AbstractConverter implements InitializingBean, Converter {
+
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private String name;
 
@@ -71,6 +75,34 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         if (!isValid.get()) {
             throw new ImportParameterException(builder.toString());
         }
+    }
+
+    protected InputStream getInputStream(ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException {
+        InputStream input = null;
+        if (dataset.getData() instanceof String) {
+            try {
+                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
+            } catch (UnsupportedEncodingException ex) {
+                throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.",
+                        converterDefinition.getEncoding()), ex);
+            }
+        } else if (dataset.getData() instanceof InputStream) {
+            input = (InputStream) dataset.getData();
+        } else if (dataset.getData() instanceof File) {
+            try {
+                input = new FileInputStream((File) dataset.getData());
+            } catch (FileNotFoundException ex) {
+                LOG.debug(String.format("Could not create InputStream from file '%s'", ((File) dataset.getData()).getName()), ex);
+
+                throw new ConverterException(String.format("Could not create InputStream from file '%s'", ((File) dataset.getData()).getName()));
+            }
+
+        } else {
+            throw new ConverterException(String.format("Dataset type '%s' is not supported. Supported types are: '%s'",
+                    dataset.getData().getClass().getName(),
+                    Arrays.toString(new String[]{String.class.getName(), InputStream.class.getName()})));
+        }
+        return input;
     }
 
     public Set<String> getSupportedMimeTypes() {
