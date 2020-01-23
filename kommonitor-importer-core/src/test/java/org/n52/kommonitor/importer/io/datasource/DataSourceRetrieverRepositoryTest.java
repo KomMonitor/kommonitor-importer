@@ -1,12 +1,10 @@
-package org.n52.kommonitor.importer.io.datasources;
+package org.n52.kommonitor.importer.io.datasource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
-import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
