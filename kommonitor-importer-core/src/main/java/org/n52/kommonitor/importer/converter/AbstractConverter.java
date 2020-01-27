@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class AbstractConverter implements InitializingBean, Converter {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private String name;
 

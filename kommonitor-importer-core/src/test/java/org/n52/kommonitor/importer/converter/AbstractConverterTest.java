@@ -2,10 +2,14 @@ package org.n52.kommonitor.importer.converter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -57,6 +61,17 @@ public class AbstractConverterTest {
                 ImportParameterException.class,
                 () -> converter.validateDefinition(definition),
                 getErrorMessage(mimeType, schema, encoding));
+    }
+
+    @Test
+    @DisplayName("Test get InputStream for unsupported dataset type")
+    void testGetInputStreamThrowsConverterExceptionForUnsupportedDatasetType() throws Exception {
+        AbstractConverter converter = prepareMock();
+        ConverterDefinitionType convDef = Mockito.mock(ConverterDefinitionType.class);
+        SpatialResourcePropertyMappingType propertyMapping = Mockito.mock(SpatialResourcePropertyMappingType.class);
+        Dataset<Double> dataset = new Dataset<>(123.123);
+
+        Assertions.assertThrows(ConverterException.class, () -> converter.getInputStream(convDef, dataset));
     }
 
     private AbstractConverter prepareMock() throws Exception {

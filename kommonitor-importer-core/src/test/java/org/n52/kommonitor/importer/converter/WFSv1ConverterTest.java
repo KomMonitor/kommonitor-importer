@@ -104,26 +104,6 @@ public class WFSv1ConverterTest {
     }
 
     @Test
-    @DisplayName("Test convert SpatialResources for WFS datasource throws ConverterException for unsupported dataset type")
-    void testConvertSpatialResourcesForWfsDatasourceThrowsConverterExceptionForUnsupportedDatasetType() {
-        ConverterDefinitionType convDef = Mockito.mock(ConverterDefinitionType.class);
-        SpatialResourcePropertyMappingType propertyMapping = Mockito.mock(SpatialResourcePropertyMappingType.class);
-        Dataset<Double> dataset = new Dataset<>(123.123);
-
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, propertyMapping));
-    }
-
-    @Test
-    @DisplayName("Test convert Indicators for WFS datasource throws ConverterException for unsupported dataset type")
-    void testConvertIndicatorsForWfsDatasourceThrowsConverterExceptionForUnsupportedDatasetType() {
-        ConverterDefinitionType convDef = Mockito.mock(ConverterDefinitionType.class);
-        IndicatorPropertyMappingType propertyMapping = Mockito.mock(IndicatorPropertyMappingType.class);
-        Dataset<Double> dataset = new Dataset<>(123.123);
-
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertIndicators(convDef, dataset, propertyMapping));
-    }
-
-    @Test
     @DisplayName("Test convert SpatialResources for WFS datasource throws ConverterException for non parsable dataset")
     void testConvertSpatialResourcesForWfsDatasourceThrowsConverterExceptionForNotParsableDataset() {
         Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");

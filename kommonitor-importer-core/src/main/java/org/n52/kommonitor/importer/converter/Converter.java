@@ -24,19 +24,19 @@ public interface Converter {
     /**
      * Converts a {@link Dataset} into {@link List<SpatialResource>}  according to a given {@link ConverterDefinitionType}
      *
-     * @param importerDefinition the {@link ConverterDefinitionType} used to decode the dataset
+     * @param converterDefinition the {@link ConverterDefinitionType} used to decode the dataset
      * @param dataset            the {@link Dataset} that contains the data to convert
      * @return the converted {@link List<SpatialResource>}}
      */
-    List<SpatialResource> convertSpatialResources(ConverterDefinitionType importerDefinition, Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
+    List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition, Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
 
     /**
      * Decodes a dataset into {@link List<IndicatorValue>} according to a given {@link ConverterDefinitionType}
      *
-     * @param importerDefinition the {@link ConverterDefinitionType} used to decode the dataset
+     * @param converterDefinition the {@link ConverterDefinitionType} used to decode the dataset
      * @param dataset            the {@link Dataset} that contains the data to convert
      * @return the converted {@link List<IndicatorValue>}
      */
-    List<IndicatorValue> convertIndicators(ConverterDefinitionType importerDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
+    List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
 
 }
