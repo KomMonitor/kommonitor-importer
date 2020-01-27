@@ -40,9 +40,9 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     }
 
     @Override
-    protected ResponseEntity<List<String>> performRequestHandling(UpdateIndicatorPOSTInputType requestResourceType,
-                                                                  AbstractConverter converter,
-                                                                  ConverterDefinitionType converterDefinition, Dataset dataset)
+    protected ResponseEntity<List<String>> handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
+                                                                AbstractConverter converter,
+                                                                ConverterDefinitionType converterDefinition, Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);

@@ -45,10 +45,10 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     }
 
     @Override
-    public ResponseEntity<List<String>> performRequestHandling(ImportGeoresourcePOSTInputType requestResourceType,
-                                                               AbstractConverter converter,
-                                                               ConverterDefinitionType converterDefinition,
-                                                               Dataset dataset)
+    public ResponseEntity<List<String>> handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
+                                                             AbstractConverter converter,
+                                                             ConverterDefinitionType converterDefinition,
+                                                             Dataset dataset)
             throws ConverterException, RestClientException, ImportParameterException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);

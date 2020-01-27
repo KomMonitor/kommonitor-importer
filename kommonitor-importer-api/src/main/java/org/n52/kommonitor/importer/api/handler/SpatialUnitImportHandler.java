@@ -45,10 +45,10 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     private SpatialUnitsApi apiClient;
 
     @Override
-    public ResponseEntity<List<String>> performRequestHandling(ImportSpatialUnitPOSTInputType importResourceType,
-                                                               AbstractConverter converter,
-                                                               ConverterDefinitionType converterDefinition,
-                                                               Dataset dataset)
+    public ResponseEntity<List<String>> handleRequestForType(ImportSpatialUnitPOSTInputType importResourceType,
+                                                             AbstractConverter converter,
+                                                             ConverterDefinitionType converterDefinition,
+                                                             Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);

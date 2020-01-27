@@ -72,7 +72,7 @@ public abstract class AbstractRequestHandler<T> {
             LOG.debug("Datasource definition: {}", dataSourceDefinition);
             Dataset dataset = retrieverOpt.get().retrieveDataset(dataSourceDefinition);
 
-            return performRequestHandling(requestResourceType, converterOpt.get(), converterDefinition, dataset);
+            return handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
         } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
@@ -81,10 +81,10 @@ public abstract class AbstractRequestHandler<T> {
         }
     }
 
-    protected abstract ResponseEntity<List<String>> performRequestHandling(T requestResourceType,
-                                                                           AbstractConverter abstractConverter,
-                                                                           ConverterDefinitionType converterDefinition,
-                                                                           Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
+    protected abstract ResponseEntity<List<String>> handleRequestForType(T requestResourceType,
+                                                                         AbstractConverter abstractConverter,
+                                                                         ConverterDefinitionType converterDefinition,
+                                                                         Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
 
 
     private void checkRequest(Optional<AbstractDataSourceRetriever> retrieverOpt,
