@@ -39,6 +39,7 @@ import java.util.*;
  */
 @Component
 public class GeoJsonConverter extends AbstractConverter {
+    private static final String NAME = "org.n52.kommonitor.importer.converter.geojson";
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
 
@@ -57,7 +58,7 @@ public class GeoJsonConverter extends AbstractConverter {
 
     @Override
     public String initName() {
-        return null;
+        return NAME;
     }
 
     @Override

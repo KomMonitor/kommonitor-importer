@@ -55,7 +55,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
                     converterDefinition.getMimeType(), getName(), getSupportedMimeTypes()));
             builder.append(System.lineSeparator());
         }
-        if (!supportedSchemas.contains(converterDefinition.getSchema())) {
+        if (supportedSchemas != null && !supportedSchemas.contains(converterDefinition.getSchema())) {
             isValid.set(false);
             builder.append(String.format("Unsupported schema '%s' for converter '%s'. Supported schemas are '%s'.",
                     converterDefinition.getSchema(), getName(), getSupportedSchemas()));

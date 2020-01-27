@@ -72,14 +72,16 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(ImportParameterException.class)
     public ResponseEntity handleImportParameterExceptions(ImportParameterException ex) {
-
+        LOG.error("Invalid request parameters: {}", ex.getMessage());
+        LOG.debug("Invalid request parameters", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
     }
 
     @ExceptionHandler({ImportException.class, UploadException.class})
     public ResponseEntity handleImportExceptions(Exception ex) {
-
+        LOG.error("Error while handling import request: {}", ex.getMessage());
+        LOG.debug("Error while handling import request", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
     }
