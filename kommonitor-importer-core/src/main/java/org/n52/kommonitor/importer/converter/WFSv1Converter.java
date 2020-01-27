@@ -25,6 +25,10 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 /**
+ * Converter for WFS 1.0.0 and WFS 1.1.0 datasets.
+ * Parses a WFS GetFeature response document as {@link org.geotools.feature.FeatureCollection}
+ * and converts it into KomMonitor resources.
+ *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
