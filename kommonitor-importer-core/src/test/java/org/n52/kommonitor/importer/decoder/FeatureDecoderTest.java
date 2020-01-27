@@ -139,6 +139,7 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test single Feature decoding to TimeSeriesValue")
     void testDecodeFeatureToTimeseriesValue() throws DecodingException {
         TimeseriesMappingType mapping = createTimeseriesPropertyMapping();
         mapping.setTimestampProperty(TIMESTAMP_PROP);
@@ -151,7 +152,19 @@ class FeatureDecoderTest {
     }
 
     @Test
-    @DisplayName("Test single Feature decoding to Indicator with timestamp property mapping")
+    @DisplayName("Test single Feature decoding to IndicatorValue")
+    void testDecodeSingleFeatureToIndicatorValue() throws DecodingException {
+        IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
+        SimpleFeature feature = mockSimpleFeature();
+
+        IndicatorValue indicator = decoder.decodeFeatureToIndicatorValue(feature, mapping);
+
+        Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
+        Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
+    }
+
+    @Test
+    @DisplayName("Test Feature decoding to Indicator with timestamp property mapping")
     void testDecodeFeatureToIndicatorsWithTimestampPropertyMapping() throws DecodingException, FactoryException {
         TimeseriesMappingType mapping = createTimeseriesPropertyMapping();
         mapping.setTimestampProperty(TIMESTAMP_PROP);
