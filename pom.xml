@@ -139,6 +139,12 @@
                 <version>${geotools.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>de.grundid.opendatalab</groupId>
+                <artifactId>geojson-jackson</artifactId>
+                <version>1.8.1</version>
+            </dependency>
+
             <!-- Import dependency management from Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
