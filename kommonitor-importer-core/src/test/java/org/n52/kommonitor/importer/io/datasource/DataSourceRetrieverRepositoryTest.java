@@ -43,7 +43,7 @@ public class DataSourceRetrieverRepositoryTest {
     void testGetConverterIsPresent() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDatasourceRetriever(RETRIEVER_TYPE);
+        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDataSourceRetriever(RETRIEVER_TYPE);
 
         Assertions.assertTrue(retrieverOpt.isPresent());
     }
@@ -53,7 +53,7 @@ public class DataSourceRetrieverRepositoryTest {
     void testGetConverterIsNotPresent() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDatasourceRetriever("anotherRetriever");
+        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDataSourceRetriever("anotherRetriever");
 
         Assertions.assertFalse(retrieverOpt.isPresent());
     }

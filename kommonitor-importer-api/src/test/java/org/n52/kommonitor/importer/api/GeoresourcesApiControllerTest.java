@@ -99,7 +99,7 @@ public class GeoresourcesApiControllerTest {
     @DisplayName("Test importGeoresource responds with 201 status code")
     public void testImportGeoresource() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources")
@@ -114,7 +114,7 @@ public class GeoresourcesApiControllerTest {
     @DisplayName("Test importGeoresource responds with 400 status code for non valid request content")
     public void testImportGeoresourceForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = mapper.valueToTree(geoImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -135,7 +135,7 @@ public class GeoresourcesApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources")
@@ -152,7 +152,7 @@ public class GeoresourcesApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources")
@@ -169,7 +169,7 @@ public class GeoresourcesApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any()))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources")
@@ -184,7 +184,7 @@ public class GeoresourcesApiControllerTest {
     @DisplayName("Test updateGeoresource responds with 201 status code")
     public void testUpdateGeoresource() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources/update")
@@ -199,7 +199,7 @@ public class GeoresourcesApiControllerTest {
     @DisplayName("Test updateGeoresource responds with 400 status code for non valid request content")
     public void testUpdateGeoresourceForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = mapper.valueToTree(geoUpdateBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -219,7 +219,7 @@ public class GeoresourcesApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources/update")
@@ -236,7 +236,7 @@ public class GeoresourcesApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources/update")
@@ -253,7 +253,7 @@ public class GeoresourcesApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class)))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/georesources/update")

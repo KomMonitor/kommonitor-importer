@@ -91,7 +91,7 @@ public class IndicatorsApiControllerTest {
     @DisplayName("Test importIndicator responds with 201 status code")
     public void testImportIndicator() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators")
@@ -106,7 +106,7 @@ public class IndicatorsApiControllerTest {
     @DisplayName("Test importIndicator responds with 400 status code for non valid request content")
     public void testImportIndicatorForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = new ObjectMapper().valueToTree(indicatorImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -127,7 +127,7 @@ public class IndicatorsApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators")
@@ -144,7 +144,7 @@ public class IndicatorsApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators")
@@ -161,7 +161,7 @@ public class IndicatorsApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.addIndicatorAsBodyWithHttpInfo(Mockito.any()))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators")
@@ -176,7 +176,7 @@ public class IndicatorsApiControllerTest {
     @DisplayName("Test updateIndicator responds with 200 status code")
     public void testUpdateIndicator() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators/update")
@@ -191,7 +191,7 @@ public class IndicatorsApiControllerTest {
     @DisplayName("Test updateIndicator responds with 400 status code for non valid request content")
     public void testUpdateIndicatorForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = new ObjectMapper().valueToTree(indicatorUpdateBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -212,7 +212,7 @@ public class IndicatorsApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators/update")
@@ -229,7 +229,7 @@ public class IndicatorsApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators/update")
@@ -246,7 +246,7 @@ public class IndicatorsApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.updateIndicatorAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(IndicatorPUTInputType.class)))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/indicators/update")

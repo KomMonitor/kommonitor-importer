@@ -51,12 +51,12 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
-        List<IndicatorValue> spatialResources = converter.convertIndicators(
+        List<IndicatorValue> indicatorValues = converter.convertIndicators(
                 converterDefinition,
                 dataset,
                 importResourceType.getPropertyMapping());
         IndicatorPOSTInputType indicatorPostInput = null;
-        indicatorPostInput = encoder.encode(importResourceType, spatialResources);
+        indicatorPostInput = encoder.encode(importResourceType, indicatorValues);
 
         LOG.info("Perform 'addIndicator' request for Indicator: {}", indicatorPostInput.getDatasetName());
         LOG.debug("'addIndicator' request POST body: {}", indicatorPostInput);

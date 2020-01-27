@@ -48,7 +48,7 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
     public ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource", required = true) @PathVariable("type") String type) {
         LOG.info("Recevied 'getSupportedDataSourceTypeByType' request for type: {}", type);
 
-        Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDatasourceRetriever(type);
+        Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(type);
         if (!retrieverOpt.isPresent()) {
             throw new ResourceNotFoundException(AbstractDataSourceRetriever.class, type);
         }

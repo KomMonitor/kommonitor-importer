@@ -66,7 +66,7 @@ public class DatasourceTypesApiTest {
     @DisplayName("Test getSupportedDataSourceTypeByType responds with OK status code")
     public void testGetSupportedDataSourceTypeByType() throws Exception {
         prepareMocks();
-        Mockito.when(repository.getDatasourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
+        Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
 
         this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isOk())
@@ -79,7 +79,7 @@ public class DatasourceTypesApiTest {
     @Test
     @DisplayName("Test getConverterByName responds with NotFound status code")
     public void testGetSupportedDataSourceTypeByTypeNotFound() throws Exception {
-        Mockito.when(repository.getDatasourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
+        Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
 
         this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isNotFound())

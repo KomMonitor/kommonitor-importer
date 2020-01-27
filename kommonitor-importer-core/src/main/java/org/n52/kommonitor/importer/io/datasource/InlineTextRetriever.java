@@ -15,7 +15,7 @@ import java.util.Set;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
-public class InlineDataSourceRetriever extends AbstractDataSourceRetriever<String> {
+public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 
     private static final String TYPE = "INLINE";
     private static final String PARAM_PAYLOAD = "payload";

@@ -98,7 +98,7 @@ public class SpatialUnitApiControllerTest {
     @DisplayName("Test importSpatialUnit responds with 201 status code")
     public void testImportSpatialUnit() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units")
@@ -113,7 +113,7 @@ public class SpatialUnitApiControllerTest {
     @DisplayName("Test importSpatialUnit responds with 400 status code for non valid request content")
     public void testImportSpatialUnitForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = mapper.valueToTree(spatialUnitImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -134,7 +134,7 @@ public class SpatialUnitApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units")
@@ -151,7 +151,7 @@ public class SpatialUnitApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units")
@@ -168,7 +168,7 @@ public class SpatialUnitApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.addSpatialUnitAsBodyWithHttpInfo(Mockito.any()))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units")
@@ -183,7 +183,7 @@ public class SpatialUnitApiControllerTest {
     @DisplayName("Test updateSpatialUnit responds with 201 status code")
     public void testUpdateSpatialUnit() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units/update")
@@ -198,7 +198,7 @@ public class SpatialUnitApiControllerTest {
     @DisplayName("Test updateSpatialUnit responds with 400 status code for non valid request content")
     public void testUpdateSpatialUnitForNonValidRequestContent() throws Exception {
         prepareMocks();
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         JsonNode json = mapper.valueToTree(spatialUnitUpdateBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
@@ -219,7 +219,7 @@ public class SpatialUnitApiControllerTest {
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units/update")
@@ -236,7 +236,7 @@ public class SpatialUnitApiControllerTest {
         prepareMocks();
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units/update")
@@ -253,7 +253,7 @@ public class SpatialUnitApiControllerTest {
         prepareMocks();
         Mockito.when(apiClient.updateSpatialUnitAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(SpatialUnitPUTInputType.class)))
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
-        Mockito.when(retrieverRepository.getDatasourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
         this.mockMvc.perform(post("/spatial-units/update")

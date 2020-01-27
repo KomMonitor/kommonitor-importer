@@ -64,7 +64,7 @@ public abstract class AbstractRequestHandler<T> {
                                                       DataSourceDefinitionType dataSourceDefinition,
                                                       ConverterDefinitionType converterDefinition)
             throws ImportParameterException, ImportException {
-        Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDatasourceRetriever(dataSourceDefinition.getType().name());
+        Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         checkRequest(retrieverOpt, converterOpt, dataSourceDefinition, converterDefinition);
         try {
