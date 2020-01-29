@@ -9,12 +9,12 @@ datasets come available within the KomMonitor Spatial Data Infrastructure by pub
 
 The KomMonitor Importer project comprises different modules that encapsulate different tasks:  
 
-##[KomMonitor Importer Models](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-models)  
+## [KomMonitor Importer Models](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-models)  
 This module contains the API model classes which will be used for serialization and deserialization of JSON payload for 
 API calls via [Jackson annotations](https://github.com/FasterXML/jackson-annotations). The model classes were auto-generated
 from an OpenAPI schema definition by the use of [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
 
-##[KomMonitor Importer Core](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-core)  
+## [KomMonitor Importer Core](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-core)  
 The core module provides the main data entities that represent KomMonitor related resources as well as classes that are
 responsible for importing datasets. In particular, these are: 
 * _DataSourceRetriever_ implementations for fetching datasets
@@ -33,7 +33,7 @@ In addition, the module contains some helper and service classes for:
 * dealing with the GeoTools [Feature model](https://docs.geotools.org/latest/userguide/library/opengis/feature.html) for
 decoding properties and geometries  
 
-##[KomMonitor Importer API](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-api)  
+## [KomMonitor Importer API](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-api)  
 The API module primarily comprises three kinds of classes that are responsible for implementing the API endpoints:
 * _API_ interfaces contain request mappings for all API endpoints that are defined by 
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc) annotations as well
@@ -48,7 +48,7 @@ documentations
 Just like the API model classes, the API interfaces were auto-generated from an OpenAPI schema definition by the use of
 [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
 
-##[KomMonitor API Client](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-api-client)  
+## [KomMonitor API Client](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-api-client)  
 This module provides API clients for the _Data Management API_ endpoints. The client implementation is based on 
 [Spring RestTemplate](https://docs.spring.io/spring/docs/current/spring-framework-reference/integration.html#rest-resttemplate)
 and was generated from the  _Data Management API_ OpenAPI schema definition via
@@ -56,7 +56,7 @@ and was generated from the  _Data Management API_ OpenAPI schema definition via
 client methods, that are required for the Importer, have been implemented using
 [Spring MockRestServiceServer](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-client).  
 
-##[KomMonitor Importer App](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-app)
+## [KomMonitor Importer App](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-app)
 The App module contains the main class that is responsible for launching the Spring Boot application and an _application.yml_
 that provides different properties for externalized configuration. Furthermore, some configuration classes are located 
 in the module, that utilize _application.yml_ properties for configuring different Spring Beans that will be injected
