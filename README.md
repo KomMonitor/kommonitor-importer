@@ -60,7 +60,31 @@ client methods, that are required for the Importer, have been implemented using
 The App module contains the main class that is responsible for launching the Spring Boot application and an _application.yml_
 that provides different properties for externalized configuration. Furthermore, some configuration classes are located 
 in the module, that utilize _application.yml_ properties for configuring different Spring Beans that will be injected
-within the other modules.
+within the other modules.  
+
+# Installation
+## Build from Source
+There are some requirements on your building environment in order to build and run the KomMonitor Importer API from source:
+* at least Java SE Development Kit 8 must be available
+* to build the project from source, [Maven](https://maven.apache.org/index.html) is required
+* if you want to clone the repository, [Git](https://git-scm.com/) must be installed
+
+You can download the latest branch directly from GitHub or if you have installed Git in your environment just run 
+`git clone https://github.com/SebaDro/kommonitor-importer.git`.
+
+After cloning the repository, just run `mvn clean install` from the repositories root directory to build the whole
+project from source.
+
+## Configuration
+KomMonitor Importer API is a Spring Boot application and provides a `application.yml` within the 
+[KomMonitor Importer App module](https://github.com/SebaDro/kommonitor-importer/tree/master/kommonitor-importer-app) for
+externalized configurations. The properties within this file can be used to configure the application. A documentation
+for common application properties can be found under https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html  
+  
+Furthermore, the `application.yml` contains some additional and custom configuration properties:
+* `kommonitor.importer.datamanagement-api-url:`: endpoint of the KomMonitor Data Management API
+* `kommonitor.importer.fileStorageLocation`: path to the file storage directory that will be used for storing uploaded files
+* `springfox.documentation.swagger.v2.path`: defines the default context path for retrieving the API documentation
 
 # Get Started
 ## Generate API and models
