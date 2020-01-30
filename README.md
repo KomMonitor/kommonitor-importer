@@ -5,7 +5,7 @@ into the _KomMonitor Spatial Data Infrastructure_. The webapp provides an API fo
 that come in the shape of certain formats and converting the datasets into a KomMonitor related schema. The converted 
 datasets come available within the KomMonitor Spatial Data Infrastructure by publishing them via the _Data Management API_.
 
-# Project structure
+# Project Structure
 
 The KomMonitor Importer project comprises different modules that encapsulate different tasks:  
 
@@ -87,12 +87,12 @@ Furthermore, the `application.yml` contains some additional and custom configura
 * `kommonitor.importer.fileStorageLocation`: path to the file storage directory that will be used for storing uploaded files
 * `springfox.documentation.swagger.v2.path`: defines the default context path for retrieving the API documentation
 
-## Start the application
+## Start the Application
 There are different deployment patterns for running the application:  
 ### JAR  
 If you have built the project from source, the KomMonitor Importer App has been packaged as JAR artifact. So, just execute
 execute the JAR within the target folder of the `kommonitor-importer-app` module to run the application.
-### Maven Goal
+### Maven
 You can also start the application by running `mvn spring-boot:run` from the root
 of the `kommonitor-importer-app` module.
 ### Docker
@@ -101,21 +101,6 @@ run `docker build -t kommonitor/importer:latest .` from the root of the reposito
 port 8087 can be started with `docker run -p 8087:8087 kommonitor/importer`.
  
 By default, the started application is available under http://localhost:8087.
-
-# Get Started
-## Generate API and models
-The project comes with the latest API and model classes. However, if you wish to customize the KomMonitor Importer API or 
-the DataManagement API client, use one of the Maven build profiles that are provided within the single modules. 
-These profiles are configured to automate code generation of the corresponding API and model classes from the OpenAPI specification. 
-Just run `mvn compile -Pgenerate-models` from _kommonitor-importer-models_, `mvn compile -Pgenerate-api` from _kommonitor-importer-api_ 
-or `mvn compile -Pgenerate-client` from _kommonitor-datamanagement-api-client_. Note, that you have to make the OpenAPI specs
-available as artifacts within your build environment, in beforehand. You can find the OpenAPI spec documents at
-https://gitlab.fbg-hsbo.de/kommonitor/kommonitor-api-specs.
-## Start the application
-The KomMonitor Importer API has been implemented with Spring Boot. So, after you built the whole project 
-with `mvn clean install`, just run `mvn spring-boot:run` from the root of the _kommonitor-importer-app_ module to start the application.  
-A Swagger UI documentation is available under http://localhost:8087/swagger-ui.html.
-To configure the application just customize the _application.yml_.  
 
 # User Guide
 ## Interact with the API
@@ -156,6 +141,15 @@ TBD
 ### Import Indicators
 TBD
 
+# Extend the Importer API
+## Generate API and models
+The project comes with the latest API and model classes. However, if you wish to customize the KomMonitor Importer API or 
+the DataManagement API client, use one of the Maven build profiles that are provided within the single modules. 
+These profiles are configured to automate code generation of the corresponding API and model classes from the OpenAPI specification. 
+Just run `mvn compile -Pgenerate-models` from _kommonitor-importer-models_, `mvn compile -Pgenerate-api` from _kommonitor-importer-api_ 
+or `mvn compile -Pgenerate-client` from _kommonitor-datamanagement-api-client_. Note, that you have to make the OpenAPI specs
+available as artifacts within your build environment, in beforehand. You can find the OpenAPI spec documents at
+https://gitlab.fbg-hsbo.de/kommonitor/kommonitor-api-specs.
 
 
 
