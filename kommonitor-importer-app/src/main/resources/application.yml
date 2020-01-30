@@ -8,10 +8,6 @@ spring:
     date-format: io.swagger.RFC3339DateFormat
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-kommonitor:
-  importer:
-    datamanagement-api-url: "http://localhost:8085/management"
-    fileStorageLocation: "/tmp/kommonitor"
 logging:
   level:
     org.n52.kommonitor: DEBUG
@@ -20,3 +16,7 @@ springfox:
     swagger:
       v2:
         path: /api-docs
+kommonitor:
+  importer:
+    datamanagement-api-url: "http://localhost:8085/management"
+    fileStorageLocation: "/tmp/kommonitor"

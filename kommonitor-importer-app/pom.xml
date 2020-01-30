@@ -7,6 +7,9 @@
         <groupId>org.n52.kommonitor</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <properties>
+        <app.finalName>${artifactId}-${version}</app.finalName>
+    </properties>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>kommonitor-importer-app</artifactId>
@@ -35,6 +38,7 @@
     </dependencies>
 
     <build>
+        <finalName>${app.finalName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -50,5 +54,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
