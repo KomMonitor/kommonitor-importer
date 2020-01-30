@@ -115,4 +115,47 @@ https://gitlab.fbg-hsbo.de/kommonitor/kommonitor-api-specs.
 The KomMonitor Importer API has been implemented with Spring Boot. So, after you built the whole project 
 with `mvn clean install`, just run `mvn spring-boot:run` from the root of the _kommonitor-importer-app_ module to start the application.  
 A Swagger UI documentation is available under http://localhost:8087/swagger-ui.html.
-To configure the application just customize the _application.yml_. 
+To configure the application just customize the _application.yml_.  
+
+# User Guide
+## Interact with the API
+The entrypoint for the KomMonitor Importer API ist http://localhost:8087. If you call this URL without any additional endpoint,
+you will be redirected to  http://localhost:8087/swagger-ui.html. This page provides a Swagger UI, which has been generated
+from the OpenAPI specification for visualization and interacting with the API resources. So, feel free to try out the
+different API endpoints via Swagger UI to get started.
+
+## Supported Data Source Types
+The Importer API supports selected data source types. For each type, the application contains an appropriate implementation
+that is responsible for accessing the data source and retrieving datasets from it. The API has two endpoints for retrieving
+information about the supported data source types:
+* `/datasourceTypes`: lists all supported types of a data source
+* `datasourceTypes/{type}`: provides detailed information and supported parameters for a certain datasource type  
+
+## Supported Data Formats
+Retrieving datasets from a certain data source is only one aspect the Importer API has to consider. Another one is the
+ability for parsing the dataset in order to map it to a format the DataManagement API can deal with. Hence, the API
+provides different converters, each one supporting a certain data format. You will find information about the available
+converters via the following endpoints:
+* `/converters`: lists all available converters and its' supported data formats
+* `/converters/{name}`: provides detailed information and supported parameters for a certain converter
+
+## File Upload
+If you plan to import a dataset that is stored within a file, you first have to upload this file to the server so that
+it gets accessible for the data source retriever.  
+
+The upload is done by performing a POST request with multi-part message that contains the file to the `/upload` endpoint.
+Optionally, you can set a custom file name within the multi-part message that will be used for storing the file on the server.  
+
+You can retrieve a list of all ever uploaded files by doing a GET request on the `/upload` endpoint.
+
+## Import Datasets
+### Import Georesources
+TBD
+### Import Spatial Units
+TBD
+### Import Indicators
+TBD
+
+
+
+
