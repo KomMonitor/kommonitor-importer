@@ -67,7 +67,8 @@ within the other modules.
 There are some requirements on your building environment in order to build and run the KomMonitor Importer API from source:
 * at least Java SE Development Kit 8 must be available
 * to build the project from source, [Maven](https://maven.apache.org/index.html) is required
-* if you want to clone the repository, [Git](https://git-scm.com/) must be installed
+* for cloning the repository, [Git](https://git-scm.com/) must be installed
+* if you wish to run the application as Docker container, you also need [Docker](https://www.docker.com/)
 
 You can download the latest branch directly from GitHub or if you have installed Git in your environment just run 
 `git clone https://github.com/SebaDro/kommonitor-importer.git`.
@@ -85,6 +86,21 @@ Furthermore, the `application.yml` contains some additional and custom configura
 * `kommonitor.importer.datamanagement-api-url:`: endpoint of the KomMonitor Data Management API
 * `kommonitor.importer.fileStorageLocation`: path to the file storage directory that will be used for storing uploaded files
 * `springfox.documentation.swagger.v2.path`: defines the default context path for retrieving the API documentation
+
+## Start the application
+There are different deployment patterns for running the application:  
+### JAR  
+If you have built the project from source, the KomMonitor Importer App has been packaged as JAR artifact. So, just execute
+execute the JAR within the target folder of the `kommonitor-importer-app` module to run the application.
+### Maven Goal
+You can also start the application by running `mvn spring-boot:run` from the root
+of the `kommonitor-importer-app` module.
+### Docker
+The repository also contains a Dockerfile for building a Docker image of the application. To build the image,
+run `docker build -t kommonitor/importer:latest .` from the root of the repository. Finally, a container with published
+port 8087 can be started with `docker run -p 8087:8087 kommonitor/importer`.
+ 
+By default, the started application is available under http://localhost:8087.
 
 # Get Started
 ## Generate API and models
