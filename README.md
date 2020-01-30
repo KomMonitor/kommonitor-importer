@@ -128,7 +128,7 @@ converters via the following endpoints:
 If you plan to import a dataset that is stored within a file, you first have to upload this file to the server so that
 it gets accessible for the data source retriever.  
 
-The upload is done by performing a POST request with multi-part message that contains the file to the `/upload` endpoint.
+The upload is done by performing a POST request with a multi-part message that contains the file on the `/upload` endpoint.
 Optionally, you can set a custom file name within the multi-part message that will be used for storing the file on the server.  
 
 You can retrieve a list of all ever uploaded files by doing a GET request on the `/upload` endpoint.
