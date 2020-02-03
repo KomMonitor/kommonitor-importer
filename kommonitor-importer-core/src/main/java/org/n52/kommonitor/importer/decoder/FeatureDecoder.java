@@ -309,7 +309,13 @@ public class FeatureDecoder {
                 throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
             }
 
-        } else {
+        } else if(propertyValue instanceof Double){
+            return ((Double)propertyValue).floatValue();
+        }
+        else if(propertyValue instanceof Integer){
+            return ((Integer)propertyValue).floatValue();
+        }
+        else {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
         }
     }
