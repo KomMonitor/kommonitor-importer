@@ -167,7 +167,6 @@ As an example, the following snipped shows how to define a HTTP datasource with 
 HTTP GET request: 
 ```json
 {
-  ...
   "dataSource": {
     "type": "HTTP",
     "parameters": [
@@ -176,8 +175,7 @@ HTTP GET request:
         "value": "http://www.webgis-server.de/endpoint?SERVICE=WFS&REQUEST=getFeature&VERSION=1.1.0&TypeName=ns0:testType"
       }
     ]
-  },
-  ...,
+  }
 }
 ```
 #### Converter Definition
@@ -189,7 +187,6 @@ Following, you'll find an example for a converter definition according to a data
 schema:
 ```json
 {
-  ...
   "converter": {
     "name": "org.n52.kommonitor.importer.converter.wfs.v1",
     "encoding": "UTF-8",
@@ -238,22 +235,19 @@ Assume the following GeoJSON dataset:
 					[384891.959,5713511.4441]
 				]]]
 			}
-		},
-		...
+		}
 	]
 } 
 ```
 An appropriate property mapping definition would be:
 ```json
 {
-  ...
   "propertyMapping": {
     "identifierProperty": "Baublock_ID",
 	"nameProperty": "Baublock_ID",
 	"validEndDateProperty": "EreignisintervallStart",
 	"validStartDateProperty": "EreignisintervallEnde"
   }
-  ...,
 }
 ```
 
