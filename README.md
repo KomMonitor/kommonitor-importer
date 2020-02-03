@@ -134,6 +134,59 @@ Optionally, you can set a custom file name within the multi-part message that wi
 You can retrieve a list of all ever uploaded files by doing a GET request on the `/upload` endpoint.
 
 ## Import Datasets
+For each resource type of the KomMonitor DataManagement API (Georesources, Spatial Units, Indicators), the Importer API
+provides an appropriate endpoint. By sending a POST request the import process will be triggered. Within the POST body
+you have to define some required information about how to access a certain dataset and how to convert it into the KomMonitor 
+specific schema.
+### Datasource Definition
+The `dataSource` property is required within the POST request body for each resource endpoint. It contains information
+about the data source type and additional parameters that are required for fetching datasets from it. You'll get a information
+of all supported data source types from the `/datasourceTypes` endpoint (also see the _Supported Data Source Types_ section).
+As an example, the following snipped shows how to define a HTTP datasource with a URL parameter that will be used for performing a
+HTTP GET request: 
+```json
+{
+  ...
+  "dataSource": {
+    "type": "HTTP",
+    "parameters": [
+      {
+        "name": "URL",
+        "value": "http://www.webgis-server.de/endpoint?SERVICE=WFS&REQUEST=getFeature&VERSION=1.1.0&TypeName=ns0:testType"
+      }
+    ]
+  },
+  ...,
+}
+```
+### Converter Definition
+The `converter` property is another mandatory property that has to be defined withn the POST request body. It contains
+definitions for the converter that should be used for importing a dataset. Ideally, you choose a converter appropriate to
+the dataset's format. The `/converters` endpoints provides a list of all available converter implementations and its
+supported properties like encoding, mimeType, schema and additional properties.
+Following, you'll find an example for a converter definition according to a dataset that comes in the shape of a WFS 1.0.0
+schema:
+```json
+{
+  ...
+  "converter": {
+    "name": "org.n52.kommonitor.importer.converter.wfs.v1",
+    "encoding": "UTF-8",
+    "mimeType": "application/xml",
+    "schema": "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd",
+    "parameters": [
+      {
+        "name": "CRS",
+        "value": "EPSG:25832"
+      }
+    ]
+  }
+}
+```
+If you wish to get some additional information about the WFS 1.0.0 converter, feel free to call its API endpoint 
+`/converters/org.n52.kommonitor.importer.converter.wfs.v1`. You will notice, that it supports multiple schemas and in
+addition a `CRS` paramater to define the coordinate reference system of the dataset to import. Make sure, you'll know
+both in order to define the converter properly for the import request.
 ### Import Georesources
 TBD
 ### Import Spatial Units
