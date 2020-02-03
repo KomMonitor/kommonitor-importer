@@ -138,7 +138,28 @@ For each resource type of the KomMonitor DataManagement API (Georesources, Spati
 provides an appropriate endpoint. By sending a POST request the import process will be triggered. Within the POST body
 you have to define some required information about how to access a certain dataset and how to convert it into the KomMonitor 
 specific schema.
-### Datasource Definition
+
+### Import Georesources
+You can trigger the import of Georesoruces by sending a POST request to the `/georesources` endpoint. The request body
+has to contain the following properties:
+* `georesourcePostBody`: A JSON object in accordance to the POST request body for the `/georesources` endpoint of the
+Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated within the
+import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for georesources.
+See the _Spatial Resource Property Mapping_ section.
+### Import Spatial Units
+TBD
+### Import Indicators
+TBD
+
+### Import Definitions
+As you can see from the above sections, you have to provide some properties within the request body about the dataset 
+that are required for performing the import. The following sections give you some examples of how to define those properties.
+#### Datasource Definition
 The `dataSource` property is required within the POST request body for each resource endpoint. It contains information
 about the data source type and additional parameters that are required for fetching datasets from it. You'll get a information
 of all supported data source types from the `/datasourceTypes` endpoint (also see the _Supported Data Source Types_ section).
@@ -159,7 +180,7 @@ HTTP GET request:
   ...,
 }
 ```
-### Converter Definition
+#### Converter Definition
 The `converter` property is another mandatory property that has to be defined withn the POST request body. It contains
 definitions for the converter that should be used for importing a dataset. Ideally, you choose a converter appropriate to
 the dataset's format. The `/converters` endpoints provides a list of all available converter implementations and its
@@ -185,14 +206,56 @@ schema:
 ```
 If you wish to get some additional information about the WFS 1.0.0 converter, feel free to call its API endpoint 
 `/converters/org.n52.kommonitor.importer.converter.wfs.v1`. You will notice, that it supports multiple schemas and in
-addition a `CRS` paramater to define the coordinate reference system of the dataset to import. Make sure, you'll know
+addition a `CRS` parameter to define the coordinate reference system of the dataset to import. Make sure, you'll know
 both in order to define the converter properly for the import request.
-### Import Georesources
-TBD
-### Import Spatial Units
-TBD
-### Import Indicators
-TBD
+#### Spatial Resource Property Mappings
+As part of the import process, a GeoJSON FeatureCollection will be generated from the imported dataset, that will be used
+for adding new resources via the Data Management API. This FeatureCollection contains the geometry from the imported dataset
+and some additional properties, according to Data Managemt API schema. To tell the Import API which properties from the
+original dataset should be used for the FeatureCollcetion properties, a property mapping has to be provided.
+Assume the following GeoJSON dataset:
+```json
+{
+	"type": "FeatureCollection",
+	"name": "Baubloecke",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"description": "NULL",
+				"baublock_id": "_170",
+				"EreignisintervallStart": "2019-05-06",
+				"EreignisintervallEnde": "2019-05-28",
+				"altersdurchschnitt": 43.4123
+			},
+			"geometry": {
+				"type": "MultiPolygon",
+				"coordinates": [[[
+					[384891.959,5713511.4441],
+					[384898.084,5713509.1401],
+					[384947.758,5713522.8651],
+					[385030.73,5713539.248],
+					[384891.959,5713511.4441]
+				]]]
+			}
+		},
+		...
+	]
+} 
+```
+An appropriate property mapping definition would be:
+```json
+{
+  ...
+  "propertyMapping": {
+    "identifierProperty": "Baublock_ID",
+	"nameProperty": "Baublock_ID",
+	"validEndDateProperty": "EreignisintervallStart",
+	"validStartDateProperty": "EreignisintervallEnde"
+  }
+  ...,
+}
+```
 
 # Extend the Importer API
 ## Generate API and models
