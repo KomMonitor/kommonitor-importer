@@ -179,11 +179,11 @@ HTTP GET request:
 }
 ```
 #### Converter Definition
-The `converter` property is another mandatory property that has to be defined withn the POST request body. It contains
-definitions for the converter that should be used for importing a dataset. Ideally, you choose a converter appropriate to
+The `converter` property is another mandatory property that has to be defined within the POST request body. It contains
+configurations for the converter that should be used for importing a dataset. Ideally, you choose a converter appropriate to
 the dataset's format. The `/converters` endpoints provides a list of all available converter implementations and its
 supported properties like encoding, mimeType, schema and additional properties.
-Following, you'll find an example for a converter definition according to a dataset that comes in the shape of a WFS 1.0.0
+Following, you'll find an example for a converter configuration according to a dataset that comes in the shape of a WFS 1.0.0
 schema:
 ```json
 {
@@ -202,15 +202,16 @@ schema:
 }
 ```
 If you wish to get some additional information about the WFS 1.0.0 converter, feel free to call its API endpoint 
-`/converters/org.n52.kommonitor.importer.converter.wfs.v1`. You will notice, that it supports multiple schemas and in
-addition a `CRS` parameter to define the coordinate reference system of the dataset to import. Make sure, you'll know
+`/converters/org.n52.kommonitor.importer.converter.wfs.v1`. You will notice, that the converter supports multiple schemas 
+and in addition a `CRS` parameter to define the coordinate reference system of the dataset to import. Make sure, you'll know
 both in order to define the converter properly for the import request.
+
 #### Spatial Resource Property Mappings
 As part of the import process, a GeoJSON FeatureCollection will be generated from the imported dataset, that will be used
 for adding new resources via the Data Management API. This FeatureCollection contains the geometry from the imported dataset
-and some additional properties, according to Data Managemt API schema. To tell the Import API which properties from the
-original dataset should be used for the FeatureCollcetion properties, a property mapping has to be provided.
-Assume the following GeoJSON dataset:
+and some additional properties, according to the Data Management API schema for those resources. To tell the Import API 
+which properties from the original dataset should be used for the FeatureCollcetion properties, a property mapping has 
+to be provided. E.g. assume the following GeoJSON dataset:
 ```json
 {
 	"type": "FeatureCollection",
@@ -219,7 +220,6 @@ Assume the following GeoJSON dataset:
 		{
 			"type": "Feature",
 			"properties": {
-				"description": "NULL",
 				"baublock_id": "_170",
 				"EreignisintervallStart": "2019-05-06",
 				"EreignisintervallEnde": "2019-05-28",
@@ -239,14 +239,70 @@ Assume the following GeoJSON dataset:
 	]
 } 
 ```
-An appropriate property mapping definition would be:
+An appropriate property mapping would be:
 ```json
 {
   "propertyMapping": {
-    "identifierProperty": "Baublock_ID",
-	"nameProperty": "Baublock_ID",
+    "identifierProperty": "baublock_id",
+	"nameProperty": "baublock_id",
 	"validEndDateProperty": "EreignisintervallStart",
 	"validStartDateProperty": "EreignisintervallEnde"
+  }
+}
+```
+Note, that up to now only flat property hierarchies are supported. Nested properties in the original dataset can't be covered
+with the property mapping, so the import will fail for such a dataset.
+
+#### Indicator Property Mappings
+The property mapping for indicators is different to the mapping for spatial features. Since there are different strategies
+of how to encode timeseries values for spatial features, the timeseries mapping supports different strategies for mapping
+those values that will be explained in the following.
+
+**Related indicator values for the same timeseries are encoded within different features**  
+In this case, each single indicator value of the same timeseries is encoded as a separate feature. In the example below,
+there are two features for the same Spatial Unit. Both features have the same ID and also the same geometry. Only the
+properties are different, because each feature comprises the properties for single timestep of a common timeseries.
+
+```json
+{
+	"type": "FeatureCollection",
+	"name": "Baubloecke",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"baublock_id": "_170",
+				"date": "2019-05-06",
+				"altersdurchschnitt": 43.4123
+			},
+			"geometry": { }
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"baublock_id": "_170",
+				"date": "2020-04-23",
+				"altersdurchschnitt": 48.4123
+			},
+			"geometry": { }
+		}
+	]
+} 
+```
+For this case, you only have to define a single `timeseriesMapping` beside the mapping for the `spatialReferenceKey`.
+If you provide such definition to the Import API, the responsible converter automatically tries to group the features
+by its' values for the `spatialReferenceKey`, so that it can merge the single indicator values to a timeseries for each
+spatial feature. 
+```json
+{
+  "propertyMapping": {
+    "spatialReferenceKeyProperty": "baublock_id",
+	"timeseriesMappings": [
+	  {
+	    "indicatorValueProperty": "altersdurchschnitt",
+	    "timestampProperty": "date"
+	  }
+	]
   }
 }
 ```
