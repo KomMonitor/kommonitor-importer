@@ -140,21 +140,43 @@ you have to define some required information about how to access a certain datas
 specific schema.
 
 ### Import Georesources
-You can trigger the import of Georesoruces by sending a POST request to the `/georesources` endpoint. The request body
+You can trigger the import of Georesources by sending a POST request to the `/georesources` endpoint. The request body
 has to contain the following properties:
 * `georesourcePostBody`: A JSON object in accordance to the POST request body for the `/georesources` endpoint of the
-Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated within the
+Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated as part of the
 import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
 * `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
 section.
 * `converter`: Definition of the converter that should be used for converting the imported dataset. See the
 _Converter Definition_ section.
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for georesources.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources.
 See the _Spatial Resource Property Mapping_ section.
+
 ### Import Spatial Units
-TBD
+The import of Spatial Units is done by sending a POST request to the `/spatial-units` endpoint. The request body
+has to contain the following properties:
+* `spatialUnitPostBody`: A JSON object in accordance to the POST request body for the `/spatialUnits` endpoint of the
+Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated as part of the
+import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources.
+See the _Spatial Resource Property Mapping_ section.
+
 ### Import Indicators
-TBD
+For importing an Indicator you have to perform a POST request to the `/indicators` endpoint. The request body
+has to contain the following properties:
+* `indicatorPostBody`: A JSON object in accordance to the POST request body for the `/indicators` endpoint of the
+Data Management API. Only the `indicatorValues` property must not be set, since the time series values will be generated 
+as part of the import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for Indicators.
+See the _Indicator Property Mapping_ section.
 
 ### Import Definitions
 As you can see from the above sections, you have to provide some properties within the request body about the dataset 
@@ -206,7 +228,7 @@ If you wish to get some additional information about the WFS 1.0.0 converter, fe
 and in addition a `CRS` parameter to define the coordinate reference system of the dataset to import. Make sure, you'll know
 both in order to define the converter properly for the import request.
 
-#### Spatial Resource Property Mappings
+#### Spatial Resource Property Mapping
 As part of the import process, a GeoJSON FeatureCollection will be generated from the imported dataset, that will be used
 for adding new resources via the Data Management API. This FeatureCollection contains the geometry from the imported dataset
 and some additional properties, according to the Data Management API schema for those resources. To tell the Import API 
@@ -253,16 +275,15 @@ An appropriate property mapping would be:
 Note, that up to now only flat property hierarchies are supported. Nested properties in the original dataset can't be covered
 with the property mapping, so the import will fail for such a dataset.
 
-#### Indicator Property Mappings
+#### Indicator Property Mapping
 The property mapping for indicators is different to the mapping for spatial features. Since there are different strategies
-of how to encode timeseries values for spatial features, the timeseries mapping supports different strategies for mapping
-those values that will be explained in the following.
+of how to encode time series values for spatial features, the time series mapping also supports different strategies for mapping
+those values, which will be explained in the following.
 
-**Related indicator values for the same timeseries are encoded within different features**  
-In this case, each single indicator value of the same timeseries is encoded as a separate feature. In the example below,
+**Related indicator values for the same times eries are encoded within different features**  
+In this case, each single indicator value of the same time series is encoded as a separate feature. In the example below,
 there are two features for the same Spatial Unit. Both features have the same ID and also the same geometry. Only the
-properties are different, because each feature comprises the properties for single timestep of a common timeseries.
-
+properties are different, because each feature comprises the properties for single timestep of a common time series.
 ```json
 {
 	"type": "FeatureCollection",
@@ -291,8 +312,9 @@ properties are different, because each feature comprises the properties for sing
 ```
 For this case, you only have to define a single `timeseriesMapping` beside the mapping for the `spatialReferenceKey`.
 If you provide such definition to the Import API, the responsible converter automatically tries to group the features
-by its' values for the `spatialReferenceKey`, so that it can merge the single indicator values to a timeseries for each
-spatial feature. 
+by its' values for the `spatialReferenceKey`, so that it can merge the single indicator values to a time series for each
+spatial feature. Note, that you have to define both, the property that holds the indicator value and the property that
+holds the timestamp information:
 ```json
 {
   "propertyMapping": {
@@ -306,6 +328,92 @@ spatial feature.
   }
 }
 ```
+**Each feature contains the whole time series**  
+This encoding stratetgy for time series values implies, that a single feature has the complete time series for an indicator
+encoded within its properties. For each time step there is a separate property that holds the indicator value for this 
+time step. Like in the example below, the property name may contain the timestamp information for an indicator.
+```json
+{
+	"type": "FeatureCollection",
+	"name": "Baubloecke",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"baublock_id": "_170",
+				"date_2019-05-06": "2019-05-06",
+				"altersdurchschnitt2019-05-06": 43.4123,
+                "altersdurchschnitt2020-04-23": 48.4123
+			},
+			"geometry": { }
+		}
+	]
+} 
+```
+If the time series is encoded in a way like the example above, you have to provide multiple time series mappings. For
+each time step you have to define, which property contains the corresponding indicator value. Note, that in such a case
+you have to provide the timestamp within the mapping, rather than defining the property that holds the timestamp information.
+```json
+{
+  "propertyMapping": {
+    "spatialReferenceKeyProperty": "baublock_id",
+	"timeseriesMappings": [
+	  {
+        "indicatorValueProperty": "altersdurchschnitt2019-05-06",
+       	"timestamp": "2019-05-06"
+      },
+	  {
+	    "indicatorValueProperty": "altersdurchschnitt2020-04-23",
+	    "timestamp": "2020-04-23"
+	  }
+	]
+  }
+}
+```
+## Update Datasets
+The KomMonitor Import API also provides dedicated endpoints for updating existing resources. Just like the simple import,
+datasets will be imported from a datasource and converted in an appropriate format. The only difference is, that finally
+a PUT request will be performed on the resources endpoint of the Data Management API, in order to update an existing
+resource and not creating a new one.
+
+### Update Georesources
+The update of Georesources is done by sending a POST request to the `/georesources/update` endpoint. The request body
+has to contain the following properties:
+* `georesourceId`: The ID of the existing Georesource within the Data Management API
+* `georesourcePutBody`: A JSON object in accordance to the PUT request body for the `/georesources` endpoint of the
+Data Management API. You can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources.
+See the _Spatial Resource Property Mapping_ section.
+
+### Update Spatial Units
+You can update a Spatial Unit by sending a POST request to the `/spatial-units/update` endpoint. The request body
+has to contain the following properties:
+* `spatialUnitId`: The ID of the existing Spatial Unit within the Data Management API
+* `spatialUnitPutBody`: A JSON object in accordance to the PUT request body for the `/spatial-units` endpoint of the
+Data Management API. You can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources.
+See the _Spatial Resource Property Mapping_ section.
+
+### Update Indicator
+You you want to update an Indicator you have to send a POST request to the `/indicators/update` endpoint. The request body
+has to contain the following properties:
+* `indicatorId`: The ID of the existing Indicator within the Data Management API
+* `indicatorPutBody`: A JSON object in accordance to the PUT request body for the `/indicators` endpoint of the
+Data Management API. You can find detailed descriptions in the Data Management API documentation.
+* `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
+section.
+* `converter`: Definition of the converter that should be used for converting the imported dataset. See the
+_Converter Definition_ section.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for Indicators.
+See the _Indicator Property Mapping_ section.
 
 # Extend the Importer API
 ## Generate API and models
