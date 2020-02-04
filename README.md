@@ -416,6 +416,15 @@ _Converter Definition_ section.
 See the _Indicator Property Mapping_ section.
 
 # Extend the Importer API
+## Class Diagram
+If you want to extend the Importer API, you should have to know about the relevant classes and their relationships with
+each other. Therefore, you'll find a simple class diagram below, that shows the most relevant classes:  
+<img src="./docs/class-diagrams/KomMonitor_Importer_ClassDiagram.png" alt="KomMonitor Importer Class Diagram"/>
+
+## How to provide additional DataSourceRetriever
+
+## How to provide additional Converters
+
 ## Generate API and models
 The project comes with the latest API and model classes. However, if you wish to customize the KomMonitor Importer API or 
 the DataManagement API client, use one of the Maven build profiles that are provided within the single modules. 
