@@ -146,11 +146,11 @@ has to contain the following properties:
 * `georesourcePostBody`: A JSON object in accordance to the POST request body for the `/georesources` endpoint of the
 Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated as part of the
 import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
-* `datasource`: Definition of the data source from which new datasets should be imported
+* `datasource`: Definition of the data source from which new datasets should be imported   
 (see: [Datasource Definition](#datasource-definition)).
-* `converter`: Definition of the converter that should be used for converting the imported dataset
+* `converter`: Definition of the converter that should be used for converting the imported dataset  
 (see: [Converter Definition](#converter-definition)).
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources  
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
 
 ### Import Spatial Units
@@ -159,11 +159,11 @@ has to contain the following properties:
 * `spatialUnitPostBody`: A JSON object in accordance to the POST request body for the `/spatialUnits` endpoint of the
 Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated as part of the
 import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
-* `datasource`: Definition of the data source from which new datasets should be imported
+* `datasource`: Definition of the data source from which new datasets should be imported  
 (see: [Datasource Definition](#datasource-definition)).
-* `converter`: Definition of the converter that should be used for converting the imported dataset
+* `converter`: Definition of the converter that should be used for converting the imported dataset  
 (see: [Converter Definition](#converter-definition)).
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources  
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
 
 ### Import Indicators
@@ -172,11 +172,11 @@ has to contain the following properties:
 * `indicatorPostBody`: A JSON object in accordance to the POST request body for the `/indicators` endpoint of the
 Data Management API. Only the `indicatorValues` property must not be set, since the time series values will be generated 
 as part of the import process. For all other properties, you can find detailed descriptions in the Data Management API documentation.
-* `datasource`: Definition of the data source from which new datasets should be imported
+* `datasource`: Definition of the data source from which new datasets should be imported  
 (see: [Datasource Definition](#datasource-definition)).
-* `converter`: Definition of the converter that should be used for converting the imported dataset
+* `converter`: Definition of the converter that should be used for converting the imported dataset  
 (see: [Converter Definition](#converter-definition)).
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_  
 (see: [Indicator Property Mapping](#indicator-property-mapping)).
 
 ### Import Definitions
