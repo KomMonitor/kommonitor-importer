@@ -1,6 +1,6 @@
 # KomMonitor Importer
 
-This projects implements a webapp that enables the import of spatial datasets (SpatialUnits, Georesources and Indicators) 
+This projects implements a webapp that enables the import of spatial datasets (_SpatialUnits_, _Georesources_ and _Indicators_) 
 into the _KomMonitor Spatial Data Infrastructure_. The webapp provides an API for retrieving data from various datasources 
 that come in the shape of certain formats and converting the datasets into a KomMonitor related schema. The converted 
 datasets come available within the KomMonitor Spatial Data Infrastructure by publishing them via the _Data Management API_.
@@ -134,13 +134,13 @@ Optionally, you can set a custom file name within the multi-part message that wi
 You can retrieve a list of all ever uploaded files by doing a GET request on the `/upload` endpoint.
 
 ## Import Datasets
-For each resource type of the KomMonitor DataManagement API (Georesources, Spatial Units, Indicators), the Importer API
+For each resource type of the KomMonitor DataManagement API (_Georesources_, Spatial Units, _Indicators_), the Importer API
 provides an appropriate endpoint. By sending a POST request the import process will be triggered. Within the POST body
 you have to define some required information about how to access a certain dataset and how to convert it into the KomMonitor 
 specific schema.
 
 ### Import Georesources
-You can trigger the import of Georesources by sending a POST request to the `/georesources` endpoint. The request body
+You can trigger the import of _Georesources_ by sending a POST request to the `/georesources` endpoint. The request body
 has to contain the following properties:
 * `georesourcePostBody`: A JSON object in accordance to the POST request body for the `/georesources` endpoint of the
 Data Management API. Only the `geoJsonString` property must not be set, since its value will be generated as part of the
@@ -166,7 +166,7 @@ _Converter Definition_ section.
 See the _Spatial Resource Property Mapping_ section.
 
 ### Import Indicators
-For importing an Indicator you have to perform a POST request to the `/indicators` endpoint. The request body
+For importing an _Indicator_ you have to perform a POST request to the `/indicators` endpoint. The request body
 has to contain the following properties:
 * `indicatorPostBody`: A JSON object in accordance to the POST request body for the `/indicators` endpoint of the
 Data Management API. Only the `indicatorValues` property must not be set, since the time series values will be generated 
@@ -175,7 +175,7 @@ as part of the import process. For all other properties, you can find detailed d
 section.
 * `converter`: Definition of the converter that should be used for converting the imported dataset. See the
 _Converter Definition_ section.
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for Indicators.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_.
 See the _Indicator Property Mapping_ section.
 
 ### Import Definitions
@@ -276,12 +276,12 @@ Note, that up to now only flat property hierarchies are supported. Nested proper
 with the property mapping, so the import will fail for such a dataset.
 
 #### Indicator Property Mapping
-The property mapping for indicators is different to the mapping for spatial features. Since there are different strategies
+The property mapping for _Indicators_ is different to the mapping for spatial features. Since there are different strategies
 of how to encode time series values for spatial features, the time series mapping also supports different strategies for mapping
 those values, which will be explained in the following.
 
-**Related indicator values for the same times eries are encoded within different features**  
-In this case, each single indicator value of the same time series is encoded as a separate feature. In the example below,
+**Related Indicator values for the same times eries are encoded within different features**  
+In this case, each single _Indicator_ value of the same time series is encoded as a separate feature. In the example below,
 there are two features for the same Spatial Unit. Both features have the same ID and also the same geometry. Only the
 properties are different, because each feature comprises the properties for single timestep of a common time series.
 ```json
@@ -312,8 +312,8 @@ properties are different, because each feature comprises the properties for sing
 ```
 For this case, you only have to define a single `timeseriesMapping` beside the mapping for the `spatialReferenceKey`.
 If you provide such definition to the Import API, the responsible converter automatically tries to group the features
-by its' values for the `spatialReferenceKey`, so that it can merge the single indicator values to a time series for each
-spatial feature. Note, that you have to define both, the property that holds the indicator value and the property that
+by its' values for the `spatialReferenceKey`, so that it can merge the single _Indicator_ values to a time series for each
+spatial feature. Note, that you have to define both, the property that holds the _Indicator_ value and the property that
 holds the timestamp information:
 ```json
 {
@@ -321,7 +321,7 @@ holds the timestamp information:
     "spatialReferenceKeyProperty": "baublock_id",
 	"timeseriesMappings": [
 	  {
-	    "indicatorValueProperty": "altersdurchschnitt",
+	    "_Indicator_ValueProperty": "altersdurchschnitt",
 	    "timestampProperty": "date"
 	  }
 	]
@@ -329,9 +329,9 @@ holds the timestamp information:
 }
 ```
 **Each feature contains the whole time series**  
-This encoding stratetgy for time series values implies, that a single feature has the complete time series for an indicator
-encoded within its properties. For each time step there is a separate property that holds the indicator value for this 
-time step. Like in the example below, the property name may contain the timestamp information for an indicator.
+This encoding stratetgy for time series values implies, that a single feature has the complete time series for an _Indicator_
+encoded within its properties. For each time step there is a separate property that holds the _Indicator_ value for this 
+time step. Like in the example below, the property name may contain the timestamp information for an _Indicator_.
 ```json
 {
 	"type": "FeatureCollection",
@@ -351,7 +351,7 @@ time step. Like in the example below, the property name may contain the timestam
 } 
 ```
 If the time series is encoded in a way like the example above, you have to provide multiple time series mappings. For
-each time step you have to define, which property contains the corresponding indicator value. Note, that in such a case
+each time step you have to define, which property contains the corresponding _Indicator_ value. Note, that in such a case
 you have to provide the timestamp within the mapping, rather than defining the property that holds the timestamp information.
 ```json
 {
@@ -377,9 +377,9 @@ a PUT request will be performed on the resources endpoint of the Data Management
 resource and not creating a new one.
 
 ### Update Georesources
-The update of Georesources is done by sending a POST request to the `/georesources/update` endpoint. The request body
+The update of _Georesources_ is done by sending a POST request to the `/georesources/update` endpoint. The request body
 has to contain the following properties:
-* `georesourceId`: The ID of the existing Georesource within the Data Management API
+* `georesourceId`: The ID of the existing _Georesource_ within the Data Management API
 * `georesourcePutBody`: A JSON object in accordance to the PUT request body for the `/georesources` endpoint of the
 Data Management API. You can find detailed descriptions in the Data Management API documentation.
 * `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
@@ -392,7 +392,7 @@ See the _Spatial Resource Property Mapping_ section.
 ### Update Spatial Units
 You can update a Spatial Unit by sending a POST request to the `/spatial-units/update` endpoint. The request body
 has to contain the following properties:
-* `spatialUnitId`: The ID of the existing Spatial Unit within the Data Management API
+* `spatialUnitId`: The ID of the existing _SpatialUnit_ within the Data Management API
 * `spatialUnitPutBody`: A JSON object in accordance to the PUT request body for the `/spatial-units` endpoint of the
 Data Management API. You can find detailed descriptions in the Data Management API documentation.
 * `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
@@ -403,16 +403,16 @@ _Converter Definition_ section.
 See the _Spatial Resource Property Mapping_ section.
 
 ### Update Indicator
-You you want to update an Indicator you have to send a POST request to the `/indicators/update` endpoint. The request body
+You you want to update an _Indicator_ you have to send a POST request to the `/indicators/update` endpoint. The request body
 has to contain the following properties:
-* `indicatorId`: The ID of the existing Indicator within the Data Management API
+* `indicatorId`: The ID of the existing _Indicator_ within the Data Management API
 * `indicatorPutBody`: A JSON object in accordance to the PUT request body for the `/indicators` endpoint of the
 Data Management API. You can find detailed descriptions in the Data Management API documentation.
 * `datasource`: Definition of the data source from which new datasets should be imported. See the _Datasource Definition_
 section.
 * `converter`: Definition of the converter that should be used for converting the imported dataset. See the
 _Converter Definition_ section.
-* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for Indicators.
+* `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_.
 See the _Indicator Property Mapping_ section.
 
 # Extend the Importer API
@@ -421,18 +421,219 @@ If you want to extend the Importer API, you should have to know about the releva
 each other. Therefore, you'll find a simple class diagram below, that shows the most relevant classes:  
 <img src="./docs/class-diagrams/KomMonitor_Importer_ClassDiagram.png" alt="KomMonitor Importer Class Diagram"/>
 
-## How to provide additional DataSourceRetriever
+**RequestHandler**  
+There is one generic `AbstractRequestHandler` that implements a common handling for incoming API requests. Depend on 
+the type of the request, a concrete handler implementation handles the request type-specific. E.g. if there is
+an incoming request for updating a _SpatialUnit_ the `SpatialUnitUpdateHandler` that is bind on a `UpdateSpatialUnitPOSTInputType`
+will be invoked. For importing the requested resource all handler uses a certain `DatasourceRetriever` and a certain 
+`Converter` that will be provided by repositories.
 
-## How to provide additional Converters
+**DataSourceRetriever**  
+Each of the different implementations of the generic `DataSourceRetriever` interface is bound to a certain dataset type and 
+is responsible for retrieving a `Dataset` that holds an object of the same type. E.g. the `FileRetriever` retrieves
+a `File` object and creates a `Dataset` object that is bound to a `File` object, while the `HttpRetriever` does the same
+with an `InputStream`. A certain `DataSourceRetriever` will be provided to the _RequestHandler_ by the 
+`DataSourceRetrieverRepository` dependent on the data source type which is defined by the `dataSource` property within 
+the import POST request body (see: _Datasource Definition_ section).
 
-## Generate API and models
+**Converter**
+Certain implementations of the `Converter` interface face the conversion of specific data formats. They take a `Dataset`
+which was retrieved by a `DataSourceRetriever` and convert the object that is bound to the `Dataset` into `Indicator`
+and `SpatialResource` objects. Those two entity types will be then used to generate the request body for the POST
+request against the _Data Management_ API. Like the `DataSourceRetriever`, a certain `Converter` implementation will
+be provided by a `ConverterRepository` to the _RequestHandler_, dependent on the `converter` property definition
+within the import POST request body (see: _Converter Definition_ section).
+
+## How to implement additional DataSourceRetriever
+The easiest way to implement a `DataSourceRetriever` for an additional data source is to extend `AbstractDataSourceRetriever`.
+Let's have a look on how this could be done by the example of the existing `InlineTextRetriever` which aims to
+retrieve data sets that are defined 'inline' within the import POST request body.
+
+1) Annotate your class with the Spring `@Component`, so that it can be auto-injected within the `DataSourceretrieverRepository`
+```
+@Component
+public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
+
+}
+```
+2) Implement `initType()` in order to define a unique type that will be later used to identify the requested `DataSourceRetriever`
+and `initSupportedParameters()` for declaring the supported parameters. For the `InlineTextRetriever` only a `payload`
+parameter is necessary, so that the dataset can be declared within the import POST request body as _inline_ value
+for this property. Note, that for each `DataSourceParameter`, a unique name, a description and a value type
+has to be defined
+```
+@Component
+public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
+
+    private static final String TYPE = "INLINE";
+    private static final String PARAM_PAYLOAD = "payload";
+    private static final String PARAM_PAYLOAD_DESC = "The payload as plain text";
+
+    @Override
+    protected String initType() {
+        return TYPE;
+    }
+
+    @Override
+    protected Set<DataSourceParameter> initSupportedParameters() {
+        Set<DataSourceParameter> parameters = new HashSet<>();
+        DataSourceParameter payloadParam = new DataSourceParameter(PARAM_PAYLOAD, PARAM_PAYLOAD_DESC, DataSourceParameter.ParameterTypeValues.STRING);
+        parameters.add(payloadParam);
+        return parameters;
+    }
+    ...
+}
+```
+3) Implement `retrieveDataset()` that should finally provide a `Dataset` as a result. For this you have to
+use the parameter values, that have been defined within the import POST request. Make sure, that each required
+parameter exists. Otherwise, throw an exception. For the `InlineTextRetriever`, you only have to fetch
+the text content from the `payload` property and return it bound to a `Dataset`. But other implementations, may require 
+a more complex retrieving strategy. E.g. the `HttRetriever` has to request an URL that has been defined as parameter. 
+```
+@Component
+public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
+  
+    ...
+
+    @Override
+    public Dataset<String> retrieveDataset(DataSourceDefinitionType datasource) throws ImportParameterException {
+        Optional<String> payload = this.getParameterValue(PARAM_PAYLOAD, datasource.getParameters());
+        if (!payload.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_PAYLOAD);
+        }
+        return new Dataset<String>(payload.get());
+    }
+}
+```
+
+## How to implement additional Converters
+In order to support additional data formats, you have to implement new converters. Just extend the `AbstractConverter`.
+As an example, let's assume we want to provide a converter that supports the converting of CSV based datasets.
+1) The new converter should be registered by the `ConverterRepository` so just annotate your class with `@Component`
+```
+@Component
+public class CsvConverter extends AbstractConverter {
+    
+}
+```
+2) Provide various definitions of the supported dataset types. This includes the definition of supported MIME types,
+encodings and schemas as well as specific `ConverterParameters` that are required for telling the converter, how to
+handle a certain dataset. Reasonable parameter for the `CsvConverter` would be the separator that is used for separating
+of the columns and a parameter to define the column that includes the geometries.
+```
+@Component
+public class CsvConverter extends AbstractConverter {
+
+    private static final String NAME = "org.n52.kommonitor.importer.converter.csv";
+    private static final String PARAM_SEP = "separator";
+    private static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+    private static final String PARAM_GEOM_COL = "geometryColumn";
+    private static final String PARAM_GEOM_DESC = "The column that contains the geometry as WKT";
+   
+    @Override
+    public String initName() {
+        return NAME;
+    }
+
+    @Override
+    public Set<String> initSupportedMimeType() {
+        Set<String> mimeTypes = new HashSet<>();
+        mimeTypes.add("text/csv");
+        return mimeTypes;
+    }
+
+    @Override
+    public Set<String> initSupportedEncoding() {
+        Set<String> encodings = new HashSet<>();
+        encodings.add("UTF-8");
+        return encodings;
+    }
+
+    @Override
+    public Set<String> initSupportedSchemas() {
+        return null;
+    }
+
+    @Override
+    public Set<ConverterParameter> initConverterParameters() {
+        Set<ConverterParameter> params = new HashSet();
+        params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING));
+        params.add(new ConverterParameter(PARAM_GEOM_COL, PARAM_GEOM_DESC, ConverterParameter.ParameterTypeValues.STRING));
+        return params;
+    }
+
+    ...
+}
+```
+3) Implement `convertSpatialResources()` for converting a `Dataset` as `Spatialresources` and `convertIndicators()` for
+converting it to `Indicators`. You have to utilize the `ConverterParameter` values in order to handle the `Dataset` properly.
+So first of all, check if all required parameters exists and afterwards fetch there values. Following, you should resolve
+the `Dataset` object. For convenience, the `AbstractConverter` provides a `getInputStream()` method that retrieves an
+`InputStream` from different object types (like `File`, `String`, etc.) that are bind to the `Dataset`. With this 
+`InputStream` you can start converting your dataset.
+```
+@Component
+public class CsvConverter extends AbstractConverter {
+
+    ...
+
+    @Override
+    public List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
+                                                         Dataset dataset,
+                                                         SpatialResourcePropertyMappingType propertyMapping)
+            throws ConverterException, ImportParameterException {
+        Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
+        if (!sepOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
+        }
+
+        Optional<String> geomColOpt = this.getParameterValue(PARAM_GEOM_COL, converterDefinition.getParameters());
+        if (!geomColOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_GEOM_COL);
+        }
+        List<SpatialResource> spatialResources = new ArrayList();
+
+        InputStream input = getInputStream(converterDefinition, dataset);        
+       
+        ...
+
+        return spatialResources;
+    }
+
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                  Dataset dataset,
+                                                  IndicatorPropertyMappingType propertyMapping) throws ConverterException {
+        Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
+        if (!sepOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
+        }
+
+        Optional<String> geomColOpt = this.getParameterValue(PARAM_GEOM_COL, converterDefinition.getParameters());
+        if (!geomColOpt.isPresent()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_GEOM_COL);
+        }
+        List<Indicator> indicators = new ArrayList();
+
+        InputStream input = getInputStream(converterDefinition, dataset);
+        
+        ...
+        
+        return indicators;      
+    }
+}
+```
+
+## How to extend the API and models
 The project comes with the latest API and model classes. However, if you wish to customize the KomMonitor Importer API or 
-the DataManagement API client, use one of the Maven build profiles that are provided within the single modules. 
-These profiles are configured to automate code generation of the corresponding API and model classes from the OpenAPI specification. 
+the DataManagement API client, you'll find the OpenAPI spec documents at https://gitlab.fbg-hsbo.de/kommonitor/kommonitor-api-specs.
+You can customize the OpenAPI definitions just as you need it. Make sure, that the customized specs comes available as 
+artifacts within your build environment. So just build you local project with Maven.  
+
+In order to update the Importer API some Maven build profiles are included within the single modules. Those profiles are
+configured to automate code generation of the corresponding API and model classes from the OpenAPI specification. 
 Just run `mvn compile -Pgenerate-models` from _kommonitor-importer-models_, `mvn compile -Pgenerate-api` from _kommonitor-importer-api_ 
-or `mvn compile -Pgenerate-client` from _kommonitor-datamanagement-api-client_. Note, that you have to make the OpenAPI specs
-available as artifacts within your build environment, in beforehand. You can find the OpenAPI spec documents at
-https://gitlab.fbg-hsbo.de/kommonitor/kommonitor-api-specs.
-
-
-
+or `mvn compile -Pgenerate-client` from _kommonitor-datamanagement-api-client_. But, be careful with auto-generation of
+new API or model classes. Some existing classes may be overwritten, so you should check all the changed classes after
+the code generation.
