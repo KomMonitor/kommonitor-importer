@@ -284,10 +284,7 @@ public class FeatureDecoder {
      */
     protected String getPropertyValueAsString(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        if (!(propertyValue instanceof String)) {
-            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, String.class.getName()));
-        }
-        return (String) propertyValue;
+        return String.valueOf(propertyValue);
     }
 
     /**

@@ -277,13 +277,14 @@ class FeatureDecoderTest {
     }
 
     @Test
-    @DisplayName("Test get String property should throw an exception for an invalid type")
-    void testGetStringPropertyValueThrowsExceptionForInvalidType() {
+    @DisplayName("Test get String property for non String property")
+    void testGetStringPropertyValueForNonStringProperty() throws DecodingException {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         String attName = "testAttribute";
-        Mockito.when(feature.getAttribute(attName)).thenReturn(Integer.valueOf(1));
+        int attValue = 123;
+        Mockito.when(feature.getAttribute(attName)).thenReturn(attValue);
 
-        Assertions.assertThrows(DecodingException.class, () -> decoder.getPropertyValueAsString(feature, attName));
+        Assertions.assertEquals(String.valueOf(attValue), decoder.getPropertyValueAsString(feature, attName));
     }
 
     @Test
