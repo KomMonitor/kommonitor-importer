@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:43:47.021+01:00")
 
-@Api(value = "spatial-units", description = "the spatial-units API")
+@Api(value = "spatial-units", description = "the spatial-units API", tags={"spatial-units"})
 public interface SpatialUnitsApi {
 
     Logger log = LoggerFactory.getLogger(SpatialUnitsApi.class);

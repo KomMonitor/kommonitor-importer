@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T14:19:13.423+01:00")
 
-@Api(value = "datasourceTypes", description = "the datasourceTypes API")
+@Api(value = "datasourceTypes", description = "the datasourceTypes API", tags={"datasources"})
 public interface DatasourceTypesApi {
 
     Logger log = LoggerFactory.getLogger(DatasourceTypesApi.class);

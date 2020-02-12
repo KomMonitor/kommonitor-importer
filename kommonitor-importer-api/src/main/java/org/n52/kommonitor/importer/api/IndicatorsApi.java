@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
 
-@Api(value = "indicators", description = "the indicators API")
+@Api(value = "indicators", description = "the indicators API", tags={"indicators"})
 public interface IndicatorsApi {
 
     Logger log = LoggerFactory.getLogger(IndicatorsApi.class);
