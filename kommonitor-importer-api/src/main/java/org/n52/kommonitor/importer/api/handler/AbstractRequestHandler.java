@@ -78,7 +78,7 @@ public abstract class AbstractRequestHandler<T> {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
             LOG.debug(String.format("%s%n%s", baseMessage, requestResourceType), ex);
-            throw new ImportException("Unexpected error while handling request.", ex);
+            throw new ImportException(ex.getMessage());
         }
     }
 
