@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  * GeoresourcePOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:47.603+01:00")
 
 public class GeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -524,6 +524,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
         Objects.equals(this.poiSymbolBootstrap3Name, georesourcePOSTInputType.poiSymbolBootstrap3Name) &&
         Objects.equals(this.poiMarkerColor, georesourcePOSTInputType.poiMarkerColor) &&
         Objects.equals(this.poiSymbolColor, georesourcePOSTInputType.poiSymbolColor) &&
+        Objects.equals(this.jsonSchema, georesourcePOSTInputType.jsonSchema) &&
         Objects.equals(this.geoJsonString, georesourcePOSTInputType.geoJsonString);
   }
 

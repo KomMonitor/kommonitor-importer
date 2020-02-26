@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for updating an spatial unit from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:37:59.179+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:46.280+01:00")
 
 public class UpdateSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -38,6 +38,9 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
+
+  @JsonProperty("dryRun")
+  private Boolean dryRun = null;
 
   public UpdateSpatialUnitPOSTInputType spatialUnitId(String spatialUnitId) {
     this.spatialUnitId = spatialUnitId;
@@ -148,6 +151,26 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
     this.propertyMapping = propertyMapping;
   }
 
+  public UpdateSpatialUnitPOSTInputType dryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+    return this;
+  }
+
+  /**
+   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
+   * @return dryRun
+  **/
+  @ApiModelProperty(value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
+
+
+  public Boolean isDryRun() {
+    return dryRun;
+  }
+
+  public void setDryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -162,12 +185,13 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.spatialUnitPutBody, updateSpatialUnitPOSTInputType.spatialUnitPutBody) &&
         Objects.equals(this.dataSource, updateSpatialUnitPOSTInputType.dataSource) &&
         Objects.equals(this.converter, updateSpatialUnitPOSTInputType.converter) &&
-        Objects.equals(this.propertyMapping, updateSpatialUnitPOSTInputType.propertyMapping);
+        Objects.equals(this.propertyMapping, updateSpatialUnitPOSTInputType.propertyMapping) &&
+        Objects.equals(this.dryRun, updateSpatialUnitPOSTInputType.dryRun);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitId, spatialUnitPutBody, dataSource, converter, propertyMapping);
+    return Objects.hash(spatialUnitId, spatialUnitPutBody, dataSource, converter, propertyMapping, dryRun);
   }
 
   @Override
@@ -180,6 +204,7 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
+    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("}");
     return sb.toString();
   }

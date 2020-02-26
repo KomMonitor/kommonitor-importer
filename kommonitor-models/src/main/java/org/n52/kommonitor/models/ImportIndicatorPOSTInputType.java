@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new indicator from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T14:30:37.706+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:46.280+01:00")
 
 public class ImportIndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -35,6 +35,9 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("propertyMapping")
   private IndicatorPropertyMappingType propertyMapping = null;
+
+  @JsonProperty("dryRun")
+  private Boolean dryRun = null;
 
   public ImportIndicatorPOSTInputType indicatorPostBody(IndicatorPOSTInputType indicatorPostBody) {
     this.indicatorPostBody = indicatorPostBody;
@@ -124,6 +127,26 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     this.propertyMapping = propertyMapping;
   }
 
+  public ImportIndicatorPOSTInputType dryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+    return this;
+  }
+
+  /**
+   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
+   * @return dryRun
+  **/
+  @ApiModelProperty(value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
+
+
+  public Boolean isDryRun() {
+    return dryRun;
+  }
+
+  public void setDryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -137,12 +160,13 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     return Objects.equals(this.indicatorPostBody, importIndicatorPOSTInputType.indicatorPostBody) &&
         Objects.equals(this.dataSource, importIndicatorPOSTInputType.dataSource) &&
         Objects.equals(this.converter, importIndicatorPOSTInputType.converter) &&
-        Objects.equals(this.propertyMapping, importIndicatorPOSTInputType.propertyMapping);
+        Objects.equals(this.propertyMapping, importIndicatorPOSTInputType.propertyMapping) &&
+        Objects.equals(this.dryRun, importIndicatorPOSTInputType.dryRun);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorPostBody, dataSource, converter, propertyMapping);
+    return Objects.hash(indicatorPostBody, dataSource, converter, propertyMapping, dryRun);
   }
 
   @Override
@@ -154,6 +178,7 @@ public class ImportIndicatorPOSTInputType  implements Serializable {
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
+    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("}");
     return sb.toString();
   }

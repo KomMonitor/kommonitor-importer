@@ -4,9 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.TopicInputType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,10 +18,13 @@ import javax.validation.constraints.*;
  * TopicInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:47.603+01:00")
 
 public class TopicInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
+
+  @JsonProperty("topicId")
+  private String topicId = null;
 
   @JsonProperty("topicName")
   private String topicName = null;
@@ -64,6 +69,26 @@ public class TopicInputType  implements Serializable {
   @JsonProperty("subTopics")
   @Valid
   private List<TopicInputType> subTopics = null;
+
+  public TopicInputType topicId(String topicId) {
+    this.topicId = topicId;
+    return this;
+  }
+
+  /**
+   * the topic identifier
+   * @return topicId
+  **/
+  @ApiModelProperty(value = "the topic identifier")
+
+
+  public String getTopicId() {
+    return topicId;
+  }
+
+  public void setTopicId(String topicId) {
+    this.topicId = topicId;
+  }
 
   public TopicInputType topicName(String topicName) {
     this.topicName = topicName;
@@ -167,7 +192,8 @@ public class TopicInputType  implements Serializable {
       return false;
     }
     TopicInputType topicInputType = (TopicInputType) o;
-    return Objects.equals(this.topicName, topicInputType.topicName) &&
+    return Objects.equals(this.topicId, topicInputType.topicId) &&
+        Objects.equals(this.topicName, topicInputType.topicName) &&
         Objects.equals(this.topicDescription, topicInputType.topicDescription) &&
         Objects.equals(this.topicType, topicInputType.topicType) &&
         Objects.equals(this.subTopics, topicInputType.subTopics);
@@ -175,7 +201,7 @@ public class TopicInputType  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(topicName, topicDescription, topicType, subTopics);
+    return Objects.hash(topicId, topicName, topicDescription, topicType, subTopics);
   }
 
   @Override
@@ -183,6 +209,7 @@ public class TopicInputType  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class TopicInputType {\n");
     
+    sb.append("    topicId: ").append(toIndentedString(topicId)).append("\n");
     sb.append("    topicName: ").append(toIndentedString(topicName)).append("\n");
     sb.append("    topicDescription: ").append(toIndentedString(topicDescription)).append("\n");
     sb.append("    topicType: ").append(toIndentedString(topicType)).append("\n");
