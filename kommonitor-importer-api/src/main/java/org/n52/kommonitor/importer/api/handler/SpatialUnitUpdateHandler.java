@@ -8,10 +8,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
-import org.n52.kommonitor.models.SpatialUnitPUTInputType;
-import org.n52.kommonitor.models.UpdateSpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +42,10 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
     }
 
     @Override
-    protected ResponseEntity<List<String>> handleRequestForType(UpdateSpatialUnitPOSTInputType requestResourceType,
-                                                                AbstractConverter converter,
-                                                                ConverterDefinitionType converterDefinition,
-                                                                Dataset dataset)
+    protected ResponseEntity<ImportResponseType> handleRequestForType(UpdateSpatialUnitPOSTInputType requestResourceType,
+                                                                      AbstractConverter converter,
+                                                                      ConverterDefinitionType converterDefinition,
+                                                                      Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -66,11 +63,14 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
         LOG.info("Perform 'updateSpatialUnit' request for SpatialUnit: {}", requestResourceType.getSpatialUnitId());
         LOG.debug("'updateSpatialUnit' request PUT body: {}", spatialUnitPutInput);
         ResponseEntity<Void> response = apiClient.updateSpatialUnitAsBodyWithHttpInfo(requestResourceType.getSpatialUnitId(), spatialUnitPutInput);
-        List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", locations);
+        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+        LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", location);
+
+        ImportResponseType importResponse = new ImportResponseType();
+        importResponse.setUri(location);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(locations);
+                .body(importResponse);
     }
 }

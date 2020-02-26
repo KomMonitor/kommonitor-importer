@@ -1,14 +1,13 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorImportHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
-import org.n52.kommonitor.importer.converter.ConverterRepository;
-import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
@@ -45,7 +43,7 @@ public class IndicatorsApiController implements IndicatorsApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<String>> importIndicator(@ApiParam(value = "indicator data", required = true) @Valid @RequestBody ImportIndicatorPOSTInputType indicatorData) {
+    public ResponseEntity<ImportResponseType> importIndicator(@ApiParam(value = "indicator data", required = true) @Valid @RequestBody ImportIndicatorPOSTInputType indicatorData) {
         LOG.info("Received 'importIndicator' request for dataset name: {}", indicatorData.getIndicatorPostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", indicatorData);
 
@@ -57,7 +55,7 @@ public class IndicatorsApiController implements IndicatorsApi {
     }
 
     @Override
-    public ResponseEntity<List<String>> updateIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) {
+    public ResponseEntity<ImportResponseType> updateIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) {
         LOG.info("Received 'updateIndicator' request for Indicator: {}", indicatorData.getIndicatorId());
         LOG.debug("'updateGeoresource' POST request body: {}", indicatorData);
 

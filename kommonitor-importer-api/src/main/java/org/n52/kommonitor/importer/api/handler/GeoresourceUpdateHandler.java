@@ -42,7 +42,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
     }
 
     @Override
-    public ResponseEntity<List<String>> handleRequestForType(UpdateGeoresourcePOSTInputType requestResourceType,
+    public ResponseEntity<ImportResponseType> handleRequestForType(UpdateGeoresourcePOSTInputType requestResourceType,
                                                              AbstractConverter converter,
                                                              ConverterDefinitionType converterDefinition,
                                                              Dataset dataset)
@@ -64,11 +64,14 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
         LOG.info("Perform 'updateGeoresource' request for Georesource dataset: {}", requestResourceType.getGeoresourceId());
         LOG.debug("'updateGeoresource' request PUT body: {}", georesourcePutInput);
         ResponseEntity<Void> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
-        List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", locations);
+        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+        LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", location);
+
+        ImportResponseType importResponse = new ImportResponseType();
+        importResponse.setUri(location);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(locations);
+                .body(importResponse);
     }
 }

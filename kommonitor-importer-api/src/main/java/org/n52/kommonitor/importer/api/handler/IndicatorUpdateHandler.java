@@ -7,10 +7,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
-import org.n52.kommonitor.models.IndicatorPUTInputType;
-import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
+import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +37,9 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     }
 
     @Override
-    protected ResponseEntity<List<String>> handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
-                                                                AbstractConverter converter,
-                                                                ConverterDefinitionType converterDefinition, Dataset dataset)
+    protected ResponseEntity<ImportResponseType> handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
+                                                                      AbstractConverter converter,
+                                                                      ConverterDefinitionType converterDefinition, Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -56,11 +53,14 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
         LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
         ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(requestResourceType.getIndicatorId(), indicatorPutInput);
-        List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", locations);
+        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+        LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", location);
+
+        ImportResponseType importResponse = new ImportResponseType();
+        importResponse.setUri(location);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(locations);
+                .body(importResponse);
     }
 }

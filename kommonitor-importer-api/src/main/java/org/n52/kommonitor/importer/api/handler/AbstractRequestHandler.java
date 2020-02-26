@@ -12,6 +12,7 @@ import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.Error;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +57,11 @@ public abstract class AbstractRequestHandler<T> {
      * @param requestResourceType  an request resource type that holds all definitions for handling the request
      * @param dataSourceDefinition definition of the datasource to retrieve a dataset from
      * @param converterDefinition  definition of the converter to be used for converting the retrieved dataset
-     * @return {@link ResponseEntity<List<String>>} that holds the IDs for the affected resources within the
+     * @return {@link ResponseEntity<ImportResponseType>} that holds the IDs for the affected resources within the
      * Data Management API if the request was succesfull or {@link ResponseEntity<Error>} that holds an error message
      * if the request failed.
      */
-    public ResponseEntity<List<String>> handleRequest(T requestResourceType,
+    public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
                                                       DataSourceDefinitionType dataSourceDefinition,
                                                       ConverterDefinitionType converterDefinition)
             throws ImportParameterException, ImportException {
@@ -81,10 +82,10 @@ public abstract class AbstractRequestHandler<T> {
         }
     }
 
-    protected abstract ResponseEntity<List<String>> handleRequestForType(T requestResourceType,
-                                                                         AbstractConverter abstractConverter,
-                                                                         ConverterDefinitionType converterDefinition,
-                                                                         Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
+    protected abstract ResponseEntity<ImportResponseType> handleRequestForType(T requestResourceType,
+                                                                               AbstractConverter abstractConverter,
+                                                                               ConverterDefinitionType converterDefinition,
+                                                                               Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
 
 
     private void checkRequest(Optional<AbstractDataSourceRetriever> retrieverOpt,

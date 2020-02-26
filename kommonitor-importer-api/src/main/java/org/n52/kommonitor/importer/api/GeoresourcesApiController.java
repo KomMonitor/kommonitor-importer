@@ -1,15 +1,14 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
-import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
-import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateGeoresourcePOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import springfox.documentation.RequestHandler;
 
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import javax.validation.Valid;
+import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
@@ -49,7 +47,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
 
@@ -61,7 +59,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     }
 
     @Override
-    public ResponseEntity<List<String>> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'updateGeoresource' request for Georesource: {}", featureData.getGeoresourceId());
         LOG.debug("'updateGeoresource' POST request body: {}", featureData);
 

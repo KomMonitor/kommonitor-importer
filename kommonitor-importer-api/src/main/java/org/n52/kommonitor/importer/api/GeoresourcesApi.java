@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateGeoresourcePOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:43:47.021+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:16:35.930+01:00")
 
 @Api(value = "georesources", description = "the georesources API", tags={ "georesources", })
 public interface GeoresourcesApi {
@@ -42,22 +42,22 @@ public interface GeoresourcesApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Import a new geo-resource", nickname = "importGeoresource", notes = "Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API", response = String.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "Import a new geo-resource", nickname = "importGeoresource", notes = "Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "georesources", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created", response = String.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
     @RequestMapping(value = "/georesources",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<List<String>> importGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"importedFeatures\" : [ \"importedFeatures\", \"importedFeatures\" ],  \"failedFeatures\" : [ \"failedFeatures\", \"failedFeatures\" ],  \"uri\" : \"uri\"}", ImportResponseType.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,22 +70,22 @@ public interface GeoresourcesApi {
     }
 
 
-    @ApiOperation(value = "Update a geo-resource", nickname = "updateGeoresource", notes = "Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API", response = String.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "Update a geo-resource", nickname = "updateGeoresource", notes = "Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
         @Authorization(value = "basicAuth")
     }, tags={ "georesources", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
         @ApiResponse(code = 401, message = "API key is missing or invalid"),
         @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
     @RequestMapping(value = "/georesources/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<List<String>> updateGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> updateGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"importedFeatures\" : [ \"importedFeatures\", \"importedFeatures\" ],  \"failedFeatures\" : [ \"failedFeatures\", \"failedFeatures\" ],  \"uri\" : \"uri\"}", ImportResponseType.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

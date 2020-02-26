@@ -1,15 +1,14 @@
 package org.n52.kommonitor.importer.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
-import org.n52.kommonitor.importer.api.handler.SpatialUnitImportHandler;
-import org.n52.kommonitor.importer.api.handler.SpatialUnitUpdateHandler;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
 import org.n52.kommonitor.models.UpdateSpatialUnitPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
@@ -49,7 +47,7 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
         this.request = request;
     }
 
-    public ResponseEntity<List<String>> importSpatialUnit(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> importSpatialUnit(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
         LOG.info("Received 'importSpatialUnit' request for spatial unit level: {}", featureData.getSpatialUnitPostBody().getSpatialUnitLevel());
         LOG.debug("'importSpatialUnit' request POST body: {}", featureData);
 
@@ -61,7 +59,7 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
     }
 
     @Override
-    public ResponseEntity<List<String>> updateSpatialUnit(@Valid UpdateSpatialUnitPOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> updateSpatialUnit(@Valid UpdateSpatialUnitPOSTInputType featureData) {
         LOG.info("Received 'updateSpatialUnit' request for spatial unit: {}", featureData.getSpatialUnitId());
         LOG.debug("'updateSpatialUnit' request POST body: {}", featureData);
 

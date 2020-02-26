@@ -12,6 +12,7 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
+import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,10 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     }
 
     @Override
-    public ResponseEntity<List<String>> handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
-                                                             AbstractConverter converter,
-                                                             ConverterDefinitionType converterDefinition,
-                                                             Dataset dataset)
+    public ResponseEntity<ImportResponseType> handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
+                                                                   AbstractConverter converter,
+                                                                   ConverterDefinitionType converterDefinition,
+                                                                   Dataset dataset)
             throws ConverterException, RestClientException, ImportParameterException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -67,11 +68,14 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
         LOG.info("Perform 'addGeoresource' request for Georesource dataset: {}", georesourcePostInput.getDatasetName());
         LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
         ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
-        List<String> locations = response.getHeaders().get(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", locations);
+        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+        LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", location);
+
+        ImportResponseType importResponse = new ImportResponseType();
+        importResponse.setUri(location);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(locations);
+                .body(importResponse);
     }
 }
