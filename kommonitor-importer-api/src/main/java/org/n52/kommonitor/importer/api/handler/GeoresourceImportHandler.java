@@ -3,25 +3,24 @@ package org.n52.kommonitor.importer.api.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
-import org.n52.kommonitor.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
-
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles a Georesource import request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
@@ -41,15 +40,15 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     @Autowired
     private GeoresourcesApi apiClient;
 
-    public boolean supports(Object requestType){
+    public boolean supports(Object requestType) {
         return requestType instanceof ImportGeoresourcePOSTInputType;
     }
 
     @Override
-    public ResponseEntity<ImportResponseType> handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
-                                                                   AbstractConverter converter,
-                                                                   ConverterDefinitionType converterDefinition,
-                                                                   Dataset dataset)
+    public ImportResponseType handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
+                                                   AbstractConverter converter,
+                                                   ConverterDefinitionType converterDefinition,
+                                                   Dataset dataset)
             throws ConverterException, RestClientException, ImportParameterException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -73,9 +72,10 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(importResponse);
+        List<String> convertedResourceIds = spatialResources.stream()
+                .map(s -> s.getId())
+                .collect(Collectors.toList());
+        importResponse.setImportedFeatures(convertedResourceIds);
+        return importResponse;
     }
 }

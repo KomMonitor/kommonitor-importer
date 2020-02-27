@@ -7,16 +7,19 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.*;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ImportResponseType;
+import org.n52.kommonitor.models.IndicatorPUTInputType;
+import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
@@ -37,7 +40,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     }
 
     @Override
-    protected ResponseEntity<ImportResponseType> handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
+    protected ImportResponseType handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
                                                                       AbstractConverter converter,
                                                                       ConverterDefinitionType converterDefinition, Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
@@ -58,9 +61,10 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(importResponse);
+        List<String> convertedResourceIds = indicatorValues.stream()
+                .map(s -> s.getSpatialReferenceKey())
+                .collect(Collectors.toList());
+        importResponse.setImportedFeatures(convertedResourceIds);
+        return importResponse;
     }
 }

@@ -8,16 +8,19 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.*;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.ImportResponseType;
+import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles a SpatialUnit import request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
@@ -42,10 +45,10 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     private SpatialUnitsApi apiClient;
 
     @Override
-    public ResponseEntity<ImportResponseType> handleRequestForType(ImportSpatialUnitPOSTInputType importResourceType,
-                                                                  AbstractConverter converter,
-                                                                  ConverterDefinitionType converterDefinition,
-                                                                  Dataset dataset)
+    public ImportResponseType handleRequestForType(ImportSpatialUnitPOSTInputType importResourceType,
+                                                   AbstractConverter converter,
+                                                   ConverterDefinitionType converterDefinition,
+                                                   Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -68,9 +71,10 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(importResponse);
+        List<String> convertedResourceIds = spatialResources.stream()
+                .map(s -> s.getId())
+                .collect(Collectors.toList());
+        importResponse.setImportedFeatures(convertedResourceIds);
+        return importResponse;
     }
 }

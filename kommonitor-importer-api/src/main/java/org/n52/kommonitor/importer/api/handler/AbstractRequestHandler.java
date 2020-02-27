@@ -16,10 +16,10 @@ import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,8 +62,8 @@ public abstract class AbstractRequestHandler<T> {
      * if the request failed.
      */
     public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
-                                                      DataSourceDefinitionType dataSourceDefinition,
-                                                      ConverterDefinitionType converterDefinition)
+                                                            DataSourceDefinitionType dataSourceDefinition,
+                                                            ConverterDefinitionType converterDefinition)
             throws ImportParameterException, ImportException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
@@ -73,7 +73,12 @@ public abstract class AbstractRequestHandler<T> {
             LOG.debug("Datasource definition: {}", dataSourceDefinition);
             Dataset dataset = retrieverOpt.get().retrieveDataset(dataSourceDefinition);
 
-            return handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
+            ImportResponseType importResponse = handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(importResponse);
+
         } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
@@ -82,10 +87,10 @@ public abstract class AbstractRequestHandler<T> {
         }
     }
 
-    protected abstract ResponseEntity<ImportResponseType> handleRequestForType(T requestResourceType,
-                                                                               AbstractConverter abstractConverter,
-                                                                               ConverterDefinitionType converterDefinition,
-                                                                               Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
+    protected abstract ImportResponseType handleRequestForType(T requestResourceType,
+                                                               AbstractConverter abstractConverter,
+                                                               ConverterDefinitionType converterDefinition,
+                                                               Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
 
 
     private void checkRequest(Optional<AbstractDataSourceRetriever> retrieverOpt,
