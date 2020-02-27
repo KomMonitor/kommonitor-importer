@@ -9,6 +9,7 @@ import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.Error;
@@ -35,6 +36,9 @@ public abstract class AbstractRequestHandler<T> {
     protected static final String LOCATION_HEADER_KEY = "location";
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass().getName());
+
+    @Autowired
+    protected EntityValidator validator;
 
     @Autowired
     private ConverterRepository converterRepository;

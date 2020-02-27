@@ -5,6 +5,7 @@ import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
+import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
@@ -55,6 +56,12 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
                 converterDefinition,
                 dataset,
                 importResourceType.getPropertyMapping());
+
+        List<IndicatorValue> validIndicators = indicatorValues.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        if (validIndicators.isEmpty()) {
+            throw new ConverterException("No valid Indicator could be parsed from the specified data source");
+        }
+
         IndicatorPOSTInputType indicatorPostInput = null;
         indicatorPostInput = encoder.encode(importResourceType, indicatorValues);
 

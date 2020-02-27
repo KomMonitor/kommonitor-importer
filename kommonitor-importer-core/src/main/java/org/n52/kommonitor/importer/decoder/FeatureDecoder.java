@@ -153,7 +153,7 @@ public class FeatureDecoder {
             try {
                 timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM));
             } catch (DecodingException e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
             }
         });
         return new IndicatorValue(getPropertyValueAsString(feature,
@@ -177,7 +177,7 @@ public class FeatureDecoder {
             try {
                 timeSeries.add(decodeFeatureToTimeseriesValue(f, timeSeriesMappingType));
             } catch (DecodingException e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", f.getID(), e.getMessage());
+                LOG.warn("Could not decode time series value for feature {}. Cause: {}.", f.getID(), e.getMessage());
             }
         });
 

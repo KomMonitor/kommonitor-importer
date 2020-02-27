@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.emf.ecore.EValidator;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -56,6 +57,12 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
                 converterDefinition,
                 dataset,
                 requestResourceType.getPropertyMapping());
+
+        List<SpatialResource> validResources = spatialResources.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        if (validResources.isEmpty()) {
+            throw new ConverterException("No valid Georesource could be parsed from the specified data source");
+        }
+
         GeoresourcePOSTInputType georesourcePostInput = requestResourceType.getGeoresourcePostBody();
         try {
 
@@ -72,7 +79,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-        List<String> convertedResourceIds = spatialResources.stream()
+        List<String> convertedResourceIds = validResources.stream()
                 .map(s -> s.getId())
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);

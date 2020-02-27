@@ -56,9 +56,15 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
                 converterDefinition,
                 dataset,
                 importResourceType.getPropertyMapping());
+
+        List<SpatialResource> validResources = spatialResources.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        if (validResources.isEmpty()) {
+            throw new ConverterException("No valid SpatialUnit could be parsed from the specified data source");
+        }
+
         SpatialUnitPOSTInputType spatialUnitPostInput = importResourceType.getSpatialUnitPostBody();
         try {
-            spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
+            spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
         } catch (JsonProcessingException ex) {
             throw new ImportParameterException("Could not encode SpatialUnit.", ex);
         }
@@ -71,7 +77,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-        List<String> convertedResourceIds = spatialResources.stream()
+        List<String> convertedResourceIds = validResources.stream()
                 .map(s -> s.getId())
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);

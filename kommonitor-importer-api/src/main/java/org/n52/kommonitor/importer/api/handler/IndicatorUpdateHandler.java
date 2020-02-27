@@ -41,8 +41,8 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
     @Override
     protected ImportResponseType handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
-                                                                      AbstractConverter converter,
-                                                                      ConverterDefinitionType converterDefinition, Dataset dataset)
+                                                      AbstractConverter converter,
+                                                      ConverterDefinitionType converterDefinition, Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -50,8 +50,14 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
                 converterDefinition,
                 dataset,
                 requestResourceType.getPropertyMapping());
+
+        List<IndicatorValue> validIndicators = indicatorValues.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        if (validIndicators.isEmpty()) {
+            throw new ConverterException("No valid Indicator could be parsed from the specified data source");
+        }
+
         IndicatorPUTInputType indicatorPutInput = null;
-        indicatorPutInput = encoder.encode(requestResourceType, indicatorValues);
+        indicatorPutInput = encoder.encode(requestResourceType, validIndicators);
 
         LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
         LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
@@ -61,7 +67,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
-        List<String> convertedResourceIds = indicatorValues.stream()
+        List<String> convertedResourceIds = validIndicators.stream()
                 .map(s -> s.getSpatialReferenceKey())
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
