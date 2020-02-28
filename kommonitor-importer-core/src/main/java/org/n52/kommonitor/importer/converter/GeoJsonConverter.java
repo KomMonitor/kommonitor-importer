@@ -130,6 +130,7 @@ public class GeoJsonConverter extends AbstractConverter {
             } catch (DecodingException ex) {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
+                featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
             }
         }
 
@@ -170,6 +171,8 @@ public class GeoJsonConverter extends AbstractConverter {
             } catch (DecodingException ex) {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
+                featureDecoder.addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), simpleFeature, ex.getMessage());
+
             }
         }
 

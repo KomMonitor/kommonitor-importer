@@ -9,6 +9,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 
 import java.io.InputStream;
@@ -33,7 +34,8 @@ public class GeoJsonConverterTest {
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
-        converter = new GeoJsonConverter(new FeatureDecoder(geomHelper));
+        ImportMonitor monitor = new ImportMonitor();
+        converter = new GeoJsonConverter(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);

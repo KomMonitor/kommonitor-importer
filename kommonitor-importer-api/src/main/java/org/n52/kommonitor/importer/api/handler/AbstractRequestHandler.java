@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.importer.utils.EntityValidator;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.Error;
@@ -46,6 +47,9 @@ public abstract class AbstractRequestHandler<T> {
     @Autowired
     private DataSourceRetrieverRepository retrieverRepository;
 
+    @Autowired
+    private ImportMonitor monitor;
+
     /**
      * Checks if a certain request type is supported by this request handler
      *
@@ -78,6 +82,7 @@ public abstract class AbstractRequestHandler<T> {
             Dataset dataset = retrieverOpt.get().retrieveDataset(dataSourceDefinition);
 
             ImportResponseType importResponse = handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
+            importResponse.setErrors(monitor.getErrorMessages());
 
             return ResponseEntity
                     .status(HttpStatus.OK)

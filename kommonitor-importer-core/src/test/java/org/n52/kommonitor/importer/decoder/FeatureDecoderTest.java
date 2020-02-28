@@ -14,6 +14,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -62,7 +63,8 @@ class FeatureDecoderTest {
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
-        decoder = new FeatureDecoder(geomHelper);
+        ImportMonitor monitor = new ImportMonitor();
+        decoder = new FeatureDecoder(geomHelper, monitor);
     }
 
 

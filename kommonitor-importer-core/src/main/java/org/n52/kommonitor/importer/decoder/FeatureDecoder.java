@@ -7,6 +7,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -42,8 +43,12 @@ public class FeatureDecoder {
     private GeometryHelper geomHelper;
 
     @Autowired
-    public FeatureDecoder(GeometryHelper geometryHelper) {
+    private ImportMonitor monitor;
+
+    @Autowired
+    public FeatureDecoder(GeometryHelper geometryHelper, ImportMonitor monitor) {
         this.geomHelper = geometryHelper;
+        this.monitor = monitor;
     }
 
     /**
@@ -65,6 +70,7 @@ public class FeatureDecoder {
                 result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, sourceCrs));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                addMonitoringMessage(propertyMappingType.getIdentifierProperty(), feature, e.getMessage());
             }
         }
         return result;
@@ -132,6 +138,7 @@ public class FeatureDecoder {
                     result.add(indicator);
                 } catch (DecodingException e) {
                     LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                    addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
                 }
             }
         }
@@ -154,6 +161,8 @@ public class FeatureDecoder {
                 timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
+
             }
         });
         return new IndicatorValue(getPropertyValueAsString(feature,
@@ -178,6 +187,7 @@ public class FeatureDecoder {
                 timeSeries.add(decodeFeatureToTimeseriesValue(f, timeSeriesMappingType));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", f.getID(), e.getMessage());
+                monitor.addFailedConversion(spatialRefKey, e.getMessage());
             }
         });
 
@@ -252,6 +262,7 @@ public class FeatureDecoder {
                 }
             } catch (DecodingException e) {
                 LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                addMonitoringMessage(referenceKeyProperty, feature, e.getMessage());
             }
 
         }
@@ -348,6 +359,15 @@ public class FeatureDecoder {
         }
         return propertyValue;
     }
+
+    public void addMonitoringMessage(String keyProperty, SimpleFeature feature, String message) {
+        Object id = feature.getAttribute(keyProperty);
+        if (id == null) {
+            id = feature.getID();
+        }
+        monitor.addFailedConversion(String.valueOf(id), message);
+    }
+
 
 
 }

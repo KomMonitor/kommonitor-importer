@@ -12,6 +12,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 
@@ -40,7 +41,8 @@ public class WFSv1ConverterTest {
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
-        converter = new WFSv1Converter(new FeatureDecoder(geomHelper));
+        ImportMonitor monitor = new ImportMonitor();
+        converter = new WFSv1Converter(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);

@@ -2,6 +2,8 @@ package org.n52.kommonitor.importer.api.utils;
 
 import org.n52.kommonitor.models.Error;
 
+import java.util.List;
+
 /**
  * Helper class for constructing {@link Error} objects for HTTP responses
  *
@@ -25,6 +27,7 @@ public class ErrorFactory {
     /**
      * Creates a default error with custom message for HTTP status code 500
      *
+     * @param message the custom message
      * @return default {@link Error} with custom message
      */
     public static Error getError(String message) {
@@ -34,12 +37,28 @@ public class ErrorFactory {
     /**
      * Creates a error with custom message for a given HTTP status code
      *
-     * @return {@link Error} with custom status code and message
+     * @param statusCode HTTP status code for the error
+     * @param message    the custom message
+     * @return @return {@link Error} with custom status code and message
      */
     public static Error getError(int statusCode, String message) {
         Error error = new Error();
         error.setCode(statusCode);
         error.setMessage(message);
+        return error;
+    }
+
+    /**
+     * Creates a error with custom message for a given HTTP status code
+     *
+     * @param statusCode HTTP status code for the error
+     * @param message    the custom message
+     * @param errors List of error messages that occurred for an import request
+     * @return @return {@link Error} with custom status code and message
+     */
+    public static Error getError(int statusCode, String message, List<String> errors) {
+        Error error = getError(statusCode, message);
+        error.setErrors(errors);
         return error;
     }
 }
