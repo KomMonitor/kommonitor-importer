@@ -56,17 +56,18 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
             throw new ConverterException("No valid Indicator could be parsed from the specified data source");
         }
 
-        IndicatorPUTInputType indicatorPutInput = null;
-        indicatorPutInput = encoder.encode(requestResourceType, validIndicators);
-
-        LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
-        LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
-        ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(requestResourceType.getIndicatorId(), indicatorPutInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", location);
-
         ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
+
+        if (!requestResourceType.isDryRun()) {
+            IndicatorPUTInputType indicatorPutInput = encoder.encode(requestResourceType, validIndicators);
+            LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
+            LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
+            ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(requestResourceType.getIndicatorId(), indicatorPutInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", location);
+            importResponse.setUri(location);
+        }
+
         List<String> convertedResourceIds = validIndicators.stream()
                 .map(s -> s.getSpatialReferenceKey())
                 .collect(Collectors.toList());

@@ -303,6 +303,8 @@ public class GeoresourcesApiControllerIT {
         mapping.setNameProperty("nameProp");
         geoImport.setPropertyMapping(mapping);
 
+        geoImport.setDryRun(false);
+
         return geoImport;
     }
 
@@ -332,6 +334,8 @@ public class GeoresourcesApiControllerIT {
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
         geoUpdate.setPropertyMapping(mapping);
+
+        geoUpdate.setDryRun(false);
 
         return geoUpdate;
     }

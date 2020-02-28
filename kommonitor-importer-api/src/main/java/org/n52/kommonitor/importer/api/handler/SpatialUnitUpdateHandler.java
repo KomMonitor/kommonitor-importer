@@ -62,21 +62,24 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
             throw new ConverterException("No valid SpatialUnit could be parsed from the specified data source");
         }
 
-        SpatialUnitPUTInputType spatialUnitPutInput = requestResourceType.getSpatialUnitPutBody();
-        try {
-            spatialUnitPutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
-        } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode SpatialUnit.", ex);
+        ImportResponseType importResponse = new ImportResponseType();
+
+        if (!requestResourceType.isDryRun()) {
+            SpatialUnitPUTInputType spatialUnitPutInput = requestResourceType.getSpatialUnitPutBody();
+            try {
+                spatialUnitPutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
+            } catch (JsonProcessingException ex) {
+                throw new ImportParameterException("Could not encode SpatialUnit.", ex);
+            }
+
+            LOG.info("Perform 'updateSpatialUnit' request for SpatialUnit: {}", requestResourceType.getSpatialUnitId());
+            LOG.debug("'updateSpatialUnit' request PUT body: {}", spatialUnitPutInput);
+            ResponseEntity<Void> response = apiClient.updateSpatialUnitAsBodyWithHttpInfo(requestResourceType.getSpatialUnitId(), spatialUnitPutInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", location);
+            importResponse.setUri(location);
         }
 
-        LOG.info("Perform 'updateSpatialUnit' request for SpatialUnit: {}", requestResourceType.getSpatialUnitId());
-        LOG.debug("'updateSpatialUnit' request PUT body: {}", spatialUnitPutInput);
-        ResponseEntity<Void> response = apiClient.updateSpatialUnitAsBodyWithHttpInfo(requestResourceType.getSpatialUnitId(), spatialUnitPutInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateSpatialUnit' request. Updated SpatialUnits: {}", location);
-
-        ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
         List<String> convertedResourceIds = validResources.stream()
                 .map(s -> s.getId())
                 .collect(Collectors.toList());

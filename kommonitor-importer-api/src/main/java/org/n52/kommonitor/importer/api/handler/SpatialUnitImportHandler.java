@@ -45,7 +45,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     private SpatialUnitsApi apiClient;
 
     @Override
-    public ImportResponseType handleRequestForType(ImportSpatialUnitPOSTInputType importResourceType,
+    public ImportResponseType handleRequestForType(ImportSpatialUnitPOSTInputType requestResourceType,
                                                    AbstractConverter converter,
                                                    ConverterDefinitionType converterDefinition,
                                                    Dataset dataset)
@@ -55,28 +55,31 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
         List<SpatialResource> spatialResources = converter.convertSpatialResources(
                 converterDefinition,
                 dataset,
-                importResourceType.getPropertyMapping());
+                requestResourceType.getPropertyMapping());
 
         List<SpatialResource> validResources = spatialResources.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
         if (validResources.isEmpty()) {
             throw new ConverterException("No valid SpatialUnit could be parsed from the specified data source");
         }
 
-        SpatialUnitPOSTInputType spatialUnitPostInput = importResourceType.getSpatialUnitPostBody();
-        try {
-            spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
-        } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode SpatialUnit.", ex);
+        ImportResponseType importResponse = new ImportResponseType();
+
+        if(!requestResourceType.isDryRun()){
+            SpatialUnitPOSTInputType spatialUnitPostInput = requestResourceType.getSpatialUnitPostBody();
+            try {
+                spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
+            } catch (JsonProcessingException ex) {
+                throw new ImportParameterException("Could not encode SpatialUnit.", ex);
+            }
+
+            LOG.info("Perform 'addSpatialUnit' request for SpatialUnit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
+            LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPostInput);
+            ResponseEntity<Void> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'addSpatialUnit' request. Created SpatialUnits: {}", location);
+            importResponse.setUri(location);
         }
 
-        LOG.info("Perform 'addSpatialUnit' request for SpatialUnit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
-        LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPostInput);
-        ResponseEntity<Void> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addSpatialUnit' request. Created SpatialUnits: {}", location);
-
-        ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
         List<String> convertedResourceIds = validResources.stream()
                 .map(s -> s.getId())
                 .collect(Collectors.toList());

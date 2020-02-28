@@ -63,22 +63,24 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
             throw new ConverterException("No valid Georesource could be parsed from the specified data source");
         }
 
-        GeoresourcePOSTInputType georesourcePostInput = requestResourceType.getGeoresourcePostBody();
-        try {
+        ImportResponseType importResponse = new ImportResponseType();
 
-            georesourcePostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
-        } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode Georesource.", ex);
+        if (!requestResourceType.isDryRun()) {
+            GeoresourcePOSTInputType georesourcePostInput = requestResourceType.getGeoresourcePostBody();
+            try {
+                georesourcePostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
+            } catch (JsonProcessingException ex) {
+                throw new ImportParameterException("Could not encode Georesource.", ex);
+            }
+
+            LOG.info("Perform 'addGeoresource' request for Georesource dataset: {}", georesourcePostInput.getDatasetName());
+            LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
+            ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", location);
+            importResponse.setUri(location);
         }
 
-        LOG.info("Perform 'addGeoresource' request for Georesource dataset: {}", georesourcePostInput.getDatasetName());
-        LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
-        ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", location);
-
-        ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
         List<String> convertedResourceIds = validResources.stream()
                 .map(s -> s.getId())
                 .collect(Collectors.toList());

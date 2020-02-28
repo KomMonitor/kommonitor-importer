@@ -319,6 +319,7 @@ public class IndicatorsApiControllerIT {
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
 
         indicatorImport.setPropertyMapping(mapping);
+        indicatorImport.setDryRun(false);
 
         return indicatorImport;
     }
@@ -358,6 +359,7 @@ public class IndicatorsApiControllerIT {
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
 
         indicatorUpdate.setPropertyMapping(mapping);
+        indicatorUpdate.setDryRun(false);
 
         return indicatorUpdate;
 

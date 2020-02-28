@@ -302,6 +302,7 @@ public class SpatialUnitApiControllerIT {
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
         spatialUnitImport.setPropertyMapping(mapping);
+        spatialUnitImport.setDryRun(false);
 
         return spatialUnitImport;
     }
@@ -332,6 +333,7 @@ public class SpatialUnitApiControllerIT {
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
         spatialUnitUpdate.setPropertyMapping(mapping);
+        spatialUnitUpdate.setDryRun(false);
 
         return spatialUnitUpdate;
     }

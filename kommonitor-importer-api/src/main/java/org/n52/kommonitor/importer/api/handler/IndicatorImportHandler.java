@@ -45,7 +45,7 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
     }
 
     @Override
-    public ImportResponseType handleRequestForType(ImportIndicatorPOSTInputType importResourceType,
+    public ImportResponseType handleRequestForType(ImportIndicatorPOSTInputType requestResourceType,
                                                    AbstractConverter converter,
                                                    ConverterDefinitionType converterDefinition,
                                                    Dataset dataset)
@@ -55,25 +55,26 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
         List<IndicatorValue> indicatorValues = converter.convertIndicators(
                 converterDefinition,
                 dataset,
-                importResourceType.getPropertyMapping());
+                requestResourceType.getPropertyMapping());
 
         List<IndicatorValue> validIndicators = indicatorValues.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
         if (validIndicators.isEmpty()) {
             throw new ConverterException("No valid Indicator could be parsed from the specified data source");
         }
 
-        IndicatorPOSTInputType indicatorPostInput = null;
-        indicatorPostInput = encoder.encode(importResourceType, indicatorValues);
-
-        LOG.info("Perform 'addIndicator' request for Indicator: {}", indicatorPostInput.getDatasetName());
-        LOG.debug("'addIndicator' request POST body: {}", indicatorPostInput);
-        ResponseEntity<Void> response = apiClient.addIndicatorAsBodyWithHttpInfo(indicatorPostInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'addIndicator' request. Created Indicators: {}", location);
-
         ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
-        List<String> convertedResourceIds = indicatorValues.stream()
+
+        if (!requestResourceType.isDryRun()) {
+            IndicatorPOSTInputType indicatorPostInput = encoder.encode(requestResourceType, validIndicators);
+            LOG.info("Perform 'addIndicator' request for Indicator: {}", indicatorPostInput.getDatasetName());
+            LOG.debug("'addIndicator' request POST body: {}", indicatorPostInput);
+            ResponseEntity<Void> response = apiClient.addIndicatorAsBodyWithHttpInfo(indicatorPostInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'addIndicator' request. Created Indicators: {}", location);
+            importResponse.setUri(location);
+        }
+
+        List<String> convertedResourceIds = validIndicators.stream()
                 .map(s -> s.getSpatialReferenceKey())
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
