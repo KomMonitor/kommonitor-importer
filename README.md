@@ -152,6 +152,9 @@ import process. For all other properties, you can find detailed descriptions in 
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources  
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
 
 ### Import Spatial Units
 The import of Spatial Units is done by sending a POST request to the `/spatial-units` endpoint. The request body
@@ -165,6 +168,9 @@ import process. For all other properties, you can find detailed descriptions in 
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources  
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
 
 ### Import Indicators
 For importing an _Indicator_ you have to perform a POST request to the `/indicators` endpoint. The request body
@@ -178,6 +184,31 @@ as part of the import process. For all other properties, you can find detailed d
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_  
 (see: [Indicator Property Mapping](#indicator-property-mapping)).
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
+
+### Import response
+The response body for a successful import request contains the following parameters:  
+* `uri`: If the imported resources were inserted into the _Data Management API_ successfully, this is the uri of the resource.
+Note, that the `uri` parameter won't be included for a dry run.
+* `importedFeatures`: The IDs of all imported resources are included in this array.
+* `errors`: The messages for all errors, that occur during the import, will be listed within this parameter.  
+
+Below listed, you'll find an example for such a response:
+```json
+{
+    "uri": "00b462d7-8903-40e9-8222-10f534afcbb6",
+    "importedFeatures": [
+        "_170",
+        "_152",
+        "_638"
+    ],
+    "errors": [
+        "Failed conversion for resource _312. Cause(s): [Property 'dmg_altrstr_drchschnaltr' does not exist.]"
+    ]
+}
+```
 
 ### Import Definitions
 As you can see from the above sections, you have to declare various properties within the request body that are required
@@ -390,6 +421,9 @@ Data Management API. You can find detailed descriptions in the Data Management A
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources.
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
 
 ### Update Spatial Units
 You can update a _Spatial Unit_ by sending a POST request to the `/spatial-units/update` endpoint. The request body
@@ -403,6 +437,9 @@ Data Management API. You can find detailed descriptions in the Data Management A
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for spatial resources
 (see: [Spatial Resource Property Mapping](#spatial-resource-property-mapping)).
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
 
 ### Update Indicators
 If you want to update an _Indicator_, you have to send a POST request to the `/indicators/update` endpoint. The request body
@@ -416,6 +453,9 @@ Data Management API. You can find detailed descriptions in the Data Management A
 (see: [Converter Definition](#converter-definition)).
 * `propertyMapping`: Definitions for mapping properties from the imported dataset to required properties for _Indicators_
 (see: [Indicator Property Mapping](#indicator-property-mapping))
+* `dryRun`: Indicates if a dry run import should be performed. If `true` the import process will be performed without posting
+the imported resources to the Data Management API. You should perform a dry run in order to get a preview of those
+resources that would be imported and possible errors that occur during the import. 
 
 # Extend the Importer API
 ## Class Diagram
@@ -629,6 +669,12 @@ public class CsvConverter extends AbstractConverter {
     }
 }
 ```
+## Extend error monitoring
+The class `org.n52.kommonitor.importer.utils.ImportMonitor` is responsible for monitoring import processes. Note, that
+for each HTTP request a separate instance of this class will be revoked in order to monitor errors only for a 
+corresponding request. The `@RequestScope` annotations ensures that there are no concurrency issues if multiple requests
+are handled at the same time. Up to now, only conversion errors will be recorded. So, feel free to extend this class for
+monitoring additional errors.
 
 ## How to extend the API and models
 The project comes with the latest API and model classes. However, if you wish to customize the KomMonitor Importer API or 
