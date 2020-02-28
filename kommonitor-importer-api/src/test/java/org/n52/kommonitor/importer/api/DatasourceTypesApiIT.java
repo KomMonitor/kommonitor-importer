@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
+import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
-import org.n52.kommonitor.importer.converter.AbstractConverter;
-import org.n52.kommonitor.importer.converter.ConverterParameter;
-import org.n52.kommonitor.importer.converter.ConverterRepository;
+import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
+import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
+import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,50 +32,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
-@ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ApiExceptionHandler.class})
-public class ConvertersApiControllerTest {
+@ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ApiExceptionHandler.class})
+public class DatasourceTypesApiIT {
 
-    private static final String CONVERTER_NAME = "Test converter";
-    private static final String CONVERTER_MIME_TYPE = "text/xml";
-    private static final String CONVERTER_SCHEMA = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
+    private static final String DATASOURCE_TYPE = "INLINE";
     private static final String PARAM_NAME = "payload";
     private static final String PARAM_DESC = "The dataset payload";
-    private static final ConverterParameter.ParameterTypeValues PARAM_TYPE = ConverterParameter.ParameterTypeValues.STRING;
+    private static final DataSourceParameter.ParameterTypeValues PARAM_TYPE = DataSourceParameter.ParameterTypeValues.STRING;
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private ConverterRepository converterRepository;
+    private DataSourceRetrieverRepository repository;
 
     @MockBean
-    private AbstractConverter converter;
+    private AbstractDataSourceRetriever retriever;
 
     @Test
-    @DisplayName("Test getConverters responds with OK status code")
-    public void tesGetConverters() throws Exception {
+    @DisplayName("Test getSupportedDataSourceTypes responds with OK status code")
+    public void testGetSupportedDataSourceTypes() throws Exception {
         prepareMocks();
-        Mockito.when(converterRepository.getAll()).thenReturn(Arrays.asList(converter));
+        Mockito.when(repository.getAll()).thenReturn(Arrays.asList(retriever));
 
-        this.mockMvc.perform(get("/converters"))
+        this.mockMvc.perform(get("/datasourceTypes"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$[0].name").value(CONVERTER_NAME))
-                .andExpect(jsonPath("$[0].mimeTypes[0]").value(CONVERTER_MIME_TYPE))
+                .andExpect(jsonPath("$[0].type").value(DATASOURCE_TYPE))
                 .andExpect(jsonPath("$[0].parameters[0]").doesNotExist());
     }
 
     @Test
-    @DisplayName("Test getConverterByName responds with OK status code")
-    public void testGetConverterByName() throws Exception {
+    @DisplayName("Test getSupportedDataSourceTypeByType responds with OK status code")
+    public void testGetSupportedDataSourceTypeByType() throws Exception {
         prepareMocks();
-        Mockito.when(converterRepository.getConverter(CONVERTER_NAME)).thenReturn(Optional.of(converter));
+        Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
 
-        this.mockMvc.perform(get("/converters/{name}", CONVERTER_NAME))
+        this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.name").value(CONVERTER_NAME))
-                .andExpect(jsonPath("$.mimeTypes[0]").value(CONVERTER_MIME_TYPE))
                 .andExpect(jsonPath("$.parameters[0].name").value(PARAM_NAME))
                 .andExpect(jsonPath("$.parameters[0].description").value(PARAM_DESC));
 
@@ -83,22 +78,21 @@ public class ConvertersApiControllerTest {
 
     @Test
     @DisplayName("Test getConverterByName responds with NotFound status code")
-    public void testGetConverterByNameNotFound() throws Exception {
-        Mockito.when(converterRepository.getConverter(CONVERTER_NAME)).thenReturn(Optional.ofNullable(null));
+    public void testGetSupportedDataSourceTypeByTypeNotFound() throws Exception {
+        Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
 
-        this.mockMvc.perform(get("/converters/{name}", CONVERTER_NAME))
+        this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.message")
                         .value(String.format("Resource '%s' with identifier '%s' was not found.",
-                                AbstractConverter.class.getName(), CONVERTER_NAME)));
+                                AbstractDataSourceRetriever.class.getName(), DATASOURCE_TYPE)));
     }
 
     private void prepareMocks() {
-        Mockito.when(converter.getName()).thenReturn(CONVERTER_NAME);
-        Mockito.when(converter.getSupportedMimeTypes()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_MIME_TYPE)));
-        Mockito.when(converter.getSupportedSchemas()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_SCHEMA)));
-        Mockito.when(converter.getConverterParameters()).thenReturn(new HashSet<>(Arrays.asList(new ConverterParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
+        Mockito.when(retriever.getType()).thenReturn(DATASOURCE_TYPE);
+        Mockito.when(retriever.getDataSourceParameters())
+                .thenReturn(new HashSet<>(Arrays.asList(new DataSourceParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
     }
 }
