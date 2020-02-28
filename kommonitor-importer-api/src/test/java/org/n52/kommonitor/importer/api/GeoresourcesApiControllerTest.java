@@ -27,6 +27,7 @@ import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -54,8 +55,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GeoresourcesApiController.class)
-@ContextConfiguration(classes = {GeoresourcesApiController.class, RequestHandlerRepository.class, GeoresourceImportHandler.class, GeoresourceUpdateHandler.class, ApiExceptionHandler.class})
-public class GeoresourcesApiControllerTest {
+@ContextConfiguration(classes = {GeoresourcesApiController.class, RequestHandlerRepository.class, GeoresourceImportHandler.class, GeoresourceUpdateHandler.class, ApiExceptionHandler.class, EntityValidator.class})
+public class GeoresourcesApiControllerIT {
 
     private static final String RESOURCE_ID = "testID";
 
@@ -79,6 +80,9 @@ public class GeoresourcesApiControllerTest {
 
     @MockBean
     private GeoresourcesApi apiClient;
+
+    @MockBean
+    private EntityValidator validator;
 
     private static ImportGeoresourcePOSTInputType geoImportBody;
 
@@ -105,9 +109,9 @@ public class GeoresourcesApiControllerTest {
         this.mockMvc.perform(post("/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -192,7 +196,7 @@ public class GeoresourcesApiControllerTest {
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -333,12 +337,16 @@ public class GeoresourcesApiControllerTest {
     }
 
 
-    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException, DataSourceRetrieverException {
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenReturn(Mockito.mock(Dataset.class));
+
         Mockito.when(converter.convertSpatialResources(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),
                 Mockito.any(SpatialResourcePropertyMappingType.class)))
                 .thenReturn(Arrays.asList(new SpatialResource()));
+        
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
         Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any(GeoresourcePOSTInputType.class)))
@@ -347,5 +355,6 @@ public class GeoresourcesApiControllerTest {
                 .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 
         Mockito.when(encoder.encodeSpatialResourcesAsString(Mockito.anyList())).thenReturn("");
+        Mockito.when(validator.isValid(Mockito.any(SpatialResource.class))).thenReturn(true);
     }
 }

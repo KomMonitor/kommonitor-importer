@@ -80,7 +80,7 @@ public abstract class AbstractRequestHandler<T> {
             ImportResponseType importResponse = handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
 
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
+                    .status(HttpStatus.OK)
                     .body(importResponse);
 
         } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {

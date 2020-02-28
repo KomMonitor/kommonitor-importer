@@ -27,6 +27,7 @@ import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -55,7 +56,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GeoresourcesApiController.class)
 @ContextConfiguration(classes = {SpatialUnitsApiController.class, RequestHandlerRepository.class, SpatialUnitImportHandler.class, SpatialUnitUpdateHandler.class, ApiExceptionHandler.class})
-public class SpatialUnitApiControllerTest {
+public class SpatialUnitApiControllerIT {
     private static final String RESOURCE_ID = "testID";
 
     @Autowired
@@ -79,6 +80,9 @@ public class SpatialUnitApiControllerTest {
     @MockBean
     private SpatialUnitsApi apiClient;
 
+    @MockBean
+    private EntityValidator validator;
+
     private static ImportSpatialUnitPOSTInputType spatialUnitImportBody;
 
     private static UpdateSpatialUnitPOSTInputType spatialUnitUpdateBody;
@@ -95,7 +99,7 @@ public class SpatialUnitApiControllerTest {
     }
 
     @Test
-    @DisplayName("Test importSpatialUnit responds with 201 status code")
+    @DisplayName("Test importSpatialUnit responds with 200 status code")
     public void testImportSpatialUnit() throws Exception {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
@@ -104,9 +108,9 @@ public class SpatialUnitApiControllerTest {
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -191,7 +195,7 @@ public class SpatialUnitApiControllerTest {
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -332,7 +336,10 @@ public class SpatialUnitApiControllerTest {
         return spatialUnitUpdate;
     }
 
-    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException, DataSourceRetrieverException {
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenReturn(Mockito.mock(Dataset.class));
+
         Mockito.when(converter.convertSpatialResources(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),
@@ -347,6 +354,7 @@ public class SpatialUnitApiControllerTest {
         Mockito.when(spatialUnit.getSpatialUnitLevel()).thenReturn("testLevel");
 
         Mockito.when(encoder.encodeSpatialResourcesAsString(Mockito.anyList())).thenReturn("");
+        Mockito.when(validator.isValid(Mockito.any(SpatialResource.class))).thenReturn(true);
     }
 
 }

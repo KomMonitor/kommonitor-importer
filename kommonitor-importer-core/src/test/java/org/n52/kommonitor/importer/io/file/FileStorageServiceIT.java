@@ -35,6 +35,7 @@ public class FileStorageServiceIT {
     public void testFileStorageWithFileName() throws IOException {
         MultipartFile file = Mockito.mock(MultipartFile.class);
         Mockito.when(file.getBytes()).thenReturn("test content".getBytes());
+        Mockito.when(file.getContentType()).thenReturn("text/xml");
         String fileName = "test.txt";
 
         storageService.store(file, "test.txt");
@@ -53,6 +54,7 @@ public class FileStorageServiceIT {
     public void testFileStorageWithoutFileName() throws IOException {
         MultipartFile file = Mockito.mock(MultipartFile.class);
         Mockito.when(file.getBytes()).thenReturn("test content".getBytes());
+        Mockito.when(file.getContentType()).thenReturn("text/xml");
         String fileName = "test2.txt";
         Mockito.when(file.getOriginalFilename()).thenReturn(fileName);
 
@@ -67,12 +69,14 @@ public class FileStorageServiceIT {
     public void testGetAllFiles() throws IOException {
         MultipartFile file1 = Mockito.mock(MultipartFile.class);
         Mockito.when(file1.getBytes()).thenReturn("test content".getBytes());
+        Mockito.when(file1.getContentType()).thenReturn("text/xml");
         String fileName1 = "test3.txt";
         Mockito.when(file1.getOriginalFilename()).thenReturn(fileName1);
         storageService.store(file1, null);
 
         MultipartFile file2 = Mockito.mock(MultipartFile.class);
         Mockito.when(file2.getBytes()).thenReturn("test content".getBytes());
+        Mockito.when(file2.getContentType()).thenReturn("text/xml");
         String fileName2 = "test4.txt";
         Mockito.when(file2.getOriginalFilename()).thenReturn(fileName2);
         storageService.store(file2, null);

@@ -20,11 +20,13 @@ import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
+import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -52,8 +54,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(IndicatorsApiController.class)
-@ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ApiExceptionHandler.class})
-public class IndicatorsApiControllerTest {
+@ContextConfiguration(classes = {IndicatorsApiController.class, RequestHandlerRepository.class, IndicatorImportHandler.class, IndicatorUpdateHandler.class, ApiExceptionHandler.class, EntityValidator.class})
+public class IndicatorsApiControllerIT {
 
     private static final String RESOURCE_ID = "testID";
 
@@ -78,6 +80,9 @@ public class IndicatorsApiControllerTest {
     @MockBean
     private IndicatorsApi apiClient;
 
+    @MockBean
+    private EntityValidator validator;
+
     private static ImportIndicatorPOSTInputType indicatorImportBody;
     private static UpdateIndicatorPOSTInputType indicatorUpdateBody;
 
@@ -88,7 +93,7 @@ public class IndicatorsApiControllerTest {
     }
 
     @Test
-    @DisplayName("Test importIndicator responds with 201 status code")
+    @DisplayName("Test importIndicator responds with 200 status code")
     public void testImportIndicator() throws Exception {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
@@ -97,9 +102,9 @@ public class IndicatorsApiControllerTest {
         this.mockMvc.perform(post("/indicators")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(new ObjectMapper().writeValueAsString(indicatorImportBody)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -184,7 +189,7 @@ public class IndicatorsApiControllerTest {
                 .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
-                .andExpect(jsonPath("$.[0]").value(RESOURCE_ID));
+                .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
     }
 
     @Test
@@ -358,12 +363,16 @@ public class IndicatorsApiControllerTest {
 
     }
 
-    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException, DataSourceRetrieverException {
+        Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
+                .thenReturn(Mockito.mock(Dataset.class));
+
         Mockito.when(converter.convertIndicators(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),
                 Mockito.any(IndicatorPropertyMappingType.class)))
                 .thenReturn(Arrays.asList(new IndicatorValue()));
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
 
@@ -376,6 +385,7 @@ public class IndicatorsApiControllerTest {
                 .thenReturn(Mockito.mock(IndicatorPOSTInputType.class));
         Mockito.when(encoder.encode(Mockito.any(UpdateIndicatorPOSTInputType.class), Mockito.anyList()))
                 .thenReturn(Mockito.mock(IndicatorPUTInputType.class));
+        Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class))).thenReturn(true);
     }
 
 
