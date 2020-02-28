@@ -1,3 +1,4 @@
+# https://www.websequencediagrams.com/
 title KomMonitor Import\n(Component view)
 
 Participant Management UI as MUI
@@ -10,12 +11,12 @@ Participant Management API as MAPI
 MUI->+IAPI:GET /converters
 IAPI-->-MUI:GET /converters: List<Converter>
 
-MUI->+IAPI:GET /datasourceTypes
-IAPI-->-MUI:GET /datasourceTypes: List<DatasourceType>
+MUI->+IAPI:GET /datasourceRetriever
+IAPI-->-MUI:GET /datasourceRetriever: List<DatasourceRetriever>
 
-MUI->+IAPI:POST /georesource (DatasourceDefinition, ConverterDefinition, PropertyMapping, ...)
+MUI->+IAPI:POST /georesource (DatasourceDefinition, ConverterDefinition, PropertyMapping, GeoresourcePOSTBody)
 IAPI->+MCL:addGeoresource(GeoresourcePOSTInput)
 MCL->+MAPI:POST /georesources (GeoresourcePOSTInput)
-MAPI-->-MCL:POST /georesources: 201
+MAPI-->-MCL:POST /georesources: 200
 MCL-->-IAPI:addGeoresource: HttpInfo
-IAPI-->-MUI:POST /georesource: 201
+IAPI-->-MUI:POST /georesource: 200

@@ -1,3 +1,4 @@
+# https://www.websequencediagrams.com/
 title KomMonitor Import\n(Internal view)
 
 Participant Management UI as MUI
@@ -6,10 +7,10 @@ Participant DatasourceRetriever as DR
 Participant Converter as CONV
 Participant Encoder as ENC
 
-MUI->+IAPI:POST /georesource\n(DatasourceDefinition, ConverterDefinition, PropertyMapping, ...)
+MUI->+IAPI:POST /georesource\n(DatasourceDefinition, ConverterDefinition, PropertyMapping, GeoresourcePOSTBody)
 IAPI->+DR:retrieveDataset(DatasourceDefinition)
 DR-->-IAPI:retrieveDataset: Dataset
 IAPI->+CONV:convertSpatialResource(ConverterDefinition, Dataset, PropertyMapping)
 CONV-->-IAPI:convertSpatialResource: SpatialResource
-IAPI->+ENC:encodeRequest(SpatialResource, ...)
+IAPI->+ENC:encodeRequest(SpatialResource, GeoresourcePOSTBody)
 ENC-->-IAPI:encodeRequest: GeoresourcePOSTInput
