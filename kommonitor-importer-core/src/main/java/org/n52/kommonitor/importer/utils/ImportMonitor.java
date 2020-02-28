@@ -1,4 +1,4 @@
-package org.n52.kommonitor.importer.converter;
+package org.n52.kommonitor.importer.utils;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Monitoring class that holds information about a converting process and the affected resources.
@@ -18,11 +19,11 @@ import java.util.Map;
  */
 @Component
 @RequestScope
-public class ConverterMonitor {
+public class ImportMonitor {
 
     private Map<String, List<String>> failedConversions;
 
-    public ConverterMonitor() {
+    public ImportMonitor() {
         this.failedConversions = new HashMap<>();
     }
 
@@ -42,6 +43,17 @@ public class ConverterMonitor {
         } else {
             failedConversions.put(id, Arrays.asList(cause));
         }
+    }
+
+    /**
+     * Get a list of all error messages that have been monitored
+     *
+     * @return list of error messages as String
+     */
+    public List<String> getErrorMessages() {
+        return failedConversions.keySet().stream()
+                .map(k -> String.format("Failed conversion for resource %s. Cause(s): %s", k, failedConversions.get(k)))
+                .collect(Collectors.toList());
     }
 
 }
