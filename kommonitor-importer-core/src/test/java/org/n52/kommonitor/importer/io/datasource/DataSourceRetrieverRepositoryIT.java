@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {DataSourceRetrieverRepository.class, AbstractDataSourceRetriever.class})
-public class DataSourceRetrieverRepositoryTest {
+public class DataSourceRetrieverRepositoryIT {
 
     private static final String RETRIEVER_TYPE = "testRetriever";
 

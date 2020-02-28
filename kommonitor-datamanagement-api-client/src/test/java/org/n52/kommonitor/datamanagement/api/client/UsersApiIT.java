@@ -24,7 +24,7 @@ import java.util.List;
  * API tests for UsersApi
  */
 @Ignore
-public class UsersApiTest {
+public class UsersApiIT {
 
     private final UsersApi api = new UsersApi();
 

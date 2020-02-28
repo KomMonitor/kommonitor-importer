@@ -48,7 +48,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  */
 @RestClientTest(IndicatorsApi.class)
 @ContextConfiguration(classes = {ApiClient.class, IndicatorsApi.class, RestTemplate.class})
-public class IndicatorsApiTest {
+public class IndicatorsApiIT {
 
     private static final String BASE_PATH = "http://localhost:8085/management";
 

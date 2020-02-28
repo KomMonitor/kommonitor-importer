@@ -48,7 +48,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  */
 @RestClientTest(SpatialUnitsApi.class)
 @ContextConfiguration(classes = {ApiClient.class, SpatialUnitsApi.class, RestTemplate.class})
-public class SpatialUnitsApiTest {
+public class SpatialUnitsApiIT {
 
     private static final String BASE_PATH = "http://localhost:8085/management";
 
