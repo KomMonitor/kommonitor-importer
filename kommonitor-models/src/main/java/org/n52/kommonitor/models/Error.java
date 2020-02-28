@@ -2,11 +2,14 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
-
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -14,7 +17,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A default error that will be responded if an unexpected server error occurs")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
 
 public class Error  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -24,6 +27,10 @@ public class Error  implements Serializable {
 
   @JsonProperty("message")
   private String message = null;
+
+  @JsonProperty("errors")
+  @Valid
+  private List<String> errors = null;
 
   public Error code(Integer code) {
     this.code = code;
@@ -52,10 +59,10 @@ public class Error  implements Serializable {
   }
 
   /**
-   * Get message
+   * General message that describes the main error
    * @return message
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "General message that describes the main error")
   @NotNull
 
 
@@ -65,6 +72,34 @@ public class Error  implements Serializable {
 
   public void setMessage(String message) {
     this.message = message;
+  }
+
+  public Error errors(List<String> errors) {
+    this.errors = errors;
+    return this;
+  }
+
+  public Error addErrorsItem(String errorsItem) {
+    if (this.errors == null) {
+      this.errors = new ArrayList<>();
+    }
+    this.errors.add(errorsItem);
+    return this;
+  }
+
+  /**
+   * List of error messages that occurred during the import
+   * @return errors
+  **/
+  @ApiModelProperty(value = "List of error messages that occurred during the import")
+
+
+  public List<String> getErrors() {
+    return errors;
+  }
+
+  public void setErrors(List<String> errors) {
+    this.errors = errors;
   }
 
 
@@ -78,12 +113,13 @@ public class Error  implements Serializable {
     }
     Error error = (Error) o;
     return Objects.equals(this.code, error.code) &&
-        Objects.equals(this.message, error.message);
+        Objects.equals(this.message, error.message) &&
+        Objects.equals(this.errors, error.errors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message);
+    return Objects.hash(code, message, errors);
   }
 
   @Override
@@ -93,6 +129,7 @@ public class Error  implements Serializable {
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");
     return sb.toString();
   }
