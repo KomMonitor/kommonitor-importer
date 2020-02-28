@@ -98,6 +98,7 @@ public class IndicatorsApiControllerIT {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -105,6 +106,22 @@ public class IndicatorsApiControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test importIndicator dry run responds with 200 status code and resource uri is empty")
+    public void testImportIndicatorDryRun() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorImportBody.setDryRun(true);
+
+        this.mockMvc.perform(post("/indicators")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorImportBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.uri").isEmpty());
     }
 
     @Test
@@ -116,6 +133,7 @@ public class IndicatorsApiControllerIT {
         JsonNode json = new ObjectMapper().valueToTree(indicatorImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
+        indicatorImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -129,6 +147,7 @@ public class IndicatorsApiControllerIT {
     @DisplayName("Test importIndicator responds with 400 status code for ImportParameterException")
     public void testImportIndicatorForImportParameterException() throws Exception {
         prepareMocks();
+        indicatorImportBody.setDryRun(false);
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
@@ -151,6 +170,7 @@ public class IndicatorsApiControllerIT {
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -168,6 +188,7 @@ public class IndicatorsApiControllerIT {
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -183,6 +204,7 @@ public class IndicatorsApiControllerIT {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -190,6 +212,22 @@ public class IndicatorsApiControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test updateIndicator dry run responds with 200 status code and resource uri is empty")
+    public void testUpdateIndicatorDryRun() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorUpdateBody.setDryRun(true);
+
+        this.mockMvc.perform(post("/indicators/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(new ObjectMapper().writeValueAsString(indicatorUpdateBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.uri").isEmpty());
     }
 
     @Test
@@ -201,6 +239,7 @@ public class IndicatorsApiControllerIT {
         JsonNode json = new ObjectMapper().valueToTree(indicatorUpdateBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
+        indicatorUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -214,11 +253,11 @@ public class IndicatorsApiControllerIT {
     @DisplayName("Test updateIndicator responds with 400 status code for ImportParameterException")
     public void testUpdateIndicatorForImportParameterException() throws Exception {
         prepareMocks();
-
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -236,6 +275,7 @@ public class IndicatorsApiControllerIT {
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -253,6 +293,7 @@ public class IndicatorsApiControllerIT {
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        indicatorUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/indicators/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -319,7 +360,6 @@ public class IndicatorsApiControllerIT {
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
 
         indicatorImport.setPropertyMapping(mapping);
-        indicatorImport.setDryRun(false);
 
         return indicatorImport;
     }
@@ -359,7 +399,6 @@ public class IndicatorsApiControllerIT {
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
 
         indicatorUpdate.setPropertyMapping(mapping);
-        indicatorUpdate.setDryRun(false);
 
         return indicatorUpdate;
 

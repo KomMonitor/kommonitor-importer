@@ -104,6 +104,7 @@ public class SpatialUnitApiControllerIT {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -111,6 +112,22 @@ public class SpatialUnitApiControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test importSpatialUnit dry run responds with 200 status code and resource uri is empty")
+    public void testImportSpatialUnitDryRun() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitImportBody.setDryRun(true);
+
+        this.mockMvc.perform(post("/spatial-units")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(spatialUnitImportBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.uri").isEmpty());
     }
 
     @Test
@@ -122,6 +139,7 @@ public class SpatialUnitApiControllerIT {
         JsonNode json = mapper.valueToTree(spatialUnitImportBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
+        spatialUnitImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -135,6 +153,7 @@ public class SpatialUnitApiControllerIT {
     @DisplayName("Test importSpatialUnit responds with 400 status code for ImportParameterException")
     public void testImportSpatialUnitForImportParameterException() throws Exception {
         prepareMocks();
+        spatialUnitImportBody.setDryRun(false);
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
@@ -157,6 +176,7 @@ public class SpatialUnitApiControllerIT {
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -174,6 +194,7 @@ public class SpatialUnitApiControllerIT {
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitImportBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -184,11 +205,12 @@ public class SpatialUnitApiControllerIT {
     }
 
     @Test
-    @DisplayName("Test updateSpatialUnit responds with 201 status code")
+    @DisplayName("Test updateSpatialUnit responds with 200 status code")
     public void testUpdateSpatialUnit() throws Exception {
         prepareMocks();
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -196,6 +218,22 @@ public class SpatialUnitApiControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.uri").value(RESOURCE_ID));
+    }
+
+    @Test
+    @DisplayName("Test updateSpatialUnit dry run responds with 200 status code and resource uri is empty")
+    public void testUpdateSpatialUnitDryRun() throws Exception {
+        prepareMocks();
+        Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
+        Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitUpdateBody.setDryRun(true);
+
+        this.mockMvc.perform(post("/spatial-units/update")
+                .contentType(ContentType.APPLICATION_JSON.getMimeType())
+                .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
+                .andExpect(jsonPath("$.uri").isEmpty());
     }
 
     @Test
@@ -207,6 +245,7 @@ public class SpatialUnitApiControllerIT {
         JsonNode json = mapper.valueToTree(spatialUnitUpdateBody);
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         ((ObjectNode) json).set("metadata", null);
+        spatialUnitUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -220,6 +259,7 @@ public class SpatialUnitApiControllerIT {
     @DisplayName("Test updateSpatialUnit responds with 400 status code for ImportParameterException")
     public void testUpdateSpatialUnitForImportParameterException() throws Exception {
         prepareMocks();
+        spatialUnitUpdateBody.setDryRun(false);
 
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenThrow(new ImportParameterException("Missing parameter: testParam"));
@@ -242,6 +282,7 @@ public class SpatialUnitApiControllerIT {
                 .thenThrow(new DataSourceRetrieverException("Error while fetching data."));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -259,6 +300,7 @@ public class SpatialUnitApiControllerIT {
                 .thenThrow(new RestClientException("Error while requesting DataManagement API"));
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
+        spatialUnitUpdateBody.setDryRun(false);
 
         this.mockMvc.perform(post("/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
@@ -302,7 +344,6 @@ public class SpatialUnitApiControllerIT {
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
         spatialUnitImport.setPropertyMapping(mapping);
-        spatialUnitImport.setDryRun(false);
 
         return spatialUnitImport;
     }
@@ -333,7 +374,6 @@ public class SpatialUnitApiControllerIT {
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
         spatialUnitUpdate.setPropertyMapping(mapping);
-        spatialUnitUpdate.setDryRun(false);
 
         return spatialUnitUpdate;
     }
