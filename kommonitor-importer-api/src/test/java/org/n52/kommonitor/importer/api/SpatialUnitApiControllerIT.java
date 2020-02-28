@@ -28,6 +28,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.importer.utils.EntityValidator;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -82,6 +83,9 @@ public class SpatialUnitApiControllerIT {
 
     @MockBean
     private EntityValidator validator;
+
+    @MockBean
+    private ImportMonitor monitor;
 
     private static ImportSpatialUnitPOSTInputType spatialUnitImportBody;
 
