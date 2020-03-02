@@ -33,7 +33,7 @@ public class EntityValidator {
             return false;
         }
         if (entity.getGeom() == null || entity.getGeom().isEmpty()) {
-            LOG.warn("Missing ID property for SpatialResource: {}", entity);
+            LOG.warn("Missing GEOM property for SpatialResource: {}", entity);
             return false;
         }
         return true;
