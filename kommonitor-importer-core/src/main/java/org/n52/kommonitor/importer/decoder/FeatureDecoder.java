@@ -38,6 +38,7 @@ import java.util.*;
 @Component
 public class FeatureDecoder {
 
+    private static final String RANDOM_FEATURE_ID_PREFIX = "random_feature_id";
     private static final Logger LOG = LoggerFactory.getLogger(FeatureDecoder.class);
 
     private GeometryHelper geomHelper;
@@ -315,13 +316,11 @@ public class FeatureDecoder {
                 throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
             }
 
-        } else if(propertyValue instanceof Double){
-            return ((Double)propertyValue).floatValue();
-        }
-        else if(propertyValue instanceof Integer){
-            return ((Integer)propertyValue).floatValue();
-        }
-        else {
+        } else if (propertyValue instanceof Double) {
+            return ((Double) propertyValue).floatValue();
+        } else if (propertyValue instanceof Integer) {
+            return ((Integer) propertyValue).floatValue();
+        } else {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
         }
     }
@@ -363,11 +362,10 @@ public class FeatureDecoder {
     public void addMonitoringMessage(String keyProperty, SimpleFeature feature, String message) {
         Object id = feature.getAttribute(keyProperty);
         if (id == null) {
-            id = feature.getID();
+            id = String.join(":", RANDOM_FEATURE_ID_PREFIX, UUID.randomUUID().toString());
         }
         monitor.addFailedConversion(String.valueOf(id), message);
     }
-
 
 
 }

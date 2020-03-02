@@ -3,10 +3,7 @@ package org.n52.kommonitor.importer.utils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +38,9 @@ public class ImportMonitor {
         if (failedConversions.containsKey(id)) {
             failedConversions.get(id).add(cause);
         } else {
-            failedConversions.put(id, Arrays.asList(cause));
+            List<String> causes = new ArrayList();
+            causes.add(cause);
+            failedConversions.put(id, causes);
         }
     }
 
@@ -52,7 +51,7 @@ public class ImportMonitor {
      */
     public List<String> getErrorMessages() {
         return failedConversions.keySet().stream()
-                .map(k -> String.format("Failed conversion for resource %s. Cause(s): %s", k, failedConversions.get(k)))
+                .map(k -> String.format("Failed conversion for resource '%s'. Cause(s): %s", k, failedConversions.get(k)))
                 .collect(Collectors.toList());
     }
 
