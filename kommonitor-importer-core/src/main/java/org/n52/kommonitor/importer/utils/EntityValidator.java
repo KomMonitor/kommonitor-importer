@@ -56,9 +56,9 @@ public class EntityValidator {
         }
         boolean isValid = true;
         for (TimeseriesValue t : entity.getTimeSeriesValueList()) {
-            LOG.warn("No valid TimeSeriesValue for Indicator: {}", t);
             if (!isValid(t)) {
                 isValid = false;
+                LOG.warn("No valid TimeSeriesValue for Indicator: {}", t);
             }
         }
         return isValid;
