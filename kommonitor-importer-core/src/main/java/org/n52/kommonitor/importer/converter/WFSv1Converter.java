@@ -93,7 +93,7 @@ public class WFSv1Converter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertSpatialResources(converterDefinition, input, propertyMapping);
-        } catch (ParserConfigurationException | SAXException | IOException | FactoryException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -134,7 +134,7 @@ public class WFSv1Converter extends AbstractConverter {
     private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, FactoryException {
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
         GML gml = getGmlParserForSchema(converterDefinition.getSchema());
 
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
@@ -149,7 +149,11 @@ public class WFSv1Converter extends AbstractConverter {
 
         SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
 
-        return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
+        try {
+            return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
+        } catch (FactoryException ex) {
+            throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+        }
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,

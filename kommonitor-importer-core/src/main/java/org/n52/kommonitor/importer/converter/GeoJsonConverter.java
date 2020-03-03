@@ -21,6 +21,7 @@ import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -97,7 +98,7 @@ public class GeoJsonConverter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertSpatialResources(converterDefinition, input, propertyMapping);
-        } catch (IOException | FactoryException ex) {
+        } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -105,7 +106,7 @@ public class GeoJsonConverter extends AbstractConverter {
     private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
-            throws ImportParameterException, IOException, FactoryException {
+            throws ImportParameterException, IOException {
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
 
@@ -131,6 +132,8 @@ public class GeoJsonConverter extends AbstractConverter {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                 featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
+            } catch (FactoryException ex) {
+               throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
             }
         }
 
