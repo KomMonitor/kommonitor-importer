@@ -141,7 +141,7 @@ public class WFSv1ConverterTest {
         param.setValue("non-valid-epsg-code");
         convDef.setParameters(Arrays.asList(param));
 
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
+        Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
 
 
