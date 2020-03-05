@@ -320,6 +320,8 @@ public class FeatureDecoder {
             return ((Double) propertyValue).floatValue();
         } else if (propertyValue instanceof Integer) {
             return ((Integer) propertyValue).floatValue();
+        } else if (propertyValue instanceof Long) {
+            return ((Long) propertyValue).floatValue();
         } else {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
         }
