@@ -336,6 +336,50 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test get Integer property value for a Integer property type")
+    void testGetIntegerPropertyValueForIntegerProperty() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        int value = 123;
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertEquals(value, decoder.getPropertyValueAsInteger(feature, attName));
+    }
+
+    @Test
+    @DisplayName("Test get Integer property value for a String property")
+    void testGetIntegerPropertyValueForStringProperty() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        String value = "123";
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertEquals(Integer.parseInt(value), decoder.getPropertyValueAsInteger(feature, attName));
+    }
+
+    @Test
+    @DisplayName("Test get Integer property value should throw an exception for a non parsable String property")
+    void testGetIntegerPropertyValueForNonParsableStringProperty() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        String value = "not-a-number";
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertThrows(DecodingException.class, () -> decoder.getPropertyValueAsInteger(feature, attName));
+    }
+
+    @Test
+    @DisplayName("Test get Integer property value should throw an exception for a non supported property type")
+    void testGetIntegerPropertyValueForNonSupportedPropertyType() throws DecodingException {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String attName = "testAttribute";
+        float value = 123.123f;
+        Mockito.when(feature.getAttribute(attName)).thenReturn(value);
+
+        Assertions.assertThrows(DecodingException.class, () -> decoder.getPropertyValueAsInteger(feature, attName));
+    }
+
+    @Test
     @DisplayName("Test get Float property value for a Float property type")
     void testGetFloatPropertyValueForFloatProperty() throws DecodingException {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
