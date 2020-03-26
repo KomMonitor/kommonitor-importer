@@ -2,11 +2,15 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
+import org.n52.kommonitor.models.AttributeMappingType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
-
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -14,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:29.866+01:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -33,6 +37,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
 
   @JsonProperty("arisenFromProperty")
   private String arisenFromProperty = null;
+
+  @JsonProperty("attributeMappings")
+  @Valid
+  private List<AttributeMappingType> attributeMappings = null;
 
   public SpatialResourcePropertyMappingType identifierProperty(String identifierProperty) {
     this.identifierProperty = identifierProperty;
@@ -135,6 +143,35 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     this.arisenFromProperty = arisenFromProperty;
   }
 
+  public SpatialResourcePropertyMappingType attributeMappings(List<AttributeMappingType> attributeMappings) {
+    this.attributeMappings = attributeMappings;
+    return this;
+  }
+
+  public SpatialResourcePropertyMappingType addAttributeMappingsItem(AttributeMappingType attributeMappingsItem) {
+    if (this.attributeMappings == null) {
+      this.attributeMappings = new ArrayList<>();
+    }
+    this.attributeMappings.add(attributeMappingsItem);
+    return this;
+  }
+
+  /**
+   * list of additional attribute mappings
+   * @return attributeMappings
+  **/
+  @ApiModelProperty(value = "list of additional attribute mappings")
+
+  @Valid
+
+  public List<AttributeMappingType> getAttributeMappings() {
+    return attributeMappings;
+  }
+
+  public void setAttributeMappings(List<AttributeMappingType> attributeMappings) {
+    this.attributeMappings = attributeMappings;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -149,12 +186,13 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
         Objects.equals(this.nameProperty, spatialResourcePropertyMappingType.nameProperty) &&
         Objects.equals(this.validStartDateProperty, spatialResourcePropertyMappingType.validStartDateProperty) &&
         Objects.equals(this.validEndDateProperty, spatialResourcePropertyMappingType.validEndDateProperty) &&
-        Objects.equals(this.arisenFromProperty, spatialResourcePropertyMappingType.arisenFromProperty);
+        Objects.equals(this.arisenFromProperty, spatialResourcePropertyMappingType.arisenFromProperty) &&
+        Objects.equals(this.attributeMappings, spatialResourcePropertyMappingType.attributeMappings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty);
+    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty, attributeMappings);
   }
 
   @Override
@@ -167,6 +205,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     sb.append("    validStartDateProperty: ").append(toIndentedString(validStartDateProperty)).append("\n");
     sb.append("    validEndDateProperty: ").append(toIndentedString(validEndDateProperty)).append("\n");
     sb.append("    arisenFromProperty: ").append(toIndentedString(arisenFromProperty)).append("\n");
+    sb.append("    attributeMappings: ").append(toIndentedString(attributeMappings)).append("\n");
     sb.append("}");
     return sb.toString();
   }
