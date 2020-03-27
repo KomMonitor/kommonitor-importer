@@ -5,6 +5,8 @@ import org.locationtech.jts.geom.Geometry;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -20,19 +22,21 @@ public class SpatialResource {
     private Optional<String> arisenFrom;
     private Optional<LocalDate> startDate;
     private Optional<LocalDate> endDate;
+    private Optional<Map> attributes;
 
     public SpatialResource() {
 
     }
 
 
-    public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate) {
+    public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate, Map attributes) {
         this.id = id;
         this.name = name;
         this.geom = geom;
         this.arisenFrom = Optional.ofNullable(arisenFrom);
         this.startDate = Optional.ofNullable(startDate);
         this.endDate = Optional.ofNullable(endDate);
+        this.attributes = Optional.ofNullable(attributes);
     }
 
     public String getId() {
@@ -59,7 +63,7 @@ public class SpatialResource {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = Optional.ofNullable(endDate);
+    public Optional<Map> getAttributes() {
+        return attributes;
     }
 }

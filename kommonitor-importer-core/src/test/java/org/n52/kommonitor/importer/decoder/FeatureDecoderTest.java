@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
+import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -242,6 +243,59 @@ class FeatureDecoderTest {
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicators.get(0).getTimeSeriesValueList().get(0).getTimestamp());
         Assertions.assertEquals(VALUE_PROP_2_VALUE, indicators.get(0).getTimeSeriesValueList().get(1).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 9, 15), indicators.get(0).getTimeSeriesValueList().get(1).getTimestamp());
+    }
+
+    @Test
+    void testMapAttributes() {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String id = "testId";
+        String strProp = "testStringProp";
+        String strValue = "testStringValue";
+        Mockito.when(feature.getAttribute(strProp)).thenReturn(strValue);
+
+        String intProp = "testIntegerProp";
+        int intValue = 123;
+        Mockito.when(feature.getAttribute(intProp)).thenReturn(intValue);
+
+        String floatProp = "testFloatProp";
+        String mappedFloatProp = "mappedFloatProp";
+        float floatValue = 123.123f;
+        Mockito.when(feature.getAttribute(floatProp)).thenReturn(floatValue);
+
+        String nonExistingProp = "non-existing-prop";
+
+        String dateProp = "testDateProp";
+        String mappedDateProp = "mappedDateProp";
+        Date dateValue = new Date();
+        Mockito.when(feature.getAttribute(dateProp)).thenReturn(dateValue);
+
+        List<AttributeMappingType> mappings = new ArrayList();
+        mappings.add(new AttributeMappingType().name(strProp).type(AttributeMappingType.TypeEnum.STRING));
+        mappings.add(new AttributeMappingType().name(intProp).type(AttributeMappingType.TypeEnum.INTEGER));
+        mappings.add(new AttributeMappingType().name(floatProp).mappingName(mappedFloatProp).type(AttributeMappingType.TypeEnum.FLOAT));
+        mappings.add(new AttributeMappingType().name(dateProp).mappingName(mappedDateProp).type(AttributeMappingType.TypeEnum.DATE));
+        mappings.add(new AttributeMappingType().name(nonExistingProp).type(AttributeMappingType.TypeEnum.STRING));
+
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Assertions.assertEquals(strValue, mappedAttributes.get(strProp));
+        Assertions.assertEquals(intValue, mappedAttributes.get(intProp));
+        Assertions.assertEquals(floatValue, mappedAttributes.get(mappedFloatProp));
+        Assertions.assertEquals(df.format(dateValue), dtf.format((LocalDate) mappedAttributes.get(mappedDateProp)));
+        Assertions.assertFalse(mappedAttributes.containsKey(nonExistingProp));
+    }
+
+    @Test
+    void testMapAttributesShouldReturnNullForEmptyMappingDefinition() {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String id = "testId";
+        List mappings = new ArrayList();
+
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id);
+
+        Assertions.assertNull(mappedAttributes);
     }
 
     @Test

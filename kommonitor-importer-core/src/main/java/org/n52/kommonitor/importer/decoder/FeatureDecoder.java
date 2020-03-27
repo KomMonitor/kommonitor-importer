@@ -8,6 +8,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
+import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -28,6 +29,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
@@ -104,7 +106,9 @@ public class FeatureDecoder {
             throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", GeometryHelper.EPSG_4326), ex);
         }
 
-        return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate);
+        Map attributes = mapAttributes(feature, propertyMapping.getAttributeMappings(), id);
+
+        return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate, attributes);
     }
 
     /**
@@ -271,13 +275,65 @@ public class FeatureDecoder {
     }
 
     /**
+     * Maps additional attributes from a {@link SimpleFeature}
+     *
+     * @param feature           the {@link SimpleFeature} to fetch attributes from
+     * @param attributeMappings attributes mapping definitions
+     * @return mapped attributes, but null if the attribute mappings are empty
+     */
+    Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id) {
+        if (attributeMappings == null || attributeMappings.isEmpty()) {
+            return null;
+        }
+        Map attributes = new HashMap();
+
+        attributeMappings.forEach(a -> {
+            Object propertyValue = null;
+            try {
+                propertyValue = getAttributeValue(feature, a);
+
+                if (a.getMappingName() != null && !a.getMappingName().isEmpty()) {
+                    attributes.put(a.getMappingName(), propertyValue);
+                } else {
+                    attributes.put(a.getName(), propertyValue);
+                }
+            } catch (DecodingException e) {
+                LOG.warn("Could not decode time series value for feature {}. Cause: {}.", id, e.getMessage());
+                monitor.addFailedConversion(id, e.getMessage());
+            }
+        });
+        return attributes;
+    }
+
+    /**
+     * Get the attribute value of a {@link SimpleFeature} from an {@link AttributeMappingType}
+     *
+     * @param feature          the {@link SimpleFeature} to fetch the attribute value from
+     * @param attributeMapping the attribute mapping definition
+     * @return the attribute value depending on the type defined in the attribute mapping
+     * @throws DecodingException
+     */
+    Object getAttributeValue(SimpleFeature feature, AttributeMappingType attributeMapping) throws DecodingException {
+        switch (attributeMapping.getType()) {
+            case INTEGER:
+                return getPropertyValueAsInteger(feature, attributeMapping.getName());
+            case FLOAT:
+                return getPropertyValueAsFloat(feature, attributeMapping.getName());
+            case DATE:
+                return getPropertyValueAsDate(feature, attributeMapping.getName());
+            default:
+                return getPropertyValueAsString(feature, attributeMapping.getName());
+        }
+    }
+
+    /**
      * Gets the {@link Geometry} of a feature within WGS 84 coordinate reference system
      *
      * @param feature           the {@link SimpleFeature} to fetch the geometry from
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
      */
-    private Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
+    Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
         String geomName = simpleFeatureType.getGeometryDescriptor().getLocalName();
         Geometry geom = (Geometry) feature.getAttribute(geomName);
         return geom;

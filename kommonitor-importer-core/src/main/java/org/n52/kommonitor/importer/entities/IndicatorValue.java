@@ -1,7 +1,10 @@
 package org.n52.kommonitor.importer.entities;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * POJO for indicator related information
@@ -11,7 +14,6 @@ import java.util.List;
 public class IndicatorValue {
 
     private String spatialReferenceKey;
-
     private List<TimeseriesValue> timeSeriesValueList;
 
     public IndicatorValue(){
