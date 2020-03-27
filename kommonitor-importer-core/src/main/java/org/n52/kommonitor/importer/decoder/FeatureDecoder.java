@@ -365,6 +365,8 @@ public class FeatureDecoder {
         Object propertyValue = getPropertyValue(feature, propertyName);
         if (propertyValue instanceof Integer) {
             return (Integer) propertyValue;
+        } else if (propertyValue instanceof Long) {
+            return ((Long) propertyValue).intValue();
         } else if (propertyValue instanceof String) {
             try {
                 return Integer.parseInt((String) propertyValue);
