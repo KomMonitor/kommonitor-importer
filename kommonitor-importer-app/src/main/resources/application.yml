@@ -12,7 +12,6 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
-      
 logging:
   level:
     org.n52.kommonitor: DEBUG
