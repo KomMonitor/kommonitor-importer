@@ -27,10 +27,6 @@ public class IndicatorValue {
         return spatialReferenceKey;
     }
 
-    public void setSpatialReferenceKey(@NotNull String spatialReferenceKey) {
-        this.spatialReferenceKey = spatialReferenceKey;
-    }
-
     public List<TimeseriesValue> getTimeSeriesValueList() {
         return timeSeriesValueList;
     }

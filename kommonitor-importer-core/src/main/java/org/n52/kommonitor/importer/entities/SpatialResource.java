@@ -39,40 +39,20 @@ public class SpatialResource {
         return id;
     }
 
-    public void setId(@NotNull String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(@NotNull String name) {
-        this.name = name;
     }
 
     public Geometry getGeom() {
         return geom;
     }
 
-    public void setGeom(@NotNull Geometry geom) {
-        this.geom = geom;
-    }
-
     public Optional<String> getArisenFrom() {
         return arisenFrom;
     }
 
-    public void setArisenFrom(String arisenFrom) {
-        this.arisenFrom = Optional.ofNullable(arisenFrom);
-    }
-
     public Optional<LocalDate> getStartDate() {
         return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = Optional.ofNullable(startDate);
     }
 
     public Optional<LocalDate> getEndDate() {
