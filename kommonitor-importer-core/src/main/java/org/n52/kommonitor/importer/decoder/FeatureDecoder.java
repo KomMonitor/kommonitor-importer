@@ -361,7 +361,7 @@ public class FeatureDecoder {
      * @return the value of the fetched feature property as Integer
      * @throws DecodingException if the property value could not be parsed as Integer
      */
-    Integer getPropertyValueAsInteger(SimpleFeature feature, String propertyName) throws DecodingException {
+    int getPropertyValueAsInteger(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
         if (propertyValue instanceof Integer) {
             return (Integer) propertyValue;

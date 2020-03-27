@@ -14,7 +14,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class for encoding {@link List<SpatialResource>} into GeoJSON FeatureCollection
@@ -22,6 +24,9 @@ import java.util.List;
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Component
+/**
+ * Helper class to encode {@link SpatialResource} objects as JSON
+ */
 public class SpatialResourceJsonEncoder implements InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpatialResourceJsonEncoder.class);
@@ -43,6 +48,12 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     private ObjectMapper mapper;
     private GeometryJSON geomJson;
 
+    /**
+     * Encodes a list of {@link SpatialResource} objects as JSON
+     *
+     * @param spatialResource {@link SpatialResource} objects to encode
+     * @return a JSON object that represents the list of {@link SpatialResource} objects
+     */
     public JsonNode encodeSpatialResourcesAsJsonNode(List<SpatialResource> spatialResource) {
         ObjectNode rootNode = mapper.createObjectNode();
         rootNode.put(FIELD_NAME_TYPE, TYPE_VALUE_FEATURE_COLLECTION);
@@ -77,12 +88,28 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
         resource.getArisenFrom().ifPresent(arisenFrom -> propertiesNode.put(FIELD_NAME_ARISEN_FROM, arisenFrom));
         resource.getStartDate().ifPresent(startDate -> propertiesNode.put(FIELD_NAME_VALID_START_DATE, startDate.toString()));
         resource.getEndDate().ifPresent(endDate -> propertiesNode.put(FIELD_NAME_VALID_END_DATE, endDate.toString()));
+        resource.getAttributes().ifPresent(attributes -> writeAttributeMap(propertiesNode, attributes));
         return propertiesNode;
     }
 
     public JsonNode encodeGeometry(Geometry geom) throws JsonProcessingException {
         return mapper.readTree(geomJson.toString(geom));
     }
+
+    void writeAttributeMap(ObjectNode propertiesNode, Map<String, Object> attributes) {
+        attributes.forEach((k, v) -> {
+            if (v instanceof Integer) {
+                propertiesNode.put(k, (Integer) v);
+            } else if (v instanceof Float) {
+                propertiesNode.put(k, (Float) v);
+            } else if (v instanceof LocalDate) {
+                propertiesNode.put(k, ((LocalDate) v).toString());
+            } else {
+                propertiesNode.put(k, String.valueOf(v));
+            }
+        });
+    }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
