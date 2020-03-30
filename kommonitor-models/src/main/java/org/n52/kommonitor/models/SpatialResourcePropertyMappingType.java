@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:29.866+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-30T11:26:13.912+02:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -38,9 +38,12 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   @JsonProperty("arisenFromProperty")
   private String arisenFromProperty = null;
 
-  @JsonProperty("attributeMappings")
+  @JsonProperty("keepAttributes")
+  private Boolean keepAttributes = null;
+
+  @JsonProperty("attributes")
   @Valid
-  private List<AttributeMappingType> attributeMappings = null;
+  private List<AttributeMappingType> attributes = null;
 
   public SpatialResourcePropertyMappingType identifierProperty(String identifierProperty) {
     this.identifierProperty = identifierProperty;
@@ -143,33 +146,54 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     this.arisenFromProperty = arisenFromProperty;
   }
 
-  public SpatialResourcePropertyMappingType attributeMappings(List<AttributeMappingType> attributeMappings) {
-    this.attributeMappings = attributeMappings;
-    return this;
-  }
-
-  public SpatialResourcePropertyMappingType addAttributeMappingsItem(AttributeMappingType attributeMappingsItem) {
-    if (this.attributeMappings == null) {
-      this.attributeMappings = new ArrayList<>();
-    }
-    this.attributeMappings.add(attributeMappingsItem);
+  public SpatialResourcePropertyMappingType keepAttributes(Boolean keepAttributes) {
+    this.keepAttributes = keepAttributes;
     return this;
   }
 
   /**
-   * list of additional attribute mappings
-   * @return attributeMappings
+   * indicates if all attributes of the feature should be kept (note, if true, you can't specify an alias for the attributes, like you would do for the attribute mappings)
+   * @return keepAttributes
   **/
-  @ApiModelProperty(value = "list of additional attribute mappings")
+  @ApiModelProperty(required = true, value = "indicates if all attributes of the feature should be kept (note, if true, you can't specify an alias for the attributes, like you would do for the attribute mappings)")
+  @NotNull
+
+
+  public Boolean isKeepAttributes() {
+    return keepAttributes;
+  }
+
+  public void setKeepAttributes(Boolean keepAttributes) {
+    this.keepAttributes = keepAttributes;
+  }
+
+  public SpatialResourcePropertyMappingType attributes(List<AttributeMappingType> attributes) {
+    this.attributes = attributes;
+    return this;
+  }
+
+  public SpatialResourcePropertyMappingType addAttributesItem(AttributeMappingType attributesItem) {
+    if (this.attributes == null) {
+      this.attributes = new ArrayList<>();
+    }
+    this.attributes.add(attributesItem);
+    return this;
+  }
+
+  /**
+   * list of additional attribute mappings (will be skipped, if `keepAttributes` is true)
+   * @return attributes
+  **/
+  @ApiModelProperty(value = "list of additional attribute mappings (will be skipped, if `keepAttributes` is true)")
 
   @Valid
 
-  public List<AttributeMappingType> getAttributeMappings() {
-    return attributeMappings;
+  public List<AttributeMappingType> getAttributes() {
+    return attributes;
   }
 
-  public void setAttributeMappings(List<AttributeMappingType> attributeMappings) {
-    this.attributeMappings = attributeMappings;
+  public void setAttributes(List<AttributeMappingType> attributes) {
+    this.attributes = attributes;
   }
 
 
@@ -187,12 +211,13 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
         Objects.equals(this.validStartDateProperty, spatialResourcePropertyMappingType.validStartDateProperty) &&
         Objects.equals(this.validEndDateProperty, spatialResourcePropertyMappingType.validEndDateProperty) &&
         Objects.equals(this.arisenFromProperty, spatialResourcePropertyMappingType.arisenFromProperty) &&
-        Objects.equals(this.attributeMappings, spatialResourcePropertyMappingType.attributeMappings);
+        Objects.equals(this.keepAttributes, spatialResourcePropertyMappingType.keepAttributes) &&
+        Objects.equals(this.attributes, spatialResourcePropertyMappingType.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty, attributeMappings);
+    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty, keepAttributes, attributes);
   }
 
   @Override
@@ -205,7 +230,8 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     sb.append("    validStartDateProperty: ").append(toIndentedString(validStartDateProperty)).append("\n");
     sb.append("    validEndDateProperty: ").append(toIndentedString(validEndDateProperty)).append("\n");
     sb.append("    arisenFromProperty: ").append(toIndentedString(arisenFromProperty)).append("\n");
-    sb.append("    attributeMappings: ").append(toIndentedString(attributeMappings)).append("\n");
+    sb.append("    keepAttributes: ").append(toIndentedString(keepAttributes)).append("\n");
+    sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

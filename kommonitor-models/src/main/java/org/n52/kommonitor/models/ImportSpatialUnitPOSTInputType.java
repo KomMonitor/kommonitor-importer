@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
-import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
@@ -22,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for importing an new spatial unit from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:29.866+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-30T11:26:13.912+02:00")
 
 public class ImportSpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -38,10 +35,6 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
 
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
-
-  @JsonProperty("attributeMappings")
-  @Valid
-  private List<AttributeMappingType> attributeMappings = null;
 
   @JsonProperty("dryRun")
   private Boolean dryRun = null;
@@ -134,35 +127,6 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.propertyMapping = propertyMapping;
   }
 
-  public ImportSpatialUnitPOSTInputType attributeMappings(List<AttributeMappingType> attributeMappings) {
-    this.attributeMappings = attributeMappings;
-    return this;
-  }
-
-  public ImportSpatialUnitPOSTInputType addAttributeMappingsItem(AttributeMappingType attributeMappingsItem) {
-    if (this.attributeMappings == null) {
-      this.attributeMappings = new ArrayList<>();
-    }
-    this.attributeMappings.add(attributeMappingsItem);
-    return this;
-  }
-
-  /**
-   * list of additional attribute mappings
-   * @return attributeMappings
-  **/
-  @ApiModelProperty(value = "list of additional attribute mappings")
-
-  @Valid
-
-  public List<AttributeMappingType> getAttributeMappings() {
-    return attributeMappings;
-  }
-
-  public void setAttributeMappings(List<AttributeMappingType> attributeMappings) {
-    this.attributeMappings = attributeMappings;
-  }
-
   public ImportSpatialUnitPOSTInputType dryRun(Boolean dryRun) {
     this.dryRun = dryRun;
     return this;
@@ -198,13 +162,12 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.dataSource, importSpatialUnitPOSTInputType.dataSource) &&
         Objects.equals(this.converter, importSpatialUnitPOSTInputType.converter) &&
         Objects.equals(this.propertyMapping, importSpatialUnitPOSTInputType.propertyMapping) &&
-        Objects.equals(this.attributeMappings, importSpatialUnitPOSTInputType.attributeMappings) &&
         Objects.equals(this.dryRun, importSpatialUnitPOSTInputType.dryRun);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitPostBody, dataSource, converter, propertyMapping, attributeMappings, dryRun);
+    return Objects.hash(spatialUnitPostBody, dataSource, converter, propertyMapping, dryRun);
   }
 
   @Override
@@ -216,7 +179,6 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
-    sb.append("    attributeMappings: ").append(toIndentedString(attributeMappings)).append("\n");
     sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("}");
     return sb.toString();
