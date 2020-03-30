@@ -262,10 +262,11 @@ both in order to define the converter properly for the import request.
 
 #### Spatial Resource Property Mapping
 As part of the import process, a GeoJSON FeatureCollection will be generated from the imported dataset, that will be used
-for adding new resources via the Data Management API. This FeatureCollection contains the geometry from the imported dataset
-and some additional properties, according to the Data Management API schema for those resources. To tell the Import API 
-which properties from the original dataset should be used for the FeatureCollcetion properties, a property mapping has 
-to be provided. E.g. assume the following GeoJSON dataset:
+for adding new resources via the Data Management API. This FeatureCollection contains the geometry from the imported dataset, 
+some additional properties, according to the Data Management API schema for those resources and optional a the whole
+collection of feature attributes or only a subset from it. To tell the Import API which properties from the original 
+dataset should be used for the FeatureCollcetion properties, a property mapping has to be provided. E.g. assume the 
+following GeoJSON dataset:
 ```json
 {
 	"type": "FeatureCollection",
@@ -277,7 +278,9 @@ to be provided. E.g. assume the following GeoJSON dataset:
 				"baublock_id": "_170",
 				"EreignisintervallStart": "2019-05-06",
 				"EreignisintervallEnde": "2019-05-28",
-				"altersdurchschnitt": 43.4123
+				"altersdurchschnitt": 43.4123,
+                "ort": "Musterstadt",
+                "plz": "12345"
 			},
 			"geometry": {
 				"type": "MultiPolygon",
@@ -299,11 +302,36 @@ An appropriate property mapping would be:
   "propertyMapping": {
     "identifierProperty": "baublock_id",
 	"nameProperty": "baublock_id",
-	"validEndDateProperty": "EreignisintervallStart",
-	"validStartDateProperty": "EreignisintervallEnde"
+	"validStartDateProperty": "EreignisintervallStart",
+	"validEndDateProperty": "EreignisintervallEnde",
+    "keepAttributes": false,
+    "attributes": [
+      {
+        "name": "ort",
+        "type": "string"
+      },
+      {
+        "name": "plz",
+        "mappingName": "postleitzahl",
+        "type": "string"
+      }     
+    ] 
   }
 }
 ```
+The first two properties (`identifierProperty` and `nameProperty`) are specified by the Data Management API schema and 
+are mandatory.  
+
+The following two properties (`validStartDate` and `validEndDate`) are also specified by the by the Data Management API 
+schema but optional.  
+
+The `keepAttributes` property indicates indicates whether to preserve all attributes or not. If true, you can't specify 
+an alias for the attributes, like you would do for the attribute mappings.  
+
+You can define mappings for any attributes under the `attributes` property. Here you can also define an alias name 
+for an attribute by setting a value for the `mappingName` property. If the `keepAttributes` is true, this property will 
+be skipped.  
+
 Note, that up to now only flat property hierarchies are supported. Nested properties in the original dataset can't be covered
 with the property mapping, so the import will fail for such a dataset.
 
