@@ -20,9 +20,11 @@ import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.models.TimeseriesMappingType;
+import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
+import org.opengis.feature.type.Name;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
@@ -246,6 +248,7 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test attribute mapping")
     void testMapAttributes() {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         String id = "testId";
@@ -288,6 +291,7 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test attribute mapping should return null for an empty mapping definition")
     void testMapAttributesShouldReturnNullForEmptyMappingDefinition() {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         String id = "testId";
@@ -296,6 +300,54 @@ class FeatureDecoderTest {
         Map mappedAttributes = decoder.mapAttributes(feature, mappings, id);
 
         Assertions.assertNull(mappedAttributes);
+    }
+
+    @Test
+    @DisplayName("Test mapping of all attribute")
+    void testMapAllAttributes() {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String strPropName = "testStringProp";
+        String strValue = "testStringValue";
+        Property strProp = Mockito.mock(Property.class);
+        Name strName = Mockito.mock(Name.class);
+        Mockito.when(strName.getLocalPart()).thenReturn(strPropName);
+        Mockito.when(strProp.getName()).thenReturn(strName);
+        Mockito.when(strProp.getValue()).thenReturn(strValue);
+
+        String intPropName = "testIntegerProp";
+        int intValue = 123;
+        Property intProp = Mockito.mock(Property.class);
+        Name intName = Mockito.mock(Name.class);
+        Mockito.when(intName.getLocalPart()).thenReturn(intPropName);
+        Mockito.when(intProp.getName()).thenReturn(intName);
+        Mockito.when(intProp.getValue()).thenReturn(intValue);
+
+        String floatPropName = "testFloatProp";
+        float floatValue = 123.123f;
+        Property floatProp = Mockito.mock(Property.class);
+        Name floatName = Mockito.mock(Name.class);
+        Mockito.when(floatName.getLocalPart()).thenReturn(floatPropName);
+        Mockito.when(floatProp.getName()).thenReturn(floatName);
+        Mockito.when(floatProp.getValue()).thenReturn(floatValue);
+
+        String datePropName = "testDateProp";
+        Date dateValue = new Date();
+        Property dateProp = Mockito.mock(Property.class);
+        Name dateName = Mockito.mock(Name.class);
+        Mockito.when(dateName.getLocalPart()).thenReturn(datePropName);
+        Mockito.when(dateProp.getName()).thenReturn(dateName);
+        Mockito.when(dateProp.getValue()).thenReturn(dateValue);
+
+        Mockito.when(feature.getProperties()).thenReturn(Arrays.asList(strProp, intProp, floatProp, dateProp));
+
+        Map mappedAttributes = decoder.mappAllAttributes(feature);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Assertions.assertEquals(strValue, mappedAttributes.get(strPropName));
+        Assertions.assertEquals(intValue, mappedAttributes.get(intPropName));
+        Assertions.assertEquals(floatValue, mappedAttributes.get(floatPropName));
+        Assertions.assertEquals(df.format(dateValue), df.format(mappedAttributes.get(datePropName)));
+
     }
 
     @Test

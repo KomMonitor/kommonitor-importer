@@ -106,7 +106,13 @@ public class FeatureDecoder {
             throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", GeometryHelper.EPSG_4326), ex);
         }
 
-        Map attributes = mapAttributes(feature, propertyMapping.getAttributeMappings(), id);
+        Map attributes = null;
+        if (propertyMapping.isKeepAttributes()) {
+            attributes = mappAllAttributes(feature);
+        } else {
+            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id);
+        }
+
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate, attributes);
     }
@@ -277,9 +283,9 @@ public class FeatureDecoder {
     /**
      * Maps additional attributes from a {@link SimpleFeature}
      *
-     * @param feature           the {@link SimpleFeature} to fetch attributes from
+     * @param feature           the {@link SimpleFeature} to map the attributes from
      * @param attributeMappings attributes mapping definitions
-     * @return mapped attributes, but null if the attribute mappings are empty
+     * @return mapped attributes if there are any attribute mapping definitions anf null if the attribute mappings are empty
      */
     Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id) {
         if (attributeMappings == null || attributeMappings.isEmpty()) {
@@ -301,6 +307,20 @@ public class FeatureDecoder {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", id, e.getMessage());
                 monitor.addFailedConversion(id, e.getMessage());
             }
+        });
+        return attributes;
+    }
+
+    /**
+     * Maps all attributes from a {@link SimpleFeature}. The attribute names will be kept.
+     *
+     * @param feature the {@link SimpleFeature} to map the attributes from
+     * @return the whole attribute map
+     */
+    Map mappAllAttributes(SimpleFeature feature) {
+        Map attributes = new HashMap();
+        feature.getProperties().forEach(p -> {
+            attributes.put(p.getName().getLocalPart(), p.getValue());
         });
         return attributes;
     }
