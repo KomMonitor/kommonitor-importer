@@ -58,6 +58,7 @@ public class WFSv1ConverterTest {
         spatialResourcePropertyMapping.setNameProperty("Baublock_ID");
         spatialResourcePropertyMapping.setValidStartDateProperty("EreignisintervallStart");
         spatialResourcePropertyMapping.setValidEndDateProperty("EreignisintervallEnde");
+        spatialResourcePropertyMapping.setKeepAttributes(false);
 
         indicatorPropertyMapping = new IndicatorPropertyMappingType();
         indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");

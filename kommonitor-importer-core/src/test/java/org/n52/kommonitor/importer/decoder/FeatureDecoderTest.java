@@ -91,6 +91,7 @@ class FeatureDecoderTest {
         mapping.setNameProperty(NAME_PROP);
         mapping.setValidStartDateProperty(START_DATE_PROP);
         mapping.setValidEndDateProperty(END_DATE_PROP);
+        mapping.setKeepAttributes(false);
         return mapping;
     }
 
