@@ -561,15 +561,15 @@ class FeatureDecoderTest {
     private SimpleFeature mockSimpleFeature() {
         SimpleFeatureType featureType = Mockito.mock(SimpleFeatureType.class);
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
-        Mockito.when(descriptor.getLocalName()).thenReturn(GEOM_PROP);
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
+        Mockito.when(descriptor.getName()).thenReturn(new NameImpl(GEOM_PROP));
 
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(ID_PROP)).thenReturn(ID_PROP_VALUE);
         Mockito.when(feature.getAttribute(NAME_PROP)).thenReturn(NAME_PROP_VALUE);
         Mockito.when(feature.getAttribute(START_DATE_PROP)).thenReturn(START_DATE_PROP_VALUE);
         Mockito.when(feature.getAttribute(END_DATE_PROP)).thenReturn(END_DATE_PROP_VALUE);
-        Mockito.when(feature.getAttribute(GEOM_PROP))
+        Mockito.when(feature.getAttribute(descriptor.getName()))
                 .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getAttribute(REF_KEY_PROP)).thenReturn(REF_KEY_PROP_VALUE);
         Mockito.when(feature.getAttribute(VALUE_PROP)).thenReturn(VALUE_PROP_VALUE);

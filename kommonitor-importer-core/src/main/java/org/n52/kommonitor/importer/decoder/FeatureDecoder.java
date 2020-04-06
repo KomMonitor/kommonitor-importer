@@ -312,15 +312,20 @@ public class FeatureDecoder {
     }
 
     /**
-     * Maps all attributes from a {@link SimpleFeature}. The attribute names will be kept.
+     * Maps all attributes but the geometry property from a {@link SimpleFeature}. The attribute names will be kept.
      *
      * @param feature the {@link SimpleFeature} to map the attributes from
-     * @return the whole attribute map
+     * @return an attribute map whose keys are formed by the property names and the values by the property values from
+     * the origin feature's property list
      */
     Map mappAllAttributes(SimpleFeature feature) {
         Map attributes = new HashMap();
         feature.getProperties().forEach(p -> {
-            attributes.put(p.getName().getLocalPart(), p.getValue());
+            if (feature.getDefaultGeometryProperty() == null) {
+                attributes.put(p.getName().getLocalPart(), p.getValue());
+            } else if (!p.getName().getURI().equals(feature.getDefaultGeometryProperty().getName().getURI())) {
+                attributes.put(p.getName().getLocalPart(), p.getValue());
+            }
         });
         return attributes;
     }
