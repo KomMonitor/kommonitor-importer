@@ -69,7 +69,9 @@ public class FileStorageService implements InitializingBean {
         );
 
         UserDefinedFileAttributeView view = Files.getFileAttributeView(file.toPath(), UserDefinedFileAttributeView.class);
-        view.write(META_MIMETYPE, ByteBuffer.wrap(multipartFile.getContentType().getBytes()));
+        if (multipartFile.getContentType() != null) {
+            view.write(META_MIMETYPE, ByteBuffer.wrap(multipartFile.getContentType().getBytes()));
+        }
         return name;
     }
 
@@ -77,7 +79,7 @@ public class FileStorageService implements InitializingBean {
      * Gets the metadata from a file that are stored as {@link UserDefinedFileAttributeView}
      *
      * @param metaName the name of the metadata
-     * @param file {@link File} to get the metadata from
+     * @param file     {@link File} to get the metadata from
      * @return requested metadata value
      * @throws IOException
      */

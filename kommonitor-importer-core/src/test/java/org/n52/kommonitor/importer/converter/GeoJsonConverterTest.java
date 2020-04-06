@@ -13,7 +13,7 @@ import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,7 +43,7 @@ public class GeoJsonConverterTest {
         ParameterValueType param = new ParameterValueType();
         param.setName("CRS");
         param.setValue("EPSG:25832");
-        convDef.setParameters(Arrays.asList(param));
+        convDef.setParameters(Collections.singletonList(param));
 
         spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
         spatialResourcePropertyMapping.setIdentifierProperty("Baublock_ID");
@@ -59,7 +59,7 @@ public class GeoJsonConverterTest {
         timeseriesMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
         timeseriesMapping.setTimestampProperty("EreignisintervallStart");
 
-        indicatorPropertyMapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+        indicatorPropertyMapping.setTimeseriesMappings(Collections.singletonList(timeseriesMapping));
     }
 
     @Test

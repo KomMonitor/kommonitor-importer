@@ -71,7 +71,7 @@ public class EntityValidator {
      * @return true if the validation check was succesful
      */
     public boolean isValid(TimeseriesValue entity) {
-        if ((Float) entity.getValue() == null) {
+        if (Float.isNaN(entity.getValue())) {
             return false;
         }
         if (entity.getTimestamp() == null) {

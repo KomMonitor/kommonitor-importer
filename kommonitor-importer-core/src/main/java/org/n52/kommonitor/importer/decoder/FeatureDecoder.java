@@ -7,14 +7,15 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
+import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.models.TimeseriesMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
@@ -29,7 +30,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
@@ -99,14 +99,14 @@ public class FeatureDecoder {
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
         LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
-        Geometry geom = null;
+        Geometry geom;
         try {
             geom = geomHelper.reprojectGeomToWgs84(getGeometry(feature, feature.getFeatureType()), sourceCrs);
         } catch (FactoryException | TransformException ex) {
             throw new DecodingException(String.format("Could not reproject feature geometries to CRS: %s", GeometryHelper.EPSG_4326), ex);
         }
 
-        Map attributes = null;
+        Map attributes;
         if (propertyMapping.isKeepAttributes()) {
             attributes = mappAllAttributes(feature);
         } else {
@@ -215,7 +215,7 @@ public class FeatureDecoder {
      */
     TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType) throws DecodingException {
         float indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
-        LocalDate timeStamp = null;
+        LocalDate timeStamp;
         if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
             timeStamp = propertyMappingType.getTimestamp();
         } else {
@@ -237,12 +237,10 @@ public class FeatureDecoder {
      */
     private List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
                                                                           String referenceKeyProperty,
-                                                                          TimeseriesMappingType timeseriesMapping) throws IOException {
+                                                                          TimeseriesMappingType timeseriesMapping) {
         List<IndicatorValue> result = new ArrayList<>();
         Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, referenceKeyProperty);
-        groupedFeatures.forEach((k, v) -> {
-            result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping));
-        });
+        groupedFeatures.forEach((k, v) -> result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping)));
 
         return result;
     }
@@ -250,7 +248,7 @@ public class FeatureDecoder {
     /**
      * Groups a {@link SimpleFeatureCollection} by common values of a spatial reference key property that
      * is defined within a {@link IndicatorPropertyMappingType}.
-     * The grouping results in a {@link Map<String, List<SimpleFeature>>} with the distinct spatial reference key values
+     * The grouping results in a {@link Map<String, List>SimpleFeature>>} with the distinct spatial reference key values
      * as map keys and the {@link SimpleFeature} entities belonging to the spatial reference keys value as values.
      *
      * @param featureCollection    the {@link SimpleFeatureCollection} to group
@@ -294,7 +292,7 @@ public class FeatureDecoder {
         Map attributes = new HashMap();
 
         attributeMappings.forEach(a -> {
-            Object propertyValue = null;
+            Object propertyValue;
             try {
                 propertyValue = getAttributeValue(feature, a);
 
@@ -357,11 +355,14 @@ public class FeatureDecoder {
      * @param feature           the {@link SimpleFeature} to fetch the geometry from
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
+     * @throws DecodingException
      */
     Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
-        String geomName = simpleFeatureType.getGeometryDescriptor().getLocalName();
-        Geometry geom = (Geometry) feature.getAttribute(geomName);
-        return geom;
+        GeometryDescriptor geomDesc = simpleFeatureType.getGeometryDescriptor();
+        if (geomDesc == null) {
+            throw new DecodingException("Could not decode geometry property.");
+        }
+        return (Geometry) feature.getAttribute(geomDesc.getName());
     }
 
 
@@ -444,7 +445,7 @@ public class FeatureDecoder {
      */
     LocalDate getPropertyValueAsDate(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        LocalDate date = null;
+        LocalDate date;
         if (propertyValue instanceof String) {
             try {
                 date = LocalDate.parse((String) propertyValue);

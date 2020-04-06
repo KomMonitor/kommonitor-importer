@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
-import org.geotools.GML;
-import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.feature.FeatureIterator;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.referencing.CRS;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
@@ -21,15 +18,11 @@ import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -133,7 +126,7 @@ public class GeoJsonConverter extends AbstractConverter {
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                 featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
             } catch (FactoryException ex) {
-               throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+                throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
             }
         }
 
@@ -147,14 +140,13 @@ public class GeoJsonConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(converterDefinition, input, propertyMapping);
+            return convertIndicators(input, propertyMapping);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
 
-    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
-                                                   InputStream dataset,
+    private List<IndicatorValue> convertIndicators(InputStream dataset,
                                                    IndicatorPropertyMappingType propertyMapping)
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
