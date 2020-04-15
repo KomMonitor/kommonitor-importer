@@ -33,7 +33,7 @@ public class ConverterParameter {
     }
 
     public enum ParameterTypeValues {
-        CHARACTER, STRING, NUMBER, BOOLEAN, ARRAY
+        STRING, NUMBER, BOOLEAN, ARRAY
     }
 
 }
