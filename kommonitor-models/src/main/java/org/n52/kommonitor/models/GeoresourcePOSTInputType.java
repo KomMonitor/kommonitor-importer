@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
@@ -19,7 +20,7 @@ import javax.validation.constraints.*;
  * GeoresourcePOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:47.603+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:30.854+01:00")
 
 public class GeoresourcePOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -51,6 +52,9 @@ public class GeoresourcePOSTInputType  implements Serializable {
 
   @JsonProperty("loiColor")
   private String loiColor = null;
+
+  @JsonProperty("loiWidth")
+  private BigDecimal loiWidth = null;
 
   @JsonProperty("loiDashArrayString")
   private String loiDashArrayString = null;
@@ -360,6 +364,27 @@ public class GeoresourcePOSTInputType  implements Serializable {
     this.loiColor = loiColor;
   }
 
+  public GeoresourcePOSTInputType loiWidth(BigDecimal loiWidth) {
+    this.loiWidth = loiWidth;
+    return this;
+  }
+
+  /**
+   * display width for lines of interest (number of pixels in leaflet)
+   * @return loiWidth
+  **/
+  @ApiModelProperty(value = "display width for lines of interest (number of pixels in leaflet)")
+
+  @Valid
+
+  public BigDecimal getLoiWidth() {
+    return loiWidth;
+  }
+
+  public void setLoiWidth(BigDecimal loiWidth) {
+    this.loiWidth = loiWidth;
+  }
+
   public GeoresourcePOSTInputType loiDashArrayString(String loiDashArrayString) {
     this.loiDashArrayString = loiDashArrayString;
     return this;
@@ -519,6 +544,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
         Objects.equals(this.isLOI, georesourcePOSTInputType.isLOI) &&
         Objects.equals(this.isAOI, georesourcePOSTInputType.isAOI) &&
         Objects.equals(this.loiColor, georesourcePOSTInputType.loiColor) &&
+        Objects.equals(this.loiWidth, georesourcePOSTInputType.loiWidth) &&
         Objects.equals(this.loiDashArrayString, georesourcePOSTInputType.loiDashArrayString) &&
         Objects.equals(this.aoiColor, georesourcePOSTInputType.aoiColor) &&
         Objects.equals(this.poiSymbolBootstrap3Name, georesourcePOSTInputType.poiSymbolBootstrap3Name) &&
@@ -530,7 +556,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, topicReference, isPOI, isLOI, isAOI, loiColor, loiDashArrayString, aoiColor, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema, geoJsonString);
+    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, topicReference, isPOI, isLOI, isAOI, loiColor, loiWidth, loiDashArrayString, aoiColor, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema, geoJsonString);
   }
 
   @Override
@@ -547,6 +573,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
     sb.append("    isLOI: ").append(toIndentedString(isLOI)).append("\n");
     sb.append("    isAOI: ").append(toIndentedString(isAOI)).append("\n");
     sb.append("    loiColor: ").append(toIndentedString(loiColor)).append("\n");
+    sb.append("    loiWidth: ").append(toIndentedString(loiWidth)).append("\n");
     sb.append("    loiDashArrayString: ").append(toIndentedString(loiDashArrayString)).append("\n");
     sb.append("    aoiColor: ").append(toIndentedString(aoiColor)).append("\n");
     sb.append("    poiSymbolBootstrap3Name: ").append(toIndentedString(poiSymbolBootstrap3Name)).append("\n");

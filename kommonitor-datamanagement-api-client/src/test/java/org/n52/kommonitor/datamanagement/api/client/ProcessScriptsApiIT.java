@@ -25,7 +25,7 @@ import java.util.List;
  * API tests for ProcessScriptsApi
  */
 @Ignore
-public class ProcessScriptsApiTest {
+public class ProcessScriptsApiIT {
 
     private final ProcessScriptsApi api = new ProcessScriptsApi();
 

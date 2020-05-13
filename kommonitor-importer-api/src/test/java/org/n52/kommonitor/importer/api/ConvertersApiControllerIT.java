@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterParameter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
 @ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ApiExceptionHandler.class})
-public class ConvertersApiControllerTest {
+public class ConvertersApiControllerIT {
 
     private static final String CONVERTER_NAME = "Test converter";
     private static final String CONVERTER_MIME_TYPE = "text/xml";
@@ -50,6 +51,9 @@ public class ConvertersApiControllerTest {
 
     @MockBean
     private AbstractConverter converter;
+
+    @MockBean
+    private ImportMonitor monitor;
 
     @Test
     @DisplayName("Test getConverters responds with OK status code")

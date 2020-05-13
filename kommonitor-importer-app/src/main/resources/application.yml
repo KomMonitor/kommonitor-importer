@@ -8,6 +8,10 @@ spring:
     date-format: io.swagger.RFC3339DateFormat
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 logging:
   level:
     org.n52.kommonitor: DEBUG

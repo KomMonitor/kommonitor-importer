@@ -54,7 +54,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  */
 @RestClientTest(GeoresourcesApi.class)
 @ContextConfiguration(classes = {ApiClient.class, GeoresourcesApi.class, RestTemplate.class})
-public class GeoresourcesApiTest {
+public class GeoresourcesApiIT {
 
     private static final String BASE_PATH = "http://localhost:8085/management";
 

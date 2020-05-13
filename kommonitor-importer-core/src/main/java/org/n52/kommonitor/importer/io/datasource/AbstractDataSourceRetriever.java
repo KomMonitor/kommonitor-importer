@@ -51,7 +51,7 @@ public abstract class AbstractDataSourceRetriever<T> implements DataSourceRetrie
     protected abstract Set<DataSourceParameter> initSupportedParameters();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         type = initType();
         dataSourceParameters = initSupportedParameters();
     }

@@ -12,12 +12,12 @@ import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles a Georesource update request by converting a {@link Dataset} into a {@link List<SpatialResource>} and
@@ -42,10 +42,10 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
     }
 
     @Override
-    public ResponseEntity<ImportResponseType> handleRequestForType(UpdateGeoresourcePOSTInputType requestResourceType,
-                                                             AbstractConverter converter,
-                                                             ConverterDefinitionType converterDefinition,
-                                                             Dataset dataset)
+    public ImportResponseType handleRequestForType(UpdateGeoresourcePOSTInputType requestResourceType,
+                                                   AbstractConverter converter,
+                                                   ConverterDefinitionType converterDefinition,
+                                                   Dataset dataset)
             throws ConverterException, ImportParameterException, RestClientException {
 
         LOG.info("Converting dataset with converter: {}", converter.getName());
@@ -54,24 +54,34 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
                 converterDefinition,
                 dataset,
                 requestResourceType.getPropertyMapping());
-        GeoresourcePUTInputType georesourcePutInput = requestResourceType.getGeoresourcePutBody();
-        try {
-            georesourcePutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(spatialResources));
-        } catch (JsonProcessingException ex) {
-            throw new ImportParameterException("Could not encode Georesource.", ex);
+
+        List<SpatialResource> validResources = spatialResources.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        if (validResources.isEmpty()) {
+            throw new ConverterException("No valid Georesource could be parsed from the specified data source");
         }
 
-        LOG.info("Perform 'updateGeoresource' request for Georesource dataset: {}", requestResourceType.getGeoresourceId());
-        LOG.debug("'updateGeoresource' request PUT body: {}", georesourcePutInput);
-        ResponseEntity<Void> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
-        String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
-        LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", location);
-
         ImportResponseType importResponse = new ImportResponseType();
-        importResponse.setUri(location);
+        
+        if (!requestResourceType.isDryRun()) {
+            GeoresourcePUTInputType georesourcePutInput = requestResourceType.getGeoresourcePutBody();
+            try {
+                georesourcePutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
+            } catch (JsonProcessingException ex) {
+                throw new ImportParameterException("Could not encode Georesource.", ex);
+            }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(importResponse);
+            LOG.info("Perform 'updateGeoresource' request for Georesource dataset: {}", requestResourceType.getGeoresourceId());
+            LOG.debug("'updateGeoresource' request PUT body: {}", georesourcePutInput);
+            ResponseEntity<Void> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
+            String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
+            LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", location);
+            importResponse.setUri(location);
+        }
+
+        List<String> convertedResourceIds = validResources.stream()
+                .map(s -> s.getId())
+                .collect(Collectors.toList());
+        importResponse.setImportedFeatures(convertedResourceIds);
+        return importResponse;
     }
 }

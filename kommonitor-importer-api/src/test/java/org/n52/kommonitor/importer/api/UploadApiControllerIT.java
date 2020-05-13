@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.io.file.FileStorageService;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,13 +35,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UploadApiController.class)
 @ContextConfiguration(classes = {UploadApiController.class, ApiExceptionHandler.class})
-public class UploadApiControllerTest {
+public class UploadApiControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private FileStorageService storageService;
+
+    @MockBean
+    private ImportMonitor monitor;
 
     @Test
     @DisplayName("Test upload responds with 201 status code for successful upload")

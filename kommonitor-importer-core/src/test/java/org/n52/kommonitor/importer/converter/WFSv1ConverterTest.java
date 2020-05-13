@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.converter;
 
+import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
 import org.geotools.GML;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 
@@ -40,7 +42,8 @@ public class WFSv1ConverterTest {
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
-        converter = new WFSv1Converter(new FeatureDecoder(geomHelper));
+        ImportMonitor monitor = new ImportMonitor();
+        converter = new WFSv1Converter(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);
@@ -49,13 +52,14 @@ public class WFSv1ConverterTest {
         ParameterValueType param = new ParameterValueType();
         param.setName("CRS");
         param.setValue("EPSG:25832");
-        convDef.setParameters(Arrays.asList(param));
+        convDef.setParameters(Collections.singletonList(param));
 
         spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
         spatialResourcePropertyMapping.setIdentifierProperty("Baublock_ID");
         spatialResourcePropertyMapping.setNameProperty("Baublock_ID");
         spatialResourcePropertyMapping.setValidStartDateProperty("EreignisintervallStart");
         spatialResourcePropertyMapping.setValidEndDateProperty("EreignisintervallEnde");
+        spatialResourcePropertyMapping.setKeepAttributes(false);
 
         indicatorPropertyMapping = new IndicatorPropertyMappingType();
         indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");
@@ -64,7 +68,7 @@ public class WFSv1ConverterTest {
         timeseriesMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
         timeseriesMapping.setTimestampProperty("EreignisintervallStart");
 
-        indicatorPropertyMapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+        indicatorPropertyMapping.setTimeseriesMappings(Collections.singletonList(timeseriesMapping));
     }
 
     @Test
@@ -137,9 +141,9 @@ public class WFSv1ConverterTest {
         ParameterValueType param = new ParameterValueType();
         param.setName("CRS");
         param.setValue("non-valid-epsg-code");
-        convDef.setParameters(Arrays.asList(param));
+        convDef.setParameters(Collections.singletonList(param));
 
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
+        Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
 
 

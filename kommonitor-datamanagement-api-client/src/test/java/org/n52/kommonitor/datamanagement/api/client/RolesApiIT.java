@@ -24,7 +24,7 @@ import java.util.List;
  * API tests for RolesApi
  */
 @Ignore
-public class RolesApiTest {
+public class RolesApiIT {
 
     private final RolesApi api = new RolesApi();
 

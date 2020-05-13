@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
 import org.n52.kommonitor.importer.io.datasource.DataSourceParameter;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConvertersApiController.class)
 @ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ApiExceptionHandler.class})
-public class DatasourceTypesApiTest {
+public class DatasourceTypesApiIT {
 
     private static final String DATASOURCE_TYPE = "INLINE";
     private static final String PARAM_NAME = "payload";
@@ -48,6 +49,9 @@ public class DatasourceTypesApiTest {
 
     @MockBean
     private AbstractDataSourceRetriever retriever;
+
+    @MockBean
+    private ImportMonitor monitor;
 
     @Test
     @DisplayName("Test getSupportedDataSourceTypes responds with OK status code")

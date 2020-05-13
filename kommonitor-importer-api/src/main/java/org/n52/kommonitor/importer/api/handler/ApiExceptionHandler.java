@@ -5,8 +5,10 @@ import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.importer.api.utils.ErrorFactory;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -27,6 +29,9 @@ import java.util.Map;
 @ControllerAdvice
 public class ApiExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ApiExceptionHandler.class);
+
+    @Autowired
+    private ImportMonitor monitor;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -83,7 +88,10 @@ public class ApiExceptionHandler {
         LOG.error("Error while handling import request: {}", ex.getMessage());
         LOG.debug("Error while handling import request", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+                .body(ErrorFactory.getError(
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        ex.getMessage(),
+                        monitor.getErrorMessages()));
     }
 
 }

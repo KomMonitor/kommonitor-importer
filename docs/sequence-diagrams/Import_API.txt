@@ -1,3 +1,4 @@
+# https://www.websequencediagrams.com/
 title KomMonitor Import
 
 Participant Management UI as MUI
@@ -9,22 +10,21 @@ Participant Encoder as ENC
 Participant Management API Client as MCL
 Participant Management API as MAPI
 
-
 MUI->+IAPI:GET /converters
 IAPI-->-MUI:GET /converters: List<Converter>
 
-MUI->+IAPI:GET /datasourceTypes
-IAPI-->-MUI:GET /datasourceTypes: List<DatasourceType>
+MUI->+IAPI:GET /datasourceRetriever
+IAPI-->-MUI:GET /datasourceRetriever: List<DataSourceRetriever>
 
-MUI->+IAPI:POST /georesource (DatasourceDefinition, ConverterDefinition, PropertyMapping, ...)
+MUI->+IAPI:POST /georesource (DatasourceDefinition, ConverterDefinition, \n PropertyMapping, GeoresourcePOSTBody)
 IAPI->+DR:retrieveDataset(DatasourceDefinition)
 DR-->-IAPI:retrieveDataset: Dataset
 IAPI->+CONV:convertSpatialResource(ConverterDefinition, Dataset, PropertyMapping)
 CONV-->-IAPI:convertSpatialResource: SpatialResource
-IAPI->+ENC:encodeRequest(SpatialResource, ...)
+IAPI->+ENC:encodeRequest(SpatialResource, GeoresourcePOSTBody)
 ENC-->-IAPI:encodeRequest: GeoresourcePOSTInput
 IAPI->+MCL:addGeoresource(GeoresourcePOSTInput)
 MCL->+MAPI:POST /georesources (GeoresourcePOSTInput)
-MAPI-->-MCL:POST /georesources: 201
-MCL-->-IAPI:addGeoresource: HttpInfo
-IAPI-->-MUI:POST /georesource: 201
+MAPI-->-MCL:POST /georesources: 200
+MCL-->-IAPI:addGeoresources: HttpInfo
+IAPI-->-MUI:POST /georesource: 200

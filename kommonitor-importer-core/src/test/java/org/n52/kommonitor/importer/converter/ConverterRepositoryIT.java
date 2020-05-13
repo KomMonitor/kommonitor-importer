@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ConverterRepository.class, AbstractConverter.class})
-public class ConverterRepositoryTest {
+public class ConverterRepositoryIT {
 
     private static final String CONVERTER_NAME = "testConverter";
 

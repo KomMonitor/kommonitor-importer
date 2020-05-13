@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Contains information about imported resource features")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:10:46.280+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
 
 public class ImportResponseType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -29,9 +29,9 @@ public class ImportResponseType  implements Serializable {
   @Valid
   private List<String> importedFeatures = null;
 
-  @JsonProperty("failedFeatures")
+  @JsonProperty("errors")
   @Valid
-  private List<String> failedFeatures = null;
+  private List<String> errors = null;
 
   public ImportResponseType uri(String uri) {
     this.uri = uri;
@@ -81,32 +81,32 @@ public class ImportResponseType  implements Serializable {
     this.importedFeatures = importedFeatures;
   }
 
-  public ImportResponseType failedFeatures(List<String> failedFeatures) {
-    this.failedFeatures = failedFeatures;
+  public ImportResponseType errors(List<String> errors) {
+    this.errors = errors;
     return this;
   }
 
-  public ImportResponseType addFailedFeaturesItem(String failedFeaturesItem) {
-    if (this.failedFeatures == null) {
-      this.failedFeatures = new ArrayList<>();
+  public ImportResponseType addErrorsItem(String errorsItem) {
+    if (this.errors == null) {
+      this.errors = new ArrayList<>();
     }
-    this.failedFeatures.add(failedFeaturesItem);
+    this.errors.add(errorsItem);
     return this;
   }
 
   /**
-   * list of IDs that indicate those resource features for which the import failed
-   * @return failedFeatures
+   * List of error messages that occurred during the import
+   * @return errors
   **/
-  @ApiModelProperty(value = "list of IDs that indicate those resource features for which the import failed")
+  @ApiModelProperty(value = "List of error messages that occurred during the import")
 
 
-  public List<String> getFailedFeatures() {
-    return failedFeatures;
+  public List<String> getErrors() {
+    return errors;
   }
 
-  public void setFailedFeatures(List<String> failedFeatures) {
-    this.failedFeatures = failedFeatures;
+  public void setErrors(List<String> errors) {
+    this.errors = errors;
   }
 
 
@@ -121,12 +121,12 @@ public class ImportResponseType  implements Serializable {
     ImportResponseType importResponseType = (ImportResponseType) o;
     return Objects.equals(this.uri, importResponseType.uri) &&
         Objects.equals(this.importedFeatures, importResponseType.importedFeatures) &&
-        Objects.equals(this.failedFeatures, importResponseType.failedFeatures);
+        Objects.equals(this.errors, importResponseType.errors);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uri, importedFeatures, failedFeatures);
+    return Objects.hash(uri, importedFeatures, errors);
   }
 
   @Override
@@ -136,7 +136,7 @@ public class ImportResponseType  implements Serializable {
     
     sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
     sb.append("    importedFeatures: ").append(toIndentedString(importedFeatures)).append("\n");
-    sb.append("    failedFeatures: ").append(toIndentedString(failedFeatures)).append("\n");
+    sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("}");
     return sb.toString();
   }
