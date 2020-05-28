@@ -25,8 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -124,10 +122,9 @@ public class FeatureDecoder {
      * @param featureCollection {@link SimpleFeatureCollection} to decode
      * @param propertyMapping   definition of property mappings
      * @return the decoded {@link List<IndicatorValue>}
-     * @throws IOException if decoding fails
      */
     public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
-                                                                         IndicatorPropertyMappingType propertyMapping) throws IOException {
+                                                                         IndicatorPropertyMappingType propertyMapping) {
         //TODO implement a more dedicated solution for differentiate
         // various options of how TimeSeriesValues are encoded
         // as feature properties
@@ -266,7 +263,7 @@ public class FeatureDecoder {
     /**
      * Groups a {@link SimpleFeatureCollection} by common values of a spatial reference key property that
      * is defined within a {@link IndicatorPropertyMappingType}.
-     * The grouping results in a {@link Map<String, List>SimpleFeature>>} with the distinct spatial reference key values
+     * The grouping results in a {@link Map} with the distinct spatial reference key values
      * as map keys and the {@link SimpleFeature} entities belonging to the spatial reference keys value as values.
      *
      * @param featureCollection    the {@link SimpleFeatureCollection} to group
