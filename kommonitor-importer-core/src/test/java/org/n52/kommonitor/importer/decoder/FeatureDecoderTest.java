@@ -163,6 +163,36 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test single Feature decoding to TimeSeriesValue withing missing Indicator value handling for missing property")
+    void testDecodeFeatureToTimeseriesValueWithMissingIndicatorValueHandlingForMissingProperty() throws DecodingException {
+        TimeseriesMappingType mapping = new TimeseriesMappingType();
+        mapping.setTimestampProperty(TIMESTAMP_PROP);
+        mapping.setIndicatorValueProperty("missingProperty");
+        SimpleFeature feature = mockSimpleFeature();
+
+        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+
+        Assertions.assertNull(timeseriesValue);
+    }
+
+    @Test
+    @DisplayName("Test single Feature decoding to TimeSeriesValue withing missing Indicator value handling for NULL value")
+    void testDecodeFeatureToTimeseriesValueWithMissingIndicatorValueHandlingForNullValue() throws DecodingException {
+        TimeseriesMappingType mapping = new TimeseriesMappingType();
+        mapping.setTimestampProperty(TIMESTAMP_PROP);
+        mapping.setIndicatorValueProperty("indicatorProperty");
+
+        Property indicatorProperty = Mockito.mock(Property.class);
+        Mockito.when(indicatorProperty.getValue()).thenReturn(null);
+        SimpleFeature feature = mockSimpleFeature();
+        Mockito.when(feature.getProperty("indicatorProperty")).thenReturn(indicatorProperty);
+
+        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+
+        Assertions.assertNull(timeseriesValue);
+    }
+
+    @Test
     @DisplayName("Test single Feature decoding to IndicatorValue")
     void testDecodeSingleFeatureToIndicatorValue() throws DecodingException {
         IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
@@ -309,11 +339,16 @@ class FeatureDecoderTest {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         String id = "testId";
         String strProp = "testStringProp";
-        String strValue = "testStringValue";
+        Property stringProperty = Mockito.mock(Property.class);
+        Mockito.when(stringProperty.getValue()).thenReturn(null);
+        Mockito.when(feature.getProperty(strProp)).thenReturn(stringProperty);
 
         String intProp = "testIntegerProp";
         int intValue = 123;
+        Property integerProperty = Mockito.mock(Property.class);
+        Mockito.when(integerProperty.getValue()).thenReturn(intValue);
         Mockito.when(feature.getAttribute(intProp)).thenReturn(intValue);
+        Mockito.when(feature.getProperty(intProp)).thenReturn(integerProperty);
 
         String floatProp = "testFloatProp";
         String mappedFloatProp = "mappedFloatProp";
@@ -324,7 +359,10 @@ class FeatureDecoderTest {
         String dateProp = "testDateProp";
         String mappedDateProp = "mappedDateProp";
         Date dateValue = new Date();
+        Property mappedDateProperty = Mockito.mock(Property.class);
+        Mockito.when(mappedDateProperty.getValue()).thenReturn(dateValue);
         Mockito.when(feature.getAttribute(dateProp)).thenReturn(dateValue);
+        Mockito.when(feature.getProperty(dateProp)).thenReturn(mappedDateProperty);
 
         List<AttributeMappingType> mappings = new ArrayList();
         mappings.add(new AttributeMappingType().name(strProp).type(AttributeMappingType.TypeEnum.STRING));
@@ -333,7 +371,7 @@ class FeatureDecoderTest {
         mappings.add(new AttributeMappingType().name(dateProp).mappingName(mappedDateProp).type(AttributeMappingType.TypeEnum.DATE));
         mappings.add(new AttributeMappingType().name(nonExistingProp).type(AttributeMappingType.TypeEnum.STRING));
 
-        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id, false);
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id, true);
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -341,7 +379,7 @@ class FeatureDecoderTest {
         Assertions.assertEquals(intValue, mappedAttributes.get(intProp));
         Assertions.assertNull(mappedAttributes.get(mappedFloatProp));
         Assertions.assertEquals(df.format(dateValue), dtf.format((LocalDate) mappedAttributes.get(mappedDateProp)));
-        Assertions.assertFalse(mappedAttributes.containsKey(nonExistingProp));
+        Assertions.assertTrue(mappedAttributes.containsKey(nonExistingProp));
     }
 
     @Test
