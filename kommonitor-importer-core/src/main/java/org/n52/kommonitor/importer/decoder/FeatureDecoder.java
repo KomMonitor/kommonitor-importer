@@ -112,9 +112,8 @@ public class FeatureDecoder {
         if (propertyMapping.isKeepAttributes()) {
             attributes = mappAllAttributes(feature);
         } else {
-            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id);
+            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id, propertyMapping.isKeepMissingOrNullValueAttributes());
         }
-
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate, attributes);
     }
@@ -287,17 +286,25 @@ public class FeatureDecoder {
      * @param attributeMappings attributes mapping definitions
      * @return mapped attributes if there are any attribute mapping definitions anf null if the attribute mappings are empty
      */
-    Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id) {
+    Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id, boolean keepMissingOrNullValues) {
         if (attributeMappings == null || attributeMappings.isEmpty()) {
             return null;
         }
         Map attributes = new HashMap();
 
         attributeMappings.forEach(a -> {
-            Object propertyValue;
             try {
-                propertyValue = getAttributeValue(feature, a);
-
+                Object propertyValue = null;
+                if (keepMissingOrNullValues) {
+                    Property property = getProperty(feature, a.getName());
+                    if (property == null || property.getValue() == null) {
+                        monitor.addFailedConversion(id, String.format("Property %s does not exist or has null value but was kept."));
+                    } else {
+                        propertyValue = getAttributeValue(feature, a);
+                    }
+                } else {
+                    propertyValue = getAttributeValue(feature, a);
+                }
                 if (a.getMappingName() != null && !a.getMappingName().isEmpty()) {
                     attributes.put(a.getMappingName(), propertyValue);
                 } else {

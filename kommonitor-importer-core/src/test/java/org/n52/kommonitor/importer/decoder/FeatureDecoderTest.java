@@ -75,6 +75,7 @@ class FeatureDecoderTest {
     @DisplayName("Test single feature decoding to SpatialResource")
     void testDecodeFeatureToSpatialResource() throws DecodingException, FactoryException {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
+        mapping.setKeepMissingOrNullValueAttributes(false);
         SimpleFeature feature = mockSimpleFeature();
 
         SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping, CRS.decode("EPSG:32632"));
@@ -117,6 +118,8 @@ class FeatureDecoderTest {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
         mapping.setValidStartDateProperty(null);
         mapping.setValidEndDateProperty(null);
+        mapping.setKeepAttributes(false);
+        mapping.setKeepMissingOrNullValueAttributes(false);
         SimpleFeature feature = mockSimpleFeature();
 
         SpatialResource resource = decoder.decodeFeatureToSpatialResource(feature, mapping, CRS.decode("EPSG:32632"));
@@ -129,6 +132,7 @@ class FeatureDecoderTest {
     @DisplayName("Test FeatureCollection decoding to SpatialResources")
     void testDecodeFeatureCollectionToSpatialResources() throws FactoryException {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
+        mapping.setKeepMissingOrNullValueAttributes(false);
         SimpleFeature feature = mockSimpleFeature();
 
         SimpleFeatureCollection featureCollection = Mockito.mock(SimpleFeatureCollection.class);
@@ -280,7 +284,7 @@ class FeatureDecoderTest {
         mappings.add(new AttributeMappingType().name(dateProp).mappingName(mappedDateProp).type(AttributeMappingType.TypeEnum.DATE));
         mappings.add(new AttributeMappingType().name(nonExistingProp).type(AttributeMappingType.TypeEnum.STRING));
 
-        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id);
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id, false);
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -292,13 +296,54 @@ class FeatureDecoderTest {
     }
 
     @Test
+    @DisplayName("Test attribute mapping for missing properties")
+    void testMapAttributesForMissingProperties() {
+        SimpleFeature feature = Mockito.mock(SimpleFeature.class);
+        String id = "testId";
+        String strProp = "testStringProp";
+        String strValue = "testStringValue";
+
+        String intProp = "testIntegerProp";
+        int intValue = 123;
+        Mockito.when(feature.getAttribute(intProp)).thenReturn(intValue);
+
+        String floatProp = "testFloatProp";
+        String mappedFloatProp = "mappedFloatProp";
+        float floatValue = 123.123f;
+
+        String nonExistingProp = "non-existing-prop";
+
+        String dateProp = "testDateProp";
+        String mappedDateProp = "mappedDateProp";
+        Date dateValue = new Date();
+        Mockito.when(feature.getAttribute(dateProp)).thenReturn(dateValue);
+
+        List<AttributeMappingType> mappings = new ArrayList();
+        mappings.add(new AttributeMappingType().name(strProp).type(AttributeMappingType.TypeEnum.STRING));
+        mappings.add(new AttributeMappingType().name(intProp).type(AttributeMappingType.TypeEnum.INTEGER));
+        mappings.add(new AttributeMappingType().name(floatProp).mappingName(mappedFloatProp).type(AttributeMappingType.TypeEnum.FLOAT));
+        mappings.add(new AttributeMappingType().name(dateProp).mappingName(mappedDateProp).type(AttributeMappingType.TypeEnum.DATE));
+        mappings.add(new AttributeMappingType().name(nonExistingProp).type(AttributeMappingType.TypeEnum.STRING));
+
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id, false);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Assertions.assertNull(mappedAttributes.get(strProp));
+        Assertions.assertEquals(intValue, mappedAttributes.get(intProp));
+        Assertions.assertNull(mappedAttributes.get(mappedFloatProp));
+        Assertions.assertEquals(df.format(dateValue), dtf.format((LocalDate) mappedAttributes.get(mappedDateProp)));
+        Assertions.assertFalse(mappedAttributes.containsKey(nonExistingProp));
+    }
+
+    @Test
     @DisplayName("Test attribute mapping should return null for an empty mapping definition")
     void testMapAttributesShouldReturnNullForEmptyMappingDefinition() {
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         String id = "testId";
         List mappings = new ArrayList();
 
-        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id);
+        Map mappedAttributes = decoder.mapAttributes(feature, mappings, id, false);
 
         Assertions.assertNull(mappedAttributes);
     }
