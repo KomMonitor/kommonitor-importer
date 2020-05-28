@@ -99,6 +99,7 @@ class FeatureDecoderTest {
     private IndicatorPropertyMappingType createIndicatorPropertyMapping() {
         IndicatorPropertyMappingType mapping = new IndicatorPropertyMappingType();
         mapping.setSpatialReferenceKeyProperty(REF_KEY_PROP);
+        mapping.setKeepMissingOrNullValueIndicator(false);
 
         List timeseriesMappingList = new ArrayList();
         timeseriesMappingList.add(createTimeseriesPropertyMapping());
@@ -155,7 +156,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping);
+        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, false);
 
         Assertions.assertEquals(12.123, timeseriesValue.getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), timeseriesValue.getTimestamp());
@@ -180,7 +181,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -194,7 +195,7 @@ class FeatureDecoderTest {
         mapping.setTimestamp(LocalDate.parse(TIMESTAMP_PROP_VALUE));
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -234,8 +235,15 @@ class FeatureDecoderTest {
         mapping.addTimeseriesMappingsItem(timeseriesMapping);
 
         SimpleFeature feature = mockSimpleFeature();
+        Property valueProperty2 = Mockito.mock(Property.class);
+        Mockito.when(valueProperty2.getValue()).thenReturn(VALUE_PROP_2_VALUE);
         Mockito.when(feature.getAttribute(VALUE_PROP_2)).thenReturn(VALUE_PROP_2_VALUE);
+        Mockito.when(feature.getProperty(VALUE_PROP_2)).thenReturn(valueProperty2);
+
+        Property timestampProperty2 = Mockito.mock(Property.class);
+        Mockito.when(timestampProperty2.getValue()).thenReturn(TIMESTAMP_PROP_2_VALUE);
         Mockito.when(feature.getAttribute(TIMESTAMP_PROP_2)).thenReturn(TIMESTAMP_PROP_2_VALUE);
+        Mockito.when(feature.getProperty(TIMESTAMP_PROP_2)).thenReturn(timestampProperty2);
 
         SimpleFeatureCollection featureCollection = Mockito.mock(SimpleFeatureCollection.class);
         SimpleFeatureIterator iterator = Mockito.mock(SimpleFeatureIterator.class);
@@ -608,16 +616,38 @@ class FeatureDecoderTest {
         Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
         Mockito.when(descriptor.getName()).thenReturn(new NameImpl(GEOM_PROP));
 
+        Property idProperty = Mockito.mock(Property.class);
+        Mockito.when(idProperty.getValue()).thenReturn(ID_PROP_VALUE);
+        Property nameProperty = Mockito.mock(Property.class);
+        Mockito.when(nameProperty.getValue()).thenReturn(NAME_PROP_VALUE);
+        Property startDateProperty = Mockito.mock(Property.class);
+        Mockito.when(startDateProperty.getValue()).thenReturn(START_DATE_PROP_VALUE);
+        Property endDateProperty = Mockito.mock(Property.class);
+        Mockito.when(endDateProperty.getValue()).thenReturn(END_DATE_PROP_VALUE);
+        Property refKeyProperty = Mockito.mock(Property.class);
+        Mockito.when(refKeyProperty.getValue()).thenReturn(REF_KEY_PROP_VALUE);
+        Property valueProperty = Mockito.mock(Property.class);
+        Mockito.when(valueProperty.getValue()).thenReturn(VALUE_PROP_VALUE);
+        Property timestampProperty = Mockito.mock(Property.class);
+        Mockito.when(timestampProperty.getValue()).thenReturn(TIMESTAMP_PROP_VALUE);
+
         SimpleFeature feature = Mockito.mock(SimpleFeature.class);
         Mockito.when(feature.getAttribute(ID_PROP)).thenReturn(ID_PROP_VALUE);
+        Mockito.when(feature.getProperty(ID_PROP)).thenReturn(idProperty);
         Mockito.when(feature.getAttribute(NAME_PROP)).thenReturn(NAME_PROP_VALUE);
+        Mockito.when(feature.getProperty(NAME_PROP)).thenReturn(nameProperty);
         Mockito.when(feature.getAttribute(START_DATE_PROP)).thenReturn(START_DATE_PROP_VALUE);
+        Mockito.when(feature.getProperty(START_DATE_PROP)).thenReturn(startDateProperty);
         Mockito.when(feature.getAttribute(END_DATE_PROP)).thenReturn(END_DATE_PROP_VALUE);
+        Mockito.when(feature.getProperty(END_DATE_PROP)).thenReturn(endDateProperty);
         Mockito.when(feature.getAttribute(descriptor.getName()))
                 .thenReturn(JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(405329.64, 5757736.23)));
         Mockito.when(feature.getAttribute(REF_KEY_PROP)).thenReturn(REF_KEY_PROP_VALUE);
+        Mockito.when(feature.getProperty(REF_KEY_PROP)).thenReturn(refKeyProperty);
         Mockito.when(feature.getAttribute(VALUE_PROP)).thenReturn(VALUE_PROP_VALUE);
+        Mockito.when(feature.getProperty(VALUE_PROP)).thenReturn(valueProperty);
         Mockito.when(feature.getAttribute(TIMESTAMP_PROP)).thenReturn(TIMESTAMP_PROP_VALUE);
+        Mockito.when(feature.getProperty(TIMESTAMP_PROP)).thenReturn(timestampProperty);
         Mockito.when(feature.getFeatureType()).thenReturn(featureType);
         return feature;
     }
