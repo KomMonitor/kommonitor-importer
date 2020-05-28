@@ -380,7 +380,7 @@ public class FeatureDecoder {
      * Gets the value from a {@link SimpleFeature} property as String
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
-     * @param propertyName name of the property to fetch
+     * @param propertyName name of the property
      * @return the value of the fetched feature property as String
      * @throws DecodingException if the property value could not be parsed as String
      */
@@ -392,7 +392,8 @@ public class FeatureDecoder {
     /**
      * Gets the value from a {@link Property} as Integer
      *
-     * @param property the {@link Property} to fetch the value from
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
      * @return the value of the fetched feature property as Integer
      * @throws DecodingException if the property value could not be parsed as Integer
      */
@@ -408,7 +409,7 @@ public class FeatureDecoder {
      * Gets the value from a {@link SimpleFeature} property as Integer
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
-     * @param propertyName name of the property to fetch
+     * @param propertyName name of the property
      * @return the value of the fetched feature property as Integer
      * @throws DecodingException if the property value could not be parsed as Integer
      */
@@ -421,7 +422,7 @@ public class FeatureDecoder {
         }
     }
 
-    private int parsePropertyValueAsInteger(Object value) {
+    private int parsePropertyValueAsInteger(Object value) throws NumberFormatException {
         if (value instanceof Integer) {
             return (Integer) value;
         } else if (value instanceof Long) {
@@ -430,6 +431,22 @@ public class FeatureDecoder {
             return Integer.parseInt((String) value);
         } else {
             throw new NumberFormatException(String.format("No valid Integer value: %s", value));
+        }
+    }
+
+    /**
+     * Gets the value from a {@link Property} as Float
+     *
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
+     * @return the value of the fetched feature property as Float
+     * @throws DecodingException if the property value could not be parsed as Float
+     */
+    float getPropertyValueAsFloat(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsFloat(property.getValue());
+        } catch (NumberFormatException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
         }
     }
 
@@ -443,23 +460,26 @@ public class FeatureDecoder {
      */
     float getPropertyValueAsFloat(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        if (propertyValue instanceof Float) {
-            return (Float) propertyValue;
-        } else if (propertyValue instanceof String) {
-            try {
-                return Float.parseFloat((String) propertyValue);
-            } catch (NumberFormatException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
-            }
-
-        } else if (propertyValue instanceof Double) {
-            return ((Double) propertyValue).floatValue();
-        } else if (propertyValue instanceof Integer) {
-            return ((Integer) propertyValue).floatValue();
-        } else if (propertyValue instanceof Long) {
-            return ((Long) propertyValue).floatValue();
-        } else {
+        try {
+            return parsePropertyValueAsFloat(propertyValue);
+        } catch (NumberFormatException ex) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
+        }
+    }
+
+    private float parsePropertyValueAsFloat(Object value) throws NumberFormatException {
+        if (value instanceof Float) {
+            return (Float) value;
+        } else if (value instanceof String) {
+            return Float.parseFloat((String) value);
+        } else if (value instanceof Double) {
+            return ((Double) value).floatValue();
+        } else if (value instanceof Integer) {
+            return ((Integer) value).floatValue();
+        } else if (value instanceof Long) {
+            return ((Long) value).floatValue();
+        } else {
+            throw new NumberFormatException(String.format("No valid Float value: %s", value));
         }
     }
 
