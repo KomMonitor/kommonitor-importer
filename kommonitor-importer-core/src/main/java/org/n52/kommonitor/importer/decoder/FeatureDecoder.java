@@ -338,7 +338,6 @@ public class FeatureDecoder {
      * @throws DecodingException
      */
     Object getAttributeValue(SimpleFeature feature, AttributeMappingType attributeMapping) throws DecodingException {
-        Property property = getProperty(feature, attributeMapping.getName());
         switch (attributeMapping.getType()) {
             case INTEGER:
                 return getPropertyValueAsInteger(feature, attributeMapping.getName());
