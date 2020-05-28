@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -484,6 +485,22 @@ public class FeatureDecoder {
     }
 
     /**
+     * * Gets the value from a {@link Property} as {@link LocalDate}
+     *
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
+     * @return the value of the fetched feature property as {@link LocalDate}
+     * @throws DecodingException if the property value could not be parsed as {@link LocalDate}
+     */
+    LocalDate getPropertyValueAsDate(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsDate(property.getValue());
+        } catch (DateTimeParseException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
+        }
+    }
+
+    /**
      * * Gets the value from a {@link SimpleFeature} property as {@link LocalDate}
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
@@ -493,18 +510,22 @@ public class FeatureDecoder {
      */
     LocalDate getPropertyValueAsDate(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
+        try {
+            return parsePropertyValueAsDate(propertyValue);
+        } catch (DateTimeParseException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
+        }
+    }
+
+    private LocalDate parsePropertyValueAsDate(Object value) throws DateTimeParseException {
         LocalDate date;
-        if (propertyValue instanceof String) {
-            try {
-                date = LocalDate.parse((String) propertyValue);
-            } catch (DateTimeParseException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
-            }
-        } else if (propertyValue instanceof Date) {
-            Instant instant = ((Date) propertyValue).toInstant();
+        if (value instanceof String) {
+            date = LocalDate.parse((String) value);
+        } else if (value instanceof Date) {
+            Instant instant = ((Date) value).toInstant();
             date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
         } else {
-            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()));
+            throw new DateTimeParseException(String.format("No valid LocalDate value: %s", value), "", 0);
         }
         return date;
     }
