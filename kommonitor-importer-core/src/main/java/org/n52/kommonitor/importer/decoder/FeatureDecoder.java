@@ -138,7 +138,7 @@ public class FeatureDecoder {
                     propertyMapping.getSpatialReferenceKeyProperty(),
                     propertyMapping.getTimeseriesMappings().get(0),
                     propertyMapping.isKeepMissingOrNullValueIndicator()
-                    );
+            );
         }
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
         // all TimeSeriesValues of a common Indicator on its own within its properties
@@ -224,7 +224,7 @@ public class FeatureDecoder {
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
     TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueProperties) throws DecodingException {
-        Property indicatorValueProperty = getProperty(feature, propertyMappingType.getIndicatorValueProperty());
+        Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
         if (keepMissingOrNullValueProperties && (indicatorValueProperty == null || indicatorValueProperty.getValue() == null)) {
             return null;
         }
@@ -310,7 +310,7 @@ public class FeatureDecoder {
             try {
                 Object propertyValue = null;
                 if (keepMissingOrNullValues) {
-                    Property property = getProperty(feature, a.getName());
+                    Property property = feature.getProperty(a.getName());
                     if (property == null || property.getValue() == null) {
                         monitor.addFailedConversion(id, String.format("Property %s does not exist or has NULL value but was kept.", a.getName()));
                     } else {
