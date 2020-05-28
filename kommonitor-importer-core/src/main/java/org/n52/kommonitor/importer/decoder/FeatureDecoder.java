@@ -136,8 +136,12 @@ public class FeatureDecoder {
         // or the FeatureCollection may contain the same SimpleFeature multiple times and each of these Features
         // contains different TimeseriesValues that all belongs to a common Indicator
         if (propertyMapping.getTimeseriesMappings().size() == 1) {
-            return decodeFeatureCollectionToIndicatorValues(featureCollection,
-                    propertyMapping.getSpatialReferenceKeyProperty(), propertyMapping.getTimeseriesMappings().get(0));
+            return decodeFeatureCollectionToIndicatorValues(
+                    featureCollection,
+                    propertyMapping.getSpatialReferenceKeyProperty(),
+                    propertyMapping.getTimeseriesMappings().get(0),
+                    propertyMapping.isKeepMissingOrNullValueIndicator()
+                    );
         }
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
         // all TimeSeriesValues of a common Indicator on its own within its properties
@@ -170,7 +174,7 @@ public class FeatureDecoder {
         List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
-                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM));
+                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.isKeepMissingOrNullValueIndicator()));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
@@ -192,11 +196,18 @@ public class FeatureDecoder {
      * @param timeSeriesMappingType definition of property mappings
      * @return {@link IndicatorValue}
      */
-    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType) {
+    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType, boolean keepMissingOrNullValueProperties) {
         List<TimeseriesValue> timeSeries = new ArrayList<>();
         features.forEach(f -> {
             try {
-                timeSeries.add(decodeFeatureToTimeseriesValue(f, timeSeriesMappingType));
+                TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueProperties);
+                if (value == null) {
+                    monitor.addFailedConversion(
+                            spatialRefKey,
+                            String.format("Indicator value property %s does not exist or has NULL value but was kept.",
+                                    timeSeriesMappingType.getIndicatorValueProperty()));
+                }
+                timeSeries.add(value);
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", f.getID(), e.getMessage());
                 monitor.addFailedConversion(spatialRefKey, e.getMessage());
@@ -211,11 +222,16 @@ public class FeatureDecoder {
      *
      * @param feature             the {@link SimpleFeature} to decode
      * @param propertyMappingType definition of property mappings
-     * @return the decoded {@link TimeseriesValue}
+     * @return the decoded {@link TimeseriesValue} or NULL if the indicator value does not exist and missing or NULL value
+     * properties should be kept
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType) throws DecodingException {
-        float indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
+    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueProperties) throws DecodingException {
+        Property indicatorValueProperty = getProperty(feature, propertyMappingType.getIndicatorValueProperty());
+        if (keepMissingOrNullValueProperties && (indicatorValueProperty == null || indicatorValueProperty.getValue() == null)) {
+            return null;
+        }
+        float indicatorValue = getPropertyValueAsFloat(indicatorValueProperty, propertyMappingType.getIndicatorValueProperty());
         LocalDate timeStamp;
         if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
             timeStamp = propertyMappingType.getTimestamp();
@@ -238,10 +254,11 @@ public class FeatureDecoder {
      */
     private List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
                                                                           String referenceKeyProperty,
-                                                                          TimeseriesMappingType timeseriesMapping) {
+                                                                          TimeseriesMappingType timeseriesMapping,
+                                                                          boolean keepMissingOrNullValueProperties) {
         List<IndicatorValue> result = new ArrayList<>();
         Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, referenceKeyProperty);
-        groupedFeatures.forEach((k, v) -> result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping)));
+        groupedFeatures.forEach((k, v) -> result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping, keepMissingOrNullValueProperties)));
 
         return result;
     }
@@ -298,7 +315,7 @@ public class FeatureDecoder {
                 if (keepMissingOrNullValues) {
                     Property property = getProperty(feature, a.getName());
                     if (property == null || property.getValue() == null) {
-                        monitor.addFailedConversion(id, String.format("Property %s does not exist or has null value but was kept."));
+                        monitor.addFailedConversion(id, String.format("Property %s does not exist or has NULL value but was kept.", a.getName()));
                     } else {
                         propertyValue = getAttributeValue(feature, a);
                     }
