@@ -13,6 +13,7 @@ import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.models.TimeseriesMappingType;
+import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
@@ -337,6 +338,7 @@ public class FeatureDecoder {
      * @throws DecodingException
      */
     Object getAttributeValue(SimpleFeature feature, AttributeMappingType attributeMapping) throws DecodingException {
+        Property property = getProperty(feature, attributeMapping.getName());
         switch (attributeMapping.getType()) {
             case INTEGER:
                 return getPropertyValueAsInteger(feature, attributeMapping.getName());
@@ -365,6 +367,15 @@ public class FeatureDecoder {
         return (Geometry) feature.getAttribute(geomDesc.getName());
     }
 
+    /**
+     * Gets the value from a {@link Property} as String
+     *
+     * @param property the {@link Property} to fetch the value from
+     * @return the value of the fetched feature property as String
+     */
+    String getPropertyValueAsString(Property property) {
+        return String.valueOf(property.getValue());
+    }
 
     /**
      * Gets the value from a {@link SimpleFeature} property as String
@@ -380,6 +391,21 @@ public class FeatureDecoder {
     }
 
     /**
+     * Gets the value from a {@link Property} as Integer
+     *
+     * @param property the {@link Property} to fetch the value from
+     * @return the value of the fetched feature property as Integer
+     * @throws DecodingException if the property value could not be parsed as Integer
+     */
+    int getPropertyValueAsInteger(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsInteger(property.getValue());
+        } catch (NumberFormatException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
+        }
+    }
+
+    /**
      * Gets the value from a {@link SimpleFeature} property as Integer
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
@@ -389,19 +415,22 @@ public class FeatureDecoder {
      */
     int getPropertyValueAsInteger(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        if (propertyValue instanceof Integer) {
-            return (Integer) propertyValue;
-        } else if (propertyValue instanceof Long) {
-            return ((Long) propertyValue).intValue();
-        } else if (propertyValue instanceof String) {
-            try {
-                return Integer.parseInt((String) propertyValue);
-            } catch (NumberFormatException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
-            }
-
-        } else {
+        try {
+            return parsePropertyValueAsInteger(propertyValue);
+        } catch (NumberFormatException ex) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
+        }
+    }
+
+    private int parsePropertyValueAsInteger(Object value) {
+        if (value instanceof Integer) {
+            return (Integer) value;
+        } else if (value instanceof Long) {
+            return ((Long) value).intValue();
+        } else if (value instanceof String) {
+            return Integer.parseInt((String) value);
+        } else {
+            throw new NumberFormatException(String.format("No valid Integer value: %s", value));
         }
     }
 
@@ -459,6 +488,14 @@ public class FeatureDecoder {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()));
         }
         return date;
+    }
+
+    Property getProperty(SimpleFeature feature, String propertyName) throws DecodingException {
+        Property property = feature.getProperty(propertyName);
+        if (property == null) {
+            throw new DecodingException(String.format("Property '%s' does not exist.", propertyName));
+        }
+        return property;
     }
 
     Object getPropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {
