@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-30T11:26:13.912+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-28T12:00:08.348+02:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -40,6 +40,9 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
 
   @JsonProperty("keepAttributes")
   private Boolean keepAttributes = null;
+
+  @JsonProperty("keepMissingOrNullValueAttributes")
+  private Boolean keepMissingOrNullValueAttributes = null;
 
   @JsonProperty("attributes")
   @Valid
@@ -167,6 +170,27 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     this.keepAttributes = keepAttributes;
   }
 
+  public SpatialResourcePropertyMappingType keepMissingOrNullValueAttributes(Boolean keepMissingOrNullValueAttributes) {
+    this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
+    return this;
+  }
+
+  /**
+   * Indicates if missing attributes or attributes with a null value should be kept. Missing attributes will be added with a null value and attributes that hold a null value will be kept.
+   * @return keepMissingOrNullValueAttributes
+  **/
+  @ApiModelProperty(required = true, value = "Indicates if missing attributes or attributes with a null value should be kept. Missing attributes will be added with a null value and attributes that hold a null value will be kept.")
+  @NotNull
+
+
+  public Boolean isKeepMissingOrNullValueAttributes() {
+    return keepMissingOrNullValueAttributes;
+  }
+
+  public void setKeepMissingOrNullValueAttributes(Boolean keepMissingOrNullValueAttributes) {
+    this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
+  }
+
   public SpatialResourcePropertyMappingType attributes(List<AttributeMappingType> attributes) {
     this.attributes = attributes;
     return this;
@@ -212,12 +236,13 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
         Objects.equals(this.validEndDateProperty, spatialResourcePropertyMappingType.validEndDateProperty) &&
         Objects.equals(this.arisenFromProperty, spatialResourcePropertyMappingType.arisenFromProperty) &&
         Objects.equals(this.keepAttributes, spatialResourcePropertyMappingType.keepAttributes) &&
+        Objects.equals(this.keepMissingOrNullValueAttributes, spatialResourcePropertyMappingType.keepMissingOrNullValueAttributes) &&
         Objects.equals(this.attributes, spatialResourcePropertyMappingType.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty, keepAttributes, attributes);
+    return Objects.hash(identifierProperty, nameProperty, validStartDateProperty, validEndDateProperty, arisenFromProperty, keepAttributes, keepMissingOrNullValueAttributes, attributes);
   }
 
   @Override
@@ -231,6 +256,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     sb.append("    validEndDateProperty: ").append(toIndentedString(validEndDateProperty)).append("\n");
     sb.append("    arisenFromProperty: ").append(toIndentedString(arisenFromProperty)).append("\n");
     sb.append("    keepAttributes: ").append(toIndentedString(keepAttributes)).append("\n");
+    sb.append("    keepMissingOrNullValueAttributes: ").append(toIndentedString(keepMissingOrNullValueAttributes)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();

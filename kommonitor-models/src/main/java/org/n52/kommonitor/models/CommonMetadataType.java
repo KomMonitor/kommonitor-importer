@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import javax.validation.constraints.*;
  * CommonMetadataType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-28T12:00:09.427+02:00")
 
 public class CommonMetadataType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -50,6 +51,10 @@ public class CommonMetadataType  implements Serializable {
    */
   public enum UpdateIntervalEnum {
     ARBITRARY("ARBITRARY"),
+    
+    DAILY("DAILY"),
+    
+    WEEKLY("WEEKLY"),
     
     MONTHLY("MONTHLY"),
     
