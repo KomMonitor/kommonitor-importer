@@ -305,6 +305,7 @@ An appropriate property mapping would be:
 	"validStartDateProperty": "EreignisintervallStart",
 	"validEndDateProperty": "EreignisintervallEnde",
     "keepAttributes": false,
+    "keepMissingOrNullValueAttributes": false,
     "attributes": [
       {
         "name": "ort",
@@ -331,6 +332,11 @@ an alias for the attributes, like you would do for the attribute mappings.
 You can define mappings for any attributes under the `attributes` property. Here you can also define an alias name 
 for an attribute by setting a value for the `mappingName` property. If the `keepAttributes` is true, this property will 
 be skipped.  
+
+In addition, you have to specify if you want to keep missing attributes or attributes that hold a NULL value by setting
+the `keepMissingOrNullValueAttributes` property. If true, any missing attribute will be added to the converted resource
+by setting a NULL value. Attributes that are present but holds a NULL value will be kept anyway. Note, that this property
+will be ignored if `keepAttributes` ist set to true, since all present attributes will be kept anyway.
 
 Note, that up to now only flat property hierarchies are supported. Nested properties in the original dataset can't be covered
 with the property mapping, so the import will fail for such a dataset.
@@ -379,6 +385,7 @@ holds the timestamp information:
 {
   "propertyMapping": {
     "spatialReferenceKeyProperty": "baublock_id",
+    "keepMissingOrNullValueIndicator": false,
 	"timeseriesMappings": [
 	  {
 	    "indicatorValueProperty": "altersdurchschnitt",
@@ -418,6 +425,7 @@ timestamp information.
 {
   "propertyMapping": {
     "spatialReferenceKeyProperty": "baublock_id",
+    "keepMissingOrNullValueIndicator": false,
 	"timeseriesMappings": [
 	  {
         "indicatorValueProperty": "altersdurchschnitt2019-05-06",
@@ -431,6 +439,10 @@ timestamp information.
   }
 }
 ```
+Similar to the spatial resouce mapping, you can indicate, if missing indicator values should be kept. This could be useful
+if a timeseries is not complete and values are missing for some time steps. Just set `keepMissingOrNullValueIndicator` to
+true, so that  missing indicators will be added and indicators with a NULL value will be kept. 
+
 ## Update Datasets
 The KomMonitor Import API also provides dedicated endpoints for updating existing resources. Just like the simple import,
 datasets will be imported from a datasource and converted in an appropriate format. The only difference is, that finally
