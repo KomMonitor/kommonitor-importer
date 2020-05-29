@@ -172,7 +172,7 @@ class FeatureDecoderTest {
 
         TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
 
-        Assertions.assertNull(timeseriesValue);
+        Assertions.assertNull(timeseriesValue.getValue());
     }
 
     @Test
@@ -189,7 +189,7 @@ class FeatureDecoderTest {
 
         TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
 
-        Assertions.assertNull(timeseriesValue);
+        Assertions.assertNull(timeseriesValue.getValue());
     }
 
     @Test
