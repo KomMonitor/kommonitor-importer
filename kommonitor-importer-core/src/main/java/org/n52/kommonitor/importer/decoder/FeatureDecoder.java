@@ -173,7 +173,7 @@ public class FeatureDecoder {
             try {
                 TimeseriesValue value = decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator());
                 if (value.getValue() == null) {
-                    monitor.addFailedConversion(
+                    monitor.addConversionIncident(
                             feature.getID(),
                             String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
                                     pM.getIndicatorValueProperty(), value.getTimestamp()));
@@ -206,7 +206,7 @@ public class FeatureDecoder {
             try {
                 TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueIndicator);
                 if (value.getValue() == null) {
-                    monitor.addFailedConversion(
+                    monitor.addConversionIncident(
                             spatialRefKey,
                             String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
                                     timeSeriesMappingType.getIndicatorValueProperty(), value.getTimestamp()));
@@ -327,7 +327,7 @@ public class FeatureDecoder {
                 if (keepMissingOrNullValues) {
                     Property property = feature.getProperty(a.getName());
                     if (property == null || property.getValue() == null) {
-                        monitor.addFailedConversion(id, String.format("Property %s does not exist or has NULL value but was kept.", a.getName()));
+                        monitor.addConversionIncident(id, String.format("Property %s does not exist or has NULL value but was kept.", a.getName()));
                     } else {
                         propertyValue = getAttributeValue(feature, a);
                     }

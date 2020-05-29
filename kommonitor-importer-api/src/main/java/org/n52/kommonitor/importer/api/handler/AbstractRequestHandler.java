@@ -83,6 +83,7 @@ public abstract class AbstractRequestHandler<T> {
 
             ImportResponseType importResponse = handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
             importResponse.setErrors(monitor.getErrorMessages());
+            importResponse.setWarnings(monitor.getWarningMessages());
 
             return ResponseEntity
                     .status(HttpStatus.OK)
