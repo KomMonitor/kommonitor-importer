@@ -171,7 +171,14 @@ public class FeatureDecoder {
         List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
-                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator()));
+                TimeseriesValue value = decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator());
+                if (value.getValue() == null) {
+                    monitor.addFailedConversion(
+                            feature.getID(),
+                            String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
+                                    pM.getIndicatorValueProperty(), value.getTimestamp()));
+                }
+                timeSeriesValues.add(value);
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
@@ -193,16 +200,16 @@ public class FeatureDecoder {
      * @param timeSeriesMappingType definition of property mappings
      * @return {@link IndicatorValue}
      */
-    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType, boolean keepMissingOrNullValueProperties) {
+    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType, boolean keepMissingOrNullValueIndicator) {
         List<TimeseriesValue> timeSeries = new ArrayList<>();
         features.forEach(f -> {
             try {
-                TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueProperties);
-                if (value == null) {
+                TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueIndicator);
+                if (value.getValue() == null) {
                     monitor.addFailedConversion(
                             spatialRefKey,
-                            String.format("Indicator value property %s does not exist or has NULL value but was kept.",
-                                    timeSeriesMappingType.getIndicatorValueProperty()));
+                            String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
+                                    timeSeriesMappingType.getIndicatorValueProperty(), value.getTimestamp()));
                 }
                 timeSeries.add(value);
             } catch (DecodingException e) {
@@ -223,12 +230,20 @@ public class FeatureDecoder {
      * properties should be kept
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueProperties) throws DecodingException {
-        Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
-        if (keepMissingOrNullValueProperties && (indicatorValueProperty == null || indicatorValueProperty.getValue() == null)) {
-            return null;
+    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
+        Float indicatorValue = null;
+        if (keepMissingOrNullValueIndicator) {
+            Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
+            if (indicatorValueProperty != null && indicatorValueProperty.getValue() != null) {
+                indicatorValue = getPropertyValueAsFloat(indicatorValueProperty, propertyMappingType.getIndicatorValueProperty());
+            }
+        } else {
+            indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
         }
-        float indicatorValue = getPropertyValueAsFloat(indicatorValueProperty, propertyMappingType.getIndicatorValueProperty());
+
+//        if (!keepMissingOrNullValueIndicator && (indicatorValueProperty != null || indicatorValueProperty.getValue() != null)) {
+//
+//        }
         LocalDate timeStamp;
         if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
             timeStamp = propertyMappingType.getTimestamp();
