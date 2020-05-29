@@ -107,10 +107,10 @@ public class FeatureDecoder {
         }
 
         Map attributes;
-        if (propertyMapping.isKeepAttributes()) {
+        if (propertyMapping.getKeepAttributes()) {
             attributes = mappAllAttributes(feature);
         } else {
-            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id, propertyMapping.isKeepMissingOrNullValueAttributes());
+            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id, propertyMapping.getKeepMissingOrNullValueAttributes());
         }
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate, attributes);
@@ -137,7 +137,7 @@ public class FeatureDecoder {
                     featureCollection,
                     propertyMapping.getSpatialReferenceKeyProperty(),
                     propertyMapping.getTimeseriesMappings().get(0),
-                    propertyMapping.isKeepMissingOrNullValueIndicator()
+                    propertyMapping.getKeepMissingOrNullValueIndicator()
             );
         }
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
@@ -171,7 +171,7 @@ public class FeatureDecoder {
         List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
-                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.isKeepMissingOrNullValueIndicator()));
+                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator()));
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());

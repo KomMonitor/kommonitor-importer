@@ -101,7 +101,7 @@ public class IndicatorPropertyMappingType  implements Serializable {
   @NotNull
 
 
-  public Boolean isKeepMissingOrNullValueIndicator() {
+  public Boolean getKeepMissingOrNullValueIndicator() {
     return keepMissingOrNullValueIndicator;
   }
 

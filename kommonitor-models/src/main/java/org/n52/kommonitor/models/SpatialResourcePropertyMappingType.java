@@ -162,7 +162,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   @NotNull
 
 
-  public Boolean isKeepAttributes() {
+  public Boolean getKeepAttributes() {
     return keepAttributes;
   }
 
@@ -183,7 +183,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   @NotNull
 
 
-  public Boolean isKeepMissingOrNullValueAttributes() {
+  public Boolean getKeepMissingOrNullValueAttributes() {
     return keepMissingOrNullValueAttributes;
   }
 
