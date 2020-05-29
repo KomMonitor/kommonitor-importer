@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-28T12:00:08.348+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T12:47:29.312+02:00")
 
 public class SpatialResourcePropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -176,10 +176,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   }
 
   /**
-   * Indicates if missing attributes or attributes with a null value should be kept. Missing attributes will be added with a null value and attributes that hold a null value will be kept.
+   * Indicates if missing attributes or attributes with a null value should be kept. If true, missing attributes will be added with a null value and attributes that hold a null value will be kept. Will be ignored if `keepAttributes` is true, since alle values would be kept anyway.
    * @return keepMissingOrNullValueAttributes
   **/
-  @ApiModelProperty(required = true, value = "Indicates if missing attributes or attributes with a null value should be kept. Missing attributes will be added with a null value and attributes that hold a null value will be kept.")
+  @ApiModelProperty(required = true, value = "Indicates if missing attributes or attributes with a null value should be kept. If true, missing attributes will be added with a null value and attributes that hold a null value will be kept. Will be ignored if `keepAttributes` is true, since alle values would be kept anyway.")
   @NotNull
 
 

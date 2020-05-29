@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-28T19:32:43.720+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T12:43:35.092+02:00")
 
 public class IndicatorPropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -97,7 +97,8 @@ public class IndicatorPropertyMappingType  implements Serializable {
    * Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.
    * @return keepMissingOrNullValueIndicator
   **/
-  @ApiModelProperty(value = "Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.")
+  @ApiModelProperty(required = true, value = "Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.")
+  @NotNull
 
 
   public Boolean isKeepMissingOrNullValueIndicator() {
