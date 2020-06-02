@@ -32,7 +32,7 @@ public class ConverterParameter {
         return type;
     }
 
-    public static enum ParameterTypeValues {
+    public enum ParameterTypeValues {
         STRING, NUMBER, BOOLEAN, ARRAY
     }
 

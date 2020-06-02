@@ -78,7 +78,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     }
 
     protected InputStream getInputStream(ConverterDefinitionType converterDefinition, Dataset dataset) throws ConverterException {
-        InputStream input = null;
+        InputStream input;
         if (dataset.getData() instanceof String) {
             try {
                 input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
@@ -154,7 +154,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     public abstract Set<ConverterParameter> initConverterParameters();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         this.name = initName();
         this.supportedMimeTypes = initSupportedMimeType();
         this.supportedSchemas = initSupportedSchemas();

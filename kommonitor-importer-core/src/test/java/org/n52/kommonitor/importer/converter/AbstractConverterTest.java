@@ -9,9 +9,8 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,9 +29,9 @@ public class AbstractConverterTest {
 
     @BeforeAll
     static void init() {
-        supportedMimeTypes = new HashSet<>(Arrays.asList(MIME_TYPE));
-        supportedSchemas = new HashSet(Arrays.asList(SCHEMA));
-        supportedEncodings = new HashSet<>(Arrays.asList(ENCODING));
+        supportedMimeTypes = new HashSet<>(Collections.singletonList(MIME_TYPE));
+        supportedSchemas = new HashSet<>(Collections.singletonList(SCHEMA));
+        supportedEncodings = new HashSet<>(Collections.singletonList(ENCODING));
     }
 
     @Test
@@ -68,13 +67,12 @@ public class AbstractConverterTest {
     void testGetInputStreamThrowsConverterExceptionForUnsupportedDatasetType() throws Exception {
         AbstractConverter converter = prepareMock();
         ConverterDefinitionType convDef = Mockito.mock(ConverterDefinitionType.class);
-        SpatialResourcePropertyMappingType propertyMapping = Mockito.mock(SpatialResourcePropertyMappingType.class);
         Dataset<Double> dataset = new Dataset<>(123.123);
 
         Assertions.assertThrows(ConverterException.class, () -> converter.getInputStream(convDef, dataset));
     }
 
-    private AbstractConverter prepareMock() throws Exception {
+    private AbstractConverter prepareMock() {
         AbstractConverter converter = Mockito.mock(AbstractConverter.class, Mockito.CALLS_REAL_METHODS);
         Mockito.when(converter.initName()).thenReturn(NAME);
         Mockito.when(converter.initSupportedMimeType()).thenReturn(supportedMimeTypes);

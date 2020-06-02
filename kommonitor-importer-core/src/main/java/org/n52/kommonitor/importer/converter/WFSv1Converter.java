@@ -106,7 +106,7 @@ public class WFSv1Converter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertIndicators(converterDefinition, input, propertyMapping);
-        } catch (ParserConfigurationException | SAXException | IOException | FactoryException ex) {
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -159,7 +159,7 @@ public class WFSv1Converter extends AbstractConverter {
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                    InputStream dataset,
                                                    IndicatorPropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, FactoryException {
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
         GML gml = getGmlParserForSchema(converterDefinition.getSchema());
         gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
 

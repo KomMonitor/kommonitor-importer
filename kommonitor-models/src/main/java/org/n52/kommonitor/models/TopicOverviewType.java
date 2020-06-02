@@ -4,9 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.TopicOverviewType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +18,7 @@ import javax.validation.constraints.*;
  * TopicOverviewType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:30.854+01:00")
 
 public class TopicOverviewType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -63,6 +65,40 @@ public class TopicOverviewType  implements Serializable {
 
   @JsonProperty("topicType")
   private TopicTypeEnum topicType = null;
+
+  /**
+   * topic resource indicating if the topic object corresponds to an indicator or to a georesource
+   */
+  public enum TopicResourceEnum {
+    INDICATOR("indicator"),
+    
+    GEORESOURCE("georesource");
+
+    private String value;
+
+    TopicResourceEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static TopicResourceEnum fromValue(String text) {
+      for (TopicResourceEnum b : TopicResourceEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("topicResource")
+  private TopicResourceEnum topicResource = null;
 
   @JsonProperty("subTopics")
   @Valid
@@ -152,6 +188,26 @@ public class TopicOverviewType  implements Serializable {
     this.topicType = topicType;
   }
 
+  public TopicOverviewType topicResource(TopicResourceEnum topicResource) {
+    this.topicResource = topicResource;
+    return this;
+  }
+
+  /**
+   * topic resource indicating if the topic object corresponds to an indicator or to a georesource
+   * @return topicResource
+  **/
+  @ApiModelProperty(value = "topic resource indicating if the topic object corresponds to an indicator or to a georesource")
+
+
+  public TopicResourceEnum getTopicResource() {
+    return topicResource;
+  }
+
+  public void setTopicResource(TopicResourceEnum topicResource) {
+    this.topicResource = topicResource;
+  }
+
   public TopicOverviewType subTopics(List<TopicOverviewType> subTopics) {
     this.subTopics = subTopics;
     return this;
@@ -195,12 +251,13 @@ public class TopicOverviewType  implements Serializable {
         Objects.equals(this.topicName, topicOverviewType.topicName) &&
         Objects.equals(this.topicDescription, topicOverviewType.topicDescription) &&
         Objects.equals(this.topicType, topicOverviewType.topicType) &&
+        Objects.equals(this.topicResource, topicOverviewType.topicResource) &&
         Objects.equals(this.subTopics, topicOverviewType.subTopics);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(topicId, topicName, topicDescription, topicType, subTopics);
+    return Objects.hash(topicId, topicName, topicDescription, topicType, topicResource, subTopics);
   }
 
   @Override
@@ -212,6 +269,7 @@ public class TopicOverviewType  implements Serializable {
     sb.append("    topicName: ").append(toIndentedString(topicName)).append("\n");
     sb.append("    topicDescription: ").append(toIndentedString(topicDescription)).append("\n");
     sb.append("    topicType: ").append(toIndentedString(topicType)).append("\n");
+    sb.append("    topicResource: ").append(toIndentedString(topicResource)).append("\n");
     sb.append("    subTopics: ").append(toIndentedString(subTopics)).append("\n");
     sb.append("}");
     return sb.toString();

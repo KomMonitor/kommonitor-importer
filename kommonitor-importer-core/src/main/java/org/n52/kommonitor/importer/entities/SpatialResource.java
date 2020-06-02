@@ -5,6 +5,8 @@ import org.locationtech.jts.geom.Geometry;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -20,66 +22,48 @@ public class SpatialResource {
     private Optional<String> arisenFrom;
     private Optional<LocalDate> startDate;
     private Optional<LocalDate> endDate;
+    private Optional<Map> attributes;
 
     public SpatialResource() {
 
     }
 
 
-    public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate) {
+    public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate, Map attributes) {
         this.id = id;
         this.name = name;
         this.geom = geom;
         this.arisenFrom = Optional.ofNullable(arisenFrom);
         this.startDate = Optional.ofNullable(startDate);
         this.endDate = Optional.ofNullable(endDate);
+        this.attributes = Optional.ofNullable(attributes);
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(@NotNull String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(@NotNull String name) {
-        this.name = name;
     }
 
     public Geometry getGeom() {
         return geom;
     }
 
-    public void setGeom(@NotNull Geometry geom) {
-        this.geom = geom;
-    }
-
     public Optional<String> getArisenFrom() {
         return arisenFrom;
-    }
-
-    public void setArisenFrom(String arisenFrom) {
-        this.arisenFrom = Optional.ofNullable(arisenFrom);
     }
 
     public Optional<LocalDate> getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = Optional.ofNullable(startDate);
-    }
-
     public Optional<LocalDate> getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = Optional.ofNullable(endDate);
+    public Optional<Map> getAttributes() {
+        return attributes;
     }
 }
