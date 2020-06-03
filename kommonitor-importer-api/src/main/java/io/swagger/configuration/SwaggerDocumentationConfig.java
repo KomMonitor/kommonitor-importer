@@ -1,5 +1,6 @@
 package io.swagger.configuration;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T13:37:04.985+01:00")
 
 @Configuration
+@ConditionalOnProperty(value = "keycloak.enabled", havingValue = "false")
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {
