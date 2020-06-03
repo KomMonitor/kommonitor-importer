@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
-@Controller
+@BaseController
 public class IndicatorsApiController implements IndicatorsApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndicatorsApiController.class);

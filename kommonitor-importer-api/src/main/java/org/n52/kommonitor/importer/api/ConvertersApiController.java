@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 
-@Controller
+@BaseController
 public class ConvertersApiController implements ConvertersApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConvertersApiController.class);

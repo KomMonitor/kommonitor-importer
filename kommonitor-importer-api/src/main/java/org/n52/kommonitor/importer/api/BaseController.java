@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
 @RequestMapping("/importer")
-public @interface BaseRestController {
+public @interface BaseController {
 }
