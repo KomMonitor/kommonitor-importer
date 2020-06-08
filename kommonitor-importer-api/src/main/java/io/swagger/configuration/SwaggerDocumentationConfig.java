@@ -1,5 +1,6 @@
 package io.swagger.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import javax.servlet.ServletContext;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T13:37:04.985+01:00")
 
@@ -30,13 +33,14 @@ public class SwaggerDocumentationConfig {
     }
 
     @Bean
-    public Docket customImplementation(){
+    public Docket customImplementation(ServletContext servletContext, @Value("${kommonitor.swagger-ui.base-path:}") String basePath){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.n52.kommonitor.importer.api"))
                     .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
+                .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
                 .apiInfo(apiInfo());
     }
 

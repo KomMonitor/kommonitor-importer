@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * OAuth2 enabled configuration or Swagger-UI
+ *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
 @Configuration
