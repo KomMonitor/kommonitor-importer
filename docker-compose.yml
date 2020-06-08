@@ -1,9 +1,0 @@
-version: "3"
-services:
-  kommonitor-importer:
-    image: kommonitor/importer:latest
-    environment:
-      SERVER_PORT: 8080
-      JAVA_OPTS: -Dorg.geotools.referencing.forceXY=true
-    ports:
-      - 8080:8080
