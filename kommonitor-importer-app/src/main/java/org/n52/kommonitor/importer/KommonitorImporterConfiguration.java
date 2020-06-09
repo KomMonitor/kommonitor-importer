@@ -5,6 +5,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
+import org.keycloak.adapters.springboot.client.KeycloakRestTemplateCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -49,9 +50,13 @@ public class KommonitorImporterConfiguration {
                 .setDefaultHeaders(defaultHeaders)
                 .build();
 
-        return restTemplateBuilder
+        RestTemplate restTemplate = restTemplateBuilder
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient))
                 .build();
+
+        new KeycloakRestTemplateCustomizer().customize(restTemplate);
+
+        return restTemplate;
     }
 
 
