@@ -22,8 +22,9 @@ springfox:
 kommonitor:
   importer:
     datamanagement-api-url: "http://localhost:8085/management"
-    fileStorageLocation: "/tmp/kommonitor"
+    file-storage-location: "/tmp/kommonitor"
   swagger-ui:
+    # base-path: /importer
     # do not use real values in production environment!!!
     security:
       client-id: kommonitor-importer

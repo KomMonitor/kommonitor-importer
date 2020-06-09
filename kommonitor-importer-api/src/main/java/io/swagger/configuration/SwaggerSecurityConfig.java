@@ -12,6 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
+import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +61,7 @@ public class SwaggerSecurityConfig {
     }
 
     @Bean
-    public Docket customImplementation() {
+    public Docket customImplementation(ServletContext servletContext, @Value("${kommonitor.swagger-ui.base-path:}") String basePath) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(GROUP_NAME)
                 .select()
@@ -68,10 +69,10 @@ public class SwaggerSecurityConfig {
                 .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
+                .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
                 .apiInfo(apiInfo())
                 .securitySchemes(buildSecurityScheme())
-                .securityContexts(Arrays.asList(securityContext()))
-                ;
+                .securityContexts(Arrays.asList(securityContext()));
     }
 
     @Bean
