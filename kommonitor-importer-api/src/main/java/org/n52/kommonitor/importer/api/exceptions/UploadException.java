@@ -15,4 +15,9 @@ public class UploadException extends RuntimeException {
         super(String.format("Upload failure for file '%s'.", file.getName()));
         this.file = file;
     }
+
+    public UploadException(MultipartFile file, Throwable cause) {
+        super(String.format("Upload failure for file '%s'.", file.getName()), cause);
+        this.file = file;
+    }
 }
