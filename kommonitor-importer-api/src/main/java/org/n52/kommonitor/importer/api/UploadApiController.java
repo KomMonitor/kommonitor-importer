@@ -52,8 +52,8 @@ public class UploadApiController implements UploadApi {
         try {
             String name = storageService.store(file, filename);
             return new ResponseEntity<String>(name, HttpStatus.CREATED);
-        } catch (IOException e) {
-            throw new UploadException(file);
+        } catch (IOException ex) {
+            throw new UploadException(file, ex);
         }
     }
 

@@ -13,6 +13,7 @@ import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.models.TimeseriesMappingType;
+import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.feature.type.GeometryDescriptor;
@@ -24,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -107,12 +107,11 @@ public class FeatureDecoder {
         }
 
         Map attributes;
-        if (propertyMapping.isKeepAttributes()) {
+        if (propertyMapping.getKeepAttributes()) {
             attributes = mappAllAttributes(feature);
         } else {
-            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id);
+            attributes = mapAttributes(feature, propertyMapping.getAttributes(), id, propertyMapping.getKeepMissingOrNullValueAttributes());
         }
-
 
         return new SpatialResource(id, name, geom, arisenFrom, startDate, endDate, attributes);
     }
@@ -123,10 +122,9 @@ public class FeatureDecoder {
      * @param featureCollection {@link SimpleFeatureCollection} to decode
      * @param propertyMapping   definition of property mappings
      * @return the decoded {@link List<IndicatorValue>}
-     * @throws IOException if decoding fails
      */
     public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
-                                                                         IndicatorPropertyMappingType propertyMapping) throws IOException {
+                                                                         IndicatorPropertyMappingType propertyMapping) {
         //TODO implement a more dedicated solution for differentiate
         // various options of how TimeSeriesValues are encoded
         // as feature properties
@@ -135,8 +133,12 @@ public class FeatureDecoder {
         // or the FeatureCollection may contain the same SimpleFeature multiple times and each of these Features
         // contains different TimeseriesValues that all belongs to a common Indicator
         if (propertyMapping.getTimeseriesMappings().size() == 1) {
-            return decodeFeatureCollectionToIndicatorValues(featureCollection,
-                    propertyMapping.getSpatialReferenceKeyProperty(), propertyMapping.getTimeseriesMappings().get(0));
+            return decodeFeatureCollectionToIndicatorValues(
+                    featureCollection,
+                    propertyMapping.getSpatialReferenceKeyProperty(),
+                    propertyMapping.getTimeseriesMappings().get(0),
+                    propertyMapping.getKeepMissingOrNullValueIndicator()
+            );
         }
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
         // all TimeSeriesValues of a common Indicator on its own within its properties
@@ -169,7 +171,14 @@ public class FeatureDecoder {
         List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
-                timeSeriesValues.add(decodeFeatureToTimeseriesValue(feature, pM));
+                TimeseriesValue value = decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator());
+                if (value.getValue() == null) {
+                    monitor.addConversionIncident(
+                            feature.getID(),
+                            String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
+                                    pM.getIndicatorValueProperty(), value.getTimestamp()));
+                }
+                timeSeriesValues.add(value);
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
@@ -191,11 +200,18 @@ public class FeatureDecoder {
      * @param timeSeriesMappingType definition of property mappings
      * @return {@link IndicatorValue}
      */
-    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType) {
+    IndicatorValue decodeFeaturesToIndicatorValues(String spatialRefKey, List<SimpleFeature> features, TimeseriesMappingType timeSeriesMappingType, boolean keepMissingOrNullValueIndicator) {
         List<TimeseriesValue> timeSeries = new ArrayList<>();
         features.forEach(f -> {
             try {
-                timeSeries.add(decodeFeatureToTimeseriesValue(f, timeSeriesMappingType));
+                TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueIndicator);
+                if (value.getValue() == null) {
+                    monitor.addConversionIncident(
+                            spatialRefKey,
+                            String.format("Indicator %s does not exist or has NULL value but was kept for timestamp %s.",
+                                    timeSeriesMappingType.getIndicatorValueProperty(), value.getTimestamp()));
+                }
+                timeSeries.add(value);
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", f.getID(), e.getMessage());
                 monitor.addFailedConversion(spatialRefKey, e.getMessage());
@@ -210,11 +226,24 @@ public class FeatureDecoder {
      *
      * @param feature             the {@link SimpleFeature} to decode
      * @param propertyMappingType definition of property mappings
-     * @return the decoded {@link TimeseriesValue}
+     * @return the decoded {@link TimeseriesValue} or NULL if the indicator value does not exist and missing or NULL value
+     * properties should be kept
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType) throws DecodingException {
-        float indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
+    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
+        Float indicatorValue = null;
+        if (keepMissingOrNullValueIndicator) {
+            Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
+            if (indicatorValueProperty != null && indicatorValueProperty.getValue() != null) {
+                indicatorValue = getPropertyValueAsFloat(indicatorValueProperty, propertyMappingType.getIndicatorValueProperty());
+            }
+        } else {
+            indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
+        }
+
+//        if (!keepMissingOrNullValueIndicator && (indicatorValueProperty != null || indicatorValueProperty.getValue() != null)) {
+//
+//        }
         LocalDate timeStamp;
         if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
             timeStamp = propertyMappingType.getTimestamp();
@@ -237,10 +266,11 @@ public class FeatureDecoder {
      */
     private List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
                                                                           String referenceKeyProperty,
-                                                                          TimeseriesMappingType timeseriesMapping) {
+                                                                          TimeseriesMappingType timeseriesMapping,
+                                                                          boolean keepMissingOrNullValueProperties) {
         List<IndicatorValue> result = new ArrayList<>();
         Map<String, List<SimpleFeature>> groupedFeatures = groupFeatureCollection(featureCollection, referenceKeyProperty);
-        groupedFeatures.forEach((k, v) -> result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping)));
+        groupedFeatures.forEach((k, v) -> result.add(decodeFeaturesToIndicatorValues(k, v, timeseriesMapping, keepMissingOrNullValueProperties)));
 
         return result;
     }
@@ -248,7 +278,7 @@ public class FeatureDecoder {
     /**
      * Groups a {@link SimpleFeatureCollection} by common values of a spatial reference key property that
      * is defined within a {@link IndicatorPropertyMappingType}.
-     * The grouping results in a {@link Map<String, List>SimpleFeature>>} with the distinct spatial reference key values
+     * The grouping results in a {@link Map} with the distinct spatial reference key values
      * as map keys and the {@link SimpleFeature} entities belonging to the spatial reference keys value as values.
      *
      * @param featureCollection    the {@link SimpleFeatureCollection} to group
@@ -285,17 +315,25 @@ public class FeatureDecoder {
      * @param attributeMappings attributes mapping definitions
      * @return mapped attributes if there are any attribute mapping definitions anf null if the attribute mappings are empty
      */
-    Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id) {
+    Map mapAttributes(SimpleFeature feature, List<AttributeMappingType> attributeMappings, String id, boolean keepMissingOrNullValues) {
         if (attributeMappings == null || attributeMappings.isEmpty()) {
             return null;
         }
         Map attributes = new HashMap();
 
         attributeMappings.forEach(a -> {
-            Object propertyValue;
             try {
-                propertyValue = getAttributeValue(feature, a);
-
+                Object propertyValue = null;
+                if (keepMissingOrNullValues) {
+                    Property property = feature.getProperty(a.getName());
+                    if (property == null || property.getValue() == null) {
+                        monitor.addConversionIncident(id, String.format("Property %s does not exist or has NULL value but was kept.", a.getName()));
+                    } else {
+                        propertyValue = getAttributeValue(feature, a);
+                    }
+                } else {
+                    propertyValue = getAttributeValue(feature, a);
+                }
                 if (a.getMappingName() != null && !a.getMappingName().isEmpty()) {
                     attributes.put(a.getMappingName(), propertyValue);
                 } else {
@@ -365,12 +403,21 @@ public class FeatureDecoder {
         return (Geometry) feature.getAttribute(geomDesc.getName());
     }
 
+    /**
+     * Gets the value from a {@link Property} as String
+     *
+     * @param property the {@link Property} to fetch the value from
+     * @return the value of the fetched feature property as String
+     */
+    String getPropertyValueAsString(Property property) {
+        return String.valueOf(property.getValue());
+    }
 
     /**
      * Gets the value from a {@link SimpleFeature} property as String
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
-     * @param propertyName name of the property to fetch
+     * @param propertyName name of the property
      * @return the value of the fetched feature property as String
      * @throws DecodingException if the property value could not be parsed as String
      */
@@ -380,28 +427,63 @@ public class FeatureDecoder {
     }
 
     /**
+     * Gets the value from a {@link Property} as Integer
+     *
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
+     * @return the value of the fetched feature property as Integer
+     * @throws DecodingException if the property value could not be parsed as Integer
+     */
+    int getPropertyValueAsInteger(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsInteger(property.getValue());
+        } catch (NumberFormatException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
+        }
+    }
+
+    /**
      * Gets the value from a {@link SimpleFeature} property as Integer
      *
      * @param feature      the {@link SimpleFeature} to fetch the property from
-     * @param propertyName name of the property to fetch
+     * @param propertyName name of the property
      * @return the value of the fetched feature property as Integer
      * @throws DecodingException if the property value could not be parsed as Integer
      */
     int getPropertyValueAsInteger(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        if (propertyValue instanceof Integer) {
-            return (Integer) propertyValue;
-        } else if (propertyValue instanceof Long) {
-            return ((Long) propertyValue).intValue();
-        } else if (propertyValue instanceof String) {
-            try {
-                return Integer.parseInt((String) propertyValue);
-            } catch (NumberFormatException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
-            }
-
-        } else {
+        try {
+            return parsePropertyValueAsInteger(propertyValue);
+        } catch (NumberFormatException ex) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
+        }
+    }
+
+    private int parsePropertyValueAsInteger(Object value) throws NumberFormatException {
+        if (value instanceof Integer) {
+            return (Integer) value;
+        } else if (value instanceof Long) {
+            return ((Long) value).intValue();
+        } else if (value instanceof String) {
+            return Integer.parseInt((String) value);
+        } else {
+            throw new NumberFormatException(String.format("No valid Integer value: %s", value));
+        }
+    }
+
+    /**
+     * Gets the value from a {@link Property} as Float
+     *
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
+     * @return the value of the fetched feature property as Float
+     * @throws DecodingException if the property value could not be parsed as Float
+     */
+    float getPropertyValueAsFloat(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsFloat(property.getValue());
+        } catch (NumberFormatException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
         }
     }
 
@@ -415,23 +497,42 @@ public class FeatureDecoder {
      */
     float getPropertyValueAsFloat(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
-        if (propertyValue instanceof Float) {
-            return (Float) propertyValue;
-        } else if (propertyValue instanceof String) {
-            try {
-                return Float.parseFloat((String) propertyValue);
-            } catch (NumberFormatException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
-            }
-
-        } else if (propertyValue instanceof Double) {
-            return ((Double) propertyValue).floatValue();
-        } else if (propertyValue instanceof Integer) {
-            return ((Integer) propertyValue).floatValue();
-        } else if (propertyValue instanceof Long) {
-            return ((Long) propertyValue).floatValue();
-        } else {
+        try {
+            return parsePropertyValueAsFloat(propertyValue);
+        } catch (NumberFormatException ex) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Float.class.getName()));
+        }
+    }
+
+    private float parsePropertyValueAsFloat(Object value) throws NumberFormatException {
+        if (value instanceof Float) {
+            return (Float) value;
+        } else if (value instanceof String) {
+            return Float.parseFloat((String) value);
+        } else if (value instanceof Double) {
+            return ((Double) value).floatValue();
+        } else if (value instanceof Integer) {
+            return ((Integer) value).floatValue();
+        } else if (value instanceof Long) {
+            return ((Long) value).floatValue();
+        } else {
+            throw new NumberFormatException(String.format("No valid Float value: %s", value));
+        }
+    }
+
+    /**
+     * * Gets the value from a {@link Property} as {@link LocalDate}
+     *
+     * @param property     the {@link Property} to fetch the value from
+     * @param propertyName name of the property
+     * @return the value of the fetched feature property as {@link LocalDate}
+     * @throws DecodingException if the property value could not be parsed as {@link LocalDate}
+     */
+    LocalDate getPropertyValueAsDate(Property property, String propertyName) throws DecodingException {
+        try {
+            return parsePropertyValueAsDate(property.getValue());
+        } catch (DateTimeParseException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
         }
     }
 
@@ -445,20 +546,32 @@ public class FeatureDecoder {
      */
     LocalDate getPropertyValueAsDate(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
+        try {
+            return parsePropertyValueAsDate(propertyValue);
+        } catch (DateTimeParseException ex) {
+            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
+        }
+    }
+
+    private LocalDate parsePropertyValueAsDate(Object value) throws DateTimeParseException {
         LocalDate date;
-        if (propertyValue instanceof String) {
-            try {
-                date = LocalDate.parse((String) propertyValue);
-            } catch (DateTimeParseException ex) {
-                throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()), ex);
-            }
-        } else if (propertyValue instanceof Date) {
-            Instant instant = ((Date) propertyValue).toInstant();
+        if (value instanceof String) {
+            date = LocalDate.parse((String) value);
+        } else if (value instanceof Date) {
+            Instant instant = ((Date) value).toInstant();
             date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
         } else {
-            throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, LocalDate.class.getName()));
+            throw new DateTimeParseException(String.format("No valid LocalDate value: %s", value), "", 0);
         }
         return date;
+    }
+
+    Property getProperty(SimpleFeature feature, String propertyName) throws DecodingException {
+        Property property = feature.getProperty(propertyName);
+        if (property == null) {
+            throw new DecodingException(String.format("Property '%s' does not exist.", propertyName));
+        }
+        return property;
     }
 
     Object getPropertyValue(SimpleFeature feature, String propertyName) throws DecodingException {

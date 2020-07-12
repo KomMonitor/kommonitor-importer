@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class TimeseriesValue {
 
-    private float value;
+    private Float value;
 
     private LocalDate timestamp;
 
@@ -17,16 +17,16 @@ public class TimeseriesValue {
 
     }
 
-    public TimeseriesValue(@NotNull float value, @NotNull LocalDate timestamp) {
+    public TimeseriesValue(Float value, @NotNull LocalDate timestamp) {
         this.value = value;
         this.timestamp = timestamp;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(@NotNull float value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 

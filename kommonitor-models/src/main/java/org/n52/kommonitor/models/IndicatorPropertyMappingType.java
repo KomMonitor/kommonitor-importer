@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definitions for mapping datasource properties to required properties for indicators")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:29.866+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T12:43:35.092+02:00")
 
 public class IndicatorPropertyMappingType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -30,6 +30,9 @@ public class IndicatorPropertyMappingType  implements Serializable {
   @JsonProperty("timeseriesMappings")
   @Valid
   private List<TimeseriesMappingType> timeseriesMappings = null;
+
+  @JsonProperty("keepMissingOrNullValueIndicator")
+  private Boolean keepMissingOrNullValueIndicator = null;
 
   @JsonProperty("attributeMappings")
   @Valid
@@ -85,6 +88,27 @@ public class IndicatorPropertyMappingType  implements Serializable {
     this.timeseriesMappings = timeseriesMappings;
   }
 
+  public IndicatorPropertyMappingType keepMissingOrNullValueIndicator(Boolean keepMissingOrNullValueIndicator) {
+    this.keepMissingOrNullValueIndicator = keepMissingOrNullValueIndicator;
+    return this;
+  }
+
+  /**
+   * Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.
+   * @return keepMissingOrNullValueIndicator
+  **/
+  @ApiModelProperty(required = true, value = "Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.")
+  @NotNull
+
+
+  public Boolean getKeepMissingOrNullValueIndicator() {
+    return keepMissingOrNullValueIndicator;
+  }
+
+  public void setKeepMissingOrNullValueIndicator(Boolean keepMissingOrNullValueIndicator) {
+    this.keepMissingOrNullValueIndicator = keepMissingOrNullValueIndicator;
+  }
+
   public IndicatorPropertyMappingType attributeMappings(List<AttributeMappingType> attributeMappings) {
     this.attributeMappings = attributeMappings;
     return this;
@@ -126,12 +150,13 @@ public class IndicatorPropertyMappingType  implements Serializable {
     IndicatorPropertyMappingType indicatorPropertyMappingType = (IndicatorPropertyMappingType) o;
     return Objects.equals(this.spatialReferenceKeyProperty, indicatorPropertyMappingType.spatialReferenceKeyProperty) &&
         Objects.equals(this.timeseriesMappings, indicatorPropertyMappingType.timeseriesMappings) &&
+        Objects.equals(this.keepMissingOrNullValueIndicator, indicatorPropertyMappingType.keepMissingOrNullValueIndicator) &&
         Objects.equals(this.attributeMappings, indicatorPropertyMappingType.attributeMappings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialReferenceKeyProperty, timeseriesMappings, attributeMappings);
+    return Objects.hash(spatialReferenceKeyProperty, timeseriesMappings, keepMissingOrNullValueIndicator, attributeMappings);
   }
 
   @Override
@@ -141,6 +166,7 @@ public class IndicatorPropertyMappingType  implements Serializable {
     
     sb.append("    spatialReferenceKeyProperty: ").append(toIndentedString(spatialReferenceKeyProperty)).append("\n");
     sb.append("    timeseriesMappings: ").append(toIndentedString(timeseriesMappings)).append("\n");
+    sb.append("    keepMissingOrNullValueIndicator: ").append(toIndentedString(keepMissingOrNullValueIndicator)).append("\n");
     sb.append("    attributeMappings: ").append(toIndentedString(attributeMappings)).append("\n");
     sb.append("}");
     return sb.toString();

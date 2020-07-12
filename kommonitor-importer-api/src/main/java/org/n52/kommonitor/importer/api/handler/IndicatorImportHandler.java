@@ -57,7 +57,9 @@ public class IndicatorImportHandler extends AbstractRequestHandler<ImportIndicat
                 dataset,
                 requestResourceType.getPropertyMapping());
 
-        List<IndicatorValue> validIndicators = indicatorValues.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
+        List<IndicatorValue> validIndicators = indicatorValues.stream()
+                .filter(s -> validator.isValid(s, requestResourceType.getPropertyMapping().getKeepMissingOrNullValueIndicator()))
+                .collect(Collectors.toList());
         if (validIndicators.isEmpty()) {
             throw new ConverterException("No valid Indicator could be parsed from the specified data source");
         }
