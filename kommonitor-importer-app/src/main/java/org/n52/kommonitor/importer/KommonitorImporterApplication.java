@@ -12,9 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = { "io.swagger", "org.n52.kommonitor.importer", "org.n52.kommonitor.datamanagement" , "io.swagger.configuration"})
 public class KommonitorImporterApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		
-		System.setProperty("org.geotools.referencing.forceXY", "true");
+	public static void main(String[] args) {		
 		
 		SpringApplication.run(KommonitorImporterApplication.class, args);
 	}
