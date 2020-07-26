@@ -51,6 +51,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
+        
+        <!-- required for Java 9+ -->
+        
+         <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>                    
+         </dependency> 
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
