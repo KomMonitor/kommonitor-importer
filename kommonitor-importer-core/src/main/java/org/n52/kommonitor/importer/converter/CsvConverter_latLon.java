@@ -264,7 +264,7 @@ public class CsvConverter_latLon extends AbstractConverter {
         
         try {
             return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             throw ex;
         }
 	}
