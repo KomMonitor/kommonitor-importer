@@ -2,7 +2,11 @@ package org.n52.kommonitor.importer.converter;
 
 import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.feature.NameImpl;
+import org.geotools.gml3.ApplicationSchemaConfiguration;
 import org.geotools.referencing.CRS;
+import org.geotools.xml.Configuration;
+import org.geotools.xml.Parser;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -12,17 +16,22 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.Name;
 import org.opengis.referencing.FactoryException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Converter for WFS 1.0.0 and WFS 1.1.0 datasets.
@@ -146,14 +155,39 @@ public class WFSv1Converter extends AbstractConverter {
         if (!crsOpt.isPresent()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
-
-        SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
-
         try {
+            gml.setCoordinateReferenceSystem(CRS.decode(crsOpt.get()));
+
+//            SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
+
+            SimpleFeatureCollection collection = parseFromSchema(dataset);
+
             return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
         } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         }
+    }
+
+    private SimpleFeatureCollection parseFromSchema(InputStream xml) throws ParserConfigurationException, SAXException, IOException {
+        String namespace = "http://www.kreis-re.de/namespaces/Geofachdaten";
+        String schemaLocation = "http://www.webgis-re.de:8080/SgjWFS11/SgjWFS11?SERVICE=WFS&REQUEST=describeFeatureType&VERSION=1.0.0&TypeName=Indikatoren_20190426_admin";
+
+        Configuration configuration = new ApplicationSchemaConfiguration(namespace, schemaLocation);
+        Parser parser = new Parser(configuration);
+
+        SimpleFeatureCollection fc = (SimpleFeatureCollection) parser.parse(xml);
+        return fc;
+    }
+
+    private SimpleFeatureType parseSimpleFeatureType(GML gml) throws IOException {
+
+        String namespace = "http://www.kreis-re.de/namespaces/Geofachdaten";
+        String schemaLocation = "http://www.webgis-re.de:8080/SgjWFS11/SgjWFS11?SERVICE=WFS&REQUEST=describeFeatureType&VERSION=1.0.0&TypeName=Indikatoren_20190426_admin";
+
+        Name typeName = new NameImpl(namespace, "Indikatoren_20190426_admin");
+        SimpleFeatureType featureType = gml.decodeSimpleFeatureType(new URL(schemaLocation), typeName);
+
+        return featureType;
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,

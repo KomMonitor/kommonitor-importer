@@ -557,9 +557,13 @@ public class FeatureDecoder {
         LocalDate date;
         if (value instanceof String) {
             date = LocalDate.parse((String) value);
-        } else if (value instanceof Date) {
-            Instant instant = ((Date) value).toInstant();
-            date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        } else if (value instanceof java.util.Date) {
+            try {
+                Instant instant = ((java.util.Date) value).toInstant();
+                date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            } catch (Exception ex) {
+                date = ((java.sql.Date) value).toLocalDate();
+            }
         } else {
             throw new DateTimeParseException(String.format("No valid LocalDate value: %s", value), "", 0);
         }
