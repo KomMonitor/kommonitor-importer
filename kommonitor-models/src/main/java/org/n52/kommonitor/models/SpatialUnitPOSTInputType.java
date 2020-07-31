@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.PeriodOfValidityType;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import javax.validation.constraints.*;
  * SpatialUnitPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class SpatialUnitPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -41,6 +43,10 @@ public class SpatialUnitPOSTInputType  implements Serializable {
 
   @JsonProperty("geoJsonString")
   private String geoJsonString = null;
+
+  @JsonProperty("allowedRoles")
+  @Valid
+  private List<String> allowedRoles = null;
 
   public SpatialUnitPOSTInputType spatialUnitLevel(String spatialUnitLevel) {
     this.spatialUnitLevel = spatialUnitLevel;
@@ -187,6 +193,34 @@ public class SpatialUnitPOSTInputType  implements Serializable {
     this.geoJsonString = geoJsonString;
   }
 
+  public SpatialUnitPOSTInputType allowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
+    return this;
+  }
+
+  public SpatialUnitPOSTInputType addAllowedRolesItem(String allowedRolesItem) {
+    if (this.allowedRoles == null) {
+      this.allowedRoles = new ArrayList<>();
+    }
+    this.allowedRoles.add(allowedRolesItem);
+    return this;
+  }
+
+  /**
+   * list of role identifiers that have read access rights for this dataset
+   * @return allowedRoles
+  **/
+  @ApiModelProperty(value = "list of role identifiers that have read access rights for this dataset")
+
+
+  public List<String> getAllowedRoles() {
+    return allowedRoles;
+  }
+
+  public void setAllowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -204,11 +238,12 @@ public class SpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPOSTInputType.nextUpperHierarchyLevel) &&
         Objects.equals(this.jsonSchema, spatialUnitPOSTInputType.jsonSchema) &&
         Objects.equals(this.geoJsonString, spatialUnitPOSTInputType.geoJsonString);
+        Objects.equals(this.allowedRoles, spatialUnitPOSTInputType.allowedRoles);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitLevel, periodOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, jsonSchema, geoJsonString);
+    return Objects.hash(spatialUnitLevel, periodOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, jsonSchema, geoJsonString, allowedRoles);
   }
 
   @Override
@@ -222,6 +257,7 @@ public class SpatialUnitPOSTInputType  implements Serializable {
     sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
     sb.append("    jsonSchema: ").append(toIndentedString(jsonSchema)).append("\n");
+    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("}");
     return sb.toString();
   }

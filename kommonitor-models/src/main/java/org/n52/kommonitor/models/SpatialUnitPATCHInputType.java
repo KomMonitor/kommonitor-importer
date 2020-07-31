@@ -2,8 +2,12 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import java.util.ArrayList;
+import java.util.List;
+import org.n52.kommonitor.models.CommonMetadataType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -13,7 +17,7 @@ import javax.validation.constraints.*;
  * SpatialUnitPATCHInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class SpatialUnitPATCHInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -26,6 +30,10 @@ public class SpatialUnitPATCHInputType  implements Serializable {
 
   @JsonProperty("nextUpperHierarchyLevel")
   private String nextUpperHierarchyLevel = null;
+
+  @JsonProperty("allowedRoles")
+  @Valid
+  private List<String> allowedRoles = null;
 
   public SpatialUnitPATCHInputType metadata(CommonMetadataType metadata) {
     this.metadata = metadata;
@@ -89,6 +97,34 @@ public class SpatialUnitPATCHInputType  implements Serializable {
     this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
   }
 
+  public SpatialUnitPATCHInputType allowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
+    return this;
+  }
+
+  public SpatialUnitPATCHInputType addAllowedRolesItem(String allowedRolesItem) {
+    if (this.allowedRoles == null) {
+      this.allowedRoles = new ArrayList<>();
+    }
+    this.allowedRoles.add(allowedRolesItem);
+    return this;
+  }
+
+  /**
+   * list of role identifiers that have read access rights for this dataset
+   * @return allowedRoles
+  **/
+  @ApiModelProperty(value = "list of role identifiers that have read access rights for this dataset")
+
+
+  public List<String> getAllowedRoles() {
+    return allowedRoles;
+  }
+
+  public void setAllowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -101,12 +137,13 @@ public class SpatialUnitPATCHInputType  implements Serializable {
     SpatialUnitPATCHInputType spatialUnitPATCHInputType = (SpatialUnitPATCHInputType) o;
     return Objects.equals(this.metadata, spatialUnitPATCHInputType.metadata) &&
         Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPATCHInputType.nextLowerHierarchyLevel) &&
-        Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel);
+        Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel) &&
+        Objects.equals(this.allowedRoles, spatialUnitPATCHInputType.allowedRoles);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel);
+    return Objects.hash(metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, allowedRoles);
   }
 
   @Override
@@ -117,6 +154,7 @@ public class SpatialUnitPATCHInputType  implements Serializable {
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
+    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -2,9 +2,13 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.DefaultClassificationMappingType;
+import org.n52.kommonitor.models.IndicatorPUTInputTypeIndicatorValues;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,7 +18,7 @@ import javax.validation.constraints.*;
  * IndicatorPUTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class IndicatorPUTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -27,7 +31,11 @@ public class IndicatorPUTInputType  implements Serializable {
 
   @JsonProperty("indicatorValues")
   @Valid
-  private List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
+  private List<IndicatorPUTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
+
+  @JsonProperty("allowedRoles")
+  @Valid
+  private List<String> allowedRoles = null;
 
   public IndicatorPUTInputType defaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
@@ -71,12 +79,12 @@ public class IndicatorPUTInputType  implements Serializable {
     this.applicableSpatialUnit = applicableSpatialUnit;
   }
 
-  public IndicatorPUTInputType indicatorValues(List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
+  public IndicatorPUTInputType indicatorValues(List<IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
     this.indicatorValues = indicatorValues;
     return this;
   }
 
-  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPOSTInputTypeIndicatorValues indicatorValuesItem) {
+  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPUTInputTypeIndicatorValues indicatorValuesItem) {
     this.indicatorValues.add(indicatorValuesItem);
     return this;
   }
@@ -90,12 +98,40 @@ public class IndicatorPUTInputType  implements Serializable {
 
   @Valid
 
-  public List<IndicatorPOSTInputTypeIndicatorValues> getIndicatorValues() {
+  public List<IndicatorPUTInputTypeIndicatorValues> getIndicatorValues() {
     return indicatorValues;
   }
 
-  public void setIndicatorValues(List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
+  public void setIndicatorValues(List<IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
     this.indicatorValues = indicatorValues;
+  }
+
+  public IndicatorPUTInputType allowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
+    return this;
+  }
+
+  public IndicatorPUTInputType addAllowedRolesItem(String allowedRolesItem) {
+    if (this.allowedRoles == null) {
+      this.allowedRoles = new ArrayList<>();
+    }
+    this.allowedRoles.add(allowedRolesItem);
+    return this;
+  }
+
+  /**
+   * list of role identifiers that have read access rights for this dataset
+   * @return allowedRoles
+  **/
+  @ApiModelProperty(value = "list of role identifiers that have read access rights for this dataset")
+
+
+  public List<String> getAllowedRoles() {
+    return allowedRoles;
+  }
+
+  public void setAllowedRoles(List<String> allowedRoles) {
+    this.allowedRoles = allowedRoles;
   }
 
 
@@ -110,12 +146,13 @@ public class IndicatorPUTInputType  implements Serializable {
     IndicatorPUTInputType indicatorPUTInputType = (IndicatorPUTInputType) o;
     return Objects.equals(this.defaultClassificationMapping, indicatorPUTInputType.defaultClassificationMapping) &&
         Objects.equals(this.applicableSpatialUnit, indicatorPUTInputType.applicableSpatialUnit) &&
-        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues);
+        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues) &&
+        Objects.equals(this.allowedRoles, indicatorPUTInputType.allowedRoles);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(defaultClassificationMapping, applicableSpatialUnit, indicatorValues);
+    return Objects.hash(defaultClassificationMapping, applicableSpatialUnit, indicatorValues, allowedRoles);
   }
 
   @Override
@@ -126,6 +163,7 @@ public class IndicatorPUTInputType  implements Serializable {
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
     sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
     sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
+    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("}");
     return sb.toString();
   }

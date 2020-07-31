@@ -4,9 +4,16 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.CommonMetadataType;
+import org.n52.kommonitor.models.DefaultClassificationMappingType;
+import org.n52.kommonitor.models.GeoresourceReferenceType;
+import org.n52.kommonitor.models.IndicatorReferenceType;
+import org.n52.kommonitor.models.IndicatorSpatialUnitJoinItem;
+import org.n52.kommonitor.models.OgcServicesType;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,7 +23,7 @@ import javax.validation.constraints.*;
  * IndicatorOverviewType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class IndicatorOverviewType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -83,7 +90,7 @@ public class IndicatorOverviewType  implements Serializable {
 
   @JsonProperty("applicableSpatialUnits")
   @Valid
-  private List<String> applicableSpatialUnits = new ArrayList<>();
+  private List<IndicatorSpatialUnitJoinItem> applicableSpatialUnits = new ArrayList<>();
 
   @JsonProperty("applicableDates")
   @Valid
@@ -310,12 +317,12 @@ public class IndicatorOverviewType  implements Serializable {
     this.processDescription = processDescription;
   }
 
-  public IndicatorOverviewType applicableSpatialUnits(List<String> applicableSpatialUnits) {
+  public IndicatorOverviewType applicableSpatialUnits(List<IndicatorSpatialUnitJoinItem> applicableSpatialUnits) {
     this.applicableSpatialUnits = applicableSpatialUnits;
     return this;
   }
 
-  public IndicatorOverviewType addApplicableSpatialUnitsItem(String applicableSpatialUnitsItem) {
+  public IndicatorOverviewType addApplicableSpatialUnitsItem(IndicatorSpatialUnitJoinItem applicableSpatialUnitsItem) {
     this.applicableSpatialUnits.add(applicableSpatialUnitsItem);
     return this;
   }
@@ -327,12 +334,13 @@ public class IndicatorOverviewType  implements Serializable {
   @ApiModelProperty(required = true, value = "array of spatial unit levels for which the dataset is applicable")
   @NotNull
 
+  @Valid
 
-  public List<String> getApplicableSpatialUnits() {
+  public List<IndicatorSpatialUnitJoinItem> getApplicableSpatialUnits() {
     return applicableSpatialUnits;
   }
 
-  public void setApplicableSpatialUnits(List<String> applicableSpatialUnits) {
+  public void setApplicableSpatialUnits(List<IndicatorSpatialUnitJoinItem> applicableSpatialUnits) {
     this.applicableSpatialUnits = applicableSpatialUnits;
   }
 

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
-import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import javax.validation.constraints.*;
  * IndicatorPOSTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class IndicatorPOSTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -74,9 +73,6 @@ public class IndicatorPOSTInputType  implements Serializable {
 
   @JsonProperty("indicatorType")
   private IndicatorTypeEnum indicatorType = null;
-
-  @JsonProperty("applicableSpatialUnit")
-  private String applicableSpatialUnit = null;
 
   @JsonProperty("topicReference")
   private String topicReference = null;
@@ -157,10 +153,6 @@ public class IndicatorPOSTInputType  implements Serializable {
   @Valid
   private List<IndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources = null;
 
-  @JsonProperty("indicatorValues")
-  @Valid
-  private List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues = null;
-
   public IndicatorPOSTInputType datasetName(String datasetName) {
     this.datasetName = datasetName;
     return this;
@@ -220,27 +212,6 @@ public class IndicatorPOSTInputType  implements Serializable {
 
   public void setIndicatorType(IndicatorTypeEnum indicatorType) {
     this.indicatorType = indicatorType;
-  }
-
-  public IndicatorPOSTInputType applicableSpatialUnit(String applicableSpatialUnit) {
-    this.applicableSpatialUnit = applicableSpatialUnit;
-    return this;
-  }
-
-  /**
-   * identifier/name of the spatial unit level
-   * @return applicableSpatialUnit
-  **/
-  @ApiModelProperty(required = true, value = "identifier/name of the spatial unit level")
-  @NotNull
-
-
-  public String getApplicableSpatialUnit() {
-    return applicableSpatialUnit;
-  }
-
-  public void setApplicableSpatialUnit(String applicableSpatialUnit) {
-    this.applicableSpatialUnit = applicableSpatialUnit;
   }
 
   public IndicatorPOSTInputType topicReference(String topicReference) {
@@ -567,35 +538,6 @@ public class IndicatorPOSTInputType  implements Serializable {
     this.refrencesToGeoresources = refrencesToGeoresources;
   }
 
-  public IndicatorPOSTInputType indicatorValues(List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
-    this.indicatorValues = indicatorValues;
-    return this;
-  }
-
-  public IndicatorPOSTInputType addIndicatorValuesItem(IndicatorPOSTInputTypeIndicatorValues indicatorValuesItem) {
-    if (this.indicatorValues == null) {
-      this.indicatorValues = new ArrayList<>();
-    }
-    this.indicatorValues.add(indicatorValuesItem);
-    return this;
-  }
-
-  /**
-   * an array of entries containing indicator values and mapping to spatial features via identifiers
-   * @return indicatorValues
-  **/
-  @ApiModelProperty(value = "an array of entries containing indicator values and mapping to spatial features via identifiers")
-
-  @Valid
-
-  public List<IndicatorPOSTInputTypeIndicatorValues> getIndicatorValues() {
-    return indicatorValues;
-  }
-
-  public void setIndicatorValues(List<IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
-    this.indicatorValues = indicatorValues;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -609,7 +551,6 @@ public class IndicatorPOSTInputType  implements Serializable {
     return Objects.equals(this.datasetName, indicatorPOSTInputType.datasetName) &&
         Objects.equals(this.characteristicValue, indicatorPOSTInputType.characteristicValue) &&
         Objects.equals(this.indicatorType, indicatorPOSTInputType.indicatorType) &&
-        Objects.equals(this.applicableSpatialUnit, indicatorPOSTInputType.applicableSpatialUnit) &&
         Objects.equals(this.topicReference, indicatorPOSTInputType.topicReference) &&
         Objects.equals(this.metadata, indicatorPOSTInputType.metadata) &&
         Objects.equals(this.processDescription, indicatorPOSTInputType.processDescription) &&
@@ -623,13 +564,12 @@ public class IndicatorPOSTInputType  implements Serializable {
         Objects.equals(this.defaultClassificationMapping, indicatorPOSTInputType.defaultClassificationMapping) &&
         Objects.equals(this.allowedRoles, indicatorPOSTInputType.allowedRoles) &&
         Objects.equals(this.refrencesToOtherIndicators, indicatorPOSTInputType.refrencesToOtherIndicators) &&
-        Objects.equals(this.refrencesToGeoresources, indicatorPOSTInputType.refrencesToGeoresources) &&
-        Objects.equals(this.indicatorValues, indicatorPOSTInputType.indicatorValues);
+        Objects.equals(this.refrencesToGeoresources, indicatorPOSTInputType.refrencesToGeoresources);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, characteristicValue, indicatorType, applicableSpatialUnit, topicReference, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, refrencesToOtherIndicators, refrencesToGeoresources, indicatorValues);
+    return Objects.hash(datasetName, characteristicValue, indicatorType, topicReference, metadata, processDescription, unit, creationType, abbreviation, interpretation, isHeadlineIndicator, tags, lowestSpatialUnitForComputation, defaultClassificationMapping, allowedRoles, refrencesToOtherIndicators, refrencesToGeoresources);
   }
 
   @Override
@@ -640,7 +580,6 @@ public class IndicatorPOSTInputType  implements Serializable {
     sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    characteristicValue: ").append(toIndentedString(characteristicValue)).append("\n");
     sb.append("    indicatorType: ").append(toIndentedString(indicatorType)).append("\n");
-    sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
     sb.append("    topicReference: ").append(toIndentedString(topicReference)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    processDescription: ").append(toIndentedString(processDescription)).append("\n");
@@ -655,7 +594,6 @@ public class IndicatorPOSTInputType  implements Serializable {
     sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("    refrencesToOtherIndicators: ").append(toIndentedString(refrencesToOtherIndicators)).append("\n");
     sb.append("    refrencesToGeoresources: ").append(toIndentedString(refrencesToGeoresources)).append("\n");
-    sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
     sb.append("}");
     return sb.toString();
   }
