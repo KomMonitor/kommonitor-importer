@@ -56,9 +56,11 @@ public class GeoJsonConverterTest {
         spatialResourcePropertyMapping.setValidStartDateProperty("EreignisintervallStart");
         spatialResourcePropertyMapping.setValidEndDateProperty("EreignisintervallEnde");
         spatialResourcePropertyMapping.setKeepAttributes(false);
+        spatialResourcePropertyMapping.setKeepMissingOrNullValueAttributes(false);
 
         indicatorPropertyMapping = new IndicatorPropertyMappingType();
         indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");
+        indicatorPropertyMapping.setKeepMissingOrNullValueIndicator(false);
 
         TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
         timeseriesMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");

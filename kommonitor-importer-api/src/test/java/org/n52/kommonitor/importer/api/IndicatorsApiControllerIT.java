@@ -430,7 +430,7 @@ public class IndicatorsApiControllerIT {
                 .thenReturn(Mockito.mock(IndicatorPOSTInputType.class));
         Mockito.when(encoder.encode(Mockito.any(UpdateIndicatorPOSTInputType.class), Mockito.anyList()))
                 .thenReturn(Mockito.mock(IndicatorPUTInputType.class));
-        Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class))).thenReturn(true);
+        Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class), false)).thenReturn(true);
     }
 
 

@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Contains information about imported resource features")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T19:59:05.032+02:00")
 
 public class ImportResponseType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -32,6 +32,10 @@ public class ImportResponseType  implements Serializable {
   @JsonProperty("errors")
   @Valid
   private List<String> errors = null;
+
+  @JsonProperty("warnings")
+  @Valid
+  private List<String> warnings = null;
 
   public ImportResponseType uri(String uri) {
     this.uri = uri;
@@ -109,6 +113,34 @@ public class ImportResponseType  implements Serializable {
     this.errors = errors;
   }
 
+  public ImportResponseType warnings(List<String> warnings) {
+    this.warnings = warnings;
+    return this;
+  }
+
+  public ImportResponseType addWarningsItem(String warningsItem) {
+    if (this.warnings == null) {
+      this.warnings = new ArrayList<>();
+    }
+    this.warnings.add(warningsItem);
+    return this;
+  }
+
+  /**
+   * List of warning messages that occurred during the import
+   * @return warnings
+  **/
+  @ApiModelProperty(value = "List of warning messages that occurred during the import")
+
+
+  public List<String> getWarnings() {
+    return warnings;
+  }
+
+  public void setWarnings(List<String> warnings) {
+    this.warnings = warnings;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -121,12 +153,13 @@ public class ImportResponseType  implements Serializable {
     ImportResponseType importResponseType = (ImportResponseType) o;
     return Objects.equals(this.uri, importResponseType.uri) &&
         Objects.equals(this.importedFeatures, importResponseType.importedFeatures) &&
-        Objects.equals(this.errors, importResponseType.errors);
+        Objects.equals(this.errors, importResponseType.errors) &&
+        Objects.equals(this.warnings, importResponseType.warnings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uri, importedFeatures, errors);
+    return Objects.hash(uri, importedFeatures, errors, warnings);
   }
 
   @Override
@@ -137,6 +170,7 @@ public class ImportResponseType  implements Serializable {
     sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
     sb.append("    importedFeatures: ").append(toIndentedString(importedFeatures)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
+    sb.append("    warnings: ").append(toIndentedString(warnings)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -45,7 +45,7 @@ public class EntityValidator {
      * @param entity the entity to check validity for
      * @return true if the validation check was succesful
      */
-    public boolean isValid(IndicatorValue entity) {
+    public boolean isValid(IndicatorValue entity, boolean allowMissingIndicator) {
         if (entity.getSpatialReferenceKey() == null || entity.getSpatialReferenceKey().isEmpty()) {
             LOG.warn("Missing SpatialReferenceKey property for Indicator: {}", entity);
             return false;
@@ -56,7 +56,7 @@ public class EntityValidator {
         }
         boolean isValid = true;
         for (TimeseriesValue t : entity.getTimeSeriesValueList()) {
-            if (!isValid(t)) {
+            if (!isValid(t, allowMissingIndicator)) {
                 isValid = false;
                 LOG.warn("No valid TimeSeriesValue for Indicator: {}", t);
             }
@@ -70,12 +70,19 @@ public class EntityValidator {
      * @param entity the entity to check validity for
      * @return true if the validation check was succesful
      */
-    public boolean isValid(TimeseriesValue entity) {
-        if (Float.isNaN(entity.getValue())) {
-            return false;
-        }
-        if (entity.getTimestamp() == null) {
-            return false;
+    public boolean isValid(TimeseriesValue entity, boolean allowMissingIndicator) {
+        if (entity.getValue() == null) {
+            if (allowMissingIndicator)
+                return true;
+            else
+                return false;
+        } else {
+            if (Float.isNaN(entity.getValue()) && !allowMissingIndicator) {
+                return false;
+            }
+            if (entity.getTimestamp() == null) {
+                return false;
+            }
         }
         return true;
     }
