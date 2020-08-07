@@ -1,5 +1,7 @@
 package org.n52.kommonitor.importer.api.handler;
 
+import java.util.Optional;
+
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
@@ -13,16 +15,19 @@ import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
-import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
-import java.util.Optional;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Abstract handler for import requests. Takes an import resource of type T and delegates the dataset retrieving and
@@ -93,9 +98,40 @@ public abstract class AbstractRequestHandler<T> {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
             LOG.debug(String.format("%s%n%s", baseMessage, requestResourceType), ex);
+            
+            handleKomMonitorManagementError(ex);
+            
             throw new ImportException(ex.getMessage());
         }
     }
+
+	private void handleKomMonitorManagementError(Exception ex) {
+		if(ex instanceof HttpServerErrorException) {
+			HttpServerErrorException serverError = (HttpServerErrorException) ex;
+			String responseBodyAsString = serverError.getResponseBodyAsString();
+			
+			String errorMessageFromManagementApi = "Error in KomMonitor Data Management API: ";
+			
+			ObjectMapper mapper = new ObjectMapper();
+		  try {
+				JsonNode responseBodyAsJson = mapper.readTree(responseBodyAsString);
+				
+				String labelValue = responseBodyAsJson.findValue("label").asText();
+				String messageValue = responseBodyAsJson.findValue("message").asText();
+				
+				if(labelValue != null && messageValue != null) {
+					errorMessageFromManagementApi = errorMessageFromManagementApi + labelValue + "; " + messageValue;
+				}
+				
+			} catch (JsonMappingException e) {
+				errorMessageFromManagementApi += responseBodyAsString;
+			} catch (JsonProcessingException e) {
+				errorMessageFromManagementApi += responseBodyAsString;
+			}
+			
+			throw new ImportException(errorMessageFromManagementApi);                
+		}
+	}
 
     protected abstract ImportResponseType handleRequestForType(T requestResourceType,
                                                                AbstractConverter abstractConverter,
