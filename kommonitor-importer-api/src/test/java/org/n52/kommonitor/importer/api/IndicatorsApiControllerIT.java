@@ -46,6 +46,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -362,6 +363,7 @@ public class IndicatorsApiControllerIT {
         timeseriesMapping.setIndicatorValueProperty("valProp");
         timeseriesMapping.setTimestampProperty("timestampProp");
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+        mapping.setKeepMissingOrNullValueIndicator(true);
 
         indicatorImport.setPropertyMapping(mapping);
 
@@ -401,6 +403,7 @@ public class IndicatorsApiControllerIT {
         timeseriesMapping.setIndicatorValueProperty("valProp");
         timeseriesMapping.setTimestampProperty("timestampProp");
         mapping.setTimeseriesMappings(Arrays.asList(timeseriesMapping));
+        mapping.setKeepMissingOrNullValueIndicator(true);
 
         indicatorUpdate.setPropertyMapping(mapping);
 
@@ -412,11 +415,14 @@ public class IndicatorsApiControllerIT {
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenReturn(Mockito.mock(Dataset.class));
 
+        IndicatorValue indicator = new IndicatorValue();
+
         Mockito.when(converter.convertIndicators(
                 Mockito.any(ConverterDefinitionType.class),
                 Mockito.any(Dataset.class),
                 Mockito.any(IndicatorPropertyMappingType.class)))
-                .thenReturn(Arrays.asList(new IndicatorValue()));
+                .thenReturn(Arrays.asList(indicator));
+        Mockito.when(validator.isValid(Mockito.eq(indicator), Mockito.anyBoolean())).thenReturn(true);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
@@ -430,7 +436,7 @@ public class IndicatorsApiControllerIT {
                 .thenReturn(Mockito.mock(IndicatorPOSTInputType.class));
         Mockito.when(encoder.encode(Mockito.any(UpdateIndicatorPOSTInputType.class), Mockito.anyList()))
                 .thenReturn(Mockito.mock(IndicatorPUTInputType.class));
-        Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class), false)).thenReturn(true);
+        Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class), Mockito.eq(false))).thenReturn(true);
     }
 
 
