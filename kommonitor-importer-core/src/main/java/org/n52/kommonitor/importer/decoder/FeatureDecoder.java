@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -464,6 +465,8 @@ public class FeatureDecoder {
             return (Integer) value;
         } else if (value instanceof Long) {
             return ((Long) value).intValue();
+        } else if (value instanceof BigInteger) {
+            return ((BigInteger) value).intValue();
         } else if (value instanceof String) {
             return Integer.parseInt((String) value);
         } else {
@@ -557,9 +560,13 @@ public class FeatureDecoder {
         LocalDate date;
         if (value instanceof String) {
             date = LocalDate.parse((String) value);
-        } else if (value instanceof Date) {
-            Instant instant = ((Date) value).toInstant();
-            date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        } else if (value instanceof java.util.Date) {
+            try {
+                Instant instant = ((java.util.Date) value).toInstant();
+                date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            } catch (Exception ex) {
+                date = ((java.sql.Date) value).toLocalDate();
+            }
         } else {
             throw new DateTimeParseException(String.format("No valid LocalDate value: %s", value), "", 0);
         }
