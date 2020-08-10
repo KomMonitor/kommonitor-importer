@@ -77,7 +77,7 @@ public abstract class AbstractRequestHandler<T> {
     public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
                                                             DataSourceDefinitionType dataSourceDefinition,
                                                             ConverterDefinitionType converterDefinition)
-            throws ImportParameterException, ImportException {
+            throws ImportParameterException, ImportException, RestClientException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         checkRequest(retrieverOpt, converterOpt, dataSourceDefinition, converterDefinition);
@@ -94,44 +94,13 @@ public abstract class AbstractRequestHandler<T> {
                     .status(HttpStatus.OK)
                     .body(importResponse);
 
-        } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
+        } catch (ConverterException | DataSourceRetrieverException ex) {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
             LOG.debug(String.format("%s%n%s", baseMessage, requestResourceType), ex);
-            
-            handleKomMonitorManagementError(ex);
-            
             throw new ImportException(ex.getMessage());
         }
     }
-
-	private void handleKomMonitorManagementError(Exception ex) {
-		if(ex instanceof HttpServerErrorException) {
-			HttpServerErrorException serverError = (HttpServerErrorException) ex;
-			String responseBodyAsString = serverError.getResponseBodyAsString();
-			
-			String errorMessageFromManagementApi = "Error in KomMonitor Data Management API: ";
-			
-			ObjectMapper mapper = new ObjectMapper();
-		  try {
-				JsonNode responseBodyAsJson = mapper.readTree(responseBodyAsString);
-				
-				String labelValue = responseBodyAsJson.findValue("label").asText();
-				String messageValue = responseBodyAsJson.findValue("message").asText();
-				
-				if(labelValue != null && messageValue != null) {
-					errorMessageFromManagementApi = errorMessageFromManagementApi + labelValue + "; " + messageValue;
-				}
-				
-			} catch (JsonMappingException e) {
-				errorMessageFromManagementApi += responseBodyAsString;
-			} catch (JsonProcessingException e) {
-				errorMessageFromManagementApi += responseBodyAsString;
-			}
-			
-			throw new ImportException(errorMessageFromManagementApi);                
-		}
-	}
 
     protected abstract ImportResponseType handleRequestForType(T requestResourceType,
                                                                AbstractConverter abstractConverter,
