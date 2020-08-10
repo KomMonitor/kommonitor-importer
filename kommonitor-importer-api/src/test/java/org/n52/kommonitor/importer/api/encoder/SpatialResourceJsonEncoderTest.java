@@ -57,6 +57,7 @@ public class SpatialResourceJsonEncoderTest {
         attrMap.put("testFloat", 123.123f);
         LocalDate testDate =LocalDate.of(2020, 11, 30);
         attrMap.put("testDate", testDate);
+        attrMap.put("testNullProp", null);
         resource = new SpatialResource(RESOURCE_ID, RESOURCE_NAME, point, RESOURCE_ARISEN_FROM, startDate, endDate, attrMap);
         JsonNode propertiesNode = encoder.encodeProperties(resource);
 
@@ -71,6 +72,7 @@ public class SpatialResourceJsonEncoderTest {
         Assertions.assertEquals(123, propertiesNode.get("testInt").asInt());
         Assertions.assertEquals(123.123f, propertiesNode.get("testFloat").asDouble());
         Assertions.assertEquals(testDate.toString(), propertiesNode.get("testDate").asText());
+        Assertions.assertTrue(propertiesNode.get("testNullProp").isNull());
     }
 
     @Test

@@ -347,6 +347,8 @@ public class GeoresourcesApiControllerIT {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
+        mapping.setKeepAttributes(false);
+        mapping.setKeepMissingOrNullValueAttributes(true);
         geoImport.setPropertyMapping(mapping);
 
         return geoImport;
@@ -377,6 +379,8 @@ public class GeoresourcesApiControllerIT {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
+        mapping.setKeepAttributes(false);
+        mapping.setKeepMissingOrNullValueAttributes(true);
         geoUpdate.setPropertyMapping(mapping);
 
         return geoUpdate;
