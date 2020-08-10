@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
@@ -126,11 +125,11 @@ public class ApiExceptionHandler {
                 errorMessageFromManagementApi += responseBodyAsString;
             }
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), errorMessageFromManagementApi));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), errorMessageFromManagementApi));
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ErrorFactory.getError(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
         }
     }
 
