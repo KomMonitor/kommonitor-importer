@@ -104,7 +104,11 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
                 propertiesNode.put(k, (Float) v);
             } else if (v instanceof LocalDate) {
                 propertiesNode.put(k, ((LocalDate) v).toString());
-            } else {
+            }
+            else if (v == null) {
+                propertiesNode.putNull(k);
+            }
+            else {
                 propertiesNode.put(k, String.valueOf(v));
             }
         });
