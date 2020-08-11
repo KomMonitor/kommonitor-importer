@@ -20,7 +20,8 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class IndicatorPUTInputType  implements Serializable {
+public class
+IndicatorPUTInputType  implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("defaultClassificationMapping")

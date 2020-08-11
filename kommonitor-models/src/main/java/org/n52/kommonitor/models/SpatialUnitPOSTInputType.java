@@ -237,7 +237,7 @@ public class SpatialUnitPOSTInputType  implements Serializable {
         Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPOSTInputType.nextLowerHierarchyLevel) &&
         Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPOSTInputType.nextUpperHierarchyLevel) &&
         Objects.equals(this.jsonSchema, spatialUnitPOSTInputType.jsonSchema) &&
-        Objects.equals(this.geoJsonString, spatialUnitPOSTInputType.geoJsonString);
+        Objects.equals(this.geoJsonString, spatialUnitPOSTInputType.geoJsonString) &&
         Objects.equals(this.allowedRoles, spatialUnitPOSTInputType.allowedRoles);
   }
 

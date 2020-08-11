@@ -556,7 +556,7 @@ public class GeoresourcePOSTInputType  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, topicReference, isPOI, isLOI, isAOI, loiColor, loiWidth, loiDashArrayString, aoiColor, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema, geoJsonString);
+    return Objects.hash(datasetName, periodOfValidity, metadata, allowedRoles, topicReference, isPOI, isLOI, isAOI, loiColor, loiWidth, loiDashArrayString, aoiColor, poiSymbolBootstrap3Name, poiMarkerColor, poiSymbolColor, jsonSchema);
   }
 
   @Override
