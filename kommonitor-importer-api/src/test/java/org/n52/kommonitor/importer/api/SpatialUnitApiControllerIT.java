@@ -347,6 +347,8 @@ public class SpatialUnitApiControllerIT {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
+        mapping.setKeepAttributes(false);
+        mapping.setKeepMissingOrNullValueAttributes(true);
         spatialUnitImport.setPropertyMapping(mapping);
 
         return spatialUnitImport;
@@ -377,6 +379,8 @@ public class SpatialUnitApiControllerIT {
         SpatialResourcePropertyMappingType mapping = new SpatialResourcePropertyMappingType();
         mapping.setIdentifierProperty("idProp");
         mapping.setNameProperty("nameProp");
+        mapping.setKeepAttributes(false);
+        mapping.setKeepMissingOrNullValueAttributes(true);
         spatialUnitUpdate.setPropertyMapping(mapping);
 
         return spatialUnitUpdate;

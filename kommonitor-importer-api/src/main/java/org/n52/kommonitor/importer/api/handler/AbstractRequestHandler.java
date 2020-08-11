@@ -13,7 +13,6 @@ import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
-import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +71,7 @@ public abstract class AbstractRequestHandler<T> {
     public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
                                                             DataSourceDefinitionType dataSourceDefinition,
                                                             ConverterDefinitionType converterDefinition)
-            throws ImportParameterException, ImportException {
+            throws ImportParameterException, ImportException, RestClientException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         checkRequest(retrieverOpt, converterOpt, dataSourceDefinition, converterDefinition);
@@ -89,7 +88,7 @@ public abstract class AbstractRequestHandler<T> {
                     .status(HttpStatus.OK)
                     .body(importResponse);
 
-        } catch (ConverterException | DataSourceRetrieverException | RestClientException ex) {
+        } catch (ConverterException | DataSourceRetrieverException ex) {
             String baseMessage = "Error while handling request.";
             LOG.error(String.format("%s%n%s", baseMessage, ex.getMessage()));
             LOG.debug(String.format("%s%n%s", baseMessage, requestResourceType), ex);

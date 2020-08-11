@@ -1,5 +1,8 @@
 package org.n52.kommonitor.importer.api.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.api.exceptions.UploadException;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +97,40 @@ public class ApiExceptionHandler {
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         ex.getMessage(),
                         monitor.getErrorMessages()));
+    }
+
+    @ExceptionHandler({RestClientException.class})
+    public ResponseEntity handleKomMonitorManagementError(Exception ex) {
+        LOG.error("Data Management API client error: {}", ex.getMessage());
+        LOG.debug("Data Management API client error", ex);
+
+        if (ex instanceof HttpServerErrorException) {
+            HttpServerErrorException serverError = (HttpServerErrorException) ex;
+            String responseBodyAsString = serverError.getResponseBodyAsString();
+
+            String errorMessageFromManagementApi = "Error in KomMonitor Data Management API: ";
+
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                JsonNode responseBodyAsJson = mapper.readTree(responseBodyAsString);
+
+                String labelValue = responseBodyAsJson.findValue("label").asText();
+                String messageValue = responseBodyAsJson.findValue("message").asText();
+
+                if (labelValue != null && messageValue != null) {
+                    errorMessageFromManagementApi = errorMessageFromManagementApi + labelValue + "; " + messageValue;
+                }
+
+            } catch (JsonProcessingException e) {
+                errorMessageFromManagementApi += responseBodyAsString;
+            }
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), errorMessageFromManagementApi));
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ErrorFactory.getError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()));
+        }
     }
 
 }
