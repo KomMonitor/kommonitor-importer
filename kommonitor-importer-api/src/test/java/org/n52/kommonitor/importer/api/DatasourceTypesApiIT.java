@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {DatasourceTypesApiController.class, DataSourceRetrieverEncoder.class, ApiExceptionHandler.class})
 public class DatasourceTypesApiIT {
 
+    private static final String BASE_PATH = "/importer";
     private static final String DATASOURCE_TYPE = "INLINE";
     private static final String PARAM_NAME = "payload";
     private static final String PARAM_DESC = "The dataset payload";
@@ -59,7 +60,7 @@ public class DatasourceTypesApiIT {
         prepareMocks();
         Mockito.when(repository.getAll()).thenReturn(Arrays.asList(retriever));
 
-        this.mockMvc.perform(get("/datasourceTypes"))
+        this.mockMvc.perform(get(BASE_PATH + "/datasourceTypes"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$[0].type").value(DATASOURCE_TYPE))
@@ -72,7 +73,7 @@ public class DatasourceTypesApiIT {
         prepareMocks();
         Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.of(retriever));
 
-        this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
+        this.mockMvc.perform(get(BASE_PATH + "/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.parameters[0].name").value(PARAM_NAME))
@@ -85,7 +86,7 @@ public class DatasourceTypesApiIT {
     public void testGetSupportedDataSourceTypeByTypeNotFound() throws Exception {
         Mockito.when(repository.getDataSourceRetriever(DATASOURCE_TYPE)).thenReturn(Optional.ofNullable(null));
 
-        this.mockMvc.perform(get("/datasourceTypes/{type}", DATASOURCE_TYPE))
+        this.mockMvc.perform(get(BASE_PATH + "/datasourceTypes/{type}", DATASOURCE_TYPE))
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))

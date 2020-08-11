@@ -59,6 +59,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpatialUnitsApiController.class, RequestHandlerRepository.class, SpatialUnitImportHandler.class, SpatialUnitUpdateHandler.class, ApiExceptionHandler.class})
 public class SpatialUnitApiControllerIT {
     private static final String RESOURCE_ID = "testID";
+    private static final String BASE_PATH = "/importer";
 
     @Autowired
     private MockMvc mockMvc;
@@ -110,7 +111,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isOk())
@@ -126,7 +127,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitImportBody.setDryRun(true);
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isOk())
@@ -145,7 +146,7 @@ public class SpatialUnitApiControllerIT {
         ((ObjectNode) json).set("metadata", null);
         spatialUnitImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(json.toString()))
                 .andExpect(status().isBadRequest())
@@ -164,7 +165,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isBadRequest())
@@ -182,7 +183,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isInternalServerError())
@@ -200,7 +201,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitImportBody)))
                 .andExpect(status().isInternalServerError())
@@ -216,7 +217,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isOk())
@@ -232,7 +233,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitUpdateBody.setDryRun(true);
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isOk())
@@ -251,7 +252,7 @@ public class SpatialUnitApiControllerIT {
         ((ObjectNode) json).set("metadata", null);
         spatialUnitUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(json.toString()))
                 .andExpect(status().isBadRequest())
@@ -270,7 +271,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(retrieverRepository.getDataSourceRetriever(Mockito.anyString())).thenReturn(Optional.of(retriever));
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isBadRequest())
@@ -288,7 +289,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isInternalServerError())
@@ -306,7 +307,7 @@ public class SpatialUnitApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         spatialUnitUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/spatial-units/update")
+        this.mockMvc.perform(post(BASE_PATH + "/spatial-units/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(spatialUnitUpdateBody)))
                 .andExpect(status().isInternalServerError())

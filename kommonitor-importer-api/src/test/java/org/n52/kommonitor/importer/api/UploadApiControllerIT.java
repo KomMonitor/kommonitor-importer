@@ -37,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {UploadApiController.class, ApiExceptionHandler.class})
 public class UploadApiControllerIT {
 
+    private static final String BASE_PATH = "/importer";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -54,7 +56,7 @@ public class UploadApiControllerIT {
                 "text/plain", "test content".getBytes());
         Mockito.when(storageService.store(Mockito.any(MultipartFile.class), Mockito.anyString())).thenReturn(fileName);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
+        this.mockMvc.perform(MockMvcRequestBuilders.multipart(BASE_PATH + "/upload")
                 .file(multipartFile).param("filename", fileName))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").value(fileName));
@@ -69,7 +71,7 @@ public class UploadApiControllerIT {
 
         Mockito.when(storageService.getAll()).thenReturn(Collections.singletonList(file));
 
-        this.mockMvc.perform(get("/upload"))
+        this.mockMvc.perform(get(BASE_PATH + "/upload"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$[0].name").value(fileName));
@@ -83,7 +85,7 @@ public class UploadApiControllerIT {
                 "text/plain", "test content".getBytes());
         Mockito.when(storageService.store(Mockito.any(MultipartFile.class), Mockito.anyString())).thenThrow(IOException.class);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
+        this.mockMvc.perform(MockMvcRequestBuilders.multipart(BASE_PATH + "/upload")
                 .file(multipartFile).param("filename", fileName))
                 .andExpect(status().isInternalServerError())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))

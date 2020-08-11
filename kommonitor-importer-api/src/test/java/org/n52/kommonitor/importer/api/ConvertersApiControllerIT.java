@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {ConvertersApiController.class, ConverterEncoder.class, ApiExceptionHandler.class})
 public class ConvertersApiControllerIT {
 
+    private static final String BASE_PATH = "/importer";
     private static final String CONVERTER_NAME = "Test converter";
     private static final String CONVERTER_MIME_TYPE = "text/xml";
     private static final String CONVERTER_SCHEMA = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
@@ -61,7 +62,7 @@ public class ConvertersApiControllerIT {
         prepareMocks();
         Mockito.when(converterRepository.getAll()).thenReturn(Arrays.asList(converter));
 
-        this.mockMvc.perform(get("/converters"))
+        this.mockMvc.perform(get(BASE_PATH + "/converters"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$[0].name").value(CONVERTER_NAME))
@@ -75,7 +76,7 @@ public class ConvertersApiControllerIT {
         prepareMocks();
         Mockito.when(converterRepository.getConverter(CONVERTER_NAME)).thenReturn(Optional.of(converter));
 
-        this.mockMvc.perform(get("/converters/{name}", CONVERTER_NAME))
+        this.mockMvc.perform(get(BASE_PATH + "/converters/{name}", CONVERTER_NAME))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.name").value(CONVERTER_NAME))
@@ -90,7 +91,7 @@ public class ConvertersApiControllerIT {
     public void testGetConverterByNameNotFound() throws Exception {
         Mockito.when(converterRepository.getConverter(CONVERTER_NAME)).thenReturn(Optional.ofNullable(null));
 
-        this.mockMvc.perform(get("/converters/{name}", CONVERTER_NAME))
+        this.mockMvc.perform(get(BASE_PATH + "/converters/{name}", CONVERTER_NAME))
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.content().contentType(ContentType.APPLICATION_JSON.getMimeType()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
