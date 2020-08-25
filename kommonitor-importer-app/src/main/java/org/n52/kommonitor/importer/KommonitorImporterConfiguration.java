@@ -39,13 +39,17 @@ public class KommonitorImporterConfiguration {
     @Bean
     public RestTemplate configureDataAccessService() {
 
+//        List<Header> defaultHeaders = Arrays.asList(
+//                new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE),
+//                new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
         List<Header> defaultHeaders = Arrays.asList(
-                new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE),
-                new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
+                new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE));
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
                 .setConnectTimeout(1000)
+//                .setConnectionRequestTimeout(1000)
+//                .setSocketTimeout(1000)
                 .build();
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()
