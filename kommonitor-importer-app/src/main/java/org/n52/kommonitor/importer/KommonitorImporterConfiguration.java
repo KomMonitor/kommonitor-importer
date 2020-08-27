@@ -47,7 +47,9 @@ public class KommonitorImporterConfiguration {
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
-                .setConnectTimeout(1000)
+                .setConnectTimeout(300000)
+                .setSocketTimeout(300000)
+                .setConnectionRequestTimeout(300000)
                 .build();
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()
