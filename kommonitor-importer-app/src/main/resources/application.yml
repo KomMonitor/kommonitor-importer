@@ -12,8 +12,8 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
-	session:
-		timeout: 1m
+    session:
+      timeout: 1m
 logging:
   level:
     org.n52.kommonitor: DEBUG
