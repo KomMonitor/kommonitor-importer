@@ -297,10 +297,10 @@ public class CsvConverter_latLon extends AbstractConverter {
 	@Override
 	public Set<ConverterParameter> initConverterParameters() {
 		Set<ConverterParameter> params = new HashSet();
-        params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING));
-        params.add(new ConverterParameter(PARAM_CRS, PARAM_CRS_DESC, ConverterParameter.ParameterTypeValues.STRING));
-        params.add(new ConverterParameter(PARAM_X_COORD_COL, PARAM_X_COORD_DESC, ConverterParameter.ParameterTypeValues.NUMBER));
-        params.add(new ConverterParameter(PARAM_Y_COORD_COL, PARAM_Y_COORD_DESC, ConverterParameter.ParameterTypeValues.NUMBER));
+        params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
+        params.add(new ConverterParameter(PARAM_CRS, PARAM_CRS_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
+        params.add(new ConverterParameter(PARAM_X_COORD_COL, PARAM_X_COORD_DESC, ConverterParameter.ParameterTypeValues.NUMBER, true));
+        params.add(new ConverterParameter(PARAM_Y_COORD_COL, PARAM_Y_COORD_DESC, ConverterParameter.ParameterTypeValues.NUMBER, true));
         return params;
 	}
 
