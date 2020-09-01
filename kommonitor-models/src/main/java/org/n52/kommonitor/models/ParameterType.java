@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
-
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-09-01T15:35:10.522+02:00")
 
 public class ParameterType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -26,6 +26,9 @@ public class ParameterType  implements Serializable {
 
   @JsonProperty("description")
   private String description = null;
+
+  @JsonProperty("mandatory")
+  private Boolean mandatory = null;
 
   /**
    * type of the parameter
@@ -106,6 +109,26 @@ public class ParameterType  implements Serializable {
     this.description = description;
   }
 
+  public ParameterType mandatory(Boolean mandatory) {
+    this.mandatory = mandatory;
+    return this;
+  }
+
+  /**
+   * indicates wether the parameter is mandatory or optional
+   * @return mandatory
+  **/
+  @ApiModelProperty(value = "indicates wether the parameter is mandatory or optional")
+
+
+  public Boolean isMandatory() {
+    return mandatory;
+  }
+
+  public void setMandatory(Boolean mandatory) {
+    this.mandatory = mandatory;
+  }
+
   public ParameterType type(TypeEnum type) {
     this.type = type;
     return this;
@@ -138,12 +161,13 @@ public class ParameterType  implements Serializable {
     ParameterType parameterType = (ParameterType) o;
     return Objects.equals(this.name, parameterType.name) &&
         Objects.equals(this.description, parameterType.description) &&
+        Objects.equals(this.mandatory, parameterType.mandatory) &&
         Objects.equals(this.type, parameterType.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, type);
+    return Objects.hash(name, description, mandatory, type);
   }
 
   @Override
@@ -153,6 +177,7 @@ public class ParameterType  implements Serializable {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    mandatory: ").append(toIndentedString(mandatory)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
