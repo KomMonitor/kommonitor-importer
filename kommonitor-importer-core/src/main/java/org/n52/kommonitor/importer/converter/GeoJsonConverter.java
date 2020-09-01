@@ -201,7 +201,7 @@ public class GeoJsonConverter extends AbstractConverter {
 
     private ConverterParameter createCrsParameter() {
         String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
-        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING);
+        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING, true);
     }
 
 }

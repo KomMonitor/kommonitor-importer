@@ -204,17 +204,19 @@ public class WFSv1Converter extends AbstractConverter {
 
     private ConverterParameter createCrsParameter() {
         String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
-        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING);
+        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING, true);
     }
 
     private ConverterParameter createNamespaceParameter() {
-        String desc = String.format("Namespace of the FeatureType that should be parsed (set only in combination with '%s' parameter)", PARAM_SCHEMA_LOCATION);
-        return new ConverterParameter(PARAM_NAMESPACE, desc, ConverterParameter.ParameterTypeValues.STRING);
+        String desc = String.format("Namespace of the FeatureType that should be parsed (set only in combination with '%s' parameter," +
+                " otherwise the parameter will be ignored)", PARAM_SCHEMA_LOCATION);
+        return new ConverterParameter(PARAM_NAMESPACE, desc, ConverterParameter.ParameterTypeValues.STRING, false);
     }
 
     private ConverterParameter createSchemaLocationParameter() {
-        String desc = String.format("Location of the application schema for the FeatureType that should be parsed (set only in combination with '%s' parameter)", PARAM_NAMESPACE);
-        return new ConverterParameter(PARAM_SCHEMA_LOCATION, desc, ConverterParameter.ParameterTypeValues.STRING);
+        String desc = String.format("Location of the application schema for the FeatureType that should be parsed (set only in combination with '%s' parameter," +
+                " otherwise the parameter will be ignored)", PARAM_NAMESPACE);
+        return new ConverterParameter(PARAM_SCHEMA_LOCATION, desc, ConverterParameter.ParameterTypeValues.STRING, false);
     }
 
     private class WFS100Configuration extends Configuration {

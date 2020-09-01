@@ -68,6 +68,7 @@ public class ConverterEncoder {
         paramType.setName(parameter.getName());
         paramType.setDescription(parameter.getDescription());
         paramType.setType(ParameterType.TypeEnum.valueOf(parameter.getType().name()));
+        paramType.setMandatory(parameter.isMandatory());
         return paramType;
     }
 }
