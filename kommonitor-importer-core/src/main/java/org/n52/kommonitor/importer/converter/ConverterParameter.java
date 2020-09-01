@@ -14,10 +14,13 @@ public class ConverterParameter {
 
     private ParameterTypeValues type;
 
-    public ConverterParameter(String name, String description, ParameterTypeValues type) {
+    private boolean mandatory;
+
+    public ConverterParameter(String name, String description, ParameterTypeValues type, boolean mandatory) {
         this.name = name;
         this.description = description;
         this.type = type;
+        this.mandatory = mandatory;
     }
 
     public String getName() {
@@ -36,4 +39,7 @@ public class ConverterParameter {
         STRING, NUMBER, BOOLEAN, ARRAY
     }
 
+    public boolean isMandatory() {
+        return mandatory;
+    }
 }
