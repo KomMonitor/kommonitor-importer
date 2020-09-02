@@ -72,7 +72,7 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         converterParameters.forEach(p -> {
             if (p.isMandatory()) {
                 boolean validParameter = converterDefinition.getParameters().stream()
-                        .anyMatch(pV -> p.getName().equals(pV.getName()) && pV.getValue() != null);
+                        .anyMatch(pV -> p.getName().equals(pV.getName()) && pV.getValue() != null && !pV.getValue().isEmpty());
                 if (!validParameter) {
                     isValid.set(false);
                     builder.append(String.format("Mandatory parameter '%s' is missing.",
