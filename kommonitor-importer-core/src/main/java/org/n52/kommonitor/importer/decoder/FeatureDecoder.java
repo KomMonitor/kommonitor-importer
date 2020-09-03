@@ -98,8 +98,19 @@ public class FeatureDecoder {
                 getPropertyValueAsString(feature, propertyMapping.getArisenFromProperty());
         LocalDate startDate = propertyMapping.getValidStartDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
-        LocalDate endDate = propertyMapping.getValidEndDateProperty() == null ? null :
+        
+        // endDate value can be "null" --> hence here we must allow "null" value
+        // getPropertyValueAsDate will throw error if cannot be parsed as date
+        // thus we simply catch that error and set NULL then
+        LocalDate endDate = null;
+        try {
+        	endDate = propertyMapping.getValidEndDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
+		} catch (DecodingException e) {
+			LOG.error("ValidEndDate value could not be parsed as date. Error message is: \n{} ", e.getLocalizedMessage());
+			LOG.info("Will use value 'null' for validEndDate for feature with id '{}'", id);
+		}
+
         Geometry geom;
         try {
             geom = geomHelper.reprojectGeomToWgs84(getGeometry(feature, feature.getFeatureType()), sourceCrs);

@@ -43,6 +43,7 @@ public class ConvertersApiControllerIT {
     private static final String PARAM_NAME = "payload";
     private static final String PARAM_DESC = "The dataset payload";
     private static final ConverterParameter.ParameterTypeValues PARAM_TYPE = ConverterParameter.ParameterTypeValues.STRING;
+    private static final boolean PARAM_MANDATORY = false;
 
     @Autowired
     private MockMvc mockMvc;
@@ -104,6 +105,6 @@ public class ConvertersApiControllerIT {
         Mockito.when(converter.getName()).thenReturn(CONVERTER_NAME);
         Mockito.when(converter.getSupportedMimeTypes()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_MIME_TYPE)));
         Mockito.when(converter.getSupportedSchemas()).thenReturn(new HashSet<>(Arrays.asList(CONVERTER_SCHEMA)));
-        Mockito.when(converter.getConverterParameters()).thenReturn(new HashSet<>(Arrays.asList(new ConverterParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE))));
+        Mockito.when(converter.getConverterParameters()).thenReturn(new HashSet<>(Arrays.asList(new ConverterParameter(PARAM_NAME, PARAM_DESC, PARAM_TYPE, PARAM_MANDATORY))));
     }
 }

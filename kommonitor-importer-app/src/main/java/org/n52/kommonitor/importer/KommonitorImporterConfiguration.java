@@ -40,13 +40,21 @@ public class KommonitorImporterConfiguration {
     @Bean
     public RestTemplate configureDataAccessService() {
 
-        List<Header> defaultHeaders = Arrays.asList(
-                new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE),
-                new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
+//      List<Header> defaultHeaders = Arrays.asList(
+//      new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE),
+//      new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE));
+    	
+    	// remove CONTENT_TYPE header as in some scenarios it lead to duplicate header value
+    	// thus failing requst to KomMOnitor management component due to invalid content-type header
+    	List<Header> defaultHeaders = Arrays.asList(
+    			new BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE));
+
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
-                .setConnectTimeout(1000)
+                .setConnectTimeout(300000)
+                .setSocketTimeout(300000)
+                .setConnectionRequestTimeout(300000)
                 .build();
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()

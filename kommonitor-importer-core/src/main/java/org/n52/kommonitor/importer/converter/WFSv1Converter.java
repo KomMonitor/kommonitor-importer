@@ -1,8 +1,12 @@
 package org.n52.kommonitor.importer.converter;
 
+import net.opengis.wfs.impl.FeatureCollectionTypeImpl;
 import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.referencing.CRS;
+import org.geotools.xml.Configuration;
+import org.geotools.xml.Parser;
+import org.geotools.xs.XSConfiguration;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -13,16 +17,19 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.referencing.FactoryException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.picocontainer.MutablePicoContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Converter for WFS 1.0.0 and WFS 1.1.0 datasets.
@@ -38,6 +45,8 @@ public class WFSv1Converter extends AbstractConverter {
     private static final String WFS_SCHEMA_110 = "http://schemas.opengis.net/wfs/1.1.0/wfs.xsd";
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
+    private static final String PARAM_NAMESPACE = "NAMESPACE";
+    private static final String PARAM_SCHEMA_LOCATION = "SCHEMA_LOCATION";
 
     private FeatureDecoder featureDecoder;
 
@@ -80,8 +89,10 @@ public class WFSv1Converter extends AbstractConverter {
     @Override
     public Set<ConverterParameter> initConverterParameters() {
         Set<ConverterParameter> params = new HashSet();
-        ConverterParameter crsParam = createCrsParameter();
-        params.add(crsParam);
+        params.add(createCrsParameter());
+        params.add(createNamespaceParameter());
+        params.add(createSchemaLocationParameter());
+
         return params;
     }
 
@@ -127,17 +138,14 @@ public class WFSv1Converter extends AbstractConverter {
         } else if (schema.equals(WFS_SCHEMA_110)) {
             return new GML(GML.Version.WFS1_1);
         } else {
-            throw new ImportParameterException(String.format("The selected schema '%s' is not suported.", schema));
+            throw new ImportParameterException(String.format("The selected schema '%s' is not supported.", schema));
         }
     }
 
     private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
-        GML gml = getGmlParserForSchema(converterDefinition.getSchema());
-
-        gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, ConverterException {
 
         if (converterDefinition.getParameters() == null) {
             throw new ImportParameterException("Missing converter parameters");
@@ -147,13 +155,50 @@ public class WFSv1Converter extends AbstractConverter {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
-        SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
+        Optional<String> namespaceOpt = this.getParameterValue(PARAM_NAMESPACE, converterDefinition.getParameters());
+        Optional<String> schemaLocationOpt = this.getParameterValue(PARAM_SCHEMA_LOCATION, converterDefinition.getParameters());
+
+        SimpleFeatureCollection collection;
+
+        if (namespaceOpt.isPresent() && schemaLocationOpt.isPresent()) {
+            checkNamespaceAndSchemaLocation(namespaceOpt.get(), schemaLocationOpt.get());
+
+            collection = parseFeatureCollectionForSchema(dataset, namespaceOpt.get(), schemaLocationOpt.get());
+        } else {
+            GML gml = getGmlParserForSchema(converterDefinition.getSchema());
+            gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
+
+            collection = gml.decodeFeatureCollection(dataset);
+        }
 
         try {
             return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
         } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         }
+    }
+
+    private void checkNamespaceAndSchemaLocation(String namespace, String schemaLocation) {
+        if(namespace.isEmpty()){
+            throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_NAMESPACE));
+        }
+        if(schemaLocation.isEmpty()){
+            throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_SCHEMA_LOCATION));
+        }
+    }
+
+    private SimpleFeatureCollection parseFeatureCollectionForSchema(InputStream dataset, String namespace, String schemaLocation)
+            throws IOException, SAXException, ParserConfigurationException, ConverterException {
+        SimpleFeatureCollection collection;
+        WFS100Configuration configuration = new WFS100Configuration(namespace, schemaLocation);
+        Parser parser = new Parser(configuration);
+        FeatureCollectionTypeImpl fc = (FeatureCollectionTypeImpl) parser.parse(dataset);
+        if (fc.getFeature().get(0) instanceof SimpleFeatureCollection) {
+            collection = ((SimpleFeatureCollection) fc.getFeature().get(0));
+        } else {
+            throw new ConverterException("No valid FeatureCollection could be parsed from dataset.");
+        }
+        return collection;
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
@@ -170,7 +215,31 @@ public class WFSv1Converter extends AbstractConverter {
 
     private ConverterParameter createCrsParameter() {
         String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
-        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING);
+        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING, true);
+    }
+
+    private ConverterParameter createNamespaceParameter() {
+        String desc = String.format("Namespace of the FeatureType that should be parsed (set only in combination with '%s' parameter," +
+                " otherwise the parameter will be ignored)", PARAM_SCHEMA_LOCATION);
+        return new ConverterParameter(PARAM_NAMESPACE, desc, ConverterParameter.ParameterTypeValues.STRING, false);
+    }
+
+    private ConverterParameter createSchemaLocationParameter() {
+        String desc = String.format("Location of the application schema for the FeatureType that should be parsed (set only in combination with '%s' parameter," +
+                " otherwise the parameter will be ignored)", PARAM_NAMESPACE);
+        return new ConverterParameter(PARAM_SCHEMA_LOCATION, desc, ConverterParameter.ParameterTypeValues.STRING, false);
+    }
+
+    private class WFS100Configuration extends Configuration {
+        public WFS100Configuration(String namespace, String schemaLocation) {
+            super(new org.geotools.gml2.ApplicationSchemaXSD(namespace, schemaLocation));
+            this.addDependency(new XSConfiguration());
+            this.addDependency(new org.geotools.wfs.v1_0.WFSConfiguration());
+            this.addDependency(new org.geotools.gml2.GMLConfiguration());
+        }
+
+        protected void registerBindings(MutablePicoContainer container) {
+        }
     }
 }
 

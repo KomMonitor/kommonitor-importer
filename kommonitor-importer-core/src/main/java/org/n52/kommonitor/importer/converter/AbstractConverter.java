@@ -69,11 +69,21 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
             builder.append(System.lineSeparator());
         }
 
-        //TODO validate converterParameters
-        // (depends on the possibiility to differentiate between mandatory and optional parameters)
+        converterParameters.forEach(p -> {
+            if (p.isMandatory()) {
+                boolean validParameter = converterDefinition.getParameters().stream()
+                        .anyMatch(pV -> p.getName().equals(pV.getName()) && pV.getValue() != null && !pV.getValue().isEmpty());
+                if (!validParameter) {
+                    isValid.set(false);
+                    builder.append(String.format("Mandatory parameter '%s' is missing.",
+                            p.getName()));
+                    builder.append(System.lineSeparator());
+                }
+            }
+        });
 
         if (!isValid.get()) {
-            throw new ImportParameterException(builder.toString());
+            throw new ImportParameterException(builder.substring(0, builder.lastIndexOf(System.lineSeparator())));
         }
     }
 
