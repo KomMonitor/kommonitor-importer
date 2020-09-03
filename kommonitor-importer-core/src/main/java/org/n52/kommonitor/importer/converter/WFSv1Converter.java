@@ -161,6 +161,8 @@ public class WFSv1Converter extends AbstractConverter {
         SimpleFeatureCollection collection;
 
         if (namespaceOpt.isPresent() && schemaLocationOpt.isPresent()) {
+            checkNamespaceAndSchemaLocation(namespaceOpt.get(), schemaLocationOpt.get());
+
             collection = parseFeatureCollectionForSchema(dataset, namespaceOpt.get(), schemaLocationOpt.get());
         } else {
             GML gml = getGmlParserForSchema(converterDefinition.getSchema());
@@ -173,6 +175,15 @@ public class WFSv1Converter extends AbstractConverter {
             return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
         } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+        }
+    }
+
+    private void checkNamespaceAndSchemaLocation(String namespace, String schemaLocation) {
+        if(namespace.isEmpty()){
+            throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_NAMESPACE));
+        }
+        if(schemaLocation.isEmpty()){
+            throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_SCHEMA_LOCATION));
         }
     }
 
