@@ -155,6 +155,27 @@ public class WFSv1Converter extends AbstractConverter {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
+        SimpleFeatureCollection collection = parseFeatureCollection(converterDefinition, dataset);
+
+        try {
+            return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
+        } catch (FactoryException ex) {
+            throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+        }
+    }
+
+    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                   InputStream dataset,
+                                                   IndicatorPropertyMappingType propertyMapping)
+            throws ImportParameterException, ParserConfigurationException, SAXException, IOException, ConverterException {
+
+        SimpleFeatureCollection collection = parseFeatureCollection(converterDefinition, dataset);
+
+        return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
+    }
+
+    private SimpleFeatureCollection parseFeatureCollection(ConverterDefinitionType converterDefinition, InputStream dataset)
+            throws IOException, SAXException, ParserConfigurationException, ConverterException {
         Optional<String> namespaceOpt = this.getParameterValue(PARAM_NAMESPACE, converterDefinition.getParameters());
         Optional<String> schemaLocationOpt = this.getParameterValue(PARAM_SCHEMA_LOCATION, converterDefinition.getParameters());
 
@@ -170,19 +191,14 @@ public class WFSv1Converter extends AbstractConverter {
 
             collection = gml.decodeFeatureCollection(dataset);
         }
-
-        try {
-            return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
-        } catch (FactoryException ex) {
-            throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
-        }
+        return collection;
     }
 
     private void checkNamespaceAndSchemaLocation(String namespace, String schemaLocation) {
-        if(namespace.isEmpty()){
+        if (namespace.isEmpty()) {
             throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_NAMESPACE));
         }
-        if(schemaLocation.isEmpty()){
+        if (schemaLocation.isEmpty()) {
             throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_SCHEMA_LOCATION));
         }
     }
@@ -199,18 +215,6 @@ public class WFSv1Converter extends AbstractConverter {
             throw new ConverterException("No valid FeatureCollection could be parsed from dataset.");
         }
         return collection;
-    }
-
-    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
-                                                   InputStream dataset,
-                                                   IndicatorPropertyMappingType propertyMapping)
-            throws ImportParameterException, ParserConfigurationException, SAXException, IOException {
-        GML gml = getGmlParserForSchema(converterDefinition.getSchema());
-        gml.setEncoding(Charset.forName(converterDefinition.getEncoding()));
-
-        SimpleFeatureCollection collection = gml.decodeFeatureCollection(dataset);
-
-        return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
     }
 
     private ConverterParameter createCrsParameter() {
