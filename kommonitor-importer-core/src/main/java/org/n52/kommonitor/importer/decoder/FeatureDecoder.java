@@ -98,18 +98,18 @@ public class FeatureDecoder {
                 getPropertyValueAsString(feature, propertyMapping.getArisenFromProperty());
         LocalDate startDate = propertyMapping.getValidStartDateProperty() == null ? null :
                 getPropertyValueAsDate(feature, propertyMapping.getValidStartDateProperty());
-        
+
         // endDate value can be "null" --> hence here we must allow "null" value
         // getPropertyValueAsDate will throw error if cannot be parsed as date
         // thus we simply catch that error and set NULL then
         LocalDate endDate = null;
         try {
-        	endDate = propertyMapping.getValidEndDateProperty() == null ? null :
-                getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
-		} catch (DecodingException e) {
-			LOG.error("ValidEndDate value could not be parsed as date. Error message is: \n{} ", e.getLocalizedMessage());
-			LOG.info("Will use value 'null' for validEndDate for feature with id '{}'", id);
-		}
+            endDate = propertyMapping.getValidEndDateProperty() == null ? null :
+                    getPropertyValueAsDate(feature, propertyMapping.getValidEndDateProperty());
+        } catch (DecodingException e) {
+            LOG.error("ValidEndDate value could not be parsed as date. Error message is: \n{} ", e.getLocalizedMessage());
+            LOG.info("Will use value 'null' for validEndDate for feature with id '{}'", id);
+        }
 
         Geometry geom;
         try {
@@ -523,12 +523,8 @@ public class FeatureDecoder {
             return (Float) value;
         } else if (value instanceof String) {
             return Float.parseFloat((String) value);
-        } else if (value instanceof Double) {
-            return ((Double) value).floatValue();
-        } else if (value instanceof Integer) {
-            return ((Integer) value).floatValue();
-        } else if (value instanceof Long) {
-            return ((Long) value).floatValue();
+        } else if (value instanceof Number) {
+            return ((Number) value).floatValue();
         } else {
             throw new NumberFormatException(String.format("No valid Float value: %s", value));
         }
