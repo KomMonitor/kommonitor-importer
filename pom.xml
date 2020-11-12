@@ -152,6 +152,11 @@
                 <artifactId>gt-metadata</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
+            <dependency>
+			    <groupId>org.geotools</groupId>
+			    <artifactId>gt-csv</artifactId>
+			    <version>${geotools.version}</version>
+			</dependency>
 
             <dependency>
                 <groupId>de.grundid.opendatalab</groupId>
@@ -188,7 +193,7 @@
                         <artifactId>slf4j-simple</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
+            </dependency>            
         </dependencies>
     </dependencyManagement>
 
@@ -199,6 +204,17 @@
             <url>https://repo.osgeo.org/repository/release/</url>
             <snapshots><enabled>false</enabled></snapshots>
             <releases><enabled>true</enabled></releases>
+        </repository>
+        <repository>
+            <id>geotools</id>
+            <name>Geotools Repo</name>
+            <url>https://repo.osgeo.org/repository/release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 

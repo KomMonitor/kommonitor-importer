@@ -45,6 +45,8 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     private static final String TYPE_VALUE_FEATURE_COLLECTION = "FeatureCollection";
     private static final String TYPE_VALUE_FEATURE = "Feature";
 
+	private static final int NUMBER_OF_DECIMALS = 13;
+
     private ObjectMapper mapper;
     private GeometryJSON geomJson;
 
@@ -118,6 +120,6 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         mapper = new ObjectMapper();
-        geomJson = new GeometryJSON();
+        geomJson = new GeometryJSON(NUMBER_OF_DECIMALS);
     }
 }

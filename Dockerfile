@@ -15,7 +15,7 @@ RUN mvn -f ./kommonitor-importer/pom.xml dependency:go-offline --fail-never
 COPY . /app/kommonitor-importer/
 
 # Run the Maven build
-RUN mvn -f ./kommonitor-importer/pom.xml clean install -Dapp.finalName=kommonitor-importer-app
+RUN mvn -f ./kommonitor-importer/pom.xml clean install -Dapp.finalName=kommonitor-importer-app -DskipTests
 
 # ---- Run the application ----
 FROM openjdk:alpine
