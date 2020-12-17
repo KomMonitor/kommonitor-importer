@@ -32,7 +32,7 @@ kommonitor:
       client-id: kommonitor-importer
       secret: secret
 keycloak:
-  enabled: true
+  enabled: false
   realm: kommonitor
   auth-server-url: http://localhost:8080/auth
   resource: kommonitor-importer
