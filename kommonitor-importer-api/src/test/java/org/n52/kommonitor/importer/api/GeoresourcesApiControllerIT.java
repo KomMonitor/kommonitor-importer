@@ -60,6 +60,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GeoresourcesApiControllerIT {
 
     private static final String RESOURCE_ID = "testID";
+    private static final String BASE_PATH = "/importer";
 
     @Autowired
     private MockMvc mockMvc;
@@ -111,7 +112,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isOk())
@@ -127,7 +128,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoImportBody.setDryRun(true);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isOk())
@@ -146,7 +147,7 @@ public class GeoresourcesApiControllerIT {
         ((ObjectNode) json).set("metadata", null);
         geoImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(json.toString()))
                 .andExpect(status().isBadRequest())
@@ -165,7 +166,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isBadRequest())
@@ -183,7 +184,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isInternalServerError())
@@ -201,7 +202,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoImportBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoImportBody)))
                 .andExpect(status().isInternalServerError())
@@ -217,7 +218,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isOk())
@@ -233,7 +234,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoUpdateBody.setDryRun(true);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isOk())
@@ -251,7 +252,7 @@ public class GeoresourcesApiControllerIT {
         ((ObjectNode) json.get("dataSource")).put("type", "invalidType");
         geoUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(json.toString()))
                 .andExpect(status().isBadRequest())
@@ -270,7 +271,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isBadRequest())
@@ -288,7 +289,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isInternalServerError())
@@ -306,7 +307,7 @@ public class GeoresourcesApiControllerIT {
         Mockito.when(converterRepository.getConverter(Mockito.anyString())).thenReturn(Optional.of(converter));
         geoUpdateBody.setDryRun(false);
 
-        this.mockMvc.perform(post("/georesources/update")
+        this.mockMvc.perform(post(BASE_PATH + "/georesources/update")
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .content(mapper.writeValueAsString(geoUpdateBody)))
                 .andExpect(status().isInternalServerError())

@@ -2,9 +2,9 @@ package org.n52.kommonitor.models;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * RoleOverviewType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
 public class RoleOverviewType  implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -24,10 +24,6 @@ public class RoleOverviewType  implements Serializable {
 
   @JsonProperty("roleName")
   private String roleName = null;
-
-  @JsonProperty("priviledges")
-  @Valid
-  private List<String> priviledges = new ArrayList<>();
 
   public RoleOverviewType roleId(String roleId) {
     this.roleId = roleId;
@@ -71,32 +67,6 @@ public class RoleOverviewType  implements Serializable {
     this.roleName = roleName;
   }
 
-  public RoleOverviewType priviledges(List<String> priviledges) {
-    this.priviledges = priviledges;
-    return this;
-  }
-
-  public RoleOverviewType addPriviledgesItem(String priviledgesItem) {
-    this.priviledges.add(priviledgesItem);
-    return this;
-  }
-
-  /**
-   * list of priviledges that are associated to this role. They indicate, what operations and data can be accessed by users.
-   * @return priviledges
-  **/
-  @ApiModelProperty(required = true, value = "list of priviledges that are associated to this role. They indicate, what operations and data can be accessed by users.")
-  @NotNull
-
-
-  public List<String> getPriviledges() {
-    return priviledges;
-  }
-
-  public void setPriviledges(List<String> priviledges) {
-    this.priviledges = priviledges;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -108,13 +78,12 @@ public class RoleOverviewType  implements Serializable {
     }
     RoleOverviewType roleOverviewType = (RoleOverviewType) o;
     return Objects.equals(this.roleId, roleOverviewType.roleId) &&
-        Objects.equals(this.roleName, roleOverviewType.roleName) &&
-        Objects.equals(this.priviledges, roleOverviewType.priviledges);
+        Objects.equals(this.roleName, roleOverviewType.roleName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(roleId, roleName, priviledges);
+    return Objects.hash(roleId, roleName);
   }
 
   @Override
@@ -124,7 +93,6 @@ public class RoleOverviewType  implements Serializable {
     
     sb.append("    roleId: ").append(toIndentedString(roleId)).append("\n");
     sb.append("    roleName: ").append(toIndentedString(roleName)).append("\n");
-    sb.append("    priviledges: ").append(toIndentedString(priviledges)).append("\n");
     sb.append("}");
     return sb.toString();
   }

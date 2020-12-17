@@ -1,6 +1,5 @@
 server:
   port: 8087
-  contextPath: /import
 spring:
   application:
     name: kommonitor-import-api
@@ -25,4 +24,28 @@ springfox:
 kommonitor:
   importer:
     datamanagement-api-url: "http://localhost:8085/management"
-    fileStorageLocation: "/tmp/kommonitor"
+    file-storage-location: "/tmp/kommonitor"
+  swagger-ui:
+    # base-path: /importer
+    # do not use real values in production environment!!!
+    security:
+      client-id: kommonitor-importer
+      secret: secret
+keycloak:
+  enabled: true
+  realm: kommonitor
+  auth-server-url: http://localhost:8080/auth
+  resource: kommonitor-importer
+  bearer-only: true
+  autodetect-bearer-only: false
+  ssl-required: external
+  public-client: false
+  credentials:
+    secret: secret
+  cors: true
+  cors-allowed-methods: "*"
+  securityConstraints[0]:
+    authRoles[0]: administrator
+    securityCollections[0]:
+      name: protected
+      patterns[0]: /importer/*

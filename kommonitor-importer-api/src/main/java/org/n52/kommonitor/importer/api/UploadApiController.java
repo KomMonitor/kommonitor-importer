@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T11:05:39.297+01:00")
 
-@Controller
+@BaseController
 public class UploadApiController implements UploadApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(UploadApiController.class);

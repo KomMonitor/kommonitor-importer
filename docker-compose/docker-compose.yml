@@ -1,0 +1,51 @@
+version: "3"
+volumes:
+  postgres_data:
+    driver: local
+services:
+  kommonitor-importer:
+    image: kommonitor/kommonitor-importer:latest
+    environment:
+      SERVER_PORT: 8087
+      JAVA_OPTS: -Dorg.geotools.referencing.forceXY=true
+      KOMMONITOR_IMPORTER_DATAMANAGEMENT_API_URL: ${KOMMONITOR_DATAMANAGEMENT_URL}
+      KOMMONITOR_IMPORTER_FILE_STORAGE_LOCATION: /tmp/kommonitor
+      KOMMONITOR_SWAGGER_UI_SECURITY_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      # Get the correct secret from Keycloak server
+      KOMMONITOR_SWAGGER_UI_SECURITY_SECRET: ${KEYCLOAK_SECRET}
+      KEYCLOAK_ENABLED: "true"
+      # Make sure that Keycloak Server is locally available under this URL
+      # (e.g. by adding a suitable entry to your system's hosts file)
+      KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_URL}/auth
+      KEYCLOAK_REALM: kommonitor
+      KEYCLOAK_RESOURCE: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_CREDENTIALS_SECRET: ${KEYCLOAK_SECRET}
+    ports:
+      - 8087:8087
+    depends_on:
+      - keycloak
+
+  postgres:
+    image: postgres:12.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${KEYCLOAK_POSTGRES_DB}
+      POSTGRES_USER: ${KEYCLOAK_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PW}
+
+  keycloak:
+    image: jboss/keycloak:10.0.1
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: ${KEYCLOAK_POSTGRES_DB}
+      DB_USER: ${KEYCLOAK_POSTGRES_USER}
+      DB_SCHEMA: public
+      DB_PASSWORD: ${KEYCLOAK_POSTGRES_PW}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PW}
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
