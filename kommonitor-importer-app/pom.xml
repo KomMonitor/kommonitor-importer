@@ -11,11 +11,19 @@
         <app.finalName>${artifactId}-${version}</app.finalName>
     </properties>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>war</packaging>
 
     <artifactId>kommonitor-importer-app</artifactId>
     <name>KomMonitor Importer App</name>
 
     <dependencies>
+    
+    	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency> 
+    
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kommonitor-models</artifactId>
@@ -52,6 +60,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.1.0</version>
+			</plugin>
         </plugins>
     </build>
 </project>

@@ -4,15 +4,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackages = { "io.swagger", "org.n52.kommonitor.importer", "org.n52.kommonitor.datamanagement" , "io.swagger.configuration"})
-public class KommonitorImporterApplication implements CommandLineRunner {
+public class KommonitorImporterApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	public static void main(String[] args) {		
+		
+		System.setProperty("org.geotools.referencing.forceXY", "true");
 		
 		SpringApplication.run(KommonitorImporterApplication.class, args);
 	}
