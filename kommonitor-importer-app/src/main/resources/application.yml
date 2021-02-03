@@ -23,7 +23,7 @@ springfox:
         path: /api-docs
 kommonitor:
   importer:
-    datamanagement-api-url: "https://kommonitor.muelheim-ruhr.de/management"
+    datamanagement-api-url: "http://localhost:8085/management"
     file-storage-location: "/tmp/kommonitor"
   swagger-ui:
     # base-path: /importer
