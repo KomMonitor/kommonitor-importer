@@ -23,7 +23,7 @@ springfox:
         path: /api-docs
 kommonitor:
   importer:
-    datamanagement-api-url: "http://localhost:8085/management"
+    datamanagement-api-url: "http://localhost:8080/kommonitor-data-management/management"
     file-storage-location: "/tmp/kommonitor"
   swagger-ui:
     # base-path: /importer
@@ -32,7 +32,7 @@ kommonitor:
       client-id: kommonitor-importer
       secret: secret
 keycloak:
-  enabled: false
+  enabled: true
   realm: kommonitor
   auth-server-url: http://localhost:8080/auth
   resource: kommonitor-importer

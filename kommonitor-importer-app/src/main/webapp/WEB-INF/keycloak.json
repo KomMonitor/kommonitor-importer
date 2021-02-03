@@ -12,6 +12,6 @@
   "expose-token" : true,
   "verify-token-audience" : false,
    "credentials" : {
-      "secret" : "secret"
+      "secret" : "0d0eac17-1402-4269-8b72-349beea025cc"
    }
 }
