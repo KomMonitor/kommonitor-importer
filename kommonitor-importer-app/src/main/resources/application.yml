@@ -34,7 +34,7 @@ kommonitor:
 keycloak:
   enabled: true
   realm: kommonitor
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: https://kommonitor.muelheim-ruhr.de/auth
   resource: kommonitor-importer
   bearer-only: true
   autodetect-bearer-only: false
