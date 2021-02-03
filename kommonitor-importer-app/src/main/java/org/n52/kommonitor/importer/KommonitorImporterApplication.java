@@ -14,6 +14,8 @@ public class KommonitorImporterApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {		
 		
+		System.setProperty("org.geotools.referencing.forceXY", "true");
+		
 		SpringApplication.run(KommonitorImporterApplication.class, args);
 	}
 
