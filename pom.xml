@@ -5,7 +5,7 @@
 
     <groupId>org.n52.kommonitor</groupId>
     <artifactId>kommonitor-importer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
@@ -16,6 +16,12 @@
     <name>KomMonitor Importer</name>
     <description>Data importer for KomMonitor</description>
     <packaging>pom</packaging>
+    
+    <scm>
+	    <url>https://github.com/KomMonitor/kommonitor-importer/</url>
+        <connection>scm:git:git://github.com/KomMonitor/kommonitor-importer.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/KomMonitor/kommonitor-importer.git</developerConnection>
+	  </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,6 +36,7 @@
         <maven-surefire.version>3.0.0-M4</maven-surefire.version>
         <maven-failsafe.version>3.0.0-M4</maven-failsafe.version>
         <geotools.version>20.3</geotools.version>
+        <release-plugin.version>3.0.0-M1</release-plugin.version>
     </properties>
 
     <dependencies>
@@ -224,6 +231,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${release-plugin.version}</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <pushChanges>false</pushChanges>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
             </plugin>
         </plugins>
     </build>
