@@ -13,7 +13,9 @@ datasets come available within the KomMonitor Spatial Data Infrastructure by pub
    - [KomMonitor Website](https://kommonitor.de/)  
 
 ## Dependencies to other KomMonitor Components
-KomMonitor Importer requires a running instance of KomMonitor Data Management, to forward any import/update requests.
+KomMonitor Importer requires 
+   - a running instance of **KomMonitor Data Management**, to forward any import/update requests.
+   - an optional and configurable connection to a running **Keycloak** server, if role-based data access is activated via configuration of KomMonitor stack
 
 
 # Project Structure
@@ -119,7 +121,7 @@ By default, the started application is available under http://localhost:8087.
 
 Only contains subset of whole KomMonitor stack to focus on the config parameters of this component
 
-```
+```yml
 
 version: '2.1'
 
@@ -625,7 +627,7 @@ Let's have a look on how this could be done by the example of the existing `Inli
 retrieve data sets that are defined 'inline' within an import POST request body.
 
 1) Annotate your class with the Spring `@Component`, so that it can be auto-injected within the `DataSourceretrieverRepository`
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 
@@ -636,7 +638,7 @@ and `initSupportedParameters()` for declaring the supported parameters. For the 
 parameter is necessary, so that the dataset can be declared within the import POST request body as _inline_ value
 for this property. Note, that for each `DataSourceParameter`, a unique name, a description and a value type
 has to be defined.
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 
@@ -664,7 +666,7 @@ use the parameter values, that have been defined within the import POST request.
 parameter exists. Otherwise, throw an exception. For the `InlineTextRetriever`, you only have to fetch
 the text content from the `payload` property and return it bound to a `Dataset`. But other implementations, may require 
 a more complex retrieving strategy. E.g. the `HttRetriever` has to request an URL that has been defined as parameter. 
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
   
@@ -685,7 +687,7 @@ public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 In order to support additional data formats, you have to implement new converters. Just extend the `AbstractConverter`.
 As an example, let's assume we want to provide a converter that supports the converting of CSV based datasets.
 1) The new converter should be registered by the `ConverterRepository` so just annotate your class with `@Component`
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
     
@@ -695,7 +697,7 @@ public class CsvConverter extends AbstractConverter {
 encodings and schemas as well as specific `ConverterParameters` that are required for telling the converter, how to
 handle a certain dataset. Reasonable parameters for the `CsvConverter` would be a separator that is used for separating
 of the columns and a parameter to define the column that includes the geometries.
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
 
@@ -749,7 +751,7 @@ the `Dataset` object. For convenience, the `AbstractConverter` provides a `getIn
 If you choose to parse a dataset with the GeoTools framework, which provides several plugins for different formats, you
 can subsequently use the `org.n52.kommonitor.importer.decoder.FeatureDecoder` which provides several helper methods for
 converting GeoTools `Features` and `FeatureCollections` into `SpatialResources` and `Indicators`.
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
 

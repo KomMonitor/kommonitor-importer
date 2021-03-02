@@ -13,14 +13,16 @@ datasets come available within the KomMonitor Spatial Data Infrastructure by pub
    - [KomMonitor Website](https://kommonitor.de/)  
 
 ## Dependencies to other KomMonitor Components
-KomMonitor Importer requires a running instance of KomMonitor Data Management, to forward any import/update requests.
+KomMonitor Importer requires 
+   - a running instance of **KomMonitor Data Management**, to forward any import/update requests.
+   - an optional and configurable connection to a running **Keycloak** server, if role-based data access is activated via configuration of KomMonitor stack
 
 
 ## Exemplar docker-compose File with explanatory comments
 
 Only contains subset of whole KomMonitor stack to focus on the config parameters of this component
 
-```
+```yml
 
 version: '2.1'
 
