@@ -5,6 +5,19 @@ into the _KomMonitor Spatial Data Infrastructure_. The webapp provides an API fo
 that come in the shape of certain formats and converting the datasets into a KomMonitor related schema. The converted 
 datasets come available within the KomMonitor Spatial Data Infrastructure by publishing them via the _Data Management API_.
 
+## Quick Links And Further Information on KomMonitor
+   - [DockerHub repositories of KomMonitor Stack](https://hub.docker.com/orgs/kommonitor/repositories)
+   - [Github Repositories of KomMonitor Stack](https://github.com/KomMonitor)
+   - [Github Wiki for KomMonitor Guidance and central Documentation](https://github.com/KomMonitor/KomMonitor-Docs/wiki)
+   - [Technical Guidance](https://github.com/KomMonitor/KomMonitor-Docs/wiki/Technische-Dokumentation) and [Deployment Information](https://github.com/KomMonitor/KomMonitor-Docs/wiki/Setup-Guide) for complete KomMonitor stack on Github Wiki
+   - [KomMonitor Website](https://kommonitor.de/)  
+
+## Dependencies to other KomMonitor Components
+KomMonitor Importer requires 
+   - a running instance of **KomMonitor Data Management**, to forward any import/update requests.
+   - an optional and configurable connection to a running **Keycloak** server, if role-based data access is activated via configuration of KomMonitor stack
+
+
 # Project Structure
 
 The KomMonitor Importer project comprises different modules that encapsulate different tasks:  
@@ -103,6 +116,88 @@ run `docker build -t kommonitor/importer:latest .` from the root of the reposito
 port 8087 can be started with `docker run -p 8087:8087 kommonitor/importer`.
  
 By default, the started application is available under http://localhost:8087.
+
+## Exemplar docker-compose File with explanatory comments
+
+Only contains subset of whole KomMonitor stack to focus on the config parameters of this component
+
+```yml
+
+version: '2.1'
+
+networks:
+  kommonitor:
+    driver: bridge
+services:
+
+    # importer component that can import spatial resources from different data sources (e.g. GeoJSON, CSV, WFS), 
+    # sanity-check them and forward data integration requests to data management component
+    kommonitor-importer:
+      image: 'kommonitor/importer'
+      container_name: kommonitor-importer
+      #restart: unless-stopped
+      ports:
+        - 8087:8087
+      volumes:
+       - importer_data:/tmp/importer      # storage location where to store "uploaded files"; files can be uploaded to importer, but currently will never be deleted; hence manually delete them if required
+      environment:
+       - kommonitor.importer.datamanagement-api-url=http://kommonitor-data-management:8085/management   # target URL to running Data Management component ending with "/management" (/management is internal base path of data management component)- best use docker name and port within same network
+       - JAVA_OPTS=-Dorg.geotools.referencing.forceXY=true       # important setting that coordinate system axes shall follow order XY (default is YX, but KomMonitor Data Management component expects axis order XY; e.g. longitude, latitude)
+       - logging.level.org.n52.kommonitor=ERROR         # adjust logging level [e.g. "INFO", "WARN", "ERROR"] - ERROR logs only errors 
+       - KOMMONITOR_SWAGGERUI_BASEPATH=        #depending on DNS Routing and Reverse Proxy setup a base path can be set here to access swagger-ui interface (e.g. set '/data-importer' if https://kommonitor-url.de/data-importer works as entry point for localhost:8087)   
+       - KOMMONITOR_SWAGGER_UI_SECURITY_CLIENT_ID=kommonitor-importer   # client/resource id of importer component in Keycloak realm
+       - KOMMONITOR_SWAGGER_UI_SECURITY_SECRET=secret                   # WARNING: DO NOT SET IN PRODUCTION!!! Keycloak secret of this component within Credentials tab of respective Keycloak client; secret for swagger-ui to authorize swagger-ui requests in a Keycloak-active scenario (mostly this should not be set, as users with access to swagger-ui (e.g. 'http://localhost:8087/swagger-ui.html') could then authorize without own user account and perform CRUD requests)
+       - KEYCLOAK_ENABLED=false                                       # enable/disable role-based data access using Keycloak (true requires working Keycloak Setup and enforces that all other components must be configured to enable Keycloak as well)
+       - KEYCLOAK_AUTH_SERVER_URL=https://keycloak.fbg-hsbo.de/auth   # Keycloak URL ending with '/auth/'
+       - KEYCLOAK_REALM=kommonitor                                    # Keycloak realm name
+       - KEYCLOAK_RESOURCE=kommonitor-importer                        # client/resource id of importer component in Keycloak realm
+       - KEYCLOAK_CREDENTIALS_SECRET=secret                           # Keycloak secret of this component within Credentials tab of respective Keycloak client; must be set here
+       - SERVER_PORT=8087                                             # Server port; default is 8087
+      networks:
+       - kommonitor
+
+
+    # database container; must use PostGIS database
+    # database is not required to run in docker - will be configured in Data Management component
+    kommonitor-db:
+      image: mdillon/postgis
+      container_name: kommonitor-db
+      #restart: unless-stopped
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_USER=kommonitor      # database user (will be created on startup if not exists) - same settings in data management service
+        - POSTGRES_PASSWORD=kommonitor  # database password (will be created on startup if not exists) - same settings in data management service 
+        - POSTGRES_DB=kommonitor_data   # database name (will be created on startup if not exists) - same settings in data management service
+      volumes:
+        - postgres_data:/var/lib/postgresql/data   # persist database data on disk (crucial for compose down calls to let data survive)
+      networks:
+        - kommonitor
+
+    # Data Management component encapsulating the database access and management as REST service
+    kommonitor-data-management:
+      image: kommonitor/data-management
+      container_name: kommonitor-data-management
+      #restart: unless-stopped
+      depends_on:
+        - kommonitor-db    # only if database runs as docker container as well
+      ports:
+        - "8085:8085"
+      networks:
+        - kommonitor
+      links:
+        - kommonitor-db
+      environment:
+      # - env parameters omitted here for brevity
+
+
+volumes:
+ postgres_data:
+ importer_data:
+
+
+```
+
 
 # User Guide
 ## Interact with the API
@@ -532,7 +627,7 @@ Let's have a look on how this could be done by the example of the existing `Inli
 retrieve data sets that are defined 'inline' within an import POST request body.
 
 1) Annotate your class with the Spring `@Component`, so that it can be auto-injected within the `DataSourceretrieverRepository`
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 
@@ -543,7 +638,7 @@ and `initSupportedParameters()` for declaring the supported parameters. For the 
 parameter is necessary, so that the dataset can be declared within the import POST request body as _inline_ value
 for this property. Note, that for each `DataSourceParameter`, a unique name, a description and a value type
 has to be defined.
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 
@@ -571,7 +666,7 @@ use the parameter values, that have been defined within the import POST request.
 parameter exists. Otherwise, throw an exception. For the `InlineTextRetriever`, you only have to fetch
 the text content from the `payload` property and return it bound to a `Dataset`. But other implementations, may require 
 a more complex retrieving strategy. E.g. the `HttRetriever` has to request an URL that has been defined as parameter. 
-```
+```java
 @Component
 public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
   
@@ -592,7 +687,7 @@ public class InlineTextRetriever extends AbstractDataSourceRetriever<String> {
 In order to support additional data formats, you have to implement new converters. Just extend the `AbstractConverter`.
 As an example, let's assume we want to provide a converter that supports the converting of CSV based datasets.
 1) The new converter should be registered by the `ConverterRepository` so just annotate your class with `@Component`
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
     
@@ -602,7 +697,7 @@ public class CsvConverter extends AbstractConverter {
 encodings and schemas as well as specific `ConverterParameters` that are required for telling the converter, how to
 handle a certain dataset. Reasonable parameters for the `CsvConverter` would be a separator that is used for separating
 of the columns and a parameter to define the column that includes the geometries.
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
 
@@ -656,7 +751,7 @@ the `Dataset` object. For convenience, the `AbstractConverter` provides a `getIn
 If you choose to parse a dataset with the GeoTools framework, which provides several plugins for different formats, you
 can subsequently use the `org.n52.kommonitor.importer.decoder.FeatureDecoder` which provides several helper methods for
 converting GeoTools `Features` and `FeatureCollections` into `SpatialResources` and `Indicators`.
-```
+```java
 @Component
 public class CsvConverter extends AbstractConverter {
 
@@ -728,3 +823,18 @@ Just run `mvn compile -Pgenerate-models` from _kommonitor-importer-models_, `mvn
 or `mvn compile -Pgenerate-client` from _kommonitor-datamanagement-api-client_. But, be careful with auto-generation of
 new API or model classes. Some existing classes may be overwritten, so you should check all the changed classes after
 the code generation.
+
+## Contact
+|    Name   |   Organization    |    Mail    |
+| :-------------: |:-------------:| :-----:|
+| Christian Danowski-Buhren | Bochum University of Applied Sciences | christian.danowski-buhren@hs-bochum.de |
+| Sebastian Drost | 52°North GmbH | s.drost@52north.org |
+| Andreas Wytzisk  | Bochum University of Applied Sciences | Andreas-Wytzisk@hs-bochum.de |
+
+## Credits and Contributing Organizations
+- Department of Geodesy, Bochum University of Applied Sciences
+- Department for Cadastre and Geoinformation, Essen
+- Department for Geodata Management, Surveying, Cadastre and Housing Promotion, Mülheim an der Ruhr
+- Department of Geography, Ruhr University of Bochum
+- 52°North GmbH, Münster
+- Kreis Recklinghausen

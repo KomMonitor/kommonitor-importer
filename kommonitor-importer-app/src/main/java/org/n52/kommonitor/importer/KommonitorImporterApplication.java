@@ -15,6 +15,8 @@ public class KommonitorImporterApplication extends SpringBootServletInitializer 
 
 	public static void main(String[] args) {		
 		
+		// set special parameter directly which controls how to treat X and Y coordinates
+		// for most use cases the setting must be "true"
 		System.setProperty("org.geotools.referencing.forceXY", "true");
 		
 		SpringApplication.run(KommonitorImporterApplication.class, args);

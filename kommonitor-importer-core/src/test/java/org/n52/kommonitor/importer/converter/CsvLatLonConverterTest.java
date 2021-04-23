@@ -71,6 +71,7 @@ public class CsvLatLonConverterTest {
         spatialResourcePropertyMapping.setIdentifierProperty("ID");
         spatialResourcePropertyMapping.setNameProperty("paAdresseID");
         spatialResourcePropertyMapping.setKeepAttributes(false);
+        spatialResourcePropertyMapping.setKeepMissingOrNullValueAttributes(true);
         
         indicatorPropertyMapping = new IndicatorPropertyMappingType();
         indicatorPropertyMapping.setSpatialReferenceKeyProperty("ID");
@@ -83,6 +84,7 @@ public class CsvLatLonConverterTest {
         
 		timeseriesMappings.add(timeseriesMappingType);
         indicatorPropertyMapping.setTimeseriesMappings(timeseriesMappings);
+        indicatorPropertyMapping.setKeepMissingOrNullValueIndicator(true);
 
     }
 
