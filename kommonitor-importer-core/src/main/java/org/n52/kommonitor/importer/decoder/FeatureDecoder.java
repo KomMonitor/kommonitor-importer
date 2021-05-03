@@ -197,6 +197,10 @@ public class FeatureDecoder {
 
             }
         });
+        
+        // sort list of timeseries entries by date ascending
+        timeSeriesValues.sort(Comparator.comparing(TimeseriesValue::getTimestamp));
+        
         return new IndicatorValue(getPropertyValueAsString(feature,
                 propertyMapping.getSpatialReferenceKeyProperty()), timeSeriesValues);
     }
@@ -229,6 +233,9 @@ public class FeatureDecoder {
                 monitor.addFailedConversion(spatialRefKey, e.getMessage());
             }
         });
+        
+        // sort list of timeseries entries by date ascending
+        timeSeries.sort(Comparator.comparing(TimeseriesValue::getTimestamp));
 
         return new IndicatorValue(spatialRefKey, timeSeries);
     }
