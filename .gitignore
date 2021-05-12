@@ -3,6 +3,9 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### changelogs from submodules ###
+**/CHANGELOG.md
+
 .mvn/**
 **/.swagger-codegen/**
 
