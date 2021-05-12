@@ -19,8 +19,8 @@
     
     <scm>
 	    <url>https://github.com/KomMonitor/kommonitor-importer/</url>
-        <connection>scm:git:git://github.com/KomMonitor/kommonitor-importer.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/KomMonitor/kommonitor-importer.git</developerConnection>
+        <connection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</connection>
+        <developerConnection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</developerConnection>
 	  </scm>
 
     <properties>
