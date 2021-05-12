@@ -37,6 +37,7 @@
         <maven-failsafe.version>3.0.0-M4</maven-failsafe.version>
         <geotools.version>20.3</geotools.version>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
+        <changelog-plugin.version>0.5.1</changelog-plugin.version>
     </properties>
 
     <dependencies>
@@ -233,13 +234,19 @@
                 <version>${maven-surefire.version}</version>
             </plugin>
             <plugin>
+			    <groupId>info.plichta.maven.plugins</groupId>
+			    <artifactId>git-changelog-maven-plugin</artifactId>
+			    <version>${changelog-plugin.version}</version>
+			</plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${release-plugin.version}</version>
                 <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
                     <pushChanges>false</pushChanges>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean git-changelog:git-changelog scm:checkin -DpushChanges=false -Dincludes=CHANGELOG.md -Dmessage="[maven-release-plugin] Update CHANGELOG.md" verify</preparationGoals>                
                 </configuration>
             </plugin>
         </plugins>
