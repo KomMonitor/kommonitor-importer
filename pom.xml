@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.n52.kommonitor</groupId>
     <artifactId>kommonitor-importer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
         <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
@@ -19,9 +18,10 @@
     
     <scm>
 	    <url>https://github.com/KomMonitor/kommonitor-importer/</url>
-        <connection>scm:git:git://github.com/KomMonitor/kommonitor-importer.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/KomMonitor/kommonitor-importer.git</developerConnection>
-	  </scm>
+        <connection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</connection>
+        <developerConnection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</developerConnection>
+	    <tag>HEAD</tag>
+  </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,13 +30,14 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-        <api-client.version>0.0.1-SNAPSHOT</api-client.version>
+        <api-client.version>1.0.1-SNAPSHOT</api-client.version>
         <jts.version>1.16.1</jts.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <maven-surefire.version>3.0.0-M4</maven-surefire.version>
         <maven-failsafe.version>3.0.0-M4</maven-failsafe.version>
         <geotools.version>20.3</geotools.version>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
+        <changelog-plugin.version>0.5.1</changelog-plugin.version>
     </properties>
     
     <dependencies>
@@ -237,13 +238,19 @@
                 <version>${maven-surefire.version}</version>
             </plugin>
             <plugin>
+			    <groupId>info.plichta.maven.plugins</groupId>
+			    <artifactId>git-changelog-maven-plugin</artifactId>
+			    <version>${changelog-plugin.version}</version>
+			</plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${release-plugin.version}</version>
                 <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
                     <pushChanges>false</pushChanges>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean git-changelog:git-changelog scm:checkin -DpushChanges=false -Dincludes=CHANGELOG.md -Dmessage="[maven-release-plugin] Update CHANGELOG.md" verify</preparationGoals>                
                 </configuration>
             </plugin>
         </plugins>
