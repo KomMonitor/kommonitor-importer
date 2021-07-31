@@ -68,7 +68,7 @@ public class SpatialUnitUpdateHandler extends AbstractRequestHandler<UpdateSpati
             SpatialUnitPUTInputType spatialUnitPutInput = requestResourceType.getSpatialUnitPutBody();
             try {
                 spatialUnitPutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
-                spatialUnitPutInput.isPartialUpdate(requestResourceType.isIsPartialUpdate());
+                spatialUnitPutInput.isPartialUpdate(requestResourceType.getSpatialUnitPutBody().isIsPartialUpdate());
             } catch (JsonProcessingException ex) {
                 throw new ImportParameterException("Could not encode SpatialUnit.", ex);
             }

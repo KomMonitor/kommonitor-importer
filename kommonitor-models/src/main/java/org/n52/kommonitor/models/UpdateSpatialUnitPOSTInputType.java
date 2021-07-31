@@ -39,9 +39,6 @@ public class UpdateSpatialUnitPOSTInputType   {
   @JsonProperty("spatialUnitPutBody")
   private SpatialUnitPUTInputType spatialUnitPutBody = null;
 
-  @JsonProperty("isPartialUpdate")
-  private Boolean isPartialUpdate = false;
-
   public UpdateSpatialUnitPOSTInputType converter(ConverterDefinitionType converter) {
     this.converter = converter;
     return this;
@@ -172,26 +169,6 @@ public class UpdateSpatialUnitPOSTInputType   {
     this.spatialUnitPutBody = spatialUnitPutBody;
   }
 
-  public UpdateSpatialUnitPOSTInputType isPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-    return this;
-  }
-
-  /**
-   * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
-   * @return isPartialUpdate
-  **/
-  @ApiModelProperty(value = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted")
-
-
-  public Boolean isIsPartialUpdate() {
-    return isPartialUpdate;
-  }
-
-  public void setIsPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -207,13 +184,12 @@ public class UpdateSpatialUnitPOSTInputType   {
         Objects.equals(this.dryRun, updateSpatialUnitPOSTInputType.dryRun) &&
         Objects.equals(this.propertyMapping, updateSpatialUnitPOSTInputType.propertyMapping) &&
         Objects.equals(this.spatialUnitId, updateSpatialUnitPOSTInputType.spatialUnitId) &&
-        Objects.equals(this.spatialUnitPutBody, updateSpatialUnitPOSTInputType.spatialUnitPutBody) &&
-        Objects.equals(this.isPartialUpdate, updateSpatialUnitPOSTInputType.isPartialUpdate);
+        Objects.equals(this.spatialUnitPutBody, updateSpatialUnitPOSTInputType.spatialUnitPutBody);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(converter, dataSource, dryRun, propertyMapping, spatialUnitId, spatialUnitPutBody, isPartialUpdate);
+    return Objects.hash(converter, dataSource, dryRun, propertyMapping, spatialUnitId, spatialUnitPutBody);
   }
 
   @Override
@@ -227,7 +203,6 @@ public class UpdateSpatialUnitPOSTInputType   {
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("    spatialUnitId: ").append(toIndentedString(spatialUnitId)).append("\n");
     sb.append("    spatialUnitPutBody: ").append(toIndentedString(spatialUnitPutBody)).append("\n");
-    sb.append("    isPartialUpdate: ").append(toIndentedString(isPartialUpdate)).append("\n");
     sb.append("}");
     return sb.toString();
   }

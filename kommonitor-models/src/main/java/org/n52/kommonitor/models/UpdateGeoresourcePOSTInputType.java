@@ -39,9 +39,6 @@ public class UpdateGeoresourcePOSTInputType   {
   @JsonProperty("propertyMapping")
   private SpatialResourcePropertyMappingType propertyMapping = null;
 
-  @JsonProperty("isPartialUpdate")
-  private Boolean isPartialUpdate = false;
-
   public UpdateGeoresourcePOSTInputType converter(ConverterDefinitionType converter) {
     this.converter = converter;
     return this;
@@ -172,26 +169,6 @@ public class UpdateGeoresourcePOSTInputType   {
     this.propertyMapping = propertyMapping;
   }
 
-  public UpdateGeoresourcePOSTInputType isPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-    return this;
-  }
-
-  /**
-   * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
-   * @return isPartialUpdate
-  **/
-  @ApiModelProperty(value = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted")
-
-
-  public Boolean isIsPartialUpdate() {
-    return isPartialUpdate;
-  }
-
-  public void setIsPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -207,13 +184,12 @@ public class UpdateGeoresourcePOSTInputType   {
         Objects.equals(this.dryRun, updateGeoresourcePOSTInputType.dryRun) &&
         Objects.equals(this.georesourceId, updateGeoresourcePOSTInputType.georesourceId) &&
         Objects.equals(this.georesourcePutBody, updateGeoresourcePOSTInputType.georesourcePutBody) &&
-        Objects.equals(this.propertyMapping, updateGeoresourcePOSTInputType.propertyMapping) &&
-        Objects.equals(this.isPartialUpdate, updateGeoresourcePOSTInputType.isPartialUpdate);
+        Objects.equals(this.propertyMapping, updateGeoresourcePOSTInputType.propertyMapping);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(converter, dataSource, dryRun, georesourceId, georesourcePutBody, propertyMapping, isPartialUpdate);
+    return Objects.hash(converter, dataSource, dryRun, georesourceId, georesourcePutBody, propertyMapping);
   }
 
   @Override
@@ -227,7 +203,6 @@ public class UpdateGeoresourcePOSTInputType   {
     sb.append("    georesourceId: ").append(toIndentedString(georesourceId)).append("\n");
     sb.append("    georesourcePutBody: ").append(toIndentedString(georesourcePutBody)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
-    sb.append("    isPartialUpdate: ").append(toIndentedString(isPartialUpdate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
