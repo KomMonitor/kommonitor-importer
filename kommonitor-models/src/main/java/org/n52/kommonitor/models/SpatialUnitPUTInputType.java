@@ -1,30 +1,53 @@
 package org.n52.kommonitor.models;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.n52.kommonitor.models.PeriodOfValidityType;
-import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * SpatialUnitPUTInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:38:01.029+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-07-31T18:56:11.978Z")
 
-public class SpatialUnitPUTInputType  implements Serializable {
-  private static final long serialVersionUID = 1L;
+
+public class SpatialUnitPUTInputType   {
+  @JsonProperty("geoJsonString")
+  private String geoJsonString = null;
 
   @JsonProperty("periodOfValidity")
   private PeriodOfValidityType periodOfValidity = null;
 
-  @JsonProperty("geoJsonString")
-  private String geoJsonString = null;
+  @JsonProperty("isPartialUpdate")
+  private Boolean isPartialUpdate = false;
+
+  public SpatialUnitPUTInputType geoJsonString(String geoJsonString) {
+    this.geoJsonString = geoJsonString;
+    return this;
+  }
+
+  /**
+   * a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'
+   * @return geoJsonString
+  **/
+  @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
+  @NotNull
+
+
+  public String getGeoJsonString() {
+    return geoJsonString;
+  }
+
+  public void setGeoJsonString(String geoJsonString) {
+    this.geoJsonString = geoJsonString;
+  }
 
   public SpatialUnitPUTInputType periodOfValidity(PeriodOfValidityType periodOfValidity) {
     this.periodOfValidity = periodOfValidity;
@@ -48,24 +71,24 @@ public class SpatialUnitPUTInputType  implements Serializable {
     this.periodOfValidity = periodOfValidity;
   }
 
-  public SpatialUnitPUTInputType geoJsonString(String geoJsonString) {
-    this.geoJsonString = geoJsonString;
+  public SpatialUnitPUTInputType isPartialUpdate(Boolean isPartialUpdate) {
+    this.isPartialUpdate = isPartialUpdate;
     return this;
   }
 
   /**
-   * a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'
-   * @return geoJsonString
+   * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
+   * @return isPartialUpdate
   **/
-  @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
+  @ApiModelProperty(value = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted")
 
 
-  public String getGeoJsonString() {
-    return geoJsonString;
+  public Boolean isIsPartialUpdate() {
+    return isPartialUpdate;
   }
 
-  public void setGeoJsonString(String geoJsonString) {
-    this.geoJsonString = geoJsonString;
+  public void setIsPartialUpdate(Boolean isPartialUpdate) {
+    this.isPartialUpdate = isPartialUpdate;
   }
 
 
@@ -78,13 +101,14 @@ public class SpatialUnitPUTInputType  implements Serializable {
       return false;
     }
     SpatialUnitPUTInputType spatialUnitPUTInputType = (SpatialUnitPUTInputType) o;
-    return Objects.equals(this.periodOfValidity, spatialUnitPUTInputType.periodOfValidity) &&
-        Objects.equals(this.geoJsonString, spatialUnitPUTInputType.geoJsonString);
+    return Objects.equals(this.geoJsonString, spatialUnitPUTInputType.geoJsonString) &&
+        Objects.equals(this.periodOfValidity, spatialUnitPUTInputType.periodOfValidity) &&
+        Objects.equals(this.isPartialUpdate, spatialUnitPUTInputType.isPartialUpdate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(periodOfValidity, geoJsonString);
+    return Objects.hash(geoJsonString, periodOfValidity, isPartialUpdate);
   }
 
   @Override
@@ -92,7 +116,9 @@ public class SpatialUnitPUTInputType  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpatialUnitPUTInputType {\n");
     
+    sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
     sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
+    sb.append("    isPartialUpdate: ").append(toIndentedString(isPartialUpdate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
