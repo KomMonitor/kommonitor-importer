@@ -1,28 +1,37 @@
 package org.n52.kommonitor.models;
 
 import java.util.Objects;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceDefinitionType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.n52.kommonitor.models.SpatialUnitPUTInputType;
-import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * Definitions for updating an spatial unit from a certain datasource
  */
 @ApiModel(description = "Definitions for updating an spatial unit from a certain datasource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-07-31T19:51:59.009Z")
 
-public class UpdateSpatialUnitPOSTInputType  implements Serializable {
-  private static final long serialVersionUID = 1L;
+
+public class UpdateSpatialUnitPOSTInputType   {
+  @JsonProperty("converter")
+  private ConverterDefinitionType converter = null;
+
+  @JsonProperty("dataSource")
+  private DataSourceDefinitionType dataSource = null;
+
+  @JsonProperty("dryRun")
+  private Boolean dryRun = null;
+
+  @JsonProperty("propertyMapping")
+  private SpatialResourcePropertyMappingType propertyMapping = null;
 
   @JsonProperty("spatialUnitId")
   private String spatialUnitId = null;
@@ -30,17 +39,92 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
   @JsonProperty("spatialUnitPutBody")
   private SpatialUnitPUTInputType spatialUnitPutBody = null;
 
-  @JsonProperty("dataSource")
-  private DataSourceDefinitionType dataSource = null;
+  public UpdateSpatialUnitPOSTInputType converter(ConverterDefinitionType converter) {
+    this.converter = converter;
+    return this;
+  }
 
-  @JsonProperty("converter")
-  private ConverterDefinitionType converter = null;
+  /**
+   * Get converter
+   * @return converter
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
-  @JsonProperty("propertyMapping")
-  private SpatialResourcePropertyMappingType propertyMapping = null;
+  @Valid
 
-  @JsonProperty("dryRun")
-  private Boolean dryRun = null;
+  public ConverterDefinitionType getConverter() {
+    return converter;
+  }
+
+  public void setConverter(ConverterDefinitionType converter) {
+    this.converter = converter;
+  }
+
+  public UpdateSpatialUnitPOSTInputType dataSource(DataSourceDefinitionType dataSource) {
+    this.dataSource = dataSource;
+    return this;
+  }
+
+  /**
+   * Get dataSource
+   * @return dataSource
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+  @Valid
+
+  public DataSourceDefinitionType getDataSource() {
+    return dataSource;
+  }
+
+  public void setDataSource(DataSourceDefinitionType dataSource) {
+    this.dataSource = dataSource;
+  }
+
+  public UpdateSpatialUnitPOSTInputType dryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+    return this;
+  }
+
+  /**
+   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
+   * @return dryRun
+  **/
+  @ApiModelProperty(required = true, value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
+  @NotNull
+
+
+  public Boolean isDryRun() {
+    return dryRun;
+  }
+
+  public void setDryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+  }
+
+  public UpdateSpatialUnitPOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
+    return this;
+  }
+
+  /**
+   * Get propertyMapping
+   * @return propertyMapping
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+  @Valid
+
+  public SpatialResourcePropertyMappingType getPropertyMapping() {
+    return propertyMapping;
+  }
+
+  public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
+    this.propertyMapping = propertyMapping;
+  }
 
   public UpdateSpatialUnitPOSTInputType spatialUnitId(String spatialUnitId) {
     this.spatialUnitId = spatialUnitId;
@@ -85,93 +169,6 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
     this.spatialUnitPutBody = spatialUnitPutBody;
   }
 
-  public UpdateSpatialUnitPOSTInputType dataSource(DataSourceDefinitionType dataSource) {
-    this.dataSource = dataSource;
-    return this;
-  }
-
-  /**
-   * Get dataSource
-   * @return dataSource
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public DataSourceDefinitionType getDataSource() {
-    return dataSource;
-  }
-
-  public void setDataSource(DataSourceDefinitionType dataSource) {
-    this.dataSource = dataSource;
-  }
-
-  public UpdateSpatialUnitPOSTInputType converter(ConverterDefinitionType converter) {
-    this.converter = converter;
-    return this;
-  }
-
-  /**
-   * Get converter
-   * @return converter
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public ConverterDefinitionType getConverter() {
-    return converter;
-  }
-
-  public void setConverter(ConverterDefinitionType converter) {
-    this.converter = converter;
-  }
-
-  public UpdateSpatialUnitPOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
-    this.propertyMapping = propertyMapping;
-    return this;
-  }
-
-  /**
-   * Get propertyMapping
-   * @return propertyMapping
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public SpatialResourcePropertyMappingType getPropertyMapping() {
-    return propertyMapping;
-  }
-
-  public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
-    this.propertyMapping = propertyMapping;
-  }
-
-  public UpdateSpatialUnitPOSTInputType dryRun(Boolean dryRun) {
-    this.dryRun = dryRun;
-    return this;
-  }
-
-  /**
-   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
-   * @return dryRun
-  **/
-  @ApiModelProperty(required = true, value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
-  @NotNull
-
-
-  public Boolean isDryRun() {
-    return dryRun;
-  }
-
-  public void setDryRun(Boolean dryRun) {
-    this.dryRun = dryRun;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -182,17 +179,17 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
       return false;
     }
     UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType = (UpdateSpatialUnitPOSTInputType) o;
-    return Objects.equals(this.spatialUnitId, updateSpatialUnitPOSTInputType.spatialUnitId) &&
-        Objects.equals(this.spatialUnitPutBody, updateSpatialUnitPOSTInputType.spatialUnitPutBody) &&
+    return Objects.equals(this.converter, updateSpatialUnitPOSTInputType.converter) &&
         Objects.equals(this.dataSource, updateSpatialUnitPOSTInputType.dataSource) &&
-        Objects.equals(this.converter, updateSpatialUnitPOSTInputType.converter) &&
+        Objects.equals(this.dryRun, updateSpatialUnitPOSTInputType.dryRun) &&
         Objects.equals(this.propertyMapping, updateSpatialUnitPOSTInputType.propertyMapping) &&
-        Objects.equals(this.dryRun, updateSpatialUnitPOSTInputType.dryRun);
+        Objects.equals(this.spatialUnitId, updateSpatialUnitPOSTInputType.spatialUnitId) &&
+        Objects.equals(this.spatialUnitPutBody, updateSpatialUnitPOSTInputType.spatialUnitPutBody);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(spatialUnitId, spatialUnitPutBody, dataSource, converter, propertyMapping, dryRun);
+    return Objects.hash(converter, dataSource, dryRun, propertyMapping, spatialUnitId, spatialUnitPutBody);
   }
 
   @Override
@@ -200,12 +197,12 @@ public class UpdateSpatialUnitPOSTInputType  implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateSpatialUnitPOSTInputType {\n");
     
+    sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
+    sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
+    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
+    sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
     sb.append("    spatialUnitId: ").append(toIndentedString(spatialUnitId)).append("\n");
     sb.append("    spatialUnitPutBody: ").append(toIndentedString(spatialUnitPutBody)).append("\n");
-    sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
-    sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
-    sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
-    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -64,6 +64,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
         
         if (!requestResourceType.isDryRun()) {
             GeoresourcePUTInputType georesourcePutInput = requestResourceType.getGeoresourcePutBody();
+            georesourcePutInput.isPartialUpdate(requestResourceType.getGeoresourcePutBody().isIsPartialUpdate());
             try {
                 georesourcePutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
             } catch (JsonProcessingException ex) {

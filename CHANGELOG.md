@@ -1,6 +1,9 @@
 # Change Log
 
-## 1.0.0
+## 1.2.0
+* fix parameter submission of isPartialUpdate parameter [ad2f0fc](ad2f0fc0f866b49eea34f9913892b031e65010b2)
+* allow spatial units and georesources to be updated partially [94429a7](94429a7d69419efc8fae673d868806907bf66fc8)
+* added CHANGELOGS from submodules to git ignore as we only want to keep the main changelog [2175c07](2175c07891de762be320c9b0951142fc7913764d)
 * added changelog auto update during release plugin cycle [a0bfd18](a0bfd1834bf5594f0090978f8656fe7cc63aa709)
 * changed SCM tag info in POM [3c02801](3c028019c86b661116efb0526f0c48bce28abdc0)
 * changed github actions [8a5121d](8a5121df2a8a1b21d0753bdb4456a26e6deb01c8)
