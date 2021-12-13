@@ -38,6 +38,7 @@
         <geotools.version>20.3</geotools.version>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
         <changelog-plugin.version>0.5.1</changelog-plugin.version>
+        <log4j2.version>2.15.0</log4j2.version>
     </properties>
 
     <dependencies>
@@ -171,6 +172,18 @@
                 <artifactId>geojson-jackson</artifactId>
                 <version>1.8.1</version>
             </dependency>
+            
+            <dependency>
+			    <groupId>org.apache.logging.log4j</groupId>
+			    <artifactId>log4j-to-slf4j</artifactId>
+			    <version>2.15.0</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.apache.logging.log4j</groupId>
+			    <artifactId>log4j-api</artifactId>
+			    <version>2.15.0</version>
+			</dependency>
 
             <!-- Import dependency management from Spring Boot -->
             <dependency>
