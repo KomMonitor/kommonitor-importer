@@ -1,6 +1,9 @@
 # Change Log
 
-## 1.2.0
+## 1.2.1
+* bump spring boot version and adjust code [b7e7533](b7e7533d6dd85dc068a699ea7868dee352d82265)
+* increase log4j version to 2.16. [78a341a](78a341abcc8641c7f9c3f909c7b76a88f001f105)
+* override log4j version to fix critical security issue (although log4j is actually not used) [28fb70e](28fb70e111244459aa8533cbf58396f5246f00e3)
 * fix parameter submission of isPartialUpdate parameter [ad2f0fc](ad2f0fc0f866b49eea34f9913892b031e65010b2)
 * allow spatial units and georesources to be updated partially [94429a7](94429a7d69419efc8fae673d868806907bf66fc8)
 * added CHANGELOGS from submodules to git ignore as we only want to keep the main changelog [2175c07](2175c07891de762be320c9b0951142fc7913764d)

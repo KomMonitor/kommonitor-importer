@@ -4,7 +4,7 @@
 
     <groupId>org.n52.kommonitor</groupId>
     <artifactId>kommonitor-importer</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
     <modules>
         <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
@@ -29,8 +29,8 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-        <api-client.version>1.2.1-SNAPSHOT</api-client.version>
+        <spring-boot.version>2.5.7</spring-boot.version>
+        <api-client.version>1.2.2-SNAPSHOT</api-client.version>
         <jts.version>1.16.1</jts.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <maven-surefire.version>3.0.0-M4</maven-surefire.version>
@@ -38,6 +38,7 @@
         <geotools.version>20.3</geotools.version>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
         <changelog-plugin.version>0.5.1</changelog-plugin.version>
+        <log4j2.version>2.17.0</log4j2.version>
     </properties>
     
     <dependencies>
@@ -175,6 +176,18 @@
                 <artifactId>geojson-jackson</artifactId>
                 <version>1.8.1</version>
             </dependency>
+            
+            <dependency>
+			    <groupId>org.apache.logging.log4j</groupId>
+			    <artifactId>log4j-to-slf4j</artifactId>
+			    <version>2.17.0</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.apache.logging.log4j</groupId>
+			    <artifactId>log4j-api</artifactId>
+			    <version>2.17.0</version>
+			</dependency>
 
             <!-- Import dependency management from Spring Boot -->
             <dependency>

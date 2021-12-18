@@ -7,6 +7,9 @@ spring:
     date-format: io.swagger.RFC3339DateFormat
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
+  mvc:
+    pathpattern:
+      matching-strategy: ant_path_matcher  
   servlet:
     multipart:
       max-file-size: 500MB
