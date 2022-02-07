@@ -1,6 +1,10 @@
 # Change Log
 
-## 1.2.1
+## 1.2.2
+* bump log4j to 2.17.1 [975022d](975022d3f0d508e20af57f86ebf8f3828d70860b)
+* bomp log4j version to 2.17.0 [ea94436](ea94436f7577749d0a36c5fda1f736da273a3ee9)
+* Merge pull request #21 from KomMonitor/dependabot/maven/org.apache.logging.log4j-log4j-api-2.17.0 [3dc5dfe](3dc5dfe21f7c4011bffaf59d0fd9786d49142a8f)
+    * Bump log4j-api from 2.16.0 to 2.17.0 [bcdb309](bcdb3096499c9f352e90ce24258f3791aaa71a92)
 * bump spring boot version and adjust code [b7e7533](b7e7533d6dd85dc068a699ea7868dee352d82265)
 * increase log4j version to 2.16. [78a341a](78a341abcc8641c7f9c3f909c7b76a88f001f105)
 * override log4j version to fix critical security issue (although log4j is actually not used) [28fb70e](28fb70e111244459aa8533cbf58396f5246f00e3)
