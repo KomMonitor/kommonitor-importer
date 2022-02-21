@@ -33,22 +33,22 @@ kommonitor:
     # do not use real values in production environment!!!
     security:
       client-id: kommonitor-importer
-      secret: secret
+      secret: q4Ny6Q1R3XA4Fr0YtTt7hw0XnQasQ2Xc
 keycloak:
-  enabled: false
-  realm: kommonitor
-  auth-server-url: http://localhost:8080/auth
+  enabled: true
+  realm: kommonitor-gib
+  auth-server-url: http://localhost:8090/auth
   resource: kommonitor-importer
   bearer-only: true
   autodetect-bearer-only: false
   ssl-required: external
   public-client: false
   credentials:
-    secret: secret
+    secret: q4Ny6Q1R3XA4Fr0YtTt7hw0XnQasQ2Xc
   cors: true
   cors-allowed-methods: "*"
   securityConstraints[0]:
-    authRoles[0]: administrator
+    authRoles[0]: "*"
     securityCollections[0]:
       name: protected
       patterns[0]: /importer/*
