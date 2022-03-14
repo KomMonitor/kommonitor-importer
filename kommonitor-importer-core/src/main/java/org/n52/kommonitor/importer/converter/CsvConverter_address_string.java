@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -205,6 +206,12 @@ public class CsvConverter_address_string extends AbstractConverter {
 		
 		return simpleFeatureCollection;
 	}
+	
+	private String encodeValue(String value) throws UnsupportedEncodingException {
+	    String encoded = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+	    // return space character as %20
+		return encoded.replace("+", "%20");
+	}
 
 	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> addressCoordOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
 		
@@ -215,7 +222,7 @@ public class CsvConverter_address_string extends AbstractConverter {
 			throw new Exception("address column does not contain any value for geocoding feature to geometry.");
 		}
 				
-		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-string?q=" + URLEncoder.encode(addressAsString, StandardCharsets.UTF_8.toString());
+		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-string?q=" + encodeValue(addressAsString);
 		
     	URI uri = URI.create(geocoderQueryUrl);
 		
