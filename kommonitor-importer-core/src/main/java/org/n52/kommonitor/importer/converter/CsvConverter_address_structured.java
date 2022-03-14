@@ -187,11 +187,11 @@ public class CsvConverter_address_structured extends AbstractConverter {
 			Optional<String> countryOpt, Optional<String> stateOpt, Optional<String> cityOpt,
 			Optional<String> districtOpt, Optional<String> postcodeOpt, Optional<String> streetOpt,
 			Optional<String> housenumberOpt) throws Exception {
-		String country = (String)feature.getAttribute(countryOpt.get());
-		String state = (String)feature.getAttribute(stateOpt.get());
-		String city = (String)feature.getAttribute(cityOpt.get());
-		String district = (String)feature.getAttribute(districtOpt.get());
-		String postcode = String.valueOf(feature.getAttribute(postcodeOpt.get()));
+		String country = (String)feature.getAttribute(countryOpt.isEmpty() ? null : countryOpt.get());
+		String state = (String)feature.getAttribute(stateOpt.isEmpty() ? null : stateOpt.get());
+		String city = (String)feature.getAttribute(cityOpt.isEmpty() ? null : cityOpt.get());
+		String district = (String)feature.getAttribute(districtOpt.isEmpty() ? null : districtOpt.get());
+		String postcode = String.valueOf(feature.getAttribute(postcodeOpt.isEmpty() ? null : postcodeOpt.get()));
 		String street = (String)feature.getAttribute(streetOpt.get());
 		String housenumber = String.valueOf(feature.getAttribute(housenumberOpt.get()));
 		
@@ -269,7 +269,8 @@ public class CsvConverter_address_structured extends AbstractConverter {
 	    	LOG.error("the number of geocoded features was {}. Hence the query {} was resolved to more than one possible geopoint.", numFeatures, geocoderQueryUrl);
 			throw new Exception("the number of geocoded features was " + numFeatures + ". Hence the query '" + geocoderQueryUrl + "' could not be resolved to a valid geopoint.");
 	    }
-	    else {
+	    
+		// if code reaches this place, then feature can be built
 	    	GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 	        List<Float> feature_geocoded_geometry = features_geolocated.get(0).getGeometry().getCoordinates();
 			Coordinate coords = new Coordinate(feature_geocoded_geometry.get(0), feature_geocoded_geometry.get(1));
@@ -279,7 +280,7 @@ public class CsvConverter_address_structured extends AbstractConverter {
 	        featureBuilder.add(point);
 	        
 	        // make new GeometryDescriptor	  
-	    }
+	    
 	    
 		return featureBuilder.buildFeature(null);
 	}
