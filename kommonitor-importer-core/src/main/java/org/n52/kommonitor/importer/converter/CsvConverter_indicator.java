@@ -150,11 +150,10 @@ public class CsvConverter_indicator extends AbstractConverter {
 			String s = new String(buff, Charset.defaultCharset());
 			// first find occurrences of target replace char
 			if (s.contains(SEPARATOR_COMMA)) {
-				if (s.contains(SEPARATOR_REPLACE_CHAR)) {
-					s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
-				}
-				else {
-					s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
+				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
+					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
+				} else {
+					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
 				}
 			}
 			

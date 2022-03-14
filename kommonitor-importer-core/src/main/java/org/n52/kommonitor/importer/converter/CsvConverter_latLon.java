@@ -95,11 +95,11 @@ public class CsvConverter_latLon extends AbstractConverter {
         }
         
         Optional<String> xCoordOpt = this.getParameterValue(PARAM_X_COORD_COL, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (!xCoordOpt.isPresent()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_X_COORD_COL);
         }
         Optional<String> yCoordOpt = this.getParameterValue(PARAM_Y_COORD_COL, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (!yCoordOpt.isPresent()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_Y_COORD_COL);
         }
 
@@ -204,14 +204,13 @@ public class CsvConverter_latLon extends AbstractConverter {
 			String s = new String(buff, Charset.defaultCharset());
 			// first find occurrences of target replace char
 			if (s.contains(SEPARATOR_COMMA)) {
-				if (s.contains(SEPARATOR_REPLACE_CHAR)) {
-					s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
-				}
-				else {
-					s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
+				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
+					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
+				} else {
+					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
 				}
 			}
-			
+
 			s = s.replaceAll(sepOpt.get(), SEPARATOR_COMMA);
 			Files.write(path, s.getBytes());
             LOG.info("Find and Replace done!!!");
