@@ -20,11 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CsvConverter_latLon extends AbstractTableConverter {
+public class TableConverter_latLon extends AbstractTableConverter {
 	
-	private static final String NAME = "org.n52.kommonitor.importer.converter.csvLatLon";
-    private static final String PARAM_SEP = "separator";
-    private static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+	private static final String NAME = "org.n52.kommonitor.importer.converter.table_latLonToGeoresource";
     private static final String PARAM_X_COORD_COL = "xCoordColumn";
     private static final String PARAM_X_COORD_DESC = "The column that contains the X-coordinate";
     private static final String PARAM_Y_COORD_COL = "yCoordColumn";
@@ -33,11 +31,11 @@ public class CsvConverter_latLon extends AbstractTableConverter {
     private static final String PARAM_CRS_DESC = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";    
 
     @Autowired
-    public CsvConverter_latLon(FeatureDecoder featureDecoder) {
+    public TableConverter_latLon(FeatureDecoder featureDecoder) {
         super(featureDecoder);
     }
 
-	protected List<SpatialResource> convertSpatialResourcesFromCsv(ConverterDefinitionType converterDefinition,
+	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -60,7 +58,7 @@ public class CsvConverter_latLon extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_latLon(converterDefinition, dataset, sepOpt, crsOpt, xCoordOpt, yCoordOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_latLon(converterDefinition, dataset, sepOpt, crsOpt, xCoordOpt, yCoordOpt);
         
         try {
             return featureDecoder.decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, CRS.decode(crsOpt.get()));
@@ -69,7 +67,7 @@ public class CsvConverter_latLon extends AbstractTableConverter {
         }
 	}
 
-	protected List<IndicatorValue> convertIndicatorsFromCsv(ConverterDefinitionType converterDefinition, Dataset dataset,
+	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -92,7 +90,7 @@ public class CsvConverter_latLon extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_latLon(converterDefinition, dataset, sepOpt, crsOpt, xCoordOpt, yCoordOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_latLon(converterDefinition, dataset, sepOpt, crsOpt, xCoordOpt, yCoordOpt);
         
         try {
             return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);

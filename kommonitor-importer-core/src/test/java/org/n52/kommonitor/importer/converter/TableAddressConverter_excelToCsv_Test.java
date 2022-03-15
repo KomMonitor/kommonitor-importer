@@ -26,30 +26,30 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class CsvAddressConverterTest {
+public class TableAddressConverter_excelToCsv_Test {
 
-    private final static String MIME_TYPE = "text/csv";
+    private final static String MIME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     private final static String ENCODING = "UTF-8";
 
     private static ConverterDefinitionType convDef;
     private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
     private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
-    private static CsvConverter_address_string converter;
+    private static TableConverter_address_string converter;
 
     @BeforeAll
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        converter = new CsvConverter_address_string(new FeatureDecoder(geomHelper, monitor));
+        converter = new TableConverter_address_string(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);
         convDef.setEncoding(ENCODING);
         ParameterValueType param_separator = new ParameterValueType();
         param_separator.setName("separator");
-        param_separator.setValue(";");
+        param_separator.setValue(",");
         ParameterValueType param_adresse = new ParameterValueType();
         param_adresse.setName("addressColumn");
         param_adresse.setValue("Adresse");
@@ -83,7 +83,7 @@ public class CsvAddressConverterTest {
     @DisplayName("Test convert SpatialResources for CSV dataset")
     void testConvertSpatialResourcesForCsvDataset() throws ConverterException {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("features_fromAddress.csv").getFile());
+        File file = new File(classLoader.getResource("features_fromAddress.xlsx").getFile());
         Dataset<InputStream> dataset = new Dataset(file);
 
         List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
@@ -95,7 +95,7 @@ public class CsvAddressConverterTest {
 //    @DisplayName("Test convert Indicators for CSV dataset")
 //    void testConvertIndicatorsForCsvDataset() throws ConverterException {
 //        ClassLoader classLoader = getClass().getClassLoader();
-//        File file = new File(classLoader.getResource("features_fromAddress.csv").getFile());
+//        File file = new File(classLoader.getResource("features_fromAddress.xlsx").getFile());
 //        Dataset<InputStream> dataset = new Dataset(file);
 //
 //        List<IndicatorValue> indicators = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);

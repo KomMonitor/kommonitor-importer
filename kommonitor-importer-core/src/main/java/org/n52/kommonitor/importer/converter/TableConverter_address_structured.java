@@ -31,20 +31,17 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class CsvConverter_address_structured extends AbstractTableConverter {
+public class TableConverter_address_structured extends AbstractTableConverter {
 	
 	private static final String COMMA_URL_ENCODED = "%2C";
 	private static final String EPSG_4326 = "EPSG:4326";
-	private static final String NAME = "org.n52.kommonitor.importer.converter.csvAddressStructured";
-    private static final String PARAM_SEP = "separator";
-    private static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+	private static final String NAME = "org.n52.kommonitor.importer.converter.table_addressStructuredToGeoresource";
     private static final String PARAM_COUNTRY_COL = "countryColumn";
     private static final String PARAM_COUNTRY_DESC = "The column that contains the Country information";
     private static final String PARAM_STATE_COL = "stateColumn";
@@ -61,7 +58,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
     private static final String PARAM_HOUSENUMBER_DESC = "The column that contains the Housenumber information";
 
     @Autowired
-    public CsvConverter_address_structured(FeatureDecoder featureDecoder) {
+    public TableConverter_address_structured(FeatureDecoder featureDecoder) {
         super(featureDecoder);
     }
     
@@ -70,7 +67,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
 			SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
 		
         try {
-            return convertSpatialResourcesFromCsv(converterDefinition, dataset, propertyMapping);
+            return convertSpatialResourcesFromTable(converterDefinition, dataset, propertyMapping);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         } catch (Exception e) {
@@ -80,7 +77,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
 		}
 	}
 
-	protected List<SpatialResource> convertSpatialResourcesFromCsv(ConverterDefinitionType converterDefinition,
+	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -103,7 +100,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_attributesOnly(converterDefinition, dataset, sepOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
             
         return decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, CRS.decode(EPSG_4326), countryOpt,
         		stateOpt, cityOpt, districtOpt, postcodeOpt, streetOpt, housenumberOpt);
@@ -239,7 +236,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
 		return featureBuilder.buildFeature(null);
 	}
 
-	protected List<IndicatorValue> convertIndicatorsFromCsv(ConverterDefinitionType converterDefinition, Dataset dataset,
+	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -248,7 +245,7 @@ public class CsvConverter_address_structured extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_attributesOnly(converterDefinition, dataset, sepOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
         
         try {
             return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);

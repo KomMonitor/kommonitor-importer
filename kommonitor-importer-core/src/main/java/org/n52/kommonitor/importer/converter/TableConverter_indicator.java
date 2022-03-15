@@ -19,24 +19,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CsvConverter_indicator extends AbstractTableConverter {
+public class TableConverter_indicator extends AbstractTableConverter {
 	
-	private static final String NAME = "org.n52.kommonitor.importer.converter.csv_onlyIndicator";
-    private static final String PARAM_SEP = "separator";
-    private static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+	private static final String NAME = "org.n52.kommonitor.importer.converter.table_timeseriesToIndicator";
 
     @Autowired
-    public CsvConverter_indicator(FeatureDecoder featureDecoder) {
+    public TableConverter_indicator(FeatureDecoder featureDecoder) {
         super(featureDecoder);
     }
 
     @Override
-	protected List<SpatialResource> convertSpatialResourcesFromCsv(ConverterDefinitionType converterDefinition,
+	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		throw new NotImplementedException("The import of spatial resources via CSVConverter_indicator is not supported");
 	}
 
-	protected List<IndicatorValue> convertIndicatorsFromCsv(ConverterDefinitionType converterDefinition, Dataset dataset,
+	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -45,7 +43,7 @@ public class CsvConverter_indicator extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_attributesOnly(converterDefinition, dataset, sepOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
         
         try {
             return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);

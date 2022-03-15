@@ -26,7 +26,7 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class CsvAddressStructuredConverterTest {
+public class TableAddressConverterTest {
 
     private final static String MIME_TYPE = "text/csv";
     private final static String ENCODING = "UTF-8";
@@ -35,14 +35,14 @@ public class CsvAddressStructuredConverterTest {
     private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
     private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
-    private static CsvConverter_address_structured converter;
+    private static TableConverter_address_string converter;
 
     @BeforeAll
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        converter = new CsvConverter_address_structured(new FeatureDecoder(geomHelper, monitor));
+        converter = new TableConverter_address_string(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);
@@ -50,36 +50,12 @@ public class CsvAddressStructuredConverterTest {
         ParameterValueType param_separator = new ParameterValueType();
         param_separator.setName("separator");
         param_separator.setValue(";");
-        ParameterValueType param_street = new ParameterValueType();
-        param_street.setName("streetColumn");
-        param_street.setValue("street");
-        ParameterValueType param_housenumber = new ParameterValueType();
-        param_housenumber.setName("housenumberColumn");
-        param_housenumber.setValue("housenumber");
-        ParameterValueType param_city = new ParameterValueType();
-        param_city.setName("cityColumn");
-        param_city.setValue("city");
-        ParameterValueType param_postcode = new ParameterValueType();
-        param_postcode.setName("postcodeColumn");
-        param_postcode.setValue("postcode");
-        ParameterValueType param_country = new ParameterValueType();
-        param_country.setName("countryColumn");
-        param_country.setValue("country");
-        ParameterValueType param_district = new ParameterValueType();
-        param_district.setName("districtColumn");
-        param_district.setValue("district");
-        ParameterValueType param_state = new ParameterValueType();
-        param_state.setName("stateColumn");
-        param_state.setValue("state");
+        ParameterValueType param_adresse = new ParameterValueType();
+        param_adresse.setName("addressColumn");
+        param_adresse.setValue("Adresse");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_separator);
-        params.add(param_street);
-        params.add(param_postcode);
-        params.add(param_housenumber);
-        params.add(param_city);
-        params.add(param_state);
-        params.add(param_country);
-        params.add(param_district);
+        params.add(param_adresse);
         convDef.setParameters(params);
 
         spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
@@ -107,7 +83,7 @@ public class CsvAddressStructuredConverterTest {
     @DisplayName("Test convert SpatialResources for CSV dataset")
     void testConvertSpatialResourcesForCsvDataset() throws ConverterException {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("features_fromAddressStructured.csv").getFile());
+        File file = new File(classLoader.getResource("features_fromAddress.csv").getFile());
         Dataset<InputStream> dataset = new Dataset(file);
 
         List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
@@ -119,7 +95,7 @@ public class CsvAddressStructuredConverterTest {
 //    @DisplayName("Test convert Indicators for CSV dataset")
 //    void testConvertIndicatorsForCsvDataset() throws ConverterException {
 //        ClassLoader classLoader = getClass().getClassLoader();
-//        File file = new File(classLoader.getResource("features_fromAddressStructured.csv").getFile());
+//        File file = new File(classLoader.getResource("features_fromAddress.csv").getFile());
 //        Dataset<InputStream> dataset = new Dataset(file);
 //
 //        List<IndicatorValue> indicators = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);

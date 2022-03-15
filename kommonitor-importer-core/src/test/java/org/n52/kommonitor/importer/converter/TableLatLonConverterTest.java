@@ -27,7 +27,7 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class CsvLatLonConverterTest {
+public class TableLatLonConverterTest {
 
     private final static String MIME_TYPE = "text/csv";
     private final static String ENCODING = "UTF-8";
@@ -36,14 +36,14 @@ public class CsvLatLonConverterTest {
     private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
     private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
-    private static CsvConverter_latLon converter;
+    private static TableConverter_latLon converter;
 
     @BeforeAll
     static void init() throws Exception {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        converter = new CsvConverter_latLon(new FeatureDecoder(geomHelper, monitor));
+        converter = new TableConverter_latLon(new FeatureDecoder(geomHelper, monitor));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);

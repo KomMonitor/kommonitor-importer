@@ -37,23 +37,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class CsvConverter_address_string extends AbstractTableConverter {
+public class TableConverter_address_string extends AbstractTableConverter {
 	
 	private static final String EPSG_4326 = "EPSG:4326";
-	private static final String NAME = "org.n52.kommonitor.importer.converter.csvAddressString";
-    private static final String PARAM_SEP = "separator";
-    private static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+	private static final String NAME = "org.n52.kommonitor.importer.converter.table_addressStringToGeoresource";    
     private static final String PARAM_ADDRESS_COL = "addressColumn";
     private static final String PARAM_ADDRESS_DESC = "The column that contains the Address information as a single string with arbitrary structure";
 
     @Autowired
-    public CsvConverter_address_string(FeatureDecoder featureDecoder) {
+    public TableConverter_address_string(FeatureDecoder featureDecoder) {
     	super(featureDecoder);        
     }
     
 	
 
-	protected List<SpatialResource> convertSpatialResourcesFromCsv(ConverterDefinitionType converterDefinition,
+	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -67,7 +65,7 @@ public class CsvConverter_address_string extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_attributesOnly(converterDefinition, dataset, sepOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
             
         return decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, CRS.decode(EPSG_4326), addressCoordOpt);
 
@@ -157,7 +155,7 @@ public class CsvConverter_address_string extends AbstractTableConverter {
 
 	
 
-	protected List<IndicatorValue> convertIndicatorsFromCsv(ConverterDefinitionType converterDefinition, Dataset dataset,
+	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         if (!sepOpt.isPresent()) {
@@ -166,7 +164,7 @@ public class CsvConverter_address_string extends AbstractTableConverter {
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
-        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromCSV_attributesOnly(converterDefinition, dataset, sepOpt);
+        SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
         
         try {
             return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
