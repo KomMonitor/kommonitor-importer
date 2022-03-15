@@ -181,9 +181,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
 	
 
 	@Override
-	public Set<ConverterParameter> initConverterParameters() {
-		Set<ConverterParameter> params = new HashSet();
-        params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
+	public Set<ConverterParameter> initConverterParameters() {		
         params.add(new ConverterParameter(PARAM_ADDRESS_COL, PARAM_ADDRESS_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
         return params;
 	}

@@ -75,15 +75,20 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected static final String SEPARATOR_REPLACE_CHAR_BACKUP = "|";
 	
 	protected static final String PARAM_SEP = "separator";
-	protected static final String PARAM_SEP_DESC = "The separator of the CSV dataset";
+	protected static final String PARAM_SEP_DESC = "The separator of a CSV dataset - only required for CSV dataset";
 	
 	@Value("${kommonitor.importer.geocoder-api-url:https://geocoder.fbg-hsbo.de/geocoder}")
     protected String geocoder_baseUrl;
 	
 	protected FeatureDecoder featureDecoder;
 	
+	protected Set<ConverterParameter> params;
+	
 	public AbstractTableConverter(FeatureDecoder featureDecoder) {
 		this.featureDecoder = featureDecoder;
+		
+		this.params = new HashSet<ConverterParameter>();
+		this.params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
 		
 		if(this.geocoder_baseUrl == null) {
 			this.geocoder_baseUrl = "https://geocoder.fbg-hsbo.de/geocoder";

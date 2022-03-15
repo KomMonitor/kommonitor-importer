@@ -59,8 +59,6 @@ public class TableConverter_indicator extends AbstractTableConverter {
 
 	@Override
 	public Set<ConverterParameter> initConverterParameters() {
-		Set<ConverterParameter> params = new HashSet();
-        params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
         return params;
 	}
 
