@@ -321,7 +321,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_attributesOnly(ConverterDefinitionType converterDefinition, Dataset dataset, Optional<String> sepOpt) throws Exception {
 		
-		if(sepOpt.isEmpty()) {
+		if(! sepOpt.isPresent()) {
 			forceSeparatorConverterParameter_asComma(converterDefinition);
 		}
 		
@@ -376,7 +376,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			Dataset dataset, Optional<String> sepOpt, Optional<String> crsOpt, Optional<String> xCoordOpt,
 			Optional<String> yCoordOpt) throws IOException, ConverterException {
 		
-		if(sepOpt.isEmpty()) {
+		if(! sepOpt.isPresent()) {
 			forceSeparatorConverterParameter_asComma(converterDefinition);
 		}
 		

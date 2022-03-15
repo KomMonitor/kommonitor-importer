@@ -117,11 +117,11 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 			Optional<String> countryOpt, Optional<String> stateOpt, Optional<String> cityOpt,
 			Optional<String> districtOpt, Optional<String> postcodeOpt, Optional<String> streetOpt,
 			Optional<String> housenumberOpt) throws Exception {
-		String country = (String)feature.getAttribute(countryOpt.isEmpty() ? null : countryOpt.get());
-		String state = (String)feature.getAttribute(stateOpt.isEmpty() ? null : stateOpt.get());
-		String city = (String)feature.getAttribute(cityOpt.isEmpty() ? null : cityOpt.get());
-		String district = (String)feature.getAttribute(districtOpt.isEmpty() ? null : districtOpt.get());
-		String postcode = String.valueOf(feature.getAttribute(postcodeOpt.isEmpty() ? null : postcodeOpt.get()));
+		String country = (String)feature.getAttribute(! countryOpt.isPresent() ? null : countryOpt.get());
+		String state = (String)feature.getAttribute(! stateOpt.isPresent() ? null : stateOpt.get());
+		String city = (String)feature.getAttribute(! cityOpt.isPresent() ? null : cityOpt.get());
+		String district = (String)feature.getAttribute(! districtOpt.isPresent() ? null : districtOpt.get());
+		String postcode = String.valueOf(feature.getAttribute(! postcodeOpt.isPresent() ? null : postcodeOpt.get()));
 		String street = (String)feature.getAttribute(streetOpt.get());
 		String housenumber = String.valueOf(feature.getAttribute(housenumberOpt.get()));
 		
