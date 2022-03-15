@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
-import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
@@ -113,7 +112,7 @@ public class CsvAddressStructuredConverterTest {
 
         List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
 
-        Assertions.assertEquals(5, spatialResources.size());
+        Assertions.assertEquals(4, spatialResources.size());
     }
     
 //    @Test
