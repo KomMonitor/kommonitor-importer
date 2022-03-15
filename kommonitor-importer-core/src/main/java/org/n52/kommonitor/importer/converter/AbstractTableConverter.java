@@ -121,12 +121,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
 		try {
             return convertIndicatorsFromTable(converterDefinition, dataset, propertyMapping);
-        } catch (IOException ex) {
-            throw new ConverterException("Error while parsing dataset.", ex);
         } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new ConverterException("Error while parsing dataset.", e);
+			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
 		}
 	}
 	
@@ -136,12 +134,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
         try {
             return convertSpatialResourcesFromTable(converterDefinition, dataset, propertyMapping);
-        } catch (IOException ex) {
-            throw new ConverterException("Error while parsing dataset.", ex);
         } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new ConverterException("Error while parsing dataset.", e);
+			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
 		}
 	}
 	
@@ -173,7 +169,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		String fileEnding = ".csv";
 		if(converterDefinition.getMimeType().equalsIgnoreCase(MIME_EXCEL)) {
 			csvFile = convertExcelToCsvFile(converterDefinition, dataset, fileName, fileEnding, SEPARATOR_COMMA);			
-			adjustConverterParameter_afterExcelToCsv(converterDefinition);
+			forceSeparatorConverterParameter_asComma(converterDefinition);
 		}
 		else {
 			csvFile = convertToCsvFile(converterDefinition, dataset, fileName, fileEnding);
@@ -182,21 +178,21 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return csvFile;
 	}
 
-	private void adjustConverterParameter_afterExcelToCsv(ConverterDefinitionType converterDefinition) {
+	private void forceSeparatorConverterParameter_asComma(ConverterDefinitionType converterDefinition) {
 		List<ParameterValueType> parameters = converterDefinition.getParameters();
+		List<ParameterValueType> parameters_new = new ArrayList<ParameterValueType>();
+		
 		ParameterValueType param_separator = new ParameterValueType();
 		param_separator.setName(PARAM_SEP);
 		param_separator.setValue(SEPARATOR_COMMA);
 		
 		for (ParameterValueType parameterValueType : parameters) {
-			if (parameterValueType.getName().equalsIgnoreCase(PARAM_SEP)) {
-				parameters.remove(parameterValueType);
+			if (! parameterValueType.getName().equalsIgnoreCase(PARAM_SEP)) {
+				parameters_new.add(parameterValueType);
 			}
 		}
 		
-		List<ParameterValueType> parameters_new = new ArrayList<ParameterValueType>();
 		parameters_new.add(param_separator);
-		parameters_new.addAll(parameters);
 		converterDefinition.setParameters(parameters_new);
 	}
 
@@ -325,6 +321,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_attributesOnly(ConverterDefinitionType converterDefinition, Dataset dataset, Optional<String> sepOpt) throws Exception {
 		
+		if(sepOpt.isEmpty()) {
+			forceSeparatorConverterParameter_asComma(converterDefinition);
+		}
+		
 		Object data = dataset.getData();
 		
 		File csvFile;
@@ -375,6 +375,11 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_latLon(ConverterDefinitionType converterDefinition,
 			Dataset dataset, Optional<String> sepOpt, Optional<String> crsOpt, Optional<String> xCoordOpt,
 			Optional<String> yCoordOpt) throws IOException, ConverterException {
+		
+		if(sepOpt.isEmpty()) {
+			forceSeparatorConverterParameter_asComma(converterDefinition);
+		}
+		
 		Object data = dataset.getData();
 		
 		File csvFile;

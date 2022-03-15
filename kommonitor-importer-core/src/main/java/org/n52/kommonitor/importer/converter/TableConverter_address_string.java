@@ -2,7 +2,6 @@ package org.n52.kommonitor.importer.converter;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -54,9 +53,6 @@ public class TableConverter_address_string extends AbstractTableConverter {
 	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-        if (!sepOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
-        }
         
         Optional<String> addressCoordOpt = this.getParameterValue(PARAM_ADDRESS_COL, converterDefinition.getParameters());
         if (!addressCoordOpt.isPresent()) {
@@ -158,9 +154,6 @@ public class TableConverter_address_string extends AbstractTableConverter {
 	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-        if (!sepOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
-        }
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.

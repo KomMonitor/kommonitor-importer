@@ -1,9 +1,7 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,7 +18,6 @@ import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
-import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
@@ -61,28 +58,10 @@ public class TableConverter_address_structured extends AbstractTableConverter {
     public TableConverter_address_structured(FeatureDecoder featureDecoder) {
         super(featureDecoder);
     }
-    
-	@Override
-	public List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition, Dataset dataset,
-			SpatialResourcePropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
-		
-        try {
-            return convertSpatialResourcesFromTable(converterDefinition, dataset, propertyMapping);
-        } catch (IOException ex) {
-            throw new ConverterException("Error while parsing dataset.", ex);
-        } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new ConverterException("Error while parsing dataset.", e);
-		}
-	}
 
 	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-        if (!sepOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
-        }
         
         Optional<String> countryOpt = this.getParameterValue(PARAM_COUNTRY_COL, converterDefinition.getParameters());
         Optional<String> stateOpt = this.getParameterValue(PARAM_STATE_COL, converterDefinition.getParameters());
@@ -239,9 +218,6 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-        if (!sepOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_SEP);
-        }
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
@@ -263,10 +239,10 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 	public Set<ConverterParameter> initConverterParameters() {
         params.add(new ConverterParameter(PARAM_STREET_COL, PARAM_STREET_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
         params.add(new ConverterParameter(PARAM_HOUSENUMBER_COL, PARAM_HOUSENUMBER_DESC, ConverterParameter.ParameterTypeValues.NUMBER, true));
-        params.add(new ConverterParameter(PARAM_COUNTRY_COL, PARAM_COUNTRY_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
-        params.add(new ConverterParameter(PARAM_STATE_COL, PARAM_STATE_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
+//        params.add(new ConverterParameter(PARAM_COUNTRY_COL, PARAM_COUNTRY_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
+//        params.add(new ConverterParameter(PARAM_STATE_COL, PARAM_STATE_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
         params.add(new ConverterParameter(PARAM_CITY_COL, PARAM_CITY_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
-        params.add(new ConverterParameter(PARAM_DISTRICT_COL, PARAM_DISTRICT_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
+//        params.add(new ConverterParameter(PARAM_DISTRICT_COL, PARAM_DISTRICT_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
         params.add(new ConverterParameter(PARAM_POSTCODE_COL, PARAM_POSTCODE_DESC, ConverterParameter.ParameterTypeValues.NUMBER, false));        
         return params;
 	}
