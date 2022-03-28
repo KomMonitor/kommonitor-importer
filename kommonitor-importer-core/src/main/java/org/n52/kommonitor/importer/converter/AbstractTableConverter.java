@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.converter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,12 +9,13 @@ import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -175,6 +178,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			csvFile = convertToCsvFile(converterDefinition, dataset, fileName, fileEnding);
 		}		
 //		}
+		
+		// remove BOM if inlcuded
+		removeBom(csvFile.toPath());
+		
 		return csvFile;
 	}
 
@@ -227,7 +234,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	private File convertExcelToCsvFile(ConverterDefinitionType converterDefinition, Dataset dataset, String fileName, String fileEnding, String csvSeparator) throws ConverterException, IOException {
 		InputStream inputStream = getInputStream(converterDefinition, dataset);
 		Path newTmpFilePath = Files.createTempFile(fileName, fileEnding);
-		File csvFile = newTmpFilePath.toFile();;
+		File csvFile = newTmpFilePath.toFile();
 		
 		Workbook wb = new XSSFWorkbook(inputStream);
 		int sheetNo = 0;
@@ -297,19 +304,20 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			
 			final Path path = Paths.get(csvFile.toURI());
 			byte[] buff = Files.readAllBytes(path);
-			String s = new String(buff, Charset.defaultCharset());
+			String s = new String(buff, StandardCharsets.UTF_8);
 			// first find occurrences of target replace char
 			if (s.contains(SEPARATOR_COMMA)) {
 				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
-					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
+					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
 				}
 				else {
-					s = s.replaceAll(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
+					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
 				}
 			}
 			
-			s = s.replaceAll(sepOpt.get(), SEPARATOR_COMMA);
-			Files.write(path, s.getBytes());
+			s = s.replace(sepOpt.get(), SEPARATOR_COMMA);
+			Files.writeString(path, s, StandardOpenOption.WRITE);		
+            
             LOG.info("Find and Replace done!!!");
             return csvFile;
         } catch (IOException e) {
@@ -440,5 +448,59 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 //		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, sepOpt.get().charAt(0));
 		return params;
 	}
+	
+	private static boolean isContainBOM(Path path) throws IOException {
+
+	      if (Files.notExists(path)) {
+	          throw new IllegalArgumentException("Path: " + path + " does not exists!");
+	      }
+
+	      boolean result = false;
+
+	      byte[] bom = new byte[3];
+	      try (InputStream is = new FileInputStream(path.toFile())) {
+
+	          // read 3 bytes of a file.
+	          is.read(bom);
+
+	          // BOM encoded as ef bb bf
+	          String content = new String(Hex.encodeHex(bom));
+	          if ("efbbbf".equalsIgnoreCase(content)) {
+	              result = true;
+	          }
+
+	      }
+
+	      return result;
+	  }
+
+	  private static void removeBom(Path path) throws IOException {
+
+	      if (isContainBOM(path)) {
+
+	          byte[] bytes = Files.readAllBytes(path);
+
+	          ByteBuffer bb = ByteBuffer.wrap(bytes);
+
+	          System.out.println("Found BOM!");
+
+	          byte[] bom = new byte[3];
+	          // get the first 3 bytes
+	          bb.get(bom, 0, bom.length);
+
+	          // remaining
+	          byte[] contentAfterFirst3Bytes = new byte[bytes.length - 3];
+	          bb.get(contentAfterFirst3Bytes, 0, contentAfterFirst3Bytes.length);
+
+	          System.out.println("Remove the first 3 bytes, and overwrite the file!");
+
+	          // override the same path
+	          Files.write(path, contentAfterFirst3Bytes);
+
+	      } else {
+	          System.out.println("This file doesn't contains UTF-8 BOM!");
+	      }
+
+	  }
 
 }
