@@ -292,8 +292,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return features.stream()
 			      .filter(feature -> {
 			    	  boolean hasHousenumber = feature.getProperties().getHousenumber() != null;
-			    	  boolean isCategoryBuilding = feature.getProperties().getCategory() != null && feature.getProperties().getCategory().equalsIgnoreCase("building");
-			    	  return hasHousenumber && isCategoryBuilding;
+//			    	  boolean isCategoryBuilding = feature.getProperties().getCategory() != null && feature.getProperties().getCategory().equalsIgnoreCase("building");
+//			    	  return hasHousenumber && isCategoryBuilding;
+			    	  return hasHousenumber;
 			    	  })
 			      .collect(Collectors.toList());
 	}
