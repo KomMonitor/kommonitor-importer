@@ -39,9 +39,9 @@ import org.springframework.web.client.RestTemplate;
 public class TableConverter_address_string extends AbstractTableConverter {
 	
 	private static final String EPSG_4326 = "EPSG:4326";
-	private static final String NAME = "org.n52.kommonitor.importer.converter.table_addressStringToGeoresource";    
-    private static final String PARAM_ADDRESS_COL = "addressColumn";
-    private static final String PARAM_ADDRESS_DESC = "The column that contains the Address information as a single string with arbitrary structure";
+	private static final String NAME = "Tabelle_Geokodierung_beliebige_Zeichenkette";    
+    private static final String PARAM_ADDRESS_COL = "Adresse_Spaltenname";
+    private static final String PARAM_ADDRESS_DESC = "Splate mit gesamter Adressinformation als eine Zeichenkette mit beliebiger Struktur";
 
     @Autowired
     public TableConverter_address_string(FeatureDecoder featureDecoder) {

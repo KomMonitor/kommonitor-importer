@@ -68,7 +68,8 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public abstract class AbstractTableConverter extends AbstractConverter {
 
-	private static final String MIME_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+//	private static final String MIME_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	private static final String MIME_EXCEL = "application/excel-spreadsheet";
 	private static final String MIME_CSV = "text/csv";
 	protected static final String DEFAULT_ENCODING = "UTF-8";
 	protected static final String GEOMETRY_ATTRIBUTE_NAME = "location";
@@ -77,8 +78,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected static final String SEPARATOR_REPLACE_CHAR = ";";
 	protected static final String SEPARATOR_REPLACE_CHAR_BACKUP = "|";
 	
-	protected static final String PARAM_SEP = "separator";
-	protected static final String PARAM_SEP_DESC = "The separator of a CSV dataset - only required for CSV dataset";
+	protected static final String PARAM_SEP = "Trennzeichen";
+	protected static final String PARAM_SEP_DESC = "Trennzeichensymbol des CSV Datensatzes - nur bei CSV anzugeben";
 	
 	@Value("${kommonitor.importer.geocoder-api-url:https://geocoder.fbg-hsbo.de/geocoder}")
     protected String geocoder_baseUrl;

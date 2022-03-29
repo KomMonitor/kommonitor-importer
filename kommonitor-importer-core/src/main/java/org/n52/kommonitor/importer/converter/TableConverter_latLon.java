@@ -21,13 +21,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class TableConverter_latLon extends AbstractTableConverter {
 	
-	private static final String NAME = "org.n52.kommonitor.importer.converter.table_latLonToGeoresource";
-    private static final String PARAM_X_COORD_COL = "xCoordColumn";
-    private static final String PARAM_X_COORD_DESC = "The column that contains the X-coordinate";
-    private static final String PARAM_Y_COORD_COL = "yCoordColumn";
-    private static final String PARAM_Y_COORD_DESC = "The column that contains the Y-coordinate";
+	private static final String NAME = "Tabelle_XY_Koordinate_zu_Punkt";
+    private static final String PARAM_X_COORD_COL = "X-Koordinatenspalte (Rechtswert)";
+    private static final String PARAM_X_COORD_DESC = "Spalte mit Rechtswert";
+    private static final String PARAM_Y_COORD_COL = "Y-Koordinatenspalte (Hochwert)";
+    private static final String PARAM_Y_COORD_DESC = "Spalte mit Hochwert";
     private static final String PARAM_CRS = "CRS";
-    private static final String PARAM_CRS_DESC = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";    
+    private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";    
 
     @Autowired
     public TableConverter_latLon(FeatureDecoder featureDecoder) {

@@ -1,7 +1,16 @@
 package org.n52.kommonitor.importer.converter;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.geotools.geojson.feature.FeatureJSON;
@@ -21,10 +30,8 @@ import org.opengis.referencing.FactoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Converter for GeoJson datasets. Parses a GeoJson document as {@link org.geotools.feature.FeatureCollection}
@@ -34,9 +41,10 @@ import java.util.stream.Collectors;
  */
 @Component
 public class GeoJsonConverter extends AbstractConverter {
-    private static final String NAME = "org.n52.kommonitor.importer.converter.geojson";
+    private static final String NAME = "GeoJSON";
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
+    private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
 
     private FeatureDecoder featureDecoder;
     private ObjectMapper mapper;
@@ -200,8 +208,7 @@ public class GeoJsonConverter extends AbstractConverter {
     }
 
     private ConverterParameter createCrsParameter() {
-        String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
-        return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING, true);
+        return new ConverterParameter(PARAM_CRS, PARAM_CRS_DESC, ConverterParameter.ParameterTypeValues.STRING, true);
     }
 
 }

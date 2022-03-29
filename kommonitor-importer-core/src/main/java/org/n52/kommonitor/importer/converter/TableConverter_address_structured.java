@@ -38,21 +38,21 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 	
 	private static final String COMMA_URL_ENCODED = "%2C";
 	private static final String EPSG_4326 = "EPSG:4326";
-	private static final String NAME = "org.n52.kommonitor.importer.converter.table_addressStructuredToGeoresource";
-    private static final String PARAM_COUNTRY_COL = "countryColumn";
-    private static final String PARAM_COUNTRY_DESC = "The column that contains the Country information";
-    private static final String PARAM_STATE_COL = "stateColumn";
-    private static final String PARAM_STATE_DESC = "The column that contains the State information";
-    private static final String PARAM_CITY_COL = "cityColumn";
-    private static final String PARAM_CITY_DESC = "The column that contains the City information";
-    private static final String PARAM_DISTRICT_COL = "districtColumn";
-    private static final String PARAM_DISTRICT_DESC = "The column that contains the District information";
-    private static final String PARAM_STREET_COL = "streetColumn";
-    private static final String PARAM_STREET_DESC = "The column that contains the Street information";
-    private static final String PARAM_POSTCODE_COL = "postcodeColumn";
-    private static final String PARAM_POSTCODE_DESC = "The column that contains the Postcode information";
-    private static final String PARAM_HOUSENUMBER_COL = "housenumberColumn";
-    private static final String PARAM_HOUSENUMBER_DESC = "The column that contains the Housenumber information";
+	private static final String NAME = "Tabelle_Geokodierung_Adresse_strukturierte_Einzelspalten";
+    private static final String PARAM_COUNTRY_COL = "Land_Spaltenname";
+    private static final String PARAM_COUNTRY_DESC = "Spalte mit Landnamen";
+    private static final String PARAM_STATE_COL = "Bundesland_Spaltenname";
+    private static final String PARAM_STATE_DESC = "Spalte mit Bundeslandsnamen";
+    private static final String PARAM_CITY_COL = "Stadt_Spaltenname";
+    private static final String PARAM_CITY_DESC = "Spalte mit Stadtnamen";
+    private static final String PARAM_DISTRICT_COL = "Bezirk_Spaltenname";
+    private static final String PARAM_DISTRICT_DESC = "Spalte mit Bezirksnamen";
+    private static final String PARAM_STREET_COL = "Strasse_Spaltenname";
+    private static final String PARAM_STREET_DESC = "Spalte mit Strassennamen";
+    private static final String PARAM_POSTCODE_COL = "Postleitzahl_Spaltenname";
+    private static final String PARAM_POSTCODE_DESC = "Spalte mit Postleitzahl";
+    private static final String PARAM_HOUSENUMBER_COL = "Hausnummer_Spaltenname";
+    private static final String PARAM_HOUSENUMBER_DESC = "Spalte mit Hausnummer";
 
     @Autowired
     public TableConverter_address_structured(FeatureDecoder featureDecoder) {
@@ -128,6 +128,10 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 		if(street == null || housenumber == null) {
 			LOG.error("street or housenumber column does not contain any value for geocoding feature to geometry.");
 			throw new Exception("street or housenumber column does not contain any value for geocoding feature to geometry.");
+		}
+		
+		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
+			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
 		}
 		
 		String queryString = "street=" + encodeValue(street) + "&housenumber=" + encodeValue(housenumber);

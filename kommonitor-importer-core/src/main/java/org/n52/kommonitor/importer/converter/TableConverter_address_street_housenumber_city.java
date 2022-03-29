@@ -39,11 +39,13 @@ import org.springframework.web.client.RestTemplate;
 public class TableConverter_address_street_housenumber_city extends AbstractTableConverter {
 	
 	private static final String EPSG_4326 = "EPSG:4326";
-	private static final String NAME = "org.n52.kommonitor.importer.converter.table_addressStreetHousenumberCityToGeoresource";    
-    private static final String PARAM_STREET_HOUSENUMBER_COL = "streetAndHousenumberColumn";
-    private static final String PARAM_STREET_HOUSENUMBER_DESC = "The column that contains the Street and Housenumber information as a single string with arbitrary structure";
-    private static final String PARAM_CITY_COL = "cityColumn";
-    private static final String PARAM_CITY_DESC = "The column that contains the city information as a single string";
+	private static final String NAME = "Tabelle_Geokodierung_Strasse_Hausnummer_Stadt";    
+    private static final String PARAM_STREET_HOUSENUMBER_COL = "Strasse_Hausnummer_Spaltenname";
+    private static final String PARAM_STREET_HOUSENUMBER_DESC = "Spalte mit Strasse und Hausnummer in beliebiger Struktur";
+    private static final String PARAM_CITY_COL = "Stadt_Spaltenname";
+    private static final String PARAM_CITY_DESC = "Spalte mit Stadtnamen";
+    private static final String PARAM_POSTCODE_COL = "Postleitzahl_Spaltenname";
+    private static final String PARAM_POSTCODE_DESC = "Spalte mit Postleitzahl";
 
 
     @Autowired
@@ -63,20 +65,18 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
         }
         
         Optional<String> cityOpt = this.getParameterValue(PARAM_CITY_COL, converterDefinition.getParameters());
-        if (!cityOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_CITY_COL);
-        }
+        Optional<String> postcodeOpt = this.getParameterValue(PARAM_POSTCODE_COL, converterDefinition.getParameters());
 
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
             
-        return decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, CRS.decode(EPSG_4326), streetHousenumberOpt, cityOpt);
+        return decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, CRS.decode(EPSG_4326), streetHousenumberOpt, cityOpt, postcodeOpt);
 
 	}
 
 	private List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
-			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt) {
+			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt) {
 		List<SpatialResource> result = new ArrayList<>();
         SimpleFeatureIterator iterator = featureCollection.features();
         
@@ -90,7 +90,7 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
             }
             try {
             	// now get geometry from address string
-            	feature = queryGeometryFromAddressString(feature, streetHousenumberOpt, cityOpt, featureBuilder);
+            	feature = queryGeometryFromAddressString(feature, streetHousenumberOpt, cityOpt, postcodeOpt, featureBuilder);
             	
                 result.add(featureDecoder.decodeFeatureToSpatialResource(feature, propertyMapping, crs));
             } catch (Exception e) {
@@ -104,18 +104,33 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 
 	
 
-	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
+	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
 		
-		String streetHousenumber = (String)feature.getAttribute(streetHousenumberOpt.get());
-		String city = (String)feature.getAttribute(cityOpt.get());
+		String streetHousenumber = (String)feature.getAttribute(streetHousenumberOpt.get());		
 		
-		if(streetHousenumber == null || city == null) {
-			LOG.error("streetHousenumber or city column does not contain any value for geocoding feature to geometry.");
-			throw new Exception("streetHousenumber or city column does not contain any value for geocoding feature to geometry.");
+		if(streetHousenumber == null) {
+			LOG.error("streetHousenumber column does not contain any value for geocoding feature to geometry.");
+			throw new Exception("streetHousenumber column does not contain any value for geocoding feature to geometry.");
+		}
+		String addressAsString = streetHousenumber;
+		
+		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
+			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
 		}
 		
-		// %2C is comma as URL encoded value
-		String addressAsString = streetHousenumber + " " + city;
+		if (postcodeOpt.isPresent()) {
+			String postcode = (String)feature.getAttribute(postcodeOpt.get());
+			if(postcode != null) {
+				addressAsString += " " + postcode;
+			}			
+		}
+		
+		if (cityOpt.isPresent()) {
+			String city = (String)feature.getAttribute(cityOpt.get());
+			if(city != null) {
+				addressAsString += " " + city;
+			}
+		}
 				
 		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-string?q=" + encodeValue(addressAsString);
 		
@@ -155,14 +170,6 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 		return featureBuilder.buildFeature(null);
 	}
 
-	
-
-	
-
-	
-
-	
-
 	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
@@ -188,7 +195,8 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 	@Override
 	public Set<ConverterParameter> initConverterParameters() {		
         params.add(new ConverterParameter(PARAM_STREET_HOUSENUMBER_COL, PARAM_STREET_HOUSENUMBER_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
-        params.add(new ConverterParameter(PARAM_CITY_COL, PARAM_CITY_DESC, ConverterParameter.ParameterTypeValues.STRING, true));
+        params.add(new ConverterParameter(PARAM_CITY_COL, PARAM_CITY_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
+        params.add(new ConverterParameter(PARAM_POSTCODE_COL, PARAM_POSTCODE_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
         return params;
 	}
 

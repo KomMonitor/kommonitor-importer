@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TableConverter_indicator extends AbstractTableConverter {
 	
-	private static final String NAME = "org.n52.kommonitor.importer.converter.table_timeseriesToIndicator";
+	private static final String NAME = "Tabelle_Zeitreihe_zu_Indikator";
 
     @Autowired
     public TableConverter_indicator(FeatureDecoder featureDecoder) {

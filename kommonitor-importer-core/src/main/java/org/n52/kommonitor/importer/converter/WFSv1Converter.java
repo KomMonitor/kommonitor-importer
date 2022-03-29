@@ -40,7 +40,7 @@ import java.util.Set;
  */
 @Component
 public class WFSv1Converter extends AbstractConverter {
-    private static final String NAME = "org.n52.kommonitor.importer.converter.wfs.v1";
+    private static final String NAME = "WFS_v1";
     private static final String WFS_SCHEMA_100 = "http://schemas.opengis.net/wfs/1.0.0/wfs.xsd";
     private static final String WFS_SCHEMA_110 = "http://schemas.opengis.net/wfs/1.1.0/wfs.xsd";
     private static final String DEFAULT_ENCODING = "UTF-8";
@@ -218,19 +218,19 @@ public class WFSv1Converter extends AbstractConverter {
     }
 
     private ConverterParameter createCrsParameter() {
-        String desc = "Code of the coordinate reference system of the input dataset (e.g. 'EPSG:4326')";
+        String desc = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
         return new ConverterParameter(PARAM_CRS, desc, ConverterParameter.ParameterTypeValues.STRING, true);
     }
 
     private ConverterParameter createNamespaceParameter() {
-        String desc = String.format("Namespace of the FeatureType that should be parsed (set only in combination with '%s' parameter," +
-                " otherwise the parameter will be ignored)", PARAM_SCHEMA_LOCATION);
+        String desc = String.format("Namespace des FeatureType der eingelesen werden soll (nur zusammen mit '%s' Parameter setzen," +
+                " sonst wird er ignoriert)", PARAM_SCHEMA_LOCATION);
         return new ConverterParameter(PARAM_NAMESPACE, desc, ConverterParameter.ParameterTypeValues.STRING, false);
     }
 
     private ConverterParameter createSchemaLocationParameter() {
-        String desc = String.format("Location of the application schema for the FeatureType that should be parsed (set only in combination with '%s' parameter," +
-                " otherwise the parameter will be ignored)", PARAM_NAMESPACE);
+        String desc = String.format("Angabe des Schemas des FeatureType der eingelesen werden soll (nur zusammen mit '%s' Parameter setzen," +
+                " sonst wird er ignoriert)", PARAM_NAMESPACE);
         return new ConverterParameter(PARAM_SCHEMA_LOCATION, desc, ConverterParameter.ParameterTypeValues.STRING, false);
     }
 
