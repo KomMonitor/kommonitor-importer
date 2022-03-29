@@ -318,7 +318,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			}
 			
 			s = s.replace(sepOpt.get(), SEPARATOR_COMMA);
-			Files.writeString(path, s, StandardOpenOption.WRITE);		
+			Files.write(path, s.getBytes());		
             
             LOG.info("Find and Replace done!!!");
             return csvFile;
