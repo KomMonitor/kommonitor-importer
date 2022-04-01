@@ -16,7 +16,9 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
+import org.opengis.feature.type.GeometryType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
@@ -415,7 +417,15 @@ public class FeatureDecoder {
      * @throws DecodingException
      */
     Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
-        GeometryDescriptor geomDesc = simpleFeatureType.getGeometryDescriptor();
+    	
+    	List<AttributeDescriptor> attributeDescriptors = simpleFeatureType.getAttributeDescriptors();
+    	
+    	GeometryDescriptor geomDesc = null;
+    	for (AttributeDescriptor attributeDescriptor : attributeDescriptors) {
+			if(attributeDescriptor.getType() instanceof GeometryType) {
+				geomDesc = (GeometryDescriptor) attributeDescriptor;
+			}
+		}        
         if (geomDesc == null) {
             throw new DecodingException("Could not decode geometry property.");
         }

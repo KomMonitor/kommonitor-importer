@@ -24,9 +24,12 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
+import org.opengis.feature.type.GeometryType;
 import org.opengis.feature.type.Name;
 import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -73,7 +76,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test single feature decoding to SpatialResource")
-    void testDecodeFeatureToSpatialResource() throws DecodingException, FactoryException {
+    void testDecodeFeatureToSpatialResource() throws DecodingException, FactoryException, NoSuchAuthorityCodeException {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
         mapping.setKeepMissingOrNullValueAttributes(false);
         SimpleFeature feature = mockSimpleFeature();
@@ -115,7 +118,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test single Feature decoding to SpatialResource for optional properties")
-    void testDecodeFeatureToSpatialResourceForOptionalProperties() throws DecodingException, FactoryException {
+    void testDecodeFeatureToSpatialResourceForOptionalProperties() throws DecodingException, FactoryException, NoSuchAuthorityCodeException {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
         mapping.setValidStartDateProperty(null);
         mapping.setValidEndDateProperty(null);
@@ -131,7 +134,7 @@ class FeatureDecoderTest {
 
     @Test
     @DisplayName("Test FeatureCollection decoding to SpatialResources")
-    void testDecodeFeatureCollectionToSpatialResources() throws FactoryException {
+    void testDecodeFeatureCollectionToSpatialResources() throws FactoryException, NoSuchAuthorityCodeException {
         SpatialResourcePropertyMappingType mapping = crateSpatialFeaturePropertyMapping();
         mapping.setKeepMissingOrNullValueAttributes(false);
         SimpleFeature feature = mockSimpleFeature();
@@ -651,7 +654,14 @@ class FeatureDecoderTest {
     private SimpleFeature mockSimpleFeature() {
         SimpleFeatureType featureType = Mockito.mock(SimpleFeatureType.class);
         GeometryDescriptor descriptor = Mockito.mock(GeometryDescriptor.class);
-        Mockito.when(featureType.getGeometryDescriptor()).thenReturn(descriptor);
+        List<AttributeDescriptor> attributeDescriptors = featureType.getAttributeDescriptors();
+        GeometryDescriptor geomDesc = null;
+    	for (AttributeDescriptor attributeDescriptor : attributeDescriptors) {
+			if(attributeDescriptor.getType() instanceof GeometryType) {
+				geomDesc = (GeometryDescriptor) attributeDescriptor;
+			}
+		}  
+        Mockito.when(geomDesc).thenReturn(descriptor);
         Mockito.when(descriptor.getName()).thenReturn(new NameImpl(GEOM_PROP));
 
         Property idProperty = Mockito.mock(Property.class);

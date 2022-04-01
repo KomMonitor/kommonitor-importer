@@ -50,6 +50,24 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+        	<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			    <version>3.12.0</version>
+			</dependency>
+			<dependency>
+			    <groupId>commons-io</groupId>
+			    <artifactId>commons-io</artifactId>
+			    <version>2.11.0</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
+			<dependency>
+			    <groupId>org.apache.tika</groupId>
+			    <artifactId>tika-parsers</artifactId>
+			    <version>1.28.1</version> 
+			</dependency>
+
 	        <dependency>
 			  <groupId>org.apache.poi</groupId>
 			  <artifactId>poi-ooxml</artifactId>
@@ -232,6 +250,26 @@
             <snapshots><enabled>false</enabled></snapshots>
             <releases><enabled>true</enabled></releases>
         </repository>
+        <!--
+         <repository>
+            <id>maven-central</id>
+            <name>Macen Central Repository</name>
+            <url>https://repo1.maven.org/maven2/</url>
+            <snapshots><enabled>false</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+        -->
+        <repository>
+            <id>boundless</id>
+            <name>Boundless Repo</name>
+            <url>https://repo.boundlessgeo.com/main/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>geotools</id>
             <name>Geotools Repo</name>
@@ -243,6 +281,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        
     </repositories>
 
     <build>

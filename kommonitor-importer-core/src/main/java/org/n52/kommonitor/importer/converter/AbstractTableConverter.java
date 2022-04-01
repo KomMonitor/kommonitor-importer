@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +59,7 @@ import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
+import org.n52.kommonitor.importer.utils.FileUtils;
 
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
@@ -213,9 +213,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		java.nio.file.Files.copy(
 				inputStream, 
 				newTmpFilePath, 
-			      StandardCopyOption.REPLACE_EXISTING);
+			      StandardCopyOption.REPLACE_EXISTING);		
 		
 		csvFile = newTmpFilePath.toFile();
+		FileUtils.convertFileToUtf8(csvFile, csvFile);
 		return csvFile;
 	}
 	

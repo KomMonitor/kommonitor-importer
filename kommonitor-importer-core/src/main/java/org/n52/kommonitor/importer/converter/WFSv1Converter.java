@@ -1,6 +1,15 @@
 package org.n52.kommonitor.importer.converter;
 
-import net.opengis.wfs.impl.FeatureCollectionTypeImpl;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.referencing.CRS;
@@ -16,20 +25,12 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.opengis.referencing.FactoryException;
 import org.picocontainer.MutablePicoContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import net.opengis.wfs.impl.FeatureCollectionTypeImpl;
 
 /**
  * Converter for WFS 1.0.0 and WFS 1.1.0 datasets.
@@ -159,7 +160,7 @@ public class WFSv1Converter extends AbstractConverter {
 
         try {
             return featureDecoder.decodeFeatureCollectionToSpatialResources(collection, propertyMapping, CRS.decode(crsOpt.get()));
-        } catch (FactoryException ex) {
+        } catch (Exception ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         }
     }
