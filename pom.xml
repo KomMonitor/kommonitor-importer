@@ -50,6 +50,7 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+        <!--
         	<dependency>
 			    <groupId>org.apache.commons</groupId>
 			    <artifactId>commons-lang3</artifactId>
@@ -60,13 +61,32 @@
 			    <artifactId>commons-io</artifactId>
 			    <version>2.11.0</version>
 			</dependency>
-
-			<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
+			
+		-->	
 			<dependency>
 			    <groupId>org.apache.tika</groupId>
 			    <artifactId>tika-parsers</artifactId>
 			    <version>1.28.1</version> 
+			    <exclusions>
+                    <exclusion>
+                        <artifactId>geoapi</artifactId>
+                        <groupId>org.opengis</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>sis-utility</artifactId>
+                        <groupId>org.apache.sis.core</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>sis-metadata</artifactId>
+                        <groupId>org.apache.sis.core</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>sis-netcdf</artifactId>
+                        <groupId>org.apache.sis.storage</groupId>
+                    </exclusion>
+                </exclusions>
 			</dependency>
+			
 
 	        <dependency>
 			  <groupId>org.apache.poi</groupId>

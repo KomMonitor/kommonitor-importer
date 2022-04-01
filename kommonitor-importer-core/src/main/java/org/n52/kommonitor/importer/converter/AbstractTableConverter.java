@@ -52,6 +52,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
+import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.ParameterValueType;
@@ -59,7 +60,6 @@ import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
-import org.n52.kommonitor.importer.utils.FileUtils;
 
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
@@ -216,7 +216,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			      StandardCopyOption.REPLACE_EXISTING);		
 		
 		csvFile = newTmpFilePath.toFile();
-		FileUtils.convertFileToUtf8(csvFile, csvFile);
+//		FileUtils.convertFileToUtf8(csvFile, csvFile);
 		return csvFile;
 	}
 	
@@ -307,7 +307,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			
 			final Path path = Paths.get(csvFile.toURI());
 			byte[] buff = Files.readAllBytes(path);
-			String s = new String(buff, StandardCharsets.UTF_8);
+			String s = new String(buff, FileUtils.getFileEncoding(csvFile));
 			// first find occurrences of target replace char
 			if (s.contains(SEPARATOR_COMMA)) {
 				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {

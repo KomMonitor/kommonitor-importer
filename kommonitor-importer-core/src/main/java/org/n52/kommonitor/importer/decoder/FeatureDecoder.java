@@ -1,5 +1,17 @@
 package org.n52.kommonitor.importer.decoder;
 
+import java.math.BigInteger;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.locationtech.jts.geom.Geometry;
@@ -16,9 +28,7 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 import org.opengis.feature.Property;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.GeometryDescriptor;
-import org.opengis.feature.type.GeometryType;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.TransformException;
@@ -26,13 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.math.BigInteger;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeParseException;
-import java.util.*;
 
 /**
  * Helper class for decoding {@link SimpleFeature} instances into {@link SpatialResource}
@@ -418,14 +421,8 @@ public class FeatureDecoder {
      */
     Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
     	
-    	List<AttributeDescriptor> attributeDescriptors = simpleFeatureType.getAttributeDescriptors();
+    	GeometryDescriptor geomDesc = simpleFeatureType.getGeometryDescriptor();
     	
-    	GeometryDescriptor geomDesc = null;
-    	for (AttributeDescriptor attributeDescriptor : attributeDescriptors) {
-			if(attributeDescriptor.getType() instanceof GeometryType) {
-				geomDesc = (GeometryDescriptor) attributeDescriptor;
-			}
-		}        
         if (geomDesc == null) {
             throw new DecodingException("Could not decode geometry property.");
         }
