@@ -503,9 +503,8 @@ time step. Like in the example below, the property name may contain the timestam
 			"type": "Feature",
 			"properties": {
 				"baublock_id": "_170",
-				"date_2019-05-06": "2019-05-06",
 				"altersdurchschnitt2019-05-06": 43.4123,
-                "altersdurchschnitt2020-04-23": 48.4123
+                		"altersdurchschnitt2020-04-23": 48.4123
 			},
 			"geometry": { }
 		}
