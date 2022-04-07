@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -43,8 +45,13 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.FeatureCollection;
+import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -52,6 +59,8 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
+import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
+import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
@@ -60,6 +69,9 @@ import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
@@ -68,6 +80,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public abstract class AbstractTableConverter extends AbstractConverter {
 
+	protected static final String COMMA_URL_ENCODED = "%2C";
 //	private static final String MIME_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	private static final String MIME_EXCEL = "application/excel-spreadsheet";
 	private static final String MIME_CSV = "text/csv";
@@ -290,15 +303,213 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return builder.buildFeatureType();
 	}
 	
-	protected @Valid List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) {
-		return features.stream()
+	protected SimpleFeatureCollection addGeolocation(SimpleFeatureCollection featureCollection,
+			Map<String, GeocodingOutputType> geolocationObjectMap, SpatialResourcePropertyMappingType propertyMapping) {
+		DefaultFeatureCollection resultCollection = new DefaultFeatureCollection();
+		
+		SimpleFeatureIterator iterator = featureCollection.features();
+		SimpleFeatureType featureType = null;
+        SimpleFeatureBuilder featureBuilder = null;
+        while (iterator.hasNext()) {
+            SimpleFeature feature = iterator.next();
+            if(featureType == null) {
+            	featureType = getGeometryEnrichedFeatureTypeBuilder(feature);
+            	featureBuilder = new SimpleFeatureBuilder(featureType);
+            }
+            String featureId = String.valueOf(feature.getAttribute(propertyMapping.getIdentifierProperty()));
+			if(geolocationObjectMap.containsKey(featureId)) {        
+				List<GeocodingFeatureType> features_geolocated = geolocationObjectMap.get(featureId).getFeatures();
+            	int numFeatures = features_geolocated.size();
+        		if(numFeatures == 0) {
+        	    	LOG.error("the number of geocoded features was 0 for feature with ID '{}'.", featureId);
+        	    	featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, "the number of geocoded features was 0");
+        	    	continue;
+        	    }
+        	    else if(numFeatures > 1) {
+        			LOG.error("the number of geocoded features for the given address information was {} for feature with ID '{}'.", numFeatures, featureId);
+        	    	featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, "the number of geocoded features for the given address information was " + numFeatures);
+        	    	continue;
+        	    }
+        	    else {
+        	    	GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        	        List<Float> feature_geocoded_geometry = features_geolocated.get(0).getGeometry().getCoordinates();
+        			Coordinate coords = new Coordinate(feature_geocoded_geometry.get(0), feature_geocoded_geometry.get(1));
+        	        Geometry point = geometryFactory.createPoint(coords);
+        	        
+        	        featureBuilder.addAll(feature.getAttributes());
+        	        featureBuilder.add(point);
+        	        
+        	        // make new GeometryDescriptor	  
+        	    }
+        	    
+        		resultCollection.add(featureBuilder.buildFeature(null));
+            }        
+        }
+        iterator.close();
+        
+        return resultCollection;
+	}
+	
+	protected Map<String, GeocodingOutputType> queryGeolocation_byQueryString(Map<String, String> queryStrings) {
+		
+		List<String> queryStringList = new ArrayList<String>();
+		List<String> featureIdList = new ArrayList<String>();
+		
+		Set<Entry<String, String>> entrySet = queryStrings.entrySet();
+		for (Entry<String, String> entry : entrySet) {
+			queryStringList.add(entry.getValue());
+			featureIdList.add(entry.getKey());
+		}
+		
+		
+		GeocodingOutputType[] geocoderResponseArray = executeQueryByStrings(queryStringList);
+	    
+	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<String, GeocodingOutputType>();
+	    
+	    for (int i = 0; i < geocoderResponseArray.length; i++) {
+	    	geocoderResponseMap.put(featureIdList.get(i), geocoderResponseArray[i]);
+		}
+		
+	    return filterGeocodingResults(geocoderResponseMap);
+	}
+
+	private GeocodingOutputType[] executeQueryByStrings(List<String> queryStringList) {
+		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-string/batch";
+		
+    	URI uri = URI.create(geocoderQueryUrl);
+		
+		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryStringList.toArray(), GeocodingOutputType[].class);
+		return geocoderResponseArray;
+	}
+	
+	protected Map<String, GeocodingOutputType> queryGeolocation_byStructuredInput(
+			Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs) throws UnsupportedEncodingException {
+		List<GeocodingStructuredBatchInputType> queryInputList = new ArrayList<GeocodingStructuredBatchInputType>();
+		List<String> featureIdList = new ArrayList<String>();
+		
+		Set<Entry<String, GeocodingStructuredBatchInputType>> entrySet = queryStructuredInputs.entrySet();
+		for (Entry<String, GeocodingStructuredBatchInputType> entry : entrySet) {
+			queryInputList.add(entry.getValue());
+			featureIdList.add(entry.getKey());
+		}
+		
+		
+		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-structured/batch";
+		
+    	URI uri = URI.create(geocoderQueryUrl);
+		
+		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryInputList.toArray(), GeocodingOutputType[].class);
+	    
+	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<String, GeocodingOutputType>();
+	    List<GeocodingStructuredBatchInputType> failedQueryInputList = new ArrayList<GeocodingStructuredBatchInputType>();
+	    List<String> failedFeatureIdList = new ArrayList<String>();
+	    
+	    for (int i = 0; i < geocoderResponseArray.length; i++) {
+	    	if(geocoderResponseArray[i].getFeatures().size() == 0) {
+	    		// no geolocation was found for the query input
+	    		failedQueryInputList.add(queryInputList.get(i));
+	    		failedFeatureIdList.add(featureIdList.get(i));
+	    	}
+	    	else {
+	    		geocoderResponseMap.put(featureIdList.get(i), geocoderResponseArray[i]);
+	    	}	    	
+		}
+	    
+	    // if any failed input was detected we try to use query-string based geolocation, which is more typo tolerant
+	    if(failedQueryInputList.size() > 0) {
+	    	geocoderResponseMap = retryFailedQueryInputs_asQueryString(failedQueryInputList, failedFeatureIdList, geocoderResponseMap);
+	    }
+		
+	    return filterGeocodingResults(geocoderResponseMap);
+	}
+	
+	private Map<String, GeocodingOutputType> retryFailedQueryInputs_asQueryString(
+			List<GeocodingStructuredBatchInputType> failedQueryInputList,
+			List<String> failedFeatureIdList, Map<String, GeocodingOutputType> geocoderResponseMap) throws UnsupportedEncodingException {
+		
+		List<String> queryStrings = new ArrayList<String>();
+		
+		for (int i = 0; i < failedFeatureIdList.size(); i++) {
+			LOG.error("the number of geocoded features by structured query was 0 for feature with id {}.", failedFeatureIdList.get(i));
+	    	LOG.info("Will try to query by building a single query string from adress information");
+	    	
+	    	GeocodingStructuredBatchInputType failedStructuredInput = failedQueryInputList.get(i);	    	
+	    	
+	    	String queryString = "" + encodeValue(failedStructuredInput.getStreet()) + COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getHousenumber());
+	    	if(failedStructuredInput.getPostcode() != null) {
+	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getPostcode());
+	    	}
+	    	if(failedStructuredInput.getCity() != null) {
+	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCity());
+	    	}
+	    	if(failedStructuredInput.getCountry() != null) {
+	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCountry());
+	    	}
+	    	if(failedStructuredInput.getState() != null) {
+	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getState());
+	    	}
+	    	if(failedStructuredInput.getDistrict() != null) {
+	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getDistrict());
+	    	}
+	    	
+	    	queryStrings.add(queryString);
+		}
+		
+		GeocodingOutputType[] geocoderResponseArray = executeQueryByStrings(queryStrings);
+		
+		for (int i = 0; i < geocoderResponseArray.length; i++) {
+	    	geocoderResponseMap.put(failedFeatureIdList.get(i), geocoderResponseArray[i]);
+		}
+
+    	return geocoderResponseMap;
+	}
+
+	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) {
+		features = features.stream()
 			      .filter(feature -> {
 			    	  boolean hasHousenumber = feature.getProperties().getHousenumber() != null;
-//			    	  boolean isCategoryBuilding = feature.getProperties().getCategory() != null && feature.getProperties().getCategory().equalsIgnoreCase("building");
-//			    	  return hasHousenumber && isCategoryBuilding;
+//			    	  boolean isAcceptedCategory = isAcceptedCategory(feature.getProperties().getCategory());
+//			    	  return hasHousenumber && isAcceptedCategory;
 			    	  return hasHousenumber;
 			    	  })
 			      .collect(Collectors.toList());
+		
+		// filter output to one result only
+		List<GeocodingFeatureType> oneItemList = new ArrayList<GeocodingFeatureType>();
+		if(features.size() > 0) {
+			oneItemList.add(features.get(0));
+		}
+		
+		return oneItemList;
+	}
+	
+	private boolean isAcceptedCategory(String category) {
+		boolean isAccepted = category != null && 
+				(
+					   category.equalsIgnoreCase("building")
+					|| category.equalsIgnoreCase("amenity")
+				);
+		return isAccepted;
+	}
+
+	protected Map<String, GeocodingOutputType> filterGeocodingResults(Map<String, GeocodingOutputType> geocoderResponseMap) {
+		
+		for (GeocodingOutputType geocodingOutputType : geocoderResponseMap.values()) {
+			geocodingOutputType.setFeatures(filterBuildingFeatures(geocodingOutputType.getFeatures()));
+		}
+		return geocoderResponseMap;
 	}
 	
 	private File replaceCSVSeparatorToComma(File csvFile, Optional<String> sepOpt) throws IOException {

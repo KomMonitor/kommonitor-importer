@@ -1,27 +1,20 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.net.URI;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
-import javax.validation.Valid;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.referencing.CRS;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.PrecisionModel;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
@@ -30,10 +23,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Component
 public class TableConverter_address_street_housenumber_city extends AbstractTableConverter {
@@ -76,98 +66,69 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 	}
 
 	private List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
-			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt) {
-		List<SpatialResource> result = new ArrayList<>();
-        SimpleFeatureIterator iterator = featureCollection.features();
-        
-        SimpleFeatureType featureType = null;
-        SimpleFeatureBuilder featureBuilder = null;
-        while (iterator.hasNext()) {
-            SimpleFeature feature = iterator.next();
-            if(featureType == null) {
-            	featureType = getGeometryEnrichedFeatureTypeBuilder(feature);
-            	featureBuilder = new SimpleFeatureBuilder(featureType);
-            }
-            try {
-            	// now get geometry from address string
-            	feature = queryGeometryFromAddressString(feature, streetHousenumberOpt, cityOpt, postcodeOpt, featureBuilder);
-            	
-                result.add(featureDecoder.decodeFeatureToSpatialResource(feature, propertyMapping, crs));
-            } catch (Exception e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
-                featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, e.getMessage());
-            }
-        }
-        iterator.close();
-        return result;
+			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt) throws Exception {
+		featureCollection = queryGeometryFromAddressStrings(featureCollection, streetHousenumberOpt, cityOpt, postcodeOpt, propertyMapping);
+		
+		return featureDecoder.decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, crs);
 	}
 
 	
 
-	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
+	private SimpleFeatureCollection queryGeometryFromAddressStrings(SimpleFeatureCollection featureCollection, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
 		
-		String streetHousenumber = (String)feature.getAttribute(streetHousenumberOpt.get());		
+		Map<String, String> queryStrings = collectGeocodingQueryStrings(featureCollection, streetHousenumberOpt, cityOpt, postcodeOpt, propertyMapping);
 		
-		if(streetHousenumber == null) {
-			LOG.error("streetHousenumber column does not contain any value for geocoding feature to geometry.");
-			throw new Exception("streetHousenumber column does not contain any value for geocoding feature to geometry.");
-		}
-		String addressAsString = streetHousenumber;
+		Map<String, GeocodingOutputType> geolocationObjectMap = queryGeolocation_byQueryString(queryStrings);
 		
-		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
-			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
-		}
+		SimpleFeatureCollection resultCollection = addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
 		
-		if (postcodeOpt.isPresent()) {
-			String postcode = (String)feature.getAttribute(postcodeOpt.get());
-			if(postcode != null) {
-				addressAsString += " " + postcode;
-			}			
-		}
-		
-		if (cityOpt.isPresent()) {
-			String city = (String)feature.getAttribute(cityOpt.get());
-			if(city != null) {
-				addressAsString += " " + city;
-			}
-		}
-				
-		String geocoderQueryUrl = this.geocoder_baseUrl + "/geocode/query-string?q=" + encodeValue(addressAsString);
-		
-    	URI uri = URI.create(geocoderQueryUrl);
-		
-		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
-		
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    
-	    GeocodingOutputType geocoderResponse = restTemplate.getForObject(uri, GeocodingOutputType.class);
-		
-	    @Valid
-		List<GeocodingFeatureType> features_geolocated = filterBuildingFeatures(geocoderResponse.getFeatures());
-	    int numFeatures = features_geolocated.size();
-		if(numFeatures == 0) {
-	    	LOG.error("the number of geocoded features was 0. Hence the address {} could not be resolved to a valid geopoint.", addressAsString);
-			throw new Exception("the number of geocoded features was 0. Hence the address '" + addressAsString + "' could not be resolved to a valid geopoint.");
-	    }
-	    else if(numFeatures > 1) {
-	    	LOG.error("the number of geocoded features was {}. Hence the address {} was resolved to more than one possible geopoint.", numFeatures, addressAsString);
-			throw new Exception("the number of geocoded features was " + numFeatures + ". Hence the address '" + addressAsString + "' could not be resolved to a valid geopoint.");
-	    }
-	    else {
-	    	GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-	        List<Float> feature_geocoded_geometry = features_geolocated.get(0).getGeometry().getCoordinates();
-			Coordinate coords = new Coordinate(feature_geocoded_geometry.get(0), feature_geocoded_geometry.get(1));
-	        Geometry point = geometryFactory.createPoint(coords);
-	        
-	        featureBuilder.addAll(feature.getAttributes());
-	        featureBuilder.add(point);
-	        
-	        // make new GeometryDescriptor	  
-	    }
-	    
-		return featureBuilder.buildFeature(null);
+		return resultCollection;
+	}
+	
+	private Map<String, String> collectGeocodingQueryStrings(SimpleFeatureCollection featureCollection, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SpatialResourcePropertyMappingType propertyMapping) {
+		SimpleFeatureIterator iterator = featureCollection.features();
+		Map<String, String> queryStrings = new HashMap<String, String>();
+
+        while (iterator.hasNext()) {
+            SimpleFeature feature = iterator.next();
+            
+            String streetHousenumber = (String)feature.getAttribute(streetHousenumberOpt.get());		
+    		
+    		if(streetHousenumber == null) {
+    			LOG.error("streetHousenumber column does not contain any value for geocoding feature to geometry.");
+//    			throw new Exception("streetHousenumber column does not contain any value for geocoding feature to geometry.");
+    		}
+    		String addressAsString = streetHousenumber;
+    		
+    		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
+    			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
+    		}
+    		
+    		if (postcodeOpt.isPresent()) {
+    			String postcode = String.valueOf(feature.getAttribute(postcodeOpt.get()));
+    			if(postcode != null) {
+    				addressAsString += " " + postcode;
+    			}			
+    		}
+    		
+    		if (cityOpt.isPresent()) {
+    			String city = (String)feature.getAttribute(cityOpt.get());
+    			if(city != null) {
+    				addressAsString += " " + city;
+    			}
+    		}
+    		
+    		if(addressAsString == null) {
+    			LOG.error("address does not contain sufficient information for geocoding feature to geometry for feature with ID {}.", feature.getID());  
+    			featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, "address does not contain sufficient information for geocoding feature to geometry");
+    		}
+    		else {
+    			queryStrings.put(String.valueOf(feature.getAttribute(propertyMapping.getIdentifierProperty())), addressAsString);
+    		}            
+        }
+        iterator.close();
+        
+        return queryStrings;
 	}
 
 	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset,

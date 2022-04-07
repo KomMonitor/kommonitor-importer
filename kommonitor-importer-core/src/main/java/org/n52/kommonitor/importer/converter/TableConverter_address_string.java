@@ -1,8 +1,9 @@
 package org.n52.kommonitor.importer.converter;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -69,32 +70,48 @@ public class TableConverter_address_string extends AbstractTableConverter {
 
 	private List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
 			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> addressCoordOpt) {
-		List<SpatialResource> result = new ArrayList<>();
-        SimpleFeatureIterator iterator = featureCollection.features();
-        
-        SimpleFeatureType featureType = null;
-        SimpleFeatureBuilder featureBuilder = null;
-        while (iterator.hasNext()) {
-            SimpleFeature feature = iterator.next();
-            if(featureType == null) {
-            	featureType = getGeometryEnrichedFeatureTypeBuilder(feature);
-            	featureBuilder = new SimpleFeatureBuilder(featureType);
-            }
-            try {
-            	// now get geometry from address string
-            	feature = queryGeometryFromAddressString(feature, addressCoordOpt, featureBuilder);
-            	
-                result.add(featureDecoder.decodeFeatureToSpatialResource(feature, propertyMapping, crs));
-            } catch (Exception e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
-                featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, e.getMessage());
-            }
-        }
-        iterator.close();
-        return result;
+		
+		featureCollection = queryGeometryFromAddressStrings(featureCollection, addressCoordOpt, propertyMapping);
+		
+		return featureDecoder.decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, crs);
 	}
 
 	
+
+	private SimpleFeatureCollection queryGeometryFromAddressStrings(SimpleFeatureCollection featureCollection,
+			Optional<String> addressCoordOpt, SpatialResourcePropertyMappingType propertyMapping) {
+		Map<String, String> queryStrings = collectGeocodingQueryStrings(featureCollection, addressCoordOpt, propertyMapping);
+		
+		Map<String, GeocodingOutputType> geolocationObjectMap = queryGeolocation_byQueryString(queryStrings);
+		
+		SimpleFeatureCollection resultCollection = addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
+		
+		return resultCollection;
+	}
+
+	private Map<String, String> collectGeocodingQueryStrings(SimpleFeatureCollection featureCollection, Optional<String> addressCoordOpt, SpatialResourcePropertyMappingType propertyMapping) {
+		SimpleFeatureIterator iterator = featureCollection.features();
+		Map<String, String> queryStrings = new HashMap<String, String>();
+		
+        while (iterator.hasNext()) {
+            SimpleFeature feature = iterator.next();
+            
+            String addressAsString = (String)feature.getAttribute(addressCoordOpt.get());
+    		
+    		if(addressAsString == null) {
+    			LOG.error("address column does not contain any value for geocoding feature to geometry for feature with ID {}.", feature.getID());  
+    			featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), feature, "address column does not contain any value for geocoding feature to geometry");
+    		}
+    		else {
+    			queryStrings.put(String.valueOf(feature.getAttribute(propertyMapping.getIdentifierProperty())), addressAsString);
+    		}            
+        }
+        iterator.close();
+        
+        return queryStrings;
+	}
+
+
 
 	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> addressCoordOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
 		
