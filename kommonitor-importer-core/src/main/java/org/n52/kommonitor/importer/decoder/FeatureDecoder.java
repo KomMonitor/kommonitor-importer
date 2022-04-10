@@ -618,5 +618,10 @@ public class FeatureDecoder {
         monitor.addFailedConversion(String.valueOf(id), message);
     }
 
+	public void addMonitoringMessage(String id, String message) {
+		monitor.addFailedConversion(String.valueOf(id), message);
+		
+	}
+
 
 }

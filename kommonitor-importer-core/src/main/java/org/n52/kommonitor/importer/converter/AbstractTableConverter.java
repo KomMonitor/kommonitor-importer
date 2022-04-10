@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -256,7 +257,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 		DataFormatter formatter = new DataFormatter();
 		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
-		                                  true, "UTF-8");
+		                                  true, StandardCharsets.UTF_8);
 //		byte[] bom = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 //		out.write(bom);
 		{
@@ -277,6 +278,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		        out.println();
 		    }
 		}
+		out.close();
+		wb.close();
 		
 		return csvFile;
 	}
@@ -447,21 +450,38 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	    	
 	    	GeocodingStructuredBatchInputType failedStructuredInput = failedQueryInputList.get(i);	    	
 	    	
-	    	String queryString = "" + encodeValue(failedStructuredInput.getStreet()) + COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getHousenumber());
-	    	if(failedStructuredInput.getPostcode() != null) {
-	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getPostcode());
+//	    	String queryString = "" + encodeValue(failedStructuredInput.getStreet()) + COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getHousenumber());
+//	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "") {
+//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getPostcode());
+//	    	}
+//	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
+//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCity());
+//	    	}
+//	    	if(failedStructuredInput.getCountry() != null && failedStructuredInput.getCountry() != "") {
+//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCountry());
+//	    	}
+//	    	if(failedStructuredInput.getState() != null && failedStructuredInput.getState() != "") {
+//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getState());
+//	    	}
+//	    	if(failedStructuredInput.getDistrict() != null && failedStructuredInput.getDistrict() != "") {
+//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getDistrict());
+//	    	}
+	    	
+	    	String queryString = "" + failedStructuredInput.getStreet() + ","  + failedStructuredInput.getHousenumber();
+	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "") {
+	    		queryString += "," + failedStructuredInput.getPostcode();
 	    	}
-	    	if(failedStructuredInput.getCity() != null) {
-	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCity());
+	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
+	    		queryString += "," + failedStructuredInput.getCity();
 	    	}
-	    	if(failedStructuredInput.getCountry() != null) {
-	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCountry());
+	    	if(failedStructuredInput.getCountry() != null && failedStructuredInput.getCountry() != "") {
+	    		queryString += "," + failedStructuredInput.getCountry();
 	    	}
-	    	if(failedStructuredInput.getState() != null) {
-	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getState());
+	    	if(failedStructuredInput.getState() != null && failedStructuredInput.getState() != "") {
+	    		queryString += "," + failedStructuredInput.getState();
 	    	}
-	    	if(failedStructuredInput.getDistrict() != null) {
-	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getDistrict());
+	    	if(failedStructuredInput.getDistrict() != null && failedStructuredInput.getDistrict() != "") {
+	    		queryString += "," + failedStructuredInput.getDistrict();
 	    	}
 	    	
 	    	queryStrings.add(queryString);
@@ -476,7 +496,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
     	return geocoderResponseMap;
 	}
 
-	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) {
+	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) throws Exception {
 		features = features.stream()
 			      .filter(feature -> {
 			    	  boolean hasHousenumber = feature.getProperties().getHousenumber() != null;
@@ -485,6 +505,26 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			    	  return hasHousenumber;
 			    	  })
 			      .collect(Collectors.toList());
+		
+		// include a check for the actual street name of the results
+		// if there are different street names then the geocoding was not resolvable 
+		int numDifferentStreetNamesResolved = 1;
+		if(features.size() > 0) {
+			String firstStreetName = features.get(0).getProperties().getStreet();
+			
+			for (GeocodingFeatureType geocodingFeature : features) {
+				String street = geocodingFeature.getProperties().getStreet();
+				if(street != null && ! street.equalsIgnoreCase(firstStreetName) ) {
+					numDifferentStreetNamesResolved++;
+				}
+			}
+			if (numDifferentStreetNamesResolved > 1) {
+				throw new Exception("geocoding was resolved to " + numDifferentStreetNamesResolved + " different streets. Please check for possible spelling mistakes.");
+			}
+		}
+		
+		
+		
 		
 		// filter output to one result only
 		List<GeocodingFeatureType> oneItemList = new ArrayList<GeocodingFeatureType>();
@@ -506,8 +546,15 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 	protected Map<String, GeocodingOutputType> filterGeocodingResults(Map<String, GeocodingOutputType> geocoderResponseMap) {
 		
-		for (GeocodingOutputType geocodingOutputType : geocoderResponseMap.values()) {
-			geocodingOutputType.setFeatures(filterBuildingFeatures(geocodingOutputType.getFeatures()));
+		Set<Entry<String, GeocodingOutputType>> geocoderResponseSet = geocoderResponseMap.entrySet();
+
+		for (Entry<String, GeocodingOutputType> entry : geocoderResponseSet) {
+			try {
+				entry.getValue().setFeatures(filterBuildingFeatures(entry.getValue().getFeatures()));
+			} catch (Exception e) {
+				LOG.error(e.getMessage());
+    	    	featureDecoder.addMonitoringMessage(entry.getKey(), e.getMessage());
+			}			
 		}
 		return geocoderResponseMap;
 	}
@@ -581,6 +628,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			throw new ConverterException("No features could be parsed from CSV data input.");
 		}		
 		
+		store.dispose();
+		csvFile.delete();
+		
 //		SimpleFeatureIterator features = simpleFeatureCollection.features();
 //		
 //		while(features.hasNext()) {
@@ -643,6 +693,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		}
 		
 		features.close();
+		
+		store.dispose();
+		csvFile.delete();
 		
 		return simpleFeatureCollection;
 	}

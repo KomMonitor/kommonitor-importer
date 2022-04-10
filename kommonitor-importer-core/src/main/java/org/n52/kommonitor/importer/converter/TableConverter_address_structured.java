@@ -120,18 +120,28 @@ public class TableConverter_address_structured extends AbstractTableConverter {
             String country = (String)feature.getAttribute(! countryOpt.isPresent() ? null : countryOpt.get());
     		String state = (String)feature.getAttribute(! stateOpt.isPresent() ? null : stateOpt.get());
     		String city = (String)feature.getAttribute(! cityOpt.isPresent() ? null : cityOpt.get());
-    		String district = (String)feature.getAttribute(! districtOpt.isPresent() ? null : districtOpt.get());
-    		String postcode = String.valueOf(feature.getAttribute(! postcodeOpt.isPresent() ? null : postcodeOpt.get()));
+    		String district = (String)feature.getAttribute(! districtOpt.isPresent() ? null : districtOpt.get());    		
     		String street = (String)feature.getAttribute(streetOpt.get());
+    		String postcode = String.valueOf(feature.getAttribute(! postcodeOpt.isPresent() ? null : postcodeOpt.get()));
     		String housenumber = String.valueOf(feature.getAttribute(housenumberOpt.get()));
+    		
+    		if (postcode.equalsIgnoreCase("null")) {
+    			postcode = null;
+    		}
+    		if (housenumber.equalsIgnoreCase("null")) {
+    			housenumber = null;
+    		}
     		
     		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
     			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
     		}
-    		
-    		batchInput.setStreet(street);
-    		batchInput.setStreet(housenumber);
-    		
+
+    		if(street != null) {
+    			batchInput.setStreet(street);
+        	}
+    		if(housenumber != null) {
+    			batchInput.setHousenumber(housenumber);
+        	}
     		if(postcode != null) {
     			batchInput.setPostcode(postcode);
         	}

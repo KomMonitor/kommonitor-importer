@@ -34,6 +34,16 @@ public class GeocodingStructuredBatchInputType   {
 
   @JsonProperty("housenumber")
   private String housenumber = null;
+  
+  public GeocodingStructuredBatchInputType () {
+	  this.city = "";
+	  this.country = "";
+	  this.state = "";
+	  this.housenumber = "";
+	  this.street = "";
+	  this.postcode = "";
+	  this.district = "";
+  }
 
   public GeocodingStructuredBatchInputType country(String country) {
     this.country = country;
