@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -14,10 +13,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -230,8 +227,13 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			      StandardCopyOption.REPLACE_EXISTING);		
 		
 		csvFile = newTmpFilePath.toFile();
-//		FileUtils.convertFileToUtf8(csvFile, csvFile);
-		return csvFile;
+		
+		Path newTmpFilePath_utf8 = Files.createTempFile(fileName + "_UTF-8", fileEnding);
+		FileUtils.convertFileToUtf8(csvFile, newTmpFilePath_utf8.toFile());
+		
+		csvFile.delete();
+		
+		return newTmpFilePath_utf8.toFile();
 	}
 	
 	static private Pattern rxquote = Pattern.compile("\"");
@@ -256,8 +258,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		int sheetNo = 0;
 
 		DataFormatter formatter = new DataFormatter();
+//		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
+//		                                  true, StandardCharsets.UTF_8);
 		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
-		                                  true, StandardCharsets.UTF_8);
+                true, "UTF-8");
 //		byte[] bom = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 //		out.write(bom);
 		{
@@ -468,7 +472,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 //	    	}
 	    	
 	    	String queryString = "" + failedStructuredInput.getStreet() + ","  + failedStructuredInput.getHousenumber();
-	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "") {
+	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "" && !failedStructuredInput.getPostcode().isEmpty()) {
 	    		queryString += "," + failedStructuredInput.getPostcode();
 	    	}
 	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
