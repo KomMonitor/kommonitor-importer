@@ -106,15 +106,18 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
     		
     		if (postcodeOpt.isPresent()) {
     			String postcode = String.valueOf(feature.getAttribute(postcodeOpt.get()));
-    			if(postcode != null) {
-    				addressAsString += " " + postcode;
+    			if(streetHousenumber.contains("Schillerpatz")) {
+    				System.out.println();
+    			}
+    			if(postcode != null && !postcode.isEmpty()) {
+    				addressAsString += "," + postcode;
     			}			
     		}
     		
-    		if (cityOpt.isPresent()) {
+    		if (cityOpt.isPresent() ) {
     			String city = (String)feature.getAttribute(cityOpt.get());
-    			if(city != null) {
-    				addressAsString += " " + city;
+    			if(city != null && city != "") {
+    				addressAsString += "," + city;
     			}
     		}
     		

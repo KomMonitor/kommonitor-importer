@@ -139,10 +139,10 @@ public class TableConverter_address_structured extends AbstractTableConverter {
     		if(street != null) {
     			batchInput.setStreet(street);
         	}
-    		if(housenumber != null) {
+    		if(housenumber != null && !housenumber.isEmpty()) {
     			batchInput.setHousenumber(housenumber);
         	}
-    		if(postcode != null) {
+    		if(postcode != null && !postcode.isEmpty()) {
     			batchInput.setPostcode(postcode);
         	}
         	if(city != null) {
