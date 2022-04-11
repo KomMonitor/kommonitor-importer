@@ -31,11 +31,11 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>2.5.7</spring-boot.version>
         <api-client.version>1.2.3-SNAPSHOT</api-client.version>
-        <jts.version>1.16.1</jts.version>
+        <jts.version>1.18.2</jts.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <maven-surefire.version>3.0.0-M4</maven-surefire.version>
         <maven-failsafe.version>3.0.0-M4</maven-failsafe.version>
-        <geotools.version>20.3</geotools.version>
+        <geotools.version>26.3</geotools.version>
         <release-plugin.version>3.0.0-M1</release-plugin.version>
         <changelog-plugin.version>0.5.1</changelog-plugin.version>
         <log4j2.version>2.17.1</log4j2.version>
@@ -50,19 +50,6 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
-        <!--
-        	<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-lang3</artifactId>
-			    <version>3.12.0</version>
-			</dependency>
-			<dependency>
-			    <groupId>commons-io</groupId>
-			    <artifactId>commons-io</artifactId>
-			    <version>2.11.0</version>
-			</dependency>
-			
-		-->	
 			<dependency>
 			    <groupId>org.apache.tika</groupId>
 			    <artifactId>tika-parsers</artifactId>
@@ -83,6 +70,10 @@
                     <exclusion>
                         <artifactId>sis-netcdf</artifactId>
                         <groupId>org.apache.sis.storage</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>xercesImpl</artifactId>
+                        <groupId>xerces</groupId>
                     </exclusion>
                 </exclusions>
 			</dependency>
@@ -150,17 +141,6 @@
             </dependency>
             <dependency>
                 <groupId>org.geotools</groupId>
-                <artifactId>gt-api</artifactId>
-                <version>${geotools.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>jts</artifactId>
-                        <groupId>com.vividsolutions</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.geotools</groupId>
                 <artifactId>gt-xml</artifactId>
                 <version>${geotools.version}</version>
                 <exclusions>
@@ -183,16 +163,6 @@
             <dependency>
                 <groupId>org.geotools</groupId>
                 <artifactId>gt-epsg-hsql</artifactId>
-                <version>${geotools.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.geotools</groupId>
-                <artifactId>gt-epsg-extension</artifactId>
-                <version>${geotools.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.geotools</groupId>
-                <artifactId>gt-data</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
             <dependency>

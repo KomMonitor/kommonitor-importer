@@ -10,12 +10,13 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.geotools.GML;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.referencing.CRS;
-import org.geotools.xml.Configuration;
-import org.geotools.xml.Parser;
+import org.geotools.wfs.GML;
+import org.geotools.wfs.v1_0.WFSConfiguration_1_0;
 import org.geotools.xs.XSConfiguration;
+import org.geotools.xsd.Configuration;
+import org.geotools.xsd.Parser;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -239,7 +240,7 @@ public class WFSv1Converter extends AbstractConverter {
         public WFS100Configuration(String namespace, String schemaLocation) {
             super(new org.geotools.gml2.ApplicationSchemaXSD(namespace, schemaLocation));
             this.addDependency(new XSConfiguration());
-            this.addDependency(new org.geotools.wfs.v1_0.WFSConfiguration());
+            this.addDependency(new WFSConfiguration_1_0());
             this.addDependency(new org.geotools.gml2.GMLConfiguration());
         }
 

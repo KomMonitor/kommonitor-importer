@@ -89,8 +89,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected static final String GEOMETRY_ATTRIBUTE_NAME = "location";
 	
 	protected static final String SEPARATOR_COMMA = ",";
-	protected static final String SEPARATOR_REPLACE_CHAR = ";";
-	protected static final String SEPARATOR_REPLACE_CHAR_BACKUP = "|";
+//	protected static final String SEPARATOR_REPLACE_CHAR = ";";
+//	protected static final String SEPARATOR_REPLACE_CHAR_BACKUP = "|";
 	
 	protected static final String PARAM_SEP = "Trennzeichen";
 	protected static final String PARAM_SEP_DESC = "Trennzeichensymbol des CSV Datensatzes - nur bei CSV anzugeben";
@@ -559,34 +559,34 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return geocoderResponseMap;
 	}
 	
-	private File replaceCSVSeparatorToComma(File csvFile, Optional<String> sepOpt) throws IOException {
-		try {
-			LOG.info("Replacing original separator '{}' from original CSV file with '{}' in order to enforce correct column separation", sepOpt.get(), SEPARATOR_COMMA);
-			
-			final Path path = Paths.get(csvFile.toURI());
-			byte[] buff = Files.readAllBytes(path);
-			String s = new String(buff, FileUtils.getFileEncoding(csvFile));
-			// first find occurrences of target replace char
-			if (s.contains(SEPARATOR_COMMA)) {
-				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
-					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
-				}
-				else {
-					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
-				}
-			}
-			
-			s = s.replace(sepOpt.get(), SEPARATOR_COMMA);
-			Files.write(path, s.getBytes());		
-            
-            LOG.info("Find and Replace done!!!");
-            return csvFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error("There was an error while trying to replace specified separator {} from original csv file to enforce usage of comma-separator.", sepOpt.get());
-            throw e;
-        }
-	}
+//	private File replaceCSVSeparatorToComma(File csvFile, Optional<String> sepOpt) throws IOException {
+//		try {
+//			LOG.info("Replacing original separator '{}' from original CSV file with '{}' in order to enforce correct column separation", sepOpt.get(), SEPARATOR_COMMA);
+//			
+//			final Path path = Paths.get(csvFile.toURI());
+//			byte[] buff = Files.readAllBytes(path);
+//			String s = new String(buff, FileUtils.getFileEncoding(csvFile));
+//			// first find occurrences of target replace char
+//			if (s.contains(SEPARATOR_COMMA)) {
+//				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
+//					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
+//				}
+//				else {
+//					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
+//				}
+//			}
+//			
+//			s = s.replace(sepOpt.get(), SEPARATOR_COMMA);
+//			Files.write(path, s.getBytes());		
+//            
+//            LOG.info("Find and Replace done!!!");
+//            return csvFile;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            LOG.error("There was an error while trying to replace specified separator {} from original csv file to enforce usage of comma-separator.", sepOpt.get());
+//            throw e;
+//        }
+//	}
 	
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_attributesOnly(ConverterDefinitionType converterDefinition, Dataset dataset, Optional<String> sepOpt) throws Exception {
 		
@@ -603,15 +603,17 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		// replace separator if it is not comma
 		// make sure to take the most current seperator definition, as it might have changed due to excel conversion
 		sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
-			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
-		}
+//		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
+//			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
+//		}
 		
 		
-		Map<String, Serializable> params = new HashMap<String, Serializable>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put(CSVDataStoreFactory.URL_PARAM.key, csvFile.toURI());
 		params.put(CSVDataStoreFactory.FILE_PARAM.key, csvFile);
+		params.put("separator", sepOpt.get());
+		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, String.valueOf(sepOpt.get()).charAt(0));
 		params = setDataStoreParams_attributes(params);
 		
 		DataStore store = DataStoreFinder.getDataStore(params);		
@@ -659,16 +661,22 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		csvFile = convertDataToFile(converterDefinition, dataset, data);
 		
 		// replace separator if it is not comma
-		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
-			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
-		}
+//		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
+//			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
+//		}
 		
 		
-		Map<String, Serializable> params = new HashMap<String, Serializable>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put(CSVDataStoreFactory.URL_PARAM.key, csvFile.toURI());
 		params.put(CSVDataStoreFactory.FILE_PARAM.key, csvFile);
+		params.put("separator", sepOpt.get());
+		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, String.valueOf(sepOpt.get()).charAt(0));
 		params = setDataStoreParams_latLon(params, xCoordOpt, yCoordOpt);
+//		
+//		CSVDataStoreFactory factory = new CSVDataStoreFactory();		
+//		DataStore datastore = factory.createNewDataStore(params);
+		
 		
 		DataStore store = DataStoreFinder.getDataStore(params);		
 
@@ -700,18 +708,17 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return simpleFeatureCollection;
 	}
 	
-	private Map<String, Serializable> setDataStoreParams_attributes(Map<String, Serializable> params) {
+	private Map<String, Object> setDataStoreParams_attributes(Map<String, Object> params) {
 		// attributes only strategy in order to only parse attributes without geometry
 		params.put(CSVDataStoreFactory.STRATEGYP.key, CSVDataStoreFactory.ATTRIBUTES_ONLY_STRATEGY);
 		// params.put(CSVDataStoreFactory.SEPERATORCHAR.key, sepOpt.get().charAt(0));
 		return params;
 	}
 	
-	private Map<String, Serializable> setDataStoreParams_latLon(Map<String, Serializable> params, Optional<String> xCoordOpt, Optional<String> yCoordOpt) {
+	private Map<String, Object> setDataStoreParams_latLon(Map<String, Object> params, Optional<String> xCoordOpt, Optional<String> yCoordOpt) {
 		params.put(CSVDataStoreFactory.STRATEGYP.key, CSVDataStoreFactory.SPECIFC_STRATEGY);
-		// swap coordinate order as CSV store creates a location property with POINT (lat, lng)
-		params.put(CSVDataStoreFactory.LATFIELDP.key, xCoordOpt.get());
-		params.put(CSVDataStoreFactory.LnGFIELDP.key, yCoordOpt.get());
+		params.put(CSVDataStoreFactory.LATFIELDP.key, yCoordOpt.get());
+		params.put(CSVDataStoreFactory.LnGFIELDP.key, xCoordOpt.get());
 //		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, sepOpt.get().charAt(0));
 		return params;
 	}
