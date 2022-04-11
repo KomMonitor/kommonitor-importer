@@ -48,13 +48,13 @@ public class TableStreetHousenumberCityConverterTest {
         convDef.setMimeType(MIME_TYPE);
         convDef.setEncoding(ENCODING);
         ParameterValueType param_separator = new ParameterValueType();
-        param_separator.setName("separator");
+        param_separator.setName("Trennzeichen");
         param_separator.setValue(";");
         ParameterValueType param_streetHousenumber = new ParameterValueType();
-        param_streetHousenumber.setName("streetAndHousenumberColumn");
+        param_streetHousenumber.setName("Strasse_Hausnummer_Spaltenname");
         param_streetHousenumber.setValue("streetAndNumber");
         ParameterValueType param_city = new ParameterValueType();
-        param_city.setName("cityColumn");
+        param_city.setName("Stadt_Spaltenname");
         param_city.setValue("city");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_separator);

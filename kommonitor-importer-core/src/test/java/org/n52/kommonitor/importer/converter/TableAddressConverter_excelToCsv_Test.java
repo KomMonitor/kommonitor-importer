@@ -28,7 +28,7 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
  */
 public class TableAddressConverter_excelToCsv_Test {
 
-    private final static String MIME_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    private final static String MIME_TYPE = "application/excel-spreadsheet";
     private final static String ENCODING = "UTF-8";
 
     private static ConverterDefinitionType convDef;
@@ -51,7 +51,7 @@ public class TableAddressConverter_excelToCsv_Test {
         param_separator.setName("separator");
         param_separator.setValue(",");
         ParameterValueType param_adresse = new ParameterValueType();
-        param_adresse.setName("addressColumn");
+        param_adresse.setName("Adresse_Spaltenname");
         param_adresse.setValue("Adresse");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_separator);

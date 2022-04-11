@@ -1,6 +1,6 @@
-DatumReg;ID;covPos;paDatumPositiv;Negativ;paDatumNegativ;Verstorben;paDatumVerstorben;Enntisoliert;Quarant‰ne;von;Bis;Alter;paStraﬂe;Hausnummer;paHausNrZusatz;Plz;psStadt;Probe Angeordnet;paAdresseID;ETRSh;ETSRe
+DatumReg;ID;covPos;paDatumPositiv;Negativ;paDatumNegativ;Verstorben;paDatumVerstorben;Enntisoliert;Quarant√§ne;von;Bis;Alter;paStra√üe;Hausnummer;paHausNrZusatz;Plz;psStadt;Probe Angeordnet;paAdresseID;ETRSh;ETSRe
 12.02.2020;1;FALSCH;;WAHR;;FALSCH;;Falsch;FALSCH;;;66;Scheppener Weg;25;;45239;Essen;WAHR;5698;5694642.489;32362916.86
-27.02.2020;2;FALSCH;;WAHR;;FALSCH;;Falsch;FALSCH;;;41;Dixb‰ume;52;;45257;Essen;WAHR;1563;5694787.751;32366840.84
+27.02.2020;2;FALSCH;;WAHR;;FALSCH;;Falsch;FALSCH;;;41;Dixb√§ume;52;;45257;Essen;WAHR;1563;5694787.751;32366840.84
 28.02.2020;3;WAHR;29.02.2020;FALSCH;;WAHR;02.03.2020;;WAHR;29.02.2020;02.03.2020;78;Grabenstr.;10;;45141;Essen;WAHR;6339;5704692.596;32363608.61
 16.03.2020;4;WAHR;20.03.2020;FALSCH;;FALSCH;;WAHR;WAHR;20.03.2020;05.04.2020;32;Ohmstr.;17;;45143;Essen;WAHR;3897;5702936.531;32358987.77
 19.03.2020;5;FALSCH;;WAHR;;FALSCH;;Falsch;FALSCH;;;91;Kantstr.;1;a;45219;Essen;WAHR;9347;5693478.561;32355737.35

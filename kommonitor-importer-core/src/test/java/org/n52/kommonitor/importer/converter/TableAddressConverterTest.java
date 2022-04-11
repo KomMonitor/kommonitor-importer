@@ -48,10 +48,10 @@ public class TableAddressConverterTest {
         convDef.setMimeType(MIME_TYPE);
         convDef.setEncoding(ENCODING);
         ParameterValueType param_separator = new ParameterValueType();
-        param_separator.setName("separator");
+        param_separator.setName("Trennzeichen");
         param_separator.setValue(";");
         ParameterValueType param_adresse = new ParameterValueType();
-        param_adresse.setName("addressColumn");
+        param_adresse.setName("Adresse_Spaltenname");
         param_adresse.setValue("Adresse");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_separator);

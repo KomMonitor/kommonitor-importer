@@ -1,27 +1,27 @@
 package org.n52.kommonitor.importer.converter;
 
-import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
-import org.geotools.GML;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
+
+import org.geotools.wfs.GML;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.utils.ImportMonitor;
-import org.n52.kommonitor.models.*;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
-
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.IndicatorPropertyMappingType;
+import org.n52.kommonitor.models.ParameterValueType;
+import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.TimeseriesMappingType;
 
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>

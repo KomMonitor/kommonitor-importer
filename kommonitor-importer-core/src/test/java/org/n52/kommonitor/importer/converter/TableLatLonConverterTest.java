@@ -52,13 +52,13 @@ public class TableLatLonConverterTest {
         param_crs.setName("CRS");
         param_crs.setValue("EPSG:4647");
         ParameterValueType param_separator = new ParameterValueType();
-        param_separator.setName("separator");
+        param_separator.setName("Trennzeichen");
         param_separator.setValue(";");
         ParameterValueType param_xCoord = new ParameterValueType();
-        param_xCoord.setName("xCoordColumn");
+        param_xCoord.setName("X-Koordinatenspalte (Rechtswert)");
         param_xCoord.setValue("ETSRe");
         ParameterValueType param_yCoord = new ParameterValueType();
-        param_yCoord.setName("yCoordColumn");
+        param_yCoord.setName("Y-Koordinatenspalte (Hochwert)");
         param_yCoord.setValue("ETRSh");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_crs);
