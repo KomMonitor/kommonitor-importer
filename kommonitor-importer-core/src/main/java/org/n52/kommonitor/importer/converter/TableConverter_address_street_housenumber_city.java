@@ -107,14 +107,14 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
     		if (postcodeOpt.isPresent()) {
     			String postcode = String.valueOf(feature.getAttribute(postcodeOpt.get()));
     			if(postcode != null && !postcode.isEmpty()) {
-    				addressAsString += "," + postcode;
+    				addressAsString += " " + postcode;
     			}			
     		}
     		
     		if (cityOpt.isPresent() ) {
     			String city = (String)feature.getAttribute(cityOpt.get());
-    			if(city != null && city != "") {
-    				addressAsString += "," + city;
+    			if(city != null && !city.isEmpty()) {
+    				addressAsString += " " + city;
     			}
     		}
     		

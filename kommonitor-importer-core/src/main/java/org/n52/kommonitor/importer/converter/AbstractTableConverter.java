@@ -473,19 +473,19 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	    	
 	    	String queryString = "" + failedStructuredInput.getStreet() + ","  + failedStructuredInput.getHousenumber();
 	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "" && !failedStructuredInput.getPostcode().isEmpty()) {
-	    		queryString += "," + failedStructuredInput.getPostcode();
+	    		queryString += " " + failedStructuredInput.getPostcode();
 	    	}
 	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
-	    		queryString += "," + failedStructuredInput.getCity();
+	    		queryString += " " + failedStructuredInput.getCity();
 	    	}
 	    	if(failedStructuredInput.getCountry() != null && failedStructuredInput.getCountry() != "") {
-	    		queryString += "," + failedStructuredInput.getCountry();
+	    		queryString += " " + failedStructuredInput.getCountry();
 	    	}
 	    	if(failedStructuredInput.getState() != null && failedStructuredInput.getState() != "") {
-	    		queryString += "," + failedStructuredInput.getState();
+	    		queryString += " " + failedStructuredInput.getState();
 	    	}
 	    	if(failedStructuredInput.getDistrict() != null && failedStructuredInput.getDistrict() != "") {
-	    		queryString += "," + failedStructuredInput.getDistrict();
+	    		queryString += " " + failedStructuredInput.getDistrict();
 	    	}
 	    	
 	    	queryStrings.add(queryString);
