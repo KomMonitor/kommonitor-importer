@@ -217,7 +217,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 	private File convertToCsvFile(ConverterDefinitionType converterDefinition, Dataset dataset, String fileName, String fileEnding)
 			throws ConverterException, IOException {
-		File csvFile;
+		File csvInputFile;
+		File csvFile_UTF8;
 		InputStream inputStream = getInputStream(converterDefinition, dataset);
 		Path newTmpFilePath = Files.createTempFile(fileName, fileEnding);
 		
@@ -226,14 +227,12 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 				newTmpFilePath, 
 			      StandardCopyOption.REPLACE_EXISTING);		
 		
-		csvFile = newTmpFilePath.toFile();
+		csvInputFile = newTmpFilePath.toFile();
 		
 		Path newTmpFilePath_utf8 = Files.createTempFile(fileName + "_UTF-8", fileEnding);
-		FileUtils.convertFileToUtf8(csvFile, newTmpFilePath_utf8.toFile());
+		csvFile_UTF8 = FileUtils.convertFileToUtf8(csvInputFile, newTmpFilePath_utf8.toFile());
 		
-		csvFile.delete();
-		
-		return newTmpFilePath_utf8.toFile();
+		return csvFile_UTF8;
 	}
 	
 	static private Pattern rxquote = Pattern.compile("\"");
