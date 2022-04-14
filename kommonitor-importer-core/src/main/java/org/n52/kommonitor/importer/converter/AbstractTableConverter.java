@@ -239,10 +239,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 	static private String encodeExcelValue(String value) {
 		
-		if (value.contains("Mönchen") || value.contains("\n")) {
-			System.out.println();
-		}
-		
 		// first replace any line feeds or carriage returns
 		value = value.replaceAll("-\n", "");
 		value = value.replaceAll("-\r", "");
