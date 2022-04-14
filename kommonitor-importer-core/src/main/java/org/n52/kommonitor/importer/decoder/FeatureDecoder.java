@@ -264,6 +264,10 @@ public class FeatureDecoder {
         } else {
             indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
         }
+        
+        if (indicatorValue.isNaN()) {
+        	indicatorValue = null;
+        }
 
 //        if (!keepMissingOrNullValueIndicator && (indicatorValueProperty != null || indicatorValueProperty.getValue() != null)) {
 //
@@ -536,6 +540,11 @@ public class FeatureDecoder {
         if (value instanceof Float) {
             return (Float) value;
         } else if (value instanceof String) {
+        	// ensure that String does not contain any comma as decimal seperator
+        	value = ((String)value).replace(",", ".");
+        	if (((String)value).isEmpty()) {
+        		return Float.NaN;
+        	}
             return Float.parseFloat((String) value);
         } else if (value instanceof Number) {
             return ((Number) value).floatValue();
