@@ -238,6 +238,17 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	static private Pattern rxquote = Pattern.compile("\"");
 
 	static private String encodeExcelValue(String value) {
+		
+		if (value.contains("Mönchen") || value.contains("\n")) {
+			System.out.println();
+		}
+		
+		// first replace any line feeds or carriage returns
+		value = value.replaceAll("-\n", "");
+		value = value.replaceAll("-\r", "");
+		value = value.replaceAll("\n", " ");
+		value = value.replaceAll("\r", " ");
+		
 	    boolean needQuotes = false;
 	    if ( value.indexOf(',') != -1 || value.indexOf('"') != -1 ||
 	         value.indexOf('\n') != -1 || value.indexOf('\r') != -1 )
