@@ -651,6 +651,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		for (int i = 1; i < csvRows.size(); i++) {
 			String[] csvRow = csvRows.get(i);
 			
+			if (isOnlyEmptyValues(csvRow)) {
+				continue;
+			}
+			
 			for (String value : csvRow) {
 				featureBuilder.add(value);
 			}	
@@ -660,6 +664,19 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		}
 		
 		return featureCollection;
+	}
+
+	private boolean isOnlyEmptyValues(String[] csvRow) {
+		
+		boolean isOnlyEmpty = true;
+		for (String string : csvRow) {
+			if (string != null && !string.isEmpty()) {
+				isOnlyEmpty = false;
+				break;
+			}
+		}
+		
+		return isOnlyEmpty;
 	}
 
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_latLon(ConverterDefinitionType converterDefinition,
