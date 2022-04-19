@@ -527,7 +527,7 @@ public class FeatureDecoder {
      * @return the value of the fetched feature property as Float
      * @throws DecodingException if the property value could not be parsed as Float
      */
-    float getPropertyValueAsFloat(SimpleFeature feature, String propertyName) throws DecodingException {
+    public float getPropertyValueAsFloat(SimpleFeature feature, String propertyName) throws DecodingException {
         Object propertyValue = getPropertyValue(feature, propertyName);
         try {
             return parsePropertyValueAsFloat(propertyValue);

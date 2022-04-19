@@ -3,6 +3,7 @@ package org.n52.kommonitor.importer.converter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -35,14 +36,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFinder;
-import org.geotools.data.FeatureSource;
-import org.geotools.data.csv.CSVDataStoreFactory;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.locationtech.jts.geom.Coordinate;
@@ -70,6 +66,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 
 /**
  * An abstract converter that encapsulates definitions of supported format types for a converter
@@ -244,6 +246,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		value = value.replaceAll("-\r", "");
 		value = value.replaceAll("\n", " ");
 		value = value.replaceAll("\r", " ");
+		
+		// replace any comma by dot
+//		value = value.replaceAll(",", ".");
 		
 	    boolean needQuotes = false;
 	    if ( value.indexOf(',') != -1 || value.indexOf('"') != -1 ||
@@ -569,35 +574,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return geocoderResponseMap;
 	}
 	
-//	private File replaceCSVSeparatorToComma(File csvFile, Optional<String> sepOpt) throws IOException {
-//		try {
-//			LOG.info("Replacing original separator '{}' from original CSV file with '{}' in order to enforce correct column separation", sepOpt.get(), SEPARATOR_COMMA);
-//			
-//			final Path path = Paths.get(csvFile.toURI());
-//			byte[] buff = Files.readAllBytes(path);
-//			String s = new String(buff, FileUtils.getFileEncoding(csvFile));
-//			// first find occurrences of target replace char
-//			if (s.contains(SEPARATOR_COMMA)) {
-//				if (s.contains(SEPARATOR_REPLACE_CHAR) && sepOpt.get().equalsIgnoreCase(SEPARATOR_REPLACE_CHAR)) {
-//					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR_BACKUP);
-//				}
-//				else {
-//					s = s.replace(SEPARATOR_COMMA, SEPARATOR_REPLACE_CHAR);
-//				}
-//			}
-//			
-//			s = s.replace(sepOpt.get(), SEPARATOR_COMMA);
-//			Files.write(path, s.getBytes());		
-//            
-//            LOG.info("Find and Replace done!!!");
-//            return csvFile;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            LOG.error("There was an error while trying to replace specified separator {} from original csv file to enforce usage of comma-separator.", sepOpt.get());
-//            throw e;
-//        }
-//	}
-	
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_attributesOnly(ConverterDefinitionType converterDefinition, Dataset dataset, Optional<String> sepOpt) throws Exception {
 		
 		if(! sepOpt.isPresent()) {
@@ -609,128 +585,119 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		File csvFile;
 		
 		csvFile = convertDataToFile(converterDefinition, dataset, data);
-		
-		// replace separator if it is not comma
 		// make sure to take the most current seperator definition, as it might have changed due to excel conversion
 		sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
-//		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
-//			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
-//		}
 		
-		
-		Map<String, Object> params = new HashMap<String, Object>();
-		
-		params.put(CSVDataStoreFactory.URL_PARAM.key, csvFile.toURI());
-		params.put(CSVDataStoreFactory.FILE_PARAM.key, csvFile);
-		params.put("separator", sepOpt.get());
-		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, String.valueOf(sepOpt.get()).charAt(0));
-		params = setDataStoreParams_attributes(params);
-		
-		DataStore store = DataStoreFinder.getDataStore(params);		
-
-		String typeName = store.getTypeNames()[0];
-
-		FeatureSource<SimpleFeatureType, SimpleFeature> source =
-				store.getFeatureSource(typeName);
-
-		FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures();
-		SimpleFeatureCollection simpleFeatureCollection = new DefaultFeatureCollection(collection);
-		
+		SimpleFeatureCollection simpleFeatureCollection = parseCsvToFeatureCollection(csvFile, sepOpt.get().charAt(0));
+				
 		if(simpleFeatureCollection == null || simpleFeatureCollection.size() == 0) {
 			throw new ConverterException("No features could be parsed from CSV data input.");
 		}		
 		
-		store.dispose();
-		csvFile.delete();
-		
-//		SimpleFeatureIterator features = simpleFeatureCollection.features();
-//		
-//		while(features.hasNext()) {
-//			SimpleFeature next = features.next();
-//			
-//			next.setDefaultGeometry(next.getAttribute(GEOMETRY_ATTRIBUTE_NAME));
-//		}
-//		
-//		features.close();
+		csvFile.delete();	
 		
 		return simpleFeatureCollection;
 	}
 	
-	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_latLon(ConverterDefinitionType converterDefinition,
-			Dataset dataset, Optional<String> sepOpt, Optional<String> crsOpt, Optional<String> xCoordOpt,
-			Optional<String> yCoordOpt) throws IOException, ConverterException {
+	private SimpleFeatureCollection parseCsvToFeatureCollection(File csvFile, char delimiter) throws IOException, CsvException {
 		
-		if(! sepOpt.isPresent()) {
-			forceSeparatorConverterParameter_asComma(converterDefinition);
+		// prepare CSV Reader
+		FileReader reader = new FileReader(csvFile);
+		
+		CSVParser parser = new CSVParserBuilder()
+			    .withSeparator(delimiter)
+			    .withIgnoreQuotations(false)
+			    .build();
+
+			CSVReader csvReader = new CSVReaderBuilder(reader)
+			    .withSkipLines(0)
+			    .withCSVParser(parser)
+			    .build();
+			
+		// parse CSV content	
+			
+		List<String[]> csvRows = new ArrayList<>();
+		try {
+			
+			csvRows = csvReader.readAll();
+		} finally {
+			reader.close();
+		    csvReader.close();
+		}	    
+		
+		// build FeatureCollection
+		return buildFeatureCollectionFromCSVRows(csvRows);
+		    
+	}
+
+	private SimpleFeatureCollection buildFeatureCollectionFromCSVRows(List<String[]> csvRows) {
+		SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
+		String[] headers = csvRows.get(0);
+		
+		//set global state
+		builder.setName( "kommonitor" );
+		builder.setNamespaceURI( "http://www.geotools.org/" );
+		builder.setSRS( "EPSG:4326" );		
+		
+		for (String header : headers) {
+			builder.add(header, String.class);
+		}		
+		
+		SimpleFeatureType featureType = builder.buildFeatureType();
+		SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(featureType);
+		DefaultFeatureCollection featureCollection = new DefaultFeatureCollection();
+		
+		// get actual features beginning from index 1
+		for (int i = 1; i < csvRows.size(); i++) {
+			String[] csvRow = csvRows.get(i);
+			
+			for (String value : csvRow) {
+				featureBuilder.add(value);
+			}	
+			
+			featureCollection.add(featureBuilder.buildFeature(null));
+			
 		}
 		
-		Object data = dataset.getData();
-		
-		File csvFile;
-		
-		csvFile = convertDataToFile(converterDefinition, dataset, data);
-		
-		// replace separator if it is not comma
-//		if(! SEPARATOR_COMMA.equalsIgnoreCase(sepOpt.get())) {
-//			csvFile = replaceCSVSeparatorToComma(csvFile, sepOpt);
-//		}
-		
-		
-		Map<String, Object> params = new HashMap<String, Object>();
-		
-		params.put(CSVDataStoreFactory.URL_PARAM.key, csvFile.toURI());
-		params.put(CSVDataStoreFactory.FILE_PARAM.key, csvFile);
-		params.put("separator", sepOpt.get());
-		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, String.valueOf(sepOpt.get()).charAt(0));
-		params = setDataStoreParams_latLon(params, xCoordOpt, yCoordOpt);
-//		
-//		CSVDataStoreFactory factory = new CSVDataStoreFactory();		
-//		DataStore datastore = factory.createNewDataStore(params);
-		
-		
-		DataStore store = DataStoreFinder.getDataStore(params);		
+		return featureCollection;
+	}
 
-		String typeName = store.getTypeNames()[0];
+	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_latLon(ConverterDefinitionType converterDefinition,
+			Dataset dataset, Optional<String> sepOpt, Optional<String> crsOpt, Optional<String> xCoordOpt,
+			Optional<String> yCoordOpt) throws Exception {
 
-		FeatureSource<SimpleFeatureType, SimpleFeature> source =
-				store.getFeatureSource(typeName);
-
-		FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures();
-		SimpleFeatureCollection simpleFeatureCollection = new DefaultFeatureCollection(collection);
-		
-		if(simpleFeatureCollection == null || simpleFeatureCollection.size() == 0) {
-			throw new ConverterException("No features could be parsed from CSV data input.");
-		}		
+		SimpleFeatureCollection simpleFeatureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
+		DefaultFeatureCollection simpleFeatureCollection_geometry = new DefaultFeatureCollection();
 		
 		SimpleFeatureIterator features = simpleFeatureCollection.features();
 		
+		SimpleFeatureType featureType_geometry = null;
+		SimpleFeatureBuilder builder = null;
+		
+		GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+		
 		while(features.hasNext()) {
 			SimpleFeature next = features.next();
+			if(featureType_geometry == null) {
+				featureType_geometry = getGeometryEnrichedFeatureTypeBuilder(next);
+				builder = new SimpleFeatureBuilder(featureType_geometry);
+			}
 			
-			next.setDefaultGeometry(next.getAttribute(GEOMETRY_ATTRIBUTE_NAME));
+			float x = featureDecoder.getPropertyValueAsFloat(next, xCoordOpt.get());
+			float y = featureDecoder.getPropertyValueAsFloat(next, yCoordOpt.get());
+						
+			Coordinate coords = new Coordinate(x, y);
+	        Geometry point = geometryFactory.createPoint(coords);
+	        
+	        builder.addAll(next.getAttributes());
+	        builder.add(point);
+	        
+	        simpleFeatureCollection_geometry.add(builder.buildFeature(null));
 		}
 		
 		features.close();
 		
-		store.dispose();
-		csvFile.delete();
-		
-		return simpleFeatureCollection;
-	}
-	
-	private Map<String, Object> setDataStoreParams_attributes(Map<String, Object> params) {
-		// attributes only strategy in order to only parse attributes without geometry
-		params.put(CSVDataStoreFactory.STRATEGYP.key, CSVDataStoreFactory.ATTRIBUTES_ONLY_STRATEGY);
-		// params.put(CSVDataStoreFactory.SEPERATORCHAR.key, sepOpt.get().charAt(0));
-		return params;
-	}
-	
-	private Map<String, Object> setDataStoreParams_latLon(Map<String, Object> params, Optional<String> xCoordOpt, Optional<String> yCoordOpt) {
-		params.put(CSVDataStoreFactory.STRATEGYP.key, CSVDataStoreFactory.SPECIFC_STRATEGY);
-		params.put(CSVDataStoreFactory.LATFIELDP.key, yCoordOpt.get());
-		params.put(CSVDataStoreFactory.LnGFIELDP.key, xCoordOpt.get());
-//		params.put(CSVDataStoreFactory.SEPERATORCHAR.key, sepOpt.get().charAt(0));
-		return params;
+		return simpleFeatureCollection_geometry;
 	}
 	
 	private static boolean isContainBOM(Path path) throws IOException {
