@@ -55,10 +55,10 @@ public class TableLatLonConverterTest {
         param_separator.setName("Trennzeichen");
         param_separator.setValue(";");
         ParameterValueType param_xCoord = new ParameterValueType();
-        param_xCoord.setName("X_Koordinatenspalte_(Rechtswert)");
+        param_xCoord.setName("X_Koordinatenspalte_Rechtswert");
         param_xCoord.setValue("ETSRe");
         ParameterValueType param_yCoord = new ParameterValueType();
-        param_yCoord.setName("Y_Koordinatenspalte_(Hochwert)");
+        param_yCoord.setName("Y_Koordinatenspalte_Hochwert");
         param_yCoord.setValue("ETRSh");
         List<ParameterValueType> params = new ArrayList<ParameterValueType>();
         params.add(param_crs);

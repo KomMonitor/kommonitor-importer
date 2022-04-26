@@ -22,9 +22,9 @@ import org.springframework.stereotype.Component;
 public class TableConverter_latLon extends AbstractTableConverter {
 	
 	private static final String NAME = "Tabelle_XY_Koordinate_zu_Punkt";
-    private static final String PARAM_X_COORD_COL = "X_Koordinatenspalte_(Rechtswert)";
+    private static final String PARAM_X_COORD_COL = "X_Koordinatenspalte_Rechtswert";
     private static final String PARAM_X_COORD_DESC = "Spalte mit Rechtswert";
-    private static final String PARAM_Y_COORD_COL = "Y_Koordinatenspalte_(Hochwert)";
+    private static final String PARAM_Y_COORD_COL = "Y_Koordinatenspalte_Hochwert";
     private static final String PARAM_Y_COORD_DESC = "Spalte mit Hochwert";
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";    
