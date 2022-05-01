@@ -6,6 +6,8 @@ import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.ParameterType;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,9 +28,11 @@ public class DataSourceRetrieverEncoder {
 
         if (retriever.getDataSourceParameters() != null && !retriever.getDataSourceParameters().isEmpty()) {
             Set<DataSourceParameter> parameters = retriever.getDataSourceParameters();
-            dataSourceType.setParameters(parameters.stream()
+            List<ParameterType> list = parameters.stream()
                     .map(this::encodeParameters)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList());
+            list.sort(Comparator.comparing(ParameterType::getName));
+			dataSourceType.setParameters(list);
         }
 
         return dataSourceType;

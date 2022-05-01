@@ -8,6 +8,7 @@ import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.models.ConverterType;
+import org.n52.kommonitor.models.ParameterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,9 +62,11 @@ public class ConvertersApiController implements ConvertersApi {
     public ResponseEntity<List<ConverterType>> getConverters() {
         LOG.info("Recevied 'getConverters' request");
 
-        return new ResponseEntity<List<ConverterType>>(converterRepository.getAll().stream()
+        List<ConverterType> list = converterRepository.getAll().stream()
                 .map(c -> encoder.simpleEncode((AbstractConverter) c))
-                .collect(Collectors.toList()), HttpStatus.OK);
+                .collect(Collectors.toList());
+        list.sort(Comparator.comparing(ConverterType::getName));
+		return new ResponseEntity<List<ConverterType>>(list, HttpStatus.OK);
     }
 
 }

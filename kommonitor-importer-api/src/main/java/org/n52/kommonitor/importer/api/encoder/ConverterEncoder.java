@@ -1,13 +1,17 @@
 package org.n52.kommonitor.importer.api.encoder;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterParameter;
 import org.n52.kommonitor.models.ConverterType;
 import org.n52.kommonitor.models.ParameterType;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import com.rometools.rome.feed.atom.Person;
 
 /**
  * Helper class for encoding an {@link AbstractConverter} into {@link ConverterType}
@@ -27,10 +31,32 @@ public class ConverterEncoder {
         ConverterType converterType = simpleEncode(converter);
 
         if (converter.getConverterParameters() != null && !converter.getConverterParameters().isEmpty()) {
-            converterType.setParameters(converter.getConverterParameters()
+            List<ParameterType> parametersList = converter.getConverterParameters()
                     .stream()
                     .map(this::encodeParameter)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList());
+            
+            // sort list 
+            parametersList.sort(new Comparator<ParameterType>(){
+         	   @Override
+         	   public int compare(final ParameterType lhs, ParameterType rhs) {
+         	     //TODO return 1 if rhs should be before lhs 
+         	     //     return -1 if lhs should be before rhs
+         	     //     return 0 otherwise (meaning the order stays the same)
+         		   // check parameter types for being mandatory and sort them alphabetically
+         		   if(lhs.isMandatory() && ! rhs.isMandatory()) {
+         			   return -1;
+         		   }
+         		   else if(! lhs.isMandatory() && rhs.isMandatory()) {
+         			   return 1;
+         		   }
+         		   else {
+         			   return lhs.getName().compareTo(rhs.getName());
+         		   }
+         	     }
+         	 });
+            
+			converterType.setParameters(parametersList);            
         }
 
         return converterType;

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,9 +60,11 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
     public ResponseEntity<List<DataSourceType>> getSupportedDataSourceTypes() {
         LOG.info("Recevied 'getSupportedDataSourceTypes' request");
         
-        return new ResponseEntity<List<DataSourceType>>(retrieverRepository.getAll().stream()
+        List<DataSourceType> list = retrieverRepository.getAll().stream()
                 .map(r -> encoder.simpleEncode(r))
-                .collect(Collectors.toList()), HttpStatus.OK);
+                .collect(Collectors.toList());
+        list.sort(Comparator.comparing(DataSourceType::getType));
+		return new ResponseEntity<List<DataSourceType>>(list, HttpStatus.OK);
     }
 
 }
