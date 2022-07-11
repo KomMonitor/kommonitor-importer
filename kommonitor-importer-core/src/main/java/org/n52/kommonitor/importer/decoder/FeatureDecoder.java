@@ -265,7 +265,7 @@ public class FeatureDecoder {
             indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
         }
         
-        if (indicatorValue.isNaN()) {
+        if (indicatorValue != null && indicatorValue.isNaN()) {
         	indicatorValue = null;
         }
 
@@ -543,6 +543,9 @@ public class FeatureDecoder {
         	// ensure that String does not contain any comma as decimal seperator
         	value = ((String)value).replace(",", ".");
         	if (((String)value).isEmpty()) {
+        		return Float.NaN;
+        	}
+        	if (((String)value).equalsIgnoreCase("null") || ((String)value).equalsIgnoreCase("undefined")) {
         		return Float.NaN;
         	}
             return Float.parseFloat((String) value);
