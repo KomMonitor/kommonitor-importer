@@ -1,6 +1,7 @@
 # Change Log
 
-## 2.0.0-beta
+## 2.0.0
+* temporarily ignore test for release v2 [e9b0263](e9b02638b80d9d6ce0148e3f7ddac51ea892a6a6)
 * Merge branch &#39;master&#39; of https://github.com/KomMonitor/kommonitor-importer [89ca1ff](89ca1ff7198db8d13d9e383c7d2f651ad21827f8)
     * Fix code snippet [dbc7fb8](dbc7fb8f0033d5dbc9a140ce90aa6a72dd918ab7)
 * improve null or empty value decoding of timeseries values. Map empty String, &quot;null&quot; or &quot;undefined&quot; to FLOAT.NAN and consequently as timeseries null value [694ce9c](694ce9c7b6d83afa7facbb06da6afc7bf89fb99e)
