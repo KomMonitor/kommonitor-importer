@@ -54,6 +54,7 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
+import org.n52.kommonitor.importer.geocoder.model.GeocodingPropertiesType.GeocoderankEnum;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
@@ -512,39 +513,41 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	}
 
 	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) throws Exception {
-		features = features.stream()
+		
+		/*
+		 * geocoder proxy has a ranking evaluation mechanism.
+		 * rank = unresolved --> bad geocoding
+		 * rank = low_accuracy --> moderate maybe inaccurate geocoding (same street and city/postcode as in query, but no housenumber)
+		 * rank = high_accuracy --> best most accuryte geocoding (same street and city/postcode and same housenumber as in query)
+		 */
+		List<GeocodingFeatureType> candidates = new ArrayList<GeocodingFeatureType>();
+		candidates = features.stream()
 			      .filter(feature -> {
-			    	  boolean hasHousenumber = feature.getProperties().getHousenumber() != null;
-//			    	  boolean isAcceptedCategory = isAcceptedCategory(feature.getProperties().getCategory());
-//			    	  return hasHousenumber && isAcceptedCategory;
-			    	  return hasHousenumber;
+			    	  	GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
+			    	  	if(geocoderank.equals(GeocoderankEnum.HIGH_ACCURACY)) {
+			    	  		return true;
+			    	  	}
+			    	  	return false;
 			    	  })
 			      .collect(Collectors.toList());
 		
-		// include a check for the actual street name of the results
-		// if there are different street names then the geocoding was not resolvable 
-		int numDifferentStreetNamesResolved = 1;
-		if(features.size() > 0) {
-			String firstStreetName = features.get(0).getProperties().getStreet();
-			
-			for (GeocodingFeatureType geocodingFeature : features) {
-				String street = geocodingFeature.getProperties().getStreet();
-				if(street != null && ! street.equalsIgnoreCase(firstStreetName) ) {
-					numDifferentStreetNamesResolved++;
-				}
-			}
-			if (numDifferentStreetNamesResolved > 1) {
-				throw new Exception("geocoding was resolved to " + numDifferentStreetNamesResolved + " different streets. Please check for possible spelling mistakes.");
-			}
+		// if no high_accuracy objects exist then find low_accuracy but acceptable objects
+		if(candidates.size() == 0) {
+			candidates = features.stream()
+		      .filter(feature -> {
+		    	  	GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
+		    	  	if(geocoderank.equals(GeocoderankEnum.LOW_ACCURACY)) {
+		    	  		return true;
+		    	  	}
+		    	  	return false;
+		    	  })
+		      .collect(Collectors.toList());
 		}
-		
-		
-		
 		
 		// filter output to one result only
 		List<GeocodingFeatureType> oneItemList = new ArrayList<GeocodingFeatureType>();
-		if(features.size() > 0) {
-			oneItemList.add(features.get(0));
+		if(candidates.size() > 0) {
+			oneItemList.add(candidates.get(0));
 		}
 		
 		return oneItemList;
