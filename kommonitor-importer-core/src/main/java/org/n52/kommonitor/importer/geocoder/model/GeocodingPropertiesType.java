@@ -101,9 +101,20 @@ public class GeocodingPropertiesType {
   }  
   @JsonProperty("geocoderank")
   private GeocoderankEnum geocoderank = null;
+  
+  @JsonProperty("geocodedesc")
+  private GeocoderankEnum geocodedesc = null;
 
 
-  public GeocodingPropertiesType category(String category) {
+  public GeocoderankEnum getGeocodedesc() {
+	return geocodedesc;
+}
+
+public void setGeocodedesc(GeocoderankEnum geocodedesc) {
+	this.geocodedesc = geocodedesc;
+}
+
+public GeocodingPropertiesType category(String category) {
     this.category = category;
     return this;
   }
@@ -310,7 +321,8 @@ public class GeocodingPropertiesType {
         Objects.equals(this.district, geocodingPropertiesType.district) &&
         Objects.equals(this.street, geocodingPropertiesType.street) &&
         Objects.equals(this.housenumber, geocodingPropertiesType.housenumber) &&
-        Objects.equals(this.geocoderank, geocodingPropertiesType.geocoderank);
+        Objects.equals(this.geocoderank, geocodingPropertiesType.geocoderank) &&
+        Objects.equals(this.geocodedesc, geocodingPropertiesType.geocodedesc);
   }
 
   @Override
@@ -335,6 +347,7 @@ public class GeocodingPropertiesType {
     sb.append("    street: ").append(toIndentedString(street)).append("\n");
     sb.append("    housenumber: ").append(toIndentedString(housenumber)).append("\n");
     sb.append("    geocoderank: ").append(toIndentedString(geocoderank)).append("\n");
+    sb.append("    geocodedesc: ").append(toIndentedString(geocodedesc)).append("\n");
     sb.append("}");
     return sb.toString();
   }
