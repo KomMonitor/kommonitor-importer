@@ -103,14 +103,14 @@ public class GeocodingPropertiesType {
   private GeocoderankEnum geocoderank = null;
   
   @JsonProperty("geocodedesc")
-  private GeocoderankEnum geocodedesc = null;
+  private String geocodedesc = null;
 
 
-  public GeocoderankEnum getGeocodedesc() {
+  public String getGeocodedesc() {
 	return geocodedesc;
 }
 
-public void setGeocodedesc(GeocoderankEnum geocodedesc) {
+public void setGeocodedesc(String geocodedesc) {
 	this.geocodedesc = geocodedesc;
 }
 
