@@ -1,6 +1,7 @@
 # Change Log
 
-## 2.0.1
+## 2.0.2
+* Bump keycloak-adapter version [8d97014](8d97014e6b86a8a1ac66c4e94615c1e96af2c142)
 * Bump keycloak-adapter version [46edfc4](46edfc4fba6638b912dafa0f3d5cfa980a4f3cb5)
 * Change type of property &quot;geocodedesc&quot; added in previous commit [3a041ce] to String. [0be5396](0be5396958d4303baab525c3f294ebccd55d60a4)
 * add another property for geocoding purposes to data model [3a041ce](3a041ce3e04ea72a4933022e567af0ed1bf35c43)
