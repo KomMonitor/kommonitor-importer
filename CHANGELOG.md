@@ -1,6 +1,11 @@
 # Change Log
 
-## 2.0.0
+## 2.0.1-SNAPSHOT
+* Bump keycloak-adapter version [46edfc4](46edfc4fba6638b912dafa0f3d5cfa980a4f3cb5)
+* Change type of property &quot;geocodedesc&quot; added in previous commit [3a041ce] to String. [0be5396](0be5396958d4303baab525c3f294ebccd55d60a4)
+* add another property for geocoding purposes to data model [3a041ce](3a041ce3e04ea72a4933022e567af0ed1bf35c43)
+* improve geocoding imports by considering new geocoderank property of geocoder proxy component [04889b0](04889b0497c425cd927b767bf438ada2143d6c1f)
+* implement a simple Shape converter using ZIP folder with flat structure [a1265c0](a1265c02f374d1452f46be4f9bd3dc773985ed16)
 * temporarily ignore test for release v2 [e9b0263](e9b02638b80d9d6ce0148e3f7ddac51ea892a6a6)
 * Merge branch &#39;master&#39; of https://github.com/KomMonitor/kommonitor-importer [89ca1ff](89ca1ff7198db8d13d9e383c7d2f651ad21827f8)
     * Fix code snippet [dbc7fb8](dbc7fb8f0033d5dbc9a140ce90aa6a72dd918ab7)
