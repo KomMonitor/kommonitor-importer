@@ -1,6 +1,9 @@
 # Change Log
 
-## 2.0.2
+## 2.0.3
+* Remove deprecated Docker Compose [38ffc42](38ffc42b2aa13ee6c6270c93ea596e14f109aaed)
+* Add Docker Compose setup for quickstart [a7050ce](a7050ce303774ca65bf53ad04ceda4f9b0e2f6ea)
+* Make host for Swagger-UI configurable [89f722e](89f722efba5d3df681a09b892015313c967fa8a2)
 * Bump keycloak-adapter version [8d97014](8d97014e6b86a8a1ac66c4e94615c1e96af2c142)
 * Bump keycloak-adapter version [46edfc4](46edfc4fba6638b912dafa0f3d5cfa980a4f3cb5)
 * Change type of property &quot;geocodedesc&quot; added in previous commit [3a041ce] to String. [0be5396](0be5396958d4303baab525c3f294ebccd55d60a4)
