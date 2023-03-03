@@ -33,13 +33,17 @@ public class SwaggerDocumentationConfig {
     }
 
     @Bean
-    public Docket customImplementation(ServletContext servletContext, @Value("${kommonitor.swagger-ui.base-path:}") String basePath) {
+    public Docket customImplementation(
+            ServletContext servletContext,
+            @Value("${kommonitor.swagger-ui.host:}") String host,
+            @Value("${kommonitor.swagger-ui.base-path:}") String basePath) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.n52.kommonitor.importer.api"))
                 .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
+                .host(host)
                 .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
                 .apiInfo(apiInfo());
     }

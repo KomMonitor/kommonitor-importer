@@ -30,22 +30,25 @@ kommonitor:
     geocoder-api-url: "https://geocoder.fbg-hsbo.de/geocoder"
     file-storage-location: "/tmp/kommonitor"
   swagger-ui:
-    # base-path: /importer
-    # do not use real values in production environment!!!
+    # Use the next two parameters if you run the API behind a reverse proxy
+    # Host address of the reverse proxy
+    #host: localhost
+    # Path mapping for this API in the reverse proxy
+    #base-path: /kommonitor/api/importer
     security:
       client-id: kommonitor-importer
-      secret: q4Ny6Q1R3XA4Fr0YtTt7hw0XnQasQ2Xc
+      secret: secret
 keycloak:
   enabled: true
-  realm: kommonitor-gib
-  auth-server-url: http://localhost:8090/auth
+  realm: kommonitor
+  auth-server-url: http://localhost:8080
   resource: kommonitor-importer
   bearer-only: true
   autodetect-bearer-only: false
   ssl-required: external
   public-client: false
   credentials:
-    secret: q4Ny6Q1R3XA4Fr0YtTt7hw0XnQasQ2Xc
+    secret: secret
   cors: true
   cors-allowed-methods: "*"
   securityConstraints[0]:
