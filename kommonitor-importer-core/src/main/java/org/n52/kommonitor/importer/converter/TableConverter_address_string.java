@@ -128,7 +128,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
 		
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = createRestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    

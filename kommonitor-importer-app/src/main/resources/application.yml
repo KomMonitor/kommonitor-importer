@@ -56,3 +56,7 @@ keycloak:
     securityCollections[0]:
       name: protected
       patterns[0]: /importer/*
+# Set a proxy for geocoder requests
+#proxy:
+#  host: host.to.proxy
+#  port: 8080

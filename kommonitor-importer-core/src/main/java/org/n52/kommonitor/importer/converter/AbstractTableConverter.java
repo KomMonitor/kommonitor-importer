@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
@@ -66,6 +68,7 @@ import org.opengis.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.opencsv.CSVParser;
@@ -75,9 +78,9 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
 /**
- * An abstract converter that encapsulates definitions of supported format types for a converter
+ * AAn abstract converter for geocoding address tables
  *
- * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:christian.danowski-buhren@hs-bochum.de">Christian Danowski-Buhren</a>
  */
 public abstract class AbstractTableConverter extends AbstractConverter {
 
@@ -94,6 +97,12 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected static final String PARAM_SEP = "Trennzeichen";
 	protected static final String PARAM_SEP_DESC = "Trennzeichensymbol des CSV Datensatzes - nur bei CSV anzugeben";
+
+	@Value("${proxy.host:#{null}}")
+	protected String proxyHost;
+
+	@Value("${proxy.port:#{null}}")
+	protected Integer proxyPort;
 	
 	@Value("${kommonitor.importer.geocoder-api-url:https://geocoder.fbg-hsbo.de/geocoder}")
     protected String geocoder_baseUrl;
@@ -101,7 +110,15 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected FeatureDecoder featureDecoder;
 	
 	protected Set<ConverterParameter> params;
-	
+
+	public String getProxyHost() {
+		return proxyHost;
+	}
+
+	public Integer getProxyPort() {
+		return proxyPort;
+	}
+
 	public AbstractTableConverter(FeatureDecoder featureDecoder) {
 		this.featureDecoder = featureDecoder;
 		
@@ -399,14 +416,26 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = createRestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    
 	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryStringList.toArray(), GeocodingOutputType[].class);
 		return geocoderResponseArray;
 	}
-	
+
+	protected RestTemplate createRestTemplate() {
+		if(getProxyHost() != null && getProxyPort() != null) {
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(getProxyHost(), getProxyPort()));
+			SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+			requestFactory.setProxy(proxy);
+			return new RestTemplate(requestFactory);
+		}
+		else {
+			return new RestTemplate();
+		}
+	}
+
 	protected Map<String, GeocodingOutputType> queryGeolocation_byStructuredInput(
 			Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs) throws UnsupportedEncodingException {
 		List<GeocodingStructuredBatchInputType> queryInputList = new ArrayList<GeocodingStructuredBatchInputType>();
@@ -425,7 +454,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = createRestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    
