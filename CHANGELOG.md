@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.0.4-SNAPSHOT
+## 2.0.4
 * Add proxy support for geocoder requests [ed6412c](ed6412ca61d9da1611dcc68b2317eea6b3428542)
 * Remove deprecated Docker Compose [38ffc42](38ffc42b2aa13ee6c6270c93ea596e14f109aaed)
 * Add Docker Compose setup for quickstart [a7050ce](a7050ce303774ca65bf53ad04ceda4f9b0e2f6ea)
