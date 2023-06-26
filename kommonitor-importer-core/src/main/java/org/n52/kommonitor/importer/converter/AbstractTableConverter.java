@@ -209,7 +209,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		else {
 			csvFile = convertToCsvFile(converterDefinition, dataset, fileName, fileEnding);
 		}		
-//		}
+//		}		
 		
 		// remove BOM if inlcuded
 		removeBom(csvFile.toPath());
@@ -663,16 +663,23 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	}
 
 	private SimpleFeatureCollection buildFeatureCollectionFromCSVRows(List<String[]> csvRows) {
+		
 		SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
 		String[] headers = csvRows.get(0);
 		
 		//set global state
 		builder.setName( "kommonitor" );
 		builder.setNamespaceURI( "http://www.geotools.org/" );
-		builder.setSRS( "EPSG:4326" );		
+		builder.setSRS( "EPSG:4326" );	
 		
-		for (String header : headers) {
-			builder.add(header, String.class);
+		List<Integer> headerIndices = new ArrayList<>();
+		
+		for (int index=0; index < headers.length; index++) {
+			// prevent empty headers
+			if(headers[index] != null) {
+				headerIndices.add(index);
+				builder.add(headers[index], String.class);
+			}		
 		}		
 		
 		SimpleFeatureType featureType = builder.buildFeatureType();
@@ -687,8 +694,12 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 				continue;
 			}
 			
-			for (String value : csvRow) {
-				featureBuilder.add(value);
+			for (int k=0; k < csvRow.length; k++) {
+
+				// make sure to only consider CSV values of non-empty-headed row cells
+				if(headerIndices.contains(k)) {
+					featureBuilder.add(csvRow[k]);
+				}				
 			}	
 			
 			featureCollection.add(featureBuilder.buildFeature(null));
