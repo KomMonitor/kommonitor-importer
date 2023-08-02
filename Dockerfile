@@ -1,5 +1,5 @@
 # ---- Base Maven build ----
-FROM maven:3.5-jdk-8-alpine as build
+FROM maven:3-eclipse-temurin-17-alpine as build
 WORKDIR /app
 
 # Cache dependencies as long as the POM changes
@@ -15,7 +15,7 @@ RUN mvn -f ./kommonitor-importer/pom.xml dependency:go-offline --fail-never
 COPY . /app/kommonitor-importer/
 
 # Run the Maven build
-RUN mvn -f ./kommonitor-importer/pom.xml clean install -Dapp.finalName=kommonitor-importer-app -DskipTests
+RUN mvn -f ./kommonitor-importer/pom.xml clean install -Dapp.finalName=kommonitor-importer-app
 
 # ---- Run the application ----
 FROM openjdk:alpine
