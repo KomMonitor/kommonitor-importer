@@ -1,6 +1,12 @@
 # Change Log
 
-## 2.0.5
+## 2.0.6
+* Remove push to develop event for build action [9f13e1e](9f13e1e400a56e38b45b144ee1569a120293befb)
+* Fix git-changelog plugin version [f722d54](f722d5420d7c98797bcfc88f763959b714095e8f)
+* Fix CVE scan action [1802d1d](1802d1d6a0e80c46226ecdfa650336615d4b07a4)
+* Add CVE scan action [94f282b](94f282bd746b344ab563e21c8ffe276a7be24d32)
+* Use JDK17 base Docker image [15101c3](15101c3b2facb079180c74471e8dcda568e4f325)
+* Switch to JDK 17 as target compile version and raise deprecated dependencies [5463b55](5463b5566272c736936708663d68b966429d1e85)
 * for excel/CSV import ensure that empty header cells do not break import process [62f3492](62f3492be94a4d3c68b6759b24bc53b37a4ac160)
 * Add proxy support for geocoder requests [ed6412c](ed6412ca61d9da1611dcc68b2317eea6b3428542)
 * Remove deprecated Docker Compose [38ffc42](38ffc42b2aa13ee6c6270c93ea596e14f109aaed)
