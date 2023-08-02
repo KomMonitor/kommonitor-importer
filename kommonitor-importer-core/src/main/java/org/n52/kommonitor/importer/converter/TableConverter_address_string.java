@@ -133,8 +133,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    
 	    GeocodingOutputType geocoderResponse = restTemplate.getForObject(uri, GeocodingOutputType.class);
-		
-	    @Valid
+
 		List<GeocodingFeatureType> features_geolocated = filterBuildingFeatures(geocoderResponse.getFeatures());
 	    int numFeatures = features_geolocated.size();
 		if(numFeatures == 0) {

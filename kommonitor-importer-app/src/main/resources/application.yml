@@ -8,7 +8,7 @@ spring:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
   mvc:
-    pathpattern:
+    pathmatch:
       matching-strategy: ant_path_matcher  
   servlet:
     multipart:
