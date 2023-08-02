@@ -1,6 +1,7 @@
 # Change Log
 
-## 2.0.6
+## 2.0.7
+* Use JDK17 base image for running app [b940ae8](b940ae8429bf62c510e4eb614841d273c5687950)
 * Remove push to develop event for build action [9f13e1e](9f13e1e400a56e38b45b144ee1569a120293befb)
 * Fix git-changelog plugin version [f722d54](f722d5420d7c98797bcfc88f763959b714095e8f)
 * Fix CVE scan action [1802d1d](1802d1d6a0e80c46226ecdfa650336615d4b07a4)
