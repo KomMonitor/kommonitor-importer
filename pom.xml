@@ -37,7 +37,7 @@
         <maven-failsafe.version>3.0.0-M4</maven-failsafe.version>
         <geotools.version>26.3</geotools.version>
         <release-plugin.version>3.0.1</release-plugin.version>
-        <changelog-plugin.version>1.97.1</changelog-plugin.version>
+        <changelog-plugin.version>0.6.0</changelog-plugin.version>
         <log4j.version>2.20.0</log4j.version>
         <poi.version>5.2.3</poi.version>
     </properties>
