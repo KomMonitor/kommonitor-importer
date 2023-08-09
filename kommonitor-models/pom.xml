@@ -11,36 +11,19 @@
     <name>KomMonitor Models</name>
 
     <properties>
-        <swagger-codegen.version>2.4.10</swagger-codegen.version>
         <openapi-codegen.version>6.6.0</openapi-codegen.version>
         <swagger-codegen.configHelp>false</swagger-codegen.configHelp>
         <swagger-codegen.supportingFiles>false</swagger-codegen.supportingFiles>
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-codegen-maven-plugin</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator-maven-plugin</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger.core.v3</groupId>
-                    <artifactId>swagger-annotations</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger.core.v3</groupId>
-                    <artifactId>swagger-annotations</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -49,7 +32,6 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core-jakarta</artifactId>
-            <version>2.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
