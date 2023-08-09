@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
+import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;

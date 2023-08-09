@@ -12,11 +12,22 @@
 
     <properties>
         <swagger-codegen.version>2.4.10</swagger-codegen.version>
+        <openapi-codegen.version>6.6.0</openapi-codegen.version>
         <swagger-codegen.configHelp>false</swagger-codegen.configHelp>
         <swagger-codegen.supportingFiles>false</swagger-codegen.supportingFiles>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kommonitor-models</artifactId>
@@ -33,10 +44,6 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-geojson</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-codegen-maven-plugin</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -46,6 +53,17 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core-jakarta</artifactId>
+            <version>2.2.8</version>
         </dependency>
 
         <dependency>
@@ -117,9 +135,9 @@
                                         <artifactItem>
                                             <groupId>org.n52.kommonitor</groupId>
                                             <artifactId>kommonitor-api-specs</artifactId>
-                                            <version>0.0.1-SNAPSHOT</version>
+                                            <version>0.0.4-SNAPSHOT</version>
                                             <type>jar</type>
-                                            <includes>specs/data-importer/definitions.yaml,specs/data-importer/kommonitor_dataImportAPI.yaml,specs/data-management/definitions.yaml</includes>
+                                            <includes>specs/data-importer/definitions.yaml,specs/data-importer/kommonitor_dataImportAPI.yaml,specs/data-management/kommonitor_dataAccessAPI.yaml</includes>
                                             <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
@@ -128,9 +146,9 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-codegen.version}</version>
+                        <groupId>org.openapitools</groupId>
+                        <artifactId>openapi-generator-maven-plugin</artifactId>
+                        <version>${openapi-codegen.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -140,7 +158,7 @@
                                     <inputSpec>${project.basedir}/src/main/resources/specs/data-importer/kommonitor_dataImportAPI.yaml
                                     </inputSpec>
                                     <!-- target to generate java server code -->
-                                    <language>spring</language>
+                                    <generatorName>spring</generatorName>
                                     <output>${project.basedir}</output>
                                     <apiPackage>org.n52.kommonitor.importer.api</apiPackage>
                                     <modelPackage>org.n52.kommonitor.models</modelPackage>
@@ -150,10 +168,13 @@
                                     <configHelp>${swagger-codegen.configHelp}</configHelp>
                                     <generateSupportingFiles>${swagger-codegen.supportingFiles}
                                     </generateSupportingFiles>
+
                                     <!-- pass any necessary config options -->
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
+                                        <useSpringBoot3>true</useSpringBoot3>
+                                        <skipDefaultInterface>true</skipDefaultInterface>
                                     </configOptions>
                                 </configuration>
                             </execution>
