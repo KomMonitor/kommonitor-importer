@@ -1,31 +1,34 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for mapping of additional attributes of datasets from a data source
  */
-@ApiModel(description = "Definitions for mapping of additional attributes of datasets from a data source")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:29.866+01:00")
 
-public class AttributeMappingType  implements Serializable {
+@Schema(name = "AttributeMappingType", description = "Definitions for mapping of additional attributes of datasets from a data source")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class AttributeMappingType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String name;
 
-  @JsonProperty("mappingName")
-  private String mappingName = null;
+  private String mappingName;
 
   /**
    * data type of the parameter
@@ -45,25 +48,45 @@ public class AttributeMappingType  implements Serializable {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
 
     @JsonCreator
-    public static TypeEnum fromValue(String text) {
+    public static TypeEnum fromValue(String value) {
       for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("type")
-  private TypeEnum type = null;
+  private TypeEnum type;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link AttributeMappingType#AttributeMappingType(String, TypeEnum)}
+   */
+  @Deprecated
+  public AttributeMappingType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public AttributeMappingType(String name, TypeEnum type) {
+    this.name = name;
+    this.type = type;
+  }
 
   public AttributeMappingType name(String name) {
     this.name = name;
@@ -73,11 +96,10 @@ public class AttributeMappingType  implements Serializable {
   /**
    * name of the attribute from the origin dataset
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "name of the attribute from the origin dataset")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "name", description = "name of the attribute from the origin dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -94,10 +116,10 @@ public class AttributeMappingType  implements Serializable {
   /**
    * name that should be used for importing the attribute into KomMonitor
    * @return mappingName
-  **/
-  @ApiModelProperty(value = "name that should be used for importing the attribute into KomMonitor")
-
-
+  */
+  
+  @Schema(name = "mappingName", description = "name that should be used for importing the attribute into KomMonitor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("mappingName")
   public String getMappingName() {
     return mappingName;
   }
@@ -114,11 +136,10 @@ public class AttributeMappingType  implements Serializable {
   /**
    * data type of the parameter
    * @return type
-  **/
-  @ApiModelProperty(required = true, value = "data type of the parameter")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "type", description = "data type of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("type")
   public TypeEnum getType() {
     return type;
   }
@@ -127,9 +148,8 @@ public class AttributeMappingType  implements Serializable {
     this.type = type;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -151,7 +171,6 @@ public class AttributeMappingType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AttributeMappingType {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    mappingName: ").append(toIndentedString(mappingName)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
@@ -163,7 +182,7 @@ public class AttributeMappingType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

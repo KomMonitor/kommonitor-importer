@@ -1,109 +1,58 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPUTInputTypeIndicatorValues;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * IndicatorPUTInputType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class
-IndicatorPUTInputType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class IndicatorPUTInputType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("defaultClassificationMapping")
-  private DefaultClassificationMappingType defaultClassificationMapping = null;
-
-  @JsonProperty("applicableSpatialUnit")
-  private String applicableSpatialUnit = null;
-
-  @JsonProperty("indicatorValues")
   @Valid
-  private List<IndicatorPUTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
+  private List<String> allowedRoles = new ArrayList<>();
 
-  @JsonProperty("allowedRoles")
+  private String applicableSpatialUnit;
+
+  private DefaultClassificationMappingType defaultClassificationMapping;
+
   @Valid
-  private List<String> allowedRoles = null;
+  private List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
 
-  public IndicatorPUTInputType defaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
-    this.defaultClassificationMapping = defaultClassificationMapping;
-    return this;
+  /**
+   * Default constructor
+   * @deprecated Use {@link IndicatorPUTInputType#IndicatorPUTInputType(List<String>, String, List<@Valid IndicatorPUTInputTypeIndicatorValues>)}
+   */
+  @Deprecated
+  public IndicatorPUTInputType() {
+    super();
   }
 
   /**
-   * Get defaultClassificationMapping
-   * @return defaultClassificationMapping
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public DefaultClassificationMappingType getDefaultClassificationMapping() {
-    return defaultClassificationMapping;
-  }
-
-  public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
-    this.defaultClassificationMapping = defaultClassificationMapping;
-  }
-
-  public IndicatorPUTInputType applicableSpatialUnit(String applicableSpatialUnit) {
+   * Constructor with only required parameters
+   */
+  public IndicatorPUTInputType(List<String> allowedRoles, String applicableSpatialUnit, List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+    this.allowedRoles = allowedRoles;
     this.applicableSpatialUnit = applicableSpatialUnit;
-    return this;
-  }
-
-  /**
-   * Get applicableSpatialUnit
-   * @return applicableSpatialUnit
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
-  public String getApplicableSpatialUnit() {
-    return applicableSpatialUnit;
-  }
-
-  public void setApplicableSpatialUnit(String applicableSpatialUnit) {
-    this.applicableSpatialUnit = applicableSpatialUnit;
-  }
-
-  public IndicatorPUTInputType indicatorValues(List<IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
-    this.indicatorValues = indicatorValues;
-    return this;
-  }
-
-  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPUTInputTypeIndicatorValues indicatorValuesItem) {
-    this.indicatorValues.add(indicatorValuesItem);
-    return this;
-  }
-
-  /**
-   * an array of entries containing indicator values and mapping to spatial features via identifiers
-   * @return indicatorValues
-  **/
-  @ApiModelProperty(required = true, value = "an array of entries containing indicator values and mapping to spatial features via identifiers")
-  @NotNull
-
-  @Valid
-
-  public List<IndicatorPUTInputTypeIndicatorValues> getIndicatorValues() {
-    return indicatorValues;
-  }
-
-  public void setIndicatorValues(List<IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
     this.indicatorValues = indicatorValues;
   }
 
@@ -123,10 +72,10 @@ IndicatorPUTInputType  implements Serializable {
   /**
    * list of role identifiers that have read access rights for this dataset
    * @return allowedRoles
-  **/
-  @ApiModelProperty(value = "list of role identifiers that have read access rights for this dataset")
-
-
+  */
+  @NotNull 
+  @Schema(name = "allowedRoles", description = "list of role identifiers that have read access rights for this dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("allowedRoles")
   public List<String> getAllowedRoles() {
     return allowedRoles;
   }
@@ -135,9 +84,76 @@ IndicatorPUTInputType  implements Serializable {
     this.allowedRoles = allowedRoles;
   }
 
+  public IndicatorPUTInputType applicableSpatialUnit(String applicableSpatialUnit) {
+    this.applicableSpatialUnit = applicableSpatialUnit;
+    return this;
+  }
+
+  /**
+   * Get applicableSpatialUnit
+   * @return applicableSpatialUnit
+  */
+  @NotNull 
+  @Schema(name = "applicableSpatialUnit", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("applicableSpatialUnit")
+  public String getApplicableSpatialUnit() {
+    return applicableSpatialUnit;
+  }
+
+  public void setApplicableSpatialUnit(String applicableSpatialUnit) {
+    this.applicableSpatialUnit = applicableSpatialUnit;
+  }
+
+  public IndicatorPUTInputType defaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
+    this.defaultClassificationMapping = defaultClassificationMapping;
+    return this;
+  }
+
+  /**
+   * Get defaultClassificationMapping
+   * @return defaultClassificationMapping
+  */
+  @Valid 
+  @Schema(name = "defaultClassificationMapping", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("defaultClassificationMapping")
+  public DefaultClassificationMappingType getDefaultClassificationMapping() {
+    return defaultClassificationMapping;
+  }
+
+  public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
+    this.defaultClassificationMapping = defaultClassificationMapping;
+  }
+
+  public IndicatorPUTInputType indicatorValues(List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+    this.indicatorValues = indicatorValues;
+    return this;
+  }
+
+  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPUTInputTypeIndicatorValues indicatorValuesItem) {
+    if (this.indicatorValues == null) {
+      this.indicatorValues = new ArrayList<>();
+    }
+    this.indicatorValues.add(indicatorValuesItem);
+    return this;
+  }
+
+  /**
+   * an array of entries containing indicator values and mapping to spatial features via identifiers
+   * @return indicatorValues
+  */
+  @NotNull @Valid 
+  @Schema(name = "indicatorValues", description = "an array of entries containing indicator values and mapping to spatial features via identifiers", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("indicatorValues")
+  public List<@Valid IndicatorPUTInputTypeIndicatorValues> getIndicatorValues() {
+    return indicatorValues;
+  }
+
+  public void setIndicatorValues(List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+    this.indicatorValues = indicatorValues;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -145,26 +161,25 @@ IndicatorPUTInputType  implements Serializable {
       return false;
     }
     IndicatorPUTInputType indicatorPUTInputType = (IndicatorPUTInputType) o;
-    return Objects.equals(this.defaultClassificationMapping, indicatorPUTInputType.defaultClassificationMapping) &&
+    return Objects.equals(this.allowedRoles, indicatorPUTInputType.allowedRoles) &&
         Objects.equals(this.applicableSpatialUnit, indicatorPUTInputType.applicableSpatialUnit) &&
-        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues) &&
-        Objects.equals(this.allowedRoles, indicatorPUTInputType.allowedRoles);
+        Objects.equals(this.defaultClassificationMapping, indicatorPUTInputType.defaultClassificationMapping) &&
+        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(defaultClassificationMapping, applicableSpatialUnit, indicatorValues, allowedRoles);
+    return Objects.hash(allowedRoles, applicableSpatialUnit, defaultClassificationMapping, indicatorValues);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPUTInputType {\n");
-    
-    sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
-    sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
-    sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
     sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
+    sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
+    sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -173,7 +188,7 @@ IndicatorPUTInputType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

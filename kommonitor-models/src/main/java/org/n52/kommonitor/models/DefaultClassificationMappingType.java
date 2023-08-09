@@ -1,29 +1,53 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.DefaultClassificationMappingItemType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * DefaultClassificationMappingType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class DefaultClassificationMappingType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class DefaultClassificationMappingType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("colorBrewerSchemeName")
-  private String colorBrewerSchemeName = null;
+  private String colorBrewerSchemeName;
 
-  @JsonProperty("items")
   @Valid
-  private List<DefaultClassificationMappingItemType> items = null;
+  private List<@Valid DefaultClassificationMappingItemType> items = new ArrayList<>();
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link DefaultClassificationMappingType#DefaultClassificationMappingType(String, List<@Valid DefaultClassificationMappingItemType>)}
+   */
+  @Deprecated
+  public DefaultClassificationMappingType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public DefaultClassificationMappingType(String colorBrewerSchemeName, List<@Valid DefaultClassificationMappingItemType> items) {
+    this.colorBrewerSchemeName = colorBrewerSchemeName;
+    this.items = items;
+  }
 
   public DefaultClassificationMappingType colorBrewerSchemeName(String colorBrewerSchemeName) {
     this.colorBrewerSchemeName = colorBrewerSchemeName;
@@ -31,12 +55,12 @@ public class DefaultClassificationMappingType  implements Serializable {
   }
 
   /**
-   * the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
+   * the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
    * @return colorBrewerSchemeName
-  **/
-  @ApiModelProperty(value = "the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.")
-
-
+  */
+  @NotNull 
+  @Schema(name = "colorBrewerSchemeName", description = "the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("colorBrewerSchemeName")
   public String getColorBrewerSchemeName() {
     return colorBrewerSchemeName;
   }
@@ -45,7 +69,7 @@ public class DefaultClassificationMappingType  implements Serializable {
     this.colorBrewerSchemeName = colorBrewerSchemeName;
   }
 
-  public DefaultClassificationMappingType items(List<DefaultClassificationMappingItemType> items) {
+  public DefaultClassificationMappingType items(List<@Valid DefaultClassificationMappingItemType> items) {
     this.items = items;
     return this;
   }
@@ -61,22 +85,20 @@ public class DefaultClassificationMappingType  implements Serializable {
   /**
    * array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values
    * @return items
-  **/
-  @ApiModelProperty(value = "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values")
-
-  @Valid
-
-  public List<DefaultClassificationMappingItemType> getItems() {
+  */
+  @NotNull @Valid 
+  @Schema(name = "items", description = "array of classification mapping items. The order of the items corresponds to indicator value intervals from low to high. The number of items represents the number of classes. In combination they represent the default classification and mapping to custom rating of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("items")
+  public List<@Valid DefaultClassificationMappingItemType> getItems() {
     return items;
   }
 
-  public void setItems(List<DefaultClassificationMappingItemType> items) {
+  public void setItems(List<@Valid DefaultClassificationMappingItemType> items) {
     this.items = items;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -97,7 +119,6 @@ public class DefaultClassificationMappingType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DefaultClassificationMappingType {\n");
-    
     sb.append("    colorBrewerSchemeName: ").append(toIndentedString(colorBrewerSchemeName)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("}");
@@ -108,7 +129,7 @@ public class DefaultClassificationMappingType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

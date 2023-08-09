@@ -1,34 +1,54 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for mapping datasource properties to required properties for timeseries values
  */
-@ApiModel(description = "Definitions for mapping datasource properties to required properties for timeseries values")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-16T14:30:37.706+01:00")
 
-public class TimeseriesMappingType  implements Serializable {
+@Schema(name = "TimeseriesMappingType", description = "Definitions for mapping datasource properties to required properties for timeseries values")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class TimeseriesMappingType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("indicatorValueProperty")
-  private String indicatorValueProperty = null;
+  private String indicatorValueProperty;
 
-  @JsonProperty("timestamp")
-  private LocalDate timestamp = null;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+  private LocalDate timestamp;
 
-  @JsonProperty("timestampProperty")
-  private String timestampProperty = null;
+  private String timestampProperty;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link TimeseriesMappingType#TimeseriesMappingType(String)}
+   */
+  @Deprecated
+  public TimeseriesMappingType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TimeseriesMappingType(String indicatorValueProperty) {
+    this.indicatorValueProperty = indicatorValueProperty;
+  }
 
   public TimeseriesMappingType indicatorValueProperty(String indicatorValueProperty) {
     this.indicatorValueProperty = indicatorValueProperty;
@@ -38,11 +58,10 @@ public class TimeseriesMappingType  implements Serializable {
   /**
    * property that contains the numeric value of the indicator
    * @return indicatorValueProperty
-  **/
-  @ApiModelProperty(required = true, value = "property that contains the numeric value of the indicator")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "indicatorValueProperty", description = "property that contains the numeric value of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("indicatorValueProperty")
   public String getIndicatorValueProperty() {
     return indicatorValueProperty;
   }
@@ -59,11 +78,10 @@ public class TimeseriesMappingType  implements Serializable {
   /**
    * optional timestamp value for the indicator that will be used if there is no property containing timestamp information
    * @return timestamp
-  **/
-  @ApiModelProperty(value = "optional timestamp value for the indicator that will be used if there is no property containing timestamp information")
-
-  @Valid
-
+  */
+  @Valid 
+  @Schema(name = "timestamp", description = "optional timestamp value for the indicator that will be used if there is no property containing timestamp information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("timestamp")
   public LocalDate getTimestamp() {
     return timestamp;
   }
@@ -80,10 +98,10 @@ public class TimeseriesMappingType  implements Serializable {
   /**
    * property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)
    * @return timestampProperty
-  **/
-  @ApiModelProperty(value = "property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)")
-
-
+  */
+  
+  @Schema(name = "timestampProperty", description = "property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("timestampProperty")
   public String getTimestampProperty() {
     return timestampProperty;
   }
@@ -92,9 +110,8 @@ public class TimeseriesMappingType  implements Serializable {
     this.timestampProperty = timestampProperty;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -116,7 +133,6 @@ public class TimeseriesMappingType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TimeseriesMappingType {\n");
-    
     sb.append("    indicatorValueProperty: ").append(toIndentedString(indicatorValueProperty)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    timestampProperty: ").append(toIndentedString(timestampProperty)).append("\n");
@@ -128,7 +144,7 @@ public class TimeseriesMappingType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

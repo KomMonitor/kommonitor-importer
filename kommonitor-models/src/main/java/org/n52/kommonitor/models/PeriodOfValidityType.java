@@ -1,50 +1,51 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * definition of the period of validity of a certain dataset
  */
-@ApiModel(description = "definition of the period of validity of a certain dataset")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class PeriodOfValidityType  implements Serializable {
+@Schema(name = "PeriodOfValidityType", description = "definition of the period of validity of a certain dataset")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class PeriodOfValidityType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("startDate")
-  private LocalDate startDate = null;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+  private LocalDate endDate;
 
-  @JsonProperty("endDate")
-  private LocalDate endDate = null;
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+  private LocalDate startDate;
 
-  public PeriodOfValidityType startDate(LocalDate startDate) {
-    this.startDate = startDate;
-    return this;
+  /**
+   * Default constructor
+   * @deprecated Use {@link PeriodOfValidityType#PeriodOfValidityType(LocalDate)}
+   */
+  @Deprecated
+  public PeriodOfValidityType() {
+    super();
   }
 
   /**
-   * a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)
-   * @return startDate
-  **/
-  @ApiModelProperty(required = true, value = "a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)")
-  @NotNull
-
-  @Valid
-
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  public void setStartDate(LocalDate startDate) {
+   * Constructor with only required parameters
+   */
+  public PeriodOfValidityType(LocalDate startDate) {
     this.startDate = startDate;
   }
 
@@ -56,11 +57,10 @@ public class PeriodOfValidityType  implements Serializable {
   /**
    * an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.
    * @return endDate
-  **/
-  @ApiModelProperty(value = "an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.")
-
-  @Valid
-
+  */
+  @Valid 
+  @Schema(name = "endDate", description = "an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("endDate")
   public LocalDate getEndDate() {
     return endDate;
   }
@@ -69,9 +69,28 @@ public class PeriodOfValidityType  implements Serializable {
     this.endDate = endDate;
   }
 
+  public PeriodOfValidityType startDate(LocalDate startDate) {
+    this.startDate = startDate;
+    return this;
+  }
+
+  /**
+   * a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)
+   * @return startDate
+  */
+  @NotNull @Valid 
+  @Schema(name = "startDate", description = "a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("startDate")
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -79,22 +98,21 @@ public class PeriodOfValidityType  implements Serializable {
       return false;
     }
     PeriodOfValidityType periodOfValidityType = (PeriodOfValidityType) o;
-    return Objects.equals(this.startDate, periodOfValidityType.startDate) &&
-        Objects.equals(this.endDate, periodOfValidityType.endDate);
+    return Objects.equals(this.endDate, periodOfValidityType.endDate) &&
+        Objects.equals(this.startDate, periodOfValidityType.startDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(startDate, endDate);
+    return Objects.hash(endDate, startDate);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PeriodOfValidityType {\n");
-    
-    sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
+    sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -103,7 +121,7 @@ public class PeriodOfValidityType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

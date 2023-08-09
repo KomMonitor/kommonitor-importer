@@ -1,41 +1,42 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Contains information about imported resource features
  */
-@ApiModel(description = "Contains information about imported resource features")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T19:59:05.032+02:00")
 
-public class ImportResponseType  implements Serializable {
+@Schema(name = "ImportResponseType", description = "Contains information about imported resource features")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class ImportResponseType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("uri")
-  private String uri = null;
+  private String uri;
 
-  @JsonProperty("importedFeatures")
   @Valid
-  private List<String> importedFeatures = null;
+  private List<String> importedFeatures;
 
-  @JsonProperty("errors")
   @Valid
-  private List<String> errors = null;
+  private List<String> errors;
 
-  @JsonProperty("warnings")
   @Valid
-  private List<String> warnings = null;
+  private List<String> warnings;
 
   public ImportResponseType uri(String uri) {
     this.uri = uri;
@@ -45,10 +46,10 @@ public class ImportResponseType  implements Serializable {
   /**
    * URIs of the newly created spatial unit resource
    * @return uri
-  **/
-  @ApiModelProperty(value = "URIs of the newly created spatial unit resource")
-
-
+  */
+  
+  @Schema(name = "uri", description = "URIs of the newly created spatial unit resource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("uri")
   public String getUri() {
     return uri;
   }
@@ -73,10 +74,10 @@ public class ImportResponseType  implements Serializable {
   /**
    * list of IDs that indicate those resource features that were imported succesfully
    * @return importedFeatures
-  **/
-  @ApiModelProperty(value = "list of IDs that indicate those resource features that were imported succesfully")
-
-
+  */
+  
+  @Schema(name = "importedFeatures", description = "list of IDs that indicate those resource features that were imported succesfully", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("importedFeatures")
   public List<String> getImportedFeatures() {
     return importedFeatures;
   }
@@ -101,10 +102,10 @@ public class ImportResponseType  implements Serializable {
   /**
    * List of error messages that occurred during the import
    * @return errors
-  **/
-  @ApiModelProperty(value = "List of error messages that occurred during the import")
-
-
+  */
+  
+  @Schema(name = "errors", description = "List of error messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("errors")
   public List<String> getErrors() {
     return errors;
   }
@@ -129,10 +130,10 @@ public class ImportResponseType  implements Serializable {
   /**
    * List of warning messages that occurred during the import
    * @return warnings
-  **/
-  @ApiModelProperty(value = "List of warning messages that occurred during the import")
-
-
+  */
+  
+  @Schema(name = "warnings", description = "List of warning messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("warnings")
   public List<String> getWarnings() {
     return warnings;
   }
@@ -141,9 +142,8 @@ public class ImportResponseType  implements Serializable {
     this.warnings = warnings;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -166,7 +166,6 @@ public class ImportResponseType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ImportResponseType {\n");
-    
     sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
     sb.append("    importedFeatures: ").append(toIndentedString(importedFeatures)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
@@ -179,7 +178,7 @@ public class ImportResponseType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

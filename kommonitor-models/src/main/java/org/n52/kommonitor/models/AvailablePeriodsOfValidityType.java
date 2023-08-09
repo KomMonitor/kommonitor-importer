@@ -1,9 +1,10 @@
 package org.n52.kommonitor.models;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.io.Serializable;
+
+import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
 
 /**

@@ -1,67 +1,71 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.ProcessInputType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * ProcessScriptOverviewType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class ProcessScriptOverviewType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class ProcessScriptOverviewType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String description;
 
-  @JsonProperty("description")
-  private String description = null;
+  private String indicatorId;
 
-  @JsonProperty("scriptId")
-  private String scriptId = null;
+  private String name;
 
-  @JsonProperty("indicatorId")
-  private String indicatorId = null;
-
-  @JsonProperty("requiredIndicatorIds")
-  @Valid
-  private List<String> requiredIndicatorIds = new ArrayList<>();
-
-  @JsonProperty("requiredGeoresourceIds")
   @Valid
   private List<String> requiredGeoresourceIds = new ArrayList<>();
 
-  @JsonProperty("variableProcessParameters")
   @Valid
-  private List<ProcessInputType> variableProcessParameters = new ArrayList<>();
+  private List<String> requiredIndicatorIds = new ArrayList<>();
 
-  public ProcessScriptOverviewType name(String name) {
-    this.name = name;
-    return this;
+  private String scriptId;
+
+  private String scriptType;
+
+  @Valid
+  private List<@Valid ProcessInputType> variableProcessParameters = new ArrayList<>();
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link ProcessScriptOverviewType#ProcessScriptOverviewType(String, String, String, List<String>, List<String>, String, List<@Valid ProcessInputType>)}
+   */
+  @Deprecated
+  public ProcessScriptOverviewType() {
+    super();
   }
 
   /**
-   * name of the process script
-   * @return name
-  **/
-  @ApiModelProperty(required = true, value = "name of the process script")
-  @NotNull
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
+   * Constructor with only required parameters
+   */
+  public ProcessScriptOverviewType(String description, String indicatorId, String name, List<String> requiredGeoresourceIds, List<String> requiredIndicatorIds, String scriptId, List<@Valid ProcessInputType> variableProcessParameters) {
+    this.description = description;
+    this.indicatorId = indicatorId;
     this.name = name;
+    this.requiredGeoresourceIds = requiredGeoresourceIds;
+    this.requiredIndicatorIds = requiredIndicatorIds;
+    this.scriptId = scriptId;
+    this.variableProcessParameters = variableProcessParameters;
   }
 
   public ProcessScriptOverviewType description(String description) {
@@ -72,38 +76,16 @@ public class ProcessScriptOverviewType  implements Serializable {
   /**
    * short description of the scripts content (what does it do)
    * @return description
-  **/
-  @ApiModelProperty(required = true, value = "short description of the scripts content (what does it do)")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "description", description = "short description of the scripts content (what does it do)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public ProcessScriptOverviewType scriptId(String scriptId) {
-    this.scriptId = scriptId;
-    return this;
-  }
-
-  /**
-   * unique identifier of the process script
-   * @return scriptId
-  **/
-  @ApiModelProperty(required = true, value = "unique identifier of the process script")
-  @NotNull
-
-
-  public String getScriptId() {
-    return scriptId;
-  }
-
-  public void setScriptId(String scriptId) {
-    this.scriptId = scriptId;
   }
 
   public ProcessScriptOverviewType indicatorId(String indicatorId) {
@@ -114,11 +96,10 @@ public class ProcessScriptOverviewType  implements Serializable {
   /**
    * unique identifier of the associated indicator (e.g. the indicator that is computed by a script or for which the values shall be aggregated to another spatial unit)
    * @return indicatorId
-  **/
-  @ApiModelProperty(required = true, value = "unique identifier of the associated indicator (e.g. the indicator that is computed by a script or for which the values shall be aggregated to another spatial unit)")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "indicatorId", description = "unique identifier of the associated indicator (e.g. the indicator that is computed by a script or for which the values shall be aggregated to another spatial unit)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("indicatorId")
   public String getIndicatorId() {
     return indicatorId;
   }
@@ -127,30 +108,24 @@ public class ProcessScriptOverviewType  implements Serializable {
     this.indicatorId = indicatorId;
   }
 
-  public ProcessScriptOverviewType requiredIndicatorIds(List<String> requiredIndicatorIds) {
-    this.requiredIndicatorIds = requiredIndicatorIds;
-    return this;
-  }
-
-  public ProcessScriptOverviewType addRequiredIndicatorIdsItem(String requiredIndicatorIdsItem) {
-    this.requiredIndicatorIds.add(requiredIndicatorIdsItem);
+  public ProcessScriptOverviewType name(String name) {
+    this.name = name;
     return this;
   }
 
   /**
-   * identifiers of indicators that are used within the script.
-   * @return requiredIndicatorIds
-  **/
-  @ApiModelProperty(required = true, value = "identifiers of indicators that are used within the script.")
-  @NotNull
-
-
-  public List<String> getRequiredIndicatorIds() {
-    return requiredIndicatorIds;
+   * name of the process script
+   * @return name
+  */
+  @NotNull 
+  @Schema(name = "name", description = "name of the process script", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
 
-  public void setRequiredIndicatorIds(List<String> requiredIndicatorIds) {
-    this.requiredIndicatorIds = requiredIndicatorIds;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public ProcessScriptOverviewType requiredGeoresourceIds(List<String> requiredGeoresourceIds) {
@@ -159,6 +134,9 @@ public class ProcessScriptOverviewType  implements Serializable {
   }
 
   public ProcessScriptOverviewType addRequiredGeoresourceIdsItem(String requiredGeoresourceIdsItem) {
+    if (this.requiredGeoresourceIds == null) {
+      this.requiredGeoresourceIds = new ArrayList<>();
+    }
     this.requiredGeoresourceIds.add(requiredGeoresourceIdsItem);
     return this;
   }
@@ -166,11 +144,10 @@ public class ProcessScriptOverviewType  implements Serializable {
   /**
    * identifiers of georesources that are used within the script.
    * @return requiredGeoresourceIds
-  **/
-  @ApiModelProperty(required = true, value = "identifiers of georesources that are used within the script.")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "requiredGeoresourceIds", description = "identifiers of georesources that are used within the script.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("requiredGeoresourceIds")
   public List<String> getRequiredGeoresourceIds() {
     return requiredGeoresourceIds;
   }
@@ -179,12 +156,83 @@ public class ProcessScriptOverviewType  implements Serializable {
     this.requiredGeoresourceIds = requiredGeoresourceIds;
   }
 
-  public ProcessScriptOverviewType variableProcessParameters(List<ProcessInputType> variableProcessParameters) {
+  public ProcessScriptOverviewType requiredIndicatorIds(List<String> requiredIndicatorIds) {
+    this.requiredIndicatorIds = requiredIndicatorIds;
+    return this;
+  }
+
+  public ProcessScriptOverviewType addRequiredIndicatorIdsItem(String requiredIndicatorIdsItem) {
+    if (this.requiredIndicatorIds == null) {
+      this.requiredIndicatorIds = new ArrayList<>();
+    }
+    this.requiredIndicatorIds.add(requiredIndicatorIdsItem);
+    return this;
+  }
+
+  /**
+   * identifiers of indicators that are used within the script.
+   * @return requiredIndicatorIds
+  */
+  @NotNull 
+  @Schema(name = "requiredIndicatorIds", description = "identifiers of indicators that are used within the script.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("requiredIndicatorIds")
+  public List<String> getRequiredIndicatorIds() {
+    return requiredIndicatorIds;
+  }
+
+  public void setRequiredIndicatorIds(List<String> requiredIndicatorIds) {
+    this.requiredIndicatorIds = requiredIndicatorIds;
+  }
+
+  public ProcessScriptOverviewType scriptId(String scriptId) {
+    this.scriptId = scriptId;
+    return this;
+  }
+
+  /**
+   * unique identifier of the process script
+   * @return scriptId
+  */
+  @NotNull 
+  @Schema(name = "scriptId", description = "unique identifier of the process script", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("scriptId")
+  public String getScriptId() {
+    return scriptId;
+  }
+
+  public void setScriptId(String scriptId) {
+    this.scriptId = scriptId;
+  }
+
+  public ProcessScriptOverviewType scriptType(String scriptType) {
+    this.scriptType = scriptType;
+    return this;
+  }
+
+  /**
+   * a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources
+   * @return scriptType
+  */
+  
+  @Schema(name = "scriptType", description = "a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("scriptType")
+  public String getScriptType() {
+    return scriptType;
+  }
+
+  public void setScriptType(String scriptType) {
+    this.scriptType = scriptType;
+  }
+
+  public ProcessScriptOverviewType variableProcessParameters(List<@Valid ProcessInputType> variableProcessParameters) {
     this.variableProcessParameters = variableProcessParameters;
     return this;
   }
 
   public ProcessScriptOverviewType addVariableProcessParametersItem(ProcessInputType variableProcessParametersItem) {
+    if (this.variableProcessParameters == null) {
+      this.variableProcessParameters = new ArrayList<>();
+    }
     this.variableProcessParameters.add(variableProcessParametersItem);
     return this;
   }
@@ -192,23 +240,20 @@ public class ProcessScriptOverviewType  implements Serializable {
   /**
    * list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation
    * @return variableProcessParameters
-  **/
-  @ApiModelProperty(required = true, value = "list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation")
-  @NotNull
-
-  @Valid
-
-  public List<ProcessInputType> getVariableProcessParameters() {
+  */
+  @NotNull @Valid 
+  @Schema(name = "variableProcessParameters", description = "list of process parameters that can be set by an expert user. They are used within the script to parameterize the indicator computation", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("variableProcessParameters")
+  public List<@Valid ProcessInputType> getVariableProcessParameters() {
     return variableProcessParameters;
   }
 
-  public void setVariableProcessParameters(List<ProcessInputType> variableProcessParameters) {
+  public void setVariableProcessParameters(List<@Valid ProcessInputType> variableProcessParameters) {
     this.variableProcessParameters = variableProcessParameters;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -216,31 +261,32 @@ public class ProcessScriptOverviewType  implements Serializable {
       return false;
     }
     ProcessScriptOverviewType processScriptOverviewType = (ProcessScriptOverviewType) o;
-    return Objects.equals(this.name, processScriptOverviewType.name) &&
-        Objects.equals(this.description, processScriptOverviewType.description) &&
-        Objects.equals(this.scriptId, processScriptOverviewType.scriptId) &&
+    return Objects.equals(this.description, processScriptOverviewType.description) &&
         Objects.equals(this.indicatorId, processScriptOverviewType.indicatorId) &&
-        Objects.equals(this.requiredIndicatorIds, processScriptOverviewType.requiredIndicatorIds) &&
+        Objects.equals(this.name, processScriptOverviewType.name) &&
         Objects.equals(this.requiredGeoresourceIds, processScriptOverviewType.requiredGeoresourceIds) &&
+        Objects.equals(this.requiredIndicatorIds, processScriptOverviewType.requiredIndicatorIds) &&
+        Objects.equals(this.scriptId, processScriptOverviewType.scriptId) &&
+        Objects.equals(this.scriptType, processScriptOverviewType.scriptType) &&
         Objects.equals(this.variableProcessParameters, processScriptOverviewType.variableProcessParameters);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, scriptId, indicatorId, requiredIndicatorIds, requiredGeoresourceIds, variableProcessParameters);
+    return Objects.hash(description, indicatorId, name, requiredGeoresourceIds, requiredIndicatorIds, scriptId, scriptType, variableProcessParameters);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ProcessScriptOverviewType {\n");
-    
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    scriptId: ").append(toIndentedString(scriptId)).append("\n");
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
-    sb.append("    requiredIndicatorIds: ").append(toIndentedString(requiredIndicatorIds)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    requiredGeoresourceIds: ").append(toIndentedString(requiredGeoresourceIds)).append("\n");
+    sb.append("    requiredIndicatorIds: ").append(toIndentedString(requiredIndicatorIds)).append("\n");
+    sb.append("    scriptId: ").append(toIndentedString(scriptId)).append("\n");
+    sb.append("    scriptType: ").append(toIndentedString(scriptType)).append("\n");
     sb.append("    variableProcessParameters: ").append(toIndentedString(variableProcessParameters)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -250,7 +296,7 @@ public class ProcessScriptOverviewType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

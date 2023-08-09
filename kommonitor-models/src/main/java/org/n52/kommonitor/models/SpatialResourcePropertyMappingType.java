@@ -1,52 +1,67 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.AttributeMappingType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for mapping datasource properties to required properties for spatial units and georesources
  */
-@ApiModel(description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-05-29T12:47:29.312+02:00")
 
-public class SpatialResourcePropertyMappingType  implements Serializable {
+@Schema(name = "SpatialResourcePropertyMappingType", description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class SpatialResourcePropertyMappingType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("identifierProperty")
-  private String identifierProperty = null;
+  private String identifierProperty;
 
-  @JsonProperty("nameProperty")
-  private String nameProperty = null;
+  private String nameProperty;
 
-  @JsonProperty("validStartDateProperty")
-  private String validStartDateProperty = null;
+  private String validStartDateProperty;
 
-  @JsonProperty("validEndDateProperty")
-  private String validEndDateProperty = null;
+  private String validEndDateProperty;
 
-  @JsonProperty("arisenFromProperty")
-  private String arisenFromProperty = null;
+  private String arisenFromProperty;
 
-  @JsonProperty("keepAttributes")
-  private Boolean keepAttributes = null;
+  private Boolean keepAttributes;
 
-  @JsonProperty("keepMissingOrNullValueAttributes")
-  private Boolean keepMissingOrNullValueAttributes = null;
+  private Boolean keepMissingOrNullValueAttributes;
 
-  @JsonProperty("attributes")
   @Valid
-  private List<AttributeMappingType> attributes = null;
+  private List<@Valid AttributeMappingType> attributes;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link SpatialResourcePropertyMappingType#SpatialResourcePropertyMappingType(String, Boolean, Boolean)}
+   */
+  @Deprecated
+  public SpatialResourcePropertyMappingType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public SpatialResourcePropertyMappingType(String nameProperty, Boolean keepAttributes, Boolean keepMissingOrNullValueAttributes) {
+    this.nameProperty = nameProperty;
+    this.keepAttributes = keepAttributes;
+    this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
+  }
 
   public SpatialResourcePropertyMappingType identifierProperty(String identifierProperty) {
     this.identifierProperty = identifierProperty;
@@ -56,10 +71,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * the property that contains each feature's unique identifier
    * @return identifierProperty
-  **/
-  @ApiModelProperty(value = "the property that contains each feature's unique identifier")
-
-
+  */
+  
+  @Schema(name = "identifierProperty", description = "the property that contains each feature's unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("identifierProperty")
   public String getIdentifierProperty() {
     return identifierProperty;
   }
@@ -76,11 +91,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * the property that contains each feature's unique name
    * @return nameProperty
-  **/
-  @ApiModelProperty(required = true, value = "the property that contains each feature's unique name")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "nameProperty", description = "the property that contains each feature's unique name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("nameProperty")
   public String getNameProperty() {
     return nameProperty;
   }
@@ -97,10 +111,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)
    * @return validStartDateProperty
-  **/
-  @ApiModelProperty(value = "the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)")
-
-
+  */
+  
+  @Schema(name = "validStartDateProperty", description = "the property that contains information about each feature's period of validity start date (optional, can also be configured globally for all features in POST and PUT requests)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("validStartDateProperty")
   public String getValidStartDateProperty() {
     return validStartDateProperty;
   }
@@ -117,10 +131,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)
    * @return validEndDateProperty
-  **/
-  @ApiModelProperty(value = "the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)")
-
-
+  */
+  
+  @Schema(name = "validEndDateProperty", description = "the property that contains information about each feature's period of validity end date - might be null to indicator that feature is most current feature (optional, can also be configured globally for all features in POST and PUT requests)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("validEndDateProperty")
   public String getValidEndDateProperty() {
     return validEndDateProperty;
   }
@@ -137,10 +151,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * the property that contains an ID that references a former spatial feature that over time evolved into the respective feature
    * @return arisenFromProperty
-  **/
-  @ApiModelProperty(value = "the property that contains an ID that references a former spatial feature that over time evolved into the respective feature")
-
-
+  */
+  
+  @Schema(name = "arisenFromProperty", description = "the property that contains an ID that references a former spatial feature that over time evolved into the respective feature", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("arisenFromProperty")
   public String getArisenFromProperty() {
     return arisenFromProperty;
   }
@@ -157,11 +171,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * indicates if all attributes of the feature should be kept (note, if true, you can't specify an alias for the attributes, like you would do for the attribute mappings)
    * @return keepAttributes
-  **/
-  @ApiModelProperty(required = true, value = "indicates if all attributes of the feature should be kept (note, if true, you can't specify an alias for the attributes, like you would do for the attribute mappings)")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "keepAttributes", description = "indicates if all attributes of the feature should be kept (note, if true, you can't specify an alias for the attributes, like you would do for the attribute mappings)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("keepAttributes")
   public Boolean getKeepAttributes() {
     return keepAttributes;
   }
@@ -178,11 +191,10 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * Indicates if missing attributes or attributes with a null value should be kept. If true, missing attributes will be added with a null value and attributes that hold a null value will be kept. Will be ignored if `keepAttributes` is true, since alle values would be kept anyway.
    * @return keepMissingOrNullValueAttributes
-  **/
-  @ApiModelProperty(required = true, value = "Indicates if missing attributes or attributes with a null value should be kept. If true, missing attributes will be added with a null value and attributes that hold a null value will be kept. Will be ignored if `keepAttributes` is true, since alle values would be kept anyway.")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "keepMissingOrNullValueAttributes", description = "Indicates if missing attributes or attributes with a null value should be kept. If true, missing attributes will be added with a null value and attributes that hold a null value will be kept. Will be ignored if `keepAttributes` is true, since alle values would be kept anyway.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("keepMissingOrNullValueAttributes")
   public Boolean getKeepMissingOrNullValueAttributes() {
     return keepMissingOrNullValueAttributes;
   }
@@ -191,7 +203,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
     this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
   }
 
-  public SpatialResourcePropertyMappingType attributes(List<AttributeMappingType> attributes) {
+  public SpatialResourcePropertyMappingType attributes(List<@Valid AttributeMappingType> attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -207,22 +219,20 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   /**
    * list of additional attribute mappings (will be skipped, if `keepAttributes` is true)
    * @return attributes
-  **/
-  @ApiModelProperty(value = "list of additional attribute mappings (will be skipped, if `keepAttributes` is true)")
-
-  @Valid
-
-  public List<AttributeMappingType> getAttributes() {
+  */
+  @Valid 
+  @Schema(name = "attributes", description = "list of additional attribute mappings (will be skipped, if `keepAttributes` is true)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("attributes")
+  public List<@Valid AttributeMappingType> getAttributes() {
     return attributes;
   }
 
-  public void setAttributes(List<AttributeMappingType> attributes) {
+  public void setAttributes(List<@Valid AttributeMappingType> attributes) {
     this.attributes = attributes;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -249,7 +259,6 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpatialResourcePropertyMappingType {\n");
-    
     sb.append("    identifierProperty: ").append(toIndentedString(identifierProperty)).append("\n");
     sb.append("    nameProperty: ").append(toIndentedString(nameProperty)).append("\n");
     sb.append("    validStartDateProperty: ").append(toIndentedString(validStartDateProperty)).append("\n");
@@ -266,7 +275,7 @@ public class SpatialResourcePropertyMappingType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

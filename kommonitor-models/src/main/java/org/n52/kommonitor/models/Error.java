@@ -1,36 +1,55 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * A default error that will be responded if an unexpected server error occurs
  */
-@ApiModel(description = "A default error that will be responded if an unexpected server error occurs")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
 
-public class Error  implements Serializable {
+@Schema(name = "Error", description = "A default error that will be responded if an unexpected server error occurs")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class Error implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
-  @JsonProperty("message")
-  private String message = null;
+  private String message;
 
-  @JsonProperty("errors")
   @Valid
-  private List<String> errors = null;
+  private List<String> errors;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Error#Error(Integer, String)}
+   */
+  @Deprecated
+  public Error() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Error(Integer code, String message) {
+    this.code = code;
+    this.message = message;
+  }
 
   public Error code(Integer code) {
     this.code = code;
@@ -40,11 +59,10 @@ public class Error  implements Serializable {
   /**
    * Get code
    * @return code
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -61,11 +79,10 @@ public class Error  implements Serializable {
   /**
    * General message that describes the main error
    * @return message
-  **/
-  @ApiModelProperty(required = true, value = "General message that describes the main error")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "message", description = "General message that describes the main error", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }
@@ -90,10 +107,10 @@ public class Error  implements Serializable {
   /**
    * List of error messages that occurred during the import
    * @return errors
-  **/
-  @ApiModelProperty(value = "List of error messages that occurred during the import")
-
-
+  */
+  
+  @Schema(name = "errors", description = "List of error messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("errors")
   public List<String> getErrors() {
     return errors;
   }
@@ -102,9 +119,8 @@ public class Error  implements Serializable {
     this.errors = errors;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -126,7 +142,6 @@ public class Error  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Error {\n");
-    
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
@@ -138,7 +153,7 @@ public class Error  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

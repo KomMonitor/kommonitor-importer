@@ -1,30 +1,49 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definition of an uploaded file
  */
-@ApiModel(description = "Definition of an uploaded file")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-22T08:50:34.193+01:00")
 
-public class UploadedFileType  implements Serializable {
+@Schema(name = "UploadedFileType", description = "Definition of an uploaded file")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class UploadedFileType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String name;
 
-  @JsonProperty("contentType")
-  private String contentType = null;
+  private String contentType;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link UploadedFileType#UploadedFileType(String)}
+   */
+  @Deprecated
+  public UploadedFileType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public UploadedFileType(String name) {
+    this.name = name;
+  }
 
   public UploadedFileType name(String name) {
     this.name = name;
@@ -34,11 +53,10 @@ public class UploadedFileType  implements Serializable {
   /**
    * name of the uploaded file
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "name of the uploaded file")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "name", description = "name of the uploaded file", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -55,10 +73,10 @@ public class UploadedFileType  implements Serializable {
   /**
    * Content type of the uploaded files
    * @return contentType
-  **/
-  @ApiModelProperty(value = "Content type of the uploaded files")
-
-
+  */
+  
+  @Schema(name = "contentType", description = "Content type of the uploaded files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("contentType")
   public String getContentType() {
     return contentType;
   }
@@ -67,9 +85,8 @@ public class UploadedFileType  implements Serializable {
     this.contentType = contentType;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -90,7 +107,6 @@ public class UploadedFileType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UploadedFileType {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    contentType: ").append(toIndentedString(contentType)).append("\n");
     sb.append("}");
@@ -101,7 +117,7 @@ public class UploadedFileType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

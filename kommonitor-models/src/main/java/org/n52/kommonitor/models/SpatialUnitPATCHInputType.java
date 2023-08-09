@@ -1,99 +1,57 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * SpatialUnitPATCHInputType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class SpatialUnitPATCHInputType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class SpatialUnitPATCHInputType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("metadata")
-  private CommonMetadataType metadata = null;
-
-  @JsonProperty("nextLowerHierarchyLevel")
-  private String nextLowerHierarchyLevel = null;
-
-  @JsonProperty("nextUpperHierarchyLevel")
-  private String nextUpperHierarchyLevel = null;
-
-  @JsonProperty("allowedRoles")
   @Valid
-  private List<String> allowedRoles = null;
+  private List<String> allowedRoles = new ArrayList<>();
 
-  public SpatialUnitPATCHInputType metadata(CommonMetadataType metadata) {
+  private CommonMetadataType metadata;
+
+  private String nextLowerHierarchyLevel;
+
+  private String nextUpperHierarchyLevel;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link SpatialUnitPATCHInputType#SpatialUnitPATCHInputType(List<String>, CommonMetadataType, String, String)}
+   */
+  @Deprecated
+  public SpatialUnitPATCHInputType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public SpatialUnitPATCHInputType(List<String> allowedRoles, CommonMetadataType metadata, String nextLowerHierarchyLevel, String nextUpperHierarchyLevel) {
+    this.allowedRoles = allowedRoles;
     this.metadata = metadata;
-    return this;
-  }
-
-  /**
-   * Get metadata
-   * @return metadata
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public CommonMetadataType getMetadata() {
-    return metadata;
-  }
-
-  public void setMetadata(CommonMetadataType metadata) {
-    this.metadata = metadata;
-  }
-
-  public SpatialUnitPATCHInputType nextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
     this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
-    return this;
-  }
-
-  /**
-   * the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
-   * @return nextLowerHierarchyLevel
-  **/
-  @ApiModelProperty(value = "the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level")
-
-
-  public String getNextLowerHierarchyLevel() {
-    return nextLowerHierarchyLevel;
-  }
-
-  public void setNextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
-    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
-  }
-
-  public SpatialUnitPATCHInputType nextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
-    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
-    return this;
-  }
-
-  /**
-   * the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
-   * @return nextUpperHierarchyLevel
-  **/
-  @ApiModelProperty(value = "the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level")
-
-
-  public String getNextUpperHierarchyLevel() {
-    return nextUpperHierarchyLevel;
-  }
-
-  public void setNextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
     this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
   }
 
@@ -113,10 +71,10 @@ public class SpatialUnitPATCHInputType  implements Serializable {
   /**
    * list of role identifiers that have read access rights for this dataset
    * @return allowedRoles
-  **/
-  @ApiModelProperty(value = "list of role identifiers that have read access rights for this dataset")
-
-
+  */
+  @NotNull 
+  @Schema(name = "allowedRoles", description = "list of role identifiers that have read access rights for this dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("allowedRoles")
   public List<String> getAllowedRoles() {
     return allowedRoles;
   }
@@ -125,9 +83,68 @@ public class SpatialUnitPATCHInputType  implements Serializable {
     this.allowedRoles = allowedRoles;
   }
 
+  public SpatialUnitPATCHInputType metadata(CommonMetadataType metadata) {
+    this.metadata = metadata;
+    return this;
+  }
+
+  /**
+   * Get metadata
+   * @return metadata
+  */
+  @NotNull @Valid 
+  @Schema(name = "metadata", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("metadata")
+  public CommonMetadataType getMetadata() {
+    return metadata;
+  }
+
+  public void setMetadata(CommonMetadataType metadata) {
+    this.metadata = metadata;
+  }
+
+  public SpatialUnitPATCHInputType nextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
+    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
+    return this;
+  }
+
+  /**
+   * the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
+   * @return nextLowerHierarchyLevel
+  */
+  @NotNull 
+  @Schema(name = "nextLowerHierarchyLevel", description = "the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("nextLowerHierarchyLevel")
+  public String getNextLowerHierarchyLevel() {
+    return nextLowerHierarchyLevel;
+  }
+
+  public void setNextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
+    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
+  }
+
+  public SpatialUnitPATCHInputType nextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
+    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
+    return this;
+  }
+
+  /**
+   * the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
+   * @return nextUpperHierarchyLevel
+  */
+  @NotNull 
+  @Schema(name = "nextUpperHierarchyLevel", description = "the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("nextUpperHierarchyLevel")
+  public String getNextUpperHierarchyLevel() {
+    return nextUpperHierarchyLevel;
+  }
+
+  public void setNextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
+    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -135,26 +152,25 @@ public class SpatialUnitPATCHInputType  implements Serializable {
       return false;
     }
     SpatialUnitPATCHInputType spatialUnitPATCHInputType = (SpatialUnitPATCHInputType) o;
-    return Objects.equals(this.metadata, spatialUnitPATCHInputType.metadata) &&
+    return Objects.equals(this.allowedRoles, spatialUnitPATCHInputType.allowedRoles) &&
+        Objects.equals(this.metadata, spatialUnitPATCHInputType.metadata) &&
         Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPATCHInputType.nextLowerHierarchyLevel) &&
-        Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel) &&
-        Objects.equals(this.allowedRoles, spatialUnitPATCHInputType.allowedRoles);
+        Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, allowedRoles);
+    return Objects.hash(allowedRoles, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpatialUnitPATCHInputType {\n");
-    
+    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
-    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -163,7 +179,7 @@ public class SpatialUnitPATCHInputType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

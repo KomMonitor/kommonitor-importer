@@ -1,26 +1,46 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * RoleInputType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class RoleInputType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class RoleInputType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("roleName")
-  private String roleName = null;
+  private String roleName;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link RoleInputType#RoleInputType(String)}
+   */
+  @Deprecated
+  public RoleInputType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public RoleInputType(String roleName) {
+    this.roleName = roleName;
+  }
 
   public RoleInputType roleName(String roleName) {
     this.roleName = roleName;
@@ -30,11 +50,10 @@ public class RoleInputType  implements Serializable {
   /**
    * the role name
    * @return roleName
-  **/
-  @ApiModelProperty(required = true, value = "the role name")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "roleName", description = "the role name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("roleName")
   public String getRoleName() {
     return roleName;
   }
@@ -43,9 +62,8 @@ public class RoleInputType  implements Serializable {
     this.roleName = roleName;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -65,7 +83,6 @@ public class RoleInputType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RoleInputType {\n");
-    
     sb.append("    roleName: ").append(toIndentedString(roleName)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -75,7 +92,7 @@ public class RoleInputType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

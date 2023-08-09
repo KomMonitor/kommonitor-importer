@@ -1,29 +1,50 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.*;
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)
  */
-@ApiModel(description = "Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
 
-public class ParameterValueType  implements Serializable {
+@Schema(name = "ParameterValueType", description = "Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class ParameterValueType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String name;
 
-  @JsonProperty("value")
-  private String value = null;
+  private String value;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link ParameterValueType#ParameterValueType(String, String)}
+   */
+  @Deprecated
+  public ParameterValueType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public ParameterValueType(String name, String value) {
+    this.name = name;
+    this.value = value;
+  }
 
   public ParameterValueType name(String name) {
     this.name = name;
@@ -33,11 +54,10 @@ public class ParameterValueType  implements Serializable {
   /**
    * name of the parameter
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "name of the parameter")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "name", description = "name of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -54,11 +74,10 @@ public class ParameterValueType  implements Serializable {
   /**
    * value of the parameter
    * @return value
-  **/
-  @ApiModelProperty(required = true, value = "value of the parameter")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "value", description = "value of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("value")
   public String getValue() {
     return value;
   }
@@ -67,9 +86,8 @@ public class ParameterValueType  implements Serializable {
     this.value = value;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -90,7 +108,6 @@ public class ParameterValueType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ParameterValueType {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
@@ -101,7 +118,7 @@ public class ParameterValueType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,25 +1,32 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * IndicatorPOSTInputTypeRefrencesToOtherIndicators
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class IndicatorPOSTInputTypeRefrencesToOtherIndicators implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("indicatorId")
-  private String indicatorId = null;
+  private String indicatorId;
 
-  @JsonProperty("referenceDescription")
-  private String referenceDescription = null;
+  private String referenceDescription;
 
   public IndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorId(String indicatorId) {
     this.indicatorId = indicatorId;
@@ -29,10 +36,10 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serial
   /**
    * identifier of the referenced indicator
    * @return indicatorId
-  **/
-  @ApiModelProperty(value = "identifier of the referenced indicator")
-
-
+  */
+  
+  @Schema(name = "indicatorId", description = "identifier of the referenced indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("indicatorId")
   public String getIndicatorId() {
     return indicatorId;
   }
@@ -49,10 +56,10 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serial
   /**
    * short description of how the indicator is referenced to the superior one
    * @return referenceDescription
-  **/
-  @ApiModelProperty(value = "short description of how the indicator is referenced to the superior one")
-
-
+  */
+  
+  @Schema(name = "referenceDescription", description = "short description of how the indicator is referenced to the superior one", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("referenceDescription")
   public String getReferenceDescription() {
     return referenceDescription;
   }
@@ -61,9 +68,8 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serial
     this.referenceDescription = referenceDescription;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +90,6 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serial
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPOSTInputTypeRefrencesToOtherIndicators {\n");
-    
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    referenceDescription: ").append(toIndentedString(referenceDescription)).append("\n");
     sb.append("}");
@@ -95,7 +100,7 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators  implements Serial
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

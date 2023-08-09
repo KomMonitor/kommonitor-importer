@@ -1,43 +1,65 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for importing an new spatial unit from a certain datasource
  */
-@ApiModel(description = "Definitions for importing an new spatial unit from a certain datasource")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-30T11:26:13.912+02:00")
 
-public class ImportSpatialUnitPOSTInputType  implements Serializable {
+@Schema(name = "Import_SpatialUnitPOSTInputType", description = "Definitions for importing an new spatial unit from a certain datasource")
+@JsonTypeName("Import_SpatialUnitPOSTInputType")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class ImportSpatialUnitPOSTInputType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("spatialUnitPostBody")
-  private SpatialUnitPOSTInputType spatialUnitPostBody = null;
+  private SpatialUnitPOSTInputType spatialUnitPostBody;
 
-  @JsonProperty("dataSource")
-  private DataSourceDefinitionType dataSource = null;
+  private DataSourceDefinitionType dataSource;
 
-  @JsonProperty("converter")
-  private ConverterDefinitionType converter = null;
+  private ConverterDefinitionType converter;
 
-  @JsonProperty("propertyMapping")
-  private SpatialResourcePropertyMappingType propertyMapping = null;
+  private SpatialResourcePropertyMappingType propertyMapping;
 
-  @JsonProperty("dryRun")
-  private Boolean dryRun = null;
+  private Boolean dryRun;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link ImportSpatialUnitPOSTInputType#ImportSpatialUnitPOSTInputType(SpatialUnitPOSTInputType, DataSourceDefinitionType, ConverterDefinitionType, SpatialResourcePropertyMappingType, Boolean)}
+   */
+  @Deprecated
+  public ImportSpatialUnitPOSTInputType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public ImportSpatialUnitPOSTInputType(SpatialUnitPOSTInputType spatialUnitPostBody, DataSourceDefinitionType dataSource, ConverterDefinitionType converter, SpatialResourcePropertyMappingType propertyMapping, Boolean dryRun) {
+    this.spatialUnitPostBody = spatialUnitPostBody;
+    this.dataSource = dataSource;
+    this.converter = converter;
+    this.propertyMapping = propertyMapping;
+    this.dryRun = dryRun;
+  }
 
   public ImportSpatialUnitPOSTInputType spatialUnitPostBody(SpatialUnitPOSTInputType spatialUnitPostBody) {
     this.spatialUnitPostBody = spatialUnitPostBody;
@@ -47,12 +69,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   /**
    * Get spatialUnitPostBody
    * @return spatialUnitPostBody
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "spatialUnitPostBody", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("spatialUnitPostBody")
   public SpatialUnitPOSTInputType getSpatialUnitPostBody() {
     return spatialUnitPostBody;
   }
@@ -69,12 +89,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   /**
    * Get dataSource
    * @return dataSource
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "dataSource", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dataSource")
   public DataSourceDefinitionType getDataSource() {
     return dataSource;
   }
@@ -91,12 +109,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   /**
    * Get converter
    * @return converter
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "converter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("converter")
   public ConverterDefinitionType getConverter() {
     return converter;
   }
@@ -113,12 +129,10 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   /**
    * Get propertyMapping
    * @return propertyMapping
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "propertyMapping", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("propertyMapping")
   public SpatialResourcePropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
@@ -135,12 +149,11 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   /**
    * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
    * @return dryRun
-  **/
-  @ApiModelProperty(required = true, value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
-  @NotNull
-
-
-  public Boolean isDryRun() {
+  */
+  @NotNull 
+  @Schema(name = "dryRun", description = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dryRun")
+  public Boolean getDryRun() {
     return dryRun;
   }
 
@@ -148,9 +161,8 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
     this.dryRun = dryRun;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -174,7 +186,6 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ImportSpatialUnitPOSTInputType {\n");
-    
     sb.append("    spatialUnitPostBody: ").append(toIndentedString(spatialUnitPostBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
     sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
@@ -188,7 +199,7 @@ public class ImportSpatialUnitPOSTInputType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

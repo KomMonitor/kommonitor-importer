@@ -1,29 +1,49 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * RoleOverviewType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class RoleOverviewType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class RoleOverviewType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("roleId")
-  private String roleId = null;
+  private String roleId;
 
-  @JsonProperty("roleName")
-  private String roleName = null;
+  private String roleName;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link RoleOverviewType#RoleOverviewType(String, String)}
+   */
+  @Deprecated
+  public RoleOverviewType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public RoleOverviewType(String roleId, String roleName) {
+    this.roleId = roleId;
+    this.roleName = roleName;
+  }
 
   public RoleOverviewType roleId(String roleId) {
     this.roleId = roleId;
@@ -33,11 +53,10 @@ public class RoleOverviewType  implements Serializable {
   /**
    * the unique role identifier
    * @return roleId
-  **/
-  @ApiModelProperty(required = true, value = "the unique role identifier")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "roleId", description = "the unique role identifier", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("roleId")
   public String getRoleId() {
     return roleId;
   }
@@ -54,11 +73,10 @@ public class RoleOverviewType  implements Serializable {
   /**
    * the role name
    * @return roleName
-  **/
-  @ApiModelProperty(required = true, value = "the role name")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "roleName", description = "the role name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("roleName")
   public String getRoleName() {
     return roleName;
   }
@@ -67,9 +85,8 @@ public class RoleOverviewType  implements Serializable {
     this.roleName = roleName;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -90,7 +107,6 @@ public class RoleOverviewType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RoleOverviewType {\n");
-    
     sb.append("    roleId: ").append(toIndentedString(roleId)).append("\n");
     sb.append("    roleName: ").append(toIndentedString(roleName)).append("\n");
     sb.append("}");
@@ -101,7 +117,7 @@ public class RoleOverviewType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

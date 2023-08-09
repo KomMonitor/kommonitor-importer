@@ -1,70 +1,40 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.kommonitor.models.TopicOverviewType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * TopicOverviewType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-03-26T14:06:30.854+01:00")
 
-public class TopicOverviewType  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class TopicOverviewType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("topicId")
-  private String topicId = null;
+  @Valid
+  private List<@Valid TopicOverviewType> subTopics;
 
-  @JsonProperty("topicName")
-  private String topicName = null;
+  private String topicDescription;
 
-  @JsonProperty("topicDescription")
-  private String topicDescription = null;
+  private String topicId;
 
-  /**
-   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
-   */
-  public enum TopicTypeEnum {
-    MAIN("main"),
-    
-    SUB("sub");
-
-    private String value;
-
-    TopicTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TopicTypeEnum fromValue(String text) {
-      for (TopicTypeEnum b : TopicTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("topicType")
-  private TopicTypeEnum topicType = null;
+  private String topicName;
 
   /**
    * topic resource indicating if the topic object corresponds to an indicator or to a georesource
@@ -80,29 +50,132 @@ public class TopicOverviewType  implements Serializable {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
 
     @JsonCreator
-    public static TopicResourceEnum fromValue(String text) {
+    public static TopicResourceEnum fromValue(String value) {
       for (TopicResourceEnum b : TopicResourceEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("topicResource")
-  private TopicResourceEnum topicResource = null;
+  private TopicResourceEnum topicResource;
 
+  /**
+   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
+   */
+  public enum TopicTypeEnum {
+    MAIN("main"),
+    
+    SUB("sub");
+
+    private String value;
+
+    TopicTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static TopicTypeEnum fromValue(String value) {
+      for (TopicTypeEnum b : TopicTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  private TopicTypeEnum topicType;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link TopicOverviewType#TopicOverviewType(String, String, String, TopicTypeEnum)}
+   */
+  @Deprecated
+  public TopicOverviewType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TopicOverviewType(String topicDescription, String topicId, String topicName, TopicTypeEnum topicType) {
+    this.topicDescription = topicDescription;
+    this.topicId = topicId;
+    this.topicName = topicName;
+    this.topicType = topicType;
+  }
+
+  public TopicOverviewType subTopics(List<@Valid TopicOverviewType> subTopics) {
+    this.subTopics = subTopics;
+    return this;
+  }
+
+  public TopicOverviewType addSubTopicsItem(TopicOverviewType subTopicsItem) {
+    if (this.subTopics == null) {
+      this.subTopics = new ArrayList<>();
+    }
+    this.subTopics.add(subTopicsItem);
+    return this;
+  }
+
+  /**
+   * optional list of subTopics
+   * @return subTopics
+  */
+  @Valid 
+  @Schema(name = "subTopics", description = "optional list of subTopics", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("subTopics")
-  @Valid
-  private List<TopicOverviewType> subTopics = null;
+  public List<@Valid TopicOverviewType> getSubTopics() {
+    return subTopics;
+  }
+
+  public void setSubTopics(List<@Valid TopicOverviewType> subTopics) {
+    this.subTopics = subTopics;
+  }
+
+  public TopicOverviewType topicDescription(String topicDescription) {
+    this.topicDescription = topicDescription;
+    return this;
+  }
+
+  /**
+   * short description of the topic
+   * @return topicDescription
+  */
+  @NotNull 
+  @Schema(name = "topicDescription", description = "short description of the topic", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("topicDescription")
+  public String getTopicDescription() {
+    return topicDescription;
+  }
+
+  public void setTopicDescription(String topicDescription) {
+    this.topicDescription = topicDescription;
+  }
 
   public TopicOverviewType topicId(String topicId) {
     this.topicId = topicId;
@@ -112,11 +185,10 @@ public class TopicOverviewType  implements Serializable {
   /**
    * the identifier of the topic
    * @return topicId
-  **/
-  @ApiModelProperty(required = true, value = "the identifier of the topic")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "topicId", description = "the identifier of the topic", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("topicId")
   public String getTopicId() {
     return topicId;
   }
@@ -133,59 +205,16 @@ public class TopicOverviewType  implements Serializable {
   /**
    * the topic name
    * @return topicName
-  **/
-  @ApiModelProperty(required = true, value = "the topic name")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "topicName", description = "the topic name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("topicName")
   public String getTopicName() {
     return topicName;
   }
 
   public void setTopicName(String topicName) {
     this.topicName = topicName;
-  }
-
-  public TopicOverviewType topicDescription(String topicDescription) {
-    this.topicDescription = topicDescription;
-    return this;
-  }
-
-  /**
-   * short description of the topic
-   * @return topicDescription
-  **/
-  @ApiModelProperty(required = true, value = "short description of the topic")
-  @NotNull
-
-
-  public String getTopicDescription() {
-    return topicDescription;
-  }
-
-  public void setTopicDescription(String topicDescription) {
-    this.topicDescription = topicDescription;
-  }
-
-  public TopicOverviewType topicType(TopicTypeEnum topicType) {
-    this.topicType = topicType;
-    return this;
-  }
-
-  /**
-   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
-   * @return topicType
-  **/
-  @ApiModelProperty(required = true, value = "topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'")
-  @NotNull
-
-
-  public TopicTypeEnum getTopicType() {
-    return topicType;
-  }
-
-  public void setTopicType(TopicTypeEnum topicType) {
-    this.topicType = topicType;
   }
 
   public TopicOverviewType topicResource(TopicResourceEnum topicResource) {
@@ -196,10 +225,10 @@ public class TopicOverviewType  implements Serializable {
   /**
    * topic resource indicating if the topic object corresponds to an indicator or to a georesource
    * @return topicResource
-  **/
-  @ApiModelProperty(value = "topic resource indicating if the topic object corresponds to an indicator or to a georesource")
-
-
+  */
+  
+  @Schema(name = "topicResource", description = "topic resource indicating if the topic object corresponds to an indicator or to a georesource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("topicResource")
   public TopicResourceEnum getTopicResource() {
     return topicResource;
   }
@@ -208,38 +237,28 @@ public class TopicOverviewType  implements Serializable {
     this.topicResource = topicResource;
   }
 
-  public TopicOverviewType subTopics(List<TopicOverviewType> subTopics) {
-    this.subTopics = subTopics;
-    return this;
-  }
-
-  public TopicOverviewType addSubTopicsItem(TopicOverviewType subTopicsItem) {
-    if (this.subTopics == null) {
-      this.subTopics = new ArrayList<>();
-    }
-    this.subTopics.add(subTopicsItem);
+  public TopicOverviewType topicType(TopicTypeEnum topicType) {
+    this.topicType = topicType;
     return this;
   }
 
   /**
-   * optional list of subTopics
-   * @return subTopics
-  **/
-  @ApiModelProperty(value = "optional list of subTopics")
-
-  @Valid
-
-  public List<TopicOverviewType> getSubTopics() {
-    return subTopics;
+   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
+   * @return topicType
+  */
+  @NotNull 
+  @Schema(name = "topicType", description = "topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("topicType")
+  public TopicTypeEnum getTopicType() {
+    return topicType;
   }
 
-  public void setSubTopics(List<TopicOverviewType> subTopics) {
-    this.subTopics = subTopics;
+  public void setTopicType(TopicTypeEnum topicType) {
+    this.topicType = topicType;
   }
-
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -247,30 +266,29 @@ public class TopicOverviewType  implements Serializable {
       return false;
     }
     TopicOverviewType topicOverviewType = (TopicOverviewType) o;
-    return Objects.equals(this.topicId, topicOverviewType.topicId) &&
-        Objects.equals(this.topicName, topicOverviewType.topicName) &&
+    return Objects.equals(this.subTopics, topicOverviewType.subTopics) &&
         Objects.equals(this.topicDescription, topicOverviewType.topicDescription) &&
-        Objects.equals(this.topicType, topicOverviewType.topicType) &&
+        Objects.equals(this.topicId, topicOverviewType.topicId) &&
+        Objects.equals(this.topicName, topicOverviewType.topicName) &&
         Objects.equals(this.topicResource, topicOverviewType.topicResource) &&
-        Objects.equals(this.subTopics, topicOverviewType.subTopics);
+        Objects.equals(this.topicType, topicOverviewType.topicType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(topicId, topicName, topicDescription, topicType, topicResource, subTopics);
+    return Objects.hash(subTopics, topicDescription, topicId, topicName, topicResource, topicType);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TopicOverviewType {\n");
-    
+    sb.append("    subTopics: ").append(toIndentedString(subTopics)).append("\n");
+    sb.append("    topicDescription: ").append(toIndentedString(topicDescription)).append("\n");
     sb.append("    topicId: ").append(toIndentedString(topicId)).append("\n");
     sb.append("    topicName: ").append(toIndentedString(topicName)).append("\n");
-    sb.append("    topicDescription: ").append(toIndentedString(topicDescription)).append("\n");
-    sb.append("    topicType: ").append(toIndentedString(topicType)).append("\n");
     sb.append("    topicResource: ").append(toIndentedString(topicResource)).append("\n");
-    sb.append("    subTopics: ").append(toIndentedString(subTopics)).append("\n");
+    sb.append("    topicType: ").append(toIndentedString(topicType)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -279,7 +297,7 @@ public class TopicOverviewType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

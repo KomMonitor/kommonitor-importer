@@ -1,46 +1,68 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for updating a new indicator from a certain datasource
  */
-@ApiModel(description = "Definitions for updating a new indicator from a certain datasource")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-28T13:12:59.357+01:00")
 
-public class UpdateIndicatorPOSTInputType  implements Serializable {
+@Schema(name = "Update_IndicatorPOSTInputType", description = "Definitions for updating a new indicator from a certain datasource")
+@JsonTypeName("Update_IndicatorPOSTInputType")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class UpdateIndicatorPOSTInputType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("indicatorId")
-  private String indicatorId = null;
+  private String indicatorId;
 
-  @JsonProperty("indicatorPutBody")
-  private IndicatorPUTInputType indicatorPutBody = null;
+  private IndicatorPUTInputType indicatorPutBody;
 
-  @JsonProperty("dataSource")
-  private DataSourceDefinitionType dataSource = null;
+  private DataSourceDefinitionType dataSource;
 
-  @JsonProperty("converter")
-  private ConverterDefinitionType converter = null;
+  private ConverterDefinitionType converter;
 
-  @JsonProperty("propertyMapping")
-  private IndicatorPropertyMappingType propertyMapping = null;
+  private IndicatorPropertyMappingType propertyMapping;
 
-  @JsonProperty("dryRun")
-  private Boolean dryRun = null;
+  private Boolean dryRun;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link UpdateIndicatorPOSTInputType#UpdateIndicatorPOSTInputType(String, IndicatorPUTInputType, DataSourceDefinitionType, ConverterDefinitionType, IndicatorPropertyMappingType, Boolean)}
+   */
+  @Deprecated
+  public UpdateIndicatorPOSTInputType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public UpdateIndicatorPOSTInputType(String indicatorId, IndicatorPUTInputType indicatorPutBody, DataSourceDefinitionType dataSource, ConverterDefinitionType converter, IndicatorPropertyMappingType propertyMapping, Boolean dryRun) {
+    this.indicatorId = indicatorId;
+    this.indicatorPutBody = indicatorPutBody;
+    this.dataSource = dataSource;
+    this.converter = converter;
+    this.propertyMapping = propertyMapping;
+    this.dryRun = dryRun;
+  }
 
   public UpdateIndicatorPOSTInputType indicatorId(String indicatorId) {
     this.indicatorId = indicatorId;
@@ -50,11 +72,10 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * the unique ID of the indicator that shall be updated
    * @return indicatorId
-  **/
-  @ApiModelProperty(required = true, value = "the unique ID of the indicator that shall be updated")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "indicatorId", description = "the unique ID of the indicator that shall be updated", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("indicatorId")
   public String getIndicatorId() {
     return indicatorId;
   }
@@ -71,12 +92,10 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * Get indicatorPutBody
    * @return indicatorPutBody
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "indicatorPutBody", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("indicatorPutBody")
   public IndicatorPUTInputType getIndicatorPutBody() {
     return indicatorPutBody;
   }
@@ -93,12 +112,10 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * Get dataSource
    * @return dataSource
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "dataSource", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dataSource")
   public DataSourceDefinitionType getDataSource() {
     return dataSource;
   }
@@ -115,12 +132,10 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * Get converter
    * @return converter
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "converter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("converter")
   public ConverterDefinitionType getConverter() {
     return converter;
   }
@@ -137,12 +152,10 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * Get propertyMapping
    * @return propertyMapping
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "propertyMapping", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("propertyMapping")
   public IndicatorPropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
@@ -159,12 +172,11 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   /**
    * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
    * @return dryRun
-  **/
-  @ApiModelProperty(required = true, value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
-  @NotNull
-
-
-  public Boolean isDryRun() {
+  */
+  @NotNull 
+  @Schema(name = "dryRun", description = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dryRun")
+  public Boolean getDryRun() {
     return dryRun;
   }
 
@@ -172,9 +184,8 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
     this.dryRun = dryRun;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -199,7 +210,6 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateIndicatorPOSTInputType {\n");
-    
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    indicatorPutBody: ").append(toIndentedString(indicatorPutBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
@@ -214,7 +224,7 @@ public class UpdateIndicatorPOSTInputType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

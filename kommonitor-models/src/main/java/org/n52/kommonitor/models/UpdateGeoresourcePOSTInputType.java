@@ -1,106 +1,66 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.validation.annotation.Validated;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.DataSourceDefinitionType;
+import org.n52.kommonitor.models.GeoresourcePUTInputType;
+import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.io.Serializable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definitions for updating a georesource from a certain datasource
  */
-@ApiModel(description = "Definitions for updating a georesource from a certain datasource")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-07-31T19:51:59.009Z")
 
+@Schema(name = "Update_GeoresourcePOSTInputType", description = "Definitions for updating a georesource from a certain datasource")
+@JsonTypeName("Update_GeoresourcePOSTInputType")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class UpdateGeoresourcePOSTInputType implements Serializable {
 
-public class UpdateGeoresourcePOSTInputType   {
-  @JsonProperty("converter")
-  private ConverterDefinitionType converter = null;
+  private static final long serialVersionUID = 1L;
 
-  @JsonProperty("dataSource")
-  private DataSourceDefinitionType dataSource = null;
+  private String georesourceId;
 
-  @JsonProperty("dryRun")
-  private Boolean dryRun = null;
+  private GeoresourcePUTInputType georesourcePutBody;
 
-  @JsonProperty("georesourceId")
-  private String georesourceId = null;
+  private DataSourceDefinitionType dataSource;
 
-  @JsonProperty("georesourcePutBody")
-  private GeoresourcePUTInputType georesourcePutBody = null;
+  private ConverterDefinitionType converter;
 
-  @JsonProperty("propertyMapping")
-  private SpatialResourcePropertyMappingType propertyMapping = null;
+  private SpatialResourcePropertyMappingType propertyMapping;
 
-  public UpdateGeoresourcePOSTInputType converter(ConverterDefinitionType converter) {
-    this.converter = converter;
-    return this;
+  private Boolean dryRun;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link UpdateGeoresourcePOSTInputType#UpdateGeoresourcePOSTInputType(String, GeoresourcePUTInputType, DataSourceDefinitionType, ConverterDefinitionType, SpatialResourcePropertyMappingType, Boolean)}
+   */
+  @Deprecated
+  public UpdateGeoresourcePOSTInputType() {
+    super();
   }
 
   /**
-   * Get converter
-   * @return converter
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public ConverterDefinitionType getConverter() {
-    return converter;
-  }
-
-  public void setConverter(ConverterDefinitionType converter) {
-    this.converter = converter;
-  }
-
-  public UpdateGeoresourcePOSTInputType dataSource(DataSourceDefinitionType dataSource) {
+   * Constructor with only required parameters
+   */
+  public UpdateGeoresourcePOSTInputType(String georesourceId, GeoresourcePUTInputType georesourcePutBody, DataSourceDefinitionType dataSource, ConverterDefinitionType converter, SpatialResourcePropertyMappingType propertyMapping, Boolean dryRun) {
+    this.georesourceId = georesourceId;
+    this.georesourcePutBody = georesourcePutBody;
     this.dataSource = dataSource;
-    return this;
-  }
-
-  /**
-   * Get dataSource
-   * @return dataSource
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public DataSourceDefinitionType getDataSource() {
-    return dataSource;
-  }
-
-  public void setDataSource(DataSourceDefinitionType dataSource) {
-    this.dataSource = dataSource;
-  }
-
-  public UpdateGeoresourcePOSTInputType dryRun(Boolean dryRun) {
-    this.dryRun = dryRun;
-    return this;
-  }
-
-  /**
-   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
-   * @return dryRun
-  **/
-  @ApiModelProperty(required = true, value = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.")
-  @NotNull
-
-
-  public Boolean isDryRun() {
-    return dryRun;
-  }
-
-  public void setDryRun(Boolean dryRun) {
+    this.converter = converter;
+    this.propertyMapping = propertyMapping;
     this.dryRun = dryRun;
   }
 
@@ -112,11 +72,10 @@ public class UpdateGeoresourcePOSTInputType   {
   /**
    * the unique ID of the georesource that shall be updated
    * @return georesourceId
-  **/
-  @ApiModelProperty(required = true, value = "the unique ID of the georesource that shall be updated")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "georesourceId", description = "the unique ID of the georesource that shall be updated", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("georesourceId")
   public String getGeoresourceId() {
     return georesourceId;
   }
@@ -133,18 +92,56 @@ public class UpdateGeoresourcePOSTInputType   {
   /**
    * Get georesourcePutBody
    * @return georesourcePutBody
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "georesourcePutBody", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("georesourcePutBody")
   public GeoresourcePUTInputType getGeoresourcePutBody() {
     return georesourcePutBody;
   }
 
   public void setGeoresourcePutBody(GeoresourcePUTInputType georesourcePutBody) {
     this.georesourcePutBody = georesourcePutBody;
+  }
+
+  public UpdateGeoresourcePOSTInputType dataSource(DataSourceDefinitionType dataSource) {
+    this.dataSource = dataSource;
+    return this;
+  }
+
+  /**
+   * Get dataSource
+   * @return dataSource
+  */
+  @NotNull @Valid 
+  @Schema(name = "dataSource", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dataSource")
+  public DataSourceDefinitionType getDataSource() {
+    return dataSource;
+  }
+
+  public void setDataSource(DataSourceDefinitionType dataSource) {
+    this.dataSource = dataSource;
+  }
+
+  public UpdateGeoresourcePOSTInputType converter(ConverterDefinitionType converter) {
+    this.converter = converter;
+    return this;
+  }
+
+  /**
+   * Get converter
+   * @return converter
+  */
+  @NotNull @Valid 
+  @Schema(name = "converter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("converter")
+  public ConverterDefinitionType getConverter() {
+    return converter;
+  }
+
+  public void setConverter(ConverterDefinitionType converter) {
+    this.converter = converter;
   }
 
   public UpdateGeoresourcePOSTInputType propertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
@@ -155,12 +152,10 @@ public class UpdateGeoresourcePOSTInputType   {
   /**
    * Get propertyMapping
    * @return propertyMapping
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "propertyMapping", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("propertyMapping")
   public SpatialResourcePropertyMappingType getPropertyMapping() {
     return propertyMapping;
   }
@@ -169,9 +164,28 @@ public class UpdateGeoresourcePOSTInputType   {
     this.propertyMapping = propertyMapping;
   }
 
+  public UpdateGeoresourcePOSTInputType dryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+    return this;
+  }
+
+  /**
+   * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
+   * @return dryRun
+  */
+  @NotNull 
+  @Schema(name = "dryRun", description = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("dryRun")
+  public Boolean getDryRun() {
+    return dryRun;
+  }
+
+  public void setDryRun(Boolean dryRun) {
+    this.dryRun = dryRun;
+  }
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -179,30 +193,29 @@ public class UpdateGeoresourcePOSTInputType   {
       return false;
     }
     UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType = (UpdateGeoresourcePOSTInputType) o;
-    return Objects.equals(this.converter, updateGeoresourcePOSTInputType.converter) &&
-        Objects.equals(this.dataSource, updateGeoresourcePOSTInputType.dataSource) &&
-        Objects.equals(this.dryRun, updateGeoresourcePOSTInputType.dryRun) &&
-        Objects.equals(this.georesourceId, updateGeoresourcePOSTInputType.georesourceId) &&
+    return Objects.equals(this.georesourceId, updateGeoresourcePOSTInputType.georesourceId) &&
         Objects.equals(this.georesourcePutBody, updateGeoresourcePOSTInputType.georesourcePutBody) &&
-        Objects.equals(this.propertyMapping, updateGeoresourcePOSTInputType.propertyMapping);
+        Objects.equals(this.dataSource, updateGeoresourcePOSTInputType.dataSource) &&
+        Objects.equals(this.converter, updateGeoresourcePOSTInputType.converter) &&
+        Objects.equals(this.propertyMapping, updateGeoresourcePOSTInputType.propertyMapping) &&
+        Objects.equals(this.dryRun, updateGeoresourcePOSTInputType.dryRun);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(converter, dataSource, dryRun, georesourceId, georesourcePutBody, propertyMapping);
+    return Objects.hash(georesourceId, georesourcePutBody, dataSource, converter, propertyMapping, dryRun);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateGeoresourcePOSTInputType {\n");
-    
-    sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
-    sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
-    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("    georesourceId: ").append(toIndentedString(georesourceId)).append("\n");
     sb.append("    georesourcePutBody: ").append(toIndentedString(georesourcePutBody)).append("\n");
+    sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
+    sb.append("    converter: ").append(toIndentedString(converter)).append("\n");
     sb.append("    propertyMapping: ").append(toIndentedString(propertyMapping)).append("\n");
+    sb.append("    dryRun: ").append(toIndentedString(dryRun)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -211,7 +224,7 @@ public class UpdateGeoresourcePOSTInputType   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

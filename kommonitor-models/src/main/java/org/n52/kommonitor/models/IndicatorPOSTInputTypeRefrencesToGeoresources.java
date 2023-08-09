@@ -1,25 +1,32 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * IndicatorPOSTInputTypeRefrencesToGeoresources
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class IndicatorPOSTInputTypeRefrencesToGeoresources implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("georesourceId")
-  private String georesourceId = null;
+  private String georesourceId;
 
-  @JsonProperty("referenceDescription")
-  private String referenceDescription = null;
+  private String referenceDescription;
 
   public IndicatorPOSTInputTypeRefrencesToGeoresources georesourceId(String georesourceId) {
     this.georesourceId = georesourceId;
@@ -29,10 +36,10 @@ public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializa
   /**
    * identifier of the referenced georesource
    * @return georesourceId
-  **/
-  @ApiModelProperty(value = "identifier of the referenced georesource")
-
-
+  */
+  
+  @Schema(name = "georesourceId", description = "identifier of the referenced georesource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("georesourceId")
   public String getGeoresourceId() {
     return georesourceId;
   }
@@ -49,10 +56,10 @@ public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializa
   /**
    * short description of how the georesource is referenced to the indicator
    * @return referenceDescription
-  **/
-  @ApiModelProperty(value = "short description of how the georesource is referenced to the indicator")
-
-
+  */
+  
+  @Schema(name = "referenceDescription", description = "short description of how the georesource is referenced to the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("referenceDescription")
   public String getReferenceDescription() {
     return referenceDescription;
   }
@@ -61,9 +68,8 @@ public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializa
     this.referenceDescription = referenceDescription;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +90,6 @@ public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializa
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPOSTInputTypeRefrencesToGeoresources {\n");
-    
     sb.append("    georesourceId: ").append(toIndentedString(georesourceId)).append("\n");
     sb.append("    referenceDescription: ").append(toIndentedString(referenceDescription)).append("\n");
     sb.append("}");
@@ -95,7 +100,7 @@ public class IndicatorPOSTInputTypeRefrencesToGeoresources  implements Serializa
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

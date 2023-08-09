@@ -1,33 +1,36 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.IndicatorPUTInputTypeValueMapping;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * IndicatorPUTInputTypeIndicatorValues
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-31T11:36:14.910+02:00")
 
-public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class IndicatorPUTInputTypeIndicatorValues implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("spatialReferenceKey")
-  private String spatialReferenceKey = null;
+  private String spatialReferenceKey;
 
-  @JsonProperty("valueMapping")
   @Valid
-  private List<IndicatorPUTInputTypeValueMapping> valueMapping = null;
+  private List<@Valid IndicatorPUTInputTypeValueMapping> valueMapping;
 
   public IndicatorPUTInputTypeIndicatorValues spatialReferenceKey(String spatialReferenceKey) {
     this.spatialReferenceKey = spatialReferenceKey;
@@ -37,10 +40,10 @@ public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
   /**
    * identifier (uuid) of the spatial feature to which the values shall be applied
    * @return spatialReferenceKey
-  **/
-  @ApiModelProperty(value = "identifier (uuid) of the spatial feature to which the values shall be applied")
-
-
+  */
+  
+  @Schema(name = "spatialReferenceKey", description = "identifier (uuid) of the spatial feature to which the values shall be applied", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("spatialReferenceKey")
   public String getSpatialReferenceKey() {
     return spatialReferenceKey;
   }
@@ -49,7 +52,7 @@ public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
     this.spatialReferenceKey = spatialReferenceKey;
   }
 
-  public IndicatorPUTInputTypeIndicatorValues valueMapping(List<IndicatorPUTInputTypeValueMapping> valueMapping) {
+  public IndicatorPUTInputTypeIndicatorValues valueMapping(List<@Valid IndicatorPUTInputTypeValueMapping> valueMapping) {
     this.valueMapping = valueMapping;
     return this;
   }
@@ -65,22 +68,20 @@ public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
   /**
    * an array of entries mapping an indicator value to a timestamp as mapping key
    * @return valueMapping
-  **/
-  @ApiModelProperty(value = "an array of entries mapping an indicator value to a timestamp as mapping key")
-
-  @Valid
-
-  public List<IndicatorPUTInputTypeValueMapping> getValueMapping() {
+  */
+  @Valid 
+  @Schema(name = "valueMapping", description = "an array of entries mapping an indicator value to a timestamp as mapping key", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("valueMapping")
+  public List<@Valid IndicatorPUTInputTypeValueMapping> getValueMapping() {
     return valueMapping;
   }
 
-  public void setValueMapping(List<IndicatorPUTInputTypeValueMapping> valueMapping) {
+  public void setValueMapping(List<@Valid IndicatorPUTInputTypeValueMapping> valueMapping) {
     this.valueMapping = valueMapping;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -101,7 +102,6 @@ public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPUTInputTypeIndicatorValues {\n");
-    
     sb.append("    spatialReferenceKey: ").append(toIndentedString(spatialReferenceKey)).append("\n");
     sb.append("    valueMapping: ").append(toIndentedString(valueMapping)).append("\n");
     sb.append("}");
@@ -112,7 +112,7 @@ public class IndicatorPUTInputTypeIndicatorValues  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

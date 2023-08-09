@@ -1,34 +1,36 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)
  */
-@ApiModel(description = "Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-09-01T15:35:10.522+02:00")
 
-public class ParameterType  implements Serializable {
+@Schema(name = "ParameterType", description = "Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class ParameterType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String name;
 
-  @JsonProperty("description")
-  private String description = null;
+  private String description;
 
-  @JsonProperty("mandatory")
-  private Boolean mandatory = null;
+  private Boolean mandatory;
 
   /**
    * type of the parameter
@@ -48,25 +50,44 @@ public class ParameterType  implements Serializable {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
 
     @JsonCreator
-    public static TypeEnum fromValue(String text) {
+    public static TypeEnum fromValue(String value) {
       for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
-  @JsonProperty("type")
-  private TypeEnum type = null;
+  private TypeEnum type;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link ParameterType#ParameterType(String)}
+   */
+  @Deprecated
+  public ParameterType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public ParameterType(String name) {
+    this.name = name;
+  }
 
   public ParameterType name(String name) {
     this.name = name;
@@ -76,11 +97,10 @@ public class ParameterType  implements Serializable {
   /**
    * name of the parameter
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "name of the parameter")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "name", description = "name of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -97,10 +117,10 @@ public class ParameterType  implements Serializable {
   /**
    * description of the parameter
    * @return description
-  **/
-  @ApiModelProperty(value = "description of the parameter")
-
-
+  */
+  
+  @Schema(name = "description", description = "description of the parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
@@ -117,11 +137,11 @@ public class ParameterType  implements Serializable {
   /**
    * indicates wether the parameter is mandatory or optional
    * @return mandatory
-  **/
-  @ApiModelProperty(value = "indicates wether the parameter is mandatory or optional")
-
-
-  public Boolean isMandatory() {
+  */
+  
+  @Schema(name = "mandatory", description = "indicates wether the parameter is mandatory or optional", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("mandatory")
+  public Boolean getMandatory() {
     return mandatory;
   }
 
@@ -137,10 +157,10 @@ public class ParameterType  implements Serializable {
   /**
    * type of the parameter
    * @return type
-  **/
-  @ApiModelProperty(value = "type of the parameter")
-
-
+  */
+  
+  @Schema(name = "type", description = "type of the parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("type")
   public TypeEnum getType() {
     return type;
   }
@@ -149,9 +169,8 @@ public class ParameterType  implements Serializable {
     this.type = type;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -174,7 +193,6 @@ public class ParameterType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ParameterType {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    mandatory: ").append(toIndentedString(mandatory)).append("\n");
@@ -187,7 +205,7 @@ public class ParameterType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,32 +1,53 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.validation.annotation.Validated;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.n52.kommonitor.models.PeriodOfValidityType;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.io.Serializable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * SpatialUnitPUTInputType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-07-31T18:56:11.978Z")
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+public class SpatialUnitPUTInputType implements Serializable {
 
-public class SpatialUnitPUTInputType   {
-  @JsonProperty("geoJsonString")
-  private String geoJsonString = null;
+  private static final long serialVersionUID = 1L;
 
-  @JsonProperty("periodOfValidity")
-  private PeriodOfValidityType periodOfValidity = null;
+  private String geoJsonString;
 
-  @JsonProperty("isPartialUpdate")
-  private Boolean isPartialUpdate = false;
+  private PeriodOfValidityType periodOfValidity;
+
+  private Boolean isPartialUpdate;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link SpatialUnitPUTInputType#SpatialUnitPUTInputType(String, PeriodOfValidityType, Boolean)}
+   */
+  @Deprecated
+  public SpatialUnitPUTInputType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public SpatialUnitPUTInputType(String geoJsonString, PeriodOfValidityType periodOfValidity, Boolean isPartialUpdate) {
+    this.geoJsonString = geoJsonString;
+    this.periodOfValidity = periodOfValidity;
+    this.isPartialUpdate = isPartialUpdate;
+  }
 
   public SpatialUnitPUTInputType geoJsonString(String geoJsonString) {
     this.geoJsonString = geoJsonString;
@@ -36,11 +57,10 @@ public class SpatialUnitPUTInputType   {
   /**
    * a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'
    * @return geoJsonString
-  **/
-  @ApiModelProperty(required = true, value = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "geoJsonString", description = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("geoJsonString")
   public String getGeoJsonString() {
     return geoJsonString;
   }
@@ -57,12 +77,10 @@ public class SpatialUnitPUTInputType   {
   /**
    * Get periodOfValidity
    * @return periodOfValidity
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
+  */
+  @NotNull @Valid 
+  @Schema(name = "periodOfValidity", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("periodOfValidity")
   public PeriodOfValidityType getPeriodOfValidity() {
     return periodOfValidity;
   }
@@ -79,11 +97,11 @@ public class SpatialUnitPUTInputType   {
   /**
    * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
    * @return isPartialUpdate
-  **/
-  @ApiModelProperty(value = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted")
-
-
-  public Boolean isIsPartialUpdate() {
+  */
+  @NotNull 
+  @Schema(name = "isPartialUpdate", description = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("isPartialUpdate")
+  public Boolean getIsPartialUpdate() {
     return isPartialUpdate;
   }
 
@@ -91,9 +109,8 @@ public class SpatialUnitPUTInputType   {
     this.isPartialUpdate = isPartialUpdate;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -115,7 +132,6 @@ public class SpatialUnitPUTInputType   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpatialUnitPUTInputType {\n");
-    
     sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
     sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
     sb.append("    isPartialUpdate: ").append(toIndentedString(isPartialUpdate)).append("\n");
@@ -127,7 +143,7 @@ public class SpatialUnitPUTInputType   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

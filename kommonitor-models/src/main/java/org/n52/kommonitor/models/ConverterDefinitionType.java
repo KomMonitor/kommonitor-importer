@@ -1,41 +1,60 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.ParameterValueType;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
  */
-@ApiModel(description = "Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:29.024+01:00")
 
-public class ConverterDefinitionType  implements Serializable {
+@Schema(name = "ConverterDefinitionType", description = "Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+public class ConverterDefinitionType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name = null;
+  private String name;
 
-  @JsonProperty("mimeType")
-  private String mimeType = null;
+  private String mimeType;
 
-  @JsonProperty("schema")
-  private String schema = null;
+  private String schema;
 
-  @JsonProperty("encoding")
-  private String encoding = null;
+  private String encoding;
 
-  @JsonProperty("parameters")
   @Valid
-  private List<ParameterValueType> parameters = null;
+  private List<@Valid ParameterValueType> parameters;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link ConverterDefinitionType#ConverterDefinitionType(String, String)}
+   */
+  @Deprecated
+  public ConverterDefinitionType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public ConverterDefinitionType(String name, String mimeType) {
+    this.name = name;
+    this.mimeType = mimeType;
+  }
 
   public ConverterDefinitionType name(String name) {
     this.name = name;
@@ -45,11 +64,10 @@ public class ConverterDefinitionType  implements Serializable {
   /**
    * unique name of the conveter
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "unique name of the conveter")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "name", description = "unique name of the conveter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -66,11 +84,10 @@ public class ConverterDefinitionType  implements Serializable {
   /**
    * the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
    * @return mimeType
-  **/
-  @ApiModelProperty(required = true, value = "the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "mimeType", description = "the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("mimeType")
   public String getMimeType() {
     return mimeType;
   }
@@ -87,10 +104,10 @@ public class ConverterDefinitionType  implements Serializable {
   /**
    * the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
    * @return schema
-  **/
-  @ApiModelProperty(value = "the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)")
-
-
+  */
+  
+  @Schema(name = "schema", description = "the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("schema")
   public String getSchema() {
     return schema;
   }
@@ -107,10 +124,10 @@ public class ConverterDefinitionType  implements Serializable {
   /**
    * encoding procedure or character set used (e.g. raw, base64, or UTF-8)
    * @return encoding
-  **/
-  @ApiModelProperty(value = "encoding procedure or character set used (e.g. raw, base64, or UTF-8)")
-
-
+  */
+  
+  @Schema(name = "encoding", description = "encoding procedure or character set used (e.g. raw, base64, or UTF-8)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("encoding")
   public String getEncoding() {
     return encoding;
   }
@@ -119,7 +136,7 @@ public class ConverterDefinitionType  implements Serializable {
     this.encoding = encoding;
   }
 
-  public ConverterDefinitionType parameters(List<ParameterValueType> parameters) {
+  public ConverterDefinitionType parameters(List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -135,22 +152,20 @@ public class ConverterDefinitionType  implements Serializable {
   /**
    * list of additional format related parameters as key-value-pairs that are required for decoding
    * @return parameters
-  **/
-  @ApiModelProperty(value = "list of additional format related parameters as key-value-pairs that are required for decoding")
-
-  @Valid
-
-  public List<ParameterValueType> getParameters() {
+  */
+  @Valid 
+  @Schema(name = "parameters", description = "list of additional format related parameters as key-value-pairs that are required for decoding", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("parameters")
+  public List<@Valid ParameterValueType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<ParameterValueType> parameters) {
+  public void setParameters(List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -174,7 +189,6 @@ public class ConverterDefinitionType  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ConverterDefinitionType {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    mimeType: ").append(toIndentedString(mimeType)).append("\n");
     sb.append("    schema: ").append(toIndentedString(schema)).append("\n");
@@ -188,7 +202,7 @@ public class ConverterDefinitionType  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
