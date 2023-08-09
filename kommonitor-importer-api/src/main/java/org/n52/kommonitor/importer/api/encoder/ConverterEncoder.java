@@ -44,10 +44,10 @@ public class ConverterEncoder {
          	     //     return -1 if lhs should be before rhs
          	     //     return 0 otherwise (meaning the order stays the same)
          		   // check parameter types for being mandatory and sort them alphabetically
-         		   if(lhs.isMandatory() && ! rhs.isMandatory()) {
+         		   if(lhs.getMandatory() && ! rhs.getMandatory()) {
          			   return -1;
          		   }
-         		   else if(! lhs.isMandatory() && rhs.isMandatory()) {
+         		   else if(! lhs.getMandatory() && rhs.getMandatory()) {
          			   return 1;
          		   }
          		   else {

@@ -1,27 +1,23 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.exceptions.UploadException;
-import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.io.file.FileStorageService;
-import org.n52.kommonitor.models.ConverterType;
 import org.n52.kommonitor.models.UploadedFileType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,8 +41,10 @@ public class UploadApiController implements UploadApi {
     }
 
     public ResponseEntity<String> upload(
-            @ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,
-            @ApiParam(value = "The name that will be used for storing the file on the server", required = true) @RequestParam(value = "filename", required = true) String filename) {
+            @Parameter(description = "file detail")
+            @Valid @RequestPart("file") MultipartFile file,
+            @Parameter(description = "The name that will be used for storing the file on the server", required = true)
+            @RequestParam(value = "filename", required = true) String filename) {
         LOG.info("Recevied 'upload' request for file: {}", filename != null ? filename : file.getOriginalFilename());
 
         try {

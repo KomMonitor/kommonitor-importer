@@ -6,7 +6,13 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
@@ -19,13 +25,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:16:35.930+01:00")
 
-@Api(value = "spatial-units", description = "the spatial-units API", tags={"spatial-units"})
+@Tag(name = "spatial-units", description = "the spatial-units API")
 public interface SpatialUnitsApi {
 
     Logger log = LoggerFactory.getLogger(SpatialUnitsApi.class);
@@ -42,18 +47,21 @@ public interface SpatialUnitsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Import a new spatial unit", nickname = "importSpatialUnit", notes = "Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "spatial-units", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
+    @Operation(summary = "Import a new spatial unit",
+            description = "Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API",
+            tags = {"spatial-units",},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) }),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "500", description = "Unexpected error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) })}
+    )
     @RequestMapping(value = "/spatial-units",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> importSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> importSpatialUnit(
+            @Parameter(description = "feature data" ,required=true )
+            @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -70,18 +78,22 @@ public interface SpatialUnitsApi {
     }
 
 
-    @ApiOperation(value = "Update a spatial unit", nickname = "updateSpatialUnit", notes = "Update a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /spatial-units of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "spatial-units", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
+    @Operation(
+            summary = "Update a spatial unit",
+            description = "Update a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /spatial-units of KomMonitor Data Management API",
+            tags={ "spatial-units", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "200", description = "Unexpected error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }) }
+    )
     @RequestMapping(value = "/spatial-units/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> updateSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateSpatialUnitPOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> updateSpatialUnit(
+            @Parameter(description = "feature data" ,required=true )
+            @Valid @RequestBody UpdateSpatialUnitPOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

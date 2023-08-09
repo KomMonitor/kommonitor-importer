@@ -64,7 +64,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
 
         ImportResponseType importResponse = new ImportResponseType();
 
-        if(!requestResourceType.isDryRun()){
+        if(!requestResourceType.getDryRun()){
             SpatialUnitPOSTInputType spatialUnitPostInput = requestResourceType.getSpatialUnitPostBody();
             try {
                 spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));

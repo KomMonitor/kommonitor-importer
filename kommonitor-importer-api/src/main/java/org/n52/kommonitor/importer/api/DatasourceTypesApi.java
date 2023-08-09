@@ -5,10 +5,13 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.models.DataSourceType;
-import org.n52.kommonitor.models.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import org.n52.kommonitor.models.DataSourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,13 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T14:19:13.423+01:00")
 
-@Api(value = "datasourceTypes", description = "the datasourceTypes API", tags={"datasources"})
+@Tag(name = "datasourceTypes", description = "the datasourceTypes API")
 public interface DatasourceTypesApi {
 
     Logger log = LoggerFactory.getLogger(DatasourceTypesApi.class);
@@ -40,17 +42,21 @@ public interface DatasourceTypesApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Retrieve information about the selected datasource type", nickname = "getSupportedDataSourceTypeByType", notes = "Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer", response = DataSourceType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "datasources", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = DataSourceType.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "No support for the specified datasource type", response = Error.class) })
+    @Operation(
+            summary = "Retrieve information about the selected datasource type",
+            description = "Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer",
+            tags={ "datasources", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK"),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "404", description = "No support for the specified datasource type")}
+    )
     @RequestMapping(value = "/datasourceTypes/{type}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource",required=true) @PathVariable("type") String type) {
+    default ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(
+            @Parameter(description = "unique type of the datasource",required=true)
+            @PathVariable("type") String type) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -67,12 +73,14 @@ public interface DatasourceTypesApi {
     }
 
 
-    @ApiOperation(value = "Retrieve information about all supported datasource types", nickname = "getSupportedDataSourceTypes", notes = "Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer", response = DataSourceType.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "datasources", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = DataSourceType.class, responseContainer = "List"),
-        @ApiResponse(code = 401, message = "API key is missing or invalid") })
+    @Operation(
+            summary = "Retrieve information about all supported datasource types",
+            description = "Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer",
+            tags={ "datasources", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK"),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid")}
+    )
     @RequestMapping(value = "/datasourceTypes",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

@@ -1,19 +1,17 @@
 package io.swagger.configuration;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.*;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.*;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
-import javax.servlet.ServletContext;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +36,9 @@ public class SwaggerSecurityConfig {
     @Value("${kommonitor.swagger-ui.security.secret}")
     private String SECRET;
 
+    @Value("${kommonitor.swagger-ui.server}")
+    private String SERVER;
+
     private static final String TITLE = "KomMonitor Data Import API";
     private static final String DESCRIPTION = "Import API to enable the import of spatial KomMonitor data (SpatialUnits," +
             " Georesources and Indicators) from various datasources.";
@@ -48,76 +49,42 @@ public class SwaggerSecurityConfig {
     private static final String GROUP_NAME = "kommonitor-importer";
     private static final String OAUTH_NAME = "spring_oauth";
 
-    ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title(TITLE)
-                .description(DESCRIPTION)
-                .license(LICENSE)
-                .licenseUrl(LICENSE_URL)
-                .termsOfServiceUrl("")
-                .version(VERSION)
-                .contact(new Contact("", "", EMAIL))
-                .build();
-    }
-
     @Bean
-    public Docket customImplementation(
-            ServletContext servletContext,
-            @Value("${kommonitor.swagger-ui.host:}") String host,
-            @Value("${kommonitor.swagger-ui.base-path:}") String basePath) {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(GROUP_NAME)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("org.n52.kommonitor.importer.api"))
-                .build()
-                .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
-                .host(host)
-                .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
-                .apiInfo(apiInfo())
-                .securitySchemes(buildSecurityScheme())
-                .securityContexts(Arrays.asList(securityContext()));
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+                .addServersItem(new Server().url(SERVER))
+                .components(new Components().addSecuritySchemes(OAUTH_NAME, createOAuthScheme()))
+                .addSecurityItem(new SecurityRequirement().addList(OAUTH_NAME))
+                .info(new Info()
+                        .title(TITLE)
+                        .description(DESCRIPTION)
+                        .license(new License().name(LICENSE).url(LICENSE_URL))
+                        .termsOfService("")
+                        .version(VERSION)
+                        .contact(new io.swagger.v3.oas.models.info.Contact().email(EMAIL)));
     }
 
-    @Bean
-    public SecurityConfiguration securityConfiguration() {
-        return SecurityConfigurationBuilder.builder()
-                .realm(REALM)
-                .clientId(CLIENT_ID)
-                .clientSecret(SECRET)
-                .appName(GROUP_NAME)
-                .scopeSeparator(" ")
-                .build();
+    private SecurityScheme createOAuthScheme() {
+        OAuthFlows flows = createOAuthFlows();
+        return new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
+                .flows(flows);
     }
 
-    private List<? extends SecurityScheme> buildSecurityScheme() {
-        List<SecurityScheme> lst = new ArrayList<>();
-        GrantType grantType =
-                new AuthorizationCodeGrantBuilder()
-                        .tokenEndpoint(new TokenEndpoint(String.format("%s/realms/%s/protocol/openid-connect/token", AUTH_SERVER, REALM), GROUP_NAME))
-                        .tokenRequestEndpoint(
-                                new TokenRequestEndpoint(String.format("%s/realms/%s/protocol/openid-connect/auth", AUTH_SERVER, REALM), CLIENT_ID, SECRET))
-                        .build();
-
-        SecurityScheme oauth =
-                new OAuthBuilder()
-                        .name(OAUTH_NAME)
-                        .grantTypes(Arrays.asList(grantType))
-                        .scopes(Arrays.asList(scopes()))
-                        .build();
-        lst.add(oauth);
-        return lst;
+    private OAuthFlows createOAuthFlows() {
+        OAuthFlow flow = createAuthorizationCodeFlow();
+        return new OAuthFlows().authorizationCode(flow);
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(Arrays.asList(new SecurityReference(OAUTH_NAME, scopes())))
-                .forPaths(PathSelectors.any())
-                .build();
+
+    private OAuthFlow createAuthorizationCodeFlow() {
+        return new OAuthFlow()
+                .authorizationUrl(String.format("%s/realms/%s/protocol/openid-connect/auth", AUTH_SERVER, REALM))
+                .tokenUrl(String.format("%s/realms/%s/protocol/openid-connect/token", AUTH_SERVER, REALM))
+                .scopes(scopes());
     }
 
-    private AuthorizationScope[] scopes() {
-        AuthorizationScope[] scopes = {};
-        return scopes;
+    private Scopes scopes() {
+        return new Scopes();
     }
+
 }

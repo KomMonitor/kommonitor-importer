@@ -1,20 +1,17 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
-import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 

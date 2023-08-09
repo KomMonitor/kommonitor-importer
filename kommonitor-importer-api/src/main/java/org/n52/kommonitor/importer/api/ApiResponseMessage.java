@@ -1,10 +1,12 @@
 package org.n52.kommonitor.importer.api;
 
-import javax.xml.bind.annotation.XmlTransient;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-18T13:37:04.985+01:00")
 
-@javax.xml.bind.annotation.XmlRootElement
+@XmlRootElement
 public class ApiResponseMessage {
     public static final int ERROR = 1;
     public static final int WARNING = 2;

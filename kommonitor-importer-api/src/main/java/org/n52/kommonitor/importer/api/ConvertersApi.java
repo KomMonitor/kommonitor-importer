@@ -6,9 +6,13 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.models.ConverterType;
-import org.n52.kommonitor.models.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,13 +21,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T18:43:47.021+01:00")
 
-@Api(value = "converters", description = "the converters API", tags={"converters"})
+@Tag(name = "converters", description = "the converters API")
 public interface ConvertersApi {
 
     Logger log = LoggerFactory.getLogger(ConvertersApi.class);
@@ -40,17 +43,22 @@ public interface ConvertersApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Retrieve information about the selected converters", nickname = "getConverterByName", notes = "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer", response = ConverterType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "converters", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ConverterType.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 404, message = "A converter with the specified name was not found", response = Error.class) })
+    @Operation(
+            summary = "Retrieve information about the selected converters",
+            description = "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer",
+            tags={ "converters", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK"),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "404", description = "A converter with the specified name was not found")
+            }
+    )
     @RequestMapping(value = "/converters/{name}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name) {
+    default ResponseEntity<ConverterType> getConverterByName(
+            @Parameter(description = "unique name of the converter", required=true)
+            @PathVariable("name") String name) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -67,12 +75,15 @@ public interface ConvertersApi {
     }
 
 
-    @ApiOperation(value = "Retrieve information about all available converters", nickname = "getConverters", notes = "Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer", response = ConverterType.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "converters", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ConverterType.class, responseContainer = "List"),
-        @ApiResponse(code = 401, message = "API key is missing or invalid") })
+    @Operation(
+            summary = "Retrieve information about all available converters",
+            description = "Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer",
+            tags={ "converters", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK"),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid")
+            }
+    )
     @RequestMapping(value = "/converters",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

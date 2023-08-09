@@ -60,7 +60,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
         ImportResponseType importResponse = new ImportResponseType();
 
-        if (!requestResourceType.isDryRun()) {
+        if (!requestResourceType.getDryRun()) {
             IndicatorPUTInputType indicatorPutInput = encoder.encode(requestResourceType, validIndicators);
             LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
             LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);

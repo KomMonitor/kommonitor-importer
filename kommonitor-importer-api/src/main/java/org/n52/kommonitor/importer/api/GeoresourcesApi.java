@@ -6,7 +6,13 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -19,13 +25,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Optional;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-26T14:16:35.930+01:00")
 
-@Api(value = "georesources", description = "the georesources API", tags={ "georesources", })
+@Tag(name = "georesources", description = "the georesources API")
 public interface GeoresourcesApi {
 
     Logger log = LoggerFactory.getLogger(GeoresourcesApi.class);
@@ -42,18 +47,23 @@ public interface GeoresourcesApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Import a new geo-resource", nickname = "importGeoresource", notes = "Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "georesources", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
+    @Operation(
+            summary = "Import a new geo-resource",
+            description = "Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API",
+            tags={ "georesources", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) }),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "500", description = "Unexpected error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) })
+            }
+    )
     @RequestMapping(value = "/georesources",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> importGeoresource(
+            @Parameter(description = "feature data" ,required=true )
+            @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -70,18 +80,22 @@ public interface GeoresourcesApi {
     }
 
 
-    @ApiOperation(value = "Update a geo-resource", nickname = "updateGeoresource", notes = "Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API", response = ImportResponseType.class, authorizations = {
-        @Authorization(value = "basicAuth")
-    }, tags={ "georesources", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = ImportResponseType.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-        @ApiResponse(code = 401, message = "API key is missing or invalid"),
-        @ApiResponse(code = 200, message = "Unexpected error", response = Error.class) })
+    @Operation(
+            summary = "Update a geo-resource",
+            description = "Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API",
+            tags={ "georesources", },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "OK", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class)) }),
+                    @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) }),
+                    @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+                    @ApiResponse(responseCode = "500", description = "Unexpected error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class)) }) }
+    )
     @RequestMapping(value = "/georesources/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> updateGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> updateGeoresource(
+            @Parameter(description = "feature data" ,required=true )
+            @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

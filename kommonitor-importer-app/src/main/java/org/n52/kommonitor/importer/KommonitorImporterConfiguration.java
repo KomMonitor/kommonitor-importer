@@ -1,10 +1,10 @@
 package org.n52.kommonitor.importer;
 
-import org.apache.http.Header;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHeader;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.keycloak.adapters.springboot.client.KeycloakRestTemplateCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Provider for KomMonitor Importer App configurations
@@ -55,9 +56,8 @@ public class KommonitorImporterConfiguration {
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
-                .setConnectTimeout(300000)
-                .setSocketTimeout(300000)
-                .setConnectionRequestTimeout(300000)
+                .setResponseTimeout(5, TimeUnit.MINUTES)
+                .setConnectionRequestTimeout(5, TimeUnit.MINUTES)
                 .build();
 
         CloseableHttpClient httpClient = HttpClientBuilder.create()

@@ -2,22 +2,19 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.models.ConverterType;
-import org.n52.kommonitor.models.ParameterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +22,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
-
 @BaseController
 public class ConvertersApiController implements ConvertersApi {
 
@@ -48,7 +44,9 @@ public class ConvertersApiController implements ConvertersApi {
         this.request = request;
     }
 
-    public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
+    public ResponseEntity<ConverterType> getConverterByName(
+            @Parameter(description = "unique name of the converter", required = true)
+            @PathVariable("name") String name) {
         LOG.info("Recevied 'getConverterByName' request for name: {}", name);
 
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);

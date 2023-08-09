@@ -2,7 +2,8 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.encoder.DataSourceRetrieverEncoder;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.importer.io.datasource.AbstractDataSourceRetriever;
@@ -13,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.servlet.http.HttpServletRequest;
 
 import java.util.Comparator;
 import java.util.List;
@@ -47,7 +45,9 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
         this.request = request;
     }
 
-    public ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource", required = true) @PathVariable("type") String type) {
+    public ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(
+            @Parameter(description = "unique type of the datasource", required = true)
+            @PathVariable("type") String type) {
         LOG.info("Recevied 'getSupportedDataSourceTypeByType' request for type: {}", type);
 
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(type);

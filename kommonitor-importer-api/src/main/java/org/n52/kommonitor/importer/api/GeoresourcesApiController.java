@@ -1,7 +1,8 @@
 package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
@@ -14,10 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -47,7 +46,9 @@ public class GeoresourcesApiController implements GeoresourcesApi {
         this.request = request;
     }
 
-    public ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> importGeoresource(
+            @Parameter(description = "feature data", required = true)
+            @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
 

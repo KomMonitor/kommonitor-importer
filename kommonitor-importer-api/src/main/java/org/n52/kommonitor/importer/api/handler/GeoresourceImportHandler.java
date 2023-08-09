@@ -65,7 +65,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
 
         ImportResponseType importResponse = new ImportResponseType();
 
-        if (!requestResourceType.isDryRun()) {
+        if (!requestResourceType.getDryRun()) {
             GeoresourcePOSTInputType georesourcePostInput = requestResourceType.getGeoresourcePostBody();
             try {
                 georesourcePostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
