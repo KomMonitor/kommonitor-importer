@@ -1,5 +1,6 @@
 server:
   port: 8087
+  forward-headers-strategy: FRAMEWORK
 spring:
   application:
     name: kommonitor-import-api
@@ -16,9 +17,15 @@ spring:
       max-request-size: 500MB
     session:
       timeout: 1m
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/kommonitor
+          jwk-set-uri: http://keycloak:8080/realms/kommonitor/protocol/openid-connect/certs
 logging:
   level:
-    org.n52.kommonitor: DEBUG
+    org.n52.kommonitor: INFO
 springfox:
   documentation:
     swagger:
@@ -35,27 +42,38 @@ kommonitor:
     #host: localhost
     # Path mapping for this API in the reverse proxy
     #base-path: /kommonitor/api/importer
+    server: "http://localhost/kommonitor/api/importer"
     security:
       client-id: kommonitor-importer
       secret: secret
 keycloak:
   enabled: true
   realm: kommonitor
-  auth-server-url: http://localhost:8080
+  auth-server-url: http://keycloak:8080
   resource: kommonitor-importer
-  bearer-only: true
-  autodetect-bearer-only: false
-  ssl-required: external
-  public-client: false
-  credentials:
-    secret: secret
-  cors: true
-  cors-allowed-methods: "*"
-  securityConstraints[0]:
-    authRoles[0]: "*"
-    securityCollections[0]:
-      name: protected
-      patterns[0]: /importer/*
+#  bearer-only: true
+#  autodetect-bearer-only: false
+#  ssl-required: external
+#  public-client: false
+#  credentials:
+#    secret: secret
+#  cors: true
+#  cors-allowed-methods: "*"
+#  securityConstraints[0]:
+#    authRoles[0]: "*"
+#    securityCollections[0]:
+#      name: protected
+#      patterns[0]: /*
+springdoc:
+  swagger-ui:
+    config-url: /kommonitor/api/importer/v3/api-docs/swagger-config
+    url: /kommonitor/api/importer/v3/api-docs
+    path: /api-docs
+    oauth2RedirectUrl:  http://localhost/kommonitor/api/importer/swagger-ui/index.html
+    oauth:
+      clientId: kommonitor-importer
+      clientSecret: secret
+
 # Set a proxy for geocoder requests
 #proxy:
 #  host: host.to.proxy
