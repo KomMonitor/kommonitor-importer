@@ -5,7 +5,6 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.message.BasicHeader;
-import org.keycloak.adapters.springboot.client.KeycloakRestTemplateCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,7 +13,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -70,10 +73,26 @@ public class KommonitorImporterConfiguration {
                 .build();
 
         if (keycloakEnabled) {
-            new KeycloakRestTemplateCustomizer().customize(restTemplate);
+            restTemplate.getInterceptors().add(createAuthInterceptor());
         }
 
         return restTemplate;
+    }
+
+    private ClientHttpRequestInterceptor createAuthInterceptor(){
+        return (request, body, execution) -> {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null) {
+                return execution.execute(request, body);
+            }
+
+            if (!(authentication.getCredentials() instanceof AbstractOAuth2Token token)) {
+                return execution.execute(request, body);
+            }
+
+            request.getHeaders().setBearerAuth(token.getTokenValue());
+            return execution.execute(request, body);
+        };
     }
     
     @Bean

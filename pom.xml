@@ -40,12 +40,6 @@
         <log4j.version>2.20.0</log4j.version>
         <poi.version>5.2.3</poi.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-spring-boot-starter</artifactId>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -241,6 +235,10 @@
                     <exclusion>
                         <groupId>io.swagger.core.v3</groupId>
                         <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
