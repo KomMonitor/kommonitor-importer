@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.ForwardedHeaderFilter;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * OAuth2 enabled configuration or Swagger-UI
@@ -29,12 +25,6 @@ public class SwaggerSecurityConfig {
 
     @Value("${keycloak.realm}")
     private String REALM;
-
-    @Value("${kommonitor.swagger-ui.security.client-id}")
-    private String CLIENT_ID;
-
-    @Value("${kommonitor.swagger-ui.security.secret}")
-    private String SECRET;
 
     @Value("${kommonitor.swagger-ui.server}")
     private String SERVER;

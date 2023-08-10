@@ -28,24 +28,15 @@ spring:
 logging:
   level:
     org.n52.kommonitor: DEBUG
-springfox:
-  documentation:
-    swagger:
-      v2:
-        path: /api-docs
 kommonitor:
   importer:
-    datamanagement-api-url: "http://localhost:8085/management"
-    geocoder-api-url: "https://geocoder.fbg-hsbo.de/geocoder"
-    file-storage-location: "/tmp/kommonitor"
+    datamanagement-api-url: http://localhost:8085/management
+    geocoder-api-url: https://geocoder.fbg-hsbo.de/geocoder
+    file-storage-location: /tmp/kommonitor
   swagger-ui:
-    # Use the next two parameters if you run the API behind a reverse proxy
-    # Host address of the reverse proxy
+    # Use the next parameter if you run the API behind a reverse proxy
     # Path mapping for this API in the reverse proxy
-    server: "http://localhost/kommonitor/api/importer"
-    security:
-      client-id: kommonitor-importer
-      secret: secret
+    server: http://localhost/kommonitor/api/importer
 keycloak:
   enabled: true
   realm: kommonitor
