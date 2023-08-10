@@ -1,8 +1,8 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.eclipse.emf.ecore.EValidator;
-import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.legacy.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -39,7 +39,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     private SpatialResourceJsonEncoder spatialResourceEncoder;
 
     @Autowired
-    private GeoresourcesApi apiClient;
+    private GeorecourcesControllerApi apiClient;
 
     public boolean supports(Object requestType) {
         return requestType instanceof ImportGeoresourcePOSTInputType;

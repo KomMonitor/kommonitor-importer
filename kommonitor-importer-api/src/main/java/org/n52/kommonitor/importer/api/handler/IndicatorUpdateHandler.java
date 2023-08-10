@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.api.handler;
 
-import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsControllerApi;
+import org.n52.kommonitor.datamanagement.api.legacy.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -33,7 +34,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     private IndicatorEncoder encoder;
 
     @Autowired
-    private IndicatorsApi apiClient;
+    private IndicatorsControllerApi apiClient;
 
     public boolean supports(Object requestType) {
         return requestType instanceof UpdateIndicatorPOSTInputType;

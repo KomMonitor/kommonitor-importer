@@ -1,7 +1,8 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.legacy.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -35,7 +36,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
     private SpatialResourceJsonEncoder spatialResourceEncoder;
 
     @Autowired
-    private GeoresourcesApi apiClient;
+    private GeorecourcesControllerApi apiClient;
 
     public boolean supports(Object requestType) {
         return requestType instanceof UpdateGeoresourcePOSTInputType;
@@ -73,7 +74,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
 
             LOG.info("Perform 'updateGeoresource' request for Georesource dataset: {}", requestResourceType.getGeoresourceId());
             LOG.debug("'updateGeoresource' request PUT body: {}", georesourcePutInput);
-            ResponseEntity<Void> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
+            ResponseEntity<ResponseEntity> response = apiClient.updateGeoresourceAsBodyWithHttpInfo(requestResourceType.getGeoresourceId(), georesourcePutInput);
             String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
             LOG.info("Successfully executed 'updateGeoresource' request. Updated Georesources: {}", location);
             importResponse.setUri(location);
