@@ -62,7 +62,7 @@ public interface ConvertersApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -94,7 +94,7 @@ public interface ConvertersApi {
             @ApiResponse(responseCode = "401", description = "API key is missing or invalid")
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(

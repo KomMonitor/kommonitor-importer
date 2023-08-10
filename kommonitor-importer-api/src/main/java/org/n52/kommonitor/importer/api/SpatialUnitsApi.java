@@ -57,7 +57,7 @@ public interface SpatialUnitsApi {
         tags = { "spatial-units" },
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = ImportResponseType.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
@@ -68,13 +68,13 @@ public interface SpatialUnitsApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/spatial-units",
-        produces = { "*/*" },
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> importSpatialUnit(
@@ -99,7 +99,7 @@ public interface SpatialUnitsApi {
         tags = { "spatial-units" },
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = ImportResponseType.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
@@ -110,13 +110,13 @@ public interface SpatialUnitsApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/spatial-units/update",
-        produces = { "*/*" },
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateSpatialUnit(

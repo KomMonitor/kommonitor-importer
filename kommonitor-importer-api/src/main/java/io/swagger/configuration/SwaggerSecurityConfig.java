@@ -47,7 +47,7 @@ public class SwaggerSecurityConfig {
     private static final String VERSION = "0.0.1";
     private static final String EMAIL = "s.drost@52north.org";
     private static final String GROUP_NAME = "kommonitor-importer";
-    private static final String OAUTH_NAME = "spring_oauth";
+    private static final String OAUTH_NAME = "oauth2";
 
     @Bean
     public OpenAPI openAPI() {

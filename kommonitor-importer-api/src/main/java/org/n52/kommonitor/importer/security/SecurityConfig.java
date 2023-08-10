@@ -36,7 +36,7 @@ public class SecurityConfig {
     @Bean
     @ConditionalOnProperty(
             value="keycloak.enabled",
-            havingValue = "false",
+            havingValue = "true",
             matchIfMissing = false)
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/swagger-config")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/specs/**")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/specs/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/**")).authenticated()
                         .anyRequest().denyAll()
                 )
@@ -59,7 +59,7 @@ public class SecurityConfig {
     @Bean
     @ConditionalOnProperty(
             value="keycloak.enabled",
-            havingValue = "true",
+            havingValue = "false",
             matchIfMissing = false)
     SecurityFilterChain unsecuredFilterChain(final HttpSecurity http) throws Exception {
         return http

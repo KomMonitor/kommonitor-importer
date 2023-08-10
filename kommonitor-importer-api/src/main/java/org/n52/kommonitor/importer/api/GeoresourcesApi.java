@@ -57,10 +57,10 @@ public interface GeoresourcesApi {
         tags = { "georesources" },
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = ImportResponseType.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
             @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
@@ -68,13 +68,13 @@ public interface GeoresourcesApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/georesources",
-        produces = { "*/*" },
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> importGeoresource(
@@ -99,7 +99,7 @@ public interface GeoresourcesApi {
         tags = { "georesources" },
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = ImportResponseType.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
@@ -110,13 +110,13 @@ public interface GeoresourcesApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/georesources/update",
-        produces = { "*/*" },
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateGeoresource(

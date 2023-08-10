@@ -56,7 +56,7 @@ public interface IndicatorsApi {
         tags = { "indicators" },
         responses = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = ImportResponseType.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
@@ -67,13 +67,13 @@ public interface IndicatorsApi {
             })
         },
         security = {
-            @SecurityRequirement(name = "basicAuth")
+            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/indicators/update",
-        produces = { "*/*" },
+        produces = { "application/json" },
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateIndicator(
