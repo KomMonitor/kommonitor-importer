@@ -1,10 +1,15 @@
 upstream importer {
     server ${IMPORTER};
 }
+upstream data-management {
+    server ${DATA_MANAGEMENT};
+}
 
 server {
     listen            ${NGINX_PORT};
     listen       [::]:${NGINX_PORT};
+
+    client_max_body_size 1G;
 
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
@@ -16,6 +21,9 @@ server {
     location /kommonitor/api {
         location /kommonitor/api/importer/ {
             proxy_pass http://importer/;
+        }
+        location /kommonitor/api/datamanagement/ {
+            proxy_pass http://data-management/;
         }
     }
 
