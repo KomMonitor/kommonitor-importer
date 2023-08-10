@@ -1,6 +1,6 @@
-package org.n52.kommonitor.datamanagement.api.client;
+package org.n52.kommonitor.datamanagement.api.legacy.client;
 
-import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.legacy.ApiClient;
 
 import org.n52.kommonitor.models.UserInputType;
 import org.n52.kommonitor.models.UserOverviewType;

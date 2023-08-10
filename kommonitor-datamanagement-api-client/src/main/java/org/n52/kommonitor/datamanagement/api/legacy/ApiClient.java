@@ -1,4 +1,4 @@
-package org.n52.kommonitor.datamanagement.api;
+package org.n52.kommonitor.datamanagement.api.legacy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -7,7 +7,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -33,7 +32,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,10 +43,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import org.n52.kommonitor.datamanagement.api.auth.Authentication;
-import org.n52.kommonitor.datamanagement.api.auth.HttpBasicAuth;
-import org.n52.kommonitor.datamanagement.api.auth.ApiKeyAuth;
-import org.n52.kommonitor.datamanagement.api.auth.OAuth;
+import org.n52.kommonitor.datamanagement.api.legacy.auth.Authentication;
+import org.n52.kommonitor.datamanagement.api.legacy.auth.HttpBasicAuth;
+import org.n52.kommonitor.datamanagement.api.legacy.auth.ApiKeyAuth;
+import org.n52.kommonitor.datamanagement.api.legacy.auth.OAuth;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-10T14:00:35.064+01:00")
 @Component("org.n52.kommonitor.datamanagement.api.ApiClient")

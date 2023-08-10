@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package org.n52.kommonitor.datamanagement.api;
+package org.n52.kommonitor.datamanagement.api.legacy;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.databind.util.ISO8601Utils;

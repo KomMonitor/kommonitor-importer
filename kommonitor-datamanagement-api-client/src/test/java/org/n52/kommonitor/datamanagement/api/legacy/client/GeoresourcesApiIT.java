@@ -11,10 +11,9 @@
  */
 
 
-package org.n52.kommonitor.datamanagement.api.client;
+package org.n52.kommonitor.datamanagement.api.legacy.client;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.legacy.ApiClient;
 
 import org.n52.kommonitor.models.GeoresourceOverviewType;
 import org.n52.kommonitor.models.GeoresourcePATCHInputType;

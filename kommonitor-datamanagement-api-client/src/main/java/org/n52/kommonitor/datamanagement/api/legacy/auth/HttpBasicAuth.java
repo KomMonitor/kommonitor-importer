@@ -1,6 +1,5 @@
-package org.n52.kommonitor.datamanagement.api.auth;
+package org.n52.kommonitor.datamanagement.api.legacy.auth;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.http.HttpHeaders;

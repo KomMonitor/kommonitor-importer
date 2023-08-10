@@ -1,4 +1,4 @@
-package org.n52.kommonitor.datamanagement.api.auth;
+package org.n52.kommonitor.datamanagement.api.legacy.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
