@@ -1,0 +1,5749 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: christian.danowski-buhren@hs-bochum.de
+  description: "erster Entwurf einer Datenzugriffs-API, die den Zugriff auf die KomMonitor-Datenhaltungsschicht\
+    \ kapselt."
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: KomMonitor Data Access API
+  version: 0.0.1
+servers:
+- url: //localhost:8085/
+tags:
+- description: the Georesources API
+  name: georecources-controller
+- description: the public Georesources API
+  name: georecources-public-controller
+- description: Home Controller
+  name: home-controller
+- description: the Indicators API
+  name: indicators-controller
+- description: the Indicators API
+  name: indicators-public-controller
+- description: the Roles API
+  name: roles-controller
+- description: the ProcessScripts API
+  name: script-controller
+- description: the ProcessScripts API
+  name: script-public-controller
+- description: the SpatialUnits API
+  name: spatial-units-controller
+- description: the public SpatialUnits API
+  name: spatial-units-public-controller
+- description: the Topics API
+  name: topics-controller
+- description: the public Topics API
+  name: topics-public-controller
+- description: the Users API
+  name: users-controller
+paths:
+  /:
+    delete:
+      deprecated: false
+      operationId: indexUsingDELETE
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      operationId: indexUsingGET
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    head:
+      deprecated: false
+      operationId: indexUsingHEAD
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    options:
+      deprecated: false
+      operationId: indexUsingOPTIONS
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    patch:
+      deprecated: false
+      operationId: indexUsingPATCH
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    post:
+      deprecated: false
+      operationId: indexUsingPOST
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      operationId: indexUsingPUT
+      parameters:
+      - in: query
+        name: present
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: index
+      tags:
+      - home-controller
+      x-accepts: '*/*'
+  /management/georesources:
+    get:
+      deprecated: false
+      description: retrieve information about available features of different geo-resource
+        datasets
+      operationId: getGeoresources
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoresourceOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of different geo-resource
+        datasets
+      tags:
+      - georecources-controller
+      x-accepts: application/json
+    post:
+      deprecated: false
+      description: Add/Register a geo-resource dataset for a certain period of time
+      operationId: addGeoresourceAsBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoresourcePOSTInputType'
+        description: featureData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Add a new geo-resource
+      tags:
+      - georecources-controller
+      x-codegen-request-body-name: featureData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/georesources/{georesourceId}:
+    delete:
+      deprecated: false
+      description: Delete the features/contents of the selected geo-resource dataset
+      operationId: deleteGeoresourceById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the features/contents of the selected geo-resource dataset
+      tags:
+      - georecources-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about available features of the selected geo-resource
+        dataset
+      operationId: getGeoresourceById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoresourceOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of the selected geo-resource
+        dataset
+      tags:
+      - georecources-controller
+      x-accepts: application/json
+    patch:
+      deprecated: false
+      description: Modify/Update the metadata of the selected geo-resource dataset.
+        This replaces the formerly stored metadata.
+      operationId: updateGeoresourceMetadataAsBody
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoresourcePATCHInputType'
+        description: metadata
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the metadata of the selected geo-resource dataset
+      tags:
+      - georecources-controller
+      x-codegen-request-body-name: metadata
+      x-content-type: application/json
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      description: "Modify/Update the features of the selected geo-resource dataset.\
+        \  The interface expects a full upload of all geometries for the spatial unit.\
+        \ Internally, those geometries are compared to the existing ones to mark 'old'\
+        \ geometries that are no longer in use as outdated. Hence, each geometric\
+        \ object is only persisted once and its use is controlled by time validity\
+        \ marks."
+      operationId: updateGeoresourceAsBody
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoresourcePUTInputType'
+        description: featureData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the features of the selected geo-resource dataset
+      tags:
+      - georecources-controller
+      x-codegen-request-body-name: featureData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/georesources/{georesourceId}/allFeatures:
+    delete:
+      deprecated: false
+      description: Delete all features/contents of the selected geo-resource dataset
+      operationId: deleteAllGeoresourceFeaturesById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete all features/contents of the selected geo-resource dataset
+      tags:
+      - georecources-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve all feature entries for all applicable periods of validity
+        for the selected geo-resource dataset (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      operationId: getAllGeoresourceFeaturesById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve all feature entries for all applicable periods of validity
+        for the selected geo-resource dataset (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      tags:
+      - georecources-controller
+      x-accepts: application/json
+  /management/georesources/{georesourceId}/schema:
+    get:
+      deprecated: false
+      description: retrieve the JSON schema for the selected geo-resource dataset.
+        The JSON schema indicates the property structure of the dataset.
+      operationId: getGeoresourceSchemaByLevel
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the JSON schema for the selected geo-resource dataset
+      tags:
+      - georecources-controller
+      x-accepts: application/json
+  /management/georesources/{georesourceId}/{year}/{month}/{day}:
+    delete:
+      deprecated: false
+      description: "Delete the features/contents of the selected geo-resource dataset,\
+        \ selected by year and month"
+      operationId: deleteGeoresourceByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "Delete the features/contents of the selected geo-resource dataset,\
+        \ selected by year and month"
+      tags:
+      - georecources-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve the features according to the selected geo-resource dataset
+        and selected year and month as GeoJSON
+      operationId: getGeoresourceByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the features according to the selected geo-resource dataset
+        and selected year and month as GeoJSON
+      tags:
+      - georecources-controller
+      x-accepts: application/octed-stream
+  /management/indicators:
+    get:
+      deprecated: false
+      description: retrieve information about available indicators
+      operationId: getIndicators
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicatorOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available indicators
+      tags:
+      - indicators-controller
+      x-accepts: application/json
+    post:
+      description: Add/Register an indicator dataset for a certain period of time
+        and spatial unit/level
+      operationId: addIndicatorAsBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndicatorPOSTInputType'
+        description: indicatorData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Add a new indicator dataset
+      tags:
+      - indicators-controller
+      x-codegen-request-body-name: indicatorData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/indicators/display-order:
+    patch:
+      deprecated: false
+      description: Update displayOrder for submitted indicators
+      operationId: updateIndicatorDisplayOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/IndicatorPATCHDisplayOrderInputType'
+              type: array
+        description: array of indicator id and displayOrder items
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Update displayOrder for submitted indicators
+      tags:
+      - indicators-controller
+      x-codegen-request-body-name: indicatorOrderArray
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/indicators/{indicatorId}:
+    delete:
+      deprecated: false
+      description: Delete the features/contents of the selected indicator dataset
+      operationId: deleteIndicatorById
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the features/contents of the selected indicator dataset
+      tags:
+      - indicators-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about the selected indicator
+      operationId: getIndicatorById
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicatorOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the selected indicator
+      tags:
+      - indicators-controller
+      x-accepts: application/json
+    patch:
+      deprecated: false
+      description: Modify/Update the metadata of the selected indicator dataset. This
+        replaces the formerly stored metadata.
+      operationId: updateIndicatorMetadataAsBody
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndicatorMetadataPATCHInputType'
+        description: metadata
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the metadata of the selected indicator dataset
+      tags:
+      - indicators-controller
+      x-codegen-request-body-name: metadata
+      x-content-type: application/json
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      description: Modify/Update the contents of the selected indicator dataset
+      operationId: updateIndicatorAsBody
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndicatorPUTInputType'
+        description: indicatorData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK - Updated
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the contents of the selected indicator dataset
+      tags:
+      - indicators-controller
+      x-codegen-request-body-name: indicatorData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/indicators/{indicatorId}/{spatialUnitId}:
+    delete:
+      deprecated: false
+      description: Delete the features/contents of the selected indicator dataset
+        for the selected spatial unit
+      operationId: deleteIndicatorByIdAndSpatialUnitId
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the features/contents of the selected indicator dataset for
+        the selected spatial unit
+      tags:
+      - indicators-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve the indicator for the selected spatial unit as GeoJSON
+      operationId: getIndicatorBySpatialUnitIdAndId
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the indicator for the selected spatial unit as GeoJSON
+      tags:
+      - indicators-controller
+      x-accepts: application/octed-stream
+    patch:
+      deprecated: false
+      operationId: updateIndicatorRolesUsingPATCH
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndicatorPATCHInputType'
+        description: indicatorData
+        required: true
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the selected indicator dataset
+      tags:
+      - indicators-controller
+      x-codegen-request-body-name: indicatorData
+      x-content-type: application/json
+      x-accepts: application/octed-stream
+  /management/indicators/{indicatorId}/{spatialUnitId}/without-geometry:
+    get:
+      deprecated: false
+      description: retrieve the indicator values and other properties for the selected
+        spatial unit. It does not include the spatial geometries!
+      operationId: getIndicatorBySpatialUnitIdAndIdWithoutGeometry
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the indicator values and other properties for the selected
+        spatial unit. It does not include the spatial geometries!
+      tags:
+      - indicators-controller
+      x-accepts: application/json
+  /management/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}:
+    delete:
+      deprecated: false
+      description: "Delete the features/contents of the selected indicator dataset,\
+        \ selected by year and month"
+      operationId: deleteIndicatorByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "Delete the features/contents of the selected indicator dataset, selected\
+        \ by year and month"
+      tags:
+      - indicators-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: "retrieve the indicator for the selected spatial unit, year and\
+        \ month as GeoJSON"
+      operationId: getIndicatorBySpatialUnitIdAndIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "retrieve the indicator for the selected spatial unit, year and month\
+        \ as GeoJSON"
+      tags:
+      - indicators-controller
+      x-accepts: application/octed-stream
+  /management/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}/without-geometry:
+    get:
+      deprecated: false
+      description: "retrieve the indicator values and other properties for the selected\
+        \ spatial unit, year and month. It does not include the spatial geometries!"
+      operationId: getIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithoutGeometry
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "retrieve the indicator values and other properties for the selected\
+        \ spatial unit, year and month. It does not include the spatial geometries!"
+      tags:
+      - indicators-controller
+      x-accepts: application/json
+  /management/process-scripts:
+    get:
+      deprecated: false
+      description: retrieve information about available process scripts
+      operationId: getProcessScripts
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available process scripts
+      tags:
+      - script-controller
+      x-accepts: application/json
+    post:
+      deprecated: false
+      description: Register a process script associated to a certain indicator
+      operationId: addProcessScriptAsBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessScriptPOSTInputType'
+        description: processScriptData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Register a new process script
+      tags:
+      - script-controller
+      x-codegen-request-body-name: processScriptData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/process-scripts/template:
+    get:
+      deprecated: false
+      description: "retrieve an empty script template, that defines how to implement\
+        \ process scripts for KomMonitor. The script works as a template for a NodeJS\
+        \ module. Hence, it predefines required methods that are called by the executing\
+        \ processing engine (a NodeJS runtimne environment). As a script developer,\
+        \ those predefined methods have to be implemented. The template contains detailed\
+        \ documentation on how to implement those methods."
+      operationId: getProcessScriptTemplate
+      responses:
+        "200":
+          content:
+            application/javascript:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "retrieve an empty script template, that defines how to implement process\
+        \ scripts for KomMonitor as JavaScript file."
+      tags:
+      - script-controller
+      x-accepts: application/javascript
+  /management/process-scripts/usingIndicatorId/{indicatorId}:
+    delete:
+      deprecated: false
+      description: Delete the process script associated to the specified indicator
+      operationId: deleteProcessScript
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the process script
+      tags:
+      - script-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about the associated process script for a
+        certain indicator
+      operationId: getProcessScriptForIndicator
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the associated process script for a certain
+        indicator
+      tags:
+      - script-controller
+      x-accepts: application/json
+    put:
+      deprecated: false
+      description: Modify/Update an existing process script associated to a certain
+        indicator
+      operationId: updateProcessScriptAsBody
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessScriptPUTInputType'
+        description: processScriptData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update an existing process script
+      tags:
+      - script-controller
+      x-codegen-request-body-name: processScriptData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/process-scripts/usingIndicatorId/{indicatorId}/scriptCode:
+    get:
+      deprecated: false
+      description: retrieve the process script code associated to a certain indicator
+        as JavaScript file
+      operationId: getProcessScriptCodeForIndicator
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/javascript:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the process script code associated to a certain indicator
+        as JavaScript file
+      tags:
+      - script-controller
+      x-accepts: application/javascript
+  /management/process-scripts/{scriptId}:
+    delete:
+      deprecated: false
+      description: Delete the process script associated to the specified scriptId
+      operationId: deleteProcessScriptByScriptId
+      parameters:
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the process script
+      tags:
+      - script-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about the associated process script for a
+        certain scriptId
+      operationId: getProcessScriptForScriptId
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the associated process script for a certain
+        scriptId
+      tags:
+      - script-controller
+      x-accepts: application/json
+    put:
+      deprecated: false
+      description: Modify/Update an existing process script associated to a certain
+        scriptId
+      operationId: updateProcessScriptAsBodyByScriptId
+      parameters:
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessScriptPUTInputType'
+        description: processScriptData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update an existing process script
+      tags:
+      - script-controller
+      x-codegen-request-body-name: processScriptData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/process-scripts/{scriptId}/scriptCode:
+    get:
+      deprecated: false
+      description: retrieve the process script code associated to a certain indicator
+        as JavaScript file
+      operationId: getProcessScriptCode
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/javascript:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the process script code associated to a certain indicator
+        as JavaScript file
+      tags:
+      - script-controller
+      x-accepts: application/javascript
+  /management/public/georesources:
+    get:
+      deprecated: false
+      description: retrieve information about available features of different public
+        geo-resource datasets
+      operationId: getPublicGeoresources
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoresourceOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of different public geo-resource
+        datasets
+      tags:
+      - georecources-public-controller
+      x-accepts: application/json
+  /management/public/georesources/{georesourceId}:
+    get:
+      deprecated: false
+      description: retrieve information about available features of the selected public
+        geo-resource dataset
+      operationId: getPublicGeoresourceById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoresourceOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of the selected public
+        geo-resource dataset
+      tags:
+      - georecources-public-controller
+      x-accepts: application/json
+  /management/public/georesources/{georesourceId}/allFeatures:
+    get:
+      deprecated: false
+      description: retrieve all feature entries for all applicable periods of validity
+        for the selected public geo-resource dataset (hence might contain each feature
+        multiple times if they exist for different periods of validity)
+      operationId: getAllPublicGeoresourceFeaturesById
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve all feature entries for all applicable periods of validity
+        for the selected public geo-resource dataset (hence might contain each feature
+        multiple times if they exist for different periods of validity)
+      tags:
+      - georecources-public-controller
+      x-accepts: application/json
+  /management/public/georesources/{georesourceId}/schema:
+    get:
+      deprecated: false
+      description: retrieve the JSON schema for the selected public geo-resource dataset.
+        The JSON schema indicates the property structure of the dataset.
+      operationId: getPublicGeoresourceSchemaByLevel
+      parameters:
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the JSON schema for the selected public geo-resource dataset
+      tags:
+      - georecources-public-controller
+      x-accepts: application/json
+  /management/public/georesources/{georesourceId}/{year}/{month}/{day}:
+    get:
+      deprecated: false
+      description: retrieve the features according to the selected public geo-resource
+        dataset and selected year and month as GeoJSON
+      operationId: getPublicGeoresourceByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: georesourceId
+        in: path
+        name: georesourceId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the features according to the selected public geo-resource
+        dataset and selected year and month as GeoJSON
+      tags:
+      - georecources-public-controller
+      x-accepts: application/octed-stream
+  /management/public/indicators:
+    get:
+      deprecated: false
+      description: retrieve information about available public indicators
+      operationId: getIndicators_1
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicatorOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available public indicators
+      tags:
+      - indicators-public-controller
+      x-accepts: application/json
+  /management/public/indicators/{indicatorId}:
+    get:
+      deprecated: false
+      description: retrieve information about the selected public indicator
+      operationId: getPublicIndicatorById
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicatorOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the selected public indicator
+      tags:
+      - indicators-public-controller
+      x-accepts: application/json
+  /management/public/indicators/{indicatorId}/{spatialUnitId}:
+    get:
+      deprecated: false
+      description: retrieve the public indicator for the selected spatial unit as
+        GeoJSON
+      operationId: getPublicIndicatorBySpatialUnitIdAndId
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the public indicator for the selected spatial unit as GeoJSON
+      tags:
+      - indicators-public-controller
+      x-accepts: application/octed-stream
+  /management/public/indicators/{indicatorId}/{spatialUnitId}/without-geometry:
+    get:
+      deprecated: false
+      description: retrieve the public indicator values and other properties for the
+        selected public spatial unit. It does not include the spatial geometries!
+      operationId: getPublicIndicatorBySpatialUnitIdAndIdWithoutGeometry
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the public indicator values and other properties for the selected
+        public spatial unit. It does not include the spatial geometries!
+      tags:
+      - indicators-public-controller
+      x-accepts: application/json
+  /management/public/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}:
+    get:
+      deprecated: false
+      description: "retrieve the public indicator for the selected spatial unit, year\
+        \ and month as GeoJSON"
+      operationId: getPublicIndicatorBySpatialUnitIdAndIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "retrieve the public indicator for the selected public spatial unit,\
+        \ year and month as GeoJSON"
+      tags:
+      - indicators-public-controller
+      x-accepts: application/octed-stream
+  /management/public/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}/without-geometry:
+    get:
+      deprecated: false
+      description: "retrieve the public indicator values and other properties for\
+        \ the selected public spatial unit, year and month. It does not include the\
+        \ spatial geometries!"
+      operationId: getPublicIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithoutGeometry
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "retrieve the public indicator values and other properties for the\
+        \ selected public spatial unit, year and month. It does not include the spatial\
+        \ geometries!"
+      tags:
+      - indicators-public-controller
+      x-accepts: application/json
+  /management/public/process-scripts:
+    get:
+      deprecated: false
+      description: retrieve information about available process scripts associated
+        to public indicators
+      operationId: getProcessScripts_1
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available process scripts associated to
+        public indicators
+      tags:
+      - script-public-controller
+      x-accepts: application/json
+  /management/public/process-scripts/usingIndicatorId/{indicatorId}:
+    get:
+      deprecated: false
+      description: retrieve information about the associated process script for a
+        certain indicator
+      operationId: getProcessScriptForIndicator_1
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the associated process script for a certain
+        public indicator
+      tags:
+      - script-public-controller
+      x-accepts: application/json
+  /management/public/process-scripts/usingIndicatorId/{indicatorId}/scriptCode:
+    get:
+      deprecated: false
+      description: retrieve the process script code associated to a certain public
+        indicator as JavaScript file
+      operationId: getProcessScriptCodeForIndicator_1
+      parameters:
+      - description: indicatorId
+        in: path
+        name: indicatorId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/javascript:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the process script code associated to a certain public indicator
+        as JavaScript file
+      tags:
+      - script-public-controller
+      x-accepts: application/javascript
+  /management/public/process-scripts/{scriptId}:
+    get:
+      deprecated: false
+      description: retrieve information about the associated process script for a
+        certain scriptId associated to a public indicator
+      operationId: getProcessScriptForScriptId_1
+      parameters:
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the associated process script for a certain
+        scriptId associated to a public indicator
+      tags:
+      - script-public-controller
+      x-accepts: application/json
+  /management/public/process-scripts/{scriptId}/scriptCode:
+    get:
+      deprecated: false
+      description: retrieve the process script code associated to a certain public
+        indicator as JavaScript file
+      operationId: getProcessScriptCode_1
+      parameters:
+      - description: scriptId
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/javascript:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the process script code associated to a certain public indicator
+        as JavaScript file
+      tags:
+      - script-public-controller
+      x-accepts: application/javascript
+  /management/public/spatial-units:
+    get:
+      deprecated: false
+      description: retrieve information about available features of different spatial
+        units/levels
+      operationId: getSpatialUnits_1
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpatialUnitOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of different spatial
+        units/levels
+      tags:
+      - spatial-units-public-controller
+      x-accepts: application/json
+  /management/public/spatial-units/{spatialUnitId}:
+    get:
+      deprecated: false
+      description: retrieve information about available features of the selected spatial
+        unit/level
+      operationId: getSpatialUnitsById_1
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpatialUnitOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of the selected spatial
+        unit/level
+      tags:
+      - spatial-units-public-controller
+      x-accepts: application/json
+  /management/public/spatial-units/{spatialUnitId}/allFeatures:
+    get:
+      deprecated: false
+      description: retrieve all feature entries for all applicable periods of validity
+        for the selected spatial unit/level (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      operationId: getAllSpatialUnitFeaturesById_1
+      parameters:
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve all feature entries for all applicable periods of validity
+        for the selected spatial unit/level (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      tags:
+      - spatial-units-public-controller
+      x-accepts: application/json
+  /management/public/spatial-units/{spatialUnitId}/schema:
+    get:
+      deprecated: false
+      description: retrieve the JSON schema for the selected spatial unit/level. The
+        JSON schema indicates the property structure of the dataset.
+      operationId: getSpatialUnitsSchemaById_1
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the JSON schema for the selected spatial unit/level
+      tags:
+      - spatial-units-public-controller
+      x-accepts: application/json
+  /management/public/spatial-units/{spatialUnitId}/{year}/{month}/{day}:
+    get:
+      deprecated: false
+      description: retrieve the features according to the selected spatial unit/level
+        and selected year and month as GeoJSON
+      operationId: getSpatialUnitsByIdAndYearAndMonth_1
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the features according to the selected spatial unit/level
+        and selected year and month as GeoJSON
+      tags:
+      - spatial-units-public-controller
+      x-accepts: application/octed-stream
+  /management/public/topics:
+    get:
+      deprecated: false
+      description: retrieve information about available topics
+      operationId: getTopics
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available topics
+      tags:
+      - topics-public-controller
+      x-accepts: application/json
+  /management/public/topics/{topicId}:
+    get:
+      deprecated: false
+      description: retrieve information about the selected topic
+      operationId: getTopicById
+      parameters:
+      - description: topicId
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the selected topic
+      tags:
+      - topics-public-controller
+      x-accepts: application/json
+  /management/roles:
+    get:
+      deprecated: false
+      description: retrieve information about available roles
+      operationId: getRoles
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available roles
+      tags:
+      - roles-controller
+      x-accepts: application/json
+    post:
+      deprecated: false
+      description: Add/Register a role
+      operationId: addRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleInputType'
+        description: roleData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Register a new role
+      tags:
+      - roles-controller
+      x-codegen-request-body-name: roleData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/roles/{roleId}:
+    delete:
+      deprecated: false
+      description: Delete the role
+      operationId: deleteRole
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the role
+      tags:
+      - roles-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about the selected role
+      operationId: getRoleById
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about the selected role
+      tags:
+      - roles-controller
+      x-accepts: application/json
+    put:
+      deprecated: false
+      description: Modify role information
+      operationId: updateRole
+      parameters:
+      - description: roleId
+        in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleInputType'
+        description: roleData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify role information
+      tags:
+      - roles-controller
+      x-codegen-request-body-name: roleData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/spatial-units:
+    get:
+      deprecated: false
+      description: retrieve information about available features of different spatial
+        units/levels
+      operationId: getSpatialUnits
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpatialUnitOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of different spatial
+        units/levels
+      tags:
+      - spatial-units-controller
+      x-accepts: application/json
+    post:
+      deprecated: false
+      description: Add/Register a spatial unit for a certain period of time
+      operationId: addSpatialUnitAsBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpatialUnitPOSTInputType'
+        description: featureData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Add a new spatial-unit
+      tags:
+      - spatial-units-controller
+      x-codegen-request-body-name: featureData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/spatial-units/{spatialUnitId}:
+    delete:
+      deprecated: false
+      description: Delete the features/contents of the selected spatial-unit
+      operationId: deleteSpatialUnitById
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the features/contents of the selected spatial-unit
+      tags:
+      - spatial-units-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve information about available features of the selected spatial
+        unit/level
+      operationId: getSpatialUnitsById
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpatialUnitOverviewType'
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve information about available features of the selected spatial
+        unit/level
+      tags:
+      - spatial-units-controller
+      x-accepts: application/json
+    patch:
+      deprecated: false
+      description: Modify/Update the metadata of the selected spatial-unit. This replaces
+        the formerly stored metadata.
+      operationId: updateSpatialUnitMetadataAsBody
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpatialUnitPATCHInputType'
+        description: metadata
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the metadata of the selected spatial-unit
+      tags:
+      - spatial-units-controller
+      x-codegen-request-body-name: metadata
+      x-content-type: application/json
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      description: "Modify/Update the features of the selected spatial-unit. The interface\
+        \ expects a full upload of all geometries for the spatial unit. Internally,\
+        \ those geometries are compared to the existing ones to mark 'old' geometries\
+        \ that are no longer in use as outdated. Hence, each geometric object is only\
+        \ persisted once and its use is controlled by time validity marks."
+      operationId: updateSpatialUnitAsBody
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpatialUnitPUTInputType'
+        description: featureData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify/Update the features of the selected spatial-unit
+      tags:
+      - spatial-units-controller
+      x-codegen-request-body-name: featureData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/spatial-units/{spatialUnitId}/allFeatures:
+    delete:
+      deprecated: false
+      description: Delete all features/contents of the selected spatial-unit dataset
+      operationId: deleteAllSpatialUnitFeaturesById
+      parameters:
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete all features/contents of the selected spatial-unit dataset
+      tags:
+      - spatial-units-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve all feature entries for all applicable periods of validity
+        for the selected spatial unit/level (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      operationId: getAllSpatialUnitFeaturesById
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve all feature entries for all applicable periods of validity
+        for the selected spatial unit/level (hence might contain each feature multiple
+        times if they exist for different periods of validity)
+      tags:
+      - spatial-units-controller
+      x-accepts: application/json
+  /management/spatial-units/{spatialUnitId}/schema:
+    get:
+      deprecated: false
+      description: retrieve the JSON schema for the selected spatial unit/level. The
+        JSON schema indicates the property structure of the dataset.
+      operationId: getSpatialUnitsSchemaById
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the JSON schema for the selected spatial unit/level
+      tags:
+      - spatial-units-controller
+      x-accepts: application/json
+  /management/spatial-units/{spatialUnitId}/{year}/{month}/{day}:
+    delete:
+      deprecated: false
+      description: "Delete the features/contents of the selected spatial-unit, year\
+        \ and month"
+      operationId: deleteSpatialUnitByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: "Delete the features/contents of the selected spatial-unit, year and\
+        \ month"
+      tags:
+      - spatial-units-controller
+      x-accepts: '*/*'
+    get:
+      deprecated: false
+      description: retrieve the features according to the selected spatial unit/level
+        and selected year and month as GeoJSON
+      operationId: getSpatialUnitsByIdAndYearAndMonth
+      parameters:
+      - description: day
+        in: path
+        name: day
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - description: month
+        in: path
+        name: month
+        required: true
+        schema:
+          default: 1.0
+          type: number
+      - in: query
+        name: name
+        schema:
+          type: string
+      - description: simplifyGeometries
+        in: query
+        name: simplifyGeometries
+        schema:
+          default: original
+          type: string
+      - description: spatialUnitId
+        in: path
+        name: spatialUnitId
+        required: true
+        schema:
+          type: string
+      - description: year
+        in: path
+        name: year
+        required: true
+        schema:
+          default: 2023.0
+          type: number
+      responses:
+        "200":
+          content:
+            application/octed-stream:
+              schema:
+                format: byte
+                type: string
+          description: OK
+        "400":
+          content: {}
+          description: Invalid status value
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: retrieve the features according to the selected spatial unit/level
+        and selected year and month as GeoJSON
+      tags:
+      - spatial-units-controller
+      x-accepts: application/octed-stream
+  /management/topics:
+    post:
+      deprecated: false
+      description: Add/Register a topic
+      operationId: addTopic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicInputType'
+        description: topicData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Register a new topic
+      tags:
+      - topics-controller
+      x-codegen-request-body-name: topicData
+      x-content-type: application/json
+      x-accepts: '*/*'
+  /management/topics/{topicId}:
+    delete:
+      deprecated: false
+      description: Delete the topic
+      operationId: deleteTopic
+      parameters:
+      - description: topicId
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "204":
+          content: {}
+          description: No Content
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Delete the topic
+      tags:
+      - topics-controller
+      x-accepts: '*/*'
+    put:
+      deprecated: false
+      description: Modify topic information
+      operationId: updateTopic
+      parameters:
+      - description: topicId
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicInputType'
+        description: topicData
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+          description: OK
+        "201":
+          content: {}
+          description: Created
+        "401":
+          content: {}
+          description: API key is missing or invalid
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not Found
+        "405":
+          content: {}
+          description: Invalid input
+      security:
+      - kommonitor-data-access_oauth: []
+      summary: Modify topic information
+      tags:
+      - topics-controller
+      x-codegen-request-body-name: topicData
+      x-content-type: application/json
+      x-accepts: '*/*'
+components:
+  schemas:
+    CommonMetadataType:
+      example:
+        literature: literature
+        note: note
+        updateInterval: ARBITRARY
+        sridEPSG: 6.027456183070403
+        datasource: datasource
+        contact: contact
+        lastUpdate: 2000-01-23
+        description: description
+        databasis: databasis
+      properties:
+        contact:
+          description: contact details where additional information can be achieved
+          type: string
+        databasis:
+          description: information about data used as a basis to generate the dataset
+          type: string
+        datasource:
+          description: information about the origin/source of the dataset
+          type: string
+        description:
+          description: description of the dataset
+          type: string
+        lastUpdate:
+          description: a timestamp representing the lastUpdate according to ISO 8601
+            (e.g. 2018-01-30)
+          format: date
+          type: string
+        literature:
+          description: an optional hint to literature about the dataset (e.g. URL
+            or book/article name)
+          type: string
+        note:
+          description: an optional note with background information about the dataset
+          type: string
+        sridEPSG:
+          description: the coordinate reference system of the dataset as EPSG code
+          type: number
+        updateInterval:
+          enum:
+          - ARBITRARY
+          - MONTHLY
+          - QUARTERLY
+          - HALF_YEARLY
+          - YEARLY
+          - DAILY
+          - WEEKLY
+          type: string
+      required:
+      - contact
+      - datasource
+      - description
+      - sridEPSG
+      - updateInterval
+      title: CommonMetadataType
+      type: object
+    DefaultClassificationMappingItemType:
+      example:
+        defaultCustomRating: defaultCustomRating
+        defaultColorAsHex: defaultColorAsHex
+      properties:
+        defaultColorAsHex:
+          description: "the default color for the specified value interval as hex\
+            \ string inclusive leading #, i.e. '#ffffff'"
+          type: string
+        defaultCustomRating:
+          description: "the default custom rating string for the specified value interval,\
+            \ i.e. 'very high'/'very low' or 'good'/'bad'"
+          type: string
+      required:
+      - defaultColorAsHex
+      - defaultCustomRating
+      title: DefaultClassificationMappingItemType
+      type: object
+    DefaultClassificationMappingType:
+      example:
+        colorBrewerSchemeName: colorBrewerSchemeName
+        items:
+        - defaultCustomRating: defaultCustomRating
+          defaultColorAsHex: defaultColorAsHex
+        - defaultCustomRating: defaultCustomRating
+          defaultColorAsHex: defaultColorAsHex
+      properties:
+        colorBrewerSchemeName:
+          description: the name of the colorBrewer color scheme jused to define the
+            colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3
+            for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
+          type: string
+        items:
+          description: array of classification mapping items. The order of the items
+            corresponds to indicator value intervals from low to high. The number
+            of items represents the number of classes. In combination they represent
+            the default classification and mapping to custom rating of the indicator
+            values
+          items:
+            $ref: '#/components/schemas/DefaultClassificationMappingItemType'
+          type: array
+      required:
+      - colorBrewerSchemeName
+      - items
+      title: DefaultClassificationMappingType
+      type: object
+    GeoresourceOverviewType:
+      example:
+        isLOI: true
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        datasetName: datasetName
+        wfsUrl: wfsUrl
+        poiSymbolBootstrap3Name: poiSymbolBootstrap3Name
+        poiSymbolColor: white
+        userPermissions:
+        - userPermissions
+        - userPermissions
+        availablePeriodsOfValidity:
+        - endDate: 2000-01-23
+          startDate: 2000-01-23
+        - endDate: 2000-01-23
+          startDate: 2000-01-23
+        isAOI: true
+        loiDashArrayString: loiDashArrayString
+        poiMarkerColor: white
+        topicReference: topicReference
+        wmsUrl: wmsUrl
+        georesourceId: georesourceId
+        loiWidth: 0.8008281904610115
+        isPOI: true
+        aoiColor: aoiColor
+        loiColor: loiColor
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        aoiColor:
+          description: color name or color code (i.e. hex number) for areas of interest
+          type: string
+        availablePeriodsOfValidity:
+          items:
+            $ref: '#/components/schemas/PeriodOfValidityType'
+          type: array
+        datasetName:
+          description: the meaningful name of the dataset
+          type: string
+        georesourceId:
+          description: the unique identifier of the dataset
+          type: string
+        isAOI:
+          description: boolean value indicating if the dataset contains areas of interest
+          type: boolean
+        isLOI:
+          description: boolean value indicating if the dataset contains lines of interest
+          type: boolean
+        isPOI:
+          description: boolean value indicating if the dataset contains points of
+            interest
+          type: boolean
+        loiColor:
+          description: color name or color code (i.e. hex number) for lines of interest
+          type: string
+        loiDashArrayString:
+          description: "sring of line stroke dash array for lines of interest (e.g.\
+            \ 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)"
+          type: string
+        loiWidth:
+          description: display width for lines of interest (number of pixels in leaflet)
+          type: number
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        poiMarkerColor:
+          description: If georesource is a POI then custom POI marker color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        poiSymbolBootstrap3Name:
+          description: If georesource is a POI then custom POI marker symbol can be
+            set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home"
+            for a home symbol or "education" for a students hat symbol)
+          type: string
+        poiSymbolColor:
+          description: If georesource is a POI then custom POI symbol color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        topicReference:
+          description: 'id of the last topic hierarchy entity '
+          type: string
+        wfsUrl:
+          description: the URL of a running WFS instance serving the spatial features
+            of the associated dataset
+          type: string
+        wmsUrl:
+          description: the URL of a running WMS instance serving the spatial features
+            of the associated dataset
+          type: string
+        userPermissions:
+          description: List of permissions that are effective on this dataset for
+            the current user
+          items:
+            type: string
+          type: array
+      required:
+      - availablePeriodsOfValidity
+      - datasetName
+      - georesourceId
+      - isAOI
+      - isLOI
+      - isPOI
+      - metadata
+      - topicReference
+      - wfsUrl
+      - wmsUrl
+      title: GeoresourceOverviewType
+      type: object
+    GeoresourcePATCHInputType:
+      example:
+        isLOI: true
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        datasetName: datasetName
+        poiSymbolBootstrap3Name: poiSymbolBootstrap3Name
+        poiSymbolColor: white
+        isAOI: true
+        loiDashArrayString: loiDashArrayString
+        poiMarkerColor: white
+        topicReference: topicReference
+        loiWidth: 0.8008281904610115
+        isPOI: true
+        aoiColor: aoiColor
+        loiColor: loiColor
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        aoiColor:
+          description: color name or color code (i.e. hex number) for areas of interest
+          type: string
+        datasetName:
+          description: the meaningful name of the dataset
+          type: string
+        isAOI:
+          description: boolean value indicating if the dataset contains areas of interest
+          type: boolean
+        isLOI:
+          description: boolean value indicating if the dataset contains lines of interest
+          type: boolean
+        isPOI:
+          description: boolean value indicating if the dataset contains points of
+            interest
+          type: boolean
+        loiColor:
+          description: color name or color code (i.e. hex number) for lines of interest
+          type: string
+        loiDashArrayString:
+          description: "sring of line stroke dash array for lines of interest (e.g.\
+            \ 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)"
+          type: string
+        loiWidth:
+          description: display width for lines of interest (number of pixels in leaflet)
+          type: number
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        poiMarkerColor:
+          description: If georesource is a POI then custom POI marker color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        poiSymbolBootstrap3Name:
+          description: If georesource is a POI then custom POI marker symbol can be
+            set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home"
+            for a home symbol or "education" for a students hat symbol)
+          type: string
+        poiSymbolColor:
+          description: If georesource is a POI then custom POI symbol color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        topicReference:
+          description: 'id of the last topic hierarchy entity '
+          type: string
+      required:
+      - metadata
+      title: GeoresourcePATCHInputType
+      type: object
+    GeoresourcePOSTInputType:
+      example:
+        isLOI: true
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        datasetName: datasetName
+        poiSymbolBootstrap3Name: poiSymbolBootstrap3Name
+        poiSymbolColor: white
+        isAOI: true
+        loiDashArrayString: loiDashArrayString
+        geoJsonString: geoJsonString
+        poiMarkerColor: white
+        topicReference: topicReference
+        jsonSchema: jsonSchema
+        loiWidth: 0.8008281904610115
+        periodOfValidity:
+          endDate: 2000-01-23
+          startDate: 2000-01-23
+        isPOI: true
+        aoiColor: aoiColor
+        loiColor: loiColor
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        aoiColor:
+          description: color name or color code (i.e. hex number) for areas of interest
+          type: string
+        datasetName:
+          description: the meaningful name of the dataset
+          type: string
+        geoJsonString:
+          description: a valid GeoJSON string containing the features consisting of
+            a geometry and properties specific to the dataset
+          type: string
+        isAOI:
+          description: boolean value indicating if the dataset contains areas of interest
+          type: boolean
+        isLOI:
+          description: boolean value indicating if the dataset contains lines of interest
+          type: boolean
+        isPOI:
+          description: boolean value indicating if the dataset contains points of
+            interest
+          type: boolean
+        jsonSchema:
+          description: a JSON schema as string that defines the data model for this
+            dataset. It can be used to validate the geoJsonString property.
+          type: string
+        loiColor:
+          description: color name or color code (i.e. hex number) for lines of interest
+          type: string
+        loiDashArrayString:
+          description: "sring of line stroke dash array for lines of interest (e.g.\
+            \ 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)"
+          type: string
+        loiWidth:
+          description: display width for lines of interest (number of pixels in leaflet)
+          type: number
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        periodOfValidity:
+          $ref: '#/components/schemas/PeriodOfValidityType'
+        poiMarkerColor:
+          description: If georesource is a POI then custom POI marker color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        poiSymbolBootstrap3Name:
+          description: If georesource is a POI then custom POI marker symbol can be
+            set by specifying the name of a Bootstrap 3 glyphicon symbol (i.e. "home"
+            for a home symbol or "education" for a students hat symbol)
+          type: string
+        poiSymbolColor:
+          description: If georesource is a POI then custom POI symbol color can be
+            set by specifying one of the following color names
+          enum:
+          - white
+          - red
+          - orange
+          - beige
+          - green
+          - blue
+          - purple
+          - pink
+          - gray
+          - black
+          type: string
+        topicReference:
+          description: id of the last topic hierarchy entity
+          type: string
+      required:
+      - datasetName
+      - metadata
+      - periodOfValidity
+      title: GeoresourcePOSTInputType
+      type: object
+    GeoresourcePUTInputType:
+      example:
+        geoJsonString: geoJsonString
+        isPartialUpdate: true
+        periodOfValidity:
+          endDate: 2000-01-23
+          startDate: 2000-01-23
+      properties:
+        geoJsonString:
+          description: a valid GeoJSON string containing the features consisting of
+            a geometry and properties specific to the dataset
+          type: string
+        periodOfValidity:
+          $ref: '#/components/schemas/PeriodOfValidityType'
+        isPartialUpdate:
+          description: "if set to TRUE, then a partial upload of geometries is possible.\
+            \ Missing features that are already in the database will then not be deleted"
+          type: boolean
+      required:
+      - geoJsonString
+      - isPartialUpdate
+      - periodOfValidity
+      title: GeoresourcePUTInputType
+      type: object
+    GeoresourceReferenceType:
+      description: "a reference to georesource, e.g. a resource that is used to compute\
+        \ the main indicator"
+      example:
+        referencedGeoresourceDescription: referencedGeoresourceDescription
+        referencedGeoresourceName: referencedGeoresourceName
+        referencedGeoresourceId: referencedGeoresourceId
+      properties:
+        referencedGeoresourceDescription:
+          description: a meaningful description of how the referenced georesource
+            is related to the main indicator
+          type: string
+        referencedGeoresourceId:
+          description: unique identifier of the referenced georesource
+          type: string
+        referencedGeoresourceName:
+          description: the meaningful name of the referenced georesource
+          type: string
+      required:
+      - referencedGeoresourceDescription
+      - referencedGeoresourceId
+      - referencedGeoresourceName
+      title: GeoresourceReferenceType
+      type: object
+    IndicatorMetadataPATCHInputType:
+      example:
+        referenceDateNote: referenceDateNote
+        refrencesToOtherIndicators:
+        - referenceDescription: referenceDescription
+          indicatorId: indicatorId
+        - referenceDescription: referenceDescription
+          indicatorId: indicatorId
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        datasetName: datasetName
+        displayOrder: 0.8008281904610115
+        abbreviation: abbreviation
+        characteristicValue: characteristicValue
+        tags:
+        - tags
+        - tags
+        creationType: INSERTION
+        unit: unit
+        refrencesToGeoresources:
+        - referenceDescription: referenceDescription
+          georesourceId: georesourceId
+        - referenceDescription: referenceDescription
+          georesourceId: georesourceId
+        topicReference: topicReference
+        indicatorType: STATUS_ABSOLUTE
+        interpretation: interpretation
+        isHeadlineIndicator: true
+        processDescription: processDescription
+        lowestSpatialUnitForComputation: lowestSpatialUnitForComputation
+        defaultClassificationMapping:
+          colorBrewerSchemeName: colorBrewerSchemeName
+          items:
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+      properties:
+        abbreviation:
+          description: abbreviated mark of the indicator
+          type: string
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        characteristicValue:
+          description: the distuingishing characteristic value of the indicator
+          type: string
+        creationType:
+          description: "indicates if the data is simply inserted (INSERTION), computed\
+            \ by an automated script (COMPUTATION) or automatically aggregated by\
+            \ a script (AGGREGATION)"
+          enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+          type: string
+        datasetName:
+          description: the meaningful name of the indicator
+          type: string
+        defaultClassificationMapping:
+          $ref: '#/components/schemas/DefaultClassificationMappingType'
+        indicatorType:
+          description: indicates whether the indicator is a status indicator (values
+            represent the extent of the watched phenomenon for a certain point in
+            time) or a dynamic indicator (values represent the change of extent of
+            the watched phenomenon within a certain period of time)
+          enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+          type: string
+        interpretation:
+          description: interpretation of the indicator values
+          type: string
+        isHeadlineIndicator:
+          description: boolean value indicating if the indicator is a headline indicator
+          type: boolean
+        lowestSpatialUnitForComputation:
+          description: identifier/name of the lowest spatial unit for which the indicator
+            can be computed and thus is available (only necessary for computable indicators)
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        processDescription:
+          description: description about how the indicator was computed
+          type: string
+        referenceDateNote:
+          description: an optional note on the reference date of the indicator
+          type: string
+        displayOrder:
+          description: an order number to control display order in clients
+          format: int32
+          type: number
+        refrencesToGeoresources:
+          description: "array of references to other georesource datasets. E.g., if\
+            \ an indicator is defined by performing geometric-topological operations,\
+            \ then the identifiers of those required georesources can be referenced\
+            \ here"
+          items:
+            $ref: '#/components/schemas/IndicatorPOSTInputTypeRefrencesToGeoresources'
+          type: array
+        refrencesToOtherIndicators:
+          description: "array of references to other indicators. E.g., if an indicator\
+            \ is defined by combining four other indicators, then the identifiers\
+            \ of those four indicators can be referenced here"
+          items:
+            $ref: '#/components/schemas/IndicatorPOSTInputTypeRefrencesToOtherIndicators'
+          type: array
+        tags:
+          description: list of tag labels for the indicator
+          items:
+            type: string
+          type: array
+        topicReference:
+          description: 'id of the last topic hierarchy entity '
+          type: string
+        unit:
+          description: unit of the indicator values
+          type: string
+      required:
+      - abbreviation
+      - allowedRoles
+      - interpretation
+      - isHeadlineIndicator
+      - metadata
+      - processDescription
+      - tags
+      - topicReference
+      - unit
+      title: IndicatorMetadataPATCHInputType
+      type: object
+    IndicatorOverviewType:
+      example:
+        referenceDateNote: referenceDateNote
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        referencedGeoresources:
+        - referencedGeoresourceDescription: referencedGeoresourceDescription
+          referencedGeoresourceName: referencedGeoresourceName
+          referencedGeoresourceId: referencedGeoresourceId
+        - referencedGeoresourceDescription: referencedGeoresourceDescription
+          referencedGeoresourceName: referencedGeoresourceName
+          referencedGeoresourceId: referencedGeoresourceId
+        indicatorName: indicatorName
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        displayOrder: 0.8008281904610115
+        userPermissions:
+        - userPermissions
+        - userPermissions
+        abbreviation: abbreviation
+        applicableDates:
+        - applicableDates
+        - applicableDates
+        characteristicValue: characteristicValue
+        referencedIndicators:
+        - referencedIndicatorName: referencedIndicatorName
+          referencedIndicatorDescription: referencedIndicatorDescription
+          referencedIndicatorId: referencedIndicatorId
+        - referencedIndicatorName: referencedIndicatorName
+          referencedIndicatorDescription: referencedIndicatorDescription
+          referencedIndicatorId: referencedIndicatorId
+        tags:
+        - tags
+        - tags
+        creationType: INSERTION
+        indicatorId: indicatorId
+        unit: unit
+        topicReference: topicReference
+        indicatorType: STATUS_ABSOLUTE
+        interpretation: interpretation
+        ogcServices:
+        - wmsUrl: wmsUrl
+          defaultStyleName: defaultStyleName
+          wfsUrl: wfsUrl
+          spatialUnit: spatialUnit
+        - wmsUrl: wmsUrl
+          defaultStyleName: defaultStyleName
+          wfsUrl: wfsUrl
+          spatialUnit: spatialUnit
+        isHeadlineIndicator: true
+        processDescription: processDescription
+        lowestSpatialUnitForComputation: lowestSpatialUnitForComputation
+        defaultClassificationMapping:
+          colorBrewerSchemeName: colorBrewerSchemeName
+          items:
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+        applicableSpatialUnits:
+        - spatialUnitId: spatialUnitId
+          spatialUnitName: spatialUnitName
+          allowedRoles:
+          - allowedRoles
+          - allowedRoles
+          userPermissions:
+          - userPermissions
+          - userPermissions
+        - spatialUnitId: spatialUnitId
+          spatialUnitName: spatialUnitName
+          allowedRoles:
+          - allowedRoles
+          - allowedRoles
+          userPermissions:
+          - userPermissions
+          - userPermissions
+      properties:
+        abbreviation:
+          description: abbreviated mark of the indicator
+          type: string
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        applicableDates:
+          description: array of applicable dates (year and month and day as YEAR-MONTH-DAY)
+            according to ISO 8601 (e.g. 2018-01-30)
+          items:
+            type: string
+          type: array
+        applicableSpatialUnits:
+          description: array of spatial unit levels for which the dataset is applicable
+          items:
+            $ref: '#/components/schemas/IndicatorSpatialUnitJoinItem'
+          type: array
+        characteristicValue:
+          description: the distuingishing characteristic value of the indicator
+          type: string
+        creationType:
+          description: "indicates if the data is simply inserted (INSERTION), computed\
+            \ by an automated script (COMPUTATION) or automatically aggregated by\
+            \ a script (AGGREGATION)"
+          enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+          type: string
+        defaultClassificationMapping:
+          $ref: '#/components/schemas/DefaultClassificationMappingType'
+        indicatorId:
+          description: unique identifier of this resource
+          type: string
+        indicatorName:
+          description: name of the indicator
+          type: string
+        indicatorType:
+          description: indicates whether the indicator is a status indicator (values
+            represent the extent of the watched phenomenon for a certain point in
+            time) or a dynamic indicator (values represent the change of extent of
+            the watched phenomenon within a certain period of time)
+          enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+          type: string
+        interpretation:
+          description: interpretation of the indicator values
+          type: string
+        isHeadlineIndicator:
+          description: boolean value indicating if the indicator is a headline indicator
+          type: boolean
+        lowestSpatialUnitForComputation:
+          description: identifier/name of the lowest spatial unit for which the indicator
+            can be computed and thus is available (only necessary for computable indicators)
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        ogcServices:
+          description: list of available OGC services for that indicator for different
+            spatial units
+          items:
+            $ref: '#/components/schemas/OgcServicesType'
+          type: array
+        processDescription:
+          description: description about how the indicator was computed
+          type: string
+        referenceDateNote:
+          description: an optional note on the reference date of the indicator
+          type: string
+        displayOrder:
+          description: an order number to control display order in clients
+          format: int32
+          type: number
+        referencedGeoresources:
+          description: list of references to georesources
+          items:
+            $ref: '#/components/schemas/GeoresourceReferenceType'
+          type: array
+        referencedIndicators:
+          description: list of references to other indicators
+          items:
+            $ref: '#/components/schemas/IndicatorReferenceType'
+          type: array
+        tags:
+          description: list of tag labels for the indicator
+          items:
+            type: string
+          type: array
+        topicReference:
+          description: 'id of the last topic hierarchy entity '
+          type: string
+        unit:
+          description: unit of the indicator values
+          type: string
+        userPermissions:
+          description: List of permissions that are effective on this dataset for
+            the current user
+          items:
+            type: string
+          type: array
+      required:
+      - abbreviation
+      - applicableDates
+      - applicableSpatialUnits
+      - characteristicValue
+      - creationType
+      - indicatorId
+      - indicatorName
+      - interpretation
+      - isHeadlineIndicator
+      - metadata
+      - ogcServices
+      - processDescription
+      - tags
+      - topicReference
+      - unit
+      title: IndicatorOverviewType
+      type: object
+    IndicatorPATCHDisplayOrderInputType:
+      example:
+        indicatorId: indicatorId
+        displayOrder: 0.8008281904610115
+      properties:
+        indicatorId:
+          description: unique ID of the associated indicator
+          type: string
+        displayOrder:
+          description: the new displayOrder value
+          format: int32
+          type: number
+      required:
+      - displayOrder
+      - indicatorId
+      type: object
+    IndicatorPATCHInputType:
+      example:
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+      required:
+      - allowedRoles
+      title: IndicatorPATCHInputType
+      type: object
+    IndicatorPOSTInputType:
+      example:
+        referenceDateNote: referenceDateNote
+        refrencesToOtherIndicators:
+        - referenceDescription: referenceDescription
+          indicatorId: indicatorId
+        - referenceDescription: referenceDescription
+          indicatorId: indicatorId
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        datasetName: datasetName
+        displayOrder: 0.8008281904610115
+        abbreviation: abbreviation
+        characteristicValue: characteristicValue
+        tags:
+        - tags
+        - tags
+        creationType: INSERTION
+        unit: unit
+        refrencesToGeoresources:
+        - referenceDescription: referenceDescription
+          georesourceId: georesourceId
+        - referenceDescription: referenceDescription
+          georesourceId: georesourceId
+        topicReference: topicReference
+        indicatorType: STATUS_ABSOLUTE
+        interpretation: interpretation
+        isHeadlineIndicator: true
+        processDescription: processDescription
+        lowestSpatialUnitForComputation: lowestSpatialUnitForComputation
+        defaultClassificationMapping:
+          colorBrewerSchemeName: colorBrewerSchemeName
+          items:
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+      properties:
+        abbreviation:
+          description: abbreviated mark of the indicator
+          type: string
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        characteristicValue:
+          description: the distuingishing characteristic value of the indicator
+          type: string
+        creationType:
+          description: "indicates if the data is simply inserted (INSERTION), computed\
+            \ by an automated script (COMPUTATION) or automatically aggregated by\
+            \ a script (AGGREGATION)"
+          enum:
+          - INSERTION
+          - COMPUTATION
+          - AGGREGATION
+          type: string
+        datasetName:
+          description: the meaningful name of the indicator
+          type: string
+        defaultClassificationMapping:
+          $ref: '#/components/schemas/DefaultClassificationMappingType'
+        indicatorType:
+          description: indicates whether the indicator is a status indicator (values
+            represent the extent of the watched phenomenon for a certain point in
+            time) or a dynamic indicator (values represent the change of extent of
+            the watched phenomenon within a certain period of time)
+          enum:
+          - STATUS_ABSOLUTE
+          - DYNAMIC_ABSOLUTE
+          - STATUS_RELATIVE
+          - DYNAMIC_RELATIVE
+          - STATUS_STANDARDIZED
+          - DYNAMIC_STANDARDIZED
+          type: string
+        interpretation:
+          description: interpretation of the indicator values
+          type: string
+        isHeadlineIndicator:
+          description: boolean value indicating if the indicator is a headline indicator
+          type: boolean
+        lowestSpatialUnitForComputation:
+          description: identifier/name of the lowest spatial unit for which the indicator
+            can be computed and thus is available (only necessary for computable indicators)
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        processDescription:
+          description: description about how the indicator was computed
+          type: string
+        referenceDateNote:
+          description: an optional note on the reference date of the indicator
+          type: string
+        displayOrder:
+          description: an order number to control display order in clients
+          format: int32
+          type: number
+        refrencesToGeoresources:
+          description: "array of references to other georesource datasets. E.g., if\
+            \ an indicator is defined by performing geometric-topological operations,\
+            \ then the identifiers of those required georesources can be referenced\
+            \ here"
+          items:
+            $ref: '#/components/schemas/IndicatorPOSTInputTypeRefrencesToGeoresources'
+          type: array
+        refrencesToOtherIndicators:
+          description: "array of references to other indicators. E.g., if an indicator\
+            \ is defined by combining four other indicators, then the identifiers\
+            \ of those other indicators can be referenced here"
+          items:
+            $ref: '#/components/schemas/IndicatorPOSTInputTypeRefrencesToOtherIndicators'
+          type: array
+        tags:
+          description: list of tag labels for the indicator
+          items:
+            type: string
+          type: array
+        topicReference:
+          description: 'id of the last topic hierarchy entity '
+          type: string
+        unit:
+          description: unit of the indicator values
+          type: string
+      required:
+      - abbreviation
+      - allowedRoles
+      - characteristicValue
+      - creationType
+      - datasetName
+      - defaultClassificationMapping
+      - interpretation
+      - isHeadlineIndicator
+      - metadata
+      - processDescription
+      - tags
+      - topicReference
+      - unit
+      title: IndicatorPOSTInputType
+      type: object
+    IndicatorPOSTInputTypeIndicatorValues:
+      properties:
+        spatialReferenceKey:
+          description: identifier (uuid) of the spatial feature to which the values
+            shall be applied
+          type: string
+        valueMapping:
+          description: an array of entries mapping an indicator value to a timestamp
+            as mapping key
+          items:
+            $ref: '#/components/schemas/IndicatorPOSTInputTypeValueMapping'
+          type: array
+      title: IndicatorPOSTInputTypeIndicatorValues
+      type: object
+    IndicatorPOSTInputTypeRefrencesToGeoresources:
+      example:
+        referenceDescription: referenceDescription
+        georesourceId: georesourceId
+      properties:
+        georesourceId:
+          description: identifier of the referenced georesource
+          type: string
+        referenceDescription:
+          description: short description of how the georesource is referenced to the
+            indicator
+          type: string
+      title: IndicatorPOSTInputTypeRefrencesToGeoresources
+      type: object
+    IndicatorPOSTInputTypeRefrencesToOtherIndicators:
+      example:
+        referenceDescription: referenceDescription
+        indicatorId: indicatorId
+      properties:
+        indicatorId:
+          description: identifier of the referenced indicator
+          type: string
+        referenceDescription:
+          description: short description of how the indicator is referenced to the
+            superior one
+          type: string
+      title: IndicatorPOSTInputTypeRefrencesToOtherIndicators
+      type: object
+    IndicatorPOSTInputTypeValueMapping:
+      properties:
+        indicatorValue:
+          description: the numeric extent of the indicator for the timestamp
+          format: float
+          type: number
+        timestamp:
+          description: "timestamp consisting of year, month and day according to ISO\
+            \ 8601 (e.g. 2018-01-30)"
+          format: date
+          type: string
+      title: IndicatorPOSTInputTypeValueMapping
+      type: object
+    IndicatorPUTInputType:
+      example:
+        indicatorValues:
+        - spatialReferenceKey: spatialReferenceKey
+          valueMapping:
+          - indicatorValue: 0.8008282
+            timestamp: 2000-01-23
+          - indicatorValue: 0.8008282
+            timestamp: 2000-01-23
+        - spatialReferenceKey: spatialReferenceKey
+          valueMapping:
+          - indicatorValue: 0.8008282
+            timestamp: 2000-01-23
+          - indicatorValue: 0.8008282
+            timestamp: 2000-01-23
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        applicableSpatialUnit: applicableSpatialUnit
+        defaultClassificationMapping:
+          colorBrewerSchemeName: colorBrewerSchemeName
+          items:
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+          - defaultCustomRating: defaultCustomRating
+            defaultColorAsHex: defaultColorAsHex
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        applicableSpatialUnit:
+          type: string
+        defaultClassificationMapping:
+          $ref: '#/components/schemas/DefaultClassificationMappingType'
+        indicatorValues:
+          description: an array of entries containing indicator values and mapping
+            to spatial features via identifiers
+          items:
+            $ref: '#/components/schemas/IndicatorPUTInputTypeIndicatorValues'
+          type: array
+      required:
+      - allowedRoles
+      - applicableSpatialUnit
+      - indicatorValues
+      title: IndicatorPUTInputType
+      type: object
+    IndicatorPUTInputTypeIndicatorValues:
+      example:
+        spatialReferenceKey: spatialReferenceKey
+        valueMapping:
+        - indicatorValue: 0.8008282
+          timestamp: 2000-01-23
+        - indicatorValue: 0.8008282
+          timestamp: 2000-01-23
+      properties:
+        spatialReferenceKey:
+          description: identifier (uuid) of the spatial feature to which the values
+            shall be applied
+          type: string
+        valueMapping:
+          description: an array of entries mapping an indicator value to a timestamp
+            as mapping key
+          items:
+            $ref: '#/components/schemas/IndicatorPUTInputTypeValueMapping'
+          type: array
+      title: IndicatorPUTInputTypeIndicatorValues
+      type: object
+    IndicatorPUTInputTypeValueMapping:
+      example:
+        indicatorValue: 0.8008282
+        timestamp: 2000-01-23
+      properties:
+        indicatorValue:
+          description: the numeric extent of the indicator for the timestamp
+          format: float
+          type: number
+        timestamp:
+          description: "timestamp consisting of year, month and day according to ISO\
+            \ 8601 (e.g. 2018-01-30)"
+          format: date
+          type: string
+      title: IndicatorPOSTInputTypeValueMapping
+      type: object
+    IndicatorPropertiesWithoutGeomType:
+      additionalProperties:
+        type: string
+      title: IndicatorPropertiesWithoutGeomType
+      type: object
+    IndicatorReferenceType:
+      description: "a reference to another indicator, e.g. a sub-indicator that is\
+        \ used to compute the main indicator"
+      example:
+        referencedIndicatorName: referencedIndicatorName
+        referencedIndicatorDescription: referencedIndicatorDescription
+        referencedIndicatorId: referencedIndicatorId
+      properties:
+        referencedIndicatorDescription:
+          description: a meaningful description of how the referenced indicator is
+            related to the main indicator
+          type: string
+        referencedIndicatorId:
+          description: unique identifier of the referenced indicator
+          type: string
+        referencedIndicatorName:
+          description: the meaningful name of the referenced indicator
+          type: string
+      required:
+      - referencedIndicatorDescription
+      - referencedIndicatorId
+      - referencedIndicatorName
+      title: IndicatorReferenceType
+      type: object
+    IndicatorSpatialUnitJoinItem:
+      example:
+        spatialUnitId: spatialUnitId
+        spatialUnitName: spatialUnitName
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        userPermissions:
+        - userPermissions
+        - userPermissions
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        spatialUnitId:
+          description: ID of the applicable spatial unit
+          type: string
+        spatialUnitName:
+          description: name of the applicable spatial unit
+          type: string
+        userPermissions:
+          description: List of permissions that are effective on this dataset for
+            the current user
+          items:
+            type: string
+          type: array
+      required:
+      - spatialUnitId
+      - spatialUnitName
+      title: IndicatorSpatialUnitJoinItem
+      type: object
+    OgcServicesType:
+      example:
+        wmsUrl: wmsUrl
+        defaultStyleName: defaultStyleName
+        wfsUrl: wfsUrl
+        spatialUnit: spatialUnit
+      properties:
+        defaultStyleName:
+          description: the name of the default style (SLD) that is published and applied
+            to the associated dataset
+          type: string
+        spatialUnit:
+          description: the name of the spatial unit
+          type: string
+        wfsUrl:
+          description: the URL of a running WFS instance serving the spatial features
+            of the associated dataset
+          type: string
+        wmsUrl:
+          description: the URL of a running WMS instance serving the spatial features
+            of the associated dataset
+          type: string
+      required:
+      - defaultStyleName
+      - spatialUnit
+      - wfsUrl
+      - wmsUrl
+      title: OgcServicesType
+      type: object
+    PeriodOfValidityType:
+      description: definition of the period of validity of a certain dataset
+      example:
+        endDate: 2000-01-23
+        startDate: 2000-01-23
+      properties:
+        endDate:
+          description: "an optional timestamp representing the ending date according\
+            \ to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the\
+            \ end date is unknown."
+          format: date
+          type: string
+        startDate:
+          description: a timestamp representing the starting date according to ISO
+            8601 (e.g. 2018-01-30)
+          format: date
+          type: string
+      required:
+      - startDate
+      title: PeriodOfValidityType
+      type: object
+    ProcessInputType:
+      example:
+        minParameterValueForNumericInputs: 6.027456183070403
+        maxParameterValueForNumericInputs: 0.8008281904610115
+        defaultValue: defaultValue
+        dataType: string
+        name: name
+        description: description
+      properties:
+        dataType:
+          description: the data type of the process input
+          enum:
+          - string
+          - boolean
+          - integer
+          - double
+          type: string
+        defaultValue:
+          description: the default value of the process parameter
+          type: string
+        description:
+          description: a short description of the process input
+          type: string
+        maxParameterValueForNumericInputs:
+          description: the maximum value that is allowed for the process parameter
+          type: number
+        minParameterValueForNumericInputs:
+          description: the minimum value that is allowed for the process parameter
+          type: number
+        name:
+          description: the name of the process input parameter
+          type: string
+      required:
+      - dataType
+      - defaultValue
+      - description
+      - name
+      title: ProcessInputType
+      type: object
+    ProcessScriptOverviewType:
+      example:
+        indicatorId: indicatorId
+        scriptId: scriptId
+        requiredIndicatorIds:
+        - requiredIndicatorIds
+        - requiredIndicatorIds
+        variableProcessParameters:
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        scriptType: scriptType
+        name: name
+        description: description
+        requiredGeoresourceIds:
+        - requiredGeoresourceIds
+        - requiredGeoresourceIds
+      properties:
+        description:
+          description: short description of the scripts content (what does it do)
+          type: string
+        indicatorId:
+          description: unique identifier of the associated indicator (e.g. the indicator
+            that is computed by a script or for which the values shall be aggregated
+            to another spatial unit)
+          type: string
+        name:
+          description: name of the process script
+          type: string
+        requiredGeoresourceIds:
+          description: identifiers of georesources that are used within the script.
+          items:
+            type: string
+          type: array
+        requiredIndicatorIds:
+          description: identifiers of indicators that are used within the script.
+          items:
+            type: string
+          type: array
+        scriptId:
+          description: unique identifier of the process script
+          type: string
+        scriptType:
+          description: "a script type reference name used to distuingish process scripts\
+            \ from a client perspective, i.e. setup admin pages due to knowledge about\
+            \ type-specific script parameters and required indicators/georesources"
+          type: string
+        variableProcessParameters:
+          description: list of process parameters that can be set by an expert user.
+            They are used within the script to parameterize the indicator computation
+          items:
+            $ref: '#/components/schemas/ProcessInputType'
+          type: array
+      required:
+      - description
+      - indicatorId
+      - name
+      - requiredGeoresourceIds
+      - requiredIndicatorIds
+      - scriptId
+      - variableProcessParameters
+      title: ProcessScriptOverviewType
+      type: object
+    ProcessScriptPOSTInputType:
+      example:
+        scriptCodeBase64: scriptCodeBase64
+        requiredIndicatorIds:
+        - requiredIndicatorIds
+        - requiredIndicatorIds
+        variableProcessParameters:
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        associatedIndicatorId: associatedIndicatorId
+        scriptType: scriptType
+        name: name
+        description: description
+        requiredGeoresourceIds:
+        - requiredGeoresourceIds
+        - requiredGeoresourceIds
+      properties:
+        associatedIndicatorId:
+          description: unique identifier of the associated indicator (e.g. the indicator
+            that is computed by a script or for which the values shall be aggregated
+            to another spatial unit)
+          type: string
+        description:
+          description: short description of the scripts content (what does it do)
+          type: string
+        name:
+          description: name of the process script
+          type: string
+        requiredGeoresourceIds:
+          description: identifiers of georesources that are used within the script.
+          items:
+            type: string
+          type: array
+        requiredIndicatorIds:
+          description: identifiers of indicators that are used within the script.
+          items:
+            type: string
+          type: array
+        scriptType:
+          description: "a script type reference name used to distuingish process scripts\
+            \ from a client perspective, i.e. setup admin pages due to knowledge about\
+            \ type-specific script parameters and required indicators/georesources"
+          type: string
+        scriptCodeBase64:
+          description: the actual script code (JavaScript) as BASE64 encoded string
+          type: string
+        variableProcessParameters:
+          description: list of process parameters that can be set by an expert user.
+            They are used within the script to parameterize the indicator computation
+          items:
+            $ref: '#/components/schemas/ProcessInputType'
+          type: array
+      required:
+      - associatedIndicatorId
+      - description
+      - name
+      - requiredGeoresourceIds
+      - requiredIndicatorIds
+      - scriptCodeBase64
+      - variableProcessParameters
+      title: ProcessScriptPOSTInputType
+      type: object
+    ProcessScriptPUTInputType:
+      example:
+        scriptCodeBase64: scriptCodeBase64
+        requiredIndicatorIds:
+        - requiredIndicatorIds
+        - requiredIndicatorIds
+        variableProcessParameters:
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        - minParameterValueForNumericInputs: 6.027456183070403
+          maxParameterValueForNumericInputs: 0.8008281904610115
+          defaultValue: defaultValue
+          dataType: string
+          name: name
+          description: description
+        scriptType: scriptType
+        name: name
+        description: description
+        requiredGeoresourceIds:
+        - requiredGeoresourceIds
+        - requiredGeoresourceIds
+      properties:
+        description:
+          description: short description of the scripts content (what does it do)
+          type: string
+        name:
+          description: name of the process script
+          type: string
+        requiredGeoresourceIds:
+          description: identifiers of georesources that are used within the script.
+          items:
+            type: string
+          type: array
+        requiredIndicatorIds:
+          description: identifiers of indicators that are used within the script.
+          items:
+            type: string
+          type: array
+        scriptType:
+          description: "a script type reference name used to distuingish process scripts\
+            \ from a client perspective, i.e. setup admin pages due to knowledge about\
+            \ type-specific script parameters and required indicators/georesources"
+          type: string
+        scriptCodeBase64:
+          description: the actual script code (JavaScript) as BASE64 encoded string
+          type: string
+        variableProcessParameters:
+          description: list of process parameters that can be set by an expert user.
+            They are used within the script to parameterize the indicator computation
+          items:
+            $ref: '#/components/schemas/ProcessInputType'
+          type: array
+      required:
+      - description
+      - name
+      - requiredGeoresourceIds
+      - requiredIndicatorIds
+      - scriptCodeBase64
+      - variableProcessParameters
+      title: ProcessScriptPUTInputType
+      type: object
+    ResponseEntity:
+      example:
+        statusCodeValue: 0
+        body: "{}"
+        statusCode: "100"
+      properties:
+        body:
+          properties: {}
+          type: object
+        statusCode:
+          enum:
+          - "100"
+          - "101"
+          - "102"
+          - "103"
+          - "200"
+          - "201"
+          - "202"
+          - "203"
+          - "204"
+          - "205"
+          - "206"
+          - "207"
+          - "208"
+          - "226"
+          - "300"
+          - "301"
+          - "302"
+          - "303"
+          - "304"
+          - "305"
+          - "307"
+          - "308"
+          - "400"
+          - "401"
+          - "402"
+          - "403"
+          - "404"
+          - "405"
+          - "406"
+          - "407"
+          - "408"
+          - "409"
+          - "410"
+          - "411"
+          - "412"
+          - "413"
+          - "414"
+          - "415"
+          - "416"
+          - "417"
+          - "418"
+          - "419"
+          - "420"
+          - "421"
+          - "422"
+          - "423"
+          - "424"
+          - "426"
+          - "428"
+          - "429"
+          - "431"
+          - "451"
+          - "500"
+          - "501"
+          - "502"
+          - "503"
+          - "504"
+          - "505"
+          - "506"
+          - "507"
+          - "508"
+          - "509"
+          - "510"
+          - "511"
+          type: string
+        statusCodeValue:
+          format: int32
+          type: integer
+      title: ResponseEntity
+      type: object
+    RoleInputType:
+      example:
+        roleName: roleName
+      properties:
+        roleName:
+          description: the role name
+          type: string
+      required:
+      - roleName
+      title: RoleInputType
+      type: object
+    RoleOverviewType:
+      example:
+        roleId: roleId
+        roleName: roleName
+      properties:
+        roleId:
+          description: the unique role identifier
+          type: string
+        roleName:
+          description: the role name
+          type: string
+      required:
+      - roleId
+      - roleName
+      title: RoleOverviewType
+      type: object
+    SpatialUnitOverviewType:
+      example:
+        spatialUnitId: spatialUnitId
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        wmsUrl: wmsUrl
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        wfsUrl: wfsUrl
+        nextLowerHierarchyLevel: nextLowerHierarchyLevel
+        spatialUnitLevel: spatialUnitLevel
+        userPermissions:
+        - userPermissions
+        - userPermissions
+        nextUpperHierarchyLevel: nextUpperHierarchyLevel
+        availablePeriodsOfValidity:
+        - endDate: 2000-01-23
+          startDate: 2000-01-23
+        - endDate: 2000-01-23
+          startDate: 2000-01-23
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        availablePeriodsOfValidity:
+          items:
+            $ref: '#/components/schemas/PeriodOfValidityType'
+          type: array
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        nextLowerHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest lower hierarchy level
+          type: string
+        nextUpperHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest upper hierarchy level
+          type: string
+        spatialUnitId:
+          description: the unique identifier of the spatial unit level the features
+            apply to
+          type: string
+        spatialUnitLevel:
+          description: the name of the spatial unit level the features apply to
+          type: string
+        wfsUrl:
+          description: the URL of a running WFS instance serving the spatial features
+            of the associated dataset
+          type: string
+        wmsUrl:
+          description: the URL of a running WMS instance serving the spatial features
+            of the associated dataset
+          type: string
+        userPermissions:
+          description: List of permissions that are effective on this dataset for
+            the current user
+          items:
+            type: string
+          type: array
+      required:
+      - allowedRoles
+      - metadata
+      - nextLowerHierarchyLevel
+      - nextUpperHierarchyLevel
+      - spatialUnitId
+      - spatialUnitLevel
+      - wfsUrl
+      - wmsUrl
+      title: SpatialUnitOverviewType
+      type: object
+    SpatialUnitPATCHInputType:
+      example:
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        nextLowerHierarchyLevel: nextLowerHierarchyLevel
+        nextUpperHierarchyLevel: nextUpperHierarchyLevel
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        nextLowerHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest lower hierarchy level
+          type: string
+        nextUpperHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest upper hierarchy level
+          type: string
+      required:
+      - allowedRoles
+      - metadata
+      - nextLowerHierarchyLevel
+      - nextUpperHierarchyLevel
+      title: SpatialUnitPATCHInputType
+      type: object
+    SpatialUnitPOSTInputType:
+      example:
+        geoJsonString: geoJsonString
+        metadata:
+          literature: literature
+          note: note
+          updateInterval: ARBITRARY
+          sridEPSG: 6.027456183070403
+          datasource: datasource
+          contact: contact
+          lastUpdate: 2000-01-23
+          description: description
+          databasis: databasis
+        allowedRoles:
+        - allowedRoles
+        - allowedRoles
+        jsonSchema: jsonSchema
+        nextLowerHierarchyLevel: nextLowerHierarchyLevel
+        periodOfValidity:
+          endDate: 2000-01-23
+          startDate: 2000-01-23
+        spatialUnitLevel: spatialUnitLevel
+        nextUpperHierarchyLevel: nextUpperHierarchyLevel
+      properties:
+        allowedRoles:
+          description: list of role identifiers that have read access rights for this
+            dataset
+          items:
+            type: string
+          type: array
+        geoJsonString:
+          description: a valid GeoJSON string containing the features consisting of
+            a geometry and a unique identifier as property 'uuid'
+          type: string
+        jsonSchema:
+          description: a JSON schema as string that defines the data model for this
+            dataset. It can be used to validate the geoJsonString property.
+          type: string
+        metadata:
+          $ref: '#/components/schemas/CommonMetadataType'
+        nextLowerHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest lower hierarchy level
+          type: string
+        nextUpperHierarchyLevel:
+          description: the identifier/name of the spatial unit level that contains
+            the features of the nearest upper hierarchy level
+          type: string
+        periodOfValidity:
+          $ref: '#/components/schemas/PeriodOfValidityType'
+        spatialUnitLevel:
+          description: the name and identifier of the spatial unit level the features
+            apply to
+          type: string
+      required:
+      - allowedRoles
+      - geoJsonString
+      - jsonSchema
+      - metadata
+      - nextLowerHierarchyLevel
+      - nextUpperHierarchyLevel
+      - periodOfValidity
+      - spatialUnitLevel
+      title: SpatialUnitPOSTInputType
+      type: object
+    SpatialUnitPUTInputType:
+      example:
+        geoJsonString: geoJsonString
+        isPartialUpdate: true
+        periodOfValidity:
+          endDate: 2000-01-23
+          startDate: 2000-01-23
+      properties:
+        geoJsonString:
+          description: a valid GeoJSON string containing the features consisting of
+            a geometry and a unique identifier as property 'uuid'
+          type: string
+        periodOfValidity:
+          $ref: '#/components/schemas/PeriodOfValidityType'
+        isPartialUpdate:
+          description: "if set to TRUE, then a partial upload of geometries is possible.\
+            \ Missing features that are already in the database will then not be deleted"
+          type: boolean
+      required:
+      - geoJsonString
+      - isPartialUpdate
+      - periodOfValidity
+      title: SpatialUnitPUTInputType
+      type: object
+    TopicInputType:
+      example:
+        topicId: topicId
+        subTopics:
+        - null
+        - null
+        topicName: topicName
+        topicResource: indicator
+        topicDescription: topicDescription
+        topicType: main
+      properties:
+        subTopics:
+          description: optional list of subTopics
+          items:
+            $ref: '#/components/schemas/TopicInputType'
+          type: array
+        topicDescription:
+          description: short description of the topic
+          type: string
+        topicId:
+          description: the topic identifier
+          type: string
+        topicName:
+          description: the topic name
+          type: string
+        topicResource:
+          description: topic resource indicating if the topic object corresponds to
+            an indicator or to a georesource
+          enum:
+          - indicator
+          - georesource
+          type: string
+        topicType:
+          description: topic type indicating if the topic object is a subtopic or
+            a main topic - only topics of type 'sub' shall be subTopics of topics
+            with type 'main'
+          enum:
+          - main
+          - sub
+          type: string
+      required:
+      - topicDescription
+      - topicName
+      - topicType
+      title: TopicInputType
+      type: object
+    TopicOverviewType:
+      example:
+        topicId: topicId
+        subTopics:
+        - null
+        - null
+        topicName: topicName
+        topicResource: indicator
+        topicDescription: topicDescription
+        topicType: main
+      properties:
+        subTopics:
+          description: optional list of subTopics
+          items:
+            $ref: '#/components/schemas/TopicOverviewType'
+          type: array
+        topicDescription:
+          description: short description of the topic
+          type: string
+        topicId:
+          description: the identifier of the topic
+          type: string
+        topicName:
+          description: the topic name
+          type: string
+        topicResource:
+          description: topic resource indicating if the topic object corresponds to
+            an indicator or to a georesource
+          enum:
+          - indicator
+          - georesource
+          type: string
+        topicType:
+          description: topic type indicating if the topic object is a subtopic or
+            a main topic - only topics of type 'sub' shall be subTopics of topics
+            with type 'main'
+          enum:
+          - main
+          - sub
+          type: string
+      required:
+      - topicDescription
+      - topicId
+      - topicName
+      - topicType
+      title: TopicOverviewType
+      type: object
+  securitySchemes:
+    kommonitor-data-access_oauth:
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost:8080/auth/realms/kommonitor/protocol/openid-connect/auth
+          scopes: {}
+          tokenUrl: http://localhost:8080/auth/realms/kommonitor/protocol/openid-connect/token
+      type: oauth2
+x-original-swagger-version: "2.0"
+
