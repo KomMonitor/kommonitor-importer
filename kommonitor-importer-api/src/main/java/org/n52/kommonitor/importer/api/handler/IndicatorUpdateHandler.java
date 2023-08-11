@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import org.n52.kommonitor.datamanagement.api.client.IndicatorsControllerApi;
-import org.n52.kommonitor.datamanagement.api.legacy.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;

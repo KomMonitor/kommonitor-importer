@@ -638,7 +638,7 @@ public class GeorecourcesControllerApi {
      * @return ResponseEntity
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity updateGeoresourceAsBody(String georesourceId, GeoresourcePUTInputType featureData) throws RestClientException {
+    public Void updateGeoresourceAsBody(String georesourceId, GeoresourcePUTInputType featureData) throws RestClientException {
         return updateGeoresourceAsBodyWithHttpInfo(georesourceId, featureData).getBody();
     }
 
@@ -656,7 +656,7 @@ public class GeorecourcesControllerApi {
      * @return ResponseEntity&lt;ResponseEntity&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ResponseEntity> updateGeoresourceAsBodyWithHttpInfo(String georesourceId, GeoresourcePUTInputType featureData) throws RestClientException {
+    public ResponseEntity<Void> updateGeoresourceAsBodyWithHttpInfo(String georesourceId, GeoresourcePUTInputType featureData) throws RestClientException {
         Object localVarPostBody = featureData;
         
         // verify the required parameter 'georesourceId' is set
@@ -689,7 +689,7 @@ public class GeorecourcesControllerApi {
 
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
-        ParameterizedTypeReference<ResponseEntity> localReturnType = new ParameterizedTypeReference<ResponseEntity>() {};
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/management/georesources/{georesourceId}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**

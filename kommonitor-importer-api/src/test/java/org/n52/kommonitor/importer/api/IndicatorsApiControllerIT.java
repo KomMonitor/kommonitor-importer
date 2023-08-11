@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.legacy.client.IndicatorsApi;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsControllerApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorUpdateHandler;
@@ -77,7 +77,7 @@ public class IndicatorsApiControllerIT {
     private IndicatorEncoder encoder;
 
     @MockBean
-    private IndicatorsApi apiClient;
+    private IndicatorsControllerApi apiClient;
 
     @MockBean
     private EntityValidator validator;

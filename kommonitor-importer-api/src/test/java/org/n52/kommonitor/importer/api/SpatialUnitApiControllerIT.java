@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.legacy.client.SpatialUnitsApi;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
@@ -80,7 +80,7 @@ public class SpatialUnitApiControllerIT {
     private SpatialResourceJsonEncoder encoder;
 
     @MockBean
-    private SpatialUnitsApi apiClient;
+    private SpatialUnitsControllerApi apiClient;
 
     @MockBean
     private EntityValidator validator;

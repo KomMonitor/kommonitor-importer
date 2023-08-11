@@ -2,7 +2,6 @@ package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
-import org.n52.kommonitor.datamanagement.api.legacy.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;

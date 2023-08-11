@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.legacy.client.GeoresourcesApi;
+import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
@@ -81,7 +81,7 @@ public class GeoresourcesApiControllerIT {
     private SpatialResourceJsonEncoder encoder;
 
     @MockBean
-    private GeoresourcesApi apiClient;
+    private GeorecourcesControllerApi apiClient;
 
     @MockBean
     private EntityValidator validator;
