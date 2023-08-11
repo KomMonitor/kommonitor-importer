@@ -59,6 +59,7 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
         return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
+
     @Override
     public ResponseEntity<ImportResponseType> updateSpatialUnit(@Valid UpdateSpatialUnitPOSTInputType featureData) {
         LOG.info("Received 'updateSpatialUnit' request for spatial unit: {}", featureData.getSpatialUnitId());

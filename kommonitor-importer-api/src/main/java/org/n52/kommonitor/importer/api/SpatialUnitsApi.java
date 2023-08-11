@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "spatial-units", description = "Spatial units/levels for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)")
 public interface SpatialUnitsApi {
@@ -44,10 +44,10 @@ public interface SpatialUnitsApi {
      * POST /spatial-units : Import a new spatial unit
      * Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API
      *
-     * @param featureData feature data (required)
-     * @return OK (status code 200)
+     * @param importSpatialUnitPOSTInputType Definitions to import spatial units (optional)
+     * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -56,19 +56,16 @@ public interface SpatialUnitsApi {
         description = "Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API",
         tags = { "spatial-units" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of created feature IDs", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -78,7 +75,7 @@ public interface SpatialUnitsApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> importSpatialUnit(
-        @Parameter(name = "feature-data", description = "feature data", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData
+        @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units") @Valid @RequestBody(required = false) ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
     );
 
 
@@ -86,10 +83,10 @@ public interface SpatialUnitsApi {
      * POST /spatial-units/update : Update a spatial unit
      * Update a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /spatial-units of KomMonitor Data Management API
      *
-     * @param featureData feature data (required)
-     * @return OK (status code 200)
+     * @param updateSpatialUnitPOSTInputType Definitions to update spatial units (optional)
+     * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -98,19 +95,16 @@ public interface SpatialUnitsApi {
         description = "Update a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /spatial-units of KomMonitor Data Management API",
         tags = { "spatial-units" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of created feature IDs", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -120,7 +114,7 @@ public interface SpatialUnitsApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateSpatialUnit(
-        @Parameter(name = "feature-data", description = "feature data", required = true) @Valid @RequestBody UpdateSpatialUnitPOSTInputType featureData
+        @Parameter(name = "UpdateSpatialUnitPOSTInputType", description = "Definitions to update spatial units") @Valid @RequestBody(required = false) UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType
     );
 
 }

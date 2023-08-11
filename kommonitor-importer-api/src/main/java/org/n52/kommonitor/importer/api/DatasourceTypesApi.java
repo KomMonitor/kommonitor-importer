@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "datasources", description = "the datasources API")
 public interface DatasourceTypesApi {
@@ -43,9 +43,10 @@ public interface DatasourceTypesApi {
      * Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer
      *
      * @param type unique type of the datasource (required)
-     * @return OK (status code 200)
-     *         or API key is missing or invalid (status code 401)
+     * @return A datasource type (status code 200)
+     *         or Unauthenticated (status code 401)
      *         or No support for the specified datasource type (status code 404)
+     *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "getSupportedDataSourceTypeByType",
@@ -53,16 +54,16 @@ public interface DatasourceTypesApi {
         description = "Retrieve information about the parameters for the selected datasource type that can be used for importing data into the KomMonitor Data Management layer",
         tags = { "datasources" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "A datasource type", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = DataSourceType.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "404", description = "No support for the specified datasource type", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -79,8 +80,9 @@ public interface DatasourceTypesApi {
      * GET /datasourceTypes : Retrieve information about all supported datasource types
      * Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer
      *
-     * @return OK (status code 200)
-     *         or API key is missing or invalid (status code 401)
+     * @return List of all available datasource types (status code 200)
+     *         or Unauthenticated (status code 401)
+     *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "getSupportedDataSourceTypes",
@@ -88,13 +90,13 @@ public interface DatasourceTypesApi {
         description = "Retrieve information about the parameters of all supported datasource types that can be used for importing data into the KomMonitor Data Management layer",
         tags = { "datasources" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of all available datasource types", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DataSourceType.class)))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid")
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
         }
     )
     @RequestMapping(

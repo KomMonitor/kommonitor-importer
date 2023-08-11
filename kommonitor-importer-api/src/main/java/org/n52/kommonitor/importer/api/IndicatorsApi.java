@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "indicators", description = "Municipal indicators that provide statiscial time series information")
 public interface IndicatorsApi {
@@ -43,10 +43,10 @@ public interface IndicatorsApi {
      * POST /indicators/update : Update or create a new indicator dataset
      * Update or create an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /indicators of KomMonitor Data Management API
      *
-     * @param indicatorData indicator data (required)
-     * @return OK (status code 200)
+     * @param updateIndicatorPOSTInputType Definitions to create or update indicators (optional)
+     * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -55,19 +55,16 @@ public interface IndicatorsApi {
         description = "Update or create an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /indicators of KomMonitor Data Management API",
         tags = { "indicators" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of created feature IDs", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -77,7 +74,7 @@ public interface IndicatorsApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateIndicator(
-        @Parameter(name = "indicator-data", description = "indicator data", required = true) @Valid @RequestBody UpdateIndicatorPOSTInputType indicatorData
+        @Parameter(name = "UpdateIndicatorPOSTInputType", description = "Definitions to create or update indicators") @Valid @RequestBody(required = false) UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType
     );
 
 }

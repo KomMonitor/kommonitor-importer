@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "upload", description = "the upload API")
 public interface UploadApi {
@@ -42,8 +42,9 @@ public interface UploadApi {
      * GET /upload : Get a list of files
      * Retrieve a list of information for all uploaded files
      *
-     * @return OK (status code 200)
-     *         or API key is missing or invalid (status code 401)
+     * @return List of file names (status code 200)
+     *         or Unauthenticated (status code 401)
+     *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "getUploadedFiles",
@@ -51,13 +52,13 @@ public interface UploadApi {
         description = "Retrieve a list of information for all uploaded files",
         tags = { "upload" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of file names", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UploadedFileType.class)))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid")
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
         }
     )
     @RequestMapping(
@@ -74,11 +75,11 @@ public interface UploadApi {
      * POST /upload : Upload a file
      * Upload a file that can be used as datasource for importing or updating a KomMonitor resource.
      *
-     * @param file The file to upload (required)
-     * @param filename The name that will be used for storing the file on the server (required)
-     * @return Created (status code 201)
+     * @param filename The name that will be used for storing the file on the server (optional)
+     * @param file The file to upload (optional)
+     * @return File uploaded (status code 201)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -87,30 +88,30 @@ public interface UploadApi {
         description = "Upload a file that can be used as datasource for importing or updating a KomMonitor resource.",
         tags = { "upload" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Created", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = String.class))
+            @ApiResponse(responseCode = "201", description = "File uploaded", content = {
+                @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "text/plain", schema = @Schema(implementation = Error.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "text/plain", schema = @Schema(implementation = Error.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/upload",
-        produces = { "*/*" },
+        produces = { "text/plain", "application/json" },
         consumes = { "multipart/form-data" }
     )
     ResponseEntity<String> upload(
-        @Parameter(name = "file", description = "The file to upload", required = true) @RequestPart(value = "file", required = true) MultipartFile file,
-        @Parameter(name = "filename", description = "The name that will be used for storing the file on the server", required = true) @Valid @RequestParam(value = "filename", required = true) String filename
+        @Parameter(name = "filename", description = "The name that will be used for storing the file on the server") @Valid @RequestParam(value = "filename", required = false) String filename,
+        @Parameter(name = "file", description = "The file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );
 
 }

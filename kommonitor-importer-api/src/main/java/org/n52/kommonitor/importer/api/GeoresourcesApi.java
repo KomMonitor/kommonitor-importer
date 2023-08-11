@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "georesources", description = "Additional georesources that are necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)")
 public interface GeoresourcesApi {
@@ -44,10 +44,10 @@ public interface GeoresourcesApi {
      * POST /georesources : Import a new geo-resource
      * Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API
      *
-     * @param featureData feature data (required)
-     * @return OK (status code 200)
+     * @param importGeoresourcePOSTInputType Definitions to create georesources (optional)
+     * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
@@ -56,19 +56,16 @@ public interface GeoresourcesApi {
         description = "Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API",
         tags = { "georesources" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of created feature IDs", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -78,39 +75,36 @@ public interface GeoresourcesApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> importGeoresource(
-        @Parameter(name = "feature-data", description = "feature data", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType featureData
+        @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources") @Valid @RequestBody(required = false) ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
     );
 
 
     /**
-     * POST /georesources/update : Update a geo-resource
-     * Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API
+     * POST /georesources/update : Update a georesource
+     * Update a georesource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API
      *
-     * @param featureData feature data (required)
-     * @return OK (status code 200)
+     * @param updateGeoresourcePOSTInputType Definitions to update georesources (optional)
+     * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
-     *         or API key is missing or invalid (status code 401)
+     *         or Unauthenticated (status code 401)
      *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "updateGeoresource",
-        summary = "Update a geo-resource",
-        description = "Update a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API",
+        summary = "Update a georesource",
+        description = "Update a georesource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API",
         tags = { "georesources" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of created feature IDs", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ImportResponseType.class))
             }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
-                @Content(mediaType = "*/*", schema = @Schema(implementation = Error.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -120,7 +114,7 @@ public interface GeoresourcesApi {
         consumes = { "application/json" }
     )
     ResponseEntity<ImportResponseType> updateGeoresource(
-        @Parameter(name = "feature-data", description = "feature data", required = true) @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData
+        @Parameter(name = "UpdateGeoresourcePOSTInputType", description = "Definitions to update georesources") @Valid @RequestBody(required = false) UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType
     );
 
 }

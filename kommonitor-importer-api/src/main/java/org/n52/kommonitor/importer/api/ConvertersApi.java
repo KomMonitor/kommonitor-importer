@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-09T11:12:13.634041800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
 @Validated
 @Tag(name = "converters", description = "the converters API")
 public interface ConvertersApi {
@@ -43,9 +43,10 @@ public interface ConvertersApi {
      * Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer
      *
      * @param name unique name of the converter (required)
-     * @return OK (status code 200)
-     *         or API key is missing or invalid (status code 401)
+     * @return A converter (status code 200)
+     *         or Unauthenticated (status code 401)
      *         or A converter with the specified name was not found (status code 404)
+     *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "getConverterByName",
@@ -53,16 +54,16 @@ public interface ConvertersApi {
         description = "Retrieve information such like supported formats and decoding options about the selected converters for decoding a certain dataset and importing it into the KomMonitor Data Management layer",
         tags = { "converters" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "A converter", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ConverterType.class))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid"),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
             @ApiResponse(responseCode = "404", description = "A converter with the specified name was not found", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            }),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
         }
     )
     @RequestMapping(
@@ -79,8 +80,9 @@ public interface ConvertersApi {
      * GET /converters : Retrieve information about all available converters
      * Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer
      *
-     * @return OK (status code 200)
-     *         or API key is missing or invalid (status code 401)
+     * @return List of all available converters (status code 200)
+     *         or Unauthenticated (status code 401)
+     *         or Unexpected error (status code 200)
      */
     @Operation(
         operationId = "getConverters",
@@ -88,13 +90,13 @@ public interface ConvertersApi {
         description = "Retrieve information such like supported formats and importing options about all available converters for decoding datasets and importing them into the KomMonitor Data Management layer",
         tags = { "converters" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "200", description = "List of all available converters", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ConverterType.class)))
             }),
-            @ApiResponse(responseCode = "401", description = "API key is missing or invalid")
-        },
-        security = {
-            @SecurityRequirement(name = "oauth2")
+            @ApiResponse(responseCode = "401", description = "Unauthenticated"),
+            @ApiResponse(responseCode = "default", description = "Unexpected error", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
         }
     )
     @RequestMapping(
