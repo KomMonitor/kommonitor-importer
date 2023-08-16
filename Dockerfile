@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=build app/kommonitor-importer/kommonitor-importer-app/target/kommonitor-importer-app.jar /app/kommonitor-importer-app.jar
 
 # Set the entrypoint for starting the app
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app/kommonitor-importer-app.jar"]
+CMD ["sh", "-c", "java ${JAVA_OPTS} -jar /app/kommonitor-importer-app.jar"]
