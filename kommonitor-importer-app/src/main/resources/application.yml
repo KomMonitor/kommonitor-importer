@@ -30,7 +30,7 @@ logging:
     org.n52.kommonitor: DEBUG
 kommonitor:
   importer:
-    datamanagement-api-url: http://localhost:8085/management
+    datamanagement-api-url: http://localhost:8085
     geocoder-api-url: https://geocoder.fbg-hsbo.de/geocoder
     file-storage-location: /tmp/kommonitor
   swagger-ui:
