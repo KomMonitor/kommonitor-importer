@@ -101,7 +101,7 @@ public class GeoJsonConverterTest {
     void testConvertIndicators() throws ConverterException {
         IndicatorPropertyMappingType indicatorPropertyMapping = createDateAttributeTimeseriesMapping();
 
-        InputStream input = getClass().getResourceAsStream("/features-test-new.geojson");
+        InputStream input = getClass().getResourceAsStream("/features-test-timeseries.geojson");
         Dataset<InputStream> dataset = new Dataset<>(input);
 
         List<IndicatorValue> indicators = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);
