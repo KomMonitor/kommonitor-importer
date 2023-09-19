@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.converter;
 
 import org.n52.kommonitor.importer.entities.Dataset;
+import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ConverterDefinitionType;
@@ -136,6 +137,25 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
                 .filter(p -> p.getName().equals(paramName))
                 .findFirst()
                 .map(ParameterValueType::getValue);
+    }
+
+    /**
+     * Groups a List of {@link IndicatorValue} based on common reference key values.
+     * The list to group contains several IndicatorValues with the same reference key but different TimeSeriesValues.
+     *
+     * @param indicatorValueList List of {@link IndicatorValue} that should be grouped
+     * @return List of grouped {@link IndicatorValue}
+     */
+    protected List<IndicatorValue> groupIndicatorValues(List<IndicatorValue> indicatorValueList) {
+        Map<String, IndicatorValue> values = new TreeMap<>();
+        indicatorValueList.forEach(v -> {
+            if (values.containsKey(v.getSpatialReferenceKey())) {
+                values.get(v.getSpatialReferenceKey()).getTimeSeriesValueList().addAll(v.getTimeSeriesValueList());
+            } else {
+                values.put(v.getSpatialReferenceKey(), v);
+            }
+        });
+        return new ArrayList<>(values.values());
     }
 
     /**
