@@ -1,6 +1,10 @@
 # Change Log
 
-## 2.0.7
+## 2.1.0
+* Fix version [b448d28](b448d28fad38d64e7cd1aa019e14aefab503530d)
+* Set next legacy minor snapshot version [a5ec774](a5ec77414e29f3e1d158ad13ec4baedcd704521a)
+* Add Geopackage converter [084a20d](084a20d36c74f09e6ae79950c51d419bf4087709)
+* Refine Shape and GeoJSON converter [21eb801](21eb8019ae445106a0b8cbbb37d31bd02858f68e)
 * Use JDK17 base image for running app [b940ae8](b940ae8429bf62c510e4eb614841d273c5687950)
 * Remove push to develop event for build action [9f13e1e](9f13e1e400a56e38b45b144ee1569a120293befb)
 * Fix git-changelog plugin version [f722d54](f722d5420d7c98797bcfc88f763959b714095e8f)
