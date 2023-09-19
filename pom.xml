@@ -30,7 +30,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>2.7.14</spring-boot.version>
-        <api-client.version>2.0.7</api-client.version>
+        <api-client.version>2.1.0-SNAPSHOT</api-client.version>
         <jts.version>1.19.0</jts.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <maven-surefire.version>3.0.0-M4</maven-surefire.version>
