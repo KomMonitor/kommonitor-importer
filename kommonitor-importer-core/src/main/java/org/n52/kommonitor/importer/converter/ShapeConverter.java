@@ -111,16 +111,16 @@ public class ShapeConverter extends AbstractConverter {
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
 
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
         List<SpatialResource> spatialResources = new ArrayList<>();
-        
-        
+
+
         // UNZIP file
         Path tmpDir = unzipFolder(dataset);
-        
+
         File file = new File(tmpDir + "/input.shp");
         Map<String, Object> map = new HashMap<>();
         map.put("url", file.toURI().toURL());
@@ -145,18 +145,18 @@ public class ShapeConverter extends AbstractConverter {
                 } catch (Exception ex) {
                     throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
                 }finally {
-					tmpDir.toFile().delete();
-				}
+                    tmpDir.toFile().delete();
+                }
             }
         }
 
         return spatialResources;
     }
-    
+
     public Path unzipFolder(InputStream dataset) throws IOException {
-    	
-    	// create tmp folder where content will be stored
-    	Path newTmpDirPath = Files.createTempDirectory("tmpDirShapeImport_");
+
+        // create tmp folder where content will be stored
+        Path newTmpDirPath = Files.createTempDirectory("tmpDirShapeImport_");
 
         try (ZipInputStream zis = new ZipInputStream(dataset)) {
 
@@ -166,11 +166,11 @@ public class ShapeConverter extends AbstractConverter {
             while (zipEntry != null) {
 
 
-                	Path newPath = zipSlipProtect(zipEntry, newTmpDirPath);
-                    // copy files, nio
-                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
+                Path newPath = zipSlipProtect(zipEntry, newTmpDirPath);
+                // copy files, nio
+                Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
 
-                    // copy files, classic
+                // copy files, classic
                     /*try (FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
                         byte[] buffer = new byte[1024];
                         int len;
@@ -178,32 +178,32 @@ public class ShapeConverter extends AbstractConverter {
                             fos.write(buffer, 0, len);
                         }
                     }*/
-                
+
 
                 zipEntry = zis.getNextEntry();
 
             }
             zis.closeEntry();
-            
+
             // rename file to input.*
-            
+
             File dir = newTmpDirPath.toFile();
 
             if (dir.isDirectory()) { // make sure it's a directory
                 for (final File f : dir.listFiles()) {
                     try {
-                    	
-                    	if(f.getAbsolutePath().endsWith(".shp")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.shp").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	else if(f.getAbsolutePath().endsWith(".prj")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.prj").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	else if(f.getAbsolutePath().endsWith(".dbf")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.dbf").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	
-                    	
+
+                        if(f.getAbsolutePath().endsWith(".shp")) {
+                            Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.shp").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        else if(f.getAbsolutePath().endsWith(".prj")) {
+                            Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.prj").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        else if(f.getAbsolutePath().endsWith(".dbf")) {
+                            Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.dbf").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+
+
                     } catch (Exception e) {
                         // TODO: handle exception
                         e.printStackTrace();
@@ -211,24 +211,24 @@ public class ShapeConverter extends AbstractConverter {
                         throw e;
                     }
                 }
-               }
+            }
 
         } catch (Exception e) {
-        	e.printStackTrace();
-        	LOG.error(String.format("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage() + ""));
-        	newTmpDirPath.toFile().delete();
-			throw new Error("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage());		
-		}
-        
-        
-        
+            e.printStackTrace();
+            LOG.error(String.format("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage() + ""));
+            newTmpDirPath.toFile().delete();
+            throw new Error("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage());
+        }
+
+
+
         return newTmpDirPath;
 
     }
-    
- // protect zip slip attack
+
+    // protect zip slip attack
     public Path zipSlipProtect(ZipEntry zipEntry, Path targetDir)
-        throws IOException {
+            throws IOException {
 
         // test zip slip vulnerability
         // Path targetDirResolved = targetDir.resolve("../../" + zipEntry.getName());
@@ -263,9 +263,9 @@ public class ShapeConverter extends AbstractConverter {
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
 
-     // UNZIP file
+        // UNZIP file
         Path tmpDir = unzipFolder(dataset);
-        
+
         File file = new File(tmpDir + "/input.shp");
         Map<String, Object> map = new HashMap<>();
         map.put("url", file.toURI().toURL());
@@ -278,48 +278,29 @@ public class ShapeConverter extends AbstractConverter {
         Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM, 10,20,30,40)")
 
         FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
-      
+
         try (FeatureIterator<SimpleFeature> features = collection.features()) {
             while (features.hasNext()) {
                 SimpleFeature simpleFeature = features.next();
                 try {
                     indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping));
-                    // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
-                    // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
-                    // in the following.
-                    if (propertyMapping.getTimeseriesMappings().size() == 1) {
-                        indicatorValueList = groupIndicatorValues(indicatorValueList);
-                    }
                 } catch (DecodingException ex) {
                     LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                     LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                     featureDecoder.addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), simpleFeature, ex.getMessage());
                 }finally {
-					tmpDir.toFile().delete();
-				}
+                    tmpDir.toFile().delete();
+                }
             }
+        }
+        // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
+        // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
+        // in the following.
+        if (propertyMapping.getTimeseriesMappings().size() == 1) {
+            indicatorValueList = groupIndicatorValues(indicatorValueList);
         }
 
         return indicatorValueList;
-    }
-
-    /**
-     * Groups a List of {@link IndicatorValue} based on common reference key values.
-     * The list to group contains several IndicatorValues with the same reference key but different TimeSeriesValues.
-     *
-     * @param indicatorValueList List of {@link IndicatorValue} that should be grouped
-     * @return List of grouped {@link IndicatorValue}
-     */
-    protected List<IndicatorValue> groupIndicatorValues(List<IndicatorValue> indicatorValueList) {
-        Map<String, IndicatorValue> values = new HashMap<>();
-        indicatorValueList.forEach(v -> {
-            if (values.containsKey(v.getSpatialReferenceKey())) {
-                values.get(v.getSpatialReferenceKey()).getTimeSeriesValueList().addAll(v.getTimeSeriesValueList());
-            } else {
-                values.put(v.getSpatialReferenceKey(), v);
-            }
-        });
-        return new ArrayList<>(values.values());
     }
 
     private ConverterParameter createCrsParameter() {
