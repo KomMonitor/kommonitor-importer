@@ -111,7 +111,7 @@ public class ShapeConverter extends AbstractConverter {
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
 
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
@@ -284,12 +284,6 @@ public class ShapeConverter extends AbstractConverter {
                 SimpleFeature simpleFeature = features.next();
                 try {
                     indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping));
-                    // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
-                    // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
-                    // in the following.
-                    if (propertyMapping.getTimeseriesMappings().size() == 1) {
-                        indicatorValueList = groupIndicatorValues(indicatorValueList);
-                    }
                 } catch (DecodingException ex) {
                     LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                     LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
@@ -299,27 +293,14 @@ public class ShapeConverter extends AbstractConverter {
 				}
             }
         }
+        // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
+        // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
+        // in the following.
+        if (propertyMapping.getTimeseriesMappings().size() == 1) {
+            indicatorValueList = groupIndicatorValues(indicatorValueList);
+        }
 
         return indicatorValueList;
-    }
-
-    /**
-     * Groups a List of {@link IndicatorValue} based on common reference key values.
-     * The list to group contains several IndicatorValues with the same reference key but different TimeSeriesValues.
-     *
-     * @param indicatorValueList List of {@link IndicatorValue} that should be grouped
-     * @return List of grouped {@link IndicatorValue}
-     */
-    protected List<IndicatorValue> groupIndicatorValues(List<IndicatorValue> indicatorValueList) {
-        Map<String, IndicatorValue> values = new HashMap<>();
-        indicatorValueList.forEach(v -> {
-            if (values.containsKey(v.getSpatialReferenceKey())) {
-                values.get(v.getSpatialReferenceKey()).getTimeSeriesValueList().addAll(v.getTimeSeriesValueList());
-            } else {
-                values.put(v.getSpatialReferenceKey(), v);
-            }
-        });
-        return new ArrayList<>(values.values());
     }
 
     private ConverterParameter createCrsParameter() {
