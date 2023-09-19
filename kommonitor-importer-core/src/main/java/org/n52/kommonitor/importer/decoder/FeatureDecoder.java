@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
+import org.geotools.feature.FeatureIterator;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -72,14 +73,16 @@ public class FeatureDecoder {
                                                                            SpatialResourcePropertyMappingType propertyMappingType,
                                                                            CoordinateReferenceSystem sourceCrs) {
         List<SpatialResource> result = new ArrayList<>();
-        SimpleFeatureIterator iterator = featureCollection.features();
-        while (iterator.hasNext()) {
-            SimpleFeature feature = iterator.next();
-            try {
-                result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, sourceCrs));
-            } catch (DecodingException e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
-                addMonitoringMessage(propertyMappingType.getIdentifierProperty(), feature, e.getMessage());
+        try (FeatureIterator<SimpleFeature> iterator = featureCollection.features()) {
+            while (iterator.hasNext()) {
+                SimpleFeature feature = iterator.next();
+                try {
+                    result.add(decodeFeatureToSpatialResource(feature, propertyMappingType, sourceCrs));
+                } catch (DecodingException e) {
+                    LOG.error(String.format("Decoding failed for feature %s", feature.getID()));
+                    LOG.debug(String.format("Failed feature decoding attributes: %s", feature.getAttributes()));
+                    addMonitoringMessage(propertyMappingType.getIdentifierProperty(), feature, e.getMessage());
+                }
             }
         }
         return result;
@@ -160,19 +163,20 @@ public class FeatureDecoder {
         // if there are multiple property mappings, each SimpleFeature of the SimpleFeatureCollection contains
         // all TimeSeriesValues of a common Indicator on its own within its properties
         else {
-            SimpleFeatureIterator iterator = featureCollection.features();
-            while (iterator.hasNext()) {
-                SimpleFeature feature = iterator.next();
-                try {
-                    IndicatorValue indicator = decodeFeatureToIndicatorValue(feature, propertyMapping);
-                    result.add(indicator);
-                } catch (DecodingException e) {
-                    LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
-                    addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
+            try (FeatureIterator<SimpleFeature> iterator = featureCollection.features()) {
+                while (iterator.hasNext()) {
+                    SimpleFeature feature = iterator.next();
+                    try {
+                        IndicatorValue indicator = decodeFeatureToIndicatorValue(feature, propertyMapping);
+                        result.add(indicator);
+                    } catch (DecodingException e) {
+                        LOG.error(String.format("Decoding failed for feature %s", feature.getID()));
+                        LOG.debug(String.format("Failed feature decoding attributes: %s", feature.getAttributes()));
+                        addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
+                    }
                 }
             }
         }
-
         return result;
     }
 
@@ -269,9 +273,6 @@ public class FeatureDecoder {
         	indicatorValue = null;
         }
 
-//        if (!keepMissingOrNullValueIndicator && (indicatorValueProperty != null || indicatorValueProperty.getValue() != null)) {
-//
-//        }
         LocalDate timeStamp;
         if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
             timeStamp = propertyMappingType.getTimestamp();
@@ -314,24 +315,25 @@ public class FeatureDecoder {
      * @return a {@link Map} that contains the {@link SimpleFeature} entities grouped by its spatial reference key values
      */
     Map<String, List<SimpleFeature>> groupFeatureCollection(SimpleFeatureCollection featureCollection, String referenceKeyProperty) {
-        Map<String, List<SimpleFeature>> groupedFeatures = new HashMap();
-        SimpleFeatureIterator iterator = featureCollection.features();
-        while (iterator.hasNext()) {
-            SimpleFeature feature = iterator.next();
-            try {
-                String refKey = getPropertyValueAsString(feature, referenceKeyProperty);
-                if (groupedFeatures.containsKey(refKey)) {
-                    groupedFeatures.get(refKey).add(feature);
-                } else {
-                    List<SimpleFeature> featureList = new ArrayList<>();
-                    featureList.add(feature);
-                    groupedFeatures.put(refKey, featureList);
+        Map<String, List<SimpleFeature>> groupedFeatures = new HashMap<>();
+        try (FeatureIterator<SimpleFeature> iterator = featureCollection.features()) {
+            while (iterator.hasNext()) {
+                SimpleFeature feature = iterator.next();
+                try {
+                    String refKey = getPropertyValueAsString(feature, referenceKeyProperty);
+                    if (groupedFeatures.containsKey(refKey)) {
+                        groupedFeatures.get(refKey).add(feature);
+                    } else {
+                        List<SimpleFeature> featureList = new ArrayList<>();
+                        featureList.add(feature);
+                        groupedFeatures.put(refKey, featureList);
+                    }
+                } catch (DecodingException e) {
+                    LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
+                    addMonitoringMessage(referenceKeyProperty, feature, e.getMessage());
                 }
-            } catch (DecodingException e) {
-                LOG.warn("Could not decode feature {}. Cause: {}.", feature.getID(), e.getMessage());
-                addMonitoringMessage(referenceKeyProperty, feature, e.getMessage());
-            }
 
+            }
         }
         return groupedFeatures;
     }
@@ -347,7 +349,7 @@ public class FeatureDecoder {
         if (attributeMappings == null || attributeMappings.isEmpty()) {
             return null;
         }
-        Map attributes = new HashMap();
+        Map attributes = new HashMap<>();
 
         attributeMappings.forEach(a -> {
             try {
@@ -383,7 +385,7 @@ public class FeatureDecoder {
      * the origin feature's property list
      */
     Map mappAllAttributes(SimpleFeature feature) {
-        Map attributes = new HashMap();
+        Map attributes = new HashMap<>();
         feature.getProperties().forEach(p -> {
             if (feature.getDefaultGeometryProperty() == null) {
                 attributes.put(p.getName().getLocalPart(), p.getValue());
@@ -400,19 +402,15 @@ public class FeatureDecoder {
      * @param feature          the {@link SimpleFeature} to fetch the attribute value from
      * @param attributeMapping the attribute mapping definition
      * @return the attribute value depending on the type defined in the attribute mapping
-     * @throws DecodingException
+     * @throws DecodingException if attribute values could not be decoded successfully
      */
     Object getAttributeValue(SimpleFeature feature, AttributeMappingType attributeMapping) throws DecodingException {
-        switch (attributeMapping.getType()) {
-            case INTEGER:
-                return getPropertyValueAsInteger(feature, attributeMapping.getName());
-            case FLOAT:
-                return getPropertyValueAsFloat(feature, attributeMapping.getName());
-            case DATE:
-                return getPropertyValueAsDate(feature, attributeMapping.getName());
-            default:
-                return getPropertyValueAsString(feature, attributeMapping.getName());
-        }
+        return switch (attributeMapping.getType()) {
+            case INTEGER -> getPropertyValueAsInteger(feature, attributeMapping.getName());
+            case FLOAT -> getPropertyValueAsFloat(feature, attributeMapping.getName());
+            case DATE -> getPropertyValueAsDate(feature, attributeMapping.getName());
+            default -> getPropertyValueAsString(feature, attributeMapping.getName());
+        };
     }
 
     /**
@@ -421,7 +419,7 @@ public class FeatureDecoder {
      * @param feature           the {@link SimpleFeature} to fetch the geometry from
      * @param simpleFeatureType {@link SimpleFeatureType} associated to  the {@link SimpleFeature}
      * @return {@link Geometry} of the feature
-     * @throws DecodingException
+     * @throws DecodingException if the geometry attribute could not be decoded succesfully
      */
     Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
     	
