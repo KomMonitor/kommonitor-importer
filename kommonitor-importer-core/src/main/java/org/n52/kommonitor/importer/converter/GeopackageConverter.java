@@ -7,7 +7,6 @@ import org.geotools.data.FeatureSource;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.referencing.CRS;
-import org.hsqldb.persist.Log;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -40,7 +39,8 @@ public class GeopackageConverter extends AbstractConverter {
     private static final String DEFAULT_ENCODING = "UTF-8";
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
-
+    private static final String PARAM_LAYER_ = "Layer";
+    private static final String PARAM_LAYER_DESC = "Angabe des Geopackage Layers, der SpatialUnits und/oder Indikatoren enthält";
     private FeatureDecoder featureDecoder;
 
     @Autowired
@@ -77,6 +77,7 @@ public class GeopackageConverter extends AbstractConverter {
     public Set<ConverterParameter> initConverterParameters() {
         Set<ConverterParameter> params = new HashSet<>();
         params.add(createCrsParameter());
+        params.add(createLayerParameter());
 
         return params;
     }
@@ -100,15 +101,17 @@ public class GeopackageConverter extends AbstractConverter {
             throws ImportParameterException, IOException {
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-
         if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
+
+        Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
 
         List<SpatialResource> spatialResources;
 
         // Store temp file file
         Path tmpFile = storeDatasetAsTempFile(dataset);
+        LOG.debug("Stored Geopackage dataset temporarily under {}", tmpFile.toFile().getPath());
 
         Map<String, Object> params = new HashMap<>();
         params.put("dbtype", "geopkg");
@@ -117,7 +120,19 @@ public class GeopackageConverter extends AbstractConverter {
 
         try {
             DataStore dataStore = DataStoreFinder.getDataStore(params);
+            // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
+            // Otherwise, use the first layer name of the Geopackage.
             String typeName = dataStore.getTypeNames()[0];
+            if (layerOpt.isPresent()){
+                if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))){
+                    typeName = layerOpt.get();
+                }
+                else {
+                    throw new ImportParameterException(String.format("Layer with name %s is not present in Geopackage.", layerOpt.get()));
+                }
+            }
+            LOG.debug("Use Geopackage layer {} for fetching Features.", typeName);
+
             FeatureSource<SimpleFeatureType, SimpleFeature> source =
                     dataStore.getFeatureSource(typeName);
 
@@ -145,7 +160,7 @@ public class GeopackageConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(input, propertyMapping);
+            return convertIndicators(input, converterDefinition, propertyMapping);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -159,10 +174,13 @@ public class GeopackageConverter extends AbstractConverter {
     }
 
     private List<IndicatorValue> convertIndicators(InputStream dataset,
+                                                   ConverterDefinitionType converterDefinition,
                                                    IndicatorPropertyMappingType propertyMapping)
             throws IOException {
         // Store temp file
         Path tmpFile = storeDatasetAsTempFile(dataset);
+
+        Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
 
         Map<String, Object> params = new HashMap();
         params.put("dbtype", "geopkg");
@@ -170,7 +188,18 @@ public class GeopackageConverter extends AbstractConverter {
         params.put("read-only", true);
 
         DataStore dataStore = DataStoreFinder.getDataStore(params);
+        // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
+        // Otherwise, use the first layer name of the Geopackage.
         String typeName = dataStore.getTypeNames()[0];
+        if (layerOpt.isPresent()){
+            if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))){
+                typeName = layerOpt.get();
+            }
+            else {
+                throw new ImportParameterException(String.format("Layer with name %s is not present in Geopackage.", layerOpt.get()));
+            }
+        }
+        LOG.debug("Use Geopackage layer {} for fetching Features.", typeName);
 
         FeatureSource<SimpleFeatureType, SimpleFeature> source =
                 dataStore.getFeatureSource(typeName);
@@ -196,4 +225,8 @@ public class GeopackageConverter extends AbstractConverter {
         return new ConverterParameter(PARAM_CRS, PARAM_CRS_DESC, ConverterParameter.ParameterTypeValues.STRING, true);
     }
 
-}
+    private ConverterParameter createLayerParameter() {
+        return new ConverterParameter(PARAM_LAYER_, PARAM_LAYER_DESC, ConverterParameter.ParameterTypeValues.STRING, false);
+    }
+
+    }

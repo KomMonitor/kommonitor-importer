@@ -47,7 +47,16 @@ public class GeopackageConverterTest {
         ParameterValueType param = new ParameterValueType();
         param.setName("CRS");
         param.setValue("EPSG:4326");
-        convDef.setParameters(Collections.singletonList(param));
+//        convDef.setParameters(Collections.singletonList(param));
+
+        convDef.setParameters(Arrays.asList(
+                new ParameterValueType()
+                        .name("CRS")
+                        .value("EPSG:4326"),
+                new ParameterValueType()
+                        .name("Layer")
+                        .value("timeseries"))
+        );
 
         spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
         spatialResourcePropertyMapping.setIdentifierProperty("baublock_id");
