@@ -31,7 +31,6 @@ public class GeopackageConverterTest {
 
     private static ConverterDefinitionType convDef;
     private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
-    private static IndicatorPropertyMappingType indicatorPropertyMapping;
 
     private static GeopackageConverter converter;
 
@@ -47,26 +46,13 @@ public class GeopackageConverterTest {
         convDef.setEncoding(ENCODING);
         ParameterValueType param = new ParameterValueType();
         param.setName("CRS");
-        param.setValue("EPSG:25832");
+        param.setValue("EPSG:4326");
         convDef.setParameters(Collections.singletonList(param));
 
         spatialResourcePropertyMapping = new SpatialResourcePropertyMappingType();
-        spatialResourcePropertyMapping.setIdentifierProperty("Baublock_ID");
-        spatialResourcePropertyMapping.setNameProperty("Baublock_ID");
-        spatialResourcePropertyMapping.setValidStartDateProperty("EreignisintervallStart");
-        spatialResourcePropertyMapping.setValidEndDateProperty("EreignisintervallEnde");
-        spatialResourcePropertyMapping.setKeepAttributes(false);
+        spatialResourcePropertyMapping.setIdentifierProperty("baublock_id");
+        spatialResourcePropertyMapping.setNameProperty("baublock_name");
         spatialResourcePropertyMapping.setKeepMissingOrNullValueAttributes(false);
-
-        indicatorPropertyMapping = new IndicatorPropertyMappingType();
-        indicatorPropertyMapping.setSpatialReferenceKeyProperty("Baublock_ID");
-        indicatorPropertyMapping.setKeepMissingOrNullValueIndicator(false);
-
-        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
-        timeseriesMapping.setIndicatorValueProperty("dmg_altrstr_drchschnaltr");
-        timeseriesMapping.setTimestampProperty("EreignisintervallStart");
-
-        indicatorPropertyMapping.setTimeseriesMappings(Collections.singletonList(timeseriesMapping));
     }
 
     @Test
@@ -74,10 +60,32 @@ public class GeopackageConverterTest {
     void testConvertSpatialResourcesForGeopackageDataset() throws ConverterException {
         InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
         Dataset<InputStream> dataset = new Dataset<>(input);
+        spatialResourcePropertyMapping.setKeepAttributes(false);
 
         List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
+        SpatialResource resource = spatialResources.get(1);
 
-        Assertions.assertEquals(3, spatialResources.size());
+        Assertions.assertEquals(4, spatialResources.size());
+        Assertions.assertEquals("b_02", resource.getId());
+        Assertions.assertEquals("baublock_02", resource.getName());
+        Assertions.assertTrue(resource.getAttributes().isEmpty());
+    }
+
+    @Test
+    @DisplayName("Test convert SpatialResources for Geopackage dataset with keeping additional attributes")
+    void testConvertSpatialResourcesForGeoJsonDatasetWithKeepAttributes() throws ConverterException {
+        InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+        spatialResourcePropertyMapping.setKeepAttributes(true);
+
+        List<SpatialResource> spatialResources = converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping);
+        SpatialResource resource = spatialResources.get(2);
+
+        Assertions.assertEquals(4, spatialResources.size());
+        Assertions.assertEquals("b_03", resource.getId());
+        Assertions.assertEquals("baublock_03", resource.getName());
+        Assertions.assertTrue(resource.getAttributes().isPresent());
+        Assertions.assertEquals("Baublock GHI", resource.getAttributes().get().get("alias"));
     }
 
     @Test
@@ -86,6 +94,87 @@ public class GeopackageConverterTest {
         Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");
 
         Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
+    }
+
+    @Test
+    @DisplayName("Test convert Indicators for GeoJson dataset")
+    void testConvertIndicators() throws ConverterException {
+        IndicatorPropertyMappingType indicatorPropertyMapping = createDateAttributeTimeseriesMapping();
+
+        InputStream input = getClass().getResourceAsStream("/features-test-timeseries.gpkg");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+
+        List<IndicatorValue> indicators = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);
+        IndicatorValue indicator = indicators.get(1);
+
+        Assertions.assertEquals(4, indicators.size());
+        Assertions.assertEquals("b_02", indicator.getSpatialReferenceKey());
+
+        TimeseriesValue tv = indicator.getTimeSeriesValueList().get(0);
+        Assertions.assertEquals("2020-01-01", tv.getTimestamp().toString());
+        Assertions.assertEquals(40158.f, tv.getValue());
+        tv = indicator.getTimeSeriesValueList().get(1);
+        Assertions.assertEquals(42300.f, tv.getValue());
+        Assertions.assertEquals("2021-01-01", tv.getTimestamp().toString());
+        tv = indicator.getTimeSeriesValueList().get(2);
+        Assertions.assertEquals(40573.f, tv.getValue());
+        Assertions.assertEquals("2022-01-01", tv.getTimestamp().toString());
+    }
+
+    @Test
+    @DisplayName("Test convert Indicators for GeoJson dataset with manual date values")
+    void testConvertIndicatorsWithManualDateValues() throws ConverterException {
+        IndicatorPropertyMappingType indicatorPropertyMapping = createManualDateValueTimeseriesMapping();
+
+        InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
+        Dataset<InputStream> dataset = new Dataset<>(input);
+
+        List<IndicatorValue> indicators = converter.convertIndicators(convDef, dataset, indicatorPropertyMapping);
+        IndicatorValue indicator = indicators.get(2);
+
+        Assertions.assertEquals(4, indicators.size());
+        Assertions.assertEquals("b_03", indicator.getSpatialReferenceKey());
+
+        TimeseriesValue tv = indicator.getTimeSeriesValueList().get(0);
+        Assertions.assertEquals("2020-01-01", tv.getTimestamp().toString());
+        Assertions.assertEquals(30875.f, tv.getValue());
+        tv = indicator.getTimeSeriesValueList().get(1);
+        Assertions.assertEquals(32930.f, tv.getValue());
+        Assertions.assertEquals("2021-01-01", tv.getTimestamp().toString());
+        tv = indicator.getTimeSeriesValueList().get(2);
+        Assertions.assertEquals(29162, tv.getValue());
+        Assertions.assertEquals("2022-01-01", tv.getTimestamp().toString());
+    }
+
+    private IndicatorPropertyMappingType createDateAttributeTimeseriesMapping() {
+        IndicatorPropertyMappingType indicatorPropertyMapping = new IndicatorPropertyMappingType();
+        indicatorPropertyMapping.setSpatialReferenceKeyProperty("baublock_id");
+        indicatorPropertyMapping.setKeepMissingOrNullValueIndicator(false);
+
+        TimeseriesMappingType timeseriesMapping = new TimeseriesMappingType();
+        timeseriesMapping.setIndicatorValueProperty("einwohner");
+        timeseriesMapping.setTimestampProperty("datum");
+
+        indicatorPropertyMapping.setTimeseriesMappings(Collections.singletonList(timeseriesMapping));
+        return indicatorPropertyMapping;
+    }
+
+    private IndicatorPropertyMappingType createManualDateValueTimeseriesMapping() {
+        IndicatorPropertyMappingType indicatorPropertyMapping = new IndicatorPropertyMappingType();
+        indicatorPropertyMapping.setSpatialReferenceKeyProperty("baublock_id");
+        indicatorPropertyMapping.setKeepMissingOrNullValueIndicator(false);
+
+        indicatorPropertyMapping.setTimeseriesMappings(Arrays.asList(
+                new TimeseriesMappingType()
+                        .indicatorValueProperty("einwohner_2020-01-01")
+                        .timestamp(LocalDate.parse("2020-01-01")),
+                new TimeseriesMappingType()
+                        .indicatorValueProperty("einwohner_2021-01-01")
+                        .timestamp(LocalDate.parse("2021-01-01")),
+                new TimeseriesMappingType()
+                        .indicatorValueProperty("einwohner_2022-01-01")
+                        .timestamp(LocalDate.parse("2022-01-01"))));
+        return indicatorPropertyMapping;
     }
 
     @Test
