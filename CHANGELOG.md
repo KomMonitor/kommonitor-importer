@@ -1,6 +1,14 @@
 # Change Log
 
-## 3.0.0
+## 3.1.0
+* Rename test file [b9d8db5](b9d8db5a75947b32a4f75b76ab2eabfb5bb99b09)
+* Add Geopackage layer parameter [60b8a83](60b8a8386af6a9a58d2956cf58a94cec3fd707ad)
+* Enhance testing for GeoJSON and Geopackage files [d86fae4](d86fae4cd4088611fa0ce13eb90b3667520cd93c)
+* Finalize GeopackageConverter [f96509c](f96509ce5658a048e036d327f22c2877a0208413)
+* Refine GeoJsonConverter and ShapeConverter [c08a9a7](c08a9a71c2602ca87428e78fa0eb97b49b53534f)
+* Move indicator value grouping to AbstractConverter [001fa25](001fa25f77a7f5635d24035a1cb13be03e57680d)
+* Improve feature decoding implementation [06add73](06add73df119053285ba6eddb5dd2486855cae8e)
+* Create converter for Geopackage datasets [82664ff](82664ff89dd232b405c007ee509e72f953256c95)
 * Prepare next major release [dd1d76f](dd1d76f215621cc9bbd752d55de851937dec0b62)
 * Fix URL paths [266ca4e](266ca4e8d42ef6db8c36a961424d0f431298c506)
 * Use CMD instead of ENTRYPOINT [612c134](612c134183c5fe7feb1c5fb37be175b1d0b0635f)
