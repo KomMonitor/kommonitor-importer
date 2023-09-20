@@ -7,6 +7,7 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.models.ConverterType;
 import org.n52.kommonitor.models.Error;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public interface ConvertersApi {
     @RequestMapping(value = "/converters/{name}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name) {
+    default ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter",required=true) @PathVariable("name") String name) throws ResourceNotFoundException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

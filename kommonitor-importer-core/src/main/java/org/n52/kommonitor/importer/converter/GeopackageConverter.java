@@ -18,6 +18,7 @@ import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.referencing.FactoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -120,18 +121,20 @@ public class GeopackageConverter extends AbstractConverter {
 
         try {
             DataStore dataStore = DataStoreFinder.getDataStore(params);
+            if (dataStore == null) {
+                throw new IOException("Error while reading Geopackage data source.");
+            }
             // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
             // Otherwise, use the first layer name of the Geopackage.
             String typeName = dataStore.getTypeNames()[0];
-            if (layerOpt.isPresent()){
-                if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))){
+            if (layerOpt.isPresent()) {
+                if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))) {
                     typeName = layerOpt.get();
-                }
-                else {
-                    throw new ImportParameterException(String.format("Layer with name %s is not present in Geopackage.", layerOpt.get()));
+                } else {
+                    throw new ImportParameterException(String.format("Layer with name '%s' is not present in Geopackage.", layerOpt.get()));
                 }
             }
-            LOG.debug("Use Geopackage layer {} for fetching Features.", typeName);
+            LOG.debug("Use Geopackage layer '{}' for fetching Features.", typeName);
 
             FeatureSource<SimpleFeatureType, SimpleFeature> source =
                     dataStore.getFeatureSource(typeName);
@@ -139,13 +142,11 @@ public class GeopackageConverter extends AbstractConverter {
             FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures();
             spatialResources = featureDecoder.decodeFeatureCollectionToSpatialResources((SimpleFeatureCollection) collection, propertyMapping, CRS.decode(crsOpt.get()));
 
-        } catch (RuntimeException ex) {
-            throw new IOException("Error while reading Geopackage data source.");
-        } catch (Exception ex) {
+        } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         } finally {
             boolean deleted = tmpFile.toFile().delete();
-            if(deleted)
+            if (deleted)
                 LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
             else
                 LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
@@ -176,7 +177,7 @@ public class GeopackageConverter extends AbstractConverter {
     private List<IndicatorValue> convertIndicators(InputStream dataset,
                                                    ConverterDefinitionType converterDefinition,
                                                    IndicatorPropertyMappingType propertyMapping)
-            throws IOException {
+            throws IOException, ImportParameterException {
         // Store temp file
         Path tmpFile = storeDatasetAsTempFile(dataset);
 
@@ -188,18 +189,20 @@ public class GeopackageConverter extends AbstractConverter {
         params.put("read-only", true);
 
         DataStore dataStore = DataStoreFinder.getDataStore(params);
+        if (dataStore == null) {
+            throw new IOException("Error while reading Geopackage data source.");
+        }
         // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
         // Otherwise, use the first layer name of the Geopackage.
         String typeName = dataStore.getTypeNames()[0];
-        if (layerOpt.isPresent()){
-            if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))){
+        if (layerOpt.isPresent()) {
+            if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))) {
                 typeName = layerOpt.get();
-            }
-            else {
-                throw new ImportParameterException(String.format("Layer with name %s is not present in Geopackage.", layerOpt.get()));
+            } else {
+                throw new ImportParameterException(String.format("Layer with name '%s' is not present in Geopackage.", layerOpt.get()));
             }
         }
-        LOG.debug("Use Geopackage layer {} for fetching Features.", typeName);
+        LOG.debug("Use Geopackage layer '{}' for fetching Features.", typeName);
 
         FeatureSource<SimpleFeatureType, SimpleFeature> source =
                 dataStore.getFeatureSource(typeName);
@@ -214,7 +217,7 @@ public class GeopackageConverter extends AbstractConverter {
             indicatorValueList = groupIndicatorValues(indicatorValueList);
         }
         boolean deleted = tmpFile.toFile().delete();
-        if(deleted)
+        if (deleted)
             LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
         else
             LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());

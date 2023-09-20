@@ -5,7 +5,7 @@ package org.n52.kommonitor.importer.api.exceptions;
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends Exception {
 
     private Class resource;
 

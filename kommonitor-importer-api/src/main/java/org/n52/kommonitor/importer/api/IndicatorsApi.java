@@ -7,6 +7,8 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -81,7 +83,7 @@ public interface IndicatorsApi {
     @RequestMapping(value = "/indicators/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> updateIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody UpdateIndicatorPOSTInputType indicatorData) {
+    default ResponseEntity<ImportResponseType> updateIndicator(@ApiParam(value = "indicator data" ,required=true )  @Valid @RequestBody UpdateIndicatorPOSTInputType indicatorData) throws ImportException, ImportParameterException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

@@ -48,7 +48,7 @@ public class ConvertersApiController implements ConvertersApi {
         this.request = request;
     }
 
-    public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) {
+    public ResponseEntity<ConverterType> getConverterByName(@ApiParam(value = "unique name of the converter", required = true) @PathVariable("name") String name) throws ResourceNotFoundException {
         LOG.info("Recevied 'getConverterByName' request for name: {}", name);
 
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);

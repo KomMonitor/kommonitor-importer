@@ -7,6 +7,8 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -53,7 +55,7 @@ public interface GeoresourcesApi {
     @RequestMapping(value = "/georesources",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> importGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) throws ImportException, ImportParameterException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -81,7 +83,7 @@ public interface GeoresourcesApi {
     @RequestMapping(value = "/georesources/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> updateGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> updateGeoresource(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateGeoresourcePOSTInputType featureData) throws ImportException, ImportParameterException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

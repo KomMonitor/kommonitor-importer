@@ -5,6 +5,7 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.models.Error;
 import org.springframework.core.io.Resource;
 import org.n52.kommonitor.models.UploadedFileType;
@@ -86,7 +87,7 @@ public interface UploadApi {
     @RequestMapping(value = "/upload",
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default ResponseEntity<String> upload(@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,@ApiParam(value = "The name that will be used for storing the file on the server", required=true) @RequestParam(value="filename", required=true)  String filename) {
+    default ResponseEntity<String> upload(@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,@ApiParam(value = "The name that will be used for storing the file on the server", required=true) @RequestParam(value="filename", required=true)  String filename) throws UploadException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

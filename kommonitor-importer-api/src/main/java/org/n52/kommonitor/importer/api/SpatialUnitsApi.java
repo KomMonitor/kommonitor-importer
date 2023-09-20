@@ -7,6 +7,8 @@ package org.n52.kommonitor.importer.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
@@ -53,7 +55,7 @@ public interface SpatialUnitsApi {
     @RequestMapping(value = "/spatial-units",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> importSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> importSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody ImportSpatialUnitPOSTInputType featureData) throws ImportException, ImportParameterException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -81,7 +83,7 @@ public interface SpatialUnitsApi {
     @RequestMapping(value = "/spatial-units/update",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<ImportResponseType> updateSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateSpatialUnitPOSTInputType featureData) {
+    default ResponseEntity<ImportResponseType> updateSpatialUnit(@ApiParam(value = "feature data" ,required=true )  @Valid @RequestBody UpdateSpatialUnitPOSTInputType featureData) throws ImportException, ImportParameterException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

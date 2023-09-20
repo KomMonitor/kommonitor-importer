@@ -5,6 +5,7 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
 import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +51,7 @@ public interface DatasourceTypesApi {
     @RequestMapping(value = "/datasourceTypes/{type}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource",required=true) @PathVariable("type") String type) {
+    default ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(@ApiParam(value = "unique type of the datasource",required=true) @PathVariable("type") String type) throws ResourceNotFoundException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

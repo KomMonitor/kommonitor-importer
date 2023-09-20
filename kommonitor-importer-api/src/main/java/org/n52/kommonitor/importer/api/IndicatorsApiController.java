@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.ImportIndicatorPOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
@@ -39,7 +40,7 @@ public class IndicatorsApiController implements IndicatorsApi {
     }
 
     @Override
-    public ResponseEntity<ImportResponseType> updateIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) {
+    public ResponseEntity<ImportResponseType> updateIndicator(@Valid UpdateIndicatorPOSTInputType indicatorData) throws ImportException, ImportParameterException {
         LOG.info("Received 'updateIndicator' request for Indicator: {}", indicatorData.getIndicatorId());
         LOG.debug("'updateGeoresource' POST request body: {}", indicatorData);
 
