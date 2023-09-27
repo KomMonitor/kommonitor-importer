@@ -24,7 +24,7 @@ public class FileRetrieverTest {
 
     @Test
     @DisplayName("Test retrieve file dataset for an existing file")
-    void testRetrieveFileDatasetForExistingFile() throws DataSourceRetrieverException {
+    void testRetrieveFileDatasetForExistingFile() throws DataSourceRetrieverException, ImportParameterException {
         FileStorageService storageService = Mockito.mock(FileStorageService.class);
         File file = Mockito.mock(File.class);
         Mockito.when(file.getName()).thenReturn(FILE_NAME);

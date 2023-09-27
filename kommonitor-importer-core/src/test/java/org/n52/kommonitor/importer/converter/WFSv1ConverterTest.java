@@ -75,7 +75,7 @@ public class WFSv1ConverterTest {
 
     @Test
     @DisplayName("Test get GML parser for a certain schema")
-    void testGetGmlParserForSchema() {
+    void testGetGmlParserForSchema() throws ImportParameterException {
         GML gml = converter.getGmlParserForSchema(WFS_SCHEMA);
 
         Assertions.assertNotNull(gml);
@@ -89,7 +89,7 @@ public class WFSv1ConverterTest {
 
     @Test
     @DisplayName("Test convert SpatialResources for WFS 1.0.0 datasource")
-    void testConvertSpatialResourcesForWfs100Datasource() throws ConverterException {
+    void testConvertSpatialResourcesForWfs100Datasource() throws ConverterException, ImportParameterException {
         InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
         Dataset<InputStream> dataset = new Dataset<>(input);
 
@@ -100,7 +100,7 @@ public class WFSv1ConverterTest {
 
     @Test
     @DisplayName("Test convert Indicators for WFS 1.0.0 datasource")
-    void testConvertIndicatorsForWfs100Datasource() throws ConverterException {
+    void testConvertIndicatorsForWfs100Datasource() throws ConverterException, ImportParameterException {
         InputStream input = getClass().getResourceAsStream("/getWfs100FeatureResponseTest.xml");
         Dataset<InputStream> dataset = new Dataset<>(input);
 
