@@ -1,21 +1,5 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.FeatureSource;
@@ -34,9 +18,19 @@ import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Converter for GeoJson datasets. Parses a GeoJson document as {@link org.geotools.feature.FeatureCollection}
@@ -47,7 +41,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShapeConverter extends AbstractConverter {
     private static final String NAME = "Shapefile (ZIP-Ordner mit .shp, .dbf, .prj)";
-    private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String DEFAULT_ENCODING = "ISO-8859-1";
+    private static final String UTF8_ENCODING = "UTF-8";
+    private static final String OTHER_ENCODING = "Other";
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
 
@@ -79,13 +75,15 @@ public class ShapeConverter extends AbstractConverter {
     public Set<String> initSupportedEncoding() {
         Set<String> encodings = new HashSet<>();
         encodings.add(DEFAULT_ENCODING);
+        encodings.add(UTF8_ENCODING);
+        encodings.add(OTHER_ENCODING);
 
         return encodings;
     }
 
     @Override
     public Set<ConverterParameter> initConverterParameters() {
-        Set<ConverterParameter> params = new HashSet();
+        Set<ConverterParameter> params = new HashSet<>();
         params.add(createCrsParameter());
 
         return params;
@@ -116,23 +114,12 @@ public class ShapeConverter extends AbstractConverter {
         }
 
         List<SpatialResource> spatialResources = new ArrayList<>();
-        
-        
+
         // UNZIP file
         Path tmpDir = unzipFolder(dataset);
-        
-        File file = new File(tmpDir + "/input.shp");
-        Map<String, Object> map = new HashMap<>();
-        map.put("url", file.toURI().toURL());
 
-        DataStore dataStore = DataStoreFinder.getDataStore(map);
-        String typeName = dataStore.getTypeNames()[0];
+        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpDir, converterDefinition, dataset);
 
-        FeatureSource<SimpleFeatureType, SimpleFeature> source =
-                dataStore.getFeatureSource(typeName);
-        Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM, 10,20,30,40)")
-
-        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
         try (FeatureIterator<SimpleFeature> features = collection.features()) {
             while (features.hasNext()) {
                 SimpleFeature simpleFeature = features.next();
@@ -144,19 +131,33 @@ public class ShapeConverter extends AbstractConverter {
                     featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
                 } catch (Exception ex) {
                     throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
-                }finally {
-					tmpDir.toFile().delete();
-				}
+                } finally {
+                    boolean deleted = tmpDir.toFile().delete();
+                    if (deleted)
+                        LOG.debug("Temp file {} successfully deleted.", tmpDir.toFile().getPath());
+                    else
+                        LOG.warn("Temp file {} could not be deleted.", tmpDir.toFile().getPath());
+                }
             }
         }
-
         return spatialResources;
     }
-    
+
+    private String extractEncoding(File file) throws IOException {
+        if (file.exists()) {
+            try (Stream<String> s = Files.lines(file.toPath())) {
+                Optional<String> encodingOpt = s.findFirst();
+                return encodingOpt.orElse(null);
+            }
+        } else {
+            return null;
+        }
+    }
+
     public Path unzipFolder(InputStream dataset) throws IOException {
-    	
-    	// create tmp folder where content will be stored
-    	Path newTmpDirPath = Files.createTempDirectory("tmpDirShapeImport_");
+
+        // create tmp folder where content will be stored
+        Path newTmpDirPath = Files.createTempDirectory("tmpDirShapeImport_");
 
         try (ZipInputStream zis = new ZipInputStream(dataset)) {
 
@@ -164,71 +165,51 @@ public class ShapeConverter extends AbstractConverter {
             ZipEntry zipEntry = zis.getNextEntry();
 
             while (zipEntry != null) {
-
-
-                	Path newPath = zipSlipProtect(zipEntry, newTmpDirPath);
-                    // copy files, nio
-                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
-
-                    // copy files, classic
-                    /*try (FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = zis.read(buffer)) > 0) {
-                            fos.write(buffer, 0, len);
-                        }
-                    }*/
-                
+                Path newPath = zipSlipProtect(zipEntry, newTmpDirPath);
+                // copy files, nio
+                Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
 
                 zipEntry = zis.getNextEntry();
-
             }
             zis.closeEntry();
-            
+
             // rename file to input.*
-            
             File dir = newTmpDirPath.toFile();
 
             if (dir.isDirectory()) { // make sure it's a directory
                 for (final File f : dir.listFiles()) {
-                    try {
-                    	
-                    	if(f.getAbsolutePath().endsWith(".shp")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.shp").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	else if(f.getAbsolutePath().endsWith(".prj")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.prj").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	else if(f.getAbsolutePath().endsWith(".dbf")) {
-                    		Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.dbf").toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    	}
-                    	
-                    	
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        e.printStackTrace();
-                        newTmpDirPath.toFile().delete();
-                        throw e;
+
+                    if (f.getAbsolutePath().endsWith(".shp")) {
+                        Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.shp").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } else if (f.getAbsolutePath().endsWith(".prj")) {
+                        Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.prj").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } else if (f.getAbsolutePath().endsWith(".dbf")) {
+                        Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.dbf").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } else if (f.getAbsolutePath().endsWith(".cpg")) {
+                        Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.cpg").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } else if (f.getAbsolutePath().endsWith(".shx")) {
+                        Files.move(f.toPath(), new File(f.toPath().getParent() + "/input.shx").toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
-               }
+            }
 
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	LOG.error(String.format("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage() + ""));
-        	newTmpDirPath.toFile().delete();
-			throw new Error("Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage());		
-		}
-        
-        
-        
+        } catch (IOException e) {
+            String errorMessage = "Exception while trying to unzip and store Shape ZIP content to disk. Error is: " + e.getMessage();
+            LOG.error(String.format(errorMessage));
+            boolean deleted = newTmpDirPath.toFile().delete();
+            if (deleted)
+                LOG.debug("Temp file {} successfully deleted.", newTmpDirPath.toFile().getPath());
+            else
+                LOG.warn("Temp file {} could not be deleted.", newTmpDirPath.toFile().getPath());
+            throw new Error(errorMessage);
+        }
         return newTmpDirPath;
 
     }
-    
- // protect zip slip attack
+
+    // protect zip slip attack
     public Path zipSlipProtect(ZipEntry zipEntry, Path targetDir)
-        throws IOException {
+            throws IOException {
 
         // test zip slip vulnerability
         // Path targetDirResolved = targetDir.resolve("../../" + zipEntry.getName());
@@ -252,33 +233,23 @@ public class ShapeConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(input, propertyMapping);
+            return convertIndicators(converterDefinition, input, propertyMapping);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
 
-    private List<IndicatorValue> convertIndicators(InputStream dataset,
+    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                   InputStream dataset,
                                                    IndicatorPropertyMappingType propertyMapping)
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
 
-     // UNZIP file
+        // UNZIP file
         Path tmpDir = unzipFolder(dataset);
-        
-        File file = new File(tmpDir + "/input.shp");
-        Map<String, Object> map = new HashMap<>();
-        map.put("url", file.toURI().toURL());
 
-        DataStore dataStore = DataStoreFinder.getDataStore(map);
-        String typeName = dataStore.getTypeNames()[0];
+        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpDir, converterDefinition, dataset);
 
-        FeatureSource<SimpleFeatureType, SimpleFeature> source =
-                dataStore.getFeatureSource(typeName);
-        Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM, 10,20,30,40)")
-
-        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
-      
         try (FeatureIterator<SimpleFeature> features = collection.features()) {
             while (features.hasNext()) {
                 SimpleFeature simpleFeature = features.next();
@@ -288,9 +259,13 @@ public class ShapeConverter extends AbstractConverter {
                     LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                     LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                     featureDecoder.addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), simpleFeature, ex.getMessage());
-                }finally {
-					tmpDir.toFile().delete();
-				}
+                } finally {
+                    boolean deleted = tmpDir.toFile().delete();
+                    if (deleted)
+                        LOG.debug("Temp file {} successfully deleted.", tmpDir.toFile().getPath());
+                    else
+                        LOG.warn("Temp file {} could not be deleted.", tmpDir.toFile().getPath());
+                }
             }
         }
         // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
@@ -301,6 +276,34 @@ public class ShapeConverter extends AbstractConverter {
         }
 
         return indicatorValueList;
+    }
+
+    private FeatureCollection<SimpleFeatureType, SimpleFeature> readFeatureCollection(Path tmpDir,
+                                                                                      ConverterDefinitionType converterDefinition,
+                                                                                      InputStream dataset) throws IOException {
+
+            String encoding = DEFAULT_ENCODING;
+            if (converterDefinition.getEncoding().equals(OTHER_ENCODING)) {
+                String shpEncoding = extractEncoding(new File(tmpDir + "/input.cpg"));
+                if (shpEncoding != null && !shpEncoding.isEmpty()) {
+                    encoding = shpEncoding;
+                }
+            } else {
+                encoding = converterDefinition.getEncoding();
+            }
+
+            File file = new File(tmpDir + "/input.shp");
+            Map<String, Object> map = new HashMap<>();
+            map.put("url", file.toURI().toURL());
+            map.put("charset", encoding);
+
+            DataStore dataStore = DataStoreFinder.getDataStore(map);
+            String typeName = dataStore.getTypeNames()[0];
+
+            FeatureSource<SimpleFeatureType, SimpleFeature> source =
+                    dataStore.getFeatureSource(typeName);
+
+            return source.getFeatures();
     }
 
     private ConverterParameter createCrsParameter() {
