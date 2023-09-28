@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import org.geojson.Feature;
@@ -15,6 +14,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
@@ -35,6 +35,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GeoJsonConverter extends AbstractConverter {
     private static final String NAME = "GeoJSON";
     private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String ANSI_ENCODING = "ISO-8859-1";
+    private static final String OTHER_ENCODING = "Other";
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
 
@@ -72,6 +74,8 @@ public class GeoJsonConverter extends AbstractConverter {
     public Set<String> initSupportedEncoding() {
         Set<String> encodings = new HashSet<>();
         encodings.add(DEFAULT_ENCODING);
+        encodings.add(ANSI_ENCODING);
+        encodings.add(OTHER_ENCODING);
 
         return encodings;
     }
@@ -80,6 +84,7 @@ public class GeoJsonConverter extends AbstractConverter {
     public String getDefaultEncoding() {
         return DEFAULT_ENCODING;
     }
+
     @Override
     public Set<ConverterParameter> initConverterParameters() {
         Set<ConverterParameter> params = new HashSet();
@@ -108,21 +113,19 @@ public class GeoJsonConverter extends AbstractConverter {
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
 
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
         List<SpatialResource> spatialResources = new ArrayList<>();
 
         // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
-        // the FeatureCollection will be read with a Jackson based parser, first.
-        FeatureCollection featureCollection = mapper.readValue(dataset, FeatureCollection.class);
-        Iterator<Feature> featureIterator = featureCollection.iterator();
+        // the FeatureCollection will be read with a Jackson based parser.
+        FeatureCollection featureCollection = readFeatureCollection(dataset, converterDefinition);
 
         // Each SimpleFeature will be then read by the use of GeoTools and handled separately, in order to avoid
         // parsing issues.
-        while (featureIterator.hasNext()) {
-            Feature feature = featureIterator.next();
+        for (Feature feature : featureCollection) {
             SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
             try {
                 spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crsOpt.get())));
@@ -145,26 +148,25 @@ public class GeoJsonConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(input, propertyMapping);
+            return convertIndicators(converterDefinition, input, propertyMapping);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
 
-    private List<IndicatorValue> convertIndicators(InputStream dataset,
+    private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
+                                                   InputStream dataset,
                                                    IndicatorPropertyMappingType propertyMapping)
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
 
         // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
-        // the FeatureCollection will be read with a Jackson based parser, first.
-        FeatureCollection featureCollection = mapper.readValue(dataset, FeatureCollection.class);
-        Iterator<Feature> featureIterator = featureCollection.iterator();
+        // the FeatureCollection will be read with a Jackson based parser.
+        FeatureCollection featureCollection = readFeatureCollection(dataset, converterDefinition);
 
         // Each SimpleFeature will be then read by the use of GeoTools and handled separately, in order to avoid
         // parsing issues.
-        while (featureIterator.hasNext()) {
-            Feature feature = featureIterator.next();
+        for (Feature feature : featureCollection) {
             SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
             try {
                 indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping));
@@ -181,6 +183,22 @@ public class GeoJsonConverter extends AbstractConverter {
             indicatorValueList = groupIndicatorValues(indicatorValueList);
         }
         return indicatorValueList;
+    }
+
+    private FeatureCollection readFeatureCollection(InputStream dataset, ConverterDefinitionType converterDefinition) throws IOException {
+        // Wrap InputStream to BufferedInpuStream so that stream will be resetted after encoding detection
+        InputStream bufferedDataset = new BufferedInputStream(dataset);
+
+        String encoding;
+        if (converterDefinition.getEncoding().equals(OTHER_ENCODING)) {
+            LOG.debug("Defined '{}' as encoding. Trying to guess the encoding from the dataset content.", OTHER_ENCODING);
+            encoding = FileUtils.getInputStreamEncoding(bufferedDataset);
+            LOG.debug("Detected '{}' as encoding for dataset.", encoding);
+        } else {
+            encoding = converterDefinition.getEncoding();
+        }
+
+        return mapper.readValue(new InputStreamReader(bufferedDataset, encoding), FeatureCollection.class);
     }
 
     private ConverterParameter createCrsParameter() {
