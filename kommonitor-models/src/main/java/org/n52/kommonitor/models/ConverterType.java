@@ -19,11 +19,11 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
+ * Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators
  */
 
-@Schema(name = "ConverterType", description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+@Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-09-28T07:59:58.095436100+02:00[Europe/Berlin]")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -38,6 +38,8 @@ public class ConverterType implements Serializable {
 
   @Valid
   private List<String> encodings;
+
+  private String defaultEncoding;
 
   @Valid
   private List<@Valid ParameterType> parameters;
@@ -163,6 +165,26 @@ public class ConverterType implements Serializable {
     this.encodings = encodings;
   }
 
+  public ConverterType defaultEncoding(String defaultEncoding) {
+    this.defaultEncoding = defaultEncoding;
+    return this;
+  }
+
+  /**
+   * Default encoding or encoding detection mechanism that will be expected by converter.
+   * @return defaultEncoding
+  */
+  
+  @Schema(name = "defaultEncoding", description = "Default encoding or encoding detection mechanism that will be expected by converter.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("defaultEncoding")
+  public String getDefaultEncoding() {
+    return defaultEncoding;
+  }
+
+  public void setDefaultEncoding(String defaultEncoding) {
+    this.defaultEncoding = defaultEncoding;
+  }
+
   public ConverterType parameters(List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
     return this;
@@ -204,12 +226,13 @@ public class ConverterType implements Serializable {
         Objects.equals(this.mimeTypes, converterType.mimeTypes) &&
         Objects.equals(this.schemas, converterType.schemas) &&
         Objects.equals(this.encodings, converterType.encodings) &&
+        Objects.equals(this.defaultEncoding, converterType.defaultEncoding) &&
         Objects.equals(this.parameters, converterType.parameters);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mimeTypes, schemas, encodings, parameters);
+    return Objects.hash(name, mimeTypes, schemas, encodings, defaultEncoding, parameters);
   }
 
   @Override
@@ -220,6 +243,7 @@ public class ConverterType implements Serializable {
     sb.append("    mimeTypes: ").append(toIndentedString(mimeTypes)).append("\n");
     sb.append("    schemas: ").append(toIndentedString(schemas)).append("\n");
     sb.append("    encodings: ").append(toIndentedString(encodings)).append("\n");
+    sb.append("    defaultEncoding: ").append(toIndentedString(defaultEncoding)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
     sb.append("}");
     return sb.toString();

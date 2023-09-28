@@ -19,7 +19,6 @@ import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -76,6 +75,11 @@ public class GeopackageConverter extends AbstractConverter {
     }
 
     @Override
+    public String getDefaultEncoding() {
+        return DEFAULT_ENCODING;
+    }
+
+    @Override
     public Set<ConverterParameter> initConverterParameters() {
         Set<ConverterParameter> params = new HashSet<>();
         params.add(createCrsParameter());
@@ -110,40 +114,13 @@ public class GeopackageConverter extends AbstractConverter {
         Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
 
         List<SpatialResource> spatialResources;
-
         // Store temp file file
         Path tmpFile = storeDatasetAsTempFile(dataset);
         LOG.debug("Stored Geopackage dataset temporarily under {}", tmpFile.toFile().getPath());
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("dbtype", "geopkg");
-        params.put("database", tmpFile.toString());
-        params.put("read-only", true);
-
         try {
-            DataStore dataStore = DataStoreFinder.getDataStore(params);
-            if (dataStore == null) {
-                throw new IOException("Error while reading Geopackage data source.");
-            }
-            // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
-            // Otherwise, use the first layer name of the Geopackage.
-            String typeName = dataStore.getTypeNames()[0];
-            if (layerOpt.isPresent()){
-                if (Arrays.stream(dataStore.getTypeNames()).anyMatch(t -> t.equals(layerOpt.get()))){
-                    typeName = layerOpt.get();
-                }
-                else {
-                    throw new ImportParameterException(String.format("Layer with name '%s' is not present in Geopackage.", layerOpt.get()));
-                }
-            }
-            LOG.debug("Use Geopackage layer {} for fetching Features.", typeName);
-
-            FeatureSource<SimpleFeatureType, SimpleFeature> source =
-                    dataStore.getFeatureSource(typeName);
-
-            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures();
+            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpFile, converterDefinition);
             spatialResources = featureDecoder.decodeFeatureCollectionToSpatialResources((SimpleFeatureCollection) collection, propertyMapping, CRS.decode(crsOpt.get()));
-
         } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         } finally {
@@ -182,6 +159,28 @@ public class GeopackageConverter extends AbstractConverter {
             throws IOException, ImportParameterException {
         // Store temp file
         Path tmpFile = storeDatasetAsTempFile(dataset);
+        LOG.debug("Stored Geopackage dataset temporarily under {}", tmpFile.toFile().getPath());
+
+        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpFile, converterDefinition);
+
+        List<IndicatorValue> indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping);
+
+        // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
+        // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
+        // in the following.
+        if (propertyMapping.getTimeseriesMappings().size() == 1) {
+            indicatorValueList = groupIndicatorValues(indicatorValueList);
+        }
+        boolean deleted = tmpFile.toFile().delete();
+        if(deleted)
+            LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
+        else
+            LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
+        return indicatorValueList;
+    }
+
+    private FeatureCollection<SimpleFeatureType, SimpleFeature> readFeatureCollection(Path tmpFile, ConverterDefinitionType converterDefinition)
+            throws IOException, ImportParameterException {
 
         Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
 
@@ -191,6 +190,10 @@ public class GeopackageConverter extends AbstractConverter {
         params.put("read-only", true);
 
         DataStore dataStore = DataStoreFinder.getDataStore(params);
+        if (dataStore == null) {
+            throw new IOException("Error while reading Geopackage data source.");
+        }
+
         // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
         // Otherwise, use the first layer name of the Geopackage.
         String typeName = dataStore.getTypeNames()[0];
@@ -208,20 +211,7 @@ public class GeopackageConverter extends AbstractConverter {
                 dataStore.getFeatureSource(typeName);
 
         FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures();
-        List<IndicatorValue> indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping);
-
-        // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
-        // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
-        // in the following.
-        if (propertyMapping.getTimeseriesMappings().size() == 1) {
-            indicatorValueList = groupIndicatorValues(indicatorValueList);
-        }
-        boolean deleted = tmpFile.toFile().delete();
-        if(deleted)
-            LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
-        else
-            LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
-        return indicatorValueList;
+        return collection;
     }
 
     private ConverterParameter createCrsParameter() {
