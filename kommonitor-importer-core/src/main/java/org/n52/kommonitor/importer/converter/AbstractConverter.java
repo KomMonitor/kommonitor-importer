@@ -179,6 +179,12 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     public abstract Set<String> initSupportedEncoding();
 
     /**
+     * Return the default encoding, which is expected by this converter.
+     * @return default encoding
+     */
+    public abstract String getDefaultEncoding();
+
+    /**
      * Initializes the set of additional parameters for the converter
      */
     public abstract Set<ConverterParameter> initConverterParameters();

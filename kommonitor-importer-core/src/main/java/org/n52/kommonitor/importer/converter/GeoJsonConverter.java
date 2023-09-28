@@ -77,6 +77,10 @@ public class GeoJsonConverter extends AbstractConverter {
     }
 
     @Override
+    public String getDefaultEncoding() {
+        return DEFAULT_ENCODING;
+    }
+    @Override
     public Set<ConverterParameter> initConverterParameters() {
         Set<ConverterParameter> params = new HashSet();
         params.add(createCrsParameter());

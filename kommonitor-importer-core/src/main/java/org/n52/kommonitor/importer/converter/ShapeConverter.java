@@ -13,6 +13,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
@@ -79,6 +80,11 @@ public class ShapeConverter extends AbstractConverter {
         encodings.add(OTHER_ENCODING);
 
         return encodings;
+    }
+
+    @Override
+    public String getDefaultEncoding() {
+        return DEFAULT_ENCODING;
     }
 
     @Override
@@ -284,9 +290,13 @@ public class ShapeConverter extends AbstractConverter {
 
             String encoding = DEFAULT_ENCODING;
             if (converterDefinition.getEncoding().equals(OTHER_ENCODING)) {
+                LOG.debug("Defined '{}' as encoding. Trying to read the encoding from Shape Code Page File.", OTHER_ENCODING);
                 String shpEncoding = extractEncoding(new File(tmpDir + "/input.cpg"));
                 if (shpEncoding != null && !shpEncoding.isEmpty()) {
                     encoding = shpEncoding;
+                    LOG.debug("Detected '{}' as encoding for dataset.", encoding);
+                } else {
+                    LOG.debug("No encoding in Shape Code Page File. Use default encoding '{}' instead.", encoding);
                 }
             } else {
                 encoding = converterDefinition.getEncoding();

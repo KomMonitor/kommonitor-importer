@@ -80,6 +80,7 @@ public class ConverterEncoder {
         if (converter.getSupportedEncodings() != null && !converter.getSupportedEncodings().isEmpty()) {
             converterType.setEncodings(new ArrayList<>(converter.getSupportedEncodings()));
         }
+        converterType.setDefaultEncoding(converter.getDefaultEncoding());
         return converterType;
     }
 

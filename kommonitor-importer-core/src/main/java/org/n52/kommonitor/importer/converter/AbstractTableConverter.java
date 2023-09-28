@@ -150,7 +150,12 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
         return encodings;
 	}
-	
+
+	@Override
+	public String getDefaultEncoding() {
+		return DEFAULT_ENCODING;
+	}
+
 	@Override
 	public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
