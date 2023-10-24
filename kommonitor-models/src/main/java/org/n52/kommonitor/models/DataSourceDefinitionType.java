@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "DataSourceDefinitionType", description = "Holds various information about the datasource for importing new resources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
 public class DataSourceDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -41,7 +41,9 @@ public class DataSourceDefinitionType implements Serializable {
     
     HTTP("HTTP"),
     
-    INLINE("INLINE");
+    INLINE("INLINE"),
+    
+    OGCAPI_FEATURES("OGCAPI_FEATURES");
 
     private String value;
 

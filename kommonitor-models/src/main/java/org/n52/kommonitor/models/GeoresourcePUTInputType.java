@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * GeoresourcePUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.811944800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
 public class GeoresourcePUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
