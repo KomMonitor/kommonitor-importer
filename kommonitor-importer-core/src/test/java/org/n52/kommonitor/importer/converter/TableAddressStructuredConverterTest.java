@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.ConverterDefinitionType;
@@ -105,7 +106,7 @@ public class TableAddressStructuredConverterTest {
 
     @Test
     @DisplayName("Test convert SpatialResources for CSV dataset")
-    void testConvertSpatialResourcesForCsvDataset() throws ConverterException {
+    void testConvertSpatialResourcesForCsvDataset() throws ConverterException, ImportParameterException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("features_fromAddressStructured.csv").getFile());
         Dataset<InputStream> dataset = new Dataset(file);

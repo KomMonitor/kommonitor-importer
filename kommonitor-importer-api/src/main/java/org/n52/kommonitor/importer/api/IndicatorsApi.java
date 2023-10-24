@@ -5,6 +5,8 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
@@ -75,6 +77,6 @@ public interface IndicatorsApi {
     )
     ResponseEntity<ImportResponseType> updateIndicator(
         @Parameter(name = "UpdateIndicatorPOSTInputType", description = "Definitions to create or update indicators") @Valid @RequestBody(required = false) UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType
-    );
+    ) throws ImportException, ImportParameterException;
 
 }

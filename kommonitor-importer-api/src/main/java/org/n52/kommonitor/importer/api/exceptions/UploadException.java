@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class UploadException extends RuntimeException {
+public class UploadException extends Exception {
 
     private MultipartFile file;
 

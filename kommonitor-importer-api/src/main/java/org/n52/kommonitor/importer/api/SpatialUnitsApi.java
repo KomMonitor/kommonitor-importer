@@ -5,6 +5,8 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
@@ -76,7 +78,7 @@ public interface SpatialUnitsApi {
     )
     ResponseEntity<ImportResponseType> importSpatialUnit(
         @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units") @Valid @RequestBody(required = false) ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
-    );
+    ) throws ImportException, ImportParameterException;
 
 
     /**
@@ -115,6 +117,6 @@ public interface SpatialUnitsApi {
     )
     ResponseEntity<ImportResponseType> updateSpatialUnit(
         @Parameter(name = "UpdateSpatialUnitPOSTInputType", description = "Definitions to update spatial units") @Valid @RequestBody(required = false) UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType
-    );
+    ) throws ImportException, ImportParameterException;
 
 }

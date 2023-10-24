@@ -70,8 +70,7 @@ public abstract class AbstractRequestHandler<T> {
      */
     public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
                                                             DataSourceDefinitionType dataSourceDefinition,
-                                                            ConverterDefinitionType converterDefinition)
-            throws ImportParameterException, ImportException, RestClientException {
+                                                            ConverterDefinitionType converterDefinition) throws ImportException, ImportParameterException {
         Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         checkRequest(retrieverOpt, converterOpt, dataSourceDefinition, converterDefinition);

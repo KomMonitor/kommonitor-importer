@@ -7,6 +7,7 @@ import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
 import org.n52.kommonitor.importer.converter.ConverterRepository;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -48,7 +49,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
 
     public ResponseEntity<ImportResponseType> importGeoresource(
             @Parameter(description = "feature data", required = true)
-            @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) {
+            @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) throws ImportException, ImportParameterException {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
 
@@ -60,7 +61,7 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     }
 
     @Override
-    public ResponseEntity<ImportResponseType> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) {
+    public ResponseEntity<ImportResponseType> updateGeoresource(@Valid UpdateGeoresourcePOSTInputType featureData) throws ImportException, ImportParameterException {
         LOG.info("Received 'updateGeoresource' request for Georesource: {}", featureData.getGeoresourceId());
         LOG.debug("'updateGeoresource' POST request body: {}", featureData);
 

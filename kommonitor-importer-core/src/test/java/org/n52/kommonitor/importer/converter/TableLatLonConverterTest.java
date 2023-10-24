@@ -16,6 +16,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.ConverterDefinitionType;
@@ -90,7 +91,7 @@ public class TableLatLonConverterTest {
 
     @Test
     @DisplayName("Test convert SpatialResources for CSV dataset")
-    void testConvertSpatialResourcesForCsvDataset() throws ConverterException {
+    void testConvertSpatialResourcesForCsvDataset() throws ConverterException, ImportParameterException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("features.csv").getFile());
         Dataset<InputStream> dataset = new Dataset(file);
@@ -102,7 +103,7 @@ public class TableLatLonConverterTest {
     
     @Test
     @DisplayName("Test convert Indicators for CSV dataset")
-    void testConvertIndicatorsForCsvDataset() throws ConverterException {
+    void testConvertIndicatorsForCsvDataset() throws ConverterException, ImportParameterException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("features.csv").getFile());
         Dataset<InputStream> dataset = new Dataset(file);

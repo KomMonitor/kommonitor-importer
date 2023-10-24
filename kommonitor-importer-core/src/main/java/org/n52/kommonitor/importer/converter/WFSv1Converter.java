@@ -125,7 +125,7 @@ public class WFSv1Converter extends AbstractConverter {
     @Override
     public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                   Dataset dataset,
-                                                  IndicatorPropertyMappingType propertyMapping) throws ConverterException {
+                                                  IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertIndicators(converterDefinition, input, propertyMapping);
@@ -187,7 +187,7 @@ public class WFSv1Converter extends AbstractConverter {
     }
 
     private SimpleFeatureCollection parseFeatureCollection(ConverterDefinitionType converterDefinition, InputStream dataset)
-            throws IOException, SAXException, ParserConfigurationException, ConverterException {
+            throws IOException, SAXException, ParserConfigurationException, ConverterException, ImportParameterException {
         Optional<String> namespaceOpt = this.getParameterValue(PARAM_NAMESPACE, converterDefinition.getParameters());
         Optional<String> schemaLocationOpt = this.getParameterValue(PARAM_SCHEMA_LOCATION, converterDefinition.getParameters());
 
@@ -206,7 +206,7 @@ public class WFSv1Converter extends AbstractConverter {
         return collection;
     }
 
-    private void checkNamespaceAndSchemaLocation(String namespace, String schemaLocation) {
+    private void checkNamespaceAndSchemaLocation(String namespace, String schemaLocation) throws ImportParameterException {
         if (namespace.isEmpty()) {
             throw new ImportParameterException(String.format("Empty value for parameter '%s'.", PARAM_NAMESPACE));
         }

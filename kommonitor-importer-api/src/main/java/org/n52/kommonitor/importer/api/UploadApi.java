@@ -5,6 +5,7 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.UploadedFileType;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -112,6 +113,6 @@ public interface UploadApi {
     ResponseEntity<String> upload(
         @Parameter(name = "filename", description = "The name that will be used for storing the file on the server") @Valid @RequestParam(value = "filename", required = false) String filename,
         @Parameter(name = "file", description = "The file to upload") @RequestPart(value = "file", required = false) MultipartFile file
-    );
+    ) throws UploadException;
 
 }

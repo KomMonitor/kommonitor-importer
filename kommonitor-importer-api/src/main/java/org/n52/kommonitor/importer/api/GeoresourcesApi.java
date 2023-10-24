@@ -5,6 +5,8 @@
  */
 package org.n52.kommonitor.importer.api;
 
+import org.n52.kommonitor.importer.api.exceptions.ImportException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -76,7 +78,7 @@ public interface GeoresourcesApi {
     )
     ResponseEntity<ImportResponseType> importGeoresource(
         @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources") @Valid @RequestBody(required = false) ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
-    );
+    ) throws ImportException, ImportParameterException;
 
 
     /**
@@ -115,6 +117,6 @@ public interface GeoresourcesApi {
     )
     ResponseEntity<ImportResponseType> updateGeoresource(
         @Parameter(name = "UpdateGeoresourcePOSTInputType", description = "Definitions to update georesources") @Valid @RequestBody(required = false) UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType
-    );
+    ) throws ImportException, ImportParameterException;
 
 }

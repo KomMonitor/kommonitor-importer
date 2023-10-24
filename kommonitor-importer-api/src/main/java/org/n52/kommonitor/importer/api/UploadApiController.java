@@ -45,11 +45,12 @@ public class UploadApiController implements UploadApi {
             @RequestParam(value = "filename", required = true) String filename,
             @Parameter(description = "file detail")
             @Valid @RequestPart("file") MultipartFile file
-            ) {
+            ) throws UploadException {
         LOG.info("Recevied 'upload' request for file: {}", filename != null ? filename : file.getOriginalFilename());
 
         try {
             String name = storageService.store(file, filename);
+            LOG.info("Succesfully stored uploaded file: {}", name);
             return new ResponseEntity<String>(name, HttpStatus.CREATED);
         } catch (IOException ex) {
             throw new UploadException(file, ex);
