@@ -30,6 +30,11 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     private static final String PARAM_URL = "URL";
     private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
             "The dataset will be retrieved with a HTTP GET request for that URL.";
+    private final HttpHelper httpHelper;
+
+    public HttpRetriever() throws IOException {
+        httpHelper = HttpHelper.getBasicHttpHelper();
+    }
 
     @Override
     protected String initType() {
@@ -46,7 +51,7 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
 
     @Override
     public Dataset<InputStream> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException, ImportParameterException {
-        HttpHelper httpHelper = HttpHelper.getBasicHttpHelper();
+
         Optional<String> urlOpt = this.getParameterValue(PARAM_URL, datasource.getParameters());
         if (!urlOpt.isPresent()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_URL);
