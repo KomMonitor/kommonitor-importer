@@ -38,7 +38,7 @@ public class DataSourceParameter {
         return type;
     }
 
-    public boolean isMandatory() {
+    public boolean getMandatory() {
         return mandatory;
     }
 
