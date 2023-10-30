@@ -3,19 +3,21 @@ package org.n52.kommonitor.importer.io.datasource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
-import org.geojson.Feature;
-import org.geojson.FeatureCollection;
+import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.http.HttpHelper;
+import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.DataSourceType;
+import org.opengis.feature.simple.SimpleFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +56,12 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Autowired
     private SpatialUnitsControllerApi apiClient;
     private final ObjectMapper mapper;
+    private final FeatureJSON featureJSON;
 
     public APIFeaturesRetriever() {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        featureJSON = new FeatureJSON();
     }
 
     @Override
@@ -87,16 +91,33 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
         String bboxValue = this.getParameterValue(PARAM_BBOX, datasource.getParameters())
                 .orElseThrow(() -> new ImportParameterException("Missing parameter: " + PARAM_BBOX));
 
-        String filter = this.getParameterValue(PARAM_BBOX, datasource.getParameters())
+        String filter = this.getParameterValue(PARAM_CUSTOM_FILTER, datasource.getParameters())
                 .orElse(null);
 
         try {
             HttpHelper httpHelper = HttpHelper.getBasicHttpHelper();
-            FeatureCollection rootCollection = new FeatureCollection();
+            ArrayList<FeatureCollection.Feature> features = new ArrayList<>();
 
+            String bbox;
+            Geometry referenceGeometry;
 
-            String bbox = (bboxType.equals("ref")) ? getBBoxFromSpatialUnit(bboxValue) : bboxValue;
+            // Get spatialUnit by reference
+            if (bboxType.equals("ref")) {
 
+                // Get spatialUnit from data-management
+                String response = apiClient.getAllSpatialUnitFeaturesById(bboxValue, null, "strong");
+
+                // Extract bbox for first stage filtering (intersection with bbox)
+                DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) featureJSON.readFeatureCollection(response);
+                ReferencedEnvelope envelope = featureCollection.getBounds();
+                bbox = String.format("%f,%f,%f,%f", envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY());
+
+                // Extract GeometryCollection for second stage filtering (exact intersection)
+                referenceGeometry = GeometryHelper.combineGeometries(featureCollection);
+            } else {
+                bbox = bboxValue;
+                referenceGeometry = null;
+            }
             URIBuilder builder = new URIBuilder(url);
             builder.setParameter("limit", "200")
                     .setParameter("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84")
@@ -108,45 +129,69 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             boolean hasNextPage = false;
             do {
                 byte[] response = httpHelper.executeHttpGetRequest(request);
-                ExtendedFeatureCollection page = mapper.readValue(response, ExtendedFeatureCollection.class);
-                rootCollection.addAll(page.features());
-                if (page.hasNextLink()) {
+
+                // Due to GeoTools decoding issues with additional properties such as links, and issues with inconsistent
+                // schemas of enclosed features we use jackson parsing first
+                FeatureCollection featureAPIResponse = mapper.readValue(response, FeatureCollection.class);
+
+                Iterator<FeatureCollection.Feature> featureIterator = featureAPIResponse.features.stream().iterator();
+                while (featureIterator.hasNext()) {
+                    FeatureCollection.Feature feature = featureIterator.next();
+                    SimpleFeature simpleFeature = featureJSON.readFeature(mapper.writeValueAsString(feature));
+
+                    if (simpleFeature.getDefaultGeometry() == null) {
+                        LOG.error("filtered out feature - no geometry present : {}", feature);
+                        continue;
+                    }
+
+                    if (GeometryHelper.spatiallyIntersects((Geometry) simpleFeature.getDefaultGeometry(), referenceGeometry)) {
+                        features.add(feature);
+                    } else {
+                        LOG.debug("filtered out feature - geometry does no intersect: {}", feature);
+                    }
+                }
+
+                // Do again if we have a nextLink
+                if (featureAPIResponse.hasNextLink()) {
                     hasNextPage = true;
-                    request = new HttpGet(page.getNextLink().href());
+                    request = new HttpGet(featureAPIResponse.getNextLink().href());
                 } else {
                     hasNextPage = false;
                 }
             }
             while (hasNextPage);
 
-            System.out.println(rootCollection.getFeatures().size());
-            return new Dataset<>(new ByteArrayInputStream(mapper.writeValueAsBytes(rootCollection)));
+            FeatureCollection responseCollection = new FeatureCollection(
+                    "FeatureCollection",
+                    features,
+                    null
+            );
+
+            return new Dataset<>(new ByteArrayInputStream(mapper.writeValueAsBytes(responseCollection)));
         } catch (IOException | URISyntaxException ex) {
             LOG.debug(String.format("Failed retrieving dataset for datasource: %n%s", datasource), ex);
             throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", url), ex);
         }
     }
 
-    private String getBBoxFromSpatialUnit(String resourceId) throws IOException {
-        String response = apiClient.getAllSpatialUnitFeaturesById(resourceId, null, "strong");
-
-        //TODO: check if we need to do coordinate transformations here?
-        FeatureJSON featureJSON = new FeatureJSON();
-        ReferencedEnvelope envelope = featureJSON.readFeatureCollection(response).getBounds();
-
-        return String.format("%f,%f,%f,%f", envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY());
-    }
-
     /**
      * Custom FeatureCollection with support for API defined metadata. Not-needed fields are omitted
      *
-     * @param features geojson features
-     * @param links    links to further resources
+     * @param links links to further resources
      */
-    record ExtendedFeatureCollection(
+    private record FeatureCollection(
+            String type,
             @JsonProperty List<Feature> features,
             @JsonProperty List<Link> links
     ) {
+
+        record Feature(
+                @JsonProperty String type,
+                @JsonProperty String id,
+                @JsonProperty Object geometry,
+                @JsonProperty Object properties
+        ) {
+        }
 
         record Link(
                 @JsonProperty String href,
@@ -170,5 +215,4 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             return null;
         }
     }
-
 }
