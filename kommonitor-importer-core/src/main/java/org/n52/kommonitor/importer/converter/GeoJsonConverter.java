@@ -39,9 +39,9 @@ public class GeoJsonConverter extends AbstractConverter {
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
 
-    private FeatureDecoder featureDecoder;
-    private ObjectMapper mapper;
-    private FeatureJSON featureJson;
+    protected FeatureDecoder featureDecoder;
+    protected ObjectMapper mapper;
+    protected FeatureJSON featureJson;
 
     @Autowired
     public GeoJsonConverter(FeatureDecoder featureDecoder) {
@@ -76,7 +76,6 @@ public class GeoJsonConverter extends AbstractConverter {
         types.add(DataSourceType.TypeEnum.INLINE.getValue());
         types.add(DataSourceType.TypeEnum.HTTP.getValue());
         types.add(DataSourceType.TypeEnum.FTP.getValue());
-        types.add(DataSourceType.TypeEnum.OGCAPI_FEATURES.getValue());
         return types;
     }
 
