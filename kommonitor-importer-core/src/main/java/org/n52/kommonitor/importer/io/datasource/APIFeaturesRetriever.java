@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.io.http.HttpHelper;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.DataSourceType;
 import org.opengis.feature.simple.SimpleFeature;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Retriever for remote datasets that can be requested with a HTTP GET.
@@ -53,8 +56,12 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private static final String PARAM_CUSTOM_FILTER_DESC = "Additional custom filter conditions. " +
             "Availability in the remote API is not validated and must be checked beforehand!";
 
+    private static final Pattern FILTER_PATTERN = Pattern.compile("[\\w\\.]*=[\\w\\.]*");
     @Autowired
     private SpatialUnitsControllerApi apiClient;
+
+    @Autowired
+    private ImportMonitor monitor;
     private final ObjectMapper mapper;
     private final FeatureJSON featureJSON;
 
@@ -83,6 +90,8 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     public Dataset<InputStream> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException, ImportParameterException {
         //
         String url = this.getParameterValue(PARAM_URL, datasource.getParameters())
+                .map(el -> (el.endsWith("/")) ? el.substring(0, el.length() - 1) : el)
+                .map(el -> (el.endsWith("/items")) ? el : el + "/items")
                 .orElseThrow(() -> new ImportParameterException("Missing parameter: " + PARAM_URL));
 
         String bboxType = this.getParameterValue(PARAM_BBOX_TYPE, datasource.getParameters())
@@ -94,6 +103,8 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
         String filter = this.getParameterValue(PARAM_CUSTOM_FILTER, datasource.getParameters())
                 .orElse(null);
 
+
+        HttpGet request = null;
         try {
             HttpHelper httpHelper = HttpHelper.getBasicHttpHelper();
             ArrayList<FeatureCollection.Feature> features = new ArrayList<>();
@@ -120,10 +131,19 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             }
             URIBuilder builder = new URIBuilder(url);
             builder.setParameter("limit", "200")
-                    .setParameter("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84")
+                    // .setParameter("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84")
                     .setParameter("f", "json")
                     .setParameter("bbox", bbox);
-            HttpGet request = new HttpGet(builder.build());
+
+            if (filter != null) {
+                Matcher matcher = FILTER_PATTERN.matcher(filter);
+                while (matcher.find()) {
+                    String filterExpr = matcher.group();
+                    String[] split = filterExpr.split("=");
+                    builder.addParameter(split[0], split[1]);
+                }
+            }
+            request = new HttpGet(builder.build());
 
 
             boolean hasNextPage = false;
@@ -170,7 +190,9 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             return new Dataset<>(new ByteArrayInputStream(mapper.writeValueAsBytes(responseCollection)));
         } catch (IOException | URISyntaxException ex) {
             LOG.debug(String.format("Failed retrieving dataset for datasource: %n%s", datasource), ex);
-            throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", url), ex);
+            String errorUrl = (request != null) ? request.getAuthority() + request.getRequestUri() : url;
+            monitor.addFailedConversion("Failed retrieving dataset for datasource", ex.getLocalizedMessage());
+            throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", errorUrl), ex);
         }
     }
 
