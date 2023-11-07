@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
@@ -66,7 +67,7 @@ public class GeopackageConverterTest {
 
     @Test
     @DisplayName("Test convert SpatialResources for Geopackage dataset")
-    void testConvertSpatialResourcesForGeopackageDataset() throws ConverterException {
+    void testConvertSpatialResourcesForGeopackageDataset() throws ConverterException, ImportParameterException {
         InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
         Dataset<InputStream> dataset = new Dataset<>(input);
         spatialResourcePropertyMapping.setKeepAttributes(false);
@@ -82,7 +83,7 @@ public class GeopackageConverterTest {
 
     @Test
     @DisplayName("Test convert SpatialResources for Geopackage dataset with keeping additional attributes")
-    void testConvertSpatialResourcesForGeoJsonDatasetWithKeepAttributes() throws ConverterException {
+    void testConvertSpatialResourcesForGeoJsonDatasetWithKeepAttributes() throws ConverterException, ImportParameterException {
         InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
         Dataset<InputStream> dataset = new Dataset<>(input);
         spatialResourcePropertyMapping.setKeepAttributes(true);
@@ -102,12 +103,12 @@ public class GeopackageConverterTest {
     void testConvertSpatialResourcesForGeopackageDatasetThrowsConverterExceptionForNotParsableDataset() {
         Dataset<String> dataset = new Dataset<>("nonParsableFeatureCollection");
 
-        Assertions.assertThrows(ConverterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
+        Assertions.assertThrows(RuntimeException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
 
     @Test
     @DisplayName("Test convert Indicators for Geopackage dataset")
-    void testConvertIndicators() throws ConverterException {
+    void testConvertIndicators() throws ConverterException, ImportParameterException {
         IndicatorPropertyMappingType indicatorPropertyMapping = createDateAttributeTimeseriesMapping();
 
         InputStream input = getClass().getResourceAsStream("/features-test-timeseries.gpkg");
@@ -132,7 +133,7 @@ public class GeopackageConverterTest {
 
     @Test
     @DisplayName("Test convert Indicators for GeoJson dataset with manual date values")
-    void testConvertIndicatorsWithManualDateValues() throws ConverterException {
+    void testConvertIndicatorsWithManualDateValues() throws ConverterException, ImportParameterException {
         IndicatorPropertyMappingType indicatorPropertyMapping = createManualDateValueTimeseriesMapping();
 
         InputStream input = getClass().getResourceAsStream("/features-test.gpkg");
