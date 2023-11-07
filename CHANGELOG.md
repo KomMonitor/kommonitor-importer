@@ -1,6 +1,7 @@
 # Change Log
 
 ## 2.1.1
+* Fix tests [127c77c](127c77c56217caf3d36ae1204ed0b574d7084552)
 * Add proxy support for HTTP based datasource retriever [837b7d4](837b7d450bdd723b8d55a59fcf1aef5c48ea3cce)
 * Improve Exception handling [1cf67b6](1cf67b61e093b37cf5cd7814a13cef3c67ce8be8)
 * Fix version [b448d28](b448d28fad38d64e7cd1aa019e14aefab503530d)
