@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GeoJsonConverter extends AbstractConverter {
     private static final String NAME = "GeoJSON";
     private static final String DEFAULT_ENCODING = "UTF-8";
-    private static final String ANSI_ENCODING = "ISO-8859-1";
+    private static final String LATIN_1_ENCODING = "ISO-8859-1";
     private static final String OTHER_ENCODING = "Other";
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
@@ -74,7 +74,7 @@ public class GeoJsonConverter extends AbstractConverter {
     public Set<String> initSupportedEncoding() {
         Set<String> encodings = new HashSet<>();
         encodings.add(DEFAULT_ENCODING);
-        encodings.add(ANSI_ENCODING);
+        encodings.add(LATIN_1_ENCODING);
         encodings.add(OTHER_ENCODING);
 
         return encodings;

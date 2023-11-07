@@ -89,6 +89,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	private static final String MIME_EXCEL = "application/excel-spreadsheet";
 	private static final String MIME_CSV = "text/csv";
 	protected static final String DEFAULT_ENCODING = "UTF-8";
+	private static final String LATIN_1_ENCODING = "ISO-8859-1";
+	private static final String LATIN_9_ENCODING = "ISO-8859-15";
+	private static final String ANSI_ENCODING = "windows-1252";
+	private static final String OTHER_ENCODING = "Other";
 	protected static final String GEOMETRY_ATTRIBUTE_NAME = "location";
 	
 	protected static final String SEPARATOR_COMMA = ",";
@@ -147,6 +151,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	public Set<String> initSupportedEncoding() {
 		Set<String> encodings = new HashSet<>();
         encodings.add(DEFAULT_ENCODING);
+		encodings.add(LATIN_1_ENCODING);
+		encodings.add(LATIN_9_ENCODING);
+		encodings.add(ANSI_ENCODING);
+		encodings.add(OTHER_ENCODING);
 
         return encodings;
 	}
