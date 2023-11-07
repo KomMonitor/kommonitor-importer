@@ -1,10 +1,14 @@
 package org.n52.kommonitor.importer.io.http;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.n52.kommonitor.importer.io.datasource.HttpRetriever;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -15,10 +19,19 @@ import java.io.IOException;
  */
 public class HttpHelper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRetriever.class);
+
     private CloseableHttpClient client;
 
     public static HttpHelper getBasicHttpHelper() {
         return new HttpHelper(HttpClients.createDefault());
+    }
+
+    public static HttpHelper getProxyHttpHelper(String host, int port) {
+        return new HttpHelper(HttpClients.custom()
+                .setProxy(new HttpHost(host, port))
+                .build()
+        );
     }
 
     public HttpHelper(CloseableHttpClient client) {
@@ -47,8 +60,13 @@ public class HttpHelper {
         return executeHttpGetRequestAsString(request);
     }
 
-    public void close() throws IOException {
-        client.close();
+    public void close() {
+        try {
+            client.close();
+        } catch (IOException ex) {
+            // This will never happen, due to close method implementation of Apache lib
+            LOG.error("Closing HTTP client failed.", ex);
+        }
     }
 
 }
