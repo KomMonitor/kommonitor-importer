@@ -1,6 +1,8 @@
 # Change Log
 
-## 2.1.0
+## 2.1.1
+* Add proxy support for HTTP based datasource retriever [837b7d4](837b7d450bdd723b8d55a59fcf1aef5c48ea3cce)
+* Improve Exception handling [1cf67b6](1cf67b61e093b37cf5cd7814a13cef3c67ce8be8)
 * Fix version [b448d28](b448d28fad38d64e7cd1aa019e14aefab503530d)
 * Set next legacy minor snapshot version [a5ec774](a5ec77414e29f3e1d158ad13ec4baedcd704521a)
 * Add Geopackage converter [084a20d](084a20d36c74f09e6ae79950c51d419bf4087709)
