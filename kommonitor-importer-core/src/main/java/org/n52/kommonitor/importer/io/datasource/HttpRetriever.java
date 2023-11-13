@@ -40,8 +40,8 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     protected Integer proxyPort;
 
     public HttpRetriever() throws IOException {
-        if (getProxyHost() != null && getProxyPort() != null) {
-            httpHelper = HttpHelper.getProxyHttpHelper(getProxyHost(), getProxyPort());
+        if (proxyHost != null && proxyPort != null) {
+            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
         } else {
             httpHelper = HttpHelper.getBasicHttpHelper();
         }
@@ -58,14 +58,6 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
         DataSourceParameter payloadParam = new DataSourceParameter(PARAM_URL, PARAM_URL_DESC, DataSourceParameter.ParameterTypeValues.STRING);
         parameters.add(payloadParam);
         return parameters;
-    }
-
-    public String getProxyHost() {
-        return proxyHost;
-    }
-
-    public Integer getProxyPort() {
-        return proxyPort;
     }
 
     @Override

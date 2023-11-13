@@ -22,6 +22,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
@@ -47,8 +48,8 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private static final String PARAM_BBOX = "bbox";
     private static final String PARAM_BBOX_TYPE = "bboxType";
     private static final String PARAM_CUSTOM_FILTER = "filter";
-    private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
-            "The dataset will be retrieved with a HTTP GET request for that URL.";
+    private static final String PARAM_URL_DESC = "An URL that references a OGC API - Features dataset. " +
+            "The dataset will be retrieved with HTTP GET requests for that URL.";
     private static final String PARAM_BBOX_DESC = "A bounding box for this dataset. Either a literal array of four" +
             " coordinates (bboxType=='ref') , or uuid of spatialUnit used as reference (bboxType=='literal')";
 
@@ -57,18 +58,32 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             "Availability in the remote API is not validated and must be checked beforehand!";
 
     private static final Pattern FILTER_PATTERN = Pattern.compile("[\\w\\.]*=[\\w\\.]*");
+    private final ObjectMapper mapper;
+    private final FeatureJSON featureJSON;
     @Autowired
     private SpatialUnitsControllerApi apiClient;
 
     @Autowired
     private ImportMonitor monitor;
-    private final ObjectMapper mapper;
-    private final FeatureJSON featureJSON;
 
-    public APIFeaturesRetriever() {
+    private final HttpHelper httpHelper;
+    @Value("${proxy.host:#{null}}")
+    protected String proxyHost;
+
+    @Value("${proxy.port:#{null}}")
+    protected Integer proxyPort;
+
+    public APIFeaturesRetriever() throws IOException {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         featureJSON = new FeatureJSON();
+
+        if (proxyHost != null && proxyPort != null) {
+            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
+        } else {
+            httpHelper = HttpHelper.getBasicHttpHelper();
+        }
+
     }
 
     @Override
@@ -106,7 +121,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
 
         HttpGet request = null;
         try {
-            HttpHelper httpHelper = HttpHelper.getBasicHttpHelper();
             ArrayList<FeatureCollection.Feature> features = new ArrayList<>();
 
             String bbox;

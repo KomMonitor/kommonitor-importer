@@ -1,6 +1,5 @@
 package org.n52.kommonitor.importer.io.datasource;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
@@ -8,21 +7,20 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.ParameterValueType;
 
-import java.util.Collections;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
+ * @author <a href="mailto:j.speckamp@52north.org">Sebastian Drost</a>
  */
 public class APIFeaturesRetrieverTest {
 
     private static final String URL = "https://ogc-api.nrw.de/inspire-lu-ble/v1/collections/existinglanduseobject/items";
 
-
     @Test
     @DisplayName("Test retrieve HTTP dataset")
-    void testRetrieveHttpDataset() throws DataSourceRetrieverException {
+    void testRetrieveHttpDataset() throws DataSourceRetrieverException, IOException, ImportParameterException {
 
         APIFeaturesRetriever retriever = new APIFeaturesRetriever();
         DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
@@ -30,29 +28,6 @@ public class APIFeaturesRetrieverTest {
         retriever.retrieveDataset(dataSourceDefinition);
     }
 
-
-    /*
-    @Test
-    @DisplayName("Test retrieve HTTP dataset should throw ImportParameterException for non valid parameters")
-    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonValidParameters() {
-
-        HttpRetriever retriever = new HttpRetriever();
-        DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
-        dataSourceDefinition.setParameters(Collections.emptyList());
-
-        Assertions.assertThrows(ImportParameterException.class, () -> retriever.retrieveDataset(dataSourceDefinition));
-    }
-
-    @Test
-    @DisplayName("Test retrieve HTTP dataset should throw DataSourceRetrieverException for non retrievable URL")
-    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonRetrievableUrl() {
-
-        HttpRetriever retriever = new HttpRetriever();
-        DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
-
-        Assertions.assertThrows(DataSourceRetrieverException.class, () -> retriever.retrieveDataset(dataSourceDefinition));
-    }
-    */
 
     private DataSourceDefinitionType createDataSourceDefinition() {
         DataSourceDefinitionType dataSourceDefinition = new DataSourceDefinitionType(DataSourceDefinitionType.TypeEnum.HTTP);
