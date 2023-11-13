@@ -1,6 +1,9 @@
 # Change Log
 
-## 3.1.0
+## 3.1.1
+* Add proxy support for HTTP based datasource retriever [203ac3b](203ac3bc4a446c80acf92cc4ee8b0e05b01da248)
+* Fix tests [02e199c](02e199c86a8a4ac57a3d7a85d858ddc05aa0108e)
+* Improve Exception handling [26ddf1d](26ddf1d29319d870ec1e9670c6bc51d4ffd4f327)
 * Rename test file [b9d8db5](b9d8db5a75947b32a4f75b76ab2eabfb5bb99b09)
 * Add Geopackage layer parameter [60b8a83](60b8a8386af6a9a58d2956cf58a94cec3fd707ad)
 * Enhance testing for GeoJSON and Geopackage files [d86fae4](d86fae4cd4088611fa0ce13eb90b3667520cd93c)

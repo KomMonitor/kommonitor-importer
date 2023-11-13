@@ -8,9 +8,12 @@ import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,19 +25,17 @@ import java.nio.file.Files;
  */
 public class HttpHelper {
 
-    private CloseableHttpClient client;
+    private static final Logger LOG = LoggerFactory.getLogger(HttpHelper.class);
+
+    private final CloseableHttpClient client;
 
     public static HttpHelper getBasicHttpHelper() throws IOException {
+        return new HttpHelper(getHttpClientBuilder().build());
+    }
 
-        final CacheConfig cacheConfig = CacheConfig.custom()
-                .setMaxCacheEntries(100)
-                .setMaxObjectSize(50000)
-                .build();
-
-        CloseableHttpClient client = CachingHttpClientBuilder
-                .create()
-                .setCacheConfig(cacheConfig)
-                .setCacheDir(Files.createTempFile("kommonitor_httphelper", "cache").toFile())
+    public static HttpHelper getProxyHttpHelper(String host, int port) throws IOException {
+        CloseableHttpClient client = getHttpClientBuilder()
+                .setProxy(new HttpHost(host, port))
                 .build();
 
         return new HttpHelper(client);
@@ -65,11 +66,31 @@ public class HttpHelper {
         return executeHttpGetRequestAsString(request);
     }
 
-    public void close() throws IOException {
-        client.close();
+    public void close() {
+        try {
+            client.close();
+        } catch (IOException ex) {
+            // This will never happen, due to close method implementation of Apache lib
+            LOG.error("Closing HTTP client failed.", ex);
+        }
+    }
+
+    private static CachingHttpClientBuilder getHttpClientBuilder() throws IOException {
+
+        final CacheConfig cacheConfig = CacheConfig.custom()
+                .setMaxCacheEntries(100)
+                .setMaxObjectSize(50000)
+                .build();
+
+        return CachingHttpClientBuilder
+                .create()
+                .setCacheConfig(cacheConfig)
+                .setCacheDir(Files.createTempFile("kommonitor_httphelper", "cache").toFile());
     }
 
     static class ByteArrayResponseHandler implements HttpClientResponseHandler<byte[]> {
+
+
         @Override
         public byte[] handleResponse(ClassicHttpResponse httpResponse) throws IOException {
             if (httpResponse.getCode() >= 300) {
@@ -84,6 +105,5 @@ public class HttpHelper {
             return IOUtils.toByteArray(entity.getContent());
         }
     }
-
 
 }
