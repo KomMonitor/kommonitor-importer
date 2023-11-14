@@ -30,11 +30,4 @@ public class APIFeaturesConverter extends GeoJsonConverter {
         types.add(DataSourceType.TypeEnum.OGCAPI_FEATURES.getValue());
         return types;
     }
-
-    @Override
-    public Set<ConverterParameter> initConverterParameters() {
-        return Collections.emptySet();
-    }
-
-
 }
