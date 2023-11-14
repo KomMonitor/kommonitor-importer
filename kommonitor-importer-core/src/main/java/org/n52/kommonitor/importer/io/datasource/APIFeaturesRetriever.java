@@ -131,7 +131,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             if (bboxType.equals("ref")) {
 
                 // Get spatialUnit from data-management
-                String response = apiClient.getAllSpatialUnitFeaturesById(bboxValue, null, "strong");
+                String response = apiClient.getAllSpatialUnitFeaturesById(bboxValue, null, "original");
 
                 // Extract bbox for first stage filtering (intersection with bbox)
                 DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) featureJSON.readFeatureCollection(response);
