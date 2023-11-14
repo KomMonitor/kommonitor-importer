@@ -50,10 +50,11 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private static final String PARAM_CUSTOM_FILTER = "filter";
     private static final String PARAM_URL_DESC = "An URL that references a OGC API - Features dataset. " +
             "The dataset will be retrieved with HTTP GET requests for that URL.";
-    private static final String PARAM_BBOX_DESC = "A bounding box for this dataset. Either a literal array of four" +
-            " coordinates (bboxType=='ref') , or uuid of spatialUnit used as reference (bboxType=='literal')";
+    private static final String PARAM_BBOX_DESC = "A bounding box for this dataset. Either a comma-seperated list of " +
+            "four coordinates (bboxType=='literal'), or uuid of spatialUnit used as reference (bboxType=='ref')";
 
-    private static final String PARAM_BBOX_TYPE_DESC = ".";
+    private static final String PARAM_BBOX_TYPE_DESC = "type of the supplied bbox. Either 'ref' if a reference " +
+            "spatialUnit is used, or 'literal' of the bbox is provided verbatim.";
     private static final String PARAM_CUSTOM_FILTER_DESC = "Additional custom filter conditions. " +
             "Availability in the remote API is not validated and must be checked beforehand!";
 
@@ -94,8 +95,8 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Override
     protected Set<DataSourceParameter> initSupportedParameters() {
         Set<DataSourceParameter> parameters = new HashSet<>();
-        parameters.add(new DataSourceParameter(PARAM_BBOX, PARAM_BBOX_DESC, DataSourceParameter.ParameterTypeValues.ARRAY));
-        parameters.add(new DataSourceParameter(PARAM_BBOX_TYPE, PARAM_BBOX_DESC, DataSourceParameter.ParameterTypeValues.ARRAY));
+        parameters.add(new DataSourceParameter(PARAM_BBOX, PARAM_BBOX_DESC, DataSourceParameter.ParameterTypeValues.STRING));
+        parameters.add(new DataSourceParameter(PARAM_BBOX_TYPE, PARAM_BBOX_TYPE_DESC, DataSourceParameter.ParameterTypeValues.STRING));
         parameters.add(new DataSourceParameter(PARAM_CUSTOM_FILTER, PARAM_CUSTOM_FILTER_DESC, DataSourceParameter.ParameterTypeValues.STRING, false));
         parameters.add(new DataSourceParameter(PARAM_URL, PARAM_URL_DESC, DataSourceParameter.ParameterTypeValues.STRING));
         return parameters;
