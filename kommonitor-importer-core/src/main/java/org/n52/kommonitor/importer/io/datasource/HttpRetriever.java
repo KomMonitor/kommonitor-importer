@@ -31,6 +31,7 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     private static final String PARAM_URL = "URL";
     private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
             "The dataset will be retrieved with a HTTP GET request for that URL.";
+    private final HttpHelper httpHelper;
 
     @Value("${proxy.host:#{null}}")
     protected String proxyHost;
@@ -38,12 +39,12 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     @Value("${proxy.port:#{null}}")
     protected Integer proxyPort;
 
-    public String getProxyHost() {
-        return proxyHost;
-    }
-
-    public Integer getProxyPort() {
-        return proxyPort;
+    public HttpRetriever() throws IOException {
+        if (proxyHost != null && proxyPort != null) {
+            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
+        } else {
+            httpHelper = HttpHelper.getBasicHttpHelper();
+        }
     }
 
     @Override
@@ -61,7 +62,6 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
 
     @Override
     public Dataset<InputStream> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException, ImportParameterException {
-        HttpHelper httpHelper = createHttpHelper();
         Optional<String> urlOpt = this.getParameterValue(PARAM_URL, datasource.getParameters());
         if (urlOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_URL);
@@ -72,17 +72,6 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
         } catch (IOException ex) {
             LOG.debug(String.format("Failed retrieving dataset for datasource: %n%s", datasource), ex);
             throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", urlOpt.get()), ex);
-        } finally {
-            httpHelper.close();
-        }
-    }
-
-    private HttpHelper createHttpHelper() {
-        if(getProxyHost() != null && getProxyPort() != null) {
-            return HttpHelper.getProxyHttpHelper(getProxyHost(), getProxyPort());
-        }
-        else {
-            return HttpHelper.getBasicHttpHelper();
         }
     }
 }

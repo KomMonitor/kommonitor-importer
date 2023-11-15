@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Conerverter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-07T11:22:38.142409800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -41,6 +41,9 @@ public class ConverterType implements Serializable {
 
   @Valid
   private List<@Valid ParameterType> parameters;
+
+  @Valid
+  private List<String> datasources;
 
   /**
    * Default constructor
@@ -191,6 +194,34 @@ public class ConverterType implements Serializable {
     this.parameters = parameters;
   }
 
+  public ConverterType datasources(List<String> datasources) {
+    this.datasources = datasources;
+    return this;
+  }
+
+  public ConverterType addDatasourcesItem(String datasourcesItem) {
+    if (this.datasources == null) {
+      this.datasources = new ArrayList<>();
+    }
+    this.datasources.add(datasourcesItem);
+    return this;
+  }
+
+  /**
+   * list of supported datasources
+   * @return datasources
+  */
+  
+  @Schema(name = "datasources", description = "list of supported datasources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("datasources")
+  public List<String> getDatasources() {
+    return datasources;
+  }
+
+  public void setDatasources(List<String> datasources) {
+    this.datasources = datasources;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -204,12 +235,13 @@ public class ConverterType implements Serializable {
         Objects.equals(this.mimeTypes, converterType.mimeTypes) &&
         Objects.equals(this.schemas, converterType.schemas) &&
         Objects.equals(this.encodings, converterType.encodings) &&
-        Objects.equals(this.parameters, converterType.parameters);
+        Objects.equals(this.parameters, converterType.parameters) &&
+        Objects.equals(this.datasources, converterType.datasources);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mimeTypes, schemas, encodings, parameters);
+    return Objects.hash(name, mimeTypes, schemas, encodings, parameters, datasources);
   }
 
   @Override
@@ -221,6 +253,7 @@ public class ConverterType implements Serializable {
     sb.append("    schemas: ").append(toIndentedString(schemas)).append("\n");
     sb.append("    encodings: ").append(toIndentedString(encodings)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
+    sb.append("    datasources: ").append(toIndentedString(datasources)).append("\n");
     sb.append("}");
     return sb.toString();
   }
