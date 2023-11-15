@@ -1,6 +1,26 @@
 # Change Log
 
-## 3.1.1
+## 3.2.0
+* Raise deps [a50d89f](a50d89f6a40e18af3291f3688eb7481a628831b2)
+* Add tests for APIFeaturesConverter [18f1d8e](18f1d8ee153b3e41a88a2f5dace808109aca46e4)
+* Improve CRS parameter handling for APIFeaturesConverter [fe34288](fe3428875b2ae1cc4011c9d03fc8657daba6a1c6)
+* Implement test for APIFeaturesRetriever [9ecfbcf](9ecfbcf8385467ab6b813c0a2888cae7b90f52dd)
+* Merge pull request #25 from KomMonitor/feature/oa_features [b11a204](b11a20458d092a5de1f4dca8980e2f56b8aa493e)
+    * fix invalid bbox parsing when locale is not US [19cfbec](19cfbec0b74ed9fac7d64b0f0b442ea0e366819a)
+    * document CRS parameter for OGC API - Features Converter [c5df4d0](c5df4d04a9aed018ef1a2e36a444ae3b854b54a6)
+    * remove simplification of geometries [87a9ce1](87a9ce180d874a1e7b07415e30b86f5d6bfbc4d8)
+    * improve datasourceconfig documentation for ogc api features retriever [d845002](d845002083372a3aae8bf0c8c8ea2dbe7af4ecb6)
+    * Add proxy support for OA - Features Retriever [08718d6](08718d60168dd96da84f4bd934afcdc3f76b05b1)
+    * Merge remote-tracking branch &#39;origin/master&#39; into feature/oa_features [9d9aeb2](9d9aeb2084208365aaf85e49c7faacd3323010c7)
+    * improve error messagen on empty features [59a9f29](59a9f2912067b49e0ab5c972d4e7629bab543890)
+    * support custom filter for ogcapi-features + improve error logging [da70d7f](da70d7f6f49fc3c743089d49215979fc1035eeef)
+    * refactor HttpHelper to use caching [fe0e96f](fe0e96ff1cc0de53693d47be8de949c5789c6ed4)
+    * Add new Converter for OGC-API Features [655d7d0](655d7d08c2ac68615c0801386894c9df2e10397a)
+    * Add exact cropping of result features to referenceGeometry [0e6c30a](0e6c30a2720bd87664ee13c770e4223f1b52db2a)
+    * fix mandatory flag for datasourceParameters [7f284ff](7f284ff71ac74dafcb94d105413c9c12baa05596)
+    * Merge remote-tracking branch &#39;origin/develop&#39; into feature/oa_features [335e7af](335e7af23f804daa1bdd68c5e861d0e525050c22)
+    * Implement DatasourceType &#96;OGC API - Features&#96; [04bf610](04bf61042571f321c34e105e905616c3e971c0b7)
+    * regenerate models + align implementations to models [9035061](9035061ed622484807ebe1cd8e5077ee13dc7828)
 * Add proxy support for HTTP based datasource retriever [203ac3b](203ac3bc4a446c80acf92cc4ee8b0e05b01da248)
 * Fix tests [02e199c](02e199c86a8a4ac57a3d7a85d858ddc05aa0108e)
 * Improve Exception handling [26ddf1d](26ddf1d29319d870ec1e9670c6bc51d4ffd4f327)
