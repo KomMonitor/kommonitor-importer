@@ -1,6 +1,8 @@
 package org.n52.kommonitor.importer.converter;
 
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
+import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,5 +31,15 @@ public class APIFeaturesConverter extends GeoJsonConverter {
         Set<String> types = new HashSet<>();
         types.add(DataSourceType.TypeEnum.OGCAPI_FEATURES.getValue());
         return types;
+    }
+
+    @Override
+    public Set<ConverterParameter> initConverterParameters() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    protected String getCrsParameter(ConverterDefinitionType converterDefinition) {
+        return "EPSG:4326";
     }
 }

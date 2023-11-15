@@ -108,16 +108,12 @@ public class GeoJsonConverter extends AbstractConverter {
         }
     }
 
-    private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
+    protected List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
             throws ImportParameterException, IOException {
 
-        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-
-        if (!crsOpt.isPresent()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
-        }
+        String crs = getCrsParameter(converterDefinition);
 
         List<SpatialResource> spatialResources = new ArrayList<>();
 
@@ -132,13 +128,13 @@ public class GeoJsonConverter extends AbstractConverter {
             Feature feature = featureIterator.next();
             SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
             try {
-                spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crsOpt.get())));
+                spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crs)));
             } catch (DecodingException ex) {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                 featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
             } catch (Exception ex) {
-                throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+                throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crs), ex);
             }
         }
 
@@ -156,6 +152,15 @@ public class GeoJsonConverter extends AbstractConverter {
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
+    }
+
+    protected String getCrsParameter(ConverterDefinitionType converterDefinition) throws ImportParameterException {
+        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
+
+        if (crsOpt.isEmpty()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
+        }
+        return crsOpt.get();
     }
 
     private List<IndicatorValue> convertIndicators(InputStream dataset,
