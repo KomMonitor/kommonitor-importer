@@ -27,13 +27,13 @@ import java.util.List;
  */
 public class GeoJsonConverterTest {
 
-    private final static String MIME_TYPE = "application/geo+json";
-    private final static String ENCODING = "UTF-8";
+    protected final static String MIME_TYPE = "application/geo+json";
+    protected final static String ENCODING = "UTF-8";
 
-    private static ConverterDefinitionType convDef;
-    private static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
+    protected static ConverterDefinitionType convDef;
+    protected static SpatialResourcePropertyMappingType spatialResourcePropertyMapping;
 
-    private static GeoJsonConverter converter;
+    protected static GeoJsonConverter converter;
 
     @BeforeAll
     static void init() throws Exception {
