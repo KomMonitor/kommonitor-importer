@@ -87,6 +87,13 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
 
     }
 
+    public APIFeaturesRetriever(HttpHelper httpHelper) throws IOException {
+        mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        featureJSON = new FeatureJSON();
+        this.httpHelper = httpHelper;
+    }
+
     @Override
     protected String initType() {
         return TYPE;
