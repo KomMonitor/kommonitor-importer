@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +68,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Autowired
     private ImportMonitor monitor;
 
-    private final HttpHelper httpHelper;
+    private HttpHelper httpHelper;
     @Value("${proxy.host:#{null}}")
     protected String proxyHost;
 
@@ -78,13 +79,15 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         featureJSON = new FeatureJSON();
+    }
 
+    @PostConstruct
+    public void postConstruct() throws IOException {
         if (proxyHost != null && proxyPort != null) {
             httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
         } else {
             httpHelper = HttpHelper.getBasicHttpHelper();
         }
-
     }
 
     public APIFeaturesRetriever(HttpHelper httpHelper) throws IOException {

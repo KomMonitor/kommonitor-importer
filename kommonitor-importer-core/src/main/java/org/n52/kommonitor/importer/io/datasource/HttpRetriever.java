@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,15 +32,16 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     private static final String PARAM_URL = "URL";
     private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
             "The dataset will be retrieved with a HTTP GET request for that URL.";
-    private final HttpHelper httpHelper;
+    private HttpHelper httpHelper;
 
     @Value("${proxy.host:#{null}}")
-    protected String proxyHost;
+    private String proxyHost;
 
-    @Value("${proxy.port:#{null}}")
-    protected Integer proxyPort;
+    @Value("${proxy.port}")
+    private Integer proxyPort;
 
-    public HttpRetriever() throws IOException {
+    @PostConstruct
+    public void postConstruct() throws IOException {
         if (proxyHost != null && proxyPort != null) {
             httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
         } else {
