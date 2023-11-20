@@ -37,7 +37,7 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     @Value("${proxy.host:#{null}}")
     private String proxyHost;
 
-    @Value("${proxy.port}")
+    @Value("${proxy.port:#{null}}")
     private Integer proxyPort;
 
     @PostConstruct

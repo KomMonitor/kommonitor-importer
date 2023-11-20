@@ -24,8 +24,8 @@ public class HttpRetrieverTest {
     @Test
     @DisplayName("Test retrieve HTTP dataset should throw ImportParameterException for non valid parameters")
     void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonValidParameters() throws IOException {
-
         HttpRetriever retriever = new HttpRetriever();
+        retriever.postConstruct();
         DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
         dataSourceDefinition.setParameters(Collections.emptyList());
 
@@ -35,8 +35,8 @@ public class HttpRetrieverTest {
     @Test
     @DisplayName("Test retrieve HTTP dataset should throw DataSourceRetrieverException for non retrievable URL")
     void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonRetrievableUrl() throws IOException {
-
         HttpRetriever retriever = new HttpRetriever();
+        retriever.postConstruct();
         DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
 
         Assertions.assertThrows(DataSourceRetrieverException.class, () -> retriever.retrieveDataset(dataSourceDefinition));
