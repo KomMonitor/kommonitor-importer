@@ -1,6 +1,7 @@
 # Change Log
 
 ## 3.2.1
+* add manual postConstruct call to test of components [305c256](305c2567e0c7f5d1bb33df4dc77038e4b1a03421)
 * fix http proxy not being configured [23ad395](23ad395d4c34b1904bf6778b68af050dbf1b8684)
 * Enhance geometry parsing failure handling [d0e2163](d0e2163472e7ae05bd1814269ad970328934ba3d)
 * Merge branch &#39;master&#39; into develop [5ba6171](5ba617140fa6cb1e55d27a243ad87f6f88e3b9bd)
