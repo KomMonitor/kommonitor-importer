@@ -1,6 +1,10 @@
 # Change Log
 
-## 3.2.0
+## 3.2.1
+* fix http proxy not being configured [23ad395](23ad395d4c34b1904bf6778b68af050dbf1b8684)
+* Enhance geometry parsing failure handling [d0e2163](d0e2163472e7ae05bd1814269ad970328934ba3d)
+* Merge branch &#39;master&#39; into develop [5ba6171](5ba617140fa6cb1e55d27a243ad87f6f88e3b9bd)
+    * Add missing test file [776a48e](776a48ea93c5278461d50f1ad4a3579f6a6864ed)
 * Raise deps [a50d89f](a50d89f6a40e18af3291f3688eb7481a628831b2)
 * Add tests for APIFeaturesConverter [18f1d8e](18f1d8ee153b3e41a88a2f5dace808109aca46e4)
 * Improve CRS parameter handling for APIFeaturesConverter [fe34288](fe3428875b2ae1cc4011c9d03fc8657daba6a1c6)
