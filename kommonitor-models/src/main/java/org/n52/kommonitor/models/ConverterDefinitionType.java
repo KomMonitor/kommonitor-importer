@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterValueType;
@@ -19,11 +20,11 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
+ * Definition of an converter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it
  */
 
-@Schema(name = "ConverterDefinitionType", description = "Definition of an conveter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Schema(name = "ConverterDefinitionType", description = "Definition of an converter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-22T12:01:51.805157800+01:00[Europe/Berlin]")
 public class ConverterDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -35,6 +36,43 @@ public class ConverterDefinitionType implements Serializable {
   private String schema;
 
   private String encoding;
+
+  /**
+   * Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.
+   */
+  public enum EncodingMethodEnum {
+    MANUAL("manual"),
+    
+    AUTO("auto");
+
+    private String value;
+
+    EncodingMethodEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EncodingMethodEnum fromValue(String value) {
+      for (EncodingMethodEnum b : EncodingMethodEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  private EncodingMethodEnum encodingMethod;
 
   @Valid
   private List<@Valid ParameterValueType> parameters;
@@ -62,11 +100,11 @@ public class ConverterDefinitionType implements Serializable {
   }
 
   /**
-   * unique name of the conveter
+   * unique name of the converter
    * @return name
   */
   @NotNull 
-  @Schema(name = "name", description = "unique name of the conveter", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", description = "unique name of the converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -136,6 +174,26 @@ public class ConverterDefinitionType implements Serializable {
     this.encoding = encoding;
   }
 
+  public ConverterDefinitionType encodingMethod(EncodingMethodEnum encodingMethod) {
+    this.encodingMethod = encodingMethod;
+    return this;
+  }
+
+  /**
+   * Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.
+   * @return encodingMethod
+  */
+  
+  @Schema(name = "encodingMethod", description = "Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("encodingMethod")
+  public EncodingMethodEnum getEncodingMethod() {
+    return encodingMethod;
+  }
+
+  public void setEncodingMethod(EncodingMethodEnum encodingMethod) {
+    this.encodingMethod = encodingMethod;
+  }
+
   public ConverterDefinitionType parameters(List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
     return this;
@@ -177,12 +235,13 @@ public class ConverterDefinitionType implements Serializable {
         Objects.equals(this.mimeType, converterDefinitionType.mimeType) &&
         Objects.equals(this.schema, converterDefinitionType.schema) &&
         Objects.equals(this.encoding, converterDefinitionType.encoding) &&
+        Objects.equals(this.encodingMethod, converterDefinitionType.encodingMethod) &&
         Objects.equals(this.parameters, converterDefinitionType.parameters);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mimeType, schema, encoding, parameters);
+    return Objects.hash(name, mimeType, schema, encoding, encodingMethod, parameters);
   }
 
   @Override
@@ -193,6 +252,7 @@ public class ConverterDefinitionType implements Serializable {
     sb.append("    mimeType: ").append(toIndentedString(mimeType)).append("\n");
     sb.append("    schema: ").append(toIndentedString(schema)).append("\n");
     sb.append("    encoding: ").append(toIndentedString(encoding)).append("\n");
+    sb.append("    encodingMethod: ").append(toIndentedString(encodingMethod)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
     sb.append("}");
     return sb.toString();

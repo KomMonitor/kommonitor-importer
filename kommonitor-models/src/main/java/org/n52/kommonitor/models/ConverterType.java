@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-09-28T07:59:58.095436100+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-22T12:01:51.805157800+01:00[Europe/Berlin]")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,7 +39,6 @@ public class ConverterType implements Serializable {
   @Valid
   private List<String> encodings;
 
-  @Valid
   private String defaultEncoding;
 
   @Valid
@@ -175,11 +174,11 @@ public class ConverterType implements Serializable {
   }
 
   /**
-   * Default encoding or encoding detection mechanism that will be expected by converter.
+   * Default encoding that will be expected by converter.
    * @return defaultEncoding
   */
-
-  @Schema(name = "defaultEncoding", description = "Default encoding or encoding detection mechanism that will be expected by converter.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  
+  @Schema(name = "defaultEncoding", description = "Default encoding that will be expected by converter.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultEncoding")
   public String getDefaultEncoding() {
     return defaultEncoding;
@@ -234,7 +233,7 @@ public class ConverterType implements Serializable {
    * list of supported datasources
    * @return datasources
   */
-
+  
   @Schema(name = "datasources", description = "list of supported datasources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("datasources")
   public List<String> getDatasources() {
