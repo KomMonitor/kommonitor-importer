@@ -13,6 +13,7 @@ import java.net.Proxy;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -258,12 +259,26 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		java.nio.file.Files.copy(
 				inputStream, 
 				newTmpFilePath, 
-			      StandardCopyOption.REPLACE_EXISTING);		
+				StandardCopyOption.REPLACE_EXISTING);
 		
 		csvInputFile = newTmpFilePath.toFile();
 		
 		Path newTmpFilePath_utf8 = Files.createTempFile(fileName + "_UTF-8", fileEnding);
-		csvFile_UTF8 = FileUtils.convertFileToUtf8(csvInputFile, newTmpFilePath_utf8.toFile());
+
+		if (converterDefinition.getEncodingMethod() == null ||
+				converterDefinition.getEncodingMethod().equals(ConverterDefinitionType.EncodingMethodEnum.AUTO)) {
+			LOG.debug("Use '{}' as encoding detection strategy. Trying to guess the encoding from the dataset content.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
+			csvFile_UTF8 = FileUtils.convertFileToUtf8(csvInputFile, newTmpFilePath_utf8.toFile());
+		}
+		else {
+			if (converterDefinition.getEncoding() == null || converterDefinition.getEncoding().isEmpty()) {
+				LOG.debug("Encoding detection strategy is 'manual', but no encoding has been provided. Will use " +
+						"default encoding '{}' for dataset.", getDefaultEncoding());
+				csvFile_UTF8 = FileUtils.convertFileToUtf8(csvInputFile, newTmpFilePath_utf8.toFile(), getDefaultEncoding());
+			} else {
+				csvFile_UTF8 = FileUtils.convertFileToUtf8(csvInputFile, newTmpFilePath_utf8.toFile(), converterDefinition.getEncoding());
+			}
+		}
 		
 		return csvFile_UTF8;
 	}
@@ -303,7 +318,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 //		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
 //		                                  true, StandardCharsets.UTF_8);
 		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
-                true, "UTF-8");
+                true, StandardCharsets.UTF_8);
 //		byte[] bom = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 //		out.write(bom);
 		{
@@ -635,7 +650,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
 		SimpleFeatureCollection simpleFeatureCollection = parseCsvToFeatureCollection(csvFile, sepOpt.get().charAt(0));
 				
-		if(simpleFeatureCollection == null || simpleFeatureCollection.size() == 0) {
+		if(simpleFeatureCollection.isEmpty() || simpleFeatureCollection.size() == 0) {
 			throw new ConverterException("No features could be parsed from CSV data input.");
 		}		
 		
@@ -647,17 +662,17 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	private SimpleFeatureCollection parseCsvToFeatureCollection(File csvFile, char delimiter) throws IOException, CsvException {
 		
 		// prepare CSV Reader
-		FileReader reader = new FileReader(csvFile);
-		
+		FileReader reader = new FileReader(csvFile, StandardCharsets.UTF_8);
+
 		CSVParser parser = new CSVParserBuilder()
 			    .withSeparator(delimiter)
 			    .withIgnoreQuotations(false)
 			    .build();
 
-			CSVReader csvReader = new CSVReaderBuilder(reader)
-			    .withSkipLines(0)
-			    .withCSVParser(parser)
-			    .build();
+		CSVReader csvReader = new CSVReaderBuilder(reader)
+			.withSkipLines(0)
+			.withCSVParser(parser)
+			.build();
 			
 		// parse CSV content	
 			
