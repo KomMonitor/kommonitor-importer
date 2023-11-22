@@ -28,7 +28,7 @@ public class TableConverter_indicator extends AbstractTableConverter {
 
     @Override
 	protected List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
-			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
+			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) {
 		throw new NotImplementedException("The import of spatial resources via CSVConverter_indicator is not supported");
 	}
 
@@ -39,12 +39,8 @@ public class TableConverter_indicator extends AbstractTableConverter {
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
-        
-        try {
-            return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+        return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
 	}
 
 	@Override

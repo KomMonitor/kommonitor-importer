@@ -121,8 +121,6 @@ public class GeopackageConverter extends AbstractConverter {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 
-        Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
-
         List<SpatialResource> spatialResources;
         // Store temp file file
         Path tmpFile = storeDatasetAsTempFile(dataset);

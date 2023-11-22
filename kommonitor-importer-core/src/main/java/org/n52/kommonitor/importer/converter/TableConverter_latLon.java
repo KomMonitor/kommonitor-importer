@@ -39,16 +39,16 @@ public class TableConverter_latLon extends AbstractTableConverter {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
         
         Optional<String> xCoordOpt = this.getParameterValue(PARAM_X_COORD_COL, converterDefinition.getParameters());
-        if (!xCoordOpt.isPresent()) {
+        if (xCoordOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_X_COORD_COL);
         }
         Optional<String> yCoordOpt = this.getParameterValue(PARAM_Y_COORD_COL, converterDefinition.getParameters());
-        if (!yCoordOpt.isPresent()) {
+        if (yCoordOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_Y_COORD_COL);
         }
 
@@ -68,28 +68,25 @@ public class TableConverter_latLon extends AbstractTableConverter {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
 
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
-        
+
         Optional<String> xCoordOpt = this.getParameterValue(PARAM_X_COORD_COL, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (xCoordOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_X_COORD_COL);
         }
+
         Optional<String> yCoordOpt = this.getParameterValue(PARAM_Y_COORD_COL, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (yCoordOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_Y_COORD_COL);
         }
 
-     // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
+        // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_latLon(converterDefinition, dataset, sepOpt, crsOpt, xCoordOpt, yCoordOpt);
-        
-        try {
-            return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+        return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
 	}
 
 	@Override

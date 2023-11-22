@@ -114,12 +114,12 @@ public class FileUtils {
              // output
              FileOutputStream outputStream = new FileOutputStream(outputFile);
              OutputStreamWriter outputWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
-            IOUtils.copy(inputReader, outputWriter);
+                IOUtils.copy(inputReader, outputWriter);
 
-            // delete inputFile
-            inputFile.delete();
+                // delete inputFile
+                inputFile.delete();
 
-            return outputFile;
+                return outputFile;
         }
     }
 

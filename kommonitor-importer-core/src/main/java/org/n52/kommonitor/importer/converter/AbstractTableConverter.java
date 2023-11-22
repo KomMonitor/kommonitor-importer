@@ -1,48 +1,19 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.geom.*;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -63,11 +34,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
+import javax.validation.Valid;
+import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * AAn abstract converter for geocoding address tables
@@ -88,8 +70,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected static final String GEOMETRY_ATTRIBUTE_NAME = "location";
 	
 	protected static final String SEPARATOR_COMMA = ",";
-//	protected static final String SEPARATOR_REPLACE_CHAR = ";";
-//	protected static final String SEPARATOR_REPLACE_CHAR_BACKUP = "|";
 	
 	protected static final String PARAM_SEP = "Trennzeichen";
 	protected static final String PARAM_SEP_DESC = "Trennzeichensymbol des CSV Datensatzes - nur bei CSV anzugeben";
@@ -118,12 +98,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	public AbstractTableConverter(FeatureDecoder featureDecoder) {
 		this.featureDecoder = featureDecoder;
 		
-		this.params = new HashSet<ConverterParameter>();
+		this.params = new HashSet<>();
 		this.params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
-		
-		if(this.geocoder_baseUrl == null) {
-			this.geocoder_baseUrl = "https://geocoder.fbg-hsbo.de/geocoder";
-		}
 	}
 	
 	@Override
@@ -217,7 +193,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		String fileName = "tmp-CSV-";
 		String fileEnding = ".csv";
 		if(converterDefinition.getMimeType().equalsIgnoreCase(MIME_EXCEL)) {
-			csvFile = convertExcelToCsvFile(converterDefinition, dataset, fileName, fileEnding, SEPARATOR_COMMA);			
+			csvFile = convertExcelToCsvFile(converterDefinition, dataset, fileName, fileEnding, SEPARATOR_COMMA);
 			forceSeparatorConverterParameter_asComma(converterDefinition);
 		}
 		else {
@@ -233,7 +209,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 	private void forceSeparatorConverterParameter_asComma(ConverterDefinitionType converterDefinition) {
 		List<ParameterValueType> parameters = converterDefinition.getParameters();
-		List<ParameterValueType> parameters_new = new ArrayList<ParameterValueType>();
+		List<ParameterValueType> parameters_new = new ArrayList<>();
 		
 		ParameterValueType param_separator = new ParameterValueType();
 		param_separator.setName(PARAM_SEP);
@@ -283,7 +259,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		return csvFile_UTF8;
 	}
 	
-	static private Pattern rxquote = Pattern.compile("\"");
+	 private static final Pattern rxquote = Pattern.compile("\"");
 
 	static private String encodeExcelValue(String value) {
 		
@@ -297,8 +273,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 //		value = value.replaceAll(",", ".");
 		
 	    boolean needQuotes = false;
-	    if ( value.indexOf(',') != -1 || value.indexOf('"') != -1 ||
-	         value.indexOf('\n') != -1 || value.indexOf('\r') != -1 )
+	    if (value.indexOf(',') != -1 || value.indexOf('"') != -1 || value.indexOf('\n') != -1 || value.indexOf('\r') != -1 )
 	        needQuotes = true;
 	    Matcher m = rxquote.matcher(value);
 	    if ( m.find() ) needQuotes = true; value = m.replaceAll("\"\"");
@@ -315,12 +290,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		int sheetNo = 0;
 
 		DataFormatter formatter = new DataFormatter();
-//		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
-//		                                  true, StandardCharsets.UTF_8);
+
 		PrintStream out = new PrintStream(new FileOutputStream(csvFile),
                 true, StandardCharsets.UTF_8);
-//		byte[] bom = {(byte)0xEF, (byte)0xBB, (byte)0xBF};
-//		out.write(bom);
+
 		{
 		    Sheet sheet = wb.getSheetAt(sheetNo);
 		    for (int r = 0, rn = sheet.getLastRowNum() ; r <= rn ; r++) {
@@ -416,9 +389,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected Map<String, GeocodingOutputType> queryGeolocation_byQueryString(Map<String, String> queryStrings) {
 		
-		List<String> queryStringList = new ArrayList<String>();
-		List<String> featureIdList = new ArrayList<String>();
-		
+		List<String> queryStringList = new ArrayList<>();
+		List<String> featureIdList = new ArrayList<>();
+
 		Set<Entry<String, String>> entrySet = queryStrings.entrySet();
 		for (Entry<String, String> entry : entrySet) {
 			queryStringList.add(entry.getValue());
@@ -428,7 +401,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
 		GeocodingOutputType[] geocoderResponseArray = executeQueryByStrings(queryStringList);
 	    
-	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<String, GeocodingOutputType>();
+	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<>();
 	    
 	    for (int i = 0; i < geocoderResponseArray.length; i++) {
 	    	geocoderResponseMap.put(featureIdList.get(i), geocoderResponseArray[i]);
@@ -445,11 +418,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
 		RestTemplate restTemplate = createRestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    
-	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryStringList.toArray(), GeocodingOutputType[].class);
-		return geocoderResponseArray;
+
+		return restTemplate.postForObject(uri, queryStringList.toArray(), GeocodingOutputType[].class);
 	}
 
 	protected RestTemplate createRestTemplate() {
@@ -465,10 +435,10 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	}
 
 	protected Map<String, GeocodingOutputType> queryGeolocation_byStructuredInput(
-			Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs) throws UnsupportedEncodingException {
-		List<GeocodingStructuredBatchInputType> queryInputList = new ArrayList<GeocodingStructuredBatchInputType>();
-		List<String> featureIdList = new ArrayList<String>();
-		
+			Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs) {
+		List<GeocodingStructuredBatchInputType> queryInputList = new ArrayList<>();
+		List<String> featureIdList = new ArrayList<>();
+
 		Set<Entry<String, GeocodingStructuredBatchInputType>> entrySet = queryStructuredInputs.entrySet();
 		for (Entry<String, GeocodingStructuredBatchInputType> entry : entrySet) {
 			queryInputList.add(entry.getValue());
@@ -483,14 +453,12 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
 		RestTemplate restTemplate = createRestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    
+
 	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryInputList.toArray(), GeocodingOutputType[].class);
 	    
-	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<String, GeocodingOutputType>();
-	    List<GeocodingStructuredBatchInputType> failedQueryInputList = new ArrayList<GeocodingStructuredBatchInputType>();
-	    List<String> failedFeatureIdList = new ArrayList<String>();
+	    Map<String, GeocodingOutputType> geocoderResponseMap = new HashMap<>();
+	    List<GeocodingStructuredBatchInputType> failedQueryInputList = new ArrayList<>();
+	    List<String> failedFeatureIdList = new ArrayList<>();
 	    
 	    for (int i = 0; i < geocoderResponseArray.length; i++) {
 	    	if(geocoderResponseArray[i].getFeatures().size() == 0) {
@@ -513,47 +481,30 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	private Map<String, GeocodingOutputType> retryFailedQueryInputs_asQueryString(
 			List<GeocodingStructuredBatchInputType> failedQueryInputList,
-			List<String> failedFeatureIdList, Map<String, GeocodingOutputType> geocoderResponseMap) throws UnsupportedEncodingException {
+			List<String> failedFeatureIdList, Map<String, GeocodingOutputType> geocoderResponseMap) {
 		
-		List<String> queryStrings = new ArrayList<String>();
+		List<String> queryStrings = new ArrayList<>();
 		
 		for (int i = 0; i < failedFeatureIdList.size(); i++) {
 			LOG.error("the number of geocoded features by structured query was 0 for feature with id {}.", failedFeatureIdList.get(i));
 	    	LOG.info("Will try to query by building a single query string from adress information");
 	    	
-	    	GeocodingStructuredBatchInputType failedStructuredInput = failedQueryInputList.get(i);	    	
-	    	
-//	    	String queryString = "" + encodeValue(failedStructuredInput.getStreet()) + COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getHousenumber());
-//	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "") {
-//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getPostcode());
-//	    	}
-//	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
-//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCity());
-//	    	}
-//	    	if(failedStructuredInput.getCountry() != null && failedStructuredInput.getCountry() != "") {
-//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getCountry());
-//	    	}
-//	    	if(failedStructuredInput.getState() != null && failedStructuredInput.getState() != "") {
-//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getState());
-//	    	}
-//	    	if(failedStructuredInput.getDistrict() != null && failedStructuredInput.getDistrict() != "") {
-//	    		queryString += COMMA_URL_ENCODED + encodeValue(failedStructuredInput.getDistrict());
-//	    	}
+	    	GeocodingStructuredBatchInputType failedStructuredInput = failedQueryInputList.get(i);
 	    	
 	    	String queryString = "" + failedStructuredInput.getStreet() + ","  + failedStructuredInput.getHousenumber();
-	    	if(failedStructuredInput.getPostcode() != null && failedStructuredInput.getPostcode() != "" && !failedStructuredInput.getPostcode().isEmpty()) {
+	    	if(failedStructuredInput.getPostcode() != null && !failedStructuredInput.getPostcode().isEmpty() && !failedStructuredInput.getPostcode().isEmpty()) {
 	    		queryString += " " + failedStructuredInput.getPostcode();
 	    	}
-	    	if(failedStructuredInput.getCity() != null && failedStructuredInput.getCity() != "") {
+	    	if(failedStructuredInput.getCity() != null && !failedStructuredInput.getCity().isEmpty()) {
 	    		queryString += " " + failedStructuredInput.getCity();
 	    	}
-	    	if(failedStructuredInput.getCountry() != null && failedStructuredInput.getCountry() != "") {
+	    	if(failedStructuredInput.getCountry() != null && !failedStructuredInput.getCountry().isEmpty()) {
 	    		queryString += " " + failedStructuredInput.getCountry();
 	    	}
-	    	if(failedStructuredInput.getState() != null && failedStructuredInput.getState() != "") {
+	    	if(failedStructuredInput.getState() != null && !failedStructuredInput.getState().isEmpty()) {
 	    		queryString += " " + failedStructuredInput.getState();
 	    	}
-	    	if(failedStructuredInput.getDistrict() != null && failedStructuredInput.getDistrict() != "") {
+	    	if(failedStructuredInput.getDistrict() != null && !failedStructuredInput.getDistrict().isEmpty()) {
 	    		queryString += " " + failedStructuredInput.getDistrict();
 	    	}
 	    	
@@ -569,7 +520,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
     	return geocoderResponseMap;
 	}
 
-	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) throws Exception {
+	protected List<GeocodingFeatureType> filterBuildingFeatures(@Valid List<GeocodingFeatureType> features) {
 		
 		/*
 		 * geocoder proxy has a ranking evaluation mechanism.
@@ -577,27 +528,20 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		 * rank = low_accuracy --> moderate maybe inaccurate geocoding (same street and city/postcode as in query, but no housenumber)
 		 * rank = high_accuracy --> best most accuryte geocoding (same street and city/postcode and same housenumber as in query)
 		 */
-		List<GeocodingFeatureType> candidates = new ArrayList<GeocodingFeatureType>();
-		candidates = features.stream()
+		List<GeocodingFeatureType> candidates = features.stream()
 			      .filter(feature -> {
-			    	  	GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
-			    	  	if(geocoderank.equals(GeocoderankEnum.HIGH_ACCURACY)) {
-			    	  		return true;
-			    	  	}
-			    	  	return false;
-			    	  })
+					  GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
+					  return geocoderank.equals(GeocoderankEnum.HIGH_ACCURACY);
+				  })
 			      .collect(Collectors.toList());
 		
 		// if no high_accuracy objects exist then find low_accuracy but acceptable objects
 		if(candidates.size() == 0) {
 			candidates = features.stream()
 		      .filter(feature -> {
-		    	  	GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
-		    	  	if(geocoderank.equals(GeocoderankEnum.LOW_ACCURACY)) {
-		    	  		return true;
-		    	  	}
-		    	  	return false;
-		    	  })
+				  GeocoderankEnum geocoderank = feature.getProperties().getGeocoderank();
+				  return geocoderank.equals(GeocoderankEnum.LOW_ACCURACY);
+			  })
 		      .collect(Collectors.toList());
 		}
 		
@@ -636,7 +580,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected SimpleFeatureCollection retrieveFeatureCollectionFromTable_attributesOnly(ConverterDefinitionType converterDefinition, Dataset dataset, Optional<String> sepOpt) throws Exception {
 		
-		if(! sepOpt.isPresent()) {
+		if(sepOpt.isEmpty()) {
 			forceSeparatorConverterParameter_asComma(converterDefinition);
 		}
 		
@@ -676,7 +620,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 			
 		// parse CSV content	
 			
-		List<String[]> csvRows = new ArrayList<>();
+		List<String[]> csvRows;
 		try {
 			
 			csvRows = csvReader.readAll();

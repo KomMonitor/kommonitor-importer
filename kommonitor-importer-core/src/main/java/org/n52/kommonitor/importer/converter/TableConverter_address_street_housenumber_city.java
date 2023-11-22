@@ -1,14 +1,7 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.referencing.CRS;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
@@ -20,10 +13,11 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 @Component
 public class TableConverter_address_street_housenumber_city extends AbstractTableConverter {
@@ -50,7 +44,7 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         
         Optional<String> streetHousenumberOpt = this.getParameterValue(PARAM_STREET_HOUSENUMBER_COL, converterDefinition.getParameters());
-        if (!streetHousenumberOpt.isPresent()) {
+        if (streetHousenumberOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_STREET_HOUSENUMBER_COL);
         }
         
@@ -66,7 +60,7 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 	}
 
 	private List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
-			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt) throws Exception {
+			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt) {
 		featureCollection = queryGeometryFromAddressStrings(featureCollection, streetHousenumberOpt, cityOpt, postcodeOpt, propertyMapping);
 		
 		return featureDecoder.decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, crs);
@@ -74,20 +68,18 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 
 	
 
-	private SimpleFeatureCollection queryGeometryFromAddressStrings(SimpleFeatureCollection featureCollection, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SpatialResourcePropertyMappingType propertyMapping) throws Exception {
+	private SimpleFeatureCollection queryGeometryFromAddressStrings(SimpleFeatureCollection featureCollection, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SpatialResourcePropertyMappingType propertyMapping) {
 		
 		Map<String, String> queryStrings = collectGeocodingQueryStrings(featureCollection, streetHousenumberOpt, cityOpt, postcodeOpt, propertyMapping);
 		
 		Map<String, GeocodingOutputType> geolocationObjectMap = queryGeolocation_byQueryString(queryStrings);
-		
-		SimpleFeatureCollection resultCollection = addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
-		
-		return resultCollection;
+
+		return addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
 	}
 	
 	private Map<String, String> collectGeocodingQueryStrings(SimpleFeatureCollection featureCollection, Optional<String> streetHousenumberOpt, Optional<String> cityOpt, Optional<String> postcodeOpt, SpatialResourcePropertyMappingType propertyMapping) {
 		SimpleFeatureIterator iterator = featureCollection.features();
-		Map<String, String> queryStrings = new HashMap<String, String>();
+		Map<String, String> queryStrings = new HashMap<>();
 
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
@@ -100,7 +92,7 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
     		}
     		String addressAsString = streetHousenumber;
     		
-    		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
+    		if(cityOpt.isEmpty() && postcodeOpt.isEmpty()) {
     			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
     		}
     		
@@ -135,15 +127,11 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
 			IndicatorPropertyMappingType propertyMapping) throws Exception {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
 
-     // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
+     	// Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
-        
-        try {
-            return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
 	}
 
 	@Override

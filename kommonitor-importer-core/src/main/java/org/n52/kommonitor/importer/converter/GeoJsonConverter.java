@@ -208,7 +208,7 @@ public class GeoJsonConverter extends AbstractConverter {
         String encoding;
         if (converterDefinition.getEncodingMethod() == null ||
                 converterDefinition.getEncodingMethod().equals(ConverterDefinitionType.EncodingMethodEnum.AUTO)) {
-            LOG.debug("Defined '{}' as encoding detection strategy. Trying to guess the encoding from the dataset content.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
+            LOG.debug("Use '{}' as encoding detection strategy. Trying to guess the encoding from the dataset content.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
             encoding = FileUtils.getInputStreamEncoding(bufferedDataset);
             LOG.debug("Detected '{}' as encoding for dataset.", encoding);
         } else {

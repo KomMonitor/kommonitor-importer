@@ -300,7 +300,7 @@ public class ShapeConverter extends AbstractConverter {
         String encoding;
         if (converterDefinition.getEncodingMethod() == null ||
                 converterDefinition.getEncodingMethod().equals(ConverterDefinitionType.EncodingMethodEnum.AUTO)) {
-            LOG.debug("Defined '{}' as encoding detection strategy. Trying to read the encoding from Shape Code Page File.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
+            LOG.debug("Use '{}' as encoding detection strategy. Trying to read the encoding from Shape Code Page File.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
             String shpEncoding = extractEncoding(new File(tmpDir + "/input.cpg"));
             if (shpEncoding != null && !shpEncoding.isEmpty()) {
                 encoding = shpEncoding;

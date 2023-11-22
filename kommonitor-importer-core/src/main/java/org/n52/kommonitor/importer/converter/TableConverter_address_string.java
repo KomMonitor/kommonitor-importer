@@ -1,14 +1,5 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.Valid;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
@@ -28,13 +19,13 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.*;
 
 @Component
 public class TableConverter_address_string extends AbstractTableConverter {
@@ -56,7 +47,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
 		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
         
         Optional<String> addressCoordOpt = this.getParameterValue(PARAM_ADDRESS_COL, converterDefinition.getParameters());
-        if (!addressCoordOpt.isPresent()) {
+        if (addressCoordOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_ADDRESS_COL);
         }
 
@@ -83,15 +74,13 @@ public class TableConverter_address_string extends AbstractTableConverter {
 		Map<String, String> queryStrings = collectGeocodingQueryStrings(featureCollection, addressCoordOpt, propertyMapping);
 		
 		Map<String, GeocodingOutputType> geolocationObjectMap = queryGeolocation_byQueryString(queryStrings);
-		
-		SimpleFeatureCollection resultCollection = addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
-		
-		return resultCollection;
+
+		return addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
 	}
 
 	private Map<String, String> collectGeocodingQueryStrings(SimpleFeatureCollection featureCollection, Optional<String> addressCoordOpt, SpatialResourcePropertyMappingType propertyMapping) {
 		SimpleFeatureIterator iterator = featureCollection.features();
-		Map<String, String> queryStrings = new HashMap<String, String>();
+		Map<String, String> queryStrings = new HashMap<>();
 		
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
@@ -129,9 +118,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
 		
 		RestTemplate restTemplate = createRestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    
+
 	    GeocodingOutputType geocoderResponse = restTemplate.getForObject(uri, GeocodingOutputType.class);
 
 		List<GeocodingFeatureType> features_geolocated = filterBuildingFeatures(geocoderResponse.getFeatures());
@@ -175,11 +162,7 @@ public class TableConverter_address_string extends AbstractTableConverter {
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
         
-        try {
-            return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (Exception ex) {
-            throw ex;
-        }
+		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
 	}
 
 	@Override

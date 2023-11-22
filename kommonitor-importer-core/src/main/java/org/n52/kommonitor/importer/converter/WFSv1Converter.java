@@ -168,7 +168,7 @@ public class WFSv1Converter extends AbstractConverter {
             throw new ImportParameterException("Missing converter parameters");
         }
         Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-        if (!crsOpt.isPresent()) {
+        if (crsOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
         }
 

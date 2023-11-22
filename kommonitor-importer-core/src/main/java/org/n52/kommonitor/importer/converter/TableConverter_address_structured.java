@@ -1,7 +1,5 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.util.*;
-
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.referencing.CRS;
@@ -13,13 +11,14 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 @Component
 public class TableConverter_address_structured extends AbstractTableConverter {
@@ -56,11 +55,11 @@ public class TableConverter_address_structured extends AbstractTableConverter {
         Optional<String> districtOpt = this.getParameterValue(PARAM_DISTRICT_COL, converterDefinition.getParameters());
         Optional<String> postcodeOpt = this.getParameterValue(PARAM_POSTCODE_COL, converterDefinition.getParameters());
         Optional<String> streetOpt = this.getParameterValue(PARAM_STREET_COL, converterDefinition.getParameters());
-        if (!streetOpt.isPresent()) {
+        if (streetOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_STREET_COL);
         }
         Optional<String> housenumberOpt = this.getParameterValue(PARAM_HOUSENUMBER_COL, converterDefinition.getParameters());
-        if (!housenumberOpt.isPresent()) {
+        if (housenumberOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_HOUSENUMBER_COL);
         }
 
@@ -75,7 +74,7 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 
 	private List<SpatialResource> decodeFeatureCollectionToSpatialResources(SimpleFeatureCollection featureCollection,
 			SpatialResourcePropertyMappingType propertyMapping, CoordinateReferenceSystem crs, Optional<String> countryOpt, Optional<String> stateOpt, Optional<String> cityOpt, 
-			Optional<String> districtOpt, Optional<String> postcodeOpt, Optional<String> streetOpt, Optional<String> housenumberOpt) throws Exception {
+			Optional<String> districtOpt, Optional<String> postcodeOpt, Optional<String> streetOpt, Optional<String> housenumberOpt) {
 		featureCollection = queryGeometryFromAddressStructured(featureCollection, propertyMapping, countryOpt, stateOpt, cityOpt, districtOpt, postcodeOpt, streetOpt, housenumberOpt);
     	
 		return featureDecoder.decodeFeatureCollectionToSpatialResources(featureCollection, propertyMapping, crs);
@@ -85,17 +84,15 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 			SpatialResourcePropertyMappingType propertyMapping,
 			Optional<String> countryOpt, Optional<String> stateOpt, Optional<String> cityOpt,
 			Optional<String> districtOpt, Optional<String> postcodeOpt, Optional<String> streetOpt,
-			Optional<String> housenumberOpt) throws Exception {
+			Optional<String> housenumberOpt) {
 		
 		Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs = collectGeocodingQueryStructuredInputs(featureCollection, countryOpt, stateOpt, cityOpt,
 				districtOpt, postcodeOpt, streetOpt,
 				housenumberOpt, propertyMapping);
 		
 		Map<String, GeocodingOutputType> geolocationObjectMap = queryGeolocation_byStructuredInput(queryStructuredInputs);
-		
-		SimpleFeatureCollection resultCollection = addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
-		
-		return resultCollection;
+
+		return addGeolocation(featureCollection, geolocationObjectMap, propertyMapping);
 	}
 
 	
@@ -107,19 +104,19 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 			SpatialResourcePropertyMappingType propertyMapping) {
 		
 		SimpleFeatureIterator iterator = featureCollection.features();
-		Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs = new HashMap<String, GeocodingStructuredBatchInputType>();
+		Map<String, GeocodingStructuredBatchInputType> queryStructuredInputs = new HashMap<>();
 
         while (iterator.hasNext()) {
             SimpleFeature feature = iterator.next();
             
             GeocodingStructuredBatchInputType batchInput = new GeocodingStructuredBatchInputType();
             
-            String country = (String)feature.getAttribute(! countryOpt.isPresent() ? null : countryOpt.get());
-    		String state = (String)feature.getAttribute(! stateOpt.isPresent() ? null : stateOpt.get());
-    		String city = (String)feature.getAttribute(! cityOpt.isPresent() ? null : cityOpt.get());
-    		String district = (String)feature.getAttribute(! districtOpt.isPresent() ? null : districtOpt.get());    		
+            String country = (String)feature.getAttribute(countryOpt.orElse(null));
+    		String state = (String)feature.getAttribute(stateOpt.orElse(null));
+    		String city = (String)feature.getAttribute(cityOpt.orElse(null));
+    		String district = (String)feature.getAttribute(districtOpt.orElse(null));
     		String street = (String)feature.getAttribute(streetOpt.get());
-    		String postcode = String.valueOf(feature.getAttribute(! postcodeOpt.isPresent() ? null : postcodeOpt.get()));
+    		String postcode = String.valueOf(feature.getAttribute(postcodeOpt.orElse(null)));
     		String housenumber = String.valueOf(feature.getAttribute(housenumberOpt.get()));
     		
     		if (postcode.equalsIgnoreCase("null")) {
@@ -129,7 +126,7 @@ public class TableConverter_address_structured extends AbstractTableConverter {
     			housenumber = null;
     		}
     		
-    		if(!cityOpt.isPresent() && !postcodeOpt.isPresent()) {
+    		if(cityOpt.isEmpty() && postcodeOpt.isEmpty()) {
     			LOG.warn("neither city column nor postcodeColumn available. Geocoding might not return unique results.");
     		}
 
@@ -176,12 +173,8 @@ public class TableConverter_address_structured extends AbstractTableConverter {
      // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
-        
-        try {
-            return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
 	}
 
 	@Override
