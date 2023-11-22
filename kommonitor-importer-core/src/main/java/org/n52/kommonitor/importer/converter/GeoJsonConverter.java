@@ -206,12 +206,19 @@ public class GeoJsonConverter extends AbstractConverter {
         InputStream bufferedDataset = new BufferedInputStream(dataset);
 
         String encoding;
-        if (converterDefinition.getEncoding().equals(OTHER_ENCODING)) {
-            LOG.debug("Defined '{}' as encoding. Trying to guess the encoding from the dataset content.", OTHER_ENCODING);
+        if (converterDefinition.getEncodingMethod() == null ||
+                converterDefinition.getEncodingMethod().equals(ConverterDefinitionType.EncodingMethodEnum.AUTO)) {
+            LOG.debug("Defined '{}' as encoding detection strategy. Trying to guess the encoding from the dataset content.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
             encoding = FileUtils.getInputStreamEncoding(bufferedDataset);
             LOG.debug("Detected '{}' as encoding for dataset.", encoding);
         } else {
-            encoding = converterDefinition.getEncoding();
+            if (converterDefinition.getEncoding() == null || converterDefinition.getEncoding().isEmpty()) {
+                LOG.debug("Encoding detection strategy is 'manual', but no encoding has been provided. Will use " +
+                        "default encoding '{}' for dataset.", getDefaultEncoding());
+                encoding = getDefaultEncoding();
+            } else {
+                encoding = converterDefinition.getEncoding();
+            }
         }
 
         return mapper.readValue(new InputStreamReader(bufferedDataset, encoding), FeatureCollection.class);

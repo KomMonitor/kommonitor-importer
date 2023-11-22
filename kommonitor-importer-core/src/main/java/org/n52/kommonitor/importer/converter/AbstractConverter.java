@@ -94,10 +94,10 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         InputStream input;
         if (dataset.getData() instanceof String) {
             try {
-                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(converterDefinition.getEncoding()));
+                input = new ByteArrayInputStream(((String) dataset.getData()).getBytes(getDefaultEncoding()));
             } catch (UnsupportedEncodingException ex) {
                 throw new ConverterException(String.format("Error while encoding dataset with charset '%s'.",
-                        converterDefinition.getEncoding()), ex);
+                        getDefaultEncoding()), ex);
             }
         } else if (dataset.getData() instanceof InputStream) {
             input = (InputStream) dataset.getData();

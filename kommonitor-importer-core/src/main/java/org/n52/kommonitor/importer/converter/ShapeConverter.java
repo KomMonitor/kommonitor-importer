@@ -13,7 +13,6 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
@@ -298,32 +297,40 @@ public class ShapeConverter extends AbstractConverter {
                                                                                       ConverterDefinitionType converterDefinition,
                                                                                       InputStream dataset) throws IOException {
 
-            String encoding = DEFAULT_ENCODING;
-            if (converterDefinition.getEncoding().equals(OTHER_ENCODING)) {
-                LOG.debug("Defined '{}' as encoding. Trying to read the encoding from Shape Code Page File.", OTHER_ENCODING);
-                String shpEncoding = extractEncoding(new File(tmpDir + "/input.cpg"));
-                if (shpEncoding != null && !shpEncoding.isEmpty()) {
-                    encoding = shpEncoding;
-                    LOG.debug("Detected '{}' as encoding for dataset.", encoding);
-                } else {
-                    LOG.debug("No encoding in Shape Code Page File. Use default encoding '{}' instead.", encoding);
-                }
+        String encoding;
+        if (converterDefinition.getEncodingMethod() == null ||
+                converterDefinition.getEncodingMethod().equals(ConverterDefinitionType.EncodingMethodEnum.AUTO)) {
+            LOG.debug("Defined '{}' as encoding detection strategy. Trying to read the encoding from Shape Code Page File.", ConverterDefinitionType.EncodingMethodEnum.AUTO);
+            String shpEncoding = extractEncoding(new File(tmpDir + "/input.cpg"));
+            if (shpEncoding != null && !shpEncoding.isEmpty()) {
+                encoding = shpEncoding;
+                LOG.debug("Detected '{}' as encoding for dataset.", encoding);
+            } else {
+                encoding = getDefaultEncoding();
+                LOG.debug("No encoding in Shape Code Page File. Use default encoding '{}' instead.", encoding);
+            }
+        } else {
+            if (converterDefinition.getEncoding() == null || converterDefinition.getEncoding().isEmpty()) {
+                LOG.debug("Encoding detection strategy is 'manual', but no encoding has been provided. Will use " +
+                        "default encoding '{}' for dataset.", getDefaultEncoding());
+                encoding = getDefaultEncoding();
             } else {
                 encoding = converterDefinition.getEncoding();
             }
+        }
 
-            File file = new File(tmpDir + "/input.shp");
-            Map<String, Object> map = new HashMap<>();
-            map.put("url", file.toURI().toURL());
-            map.put("charset", encoding);
+        File file = new File(tmpDir + "/input.shp");
+        Map<String, Object> map = new HashMap<>();
+        map.put("url", file.toURI().toURL());
+        map.put("charset", encoding);
 
-            DataStore dataStore = DataStoreFinder.getDataStore(map);
-            String typeName = dataStore.getTypeNames()[0];
+        DataStore dataStore = DataStoreFinder.getDataStore(map);
+        String typeName = dataStore.getTypeNames()[0];
 
-            FeatureSource<SimpleFeatureType, SimpleFeature> source =
-                    dataStore.getFeatureSource(typeName);
+        FeatureSource<SimpleFeatureType, SimpleFeature> source =
+                dataStore.getFeatureSource(typeName);
 
-            return source.getFeatures();
+        return source.getFeatures();
     }
 
     private ConverterParameter createCrsParameter() {
