@@ -146,14 +146,15 @@ public class ShapeConverter extends AbstractConverter {
                     featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
                 } catch (Exception ex) {
                     throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
-                } finally {
-                    boolean deleted = tmpDir.toFile().delete();
-                    if (deleted)
-                        LOG.debug("Temp file {} successfully deleted.", tmpDir.toFile().getPath());
-                    else
-                        LOG.warn("Temp file {} could not be deleted.", tmpDir.toFile().getPath());
                 }
             }
+        }
+        finally {
+            boolean deleted = tmpDir.toFile().delete();
+            if (deleted)
+                LOG.debug("Temp file {} successfully deleted.", tmpDir.toFile().getPath());
+            else
+                LOG.warn("Temp file {} could not be deleted.", tmpDir.toFile().getPath());
         }
         return spatialResources;
     }
