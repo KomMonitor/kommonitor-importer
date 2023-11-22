@@ -59,7 +59,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
 
         List<SpatialResource> validResources = spatialResources.stream().filter(s -> validator.isValid(s)).collect(Collectors.toList());
         if (validResources.isEmpty()) {
-            throw new ConverterException("No valid Georesource could be parsed from the specified data source");
+            throw new ConverterException("No valid Georesource could be parsed from the specified data source - no features found!");
         }
 
         ImportResponseType importResponse = new ImportResponseType();

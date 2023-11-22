@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "numberReturned": 2,
+  "numberMatched": 2,
+  "timeStamp": "2023-11-15T11:55:00Z",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.246666171598622,
+          51.45473382495797
+        ]
+      },
+      "properties": {
+        "name": "Test POI 1"
+      },
+      "id": "100000"
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.897017373115809,
+          50.942171528300015
+        ]
+      },
+      "properties": {
+        "name": "Test POI 2"
+      },
+      "id": "100010"
+    }
+  ],
+  "links": [
+    {
+      "href": "https://test-api.de/test/v1/collections/test/items?limit=2&offset=2&f=json",
+      "rel": "self",
+      "type": "application/geo+json",
+      "title": "Dieses Dokument"
+    },
+    {
+      "href": "https://test-api.de/test/v1/collections/test/items?limit=2&f=html",
+      "rel": "alternate",
+      "type": "text/html",
+      "title": "Dieses Dokument als HTML"
+    },
+    {
+      "href": "https://test-api.de/test/v1/collections/test/items?f=json&limit=2",
+      "rel": "prev",
+      "type": "application/geo+json",
+      "title": "Vorherige Seite"
+    }
+  ]
+}

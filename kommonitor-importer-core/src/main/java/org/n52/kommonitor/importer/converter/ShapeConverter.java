@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
@@ -70,6 +71,15 @@ public class ShapeConverter extends AbstractConverter {
     @Override
     public Set<String> initSupportedSchemas() {
         return null;
+    }
+
+    @Override
+    public Set<String> initSupportedDatasources() {
+        Set<String> types = new HashSet<>();
+        types.add(DataSourceType.TypeEnum.FILE.getValue());
+        types.add(DataSourceType.TypeEnum.HTTP.getValue());
+        types.add(DataSourceType.TypeEnum.FTP.getValue());
+        return types;
     }
 
     @Override

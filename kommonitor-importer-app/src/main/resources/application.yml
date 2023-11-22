@@ -33,6 +33,7 @@ kommonitor:
     datamanagement-api-url: http://localhost:8085
     geocoder-api-url: https://geocoder.fbg-hsbo.de/geocoder
     file-storage-location: /tmp/kommonitor
+    allowed-cors-origins: http://localhost:8084
   swagger-ui:
     # Use the next parameter if you run the API behind a reverse proxy
     # Path mapping for this API in the reverse proxy

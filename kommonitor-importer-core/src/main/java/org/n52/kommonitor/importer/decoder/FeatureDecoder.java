@@ -428,7 +428,14 @@ public class FeatureDecoder {
         if (geomDesc == null) {
             throw new DecodingException("Could not decode geometry property.");
         }
-        return (Geometry) feature.getAttribute(geomDesc.getName());
+        Object geom = feature.getAttribute(geomDesc.getName());
+        if (geom instanceof Geometry) {
+            return (Geometry) feature.getAttribute(geomDesc.getName());
+        }
+        else {
+            throw new DecodingException(String.format("Could not decode geometry. " +
+                    "Feature attribute has been parsed as '%s' with value: '%s'", geom.getClass().getName(), geom));
+        }
     }
 
     /**

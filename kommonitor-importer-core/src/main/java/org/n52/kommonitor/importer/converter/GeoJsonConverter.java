@@ -16,6 +16,7 @@ import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
@@ -40,9 +41,9 @@ public class GeoJsonConverter extends AbstractConverter {
     private static final String PARAM_CRS = "CRS";
     private static final String PARAM_CRS_DESC = "Angabe des Koordinatenreferenzsystems als EPSG-Code (z.B. EPSG:4326)";
 
-    private FeatureDecoder featureDecoder;
-    private ObjectMapper mapper;
-    private FeatureJSON featureJson;
+    protected FeatureDecoder featureDecoder;
+    protected ObjectMapper mapper;
+    protected FeatureJSON featureJson;
 
     @Autowired
     public GeoJsonConverter(FeatureDecoder featureDecoder) {
@@ -68,6 +69,16 @@ public class GeoJsonConverter extends AbstractConverter {
     @Override
     public Set<String> initSupportedSchemas() {
         return null;
+    }
+
+    @Override
+    public Set<String> initSupportedDatasources() {
+        Set<String> types = new HashSet<>();
+        types.add(DataSourceType.TypeEnum.FILE.getValue());
+        types.add(DataSourceType.TypeEnum.INLINE.getValue());
+        types.add(DataSourceType.TypeEnum.HTTP.getValue());
+        types.add(DataSourceType.TypeEnum.FTP.getValue());
+        return types;
     }
 
     @Override
@@ -106,16 +117,12 @@ public class GeoJsonConverter extends AbstractConverter {
         }
     }
 
-    private List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
+    protected List<SpatialResource> convertSpatialResources(ConverterDefinitionType converterDefinition,
                                                           InputStream dataset,
                                                           SpatialResourcePropertyMappingType propertyMapping)
             throws ImportParameterException, IOException {
 
-        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
-
-        if (crsOpt.isEmpty()) {
-            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
-        }
+        String crs = getCrsParameter(converterDefinition);
 
         List<SpatialResource> spatialResources = new ArrayList<>();
 
@@ -128,13 +135,13 @@ public class GeoJsonConverter extends AbstractConverter {
         for (Feature feature : featureCollection) {
             SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
             try {
-                spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crsOpt.get())));
+                spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crs)));
             } catch (DecodingException ex) {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
                 featureDecoder.addMonitoringMessage(propertyMapping.getIdentifierProperty(), simpleFeature, ex.getMessage());
             } catch (Exception ex) {
-                throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
+                throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crs), ex);
             }
         }
 
@@ -152,6 +159,15 @@ public class GeoJsonConverter extends AbstractConverter {
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
+    }
+
+    protected String getCrsParameter(ConverterDefinitionType converterDefinition) throws ImportParameterException {
+        Optional<String> crsOpt = this.getParameterValue(PARAM_CRS, converterDefinition.getParameters());
+
+        if (crsOpt.isEmpty()) {
+            throw new ImportParameterException("Missing parameter: " + PARAM_CRS);
+        }
+        return crsOpt.get();
     }
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,

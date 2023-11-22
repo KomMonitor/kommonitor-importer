@@ -17,14 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,10 +53,7 @@ import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingPropertiesType.GeocoderankEnum;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.importer.utils.FileUtils;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.ParameterValueType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
@@ -140,6 +131,15 @@ public abstract class AbstractTableConverter extends AbstractConverter {
         mimeTypes.add(MIME_CSV);
         mimeTypes.add(MIME_EXCEL);
         return mimeTypes;
+	}
+
+	@Override
+	public Set<String> initSupportedDatasources() {
+		Set<String> types = new HashSet<>();
+		types.add(DataSourceType.TypeEnum.FILE.getValue());
+		types.add(DataSourceType.TypeEnum.HTTP.getValue());
+		types.add(DataSourceType.TypeEnum.FTP.getValue());
+		return types;
 	}
 
 	@Override

@@ -39,10 +39,14 @@ public class ConverterType implements Serializable {
   @Valid
   private List<String> encodings;
 
+  @Valid
   private String defaultEncoding;
 
   @Valid
   private List<@Valid ParameterType> parameters;
+
+  @Valid
+  private List<String> datasources;
 
   /**
    * Default constructor
@@ -174,7 +178,7 @@ public class ConverterType implements Serializable {
    * Default encoding or encoding detection mechanism that will be expected by converter.
    * @return defaultEncoding
   */
-  
+
   @Schema(name = "defaultEncoding", description = "Default encoding or encoding detection mechanism that will be expected by converter.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultEncoding")
   public String getDefaultEncoding() {
@@ -213,6 +217,34 @@ public class ConverterType implements Serializable {
     this.parameters = parameters;
   }
 
+  public ConverterType datasources(List<String> datasources) {
+    this.datasources = datasources;
+    return this;
+  }
+
+  public ConverterType addDatasourcesItem(String datasourcesItem) {
+    if (this.datasources == null) {
+      this.datasources = new ArrayList<>();
+    }
+    this.datasources.add(datasourcesItem);
+    return this;
+  }
+
+  /**
+   * list of supported datasources
+   * @return datasources
+  */
+
+  @Schema(name = "datasources", description = "list of supported datasources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("datasources")
+  public List<String> getDatasources() {
+    return datasources;
+  }
+
+  public void setDatasources(List<String> datasources) {
+    this.datasources = datasources;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -227,12 +259,13 @@ public class ConverterType implements Serializable {
         Objects.equals(this.schemas, converterType.schemas) &&
         Objects.equals(this.encodings, converterType.encodings) &&
         Objects.equals(this.defaultEncoding, converterType.defaultEncoding) &&
-        Objects.equals(this.parameters, converterType.parameters);
+        Objects.equals(this.parameters, converterType.parameters) &&
+        Objects.equals(this.datasources, converterType.datasources);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, mimeTypes, schemas, encodings, defaultEncoding, parameters);
+    return Objects.hash(name, mimeTypes, schemas, encodings, defaultEncoding, parameters, datasources);
   }
 
   @Override
@@ -245,6 +278,7 @@ public class ConverterType implements Serializable {
     sb.append("    encodings: ").append(toIndentedString(encodings)).append("\n");
     sb.append("    defaultEncoding: ").append(toIndentedString(defaultEncoding)).append("\n");
     sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
+    sb.append("    datasources: ").append(toIndentedString(datasources)).append("\n");
     sb.append("}");
     return sb.toString();
   }

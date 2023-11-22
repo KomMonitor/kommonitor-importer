@@ -7,8 +7,10 @@ import org.n52.kommonitor.importer.io.http.HttpHelper;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,12 +26,28 @@ import java.util.Set;
 @Component
 public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
 
-    private static Logger LOG = LoggerFactory.getLogger(HttpRetriever.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRetriever.class);
 
     private static final String TYPE = "HTTP";
     private static final String PARAM_URL = "URL";
     private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
             "The dataset will be retrieved with a HTTP GET request for that URL.";
+    private HttpHelper httpHelper;
+
+    @Value("${proxy.host:#{null}}")
+    private String proxyHost;
+
+    @Value("${proxy.port:#{null}}")
+    private Integer proxyPort;
+
+    @PostConstruct
+    public void postConstruct() throws IOException {
+        if (proxyHost != null && proxyPort != null) {
+            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
+        } else {
+            httpHelper = HttpHelper.getBasicHttpHelper();
+        }
+    }
 
     @Override
     protected String initType() {
@@ -46,9 +64,8 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
 
     @Override
     public Dataset<InputStream> retrieveDataset(DataSourceDefinitionType datasource) throws DataSourceRetrieverException, ImportParameterException {
-        HttpHelper httpHelper = HttpHelper.getBasicHttpHelper();
         Optional<String> urlOpt = this.getParameterValue(PARAM_URL, datasource.getParameters());
-        if (!urlOpt.isPresent()) {
+        if (urlOpt.isEmpty()) {
             throw new ImportParameterException("Missing parameter: " + PARAM_URL);
         }
         try {

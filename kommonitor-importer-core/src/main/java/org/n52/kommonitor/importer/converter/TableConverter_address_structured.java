@@ -1,10 +1,6 @@
 package org.n52.kommonitor.importer.converter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -17,6 +13,7 @@ import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
+import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
 import org.opengis.feature.simple.SimpleFeature;
@@ -191,7 +188,6 @@ public class TableConverter_address_structured extends AbstractTableConverter {
 	public String initName() {
 		return NAME;
 	}
-
 	@Override
 	public Set<ConverterParameter> initConverterParameters() {
         params.add(new ConverterParameter(PARAM_STREET_COL, PARAM_STREET_DESC, ConverterParameter.ParameterTypeValues.STRING, true));

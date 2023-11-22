@@ -31,6 +31,8 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
 
     private Set<String> supportedEncodings;
 
+    private Set<String> supportedDatasources;
+
     private Set<ConverterParameter> converterParameters;
 
 
@@ -128,6 +130,10 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         return supportedEncodings != null ? Collections.unmodifiableSet(supportedEncodings) : null;
     }
 
+    public Set<String> getSupportedDatasources() {
+        return supportedDatasources != null ? Collections.unmodifiableSet(supportedDatasources) : null;
+    }
+
     public Set<ConverterParameter> getConverterParameters() {
         return converterParameters != null ? Collections.unmodifiableSet(converterParameters) : null;
     }
@@ -179,6 +185,11 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
     public abstract Set<String> initSupportedEncoding();
 
     /**
+     * Initializes the set of supported datasources for the converter
+     */
+    public abstract Set<String> initSupportedDatasources();
+
+    /**
      * Return the default encoding, which is expected by this converter.
      * @return default encoding
      */
@@ -196,5 +207,6 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
         this.supportedSchemas = initSupportedSchemas();
         this.supportedEncodings = initSupportedEncoding();
         this.converterParameters = initConverterParameters();
+        this.supportedDatasources = initSupportedDatasources();
     }
 }

@@ -13,11 +13,17 @@ public class DataSourceParameter {
     private String description;
 
     private ParameterTypeValues type;
+    private boolean mandatory;
 
     public DataSourceParameter(String name, String description, ParameterTypeValues type) {
+        this(name, description, type, true);
+    }
+
+    public DataSourceParameter(String name, String description, ParameterTypeValues type, boolean mandatory) {
         this.name = name;
         this.description = description;
         this.type = type;
+        this.mandatory = mandatory;
     }
 
     public String getName() {
@@ -30,6 +36,10 @@ public class DataSourceParameter {
 
     public ParameterTypeValues getType() {
         return type;
+    }
+
+    public boolean getMandatory() {
+        return mandatory;
     }
 
     public static enum ParameterTypeValues {

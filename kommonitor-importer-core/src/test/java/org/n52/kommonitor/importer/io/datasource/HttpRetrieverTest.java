@@ -10,6 +10,7 @@ import org.n52.kommonitor.importer.io.file.FileStorageService;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.ParameterValueType;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class HttpRetrieverTest {
 
     @Test
     @DisplayName("Test retrieve HTTP dataset should throw ImportParameterException for non valid parameters")
-    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonValidParameters() {
-
+    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonValidParameters() throws IOException {
         HttpRetriever retriever = new HttpRetriever();
+        retriever.postConstruct();
         DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
         dataSourceDefinition.setParameters(Collections.emptyList());
 
@@ -33,9 +34,9 @@ public class HttpRetrieverTest {
 
     @Test
     @DisplayName("Test retrieve HTTP dataset should throw DataSourceRetrieverException for non retrievable URL")
-    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonRetrievableUrl() {
-
+    void testRetrieveHttpDatasetShouldThrowImportParameterExceptionForNonRetrievableUrl() throws IOException {
         HttpRetriever retriever = new HttpRetriever();
+        retriever.postConstruct();
         DataSourceDefinitionType dataSourceDefinition = createDataSourceDefinition();
 
         Assertions.assertThrows(DataSourceRetrieverException.class, () -> retriever.retrieveDataset(dataSourceDefinition));

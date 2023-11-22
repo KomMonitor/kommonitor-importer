@@ -1,14 +1,24 @@
 package org.n52.kommonitor.importer.utils;
 
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Helper class that provides various simplified functions for geometric operations
@@ -56,4 +66,37 @@ public class GeometryHelper implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         DEFAULT_CRS = CRS.decode(EPSG_4326);
     }
+
+    public static Geometry combineGeometries(SimpleFeatureCollection fc) {
+        List<Geometry> geometryList = new ArrayList<>();
+        try (SimpleFeatureIterator iterator = fc.features()) {
+            while (iterator.hasNext()) {
+                SimpleFeature feature = iterator.next();
+                if (feature.getDefaultGeometry() == null) {
+                    continue;
+                }
+                geometryList.add((Geometry) feature.getDefaultGeometry());
+            }
+        }
+        return combineGeometries(geometryList);
+    }
+
+    private static Geometry combineGeometries(List<Geometry> geometries) {
+        GeometryFactory geoFac = new GeometryFactory();
+        if (geometries.size() > 1) {
+            GeometryCollection geometryCollection = (GeometryCollection) geoFac.buildGeometry(geometries);
+            return geometryCollection.union();
+        } else {
+            return geometries.get(0);
+        }
+    }
+
+    public static boolean spatiallyIntersects(Geometry feature, Geometry referenceGeometry) {
+        if (referenceGeometry == null) {
+            return true;
+        } else {
+            return feature.intersects(referenceGeometry);
+        }
+    }
+
 }
