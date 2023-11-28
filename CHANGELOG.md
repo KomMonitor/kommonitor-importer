@@ -1,6 +1,7 @@
 # Change Log
 
 ## 3.2.2
+* Revert geocoder URL initializing [5969718](5969718e4e5878b564aad2b069f0a39ea0a921b5)
 * Refine temp file deletion [11c60a8](11c60a86f96dc25cd2868484fa1bbf983328eeef)
 * Apply code refinements [0e78004](0e7800433ab987166b7cc4534114507f1e78fd8f)
 * Refine encoding detection according the encoding detection methodw [93ce0a6](93ce0a67bbb397fd8b8532476a947c64c147ab8c)
