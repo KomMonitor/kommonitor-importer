@@ -100,6 +100,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
 		this.params = new HashSet<>();
 		this.params.add(new ConverterParameter(PARAM_SEP, PARAM_SEP_DESC, ConverterParameter.ParameterTypeValues.STRING, false));
+		if(this.geocoder_baseUrl == null) {
+			this.geocoder_baseUrl = "https://geocoder.fbg-hsbo.de/geocoder";
+		}
 	}
 	
 	@Override
@@ -147,8 +150,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		try {
             return convertIndicatorsFromTable(converterDefinition, dataset, propertyMapping);
         } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
 		}
 	}
@@ -160,8 +161,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
         try {
             return convertSpatialResourcesFromTable(converterDefinition, dataset, propertyMapping);
         } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
 		}
 	}
