@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "datasources", description = "the datasources API")
 public interface DatasourceTypesApi {
@@ -73,7 +73,7 @@ public interface DatasourceTypesApi {
     )
     ResponseEntity<DataSourceType> getSupportedDataSourceTypeByType(
         @Parameter(name = "type", description = "unique type of the datasource", required = true, in = ParameterIn.PATH) @PathVariable("type") String type
-    );
+    ) throws Exception;
 
 
     /**
@@ -106,6 +106,6 @@ public interface DatasourceTypesApi {
     )
     ResponseEntity<List<DataSourceType>> getSupportedDataSourceTypes(
         
-    );
+    ) throws Exception;
 
 }

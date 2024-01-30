@@ -5,8 +5,6 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.importer.api.exceptions.ImportException;
-import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
@@ -37,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "georesources", description = "Additional georesources that are necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)")
 public interface GeoresourcesApi {
@@ -78,7 +76,7 @@ public interface GeoresourcesApi {
     )
     ResponseEntity<ImportResponseType> importGeoresource(
         @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources") @Valid @RequestBody(required = false) ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
-    ) throws ImportException, ImportParameterException;
+    ) throws Exception;
 
 
     /**
@@ -117,6 +115,6 @@ public interface GeoresourcesApi {
     )
     ResponseEntity<ImportResponseType> updateGeoresource(
         @Parameter(name = "UpdateGeoresourcePOSTInputType", description = "Definitions to update georesources") @Valid @RequestBody(required = false) UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType
-    ) throws ImportException, ImportParameterException;
+    ) throws Exception;
 
 }

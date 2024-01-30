@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "converters", description = "the converters API")
 public interface ConvertersApi {
@@ -73,7 +73,7 @@ public interface ConvertersApi {
     )
     ResponseEntity<ConverterType> getConverterByName(
         @Parameter(name = "name", description = "unique name of the converter", required = true, in = ParameterIn.PATH) @PathVariable("name") String name
-    );
+    ) throws Exception;
 
 
     /**
@@ -106,6 +106,6 @@ public interface ConvertersApi {
     )
     ResponseEntity<List<ConverterType>> getConverters(
         
-    );
+    ) throws Exception;
 
 }

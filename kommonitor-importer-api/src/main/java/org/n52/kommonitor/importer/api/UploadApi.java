@@ -5,7 +5,6 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.importer.api.exceptions.UploadException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.UploadedFileType;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -34,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "upload", description = "the upload API")
 public interface UploadApi {
@@ -69,7 +68,7 @@ public interface UploadApi {
     )
     ResponseEntity<List<UploadedFileType>> getUploadedFiles(
         
-    );
+    ) throws Exception;
 
 
     /**
@@ -113,6 +112,6 @@ public interface UploadApi {
     ResponseEntity<String> upload(
         @Parameter(name = "filename", description = "The name that will be used for storing the file on the server") @Valid @RequestParam(value = "filename", required = false) String filename,
         @Parameter(name = "file", description = "The file to upload") @RequestPart(value = "file", required = false) MultipartFile file
-    ) throws UploadException;
+    ) throws Exception;
 
 }

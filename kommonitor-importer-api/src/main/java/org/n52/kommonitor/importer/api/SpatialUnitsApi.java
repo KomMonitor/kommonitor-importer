@@ -5,8 +5,6 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.importer.api.exceptions.ImportException;
-import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
@@ -37,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "spatial-units", description = "Spatial units/levels for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)")
 public interface SpatialUnitsApi {
@@ -78,7 +76,7 @@ public interface SpatialUnitsApi {
     )
     ResponseEntity<ImportResponseType> importSpatialUnit(
         @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units") @Valid @RequestBody(required = false) ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
-    ) throws ImportException, ImportParameterException;
+    ) throws Exception;
 
 
     /**
@@ -117,6 +115,6 @@ public interface SpatialUnitsApi {
     )
     ResponseEntity<ImportResponseType> updateSpatialUnit(
         @Parameter(name = "UpdateSpatialUnitPOSTInputType", description = "Definitions to update spatial units") @Valid @RequestBody(required = false) UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType
-    ) throws ImportException, ImportParameterException;
+    ) throws Exception;
 
 }

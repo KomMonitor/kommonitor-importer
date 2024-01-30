@@ -5,8 +5,6 @@
  */
 package org.n52.kommonitor.importer.api;
 
-import org.n52.kommonitor.importer.api.exceptions.ImportException;
-import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.models.Error;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateIndicatorPOSTInputType;
@@ -36,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-08-11T11:42:42.161441700+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T11:16:17.779113400+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "indicators", description = "Municipal indicators that provide statiscial time series information")
 public interface IndicatorsApi {
@@ -77,6 +75,6 @@ public interface IndicatorsApi {
     )
     ResponseEntity<ImportResponseType> updateIndicator(
         @Parameter(name = "UpdateIndicatorPOSTInputType", description = "Definitions to create or update indicators") @Valid @RequestBody(required = false) UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType
-    ) throws ImportException, ImportParameterException;
+    ) throws Exception;
 
 }
