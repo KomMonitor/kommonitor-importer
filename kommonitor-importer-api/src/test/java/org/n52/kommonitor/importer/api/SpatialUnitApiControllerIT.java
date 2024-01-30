@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
@@ -80,7 +80,7 @@ public class SpatialUnitApiControllerIT {
     private SpatialResourceJsonEncoder encoder;
 
     @MockBean
-    private SpatialUnitsControllerApi apiClient;
+    private SpatialUnitsApi apiClient;
 
     @MockBean
     private EntityValidator validator;
@@ -398,7 +398,7 @@ public class SpatialUnitApiControllerIT {
                 .thenReturn(Arrays.asList(new SpatialResource()));
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
-        Mockito.when(apiClient.addSpatialUnitAsBodyWithHttpInfo(Mockito.any())).thenReturn(new ResponseEntity<Void>(headers, HttpStatus.CREATED));
+        Mockito.when(apiClient.addSpatialUnitAsBodyWithHttpInfo(Mockito.any())).thenReturn(new ResponseEntity<>(headers, HttpStatus.CREATED));
         Mockito.when(apiClient.updateSpatialUnitAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(SpatialUnitPUTInputType.class))).thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 
         SpatialUnitPOSTInputType spatialUnit = Mockito.mock(SpatialUnitPOSTInputType.class);

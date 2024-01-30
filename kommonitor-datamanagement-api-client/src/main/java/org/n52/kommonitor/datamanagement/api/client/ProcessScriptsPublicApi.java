@@ -25,17 +25,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
-@Component
-public class ScriptPublicControllerApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@Component("org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi")
+public class ProcessScriptsPublicApi {
     private ApiClient apiClient;
 
-    public ScriptPublicControllerApi() {
+    public ProcessScriptsPublicApi() {
         this(new ApiClient());
     }
 
     @Autowired
-    public ScriptPublicControllerApi(ApiClient apiClient) {
+    public ProcessScriptsPublicApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -55,12 +55,12 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param scriptId scriptId (required)
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
      * @return byte[]
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public byte[] getProcessScriptCode1(String scriptId) throws RestClientException {
-        return getProcessScriptCode1WithHttpInfo(scriptId).getBody();
+    public byte[] getProcessScriptCodeForPublicIndicator(String indicatorId) throws RestClientException {
+        return getProcessScriptCodeForPublicIndicatorWithHttpInfo(indicatorId).getBody();
     }
 
     /**
@@ -71,73 +71,16 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param scriptId scriptId (required)
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
      * @return ResponseEntity&lt;byte[]&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<byte[]> getProcessScriptCode1WithHttpInfo(String scriptId) throws RestClientException {
-        Object localVarPostBody = null;
-        
-        // verify the required parameter 'scriptId' is set
-        if (scriptId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'scriptId' when calling getProcessScriptCode1");
-        }
-        
-        // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("scriptId", scriptId);
-
-        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders localVarHeaderParams = new HttpHeaders();
-        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
-
-        final String[] localVarAccepts = { 
-            "application/javascript"
-         };
-        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
-
-        ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
-        return apiClient.invokeAPI("/management/public/process-scripts/{scriptId}/scriptCode", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
-    }
-    /**
-     * retrieve the process script code associated to a certain public indicator as JavaScript file
-     * retrieve the process script code associated to a certain public indicator as JavaScript file
-     * <p><b>200</b> - OK
-     * <p><b>400</b> - Invalid status value
-     * <p><b>401</b> - API key is missing or invalid
-     * <p><b>403</b> - Forbidden
-     * <p><b>404</b> - Not Found
-     * @param indicatorId indicatorId (required)
-     * @return byte[]
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public byte[] getProcessScriptCodeForIndicator1(String indicatorId) throws RestClientException {
-        return getProcessScriptCodeForIndicator1WithHttpInfo(indicatorId).getBody();
-    }
-
-    /**
-     * retrieve the process script code associated to a certain public indicator as JavaScript file
-     * retrieve the process script code associated to a certain public indicator as JavaScript file
-     * <p><b>200</b> - OK
-     * <p><b>400</b> - Invalid status value
-     * <p><b>401</b> - API key is missing or invalid
-     * <p><b>403</b> - Forbidden
-     * <p><b>404</b> - Not Found
-     * @param indicatorId indicatorId (required)
-     * @return ResponseEntity&lt;byte[]&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<byte[]> getProcessScriptCodeForIndicator1WithHttpInfo(String indicatorId) throws RestClientException {
+    public ResponseEntity<byte[]> getProcessScriptCodeForPublicIndicatorWithHttpInfo(String indicatorId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'indicatorId' is set
         if (indicatorId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling getProcessScriptCodeForIndicator1");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling getProcessScriptCodeForPublicIndicator");
         }
         
         // create path and map variables
@@ -159,7 +102,7 @@ public class ScriptPublicControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
-        return apiClient.invokeAPI("/management/public/process-scripts/usingIndicatorId/{indicatorId}/scriptCode", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/public/process-scripts/usingIndicatorId/{indicatorId}/scriptCode", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about the associated process script for a certain public indicator
@@ -169,12 +112,12 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param indicatorId indicatorId (required)
+     * @param indicatorId unique identifier of the selected public indicator dataset (required)
      * @return ProcessScriptOverviewType
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ProcessScriptOverviewType getProcessScriptForIndicator1(String indicatorId) throws RestClientException {
-        return getProcessScriptForIndicator1WithHttpInfo(indicatorId).getBody();
+    public ProcessScriptOverviewType getProcessScriptForPublicIndicator(String indicatorId) throws RestClientException {
+        return getProcessScriptForPublicIndicatorWithHttpInfo(indicatorId).getBody();
     }
 
     /**
@@ -185,16 +128,16 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param indicatorId indicatorId (required)
+     * @param indicatorId unique identifier of the selected public indicator dataset (required)
      * @return ResponseEntity&lt;ProcessScriptOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ProcessScriptOverviewType> getProcessScriptForIndicator1WithHttpInfo(String indicatorId) throws RestClientException {
+    public ResponseEntity<ProcessScriptOverviewType> getProcessScriptForPublicIndicatorWithHttpInfo(String indicatorId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'indicatorId' is set
         if (indicatorId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling getProcessScriptForIndicator1");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling getProcessScriptForPublicIndicator");
         }
         
         // create path and map variables
@@ -216,7 +159,64 @@ public class ScriptPublicControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<ProcessScriptOverviewType> localReturnType = new ParameterizedTypeReference<ProcessScriptOverviewType>() {};
-        return apiClient.invokeAPI("/management/public/process-scripts/usingIndicatorId/{indicatorId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/public/process-scripts/usingIndicatorId/{indicatorId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * retrieve the process script code associated to a certain public indicator as JavaScript file
+     * retrieve the process script code associated to a certain public indicator as JavaScript file
+     * <p><b>200</b> - OK
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param scriptId unique identifier of the selected script (required)
+     * @return byte[]
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public byte[] getPublicProcessScriptCode(String scriptId) throws RestClientException {
+        return getPublicProcessScriptCodeWithHttpInfo(scriptId).getBody();
+    }
+
+    /**
+     * retrieve the process script code associated to a certain public indicator as JavaScript file
+     * retrieve the process script code associated to a certain public indicator as JavaScript file
+     * <p><b>200</b> - OK
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param scriptId unique identifier of the selected script (required)
+     * @return ResponseEntity&lt;byte[]&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<byte[]> getPublicProcessScriptCodeWithHttpInfo(String scriptId) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'scriptId' is set
+        if (scriptId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'scriptId' when calling getPublicProcessScriptCode");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("scriptId", scriptId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/javascript"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
+        return apiClient.invokeAPI("/public/process-scripts/{scriptId}/scriptCode", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about the associated process script for a certain scriptId associated to a public indicator
@@ -226,12 +226,12 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param scriptId scriptId (required)
+     * @param scriptId unique identifier of the selected script (required)
      * @return ProcessScriptOverviewType
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ProcessScriptOverviewType getProcessScriptForScriptId1(String scriptId) throws RestClientException {
-        return getProcessScriptForScriptId1WithHttpInfo(scriptId).getBody();
+    public ProcessScriptOverviewType getPublicProcessScriptForScriptId(String scriptId) throws RestClientException {
+        return getPublicProcessScriptForScriptIdWithHttpInfo(scriptId).getBody();
     }
 
     /**
@@ -242,16 +242,16 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param scriptId scriptId (required)
+     * @param scriptId unique identifier of the selected script (required)
      * @return ResponseEntity&lt;ProcessScriptOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ProcessScriptOverviewType> getProcessScriptForScriptId1WithHttpInfo(String scriptId) throws RestClientException {
+    public ResponseEntity<ProcessScriptOverviewType> getPublicProcessScriptForScriptIdWithHttpInfo(String scriptId) throws RestClientException {
         Object localVarPostBody = null;
         
         // verify the required parameter 'scriptId' is set
         if (scriptId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'scriptId' when calling getProcessScriptForScriptId1");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'scriptId' when calling getPublicProcessScriptForScriptId");
         }
         
         // create path and map variables
@@ -273,7 +273,7 @@ public class ScriptPublicControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<ProcessScriptOverviewType> localReturnType = new ParameterizedTypeReference<ProcessScriptOverviewType>() {};
-        return apiClient.invokeAPI("/management/public/process-scripts/{scriptId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/public/process-scripts/{scriptId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about available process scripts associated to public indicators
@@ -283,11 +283,11 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @return ProcessScriptOverviewType
+     * @return List&lt;ProcessScriptOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ProcessScriptOverviewType getProcessScripts1() throws RestClientException {
-        return getProcessScripts1WithHttpInfo().getBody();
+    public List<ProcessScriptOverviewType> getPublicProcessScripts() throws RestClientException {
+        return getPublicProcessScriptsWithHttpInfo().getBody();
     }
 
     /**
@@ -298,10 +298,10 @@ public class ScriptPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @return ResponseEntity&lt;ProcessScriptOverviewType&gt;
+     * @return ResponseEntity&lt;List&lt;ProcessScriptOverviewType&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<ProcessScriptOverviewType> getProcessScripts1WithHttpInfo() throws RestClientException {
+    public ResponseEntity<List<ProcessScriptOverviewType>> getPublicProcessScriptsWithHttpInfo() throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -319,7 +319,7 @@ public class ScriptPublicControllerApi {
 
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
-        ParameterizedTypeReference<ProcessScriptOverviewType> localReturnType = new ParameterizedTypeReference<ProcessScriptOverviewType>() {};
-        return apiClient.invokeAPI("/management/public/process-scripts", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        ParameterizedTypeReference<List<ProcessScriptOverviewType>> localReturnType = new ParameterizedTypeReference<List<ProcessScriptOverviewType>>() {};
+        return apiClient.invokeAPI("/public/process-scripts", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }

@@ -1,17 +1,14 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.ImportResponseType;
-import org.n52.kommonitor.models.ImportSpatialUnitPOSTInputType;
-import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
+import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     private SpatialResourceJsonEncoder spatialResourceEncoder;
 
     @Autowired
-    private SpatialUnitsControllerApi apiClient;
+    private SpatialUnitsApi apiClient;
 
     @Override
     public ImportResponseType handleRequestForType(ImportSpatialUnitPOSTInputType requestResourceType,
@@ -74,7 +71,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
 
             LOG.info("Perform 'addSpatialUnit' request for SpatialUnit level: {}", spatialUnitPostInput.getSpatialUnitLevel());
             LOG.debug("'addSpatialUnit' request POST body: {}", spatialUnitPostInput);
-            ResponseEntity<Void> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
+            ResponseEntity<SpatialUnitOverviewType> response = apiClient.addSpatialUnitAsBodyWithHttpInfo(spatialUnitPostInput);
             String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
             LOG.info("Successfully executed 'addSpatialUnit' request. Created SpatialUnits: {}", location);
             importResponse.setUri(location);

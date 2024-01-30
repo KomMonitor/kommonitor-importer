@@ -83,20 +83,20 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 import org.n52.kommonitor.datamanagement.api.*;
 import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
 
 public class GeorecourcesControllerApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor -data - access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor - data - access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
         GeoresourcePOSTInputType featureData = new GeoresourcePOSTInputType(); // GeoresourcePOSTInputType | featureData
         try {
             ResponseEntity result = apiInstance.addGeoresourceAsBody(featureData);

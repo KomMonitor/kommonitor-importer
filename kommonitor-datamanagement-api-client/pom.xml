@@ -12,7 +12,6 @@
     <name>KomMonitor Data Management API Client</name>
 
     <properties>
-        <openapi-codegen.version>6.6.0</openapi-codegen.version>
         <swagger-codegen.configHelp>false</swagger-codegen.configHelp>
         <swagger-codegen.supportingFiles>false</swagger-codegen.supportingFiles>
         <swagger-codegen.generateApi>true</swagger-codegen.generateApi>
@@ -64,7 +63,7 @@
                                         <artifactItem>
                                             <groupId>org.n52.kommonitor</groupId>
                                             <artifactId>kommonitor-api-specs</artifactId>
-                                            <version>0.0.4-SNAPSHOT</version>
+                                            <version>${kommonitor-oas.version}</version>
                                             <type>jar</type>
                                             <includes>
                                                 specs/data-management/definitions.yaml,specs/data-management/kommonitor_dataAccessAPI.yaml
@@ -105,6 +104,7 @@
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
+                                        <generateClientAsBean>true</generateClientAsBean>
                                     </configOptions>
                                 </configuration>
                             </execution>

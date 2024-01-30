@@ -9,7 +9,7 @@ import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.locationtech.jts.geom.Geometry;
-import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
@@ -63,7 +63,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private final ObjectMapper mapper;
     private final FeatureJSON featureJSON;
     @Autowired
-    private SpatialUnitsControllerApi apiClient;
+    private SpatialUnitsApi apiClient;
 
     @Autowired
     private ImportMonitor monitor;
@@ -141,7 +141,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
             if (bboxType.equals("ref")) {
 
                 // Get spatialUnit from data-management
-                String response = apiClient.getAllSpatialUnitFeaturesById(bboxValue, null, "original");
+                byte[] response = apiClient.getAllSpatialUnitFeaturesById(bboxValue,  "original");
 
                 // Extract bbox for first stage filtering (intersection with bbox)
                 DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) featureJSON.readFeatureCollection(response);

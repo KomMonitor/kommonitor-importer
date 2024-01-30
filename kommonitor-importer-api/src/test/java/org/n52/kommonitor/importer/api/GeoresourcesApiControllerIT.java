@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.api.handler.GeoresourceImportHandler;
 import org.n52.kommonitor.importer.api.handler.GeoresourceUpdateHandler;
@@ -81,7 +81,7 @@ public class GeoresourcesApiControllerIT {
     private SpatialResourceJsonEncoder encoder;
 
     @MockBean
-    private GeorecourcesControllerApi apiClient;
+    private GeoresourcesApi apiClient;
 
     @MockBean
     private EntityValidator validator;
@@ -401,7 +401,7 @@ public class GeoresourcesApiControllerIT {
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", RESOURCE_ID);
         Mockito.when(apiClient.addGeoresourceAsBodyWithHttpInfo(Mockito.any(GeoresourcePOSTInputType.class)))
-                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.CREATED));
+                .thenReturn(new ResponseEntity<>(headers, HttpStatus.CREATED));
         Mockito.when(apiClient.updateGeoresourceAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(GeoresourcePUTInputType.class)))
                 .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 

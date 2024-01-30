@@ -1,6 +1,5 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
-import org.checkerframework.checker.units.qual.C;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import org.n52.kommonitor.models.TopicOverviewType;
@@ -26,17 +25,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
-@Component
-public class TopicsPublicControllerApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@Component("org.n52.kommonitor.datamanagement.api.client.TopicsPublicApi")
+public class TopicsPublicApi {
     private ApiClient apiClient;
 
-    public TopicsPublicControllerApi() {
+    public TopicsPublicApi() {
         this(new ApiClient());
     }
 
     @Autowired
-    public TopicsPublicControllerApi(ApiClient apiClient) {
+    public TopicsPublicApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -56,7 +55,7 @@ public class TopicsPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param topicId topicId (required)
+     * @param topicId unique identifier of the topic (required)
      * @return TopicOverviewType
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
@@ -72,7 +71,7 @@ public class TopicsPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @param topicId topicId (required)
+     * @param topicId unique identifier of the topic (required)
      * @return ResponseEntity&lt;TopicOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
@@ -103,7 +102,7 @@ public class TopicsPublicControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<TopicOverviewType> localReturnType = new ParameterizedTypeReference<TopicOverviewType>() {};
-        return apiClient.invokeAPI("/management/public/topics/{topicId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/public/topics/{topicId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about available topics
@@ -113,10 +112,10 @@ public class TopicsPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @return TopicOverviewType
+     * @return List&lt;TopicOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public TopicOverviewType getTopics() throws RestClientException {
+    public List<TopicOverviewType> getTopics() throws RestClientException {
         return getTopicsWithHttpInfo().getBody();
     }
 
@@ -128,10 +127,10 @@ public class TopicsPublicControllerApi {
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
-     * @return ResponseEntity&lt;TopicOverviewType&gt;
+     * @return ResponseEntity&lt;List&lt;TopicOverviewType&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<TopicOverviewType> getTopicsWithHttpInfo() throws RestClientException {
+    public ResponseEntity<List<TopicOverviewType>> getTopicsWithHttpInfo() throws RestClientException {
         Object localVarPostBody = null;
         
 
@@ -149,7 +148,7 @@ public class TopicsPublicControllerApi {
 
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
-        ParameterizedTypeReference<TopicOverviewType> localReturnType = new ParameterizedTypeReference<TopicOverviewType>() {};
-        return apiClient.invokeAPI("/management/public/topics", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        ParameterizedTypeReference<List<TopicOverviewType>> localReturnType = new ParameterizedTypeReference<List<TopicOverviewType>>() {};
+        return apiClient.invokeAPI("/public/topics", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }

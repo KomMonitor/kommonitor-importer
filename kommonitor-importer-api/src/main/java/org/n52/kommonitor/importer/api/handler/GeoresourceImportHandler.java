@@ -1,17 +1,14 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.GeoresourcePOSTInputType;
-import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
-import org.n52.kommonitor.models.ImportResponseType;
+import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +35,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     private SpatialResourceJsonEncoder spatialResourceEncoder;
 
     @Autowired
-    private GeorecourcesControllerApi apiClient;
+    private GeoresourcesApi apiClient;
 
     public boolean supports(Object requestType) {
         return requestType instanceof ImportGeoresourcePOSTInputType;
@@ -74,7 +71,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
 
             LOG.info("Perform 'addGeoresource' request for Georesource dataset: {}", georesourcePostInput.getDatasetName());
             LOG.debug("'addGeoresource' request POST body: {}", georesourcePostInput);
-            ResponseEntity<Void> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
+            ResponseEntity<GeoresourceOverviewType> response = apiClient.addGeoresourceAsBodyWithHttpInfo(georesourcePostInput);
             String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
             LOG.info("Successfully executed 'addGeoresource' request. Created Georesources: {}", location);
             importResponse.setUri(location);

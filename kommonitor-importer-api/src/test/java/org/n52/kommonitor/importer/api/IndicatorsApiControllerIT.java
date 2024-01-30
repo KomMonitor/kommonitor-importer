@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.n52.kommonitor.datamanagement.api.client.IndicatorsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.api.handler.ApiExceptionHandler;
 import org.n52.kommonitor.importer.api.handler.IndicatorUpdateHandler;
@@ -77,7 +77,7 @@ public class IndicatorsApiControllerIT {
     private IndicatorEncoder encoder;
 
     @MockBean
-    private IndicatorsControllerApi apiClient;
+    private IndicatorsApi apiClient;
 
     @MockBean
     private EntityValidator validator;
@@ -255,7 +255,7 @@ public class IndicatorsApiControllerIT {
         headers.add("location", RESOURCE_ID);
 
         Mockito.when(apiClient.addIndicatorAsBodyWithHttpInfo(Mockito.any()))
-                .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.CREATED));
+                .thenReturn(new ResponseEntity<>(headers, HttpStatus.CREATED));
         Mockito.when(apiClient.updateIndicatorAsBodyWithHttpInfo(Mockito.anyString(), Mockito.any(IndicatorPUTInputType.class)))
                 .thenReturn(new ResponseEntity<Void>(headers, HttpStatus.OK));
 

@@ -3,6 +3,7 @@ package org.n52.kommonitor.datamanagement.api.client;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import org.n52.kommonitor.models.TopicInputType;
+import org.n52.kommonitor.models.TopicOverviewType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,17 +26,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
-@Component
-public class TopicsControllerApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@Component("org.n52.kommonitor.datamanagement.api.client.TopicsApi")
+public class TopicsApi {
     private ApiClient apiClient;
 
-    public TopicsControllerApi() {
+    public TopicsApi() {
         this(new ApiClient());
     }
 
     @Autowired
-    public TopicsControllerApi(ApiClient apiClient) {
+    public TopicsApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
 
@@ -56,11 +57,11 @@ public class TopicsControllerApi {
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
      * <p><b>405</b> - Invalid input
-     * @param topicData topicData (required)
-     * @return ResponseEntity
+     * @param topicData topic input data (required)
+     * @return TopicOverviewType
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Void addTopic(TopicInputType topicData) throws RestClientException {
+    public TopicOverviewType addTopic(TopicInputType topicData) throws RestClientException {
         return addTopicWithHttpInfo(topicData).getBody();
     }
 
@@ -73,11 +74,11 @@ public class TopicsControllerApi {
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
      * <p><b>405</b> - Invalid input
-     * @param topicData topicData (required)
-     * @return ResponseEntity&lt;ResponseEntity&gt;
+     * @param topicData topic input data (required)
+     * @return ResponseEntity&lt;TopicOverviewType&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> addTopicWithHttpInfo(TopicInputType topicData) throws RestClientException {
+    public ResponseEntity<TopicOverviewType> addTopicWithHttpInfo(TopicInputType topicData) throws RestClientException {
         Object localVarPostBody = topicData;
         
         // verify the required parameter 'topicData' is set
@@ -92,7 +93,7 @@ public class TopicsControllerApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
-            "*/*"
+            "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -102,8 +103,8 @@ public class TopicsControllerApi {
 
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
-        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/management/topics", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        ParameterizedTypeReference<TopicOverviewType> localReturnType = new ParameterizedTypeReference<TopicOverviewType>() {};
+        return apiClient.invokeAPI("/topics", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Delete the topic
@@ -112,12 +113,11 @@ public class TopicsControllerApi {
      * <p><b>204</b> - No Content
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
-     * @param topicId topicId (required)
-     * @return ResponseEntity
+     * @param topicId unique identifier of the topic (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Void deleteTopic(String topicId) throws RestClientException {
-        return deleteTopicWithHttpInfo(topicId).getBody();
+    public void deleteTopic(String topicId) throws RestClientException {
+        deleteTopicWithHttpInfo(topicId);
     }
 
     /**
@@ -127,8 +127,8 @@ public class TopicsControllerApi {
      * <p><b>204</b> - No Content
      * <p><b>401</b> - API key is missing or invalid
      * <p><b>403</b> - Forbidden
-     * @param topicId topicId (required)
-     * @return ResponseEntity&lt;ResponseEntity&gt;
+     * @param topicId unique identifier of the topic (required)
+     * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> deleteTopicWithHttpInfo(String topicId) throws RestClientException {
@@ -148,9 +148,7 @@ public class TopicsControllerApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = { 
-            "*/*"
-         };
+        final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = {  };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
@@ -158,7 +156,7 @@ public class TopicsControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/management/topics/{topicId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/topics/{topicId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Modify topic information
@@ -169,13 +167,12 @@ public class TopicsControllerApi {
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
      * <p><b>405</b> - Invalid input
-     * @param topicId topicId (required)
-     * @param topicData topicData (required)
-     * @return ResponseEntity
+     * @param topicId unique identifier of the topic (required)
+     * @param topicData topic input data (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Void updateTopic(String topicId, TopicInputType topicData) throws RestClientException {
-        return updateTopicWithHttpInfo(topicId, topicData).getBody();
+    public void updateTopic(String topicId, TopicInputType topicData) throws RestClientException {
+        updateTopicWithHttpInfo(topicId, topicData);
     }
 
     /**
@@ -187,9 +184,9 @@ public class TopicsControllerApi {
      * <p><b>403</b> - Forbidden
      * <p><b>404</b> - Not Found
      * <p><b>405</b> - Invalid input
-     * @param topicId topicId (required)
-     * @param topicData topicData (required)
-     * @return ResponseEntity&lt;ResponseEntity&gt;
+     * @param topicId unique identifier of the topic (required)
+     * @param topicData topic input data (required)
+     * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> updateTopicWithHttpInfo(String topicId, TopicInputType topicData) throws RestClientException {
@@ -214,9 +211,7 @@ public class TopicsControllerApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] localVarAccepts = { 
-            "*/*"
-         };
+        final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
             "application/json"
@@ -226,6 +221,6 @@ public class TopicsControllerApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/management/topics/{topicId}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/topics/{topicId}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }
