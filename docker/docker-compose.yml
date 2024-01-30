@@ -40,7 +40,7 @@ services:
     networks:
       - kommonitor
   kommonitor-data-management:
-    image: kommonitor/data-management:2.1.8
+    image: kommonitor/data-management:3.1.0
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
