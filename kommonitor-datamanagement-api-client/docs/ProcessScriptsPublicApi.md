@@ -1,24 +1,24 @@
-# HomeControllerApi
+# ProcessScriptsPublicApi
 
 All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**indexUsingDELETE**](HomeControllerApi.md#indexUsingDELETE) | **DELETE** / | index |
-| [**indexUsingGET**](HomeControllerApi.md#indexUsingGET) | **GET** / | index |
-| [**indexUsingHEAD**](HomeControllerApi.md#indexUsingHEAD) | **HEAD** / | index |
-| [**indexUsingOPTIONS**](HomeControllerApi.md#indexUsingOPTIONS) | **OPTIONS** / | index |
-| [**indexUsingPATCH**](HomeControllerApi.md#indexUsingPATCH) | **PATCH** / | index |
-| [**indexUsingPOST**](HomeControllerApi.md#indexUsingPOST) | **POST** / | index |
-| [**indexUsingPUT**](HomeControllerApi.md#indexUsingPUT) | **PUT** / | index |
+| [**getProcessScriptCodeForPublicIndicator**](ProcessScriptsPublicApi.md#getProcessScriptCodeForPublicIndicator) | **GET** /public/process-scripts/usingIndicatorId/{indicatorId}/scriptCode | retrieve the process script code associated to a certain public indicator as JavaScript file |
+| [**getProcessScriptForPublicIndicator**](ProcessScriptsPublicApi.md#getProcessScriptForPublicIndicator) | **GET** /public/process-scripts/usingIndicatorId/{indicatorId} | retrieve information about the associated process script for a certain public indicator |
+| [**getPublicProcessScriptCode**](ProcessScriptsPublicApi.md#getPublicProcessScriptCode) | **GET** /public/process-scripts/{scriptId}/scriptCode | retrieve the process script code associated to a certain public indicator as JavaScript file |
+| [**getPublicProcessScriptForScriptId**](ProcessScriptsPublicApi.md#getPublicProcessScriptForScriptId) | **GET** /public/process-scripts/{scriptId} | retrieve information about the associated process script for a certain scriptId associated to a public indicator |
+| [**getPublicProcessScripts**](ProcessScriptsPublicApi.md#getPublicProcessScripts) | **GET** /public/process-scripts | retrieve information about available process scripts associated to public indicators |
 
 
 
-## indexUsingDELETE
+## getProcessScriptCodeForPublicIndicator
 
-> String indexUsingDELETE(present)
+> byte[] getProcessScriptCodeForPublicIndicator(indicatorId)
 
-index
+retrieve the process script code associated to a certain public indicator as JavaScript file
+
+retrieve the process script code associated to a certain public indicator as JavaScript file
 
 ### Example
 
@@ -29,7 +29,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -40,13 +40,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
+        ProcessScriptsPublicApi apiInstance = new ProcessScriptsPublicApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
         try {
-            String result = apiInstance.indexUsingDELETE(present);
+            byte[] result = apiInstance.getProcessScriptCodeForPublicIndicator(indicatorId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingDELETE");
+            System.err.println("Exception when calling ProcessScriptsPublicApi#getProcessScriptCodeForPublicIndicator");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -61,11 +61,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
 
 ### Return type
 
-**String**
+**byte[]**
 
 ### Authorization
 
@@ -74,95 +74,26 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: application/javascript
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
-| **204** | No Content |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-
-
-## indexUsingGET
-
-> String indexUsingGET(present)
-
-index
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
-        try {
-            String result = apiInstance.indexUsingGET(present);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingGET");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
-
-### Return type
-
-**String**
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **401** | Unauthorized |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |
 
 
-## indexUsingHEAD
+## getProcessScriptForPublicIndicator
 
-> String indexUsingHEAD(present)
+> ProcessScriptOverviewType getProcessScriptForPublicIndicator(indicatorId)
 
-index
+retrieve information about the associated process script for a certain public indicator
+
+retrieve information about the associated process script for a certain indicator
 
 ### Example
 
@@ -173,7 +104,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -184,13 +115,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
+        ProcessScriptsPublicApi apiInstance = new ProcessScriptsPublicApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected public indicator dataset
         try {
-            String result = apiInstance.indexUsingHEAD(present);
+            ProcessScriptOverviewType result = apiInstance.getProcessScriptForPublicIndicator(indicatorId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingHEAD");
+            System.err.println("Exception when calling ProcessScriptsPublicApi#getProcessScriptForPublicIndicator");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -205,11 +136,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
+| **indicatorId** | **String**| unique identifier of the selected public indicator dataset | |
 
 ### Return type
 
-**String**
+[**ProcessScriptOverviewType**](ProcessScriptOverviewType.md)
 
 ### Authorization
 
@@ -218,240 +149,26 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
-| **204** | No Content |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-
-
-## indexUsingOPTIONS
-
-> String indexUsingOPTIONS(present)
-
-index
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
-        try {
-            String result = apiInstance.indexUsingOPTIONS(present);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingOPTIONS");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
-
-### Return type
-
-**String**
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **204** | No Content |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-
-
-## indexUsingPATCH
-
-> String indexUsingPATCH(present)
-
-index
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
-        try {
-            String result = apiInstance.indexUsingPATCH(present);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingPATCH");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
-
-### Return type
-
-**String**
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **204** | No Content |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-
-
-## indexUsingPOST
-
-> String indexUsingPOST(present)
-
-index
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
-        try {
-            String result = apiInstance.indexUsingPOST(present);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingPOST");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
-
-### Return type
-
-**String**
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **201** | Created |  -  |
-| **401** | Unauthorized |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |
 
 
-## indexUsingPUT
+## getPublicProcessScriptCode
 
-> String indexUsingPUT(present)
+> byte[] getPublicProcessScriptCode(scriptId)
 
-index
+retrieve the process script code associated to a certain public indicator as JavaScript file
+
+retrieve the process script code associated to a certain public indicator as JavaScript file
 
 ### Example
 
@@ -462,7 +179,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.HomeControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -473,13 +190,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        HomeControllerApi apiInstance = new HomeControllerApi(defaultClient);
-        Boolean present = true; // Boolean | 
+        ProcessScriptsPublicApi apiInstance = new ProcessScriptsPublicApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
         try {
-            String result = apiInstance.indexUsingPUT(present);
+            byte[] result = apiInstance.getPublicProcessScriptCode(scriptId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling HomeControllerApi#indexUsingPUT");
+            System.err.println("Exception when calling ProcessScriptsPublicApi#getPublicProcessScriptCode");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -494,11 +211,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **present** | **Boolean**|  | [optional] |
+| **scriptId** | **String**| unique identifier of the selected script | |
 
 ### Return type
 
-**String**
+**byte[]**
 
 ### Authorization
 
@@ -507,15 +224,161 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: application/javascript
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
-| **201** | Created |  -  |
-| **401** | Unauthorized |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getPublicProcessScriptForScriptId
+
+> ProcessScriptOverviewType getPublicProcessScriptForScriptId(scriptId)
+
+retrieve information about the associated process script for a certain scriptId associated to a public indicator
+
+retrieve information about the associated process script for a certain scriptId associated to a public indicator
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProcessScriptsPublicApi apiInstance = new ProcessScriptsPublicApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
+        try {
+            ProcessScriptOverviewType result = apiInstance.getPublicProcessScriptForScriptId(scriptId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProcessScriptsPublicApi#getPublicProcessScriptForScriptId");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **scriptId** | **String**| unique identifier of the selected script | |
+
+### Return type
+
+[**ProcessScriptOverviewType**](ProcessScriptOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getPublicProcessScripts
+
+> List&lt;ProcessScriptOverviewType&gt; getPublicProcessScripts()
+
+retrieve information about available process scripts associated to public indicators
+
+retrieve information about available process scripts associated to public indicators
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProcessScriptsPublicApi apiInstance = new ProcessScriptsPublicApi(defaultClient);
+        try {
+            List<ProcessScriptOverviewType> result = apiInstance.getPublicProcessScripts();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProcessScriptsPublicApi#getPublicProcessScripts");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;ProcessScriptOverviewType&gt;**](ProcessScriptOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |
 

@@ -1,11 +1,11 @@
-# TopicsPublicControllerApi
+# TopicsPublicApi
 
 All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getTopicById**](TopicsPublicControllerApi.md#getTopicById) | **GET** /management/public/topics/{topicId} | retrieve information about the selected topic |
-| [**getTopics**](TopicsPublicControllerApi.md#getTopics) | **GET** /management/public/topics | retrieve information about available topics |
+| [**getTopicById**](TopicsPublicApi.md#getTopicById) | **GET** /public/topics/{topicId} | retrieve information about the selected topic |
+| [**getTopics**](TopicsPublicApi.md#getTopics) | **GET** /public/topics | retrieve information about available topics |
 
 
 
@@ -26,7 +26,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.TopicsPublicControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.TopicsPublicApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -37,13 +37,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        TopicsPublicControllerApi apiInstance = new TopicsPublicControllerApi(defaultClient);
-        String topicId = "topicId_example"; // String | topicId
+        TopicsPublicApi apiInstance = new TopicsPublicApi(defaultClient);
+        String topicId = "topicId_example"; // String | unique identifier of the topic
         try {
             TopicOverviewType result = apiInstance.getTopicById(topicId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TopicsPublicControllerApi#getTopicById");
+            System.err.println("Exception when calling TopicsPublicApi#getTopicById");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -58,7 +58,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **topicId** | **String**| topicId | |
+| **topicId** | **String**| unique identifier of the topic | |
 
 ### Return type
 
@@ -86,7 +86,7 @@ public class Example {
 
 ## getTopics
 
-> TopicOverviewType getTopics()
+> List&lt;TopicOverviewType&gt; getTopics()
 
 retrieve information about available topics
 
@@ -101,7 +101,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.TopicsPublicControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.TopicsPublicApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -112,12 +112,12 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        TopicsPublicControllerApi apiInstance = new TopicsPublicControllerApi(defaultClient);
+        TopicsPublicApi apiInstance = new TopicsPublicApi(defaultClient);
         try {
-            TopicOverviewType result = apiInstance.getTopics();
+            List<TopicOverviewType> result = apiInstance.getTopics();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TopicsPublicControllerApi#getTopics");
+            System.err.println("Exception when calling TopicsPublicApi#getTopics");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -133,7 +133,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**TopicOverviewType**](TopicOverviewType.md)
+[**List&lt;TopicOverviewType&gt;**](TopicOverviewType.md)
 
 ### Authorization
 

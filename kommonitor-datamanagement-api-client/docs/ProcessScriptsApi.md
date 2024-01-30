@@ -1,30 +1,30 @@
-# GeorecourcesControllerApi
+# ProcessScriptsApi
 
 All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**addGeoresourceAsBody**](GeorecourcesControllerApi.md#addGeoresourceAsBody) | **POST** /management/georesources | Add a new geo-resource |
-| [**deleteAllGeoresourceFeaturesById**](GeorecourcesControllerApi.md#deleteAllGeoresourceFeaturesById) | **DELETE** /management/georesources/{georesourceId}/allFeatures | Delete all features/contents of the selected geo-resource dataset |
-| [**deleteGeoresourceById**](GeorecourcesControllerApi.md#deleteGeoresourceById) | **DELETE** /management/georesources/{georesourceId} | Delete the features/contents of the selected geo-resource dataset |
-| [**deleteGeoresourceByIdAndYearAndMonth**](GeorecourcesControllerApi.md#deleteGeoresourceByIdAndYearAndMonth) | **DELETE** /management/georesources/{georesourceId}/{year}/{month}/{day} | Delete the features/contents of the selected geo-resource dataset, selected by year and month |
-| [**getAllGeoresourceFeaturesById**](GeorecourcesControllerApi.md#getAllGeoresourceFeaturesById) | **GET** /management/georesources/{georesourceId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
-| [**getGeoresourceById**](GeorecourcesControllerApi.md#getGeoresourceById) | **GET** /management/georesources/{georesourceId} | retrieve information about available features of the selected geo-resource dataset |
-| [**getGeoresourceByIdAndYearAndMonth**](GeorecourcesControllerApi.md#getGeoresourceByIdAndYearAndMonth) | **GET** /management/georesources/{georesourceId}/{year}/{month}/{day} | retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON |
-| [**getGeoresourceSchemaByLevel**](GeorecourcesControllerApi.md#getGeoresourceSchemaByLevel) | **GET** /management/georesources/{georesourceId}/schema | retrieve the JSON schema for the selected geo-resource dataset |
-| [**getGeoresources**](GeorecourcesControllerApi.md#getGeoresources) | **GET** /management/georesources | retrieve information about available features of different geo-resource datasets |
-| [**updateGeoresourceAsBody**](GeorecourcesControllerApi.md#updateGeoresourceAsBody) | **PUT** /management/georesources/{georesourceId} | Modify/Update the features of the selected geo-resource dataset |
-| [**updateGeoresourceMetadataAsBody**](GeorecourcesControllerApi.md#updateGeoresourceMetadataAsBody) | **PATCH** /management/georesources/{georesourceId} | Modify/Update the metadata of the selected geo-resource dataset |
+| [**addProcessScriptAsBody**](ProcessScriptsApi.md#addProcessScriptAsBody) | **POST** /process-scripts | Register a new process script |
+| [**deleteProcessScript**](ProcessScriptsApi.md#deleteProcessScript) | **DELETE** /process-scripts/usingIndicatorId/{indicatorId} | Delete the process script |
+| [**deleteProcessScriptByScriptId**](ProcessScriptsApi.md#deleteProcessScriptByScriptId) | **DELETE** /process-scripts/{scriptId} | Delete the process script |
+| [**getProcessScriptCode**](ProcessScriptsApi.md#getProcessScriptCode) | **GET** /process-scripts/{scriptId}/scriptCode | retrieve the process script code associated to a certain indicator as JavaScript file |
+| [**getProcessScriptCodeForIndicator**](ProcessScriptsApi.md#getProcessScriptCodeForIndicator) | **GET** /process-scripts/usingIndicatorId/{indicatorId}/scriptCode | retrieve the process script code associated to a certain indicator as JavaScript file |
+| [**getProcessScriptForIndicator**](ProcessScriptsApi.md#getProcessScriptForIndicator) | **GET** /process-scripts/usingIndicatorId/{indicatorId} | retrieve information about the associated process script for a certain indicator |
+| [**getProcessScriptForScriptId**](ProcessScriptsApi.md#getProcessScriptForScriptId) | **GET** /process-scripts/{scriptId} | retrieve information about the associated process script for a certain scriptId |
+| [**getProcessScriptTemplate**](ProcessScriptsApi.md#getProcessScriptTemplate) | **GET** /process-scripts/template | retrieve an empty script template, that defines how to implement process scripts for KomMonitor as JavaScript file. |
+| [**getProcessScripts**](ProcessScriptsApi.md#getProcessScripts) | **GET** /process-scripts | retrieve information about available process scripts |
+| [**updateProcessScriptAsBody**](ProcessScriptsApi.md#updateProcessScriptAsBody) | **PUT** /process-scripts/usingIndicatorId/{indicatorId} | Modify/Update an existing process script |
+| [**updateProcessScriptAsBodyByScriptId**](ProcessScriptsApi.md#updateProcessScriptAsBodyByScriptId) | **PUT** /process-scripts/{scriptId} | Modify/Update an existing process script |
 
 
 
-## addGeoresourceAsBody
+## addProcessScriptAsBody
 
-> ResponseEntity addGeoresourceAsBody(featureData)
+> ProcessScriptOverviewType addProcessScriptAsBody(processScriptData)
 
-Add a new geo-resource
+Register a new process script
 
-Add/Register a geo-resource dataset for a certain period of time
+Register a process script associated to a certain indicator
 
 ### Example
 
@@ -35,7 +35,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -46,13 +46,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        GeoresourcePOSTInputType featureData = new GeoresourcePOSTInputType(); // GeoresourcePOSTInputType | featureData
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        ProcessScriptPOSTInputType processScriptData = new ProcessScriptPOSTInputType(); // ProcessScriptPOSTInputType | details necessary to register the process script
         try {
-            ResponseEntity result = apiInstance.addGeoresourceAsBody(featureData);
+            ProcessScriptOverviewType result = apiInstance.addProcessScriptAsBody(processScriptData);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#addGeoresourceAsBody");
+            System.err.println("Exception when calling ProcessScriptsApi#addProcessScriptAsBody");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -67,11 +67,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **featureData** | [**GeoresourcePOSTInputType**](GeoresourcePOSTInputType.md)| featureData | |
+| **processScriptData** | [**ProcessScriptPOSTInputType**](ProcessScriptPOSTInputType.md)| details necessary to register the process script | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+[**ProcessScriptOverviewType**](ProcessScriptOverviewType.md)
 
 ### Authorization
 
@@ -80,7 +80,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: */*
+- **Accept**: application/json
 
 
 ### HTTP response details
@@ -94,13 +94,13 @@ public class Example {
 | **405** | Invalid input |  -  |
 
 
-## deleteAllGeoresourceFeaturesById
+## deleteProcessScript
 
-> ResponseEntity deleteAllGeoresourceFeaturesById(georesourceId)
+> deleteProcessScript(indicatorId)
 
-Delete all features/contents of the selected geo-resource dataset
+Delete the process script
 
-Delete all features/contents of the selected geo-resource dataset
+Delete the process script associated to the specified indicator
 
 ### Example
 
@@ -111,7 +111,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -122,13 +122,12 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
         try {
-            ResponseEntity result = apiInstance.deleteAllGeoresourceFeaturesById(georesourceId);
-            System.out.println(result);
+            apiInstance.deleteProcessScript(indicatorId);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#deleteAllGeoresourceFeaturesById");
+            System.err.println("Exception when calling ProcessScriptsApi#deleteProcessScript");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -143,11 +142,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -156,7 +155,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
@@ -168,13 +167,13 @@ public class Example {
 | **403** | Forbidden |  -  |
 
 
-## deleteGeoresourceById
+## deleteProcessScriptByScriptId
 
-> ResponseEntity deleteGeoresourceById(georesourceId)
+> deleteProcessScriptByScriptId(scriptId)
 
-Delete the features/contents of the selected geo-resource dataset
+Delete the process script
 
-Delete the features/contents of the selected geo-resource dataset
+Delete the process script associated to the specified scriptId
 
 ### Example
 
@@ -185,7 +184,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -196,13 +195,12 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
         try {
-            ResponseEntity result = apiInstance.deleteGeoresourceById(georesourceId);
-            System.out.println(result);
+            apiInstance.deleteProcessScriptByScriptId(scriptId);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#deleteGeoresourceById");
+            System.err.println("Exception when calling ProcessScriptsApi#deleteProcessScriptByScriptId");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -217,11 +215,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
+| **scriptId** | **String**| unique identifier of the selected script | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -230,7 +228,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
@@ -242,13 +240,13 @@ public class Example {
 | **403** | Forbidden |  -  |
 
 
-## deleteGeoresourceByIdAndYearAndMonth
+## getProcessScriptCode
 
-> ResponseEntity deleteGeoresourceByIdAndYearAndMonth(day, georesourceId, month, year)
+> byte[] getProcessScriptCode(scriptId)
 
-Delete the features/contents of the selected geo-resource dataset, selected by year and month
+retrieve the process script code associated to a certain indicator as JavaScript file
 
-Delete the features/contents of the selected geo-resource dataset, selected by year and month
+retrieve the process script code associated to a certain indicator as JavaScript file
 
 ### Example
 
@@ -259,7 +257,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -270,16 +268,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        BigDecimal day = new BigDecimal("1.0"); // BigDecimal | day
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        BigDecimal month = new BigDecimal("1.0"); // BigDecimal | month
-        BigDecimal year = new BigDecimal("2023.0"); // BigDecimal | year
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
         try {
-            ResponseEntity result = apiInstance.deleteGeoresourceByIdAndYearAndMonth(day, georesourceId, month, year);
+            byte[] result = apiInstance.getProcessScriptCode(scriptId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#deleteGeoresourceByIdAndYearAndMonth");
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScriptCode");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -294,250 +289,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **day** | **BigDecimal**| day | [default to 1.0] |
-| **georesourceId** | **String**| georesourceId | |
-| **month** | **BigDecimal**| month | [default to 1.0] |
-| **year** | **BigDecimal**| year | [default to 2023.0] |
-
-### Return type
-
-[**ResponseEntity**](ResponseEntity.md)
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **204** | No Content |  -  |
-| **401** | API key is missing or invalid |  -  |
-| **403** | Forbidden |  -  |
-
-
-## getAllGeoresourceFeaturesById
-
-> String getAllGeoresourceFeaturesById(georesourceId, name, simplifyGeometries)
-
-retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)
-
-retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        String name = "name_example"; // String | 
-        String simplifyGeometries = "original"; // String | simplifyGeometries
-        try {
-            String result = apiInstance.getAllGeoresourceFeaturesById(georesourceId, name, simplifyGeometries);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#getAllGeoresourceFeaturesById");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
-| **name** | **String**|  | [optional] |
-| **simplifyGeometries** | **String**| simplifyGeometries | [optional] [default to original] |
-
-### Return type
-
-**String**
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **400** | Invalid status value |  -  |
-| **401** | API key is missing or invalid |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not Found |  -  |
-
-
-## getGeoresourceById
-
-> GeoresourceOverviewType getGeoresourceById(georesourceId, name)
-
-retrieve information about available features of the selected geo-resource dataset
-
-retrieve information about available features of the selected geo-resource dataset
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        String name = "name_example"; // String | 
-        try {
-            GeoresourceOverviewType result = apiInstance.getGeoresourceById(georesourceId, name);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#getGeoresourceById");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
-| **name** | **String**|  | [optional] |
-
-### Return type
-
-[**GeoresourceOverviewType**](GeoresourceOverviewType.md)
-
-### Authorization
-
-[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-| **400** | Invalid status value |  -  |
-| **401** | API key is missing or invalid |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not Found |  -  |
-
-
-## getGeoresourceByIdAndYearAndMonth
-
-> byte[] getGeoresourceByIdAndYearAndMonth(day, georesourceId, month, year, name, simplifyGeometries)
-
-retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON
-
-retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON
-
-### Example
-
-```java
-// Import classes:
-import org.n52.kommonitor.datamanagement.api.ApiClient;
-import org.n52.kommonitor.datamanagement.api.ApiException;
-import org.n52.kommonitor.datamanagement.api.Configuration;
-import org.n52.kommonitor.datamanagement.api.auth.*;
-import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost:8085");
-        
-        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
-        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
-        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
-
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        BigDecimal day = new BigDecimal("1.0"); // BigDecimal | day
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        BigDecimal month = new BigDecimal("1.0"); // BigDecimal | month
-        BigDecimal year = new BigDecimal("2023.0"); // BigDecimal | year
-        String name = "name_example"; // String | 
-        String simplifyGeometries = "original"; // String | simplifyGeometries
-        try {
-            byte[] result = apiInstance.getGeoresourceByIdAndYearAndMonth(day, georesourceId, month, year, name, simplifyGeometries);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#getGeoresourceByIdAndYearAndMonth");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **day** | **BigDecimal**| day | [default to 1.0] |
-| **georesourceId** | **String**| georesourceId | |
-| **month** | **BigDecimal**| month | [default to 1.0] |
-| **year** | **BigDecimal**| year | [default to 2023.0] |
-| **name** | **String**|  | [optional] |
-| **simplifyGeometries** | **String**| simplifyGeometries | [optional] [default to original] |
+| **scriptId** | **String**| unique identifier of the selected script | |
 
 ### Return type
 
@@ -550,7 +302,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/octed-stream
+- **Accept**: application/javascript
 
 
 ### HTTP response details
@@ -563,13 +315,13 @@ public class Example {
 | **404** | Not Found |  -  |
 
 
-## getGeoresourceSchemaByLevel
+## getProcessScriptCodeForIndicator
 
-> String getGeoresourceSchemaByLevel(georesourceId, name)
+> byte[] getProcessScriptCodeForIndicator(indicatorId)
 
-retrieve the JSON schema for the selected geo-resource dataset
+retrieve the process script code associated to a certain indicator as JavaScript file
 
-retrieve the JSON schema for the selected geo-resource dataset. The JSON schema indicates the property structure of the dataset.
+retrieve the process script code associated to a certain indicator as JavaScript file
 
 ### Example
 
@@ -580,7 +332,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -591,14 +343,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        String name = "name_example"; // String | 
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
         try {
-            String result = apiInstance.getGeoresourceSchemaByLevel(georesourceId, name);
+            byte[] result = apiInstance.getProcessScriptCodeForIndicator(indicatorId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#getGeoresourceSchemaByLevel");
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScriptCodeForIndicator");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -613,12 +364,86 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
-| **name** | **String**|  | [optional] |
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
 
 ### Return type
 
-**String**
+**byte[]**
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/javascript
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getProcessScriptForIndicator
+
+> ProcessScriptOverviewType getProcessScriptForIndicator(indicatorId)
+
+retrieve information about the associated process script for a certain indicator
+
+retrieve information about the associated process script for a certain indicator
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        try {
+            ProcessScriptOverviewType result = apiInstance.getProcessScriptForIndicator(indicatorId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScriptForIndicator");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+
+### Return type
+
+[**ProcessScriptOverviewType**](ProcessScriptOverviewType.md)
 
 ### Authorization
 
@@ -640,13 +465,13 @@ public class Example {
 | **404** | Not Found |  -  |
 
 
-## getGeoresources
+## getProcessScriptForScriptId
 
-> GeoresourceOverviewType getGeoresources(name)
+> ProcessScriptOverviewType getProcessScriptForScriptId(scriptId)
 
-retrieve information about available features of different geo-resource datasets
+retrieve information about the associated process script for a certain scriptId
 
-retrieve information about available features of different geo-resource datasets
+retrieve information about the associated process script for a certain scriptId
 
 ### Example
 
@@ -657,7 +482,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -668,13 +493,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String name = "name_example"; // String | 
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
         try {
-            GeoresourceOverviewType result = apiInstance.getGeoresources(name);
+            ProcessScriptOverviewType result = apiInstance.getProcessScriptForScriptId(scriptId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#getGeoresources");
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScriptForScriptId");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -689,11 +514,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **name** | **String**|  | [optional] |
+| **scriptId** | **String**| unique identifier of the selected script | |
 
 ### Return type
 
-[**GeoresourceOverviewType**](GeoresourceOverviewType.md)
+[**ProcessScriptOverviewType**](ProcessScriptOverviewType.md)
 
 ### Authorization
 
@@ -715,13 +540,13 @@ public class Example {
 | **404** | Not Found |  -  |
 
 
-## updateGeoresourceAsBody
+## getProcessScriptTemplate
 
-> ResponseEntity updateGeoresourceAsBody(georesourceId, featureData)
+> byte[] getProcessScriptTemplate()
 
-Modify/Update the features of the selected geo-resource dataset
+retrieve an empty script template, that defines how to implement process scripts for KomMonitor as JavaScript file.
 
-Modify/Update the features of the selected geo-resource dataset.  The interface expects a full upload of all geometries for the spatial unit. Internally, those geometries are compared to the existing ones to mark &#39;old&#39; geometries that are no longer in use as outdated. Hence, each geometric object is only persisted once and its use is controlled by time validity marks.
+retrieve an empty script template, that defines how to implement process scripts for KomMonitor. The script works as a template for a NodeJS module. Hence, it predefines required methods that are called by the executing processing engine (a NodeJS runtimne environment). As a script developer, those predefined methods have to be implemented. The template contains detailed documentation on how to implement those methods.
 
 ### Example
 
@@ -732,7 +557,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -743,14 +568,155 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        GeoresourcePUTInputType featureData = new GeoresourcePUTInputType(); // GeoresourcePUTInputType | featureData
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
         try {
-            ResponseEntity result = apiInstance.updateGeoresourceAsBody(georesourceId, featureData);
+            byte[] result = apiInstance.getProcessScriptTemplate();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#updateGeoresourceAsBody");
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScriptTemplate");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**byte[]**
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/javascript
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getProcessScripts
+
+> List&lt;ProcessScriptOverviewType&gt; getProcessScripts()
+
+retrieve information about available process scripts
+
+retrieve information about available process scripts
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        try {
+            List<ProcessScriptOverviewType> result = apiInstance.getProcessScripts();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProcessScriptsApi#getProcessScripts");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;ProcessScriptOverviewType&gt;**](ProcessScriptOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## updateProcessScriptAsBody
+
+> updateProcessScriptAsBody(indicatorId, processScriptData)
+
+Modify/Update an existing process script
+
+Modify/Update an existing process script associated to a certain indicator
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        ProcessScriptPUTInputType processScriptData = new ProcessScriptPUTInputType(); // ProcessScriptPUTInputType | details necessary to modify the process script
+        try {
+            apiInstance.updateProcessScriptAsBody(indicatorId, processScriptData);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProcessScriptsApi#updateProcessScriptAsBody");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -765,12 +731,12 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
-| **featureData** | [**GeoresourcePUTInputType**](GeoresourcePUTInputType.md)| featureData | |
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **processScriptData** | [**ProcessScriptPUTInputType**](ProcessScriptPUTInputType.md)| details necessary to modify the process script | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -779,7 +745,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
@@ -793,13 +759,13 @@ public class Example {
 | **405** | Invalid input |  -  |
 
 
-## updateGeoresourceMetadataAsBody
+## updateProcessScriptAsBodyByScriptId
 
-> ResponseEntity updateGeoresourceMetadataAsBody(georesourceId, metadata)
+> updateProcessScriptAsBodyByScriptId(scriptId, processScriptData)
 
-Modify/Update the metadata of the selected geo-resource dataset
+Modify/Update an existing process script
 
-Modify/Update the metadata of the selected geo-resource dataset. This replaces the formerly stored metadata.
+Modify/Update an existing process script associated to a certain scriptId
 
 ### Example
 
@@ -810,7 +776,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.GeorecourcesControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.ProcessScriptsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -821,14 +787,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        GeorecourcesControllerApi apiInstance = new GeorecourcesControllerApi(defaultClient);
-        String georesourceId = "georesourceId_example"; // String | georesourceId
-        GeoresourcePATCHInputType metadata = new GeoresourcePATCHInputType(); // GeoresourcePATCHInputType | metadata
+        ProcessScriptsApi apiInstance = new ProcessScriptsApi(defaultClient);
+        String scriptId = "scriptId_example"; // String | unique identifier of the selected script
+        ProcessScriptPUTInputType processScriptData = new ProcessScriptPUTInputType(); // ProcessScriptPUTInputType | details necessary to modify the process script
         try {
-            ResponseEntity result = apiInstance.updateGeoresourceMetadataAsBody(georesourceId, metadata);
-            System.out.println(result);
+            apiInstance.updateProcessScriptAsBodyByScriptId(scriptId, processScriptData);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GeorecourcesControllerApi#updateGeoresourceMetadataAsBody");
+            System.err.println("Exception when calling ProcessScriptsApi#updateProcessScriptAsBodyByScriptId");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -843,12 +808,12 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **georesourceId** | **String**| georesourceId | |
-| **metadata** | [**GeoresourcePATCHInputType**](GeoresourcePATCHInputType.md)| metadata | |
+| **scriptId** | **String**| unique identifier of the selected script | |
+| **processScriptData** | [**ProcessScriptPUTInputType**](ProcessScriptPUTInputType.md)| details necessary to modify the process script | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -857,15 +822,16 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
-| **204** | No Content |  -  |
+| **201** | Created |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
 | **405** | Invalid input |  -  |
 

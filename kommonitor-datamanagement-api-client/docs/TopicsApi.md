@@ -1,18 +1,18 @@
-# TopicsControllerApi
+# TopicsApi
 
 All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**addTopic**](TopicsControllerApi.md#addTopic) | **POST** /management/topics | Register a new topic |
-| [**deleteTopic**](TopicsControllerApi.md#deleteTopic) | **DELETE** /management/topics/{topicId} | Delete the topic |
-| [**updateTopic**](TopicsControllerApi.md#updateTopic) | **PUT** /management/topics/{topicId} | Modify topic information |
+| [**addTopic**](TopicsApi.md#addTopic) | **POST** /topics | Register a new topic |
+| [**deleteTopic**](TopicsApi.md#deleteTopic) | **DELETE** /topics/{topicId} | Delete the topic |
+| [**updateTopic**](TopicsApi.md#updateTopic) | **PUT** /topics/{topicId} | Modify topic information |
 
 
 
 ## addTopic
 
-> ResponseEntity addTopic(topicData)
+> TopicOverviewType addTopic(topicData)
 
 Register a new topic
 
@@ -27,7 +27,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.TopicsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.TopicsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -38,13 +38,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        TopicsControllerApi apiInstance = new TopicsControllerApi(defaultClient);
-        TopicInputType topicData = new TopicInputType(); // TopicInputType | topicData
+        TopicsApi apiInstance = new TopicsApi(defaultClient);
+        TopicInputType topicData = new TopicInputType(); // TopicInputType | topic input data
         try {
-            ResponseEntity result = apiInstance.addTopic(topicData);
+            TopicOverviewType result = apiInstance.addTopic(topicData);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TopicsControllerApi#addTopic");
+            System.err.println("Exception when calling TopicsApi#addTopic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -59,11 +59,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **topicData** | [**TopicInputType**](TopicInputType.md)| topicData | |
+| **topicData** | [**TopicInputType**](TopicInputType.md)| topic input data | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+[**TopicOverviewType**](TopicOverviewType.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: */*
+- **Accept**: application/json
 
 
 ### HTTP response details
@@ -88,7 +88,7 @@ public class Example {
 
 ## deleteTopic
 
-> ResponseEntity deleteTopic(topicId)
+> deleteTopic(topicId)
 
 Delete the topic
 
@@ -103,7 +103,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.TopicsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.TopicsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -114,13 +114,12 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        TopicsControllerApi apiInstance = new TopicsControllerApi(defaultClient);
-        String topicId = "topicId_example"; // String | topicId
+        TopicsApi apiInstance = new TopicsApi(defaultClient);
+        String topicId = "topicId_example"; // String | unique identifier of the topic
         try {
-            ResponseEntity result = apiInstance.deleteTopic(topicId);
-            System.out.println(result);
+            apiInstance.deleteTopic(topicId);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TopicsControllerApi#deleteTopic");
+            System.err.println("Exception when calling TopicsApi#deleteTopic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -135,11 +134,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **topicId** | **String**| topicId | |
+| **topicId** | **String**| unique identifier of the topic | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -148,7 +147,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
@@ -162,7 +161,7 @@ public class Example {
 
 ## updateTopic
 
-> ResponseEntity updateTopic(topicId, topicData)
+> updateTopic(topicId, topicData)
 
 Modify topic information
 
@@ -177,7 +176,7 @@ import org.n52.kommonitor.datamanagement.api.ApiException;
 import org.n52.kommonitor.datamanagement.api.Configuration;
 import org.n52.kommonitor.datamanagement.api.auth.*;
 import org.n52.kommonitor.datamanagement.api.models.*;
-import org.n52.kommonitor.datamanagement.api.client.TopicsControllerApi;
+import org.n52.kommonitor.datamanagement.api.client.TopicsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -188,14 +187,13 @@ public class Example {
         OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
-        TopicsControllerApi apiInstance = new TopicsControllerApi(defaultClient);
-        String topicId = "topicId_example"; // String | topicId
-        TopicInputType topicData = new TopicInputType(); // TopicInputType | topicData
+        TopicsApi apiInstance = new TopicsApi(defaultClient);
+        String topicId = "topicId_example"; // String | unique identifier of the topic
+        TopicInputType topicData = new TopicInputType(); // TopicInputType | topic input data
         try {
-            ResponseEntity result = apiInstance.updateTopic(topicId, topicData);
-            System.out.println(result);
+            apiInstance.updateTopic(topicId, topicData);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TopicsControllerApi#updateTopic");
+            System.err.println("Exception when calling TopicsApi#updateTopic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -210,12 +208,12 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **topicId** | **String**| topicId | |
-| **topicData** | [**TopicInputType**](TopicInputType.md)| topicData | |
+| **topicId** | **String**| unique identifier of the topic | |
+| **topicData** | [**TopicInputType**](TopicInputType.md)| topic input data | |
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+null (empty response body)
 
 ### Authorization
 
@@ -224,7 +222,7 @@ public class Example {
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: */*
+- **Accept**: Not defined
 
 
 ### HTTP response details
