@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorPOSTInputTypeValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
    * @return indicatorValue
   */
   
-  @Schema(name = "indicatorValue", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "indicatorValue", example = "0.0", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indicatorValue")
   public Float getIndicatorValue() {
     return indicatorValue;

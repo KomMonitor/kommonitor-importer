@@ -22,13 +22,15 @@ import jakarta.annotation.Generated;
  * SpatialUnitPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class SpatialUnitPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Valid
   private List<String> allowedRoles = new ArrayList<>();
+
+  private String datasetName;
 
   private CommonMetadataType metadata;
 
@@ -81,6 +83,26 @@ public class SpatialUnitPATCHInputType implements Serializable {
 
   public void setAllowedRoles(List<String> allowedRoles) {
     this.allowedRoles = allowedRoles;
+  }
+
+  public SpatialUnitPATCHInputType datasetName(String datasetName) {
+    this.datasetName = datasetName;
+    return this;
+  }
+
+  /**
+   * Get datasetName
+   * @return datasetName
+  */
+  
+  @Schema(name = "datasetName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("datasetName")
+  public String getDatasetName() {
+    return datasetName;
+  }
+
+  public void setDatasetName(String datasetName) {
+    this.datasetName = datasetName;
   }
 
   public SpatialUnitPATCHInputType metadata(CommonMetadataType metadata) {
@@ -153,6 +175,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
     }
     SpatialUnitPATCHInputType spatialUnitPATCHInputType = (SpatialUnitPATCHInputType) o;
     return Objects.equals(this.allowedRoles, spatialUnitPATCHInputType.allowedRoles) &&
+        Objects.equals(this.datasetName, spatialUnitPATCHInputType.datasetName) &&
         Objects.equals(this.metadata, spatialUnitPATCHInputType.metadata) &&
         Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPATCHInputType.nextLowerHierarchyLevel) &&
         Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel);
@@ -160,7 +183,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel);
+    return Objects.hash(allowedRoles, datasetName, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel);
   }
 
   @Override
@@ -168,6 +191,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpatialUnitPATCHInputType {\n");
     sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
+    sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");

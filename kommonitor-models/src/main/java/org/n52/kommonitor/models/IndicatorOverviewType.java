@@ -9,11 +9,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
+import org.n52.kommonitor.models.CreationTypeEnum;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.GeoresourceReferenceType;
 import org.n52.kommonitor.models.IndicatorReferenceType;
 import org.n52.kommonitor.models.IndicatorSpatialUnitJoinItem;
+import org.n52.kommonitor.models.IndicatorTypeEnum;
 import org.n52.kommonitor.models.OgcServicesType;
+import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -29,7 +32,7 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -47,93 +50,15 @@ public class IndicatorOverviewType implements Serializable {
 
   private String characteristicValue;
 
-  /**
-   * indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
-   */
-  public enum CreationTypeEnum {
-    INSERTION("INSERTION"),
-    
-    COMPUTATION("COMPUTATION"),
-    
-    AGGREGATION("AGGREGATION");
-
-    private String value;
-
-    CreationTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static CreationTypeEnum fromValue(String value) {
-      for (CreationTypeEnum b : CreationTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
   private CreationTypeEnum creationType;
 
   private DefaultClassificationMappingType defaultClassificationMapping;
 
+  private BigDecimal displayOrder;
+
   private String indicatorId;
 
   private String indicatorName;
-
-  /**
-   * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
-   */
-  public enum IndicatorTypeEnum {
-    STATUS_ABSOLUTE("STATUS_ABSOLUTE"),
-    
-    DYNAMIC_ABSOLUTE("DYNAMIC_ABSOLUTE"),
-    
-    STATUS_RELATIVE("STATUS_RELATIVE"),
-    
-    DYNAMIC_RELATIVE("DYNAMIC_RELATIVE"),
-    
-    STATUS_STANDARDIZED("STATUS_STANDARDIZED"),
-    
-    DYNAMIC_STANDARDIZED("DYNAMIC_STANDARDIZED");
-
-    private String value;
-
-    IndicatorTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static IndicatorTypeEnum fromValue(String value) {
-      for (IndicatorTypeEnum b : IndicatorTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
 
   private IndicatorTypeEnum indicatorType;
 
@@ -152,8 +77,6 @@ public class IndicatorOverviewType implements Serializable {
 
   private String referenceDateNote;
 
-  private BigDecimal displayOrder;
-
   @Valid
   private List<@Valid GeoresourceReferenceType> referencedGeoresources;
 
@@ -168,7 +91,7 @@ public class IndicatorOverviewType implements Serializable {
   private String unit;
 
   @Valid
-  private List<String> userPermissions;
+  private List<PermissionLevelType> userPermissions;
 
   /**
    * Default constructor
@@ -330,11 +253,11 @@ public class IndicatorOverviewType implements Serializable {
   }
 
   /**
-   * indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
+   * Get creationType
    * @return creationType
   */
-  @NotNull 
-  @Schema(name = "creationType", description = "indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "creationType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("creationType")
   public CreationTypeEnum getCreationType() {
     return creationType;
@@ -362,6 +285,26 @@ public class IndicatorOverviewType implements Serializable {
 
   public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
+  }
+
+  public IndicatorOverviewType displayOrder(BigDecimal displayOrder) {
+    this.displayOrder = displayOrder;
+    return this;
+  }
+
+  /**
+   * an order number to control display order in clients
+   * @return displayOrder
+  */
+  @Valid 
+  @Schema(name = "displayOrder", example = "0.0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("displayOrder")
+  public BigDecimal getDisplayOrder() {
+    return displayOrder;
+  }
+
+  public void setDisplayOrder(BigDecimal displayOrder) {
+    this.displayOrder = displayOrder;
   }
 
   public IndicatorOverviewType indicatorId(String indicatorId) {
@@ -410,11 +353,11 @@ public class IndicatorOverviewType implements Serializable {
   }
 
   /**
-   * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
+   * Get indicatorType
    * @return indicatorType
   */
-  
-  @Schema(name = "indicatorType", description = "indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "indicatorType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indicatorType")
   public IndicatorTypeEnum getIndicatorType() {
     return indicatorType;
@@ -572,26 +515,6 @@ public class IndicatorOverviewType implements Serializable {
     this.referenceDateNote = referenceDateNote;
   }
 
-  public IndicatorOverviewType displayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
-    return this;
-  }
-
-  /**
-   * an order number to control display order in clients
-   * @return displayOrder
-  */
-  @Valid 
-  @Schema(name = "displayOrder", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("displayOrder")
-  public BigDecimal getDisplayOrder() {
-    return displayOrder;
-  }
-
-  public void setDisplayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
-  }
-
   public IndicatorOverviewType referencedGeoresources(List<@Valid GeoresourceReferenceType> referencedGeoresources) {
     this.referencedGeoresources = referencedGeoresources;
     return this;
@@ -716,12 +639,12 @@ public class IndicatorOverviewType implements Serializable {
     this.unit = unit;
   }
 
-  public IndicatorOverviewType userPermissions(List<String> userPermissions) {
+  public IndicatorOverviewType userPermissions(List<PermissionLevelType> userPermissions) {
     this.userPermissions = userPermissions;
     return this;
   }
 
-  public IndicatorOverviewType addUserPermissionsItem(String userPermissionsItem) {
+  public IndicatorOverviewType addUserPermissionsItem(PermissionLevelType userPermissionsItem) {
     if (this.userPermissions == null) {
       this.userPermissions = new ArrayList<>();
     }
@@ -730,17 +653,17 @@ public class IndicatorOverviewType implements Serializable {
   }
 
   /**
-   * List of permissions that are effective on this dataset for the current user
+   * list of permissions that are effective on this dataset for the current user
    * @return userPermissions
   */
-  
-  @Schema(name = "userPermissions", description = "List of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "userPermissions", description = "list of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userPermissions")
-  public List<String> getUserPermissions() {
+  public List<PermissionLevelType> getUserPermissions() {
     return userPermissions;
   }
 
-  public void setUserPermissions(List<String> userPermissions) {
+  public void setUserPermissions(List<PermissionLevelType> userPermissions) {
     this.userPermissions = userPermissions;
   }
 
@@ -760,6 +683,7 @@ public class IndicatorOverviewType implements Serializable {
         Objects.equals(this.characteristicValue, indicatorOverviewType.characteristicValue) &&
         Objects.equals(this.creationType, indicatorOverviewType.creationType) &&
         Objects.equals(this.defaultClassificationMapping, indicatorOverviewType.defaultClassificationMapping) &&
+        Objects.equals(this.displayOrder, indicatorOverviewType.displayOrder) &&
         Objects.equals(this.indicatorId, indicatorOverviewType.indicatorId) &&
         Objects.equals(this.indicatorName, indicatorOverviewType.indicatorName) &&
         Objects.equals(this.indicatorType, indicatorOverviewType.indicatorType) &&
@@ -770,7 +694,6 @@ public class IndicatorOverviewType implements Serializable {
         Objects.equals(this.ogcServices, indicatorOverviewType.ogcServices) &&
         Objects.equals(this.processDescription, indicatorOverviewType.processDescription) &&
         Objects.equals(this.referenceDateNote, indicatorOverviewType.referenceDateNote) &&
-        Objects.equals(this.displayOrder, indicatorOverviewType.displayOrder) &&
         Objects.equals(this.referencedGeoresources, indicatorOverviewType.referencedGeoresources) &&
         Objects.equals(this.referencedIndicators, indicatorOverviewType.referencedIndicators) &&
         Objects.equals(this.tags, indicatorOverviewType.tags) &&
@@ -781,7 +704,7 @@ public class IndicatorOverviewType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, allowedRoles, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, processDescription, referenceDateNote, displayOrder, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions);
+    return Objects.hash(abbreviation, allowedRoles, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, displayOrder, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, processDescription, referenceDateNote, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions);
   }
 
   @Override
@@ -795,6 +718,7 @@ public class IndicatorOverviewType implements Serializable {
     sb.append("    characteristicValue: ").append(toIndentedString(characteristicValue)).append("\n");
     sb.append("    creationType: ").append(toIndentedString(creationType)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    indicatorName: ").append(toIndentedString(indicatorName)).append("\n");
     sb.append("    indicatorType: ").append(toIndentedString(indicatorType)).append("\n");
@@ -805,7 +729,6 @@ public class IndicatorOverviewType implements Serializable {
     sb.append("    ogcServices: ").append(toIndentedString(ogcServices)).append("\n");
     sb.append("    processDescription: ").append(toIndentedString(processDescription)).append("\n");
     sb.append("    referenceDateNote: ").append(toIndentedString(referenceDateNote)).append("\n");
-    sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    referencedGeoresources: ").append(toIndentedString(referencedGeoresources)).append("\n");
     sb.append("    referencedIndicators: ").append(toIndentedString(referencedIndicators)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");

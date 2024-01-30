@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -21,7 +22,7 @@ import jakarta.annotation.Generated;
  * IndicatorSpatialUnitJoinItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorSpatialUnitJoinItem implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,7 +35,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   private String spatialUnitName;
 
   @Valid
-  private List<String> userPermissions;
+  private List<PermissionLevelType> userPermissions;
 
   /**
    * Default constructor
@@ -121,12 +122,12 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
     this.spatialUnitName = spatialUnitName;
   }
 
-  public IndicatorSpatialUnitJoinItem userPermissions(List<String> userPermissions) {
+  public IndicatorSpatialUnitJoinItem userPermissions(List<PermissionLevelType> userPermissions) {
     this.userPermissions = userPermissions;
     return this;
   }
 
-  public IndicatorSpatialUnitJoinItem addUserPermissionsItem(String userPermissionsItem) {
+  public IndicatorSpatialUnitJoinItem addUserPermissionsItem(PermissionLevelType userPermissionsItem) {
     if (this.userPermissions == null) {
       this.userPermissions = new ArrayList<>();
     }
@@ -135,17 +136,17 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   }
 
   /**
-   * List of permissions that are effective on this dataset for the current user
+   * list of permissions that are effective on this dataset for the current user
    * @return userPermissions
   */
-  
-  @Schema(name = "userPermissions", description = "List of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "userPermissions", description = "list of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userPermissions")
-  public List<String> getUserPermissions() {
+  public List<PermissionLevelType> getUserPermissions() {
     return userPermissions;
   }
 
-  public void setUserPermissions(List<String> userPermissions) {
+  public void setUserPermissions(List<PermissionLevelType> userPermissions) {
     this.userPermissions = userPermissions;
   }
 

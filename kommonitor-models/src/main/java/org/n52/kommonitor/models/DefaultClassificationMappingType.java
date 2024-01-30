@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class DefaultClassificationMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -55,11 +55,11 @@ public class DefaultClassificationMappingType implements Serializable {
   }
 
   /**
-   * the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
+   * the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.
    * @return colorBrewerSchemeName
   */
   @NotNull 
-  @Schema(name = "colorBrewerSchemeName", description = "the name of the colorBrewer color scheme jused to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "colorBrewerSchemeName", description = "the name of the colorBrewer color scheme used to define the colors for classification (see project http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3 for colorSchemes). Set to 'INDIVIDUAL' if colors are set arbitrarily.", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("colorBrewerSchemeName")
   public String getColorBrewerSchemeName() {
     return colorBrewerSchemeName;

@@ -9,9 +9,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
+import org.n52.kommonitor.models.CreationTypeEnum;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
+import org.n52.kommonitor.models.IndicatorTypeEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -27,7 +29,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,91 +41,13 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private String characteristicValue;
 
-  /**
-   * indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
-   */
-  public enum CreationTypeEnum {
-    INSERTION("INSERTION"),
-    
-    COMPUTATION("COMPUTATION"),
-    
-    AGGREGATION("AGGREGATION");
-
-    private String value;
-
-    CreationTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static CreationTypeEnum fromValue(String value) {
-      for (CreationTypeEnum b : CreationTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
   private CreationTypeEnum creationType;
 
   private String datasetName;
 
   private DefaultClassificationMappingType defaultClassificationMapping;
 
-  /**
-   * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
-   */
-  public enum IndicatorTypeEnum {
-    STATUS_ABSOLUTE("STATUS_ABSOLUTE"),
-    
-    DYNAMIC_ABSOLUTE("DYNAMIC_ABSOLUTE"),
-    
-    STATUS_RELATIVE("STATUS_RELATIVE"),
-    
-    DYNAMIC_RELATIVE("DYNAMIC_RELATIVE"),
-    
-    STATUS_STANDARDIZED("STATUS_STANDARDIZED"),
-    
-    DYNAMIC_STANDARDIZED("DYNAMIC_STANDARDIZED");
-
-    private String value;
-
-    IndicatorTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static IndicatorTypeEnum fromValue(String value) {
-      for (IndicatorTypeEnum b : IndicatorTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
+  private BigDecimal displayOrder;
 
   private IndicatorTypeEnum indicatorType;
 
@@ -138,8 +62,6 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   private String processDescription;
 
   private String referenceDateNote;
-
-  private BigDecimal displayOrder;
 
   @Valid
   private List<@Valid IndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources;
@@ -252,11 +174,11 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   }
 
   /**
-   * indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)
+   * Get creationType
    * @return creationType
   */
-  
-  @Schema(name = "creationType", description = "indicates if the data is simply inserted (INSERTION), computed by an automated script (COMPUTATION) or automatically aggregated by a script (AGGREGATION)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "creationType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("creationType")
   public CreationTypeEnum getCreationType() {
     return creationType;
@@ -306,17 +228,37 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
+  public IndicatorMetadataPATCHInputType displayOrder(BigDecimal displayOrder) {
+    this.displayOrder = displayOrder;
+    return this;
+  }
+
+  /**
+   * an order number to control display order in clients
+   * @return displayOrder
+  */
+  @Valid 
+  @Schema(name = "displayOrder", example = "0.0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("displayOrder")
+  public BigDecimal getDisplayOrder() {
+    return displayOrder;
+  }
+
+  public void setDisplayOrder(BigDecimal displayOrder) {
+    this.displayOrder = displayOrder;
+  }
+
   public IndicatorMetadataPATCHInputType indicatorType(IndicatorTypeEnum indicatorType) {
     this.indicatorType = indicatorType;
     return this;
   }
 
   /**
-   * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
+   * Get indicatorType
    * @return indicatorType
   */
-  
-  @Schema(name = "indicatorType", description = "indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "indicatorType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indicatorType")
   public IndicatorTypeEnum getIndicatorType() {
     return indicatorType;
@@ -444,26 +386,6 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   public void setReferenceDateNote(String referenceDateNote) {
     this.referenceDateNote = referenceDateNote;
-  }
-
-  public IndicatorMetadataPATCHInputType displayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
-    return this;
-  }
-
-  /**
-   * an order number to control display order in clients
-   * @return displayOrder
-  */
-  @Valid 
-  @Schema(name = "displayOrder", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("displayOrder")
-  public BigDecimal getDisplayOrder() {
-    return displayOrder;
-  }
-
-  public void setDisplayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
   }
 
   public IndicatorMetadataPATCHInputType refrencesToGeoresources(List<@Valid IndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources) {
@@ -605,6 +527,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
         Objects.equals(this.creationType, indicatorMetadataPATCHInputType.creationType) &&
         Objects.equals(this.datasetName, indicatorMetadataPATCHInputType.datasetName) &&
         Objects.equals(this.defaultClassificationMapping, indicatorMetadataPATCHInputType.defaultClassificationMapping) &&
+        Objects.equals(this.displayOrder, indicatorMetadataPATCHInputType.displayOrder) &&
         Objects.equals(this.indicatorType, indicatorMetadataPATCHInputType.indicatorType) &&
         Objects.equals(this.interpretation, indicatorMetadataPATCHInputType.interpretation) &&
         Objects.equals(this.isHeadlineIndicator, indicatorMetadataPATCHInputType.isHeadlineIndicator) &&
@@ -612,7 +535,6 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
         Objects.equals(this.metadata, indicatorMetadataPATCHInputType.metadata) &&
         Objects.equals(this.processDescription, indicatorMetadataPATCHInputType.processDescription) &&
         Objects.equals(this.referenceDateNote, indicatorMetadataPATCHInputType.referenceDateNote) &&
-        Objects.equals(this.displayOrder, indicatorMetadataPATCHInputType.displayOrder) &&
         Objects.equals(this.refrencesToGeoresources, indicatorMetadataPATCHInputType.refrencesToGeoresources) &&
         Objects.equals(this.refrencesToOtherIndicators, indicatorMetadataPATCHInputType.refrencesToOtherIndicators) &&
         Objects.equals(this.tags, indicatorMetadataPATCHInputType.tags) &&
@@ -622,7 +544,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, allowedRoles, characteristicValue, creationType, datasetName, defaultClassificationMapping, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, processDescription, referenceDateNote, displayOrder, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
+    return Objects.hash(abbreviation, allowedRoles, characteristicValue, creationType, datasetName, defaultClassificationMapping, displayOrder, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, processDescription, referenceDateNote, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
   }
 
   @Override
@@ -635,6 +557,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     sb.append("    creationType: ").append(toIndentedString(creationType)).append("\n");
     sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    indicatorType: ").append(toIndentedString(indicatorType)).append("\n");
     sb.append("    interpretation: ").append(toIndentedString(interpretation)).append("\n");
     sb.append("    isHeadlineIndicator: ").append(toIndentedString(isHeadlineIndicator)).append("\n");
@@ -642,7 +565,6 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    processDescription: ").append(toIndentedString(processDescription)).append("\n");
     sb.append("    referenceDateNote: ").append(toIndentedString(referenceDateNote)).append("\n");
-    sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    refrencesToGeoresources: ").append(toIndentedString(refrencesToGeoresources)).append("\n");
     sb.append("    refrencesToOtherIndicators: ").append(toIndentedString(refrencesToOtherIndicators)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");

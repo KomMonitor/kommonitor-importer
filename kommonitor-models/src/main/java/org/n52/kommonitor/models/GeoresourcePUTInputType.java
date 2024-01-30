@@ -20,20 +20,20 @@ import jakarta.annotation.Generated;
  * GeoresourcePUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class GeoresourcePUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String geoJsonString;
 
-  private PeriodOfValidityType periodOfValidity;
-
   private Boolean isPartialUpdate;
+
+  private PeriodOfValidityType periodOfValidity;
 
   /**
    * Default constructor
-   * @deprecated Use {@link GeoresourcePUTInputType#GeoresourcePUTInputType(String, PeriodOfValidityType, Boolean)}
+   * @deprecated Use {@link GeoresourcePUTInputType#GeoresourcePUTInputType(String, PeriodOfValidityType)}
    */
   @Deprecated
   public GeoresourcePUTInputType() {
@@ -43,10 +43,9 @@ public class GeoresourcePUTInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public GeoresourcePUTInputType(String geoJsonString, PeriodOfValidityType periodOfValidity, Boolean isPartialUpdate) {
+  public GeoresourcePUTInputType(String geoJsonString, PeriodOfValidityType periodOfValidity) {
     this.geoJsonString = geoJsonString;
     this.periodOfValidity = periodOfValidity;
-    this.isPartialUpdate = isPartialUpdate;
   }
 
   public GeoresourcePUTInputType geoJsonString(String geoJsonString) {
@@ -69,6 +68,26 @@ public class GeoresourcePUTInputType implements Serializable {
     this.geoJsonString = geoJsonString;
   }
 
+  public GeoresourcePUTInputType isPartialUpdate(Boolean isPartialUpdate) {
+    this.isPartialUpdate = isPartialUpdate;
+    return this;
+  }
+
+  /**
+   * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
+   * @return isPartialUpdate
+  */
+  
+  @Schema(name = "isPartialUpdate", description = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("isPartialUpdate")
+  public Boolean getIsPartialUpdate() {
+    return isPartialUpdate;
+  }
+
+  public void setIsPartialUpdate(Boolean isPartialUpdate) {
+    this.isPartialUpdate = isPartialUpdate;
+  }
+
   public GeoresourcePUTInputType periodOfValidity(PeriodOfValidityType periodOfValidity) {
     this.periodOfValidity = periodOfValidity;
     return this;
@@ -89,26 +108,6 @@ public class GeoresourcePUTInputType implements Serializable {
     this.periodOfValidity = periodOfValidity;
   }
 
-  public GeoresourcePUTInputType isPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-    return this;
-  }
-
-  /**
-   * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
-   * @return isPartialUpdate
-  */
-  @NotNull 
-  @Schema(name = "isPartialUpdate", description = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("isPartialUpdate")
-  public Boolean getIsPartialUpdate() {
-    return isPartialUpdate;
-  }
-
-  public void setIsPartialUpdate(Boolean isPartialUpdate) {
-    this.isPartialUpdate = isPartialUpdate;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -119,13 +118,13 @@ public class GeoresourcePUTInputType implements Serializable {
     }
     GeoresourcePUTInputType georesourcePUTInputType = (GeoresourcePUTInputType) o;
     return Objects.equals(this.geoJsonString, georesourcePUTInputType.geoJsonString) &&
-        Objects.equals(this.periodOfValidity, georesourcePUTInputType.periodOfValidity) &&
-        Objects.equals(this.isPartialUpdate, georesourcePUTInputType.isPartialUpdate);
+        Objects.equals(this.isPartialUpdate, georesourcePUTInputType.isPartialUpdate) &&
+        Objects.equals(this.periodOfValidity, georesourcePUTInputType.periodOfValidity);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(geoJsonString, periodOfValidity, isPartialUpdate);
+    return Objects.hash(geoJsonString, isPartialUpdate, periodOfValidity);
   }
 
   @Override
@@ -133,8 +132,8 @@ public class GeoresourcePUTInputType implements Serializable {
     StringBuilder sb = new StringBuilder();
     sb.append("class GeoresourcePUTInputType {\n");
     sb.append("    geoJsonString: ").append(toIndentedString(geoJsonString)).append("\n");
-    sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
     sb.append("    isPartialUpdate: ").append(toIndentedString(isPartialUpdate)).append("\n");
+    sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
     sb.append("}");
     return sb.toString();
   }

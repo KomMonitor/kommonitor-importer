@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.ColorType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.PeriodOfValidityType;
+import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -25,7 +27,7 @@ import jakarta.annotation.Generated;
  * GeoresourceOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class GeoresourceOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -56,126 +58,24 @@ public class GeoresourceOverviewType implements Serializable {
 
   private CommonMetadataType metadata;
 
-  /**
-   * If georesource is a POI then custom POI marker color can be set by specifying one of the following color names
-   */
-  public enum PoiMarkerColorEnum {
-    WHITE("white"),
-    
-    RED("red"),
-    
-    ORANGE("orange"),
-    
-    BEIGE("beige"),
-    
-    GREEN("green"),
-    
-    BLUE("blue"),
-    
-    PURPLE("purple"),
-    
-    PINK("pink"),
-    
-    GRAY("gray"),
-    
-    BLACK("black");
-
-    private String value;
-
-    PoiMarkerColorEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static PoiMarkerColorEnum fromValue(String value) {
-      for (PoiMarkerColorEnum b : PoiMarkerColorEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  private PoiMarkerColorEnum poiMarkerColor;
+  private ColorType poiMarkerColor;
 
   private String poiSymbolBootstrap3Name;
 
-  /**
-   * If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names
-   */
-  public enum PoiSymbolColorEnum {
-    WHITE("white"),
-    
-    RED("red"),
-    
-    ORANGE("orange"),
-    
-    BEIGE("beige"),
-    
-    GREEN("green"),
-    
-    BLUE("blue"),
-    
-    PURPLE("purple"),
-    
-    PINK("pink"),
-    
-    GRAY("gray"),
-    
-    BLACK("black");
-
-    private String value;
-
-    PoiSymbolColorEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static PoiSymbolColorEnum fromValue(String value) {
-      for (PoiSymbolColorEnum b : PoiSymbolColorEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  private PoiSymbolColorEnum poiSymbolColor;
+  private ColorType poiSymbolColor;
 
   private String topicReference;
+
+  @Valid
+  private List<PermissionLevelType> userPermissions;
 
   private String wfsUrl;
 
   private String wmsUrl;
 
-  @Valid
-  private List<String> userPermissions;
-
   /**
    * Default constructor
-   * @deprecated Use {@link GeoresourceOverviewType#GeoresourceOverviewType(List<@Valid PeriodOfValidityType>, String, String, Boolean, Boolean, Boolean, CommonMetadataType, String, String, String)}
+   * @deprecated Use {@link GeoresourceOverviewType#GeoresourceOverviewType(List<@Valid PeriodOfValidityType>, String, String, Boolean, Boolean, Boolean, CommonMetadataType, String)}
    */
   @Deprecated
   public GeoresourceOverviewType() {
@@ -185,7 +85,7 @@ public class GeoresourceOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public GeoresourceOverviewType(List<@Valid PeriodOfValidityType> availablePeriodsOfValidity, String datasetName, String georesourceId, Boolean isAOI, Boolean isLOI, Boolean isPOI, CommonMetadataType metadata, String topicReference, String wfsUrl, String wmsUrl) {
+  public GeoresourceOverviewType(List<@Valid PeriodOfValidityType> availablePeriodsOfValidity, String datasetName, String georesourceId, Boolean isAOI, Boolean isLOI, Boolean isPOI, CommonMetadataType metadata, String topicReference) {
     this.availablePeriodsOfValidity = availablePeriodsOfValidity;
     this.datasetName = datasetName;
     this.georesourceId = georesourceId;
@@ -194,8 +94,6 @@ public class GeoresourceOverviewType implements Serializable {
     this.isPOI = isPOI;
     this.metadata = metadata;
     this.topicReference = topicReference;
-    this.wfsUrl = wfsUrl;
-    this.wmsUrl = wmsUrl;
   }
 
   public GeoresourceOverviewType allowedRoles(List<String> allowedRoles) {
@@ -424,7 +322,7 @@ public class GeoresourceOverviewType implements Serializable {
    * @return loiWidth
   */
   @Valid 
-  @Schema(name = "loiWidth", description = "display width for lines of interest (number of pixels in leaflet)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "loiWidth", example = "0.0", description = "display width for lines of interest (number of pixels in leaflet)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("loiWidth")
   public BigDecimal getLoiWidth() {
     return loiWidth;
@@ -454,23 +352,23 @@ public class GeoresourceOverviewType implements Serializable {
     this.metadata = metadata;
   }
 
-  public GeoresourceOverviewType poiMarkerColor(PoiMarkerColorEnum poiMarkerColor) {
+  public GeoresourceOverviewType poiMarkerColor(ColorType poiMarkerColor) {
     this.poiMarkerColor = poiMarkerColor;
     return this;
   }
 
   /**
-   * If georesource is a POI then custom POI marker color can be set by specifying one of the following color names
+   * Get poiMarkerColor
    * @return poiMarkerColor
   */
-  
-  @Schema(name = "poiMarkerColor", description = "If georesource is a POI then custom POI marker color can be set by specifying one of the following color names", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "poiMarkerColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("poiMarkerColor")
-  public PoiMarkerColorEnum getPoiMarkerColor() {
+  public ColorType getPoiMarkerColor() {
     return poiMarkerColor;
   }
 
-  public void setPoiMarkerColor(PoiMarkerColorEnum poiMarkerColor) {
+  public void setPoiMarkerColor(ColorType poiMarkerColor) {
     this.poiMarkerColor = poiMarkerColor;
   }
 
@@ -494,23 +392,23 @@ public class GeoresourceOverviewType implements Serializable {
     this.poiSymbolBootstrap3Name = poiSymbolBootstrap3Name;
   }
 
-  public GeoresourceOverviewType poiSymbolColor(PoiSymbolColorEnum poiSymbolColor) {
+  public GeoresourceOverviewType poiSymbolColor(ColorType poiSymbolColor) {
     this.poiSymbolColor = poiSymbolColor;
     return this;
   }
 
   /**
-   * If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names
+   * Get poiSymbolColor
    * @return poiSymbolColor
   */
-  
-  @Schema(name = "poiSymbolColor", description = "If georesource is a POI then custom POI symbol color can be set by specifying one of the following color names", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "poiSymbolColor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("poiSymbolColor")
-  public PoiSymbolColorEnum getPoiSymbolColor() {
+  public ColorType getPoiSymbolColor() {
     return poiSymbolColor;
   }
 
-  public void setPoiSymbolColor(PoiSymbolColorEnum poiSymbolColor) {
+  public void setPoiSymbolColor(ColorType poiSymbolColor) {
     this.poiSymbolColor = poiSymbolColor;
   }
 
@@ -534,6 +432,34 @@ public class GeoresourceOverviewType implements Serializable {
     this.topicReference = topicReference;
   }
 
+  public GeoresourceOverviewType userPermissions(List<PermissionLevelType> userPermissions) {
+    this.userPermissions = userPermissions;
+    return this;
+  }
+
+  public GeoresourceOverviewType addUserPermissionsItem(PermissionLevelType userPermissionsItem) {
+    if (this.userPermissions == null) {
+      this.userPermissions = new ArrayList<>();
+    }
+    this.userPermissions.add(userPermissionsItem);
+    return this;
+  }
+
+  /**
+   * list of permissions that are effective on this dataset for the current user 
+   * @return userPermissions
+  */
+  @Valid 
+  @Schema(name = "userPermissions", description = "list of permissions that are effective on this dataset for the current user ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("userPermissions")
+  public List<PermissionLevelType> getUserPermissions() {
+    return userPermissions;
+  }
+
+  public void setUserPermissions(List<PermissionLevelType> userPermissions) {
+    this.userPermissions = userPermissions;
+  }
+
   public GeoresourceOverviewType wfsUrl(String wfsUrl) {
     this.wfsUrl = wfsUrl;
     return this;
@@ -543,8 +469,8 @@ public class GeoresourceOverviewType implements Serializable {
    * the URL of a running WFS instance serving the spatial features of the associated dataset
    * @return wfsUrl
   */
-  @NotNull 
-  @Schema(name = "wfsUrl", description = "the URL of a running WFS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "wfsUrl", description = "the URL of a running WFS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("wfsUrl")
   public String getWfsUrl() {
     return wfsUrl;
@@ -563,8 +489,8 @@ public class GeoresourceOverviewType implements Serializable {
    * the URL of a running WMS instance serving the spatial features of the associated dataset
    * @return wmsUrl
   */
-  @NotNull 
-  @Schema(name = "wmsUrl", description = "the URL of a running WMS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "wmsUrl", description = "the URL of a running WMS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("wmsUrl")
   public String getWmsUrl() {
     return wmsUrl;
@@ -572,34 +498,6 @@ public class GeoresourceOverviewType implements Serializable {
 
   public void setWmsUrl(String wmsUrl) {
     this.wmsUrl = wmsUrl;
-  }
-
-  public GeoresourceOverviewType userPermissions(List<String> userPermissions) {
-    this.userPermissions = userPermissions;
-    return this;
-  }
-
-  public GeoresourceOverviewType addUserPermissionsItem(String userPermissionsItem) {
-    if (this.userPermissions == null) {
-      this.userPermissions = new ArrayList<>();
-    }
-    this.userPermissions.add(userPermissionsItem);
-    return this;
-  }
-
-  /**
-   * List of permissions that are effective on this dataset for the current user
-   * @return userPermissions
-  */
-  
-  @Schema(name = "userPermissions", description = "List of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("userPermissions")
-  public List<String> getUserPermissions() {
-    return userPermissions;
-  }
-
-  public void setUserPermissions(List<String> userPermissions) {
-    this.userPermissions = userPermissions;
   }
 
   @Override
@@ -627,14 +525,14 @@ public class GeoresourceOverviewType implements Serializable {
         Objects.equals(this.poiSymbolBootstrap3Name, georesourceOverviewType.poiSymbolBootstrap3Name) &&
         Objects.equals(this.poiSymbolColor, georesourceOverviewType.poiSymbolColor) &&
         Objects.equals(this.topicReference, georesourceOverviewType.topicReference) &&
+        Objects.equals(this.userPermissions, georesourceOverviewType.userPermissions) &&
         Objects.equals(this.wfsUrl, georesourceOverviewType.wfsUrl) &&
-        Objects.equals(this.wmsUrl, georesourceOverviewType.wmsUrl) &&
-        Objects.equals(this.userPermissions, georesourceOverviewType.userPermissions);
+        Objects.equals(this.wmsUrl, georesourceOverviewType.wmsUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, aoiColor, availablePeriodsOfValidity, datasetName, georesourceId, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference, wfsUrl, wmsUrl, userPermissions);
+    return Objects.hash(allowedRoles, aoiColor, availablePeriodsOfValidity, datasetName, georesourceId, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference, userPermissions, wfsUrl, wmsUrl);
   }
 
   @Override
@@ -657,9 +555,9 @@ public class GeoresourceOverviewType implements Serializable {
     sb.append("    poiSymbolBootstrap3Name: ").append(toIndentedString(poiSymbolBootstrap3Name)).append("\n");
     sb.append("    poiSymbolColor: ").append(toIndentedString(poiSymbolColor)).append("\n");
     sb.append("    topicReference: ").append(toIndentedString(topicReference)).append("\n");
+    sb.append("    userPermissions: ").append(toIndentedString(userPermissions)).append("\n");
     sb.append("    wfsUrl: ").append(toIndentedString(wfsUrl)).append("\n");
     sb.append("    wmsUrl: ").append(toIndentedString(wmsUrl)).append("\n");
-    sb.append("    userPermissions: ").append(toIndentedString(userPermissions)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingItemType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class DefaultClassificationMappingItemType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -51,11 +51,11 @@ public class DefaultClassificationMappingItemType implements Serializable {
   }
 
   /**
-   * the default color for the specified value interval as hex string inclusive leading #, i.e. '#ffffff'
+   * the default color for the specified value interval as hex string inclusive leading '#', i.e. '#ffffff'
    * @return defaultColorAsHex
   */
   @NotNull 
-  @Schema(name = "defaultColorAsHex", description = "the default color for the specified value interval as hex string inclusive leading #, i.e. '#ffffff'", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "defaultColorAsHex", description = "the default color for the specified value interval as hex string inclusive leading '#', i.e. '#ffffff'", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("defaultColorAsHex")
   public String getDefaultColorAsHex() {
     return defaultColorAsHex;
@@ -71,11 +71,11 @@ public class DefaultClassificationMappingItemType implements Serializable {
   }
 
   /**
-   * the default custom rating string for the specified value interval, i.e. 'very high'/'very low' or 'good'/'bad'
+   * the default custom rating string for the specified value interval,\\ \\ i.e. 'very high'/'very low' or 'good'/'bad'\"
    * @return defaultCustomRating
   */
   @NotNull 
-  @Schema(name = "defaultCustomRating", description = "the default custom rating string for the specified value interval, i.e. 'very high'/'very low' or 'good'/'bad'", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "defaultCustomRating", description = "the default custom rating string for the specified value interval,\\ \\ i.e. 'very high'/'very low' or 'good'/'bad'\"", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("defaultCustomRating")
   public String getDefaultCustomRating() {
     return defaultCustomRating;

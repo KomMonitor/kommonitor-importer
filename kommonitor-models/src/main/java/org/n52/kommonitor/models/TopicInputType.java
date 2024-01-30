@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import org.n52.kommonitor.models.TopicResourceEnum;
+import org.n52.kommonitor.models.TopicTypeEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -22,7 +24,7 @@ import jakarta.annotation.Generated;
  * TopicInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class TopicInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -36,77 +38,7 @@ public class TopicInputType implements Serializable {
 
   private String topicName;
 
-  /**
-   * topic resource indicating if the topic object corresponds to an indicator or to a georesource
-   */
-  public enum TopicResourceEnum {
-    INDICATOR("indicator"),
-    
-    GEORESOURCE("georesource");
-
-    private String value;
-
-    TopicResourceEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TopicResourceEnum fromValue(String value) {
-      for (TopicResourceEnum b : TopicResourceEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
   private TopicResourceEnum topicResource;
-
-  /**
-   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
-   */
-  public enum TopicTypeEnum {
-    MAIN("main"),
-    
-    SUB("sub");
-
-    private String value;
-
-    TopicTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TopicTypeEnum fromValue(String value) {
-      for (TopicTypeEnum b : TopicTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
 
   private TopicTypeEnum topicType;
 
@@ -222,11 +154,11 @@ public class TopicInputType implements Serializable {
   }
 
   /**
-   * topic resource indicating if the topic object corresponds to an indicator or to a georesource
+   * Get topicResource
    * @return topicResource
   */
-  
-  @Schema(name = "topicResource", description = "topic resource indicating if the topic object corresponds to an indicator or to a georesource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Valid 
+  @Schema(name = "topicResource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("topicResource")
   public TopicResourceEnum getTopicResource() {
     return topicResource;
@@ -242,11 +174,11 @@ public class TopicInputType implements Serializable {
   }
 
   /**
-   * topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'
+   * Get topicType
    * @return topicType
   */
-  @NotNull 
-  @Schema(name = "topicType", description = "topic type indicating if the topic object is a subtopic or a main topic - only topics of type 'sub' shall be subTopics of topics with type 'main'", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "topicType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicType")
   public TopicTypeEnum getTopicType() {
     return topicType;

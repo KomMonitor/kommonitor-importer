@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.PeriodOfValidityType;
+import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  * SpatialUnitOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class SpatialUnitOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,16 +45,16 @@ public class SpatialUnitOverviewType implements Serializable {
 
   private String spatialUnitLevel;
 
+  @Valid
+  private List<PermissionLevelType> userPermissions = new ArrayList<>();
+
   private String wfsUrl;
 
   private String wmsUrl;
 
-  @Valid
-  private List<String> userPermissions;
-
   /**
    * Default constructor
-   * @deprecated Use {@link SpatialUnitOverviewType#SpatialUnitOverviewType(List<String>, CommonMetadataType, String, String, String, String, String, String)}
+   * @deprecated Use {@link SpatialUnitOverviewType#SpatialUnitOverviewType(List<String>, CommonMetadataType, String, String, String, String, List<PermissionLevelType>, String, String)}
    */
   @Deprecated
   public SpatialUnitOverviewType() {
@@ -63,13 +64,14 @@ public class SpatialUnitOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public SpatialUnitOverviewType(List<String> allowedRoles, CommonMetadataType metadata, String nextLowerHierarchyLevel, String nextUpperHierarchyLevel, String spatialUnitId, String spatialUnitLevel, String wfsUrl, String wmsUrl) {
+  public SpatialUnitOverviewType(List<String> allowedRoles, CommonMetadataType metadata, String nextLowerHierarchyLevel, String nextUpperHierarchyLevel, String spatialUnitId, String spatialUnitLevel, List<PermissionLevelType> userPermissions, String wfsUrl, String wmsUrl) {
     this.allowedRoles = allowedRoles;
     this.metadata = metadata;
     this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
     this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
     this.spatialUnitId = spatialUnitId;
     this.spatialUnitLevel = spatialUnitLevel;
+    this.userPermissions = userPermissions;
     this.wfsUrl = wfsUrl;
     this.wmsUrl = wmsUrl;
   }
@@ -230,6 +232,34 @@ public class SpatialUnitOverviewType implements Serializable {
     this.spatialUnitLevel = spatialUnitLevel;
   }
 
+  public SpatialUnitOverviewType userPermissions(List<PermissionLevelType> userPermissions) {
+    this.userPermissions = userPermissions;
+    return this;
+  }
+
+  public SpatialUnitOverviewType addUserPermissionsItem(PermissionLevelType userPermissionsItem) {
+    if (this.userPermissions == null) {
+      this.userPermissions = new ArrayList<>();
+    }
+    this.userPermissions.add(userPermissionsItem);
+    return this;
+  }
+
+  /**
+   * list of permissions that are effective on this dataset for the current user
+   * @return userPermissions
+  */
+  @NotNull @Valid 
+  @Schema(name = "userPermissions", description = "list of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("userPermissions")
+  public List<PermissionLevelType> getUserPermissions() {
+    return userPermissions;
+  }
+
+  public void setUserPermissions(List<PermissionLevelType> userPermissions) {
+    this.userPermissions = userPermissions;
+  }
+
   public SpatialUnitOverviewType wfsUrl(String wfsUrl) {
     this.wfsUrl = wfsUrl;
     return this;
@@ -270,34 +300,6 @@ public class SpatialUnitOverviewType implements Serializable {
     this.wmsUrl = wmsUrl;
   }
 
-  public SpatialUnitOverviewType userPermissions(List<String> userPermissions) {
-    this.userPermissions = userPermissions;
-    return this;
-  }
-
-  public SpatialUnitOverviewType addUserPermissionsItem(String userPermissionsItem) {
-    if (this.userPermissions == null) {
-      this.userPermissions = new ArrayList<>();
-    }
-    this.userPermissions.add(userPermissionsItem);
-    return this;
-  }
-
-  /**
-   * List of permissions that are effective on this dataset for the current user
-   * @return userPermissions
-  */
-  
-  @Schema(name = "userPermissions", description = "List of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("userPermissions")
-  public List<String> getUserPermissions() {
-    return userPermissions;
-  }
-
-  public void setUserPermissions(List<String> userPermissions) {
-    this.userPermissions = userPermissions;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -314,14 +316,14 @@ public class SpatialUnitOverviewType implements Serializable {
         Objects.equals(this.nextUpperHierarchyLevel, spatialUnitOverviewType.nextUpperHierarchyLevel) &&
         Objects.equals(this.spatialUnitId, spatialUnitOverviewType.spatialUnitId) &&
         Objects.equals(this.spatialUnitLevel, spatialUnitOverviewType.spatialUnitLevel) &&
+        Objects.equals(this.userPermissions, spatialUnitOverviewType.userPermissions) &&
         Objects.equals(this.wfsUrl, spatialUnitOverviewType.wfsUrl) &&
-        Objects.equals(this.wmsUrl, spatialUnitOverviewType.wmsUrl) &&
-        Objects.equals(this.userPermissions, spatialUnitOverviewType.userPermissions);
+        Objects.equals(this.wmsUrl, spatialUnitOverviewType.wmsUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, availablePeriodsOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, spatialUnitId, spatialUnitLevel, wfsUrl, wmsUrl, userPermissions);
+    return Objects.hash(allowedRoles, availablePeriodsOfValidity, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, spatialUnitId, spatialUnitLevel, userPermissions, wfsUrl, wmsUrl);
   }
 
   @Override
@@ -335,9 +337,9 @@ public class SpatialUnitOverviewType implements Serializable {
     sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
     sb.append("    spatialUnitId: ").append(toIndentedString(spatialUnitId)).append("\n");
     sb.append("    spatialUnitLevel: ").append(toIndentedString(spatialUnitLevel)).append("\n");
+    sb.append("    userPermissions: ").append(toIndentedString(userPermissions)).append("\n");
     sb.append("    wfsUrl: ").append(toIndentedString(wfsUrl)).append("\n");
     sb.append("    wmsUrl: ").append(toIndentedString(wmsUrl)).append("\n");
-    sb.append("    userPermissions: ").append(toIndentedString(userPermissions)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -16,21 +18,22 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * RoleOverviewType
+ * Combination of organizationalUnit and permissionLevel to control access to a resource
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Schema(name = "RoleOverviewType", description = "Combination of organizationalUnit and permissionLevel to control access to a resource")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class RoleOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String roleId;
+  private PermissionLevelType permissionLevel;
 
-  private String roleName;
+  private String roleId;
 
   /**
    * Default constructor
-   * @deprecated Use {@link RoleOverviewType#RoleOverviewType(String, String)}
+   * @deprecated Use {@link RoleOverviewType#RoleOverviewType(PermissionLevelType, String)}
    */
   @Deprecated
   public RoleOverviewType() {
@@ -40,9 +43,29 @@ public class RoleOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public RoleOverviewType(String roleId, String roleName) {
+  public RoleOverviewType(PermissionLevelType permissionLevel, String roleId) {
+    this.permissionLevel = permissionLevel;
     this.roleId = roleId;
-    this.roleName = roleName;
+  }
+
+  public RoleOverviewType permissionLevel(PermissionLevelType permissionLevel) {
+    this.permissionLevel = permissionLevel;
+    return this;
+  }
+
+  /**
+   * Get permissionLevel
+   * @return permissionLevel
+  */
+  @NotNull @Valid 
+  @Schema(name = "permissionLevel", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("permissionLevel")
+  public PermissionLevelType getPermissionLevel() {
+    return permissionLevel;
+  }
+
+  public void setPermissionLevel(PermissionLevelType permissionLevel) {
+    this.permissionLevel = permissionLevel;
   }
 
   public RoleOverviewType roleId(String roleId) {
@@ -65,26 +88,6 @@ public class RoleOverviewType implements Serializable {
     this.roleId = roleId;
   }
 
-  public RoleOverviewType roleName(String roleName) {
-    this.roleName = roleName;
-    return this;
-  }
-
-  /**
-   * the role name
-   * @return roleName
-  */
-  @NotNull 
-  @Schema(name = "roleName", description = "the role name", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("roleName")
-  public String getRoleName() {
-    return roleName;
-  }
-
-  public void setRoleName(String roleName) {
-    this.roleName = roleName;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -94,21 +97,21 @@ public class RoleOverviewType implements Serializable {
       return false;
     }
     RoleOverviewType roleOverviewType = (RoleOverviewType) o;
-    return Objects.equals(this.roleId, roleOverviewType.roleId) &&
-        Objects.equals(this.roleName, roleOverviewType.roleName);
+    return Objects.equals(this.permissionLevel, roleOverviewType.permissionLevel) &&
+        Objects.equals(this.roleId, roleOverviewType.roleId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(roleId, roleName);
+    return Objects.hash(permissionLevel, roleId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RoleOverviewType {\n");
+    sb.append("    permissionLevel: ").append(toIndentedString(permissionLevel)).append("\n");
     sb.append("    roleId: ").append(toIndentedString(roleId)).append("\n");
-    sb.append("    roleName: ").append(toIndentedString(roleName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

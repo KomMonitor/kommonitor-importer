@@ -20,18 +20,18 @@ import jakarta.annotation.Generated;
  * IndicatorPATCHDisplayOrderInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorPATCHDisplayOrderInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String indicatorId;
-
   private BigDecimal displayOrder;
+
+  private String indicatorId;
 
   /**
    * Default constructor
-   * @deprecated Use {@link IndicatorPATCHDisplayOrderInputType#IndicatorPATCHDisplayOrderInputType(String, BigDecimal)}
+   * @deprecated Use {@link IndicatorPATCHDisplayOrderInputType#IndicatorPATCHDisplayOrderInputType(BigDecimal, String)}
    */
   @Deprecated
   public IndicatorPATCHDisplayOrderInputType() {
@@ -41,8 +41,28 @@ public class IndicatorPATCHDisplayOrderInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPATCHDisplayOrderInputType(String indicatorId, BigDecimal displayOrder) {
+  public IndicatorPATCHDisplayOrderInputType(BigDecimal displayOrder, String indicatorId) {
+    this.displayOrder = displayOrder;
     this.indicatorId = indicatorId;
+  }
+
+  public IndicatorPATCHDisplayOrderInputType displayOrder(BigDecimal displayOrder) {
+    this.displayOrder = displayOrder;
+    return this;
+  }
+
+  /**
+   * the new displayOrder value
+   * @return displayOrder
+  */
+  @NotNull @Valid 
+  @Schema(name = "displayOrder", example = "0.0", description = "the new displayOrder value", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("displayOrder")
+  public BigDecimal getDisplayOrder() {
+    return displayOrder;
+  }
+
+  public void setDisplayOrder(BigDecimal displayOrder) {
     this.displayOrder = displayOrder;
   }
 
@@ -66,26 +86,6 @@ public class IndicatorPATCHDisplayOrderInputType implements Serializable {
     this.indicatorId = indicatorId;
   }
 
-  public IndicatorPATCHDisplayOrderInputType displayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
-    return this;
-  }
-
-  /**
-   * the new displayOrder value
-   * @return displayOrder
-  */
-  @NotNull @Valid 
-  @Schema(name = "displayOrder", description = "the new displayOrder value", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("displayOrder")
-  public BigDecimal getDisplayOrder() {
-    return displayOrder;
-  }
-
-  public void setDisplayOrder(BigDecimal displayOrder) {
-    this.displayOrder = displayOrder;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -95,21 +95,21 @@ public class IndicatorPATCHDisplayOrderInputType implements Serializable {
       return false;
     }
     IndicatorPATCHDisplayOrderInputType indicatorPATCHDisplayOrderInputType = (IndicatorPATCHDisplayOrderInputType) o;
-    return Objects.equals(this.indicatorId, indicatorPATCHDisplayOrderInputType.indicatorId) &&
-        Objects.equals(this.displayOrder, indicatorPATCHDisplayOrderInputType.displayOrder);
+    return Objects.equals(this.displayOrder, indicatorPATCHDisplayOrderInputType.displayOrder) &&
+        Objects.equals(this.indicatorId, indicatorPATCHDisplayOrderInputType.indicatorId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorId, displayOrder);
+    return Objects.hash(displayOrder, indicatorId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPATCHDisplayOrderInputType {\n");
-    sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
+    sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

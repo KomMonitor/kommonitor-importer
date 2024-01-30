@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * ProcessInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class ProcessInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -166,7 +166,7 @@ public class ProcessInputType implements Serializable {
    * @return maxParameterValueForNumericInputs
   */
   @Valid 
-  @Schema(name = "maxParameterValueForNumericInputs", description = "the maximum value that is allowed for the process parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "maxParameterValueForNumericInputs", example = "0.0", description = "the maximum value that is allowed for the process parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("maxParameterValueForNumericInputs")
   public BigDecimal getMaxParameterValueForNumericInputs() {
     return maxParameterValueForNumericInputs;
@@ -186,7 +186,7 @@ public class ProcessInputType implements Serializable {
    * @return minParameterValueForNumericInputs
   */
   @Valid 
-  @Schema(name = "minParameterValueForNumericInputs", description = "the minimum value that is allowed for the process parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "minParameterValueForNumericInputs", example = "0.0", description = "the minimum value that is allowed for the process parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("minParameterValueForNumericInputs")
   public BigDecimal getMinParameterValueForNumericInputs() {
     return minParameterValueForNumericInputs;

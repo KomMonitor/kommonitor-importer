@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.List;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
-import org.n52.kommonitor.models.IndicatorPUTInputTypeIndicatorValues;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * IndicatorPUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class IndicatorPUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -36,11 +36,11 @@ public class IndicatorPUTInputType implements Serializable {
   private DefaultClassificationMappingType defaultClassificationMapping;
 
   @Valid
-  private List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
+  private List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
 
   /**
    * Default constructor
-   * @deprecated Use {@link IndicatorPUTInputType#IndicatorPUTInputType(List<String>, String, List<@Valid IndicatorPUTInputTypeIndicatorValues>)}
+   * @deprecated Use {@link IndicatorPUTInputType#IndicatorPUTInputType(List<String>, String, List<@Valid IndicatorPOSTInputTypeIndicatorValues>)}
    */
   @Deprecated
   public IndicatorPUTInputType() {
@@ -50,7 +50,7 @@ public class IndicatorPUTInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPUTInputType(List<String> allowedRoles, String applicableSpatialUnit, List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+  public IndicatorPUTInputType(List<String> allowedRoles, String applicableSpatialUnit, List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
     this.allowedRoles = allowedRoles;
     this.applicableSpatialUnit = applicableSpatialUnit;
     this.indicatorValues = indicatorValues;
@@ -124,12 +124,12 @@ public class IndicatorPUTInputType implements Serializable {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
-  public IndicatorPUTInputType indicatorValues(List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+  public IndicatorPUTInputType indicatorValues(List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
     this.indicatorValues = indicatorValues;
     return this;
   }
 
-  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPUTInputTypeIndicatorValues indicatorValuesItem) {
+  public IndicatorPUTInputType addIndicatorValuesItem(IndicatorPOSTInputTypeIndicatorValues indicatorValuesItem) {
     if (this.indicatorValues == null) {
       this.indicatorValues = new ArrayList<>();
     }
@@ -144,11 +144,11 @@ public class IndicatorPUTInputType implements Serializable {
   @NotNull @Valid 
   @Schema(name = "indicatorValues", description = "an array of entries containing indicator values and mapping to spatial features via identifiers", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("indicatorValues")
-  public List<@Valid IndicatorPUTInputTypeIndicatorValues> getIndicatorValues() {
+  public List<@Valid IndicatorPOSTInputTypeIndicatorValues> getIndicatorValues() {
     return indicatorValues;
   }
 
-  public void setIndicatorValues(List<@Valid IndicatorPUTInputTypeIndicatorValues> indicatorValues) {
+  public void setIndicatorValues(List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
     this.indicatorValues = indicatorValues;
   }
 

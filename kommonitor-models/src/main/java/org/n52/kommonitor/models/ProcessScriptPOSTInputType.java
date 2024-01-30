@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * ProcessScriptPOSTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
 public class ProcessScriptPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,9 +39,9 @@ public class ProcessScriptPOSTInputType implements Serializable {
   @Valid
   private List<String> requiredIndicatorIds = new ArrayList<>();
 
-  private String scriptType;
-
   private String scriptCodeBase64;
+
+  private String scriptType;
 
   @Valid
   private List<@Valid ProcessInputType> variableProcessParameters = new ArrayList<>();
@@ -184,26 +184,6 @@ public class ProcessScriptPOSTInputType implements Serializable {
     this.requiredIndicatorIds = requiredIndicatorIds;
   }
 
-  public ProcessScriptPOSTInputType scriptType(String scriptType) {
-    this.scriptType = scriptType;
-    return this;
-  }
-
-  /**
-   * a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources
-   * @return scriptType
-  */
-  
-  @Schema(name = "scriptType", description = "a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("scriptType")
-  public String getScriptType() {
-    return scriptType;
-  }
-
-  public void setScriptType(String scriptType) {
-    this.scriptType = scriptType;
-  }
-
   public ProcessScriptPOSTInputType scriptCodeBase64(String scriptCodeBase64) {
     this.scriptCodeBase64 = scriptCodeBase64;
     return this;
@@ -222,6 +202,26 @@ public class ProcessScriptPOSTInputType implements Serializable {
 
   public void setScriptCodeBase64(String scriptCodeBase64) {
     this.scriptCodeBase64 = scriptCodeBase64;
+  }
+
+  public ProcessScriptPOSTInputType scriptType(String scriptType) {
+    this.scriptType = scriptType;
+    return this;
+  }
+
+  /**
+   * a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources
+   * @return scriptType
+  */
+  
+  @Schema(name = "scriptType", description = "a script type reference name used to distuingish process scripts from a client perspective, i.e. setup admin pages due to knowledge about type-specific script parameters and required indicators/georesources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("scriptType")
+  public String getScriptType() {
+    return scriptType;
+  }
+
+  public void setScriptType(String scriptType) {
+    this.scriptType = scriptType;
   }
 
   public ProcessScriptPOSTInputType variableProcessParameters(List<@Valid ProcessInputType> variableProcessParameters) {
@@ -266,14 +266,14 @@ public class ProcessScriptPOSTInputType implements Serializable {
         Objects.equals(this.name, processScriptPOSTInputType.name) &&
         Objects.equals(this.requiredGeoresourceIds, processScriptPOSTInputType.requiredGeoresourceIds) &&
         Objects.equals(this.requiredIndicatorIds, processScriptPOSTInputType.requiredIndicatorIds) &&
-        Objects.equals(this.scriptType, processScriptPOSTInputType.scriptType) &&
         Objects.equals(this.scriptCodeBase64, processScriptPOSTInputType.scriptCodeBase64) &&
+        Objects.equals(this.scriptType, processScriptPOSTInputType.scriptType) &&
         Objects.equals(this.variableProcessParameters, processScriptPOSTInputType.variableProcessParameters);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(associatedIndicatorId, description, name, requiredGeoresourceIds, requiredIndicatorIds, scriptType, scriptCodeBase64, variableProcessParameters);
+    return Objects.hash(associatedIndicatorId, description, name, requiredGeoresourceIds, requiredIndicatorIds, scriptCodeBase64, scriptType, variableProcessParameters);
   }
 
   @Override
@@ -285,8 +285,8 @@ public class ProcessScriptPOSTInputType implements Serializable {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    requiredGeoresourceIds: ").append(toIndentedString(requiredGeoresourceIds)).append("\n");
     sb.append("    requiredIndicatorIds: ").append(toIndentedString(requiredIndicatorIds)).append("\n");
-    sb.append("    scriptType: ").append(toIndentedString(scriptType)).append("\n");
     sb.append("    scriptCodeBase64: ").append(toIndentedString(scriptCodeBase64)).append("\n");
+    sb.append("    scriptType: ").append(toIndentedString(scriptType)).append("\n");
     sb.append("    variableProcessParameters: ").append(toIndentedString(variableProcessParameters)).append("\n");
     sb.append("}");
     return sb.toString();

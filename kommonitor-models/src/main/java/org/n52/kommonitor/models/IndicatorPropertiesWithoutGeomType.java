@@ -1,75 +1,94 @@
 package org.n52.kommonitor.models;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.*;
+
+import java.util.*;
+import jakarta.annotation.Generated;
 
 /**
  * IndicatorPropertiesWithoutGeomType
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
-public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+public class IndicatorPropertiesWithoutGeomType implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("ID")
-  private String ID = null;
+  private String id;
 
-  @JsonProperty("NAME")
-  private String NAME = null;
+  private String name;
 
-  @JsonProperty("validStartDate")
-  private String validStartDate = null;
+  private String validStartDate;
 
-  @JsonProperty("validEndDate")
-  private String validEndDate = null;
+  private String validEndDate;
 
-  public IndicatorPropertiesWithoutGeomType ID(String ID) {
-    this.ID = ID;
+  /**
+   * Default constructor
+   * @deprecated Use {@link IndicatorPropertiesWithoutGeomType#IndicatorPropertiesWithoutGeomType(String, String, String, String)}
+   */
+  @Deprecated
+  public IndicatorPropertiesWithoutGeomType() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public IndicatorPropertiesWithoutGeomType(String id, String name, String validStartDate, String validEndDate) {
+    this.id = id;
+    this.name = name;
+    this.validStartDate = validStartDate;
+    this.validEndDate = validEndDate;
+  }
+
+  public IndicatorPropertiesWithoutGeomType id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
    * the id of the spatial feature
-   * @return ID
-  **/
-  @ApiModelProperty(required = true, value = "the id of the spatial feature")
-  @NotNull
-
-
-  public String getID() {
-    return ID;
+   * @return id
+  */
+  @NotNull 
+  @Schema(name = "id", description = "the id of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("id")
+  public String getId() {
+    return id;
   }
 
-  public void setID(String ID) {
-    this.ID = ID;
+  public void setId(String id) {
+    this.id = id;
   }
 
-  public IndicatorPropertiesWithoutGeomType NAME(String NAME) {
-    this.NAME = NAME;
+  public IndicatorPropertiesWithoutGeomType name(String name) {
+    this.name = name;
     return this;
   }
 
   /**
    * the name of the spatial feature
-   * @return NAME
-  **/
-  @ApiModelProperty(required = true, value = "the name of the spatial feature")
-  @NotNull
-
-
-  public String getNAME() {
-    return NAME;
+   * @return name
+  */
+  @NotNull 
+  @Schema(name = "name", description = "the name of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
 
-  public void setNAME(String NAME) {
-    this.NAME = NAME;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public IndicatorPropertiesWithoutGeomType validStartDate(String validStartDate) {
@@ -80,11 +99,10 @@ public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> 
   /**
    * the start date from which on the spatial feature is valid
    * @return validStartDate
-  **/
-  @ApiModelProperty(required = true, value = "the start date from which on the spatial feature is valid")
-  @NotNull
-
-
+  */
+  @NotNull 
+  @Schema(name = "validStartDate", description = "the start date from which on the spatial feature is valid", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("validStartDate")
   public String getValidStartDate() {
     return validStartDate;
   }
@@ -101,10 +119,10 @@ public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> 
   /**
    * the end date until the spatial feature is valid - or null if not set
    * @return validEndDate
-  **/
-  @ApiModelProperty(value = "the end date until the spatial feature is valid - or null if not set")
-
-
+  */
+  @NotNull 
+  @Schema(name = "validEndDate", description = "the end date until the spatial feature is valid - or null if not set", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("validEndDate")
   public String getValidEndDate() {
     return validEndDate;
   }
@@ -113,9 +131,8 @@ public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> 
     this.validEndDate = validEndDate;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -123,25 +140,23 @@ public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> 
       return false;
     }
     IndicatorPropertiesWithoutGeomType indicatorPropertiesWithoutGeomType = (IndicatorPropertiesWithoutGeomType) o;
-    return Objects.equals(this.ID, indicatorPropertiesWithoutGeomType.ID) &&
-        Objects.equals(this.NAME, indicatorPropertiesWithoutGeomType.NAME) &&
+    return Objects.equals(this.id, indicatorPropertiesWithoutGeomType.id) &&
+        Objects.equals(this.name, indicatorPropertiesWithoutGeomType.name) &&
         Objects.equals(this.validStartDate, indicatorPropertiesWithoutGeomType.validStartDate) &&
-        Objects.equals(this.validEndDate, indicatorPropertiesWithoutGeomType.validEndDate) &&
-        super.equals(o);
+        Objects.equals(this.validEndDate, indicatorPropertiesWithoutGeomType.validEndDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ID, NAME, validStartDate, validEndDate, super.hashCode());
+    return Objects.hash(id, name, validStartDate, validEndDate);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPropertiesWithoutGeomType {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    ID: ").append(toIndentedString(ID)).append("\n");
-    sb.append("    NAME: ").append(toIndentedString(NAME)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    validStartDate: ").append(toIndentedString(validStartDate)).append("\n");
     sb.append("    validEndDate: ").append(toIndentedString(validEndDate)).append("\n");
     sb.append("}");
@@ -152,7 +167,7 @@ public class IndicatorPropertiesWithoutGeomType extends HashMap<String, String> 
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

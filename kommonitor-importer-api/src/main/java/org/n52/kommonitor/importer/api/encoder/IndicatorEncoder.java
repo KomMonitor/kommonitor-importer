@@ -28,8 +28,8 @@ public class IndicatorEncoder {
         return indicator;
     }
 
-    private IndicatorPUTInputTypeIndicatorValues encodeIndicatorValues(IndicatorValue indicatorValues) {
-        IndicatorPUTInputTypeIndicatorValues result = new IndicatorPUTInputTypeIndicatorValues();
+    private IndicatorPOSTInputTypeIndicatorValues encodeIndicatorValues(IndicatorValue indicatorValues) {
+        IndicatorPOSTInputTypeIndicatorValues result = new IndicatorPOSTInputTypeIndicatorValues();
         result.setSpatialReferenceKey(indicatorValues.getSpatialReferenceKey());
         result.setValueMapping(indicatorValues.getTimeSeriesValueList().stream()
                 .map(this::encodeTimeSeriesValues)
@@ -37,8 +37,8 @@ public class IndicatorEncoder {
         return result;
     }
 
-    private IndicatorPUTInputTypeValueMapping encodeTimeSeriesValues(TimeseriesValue timeseriesValue) {
-        IndicatorPUTInputTypeValueMapping result = new IndicatorPUTInputTypeValueMapping();
+    private IndicatorPOSTInputTypeValueMapping encodeTimeSeriesValues(TimeseriesValue timeseriesValue) {
+        IndicatorPOSTInputTypeValueMapping result = new IndicatorPOSTInputTypeValueMapping();
         result.setIndicatorValue(timeseriesValue.getValue());
         result.setTimestamp(timeseriesValue.getTimestamp());
         return result;
