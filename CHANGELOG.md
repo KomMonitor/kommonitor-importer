@@ -1,6 +1,11 @@
 # Change Log
 
-## 3.2.2
+## 3.2.3
+* Small config updates [35fe659](35fe65910ebde9e46a651c97c6be6beb08dbcb7b)
+* Update doc files [8c5e95d](8c5e95d359f1a9b6bb8838843db55c897d790158)
+* Update API client classes according the latest Open API spec [4e8dbeb](4e8dbebc56b30b761f1da89ad1fdc51fafb0841f)
+* Update model classes according the latest spec [e7ef8dd](e7ef8dd20379919c05d8e5f22eec9553015e4e5b)
+* Add throws Exception to API method signatures [903c077](903c077f717e40a767e4a818ef20692a8a010ca2)
 * Revert geocoder URL initializing [5969718](5969718e4e5878b564aad2b069f0a39ea0a921b5)
 * Refine temp file deletion [11c60a8](11c60a86f96dc25cd2868484fa1bbf983328eeef)
 * Apply code refinements [0e78004](0e7800433ab987166b7cc4534114507f1e78fd8f)
