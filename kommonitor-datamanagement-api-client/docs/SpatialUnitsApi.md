@@ -21,6 +21,8 @@ All URIs are relative to *http://localhost:8085*
 | [**updateSpatialUnitAsBody**](SpatialUnitsApi.md#updateSpatialUnitAsBody) | **PUT** /spatial-units/{spatialUnitId} | Modify/Update the features of the selected spatial-unit |
 | [**updateSpatialUnitFeatureRecordAsBody**](SpatialUnitsApi.md#updateSpatialUnitFeatureRecordAsBody) | **PUT** /spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Modify/Update the feature record of the selected spatial-unit dataset feature |
 | [**updateSpatialUnitMetadataAsBody**](SpatialUnitsApi.md#updateSpatialUnitMetadataAsBody) | **PATCH** /spatial-units/{spatialUnitId} | Modify/Update the metadata of the selected spatial-unit |
+| [**updateSpatialUnitsOwnership**](SpatialUnitsApi.md#updateSpatialUnitsOwnership) | **PUT** /spatial-units/{spatialUnitId}/ownership | update information about the ownership for the selected spatial unit dataset |
+| [**updateSpatialUnitsPermissions**](SpatialUnitsApi.md#updateSpatialUnitsPermissions) | **PUT** /spatial-units/{spatialUnitId}/permissions | update information about the permissions for the selected spatial unit dataset |
 
 
 
@@ -1325,4 +1327,158 @@ null (empty response body)
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **405** | Invalid input |  -  |
+
+
+## updateSpatialUnitsOwnership
+
+> updateSpatialUnitsOwnership(spatialUnitId, ownerInputType)
+
+update information about the ownership for the selected spatial unit dataset
+
+update information about the ownership for the selected spatial unit dataset
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String spatialUnitId = "spatialUnitId_example"; // String | identifier of the spatial unit dataset
+        OwnerInputType ownerInputType = new OwnerInputType(); // OwnerInputType | Spatial unit ownership input.
+        try {
+            apiInstance.updateSpatialUnitsOwnership(spatialUnitId, ownerInputType);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#updateSpatialUnitsOwnership");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **spatialUnitId** | **String**| identifier of the spatial unit dataset | |
+| **ownerInputType** | [**OwnerInputType**](OwnerInputType.md)| Spatial unit ownership input. | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **204** | No Content |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## updateSpatialUnitsPermissions
+
+> List&lt;PermissionLevelType&gt; updateSpatialUnitsPermissions(spatialUnitId, permissionLevelInputType)
+
+update information about the permissions for the selected spatial unit dataset
+
+update information about the permissions for the selected spatial unit dataset
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String spatialUnitId = "spatialUnitId_example"; // String | identifier of the spatial unit dataset
+        PermissionLevelInputType permissionLevelInputType = new PermissionLevelInputType(); // PermissionLevelInputType | Spatial unit permission level input.
+        try {
+            List<PermissionLevelType> result = apiInstance.updateSpatialUnitsPermissions(spatialUnitId, permissionLevelInputType);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#updateSpatialUnitsPermissions");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **spatialUnitId** | **String**| identifier of the spatial unit dataset | |
+| **permissionLevelInputType** | [**PermissionLevelInputType**](PermissionLevelInputType.md)| Spatial unit permission level input. | |
+
+### Return type
+
+[**List&lt;PermissionLevelType&gt;**](PermissionLevelType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
 

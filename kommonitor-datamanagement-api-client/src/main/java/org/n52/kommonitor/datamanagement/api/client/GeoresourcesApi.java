@@ -7,6 +7,8 @@ import org.n52.kommonitor.models.GeoresourceOverviewType;
 import org.n52.kommonitor.models.GeoresourcePATCHInputType;
 import org.n52.kommonitor.models.GeoresourcePOSTInputType;
 import org.n52.kommonitor.models.GeoresourcePUTInputType;
+import org.n52.kommonitor.models.OwnerInputType;
+import org.n52.kommonitor.models.PermissionLevelInputType;
 import org.n52.kommonitor.models.PermissionLevelType;
 
 import java.util.Collections;
@@ -30,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-02-21T12:45:23.890552600+01:00[Europe/Berlin]")
 @Component("org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi")
 public class GeoresourcesApi {
     private ApiClient apiClient;
@@ -762,8 +764,8 @@ public class GeoresourcesApi {
         return apiClient.invokeAPI("/georesources/{georesourceId}/{year}/{month}/{day}/without-geometry", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
-     * retrieve information about the permissions for the selected geo-resource dataset
-     * retrieve information about the permissions for the selected geo-resource dataset
+     * retrieve information about the permissions for the selected geo-resource
+     * retrieve information about the permissions for the selected geo-resource
      * <p><b>200</b> - OK
      * <p><b>400</b> - Invalid status value
      * <p><b>401</b> - API key is missing or invalid
@@ -778,8 +780,8 @@ public class GeoresourcesApi {
     }
 
     /**
-     * retrieve information about the permissions for the selected geo-resource dataset
-     * retrieve information about the permissions for the selected geo-resource dataset
+     * retrieve information about the permissions for the selected geo-resource
+     * retrieve information about the permissions for the selected geo-resource
      * <p><b>200</b> - OK
      * <p><b>400</b> - Invalid status value
      * <p><b>401</b> - API key is missing or invalid
@@ -1278,5 +1280,121 @@ public class GeoresourcesApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/georesources/{georesourceId}", HttpMethod.PATCH, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * update the ownership for the selected geo-resource dataset
+     * update the ownership for the selected geo-resource dataset
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param georesourceId identifier of the geo-resource dataset (required)
+     * @param ownerInputType GeoResource ownership input (optional)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateGeoresourceOwnership(String georesourceId, OwnerInputType ownerInputType) throws RestClientException {
+        updateGeoresourceOwnershipWithHttpInfo(georesourceId, ownerInputType);
+    }
+
+    /**
+     * update the ownership for the selected geo-resource dataset
+     * update the ownership for the selected geo-resource dataset
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param georesourceId identifier of the geo-resource dataset (required)
+     * @param ownerInputType GeoResource ownership input (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateGeoresourceOwnershipWithHttpInfo(String georesourceId, OwnerInputType ownerInputType) throws RestClientException {
+        Object localVarPostBody = ownerInputType;
+        
+        // verify the required parameter 'georesourceId' is set
+        if (georesourceId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'georesourceId' when calling updateGeoresourceOwnership");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("georesourceId", georesourceId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/georesources/{georesourceId}/ownership", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * update the permissions for the selected geo-resource dataset
+     * update the permissions for the selected geo-resource dataset
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param georesourceId identifier of the geo-resource dataset (required)
+     * @param permissionLevelInputType GeoResource permission level input (optional)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateGeoresourcePermissions(String georesourceId, PermissionLevelInputType permissionLevelInputType) throws RestClientException {
+        updateGeoresourcePermissionsWithHttpInfo(georesourceId, permissionLevelInputType);
+    }
+
+    /**
+     * update the permissions for the selected geo-resource dataset
+     * update the permissions for the selected geo-resource dataset
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param georesourceId identifier of the geo-resource dataset (required)
+     * @param permissionLevelInputType GeoResource permission level input (optional)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateGeoresourcePermissionsWithHttpInfo(String georesourceId, PermissionLevelInputType permissionLevelInputType) throws RestClientException {
+        Object localVarPostBody = permissionLevelInputType;
+        
+        // verify the required parameter 'georesourceId' is set
+        if (georesourceId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'georesourceId' when calling updateGeoresourcePermissions");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("georesourceId", georesourceId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/georesources/{georesourceId}/permissions", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }
