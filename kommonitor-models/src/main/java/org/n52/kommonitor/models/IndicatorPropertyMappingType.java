@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.TimeseriesMappingType;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorPropertyMappingType", description = "Definitions for mapping datasource properties to required properties for indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
 public class IndicatorPropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,11 +40,6 @@ public class IndicatorPropertyMappingType implements Serializable {
   @Valid
   private List<@Valid AttributeMappingType> attributeMappings;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorPropertyMappingType#IndicatorPropertyMappingType(String, Boolean)}
-   */
-  @Deprecated
   public IndicatorPropertyMappingType() {
     super();
   }

@@ -18,19 +18,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Gets or Sets TopicResourceEnum
+ * Defines what resource type a permission refers to (resource, themes or users)
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
-public enum TopicResourceEnum {
+public enum PermissionResourceType {
   
-  INDICATOR("indicator"),
+  RESOURCES("resources"),
   
-  GEORESOURCE("georesource");
+  THEMES("themes"),
+  
+  USERS("users");
 
   private String value;
 
-  TopicResourceEnum(String value) {
+  PermissionResourceType(String value) {
     this.value = value;
   }
 
@@ -45,8 +47,8 @@ public enum TopicResourceEnum {
   }
 
   @JsonCreator
-  public static TopicResourceEnum fromValue(String value) {
-    for (TopicResourceEnum b : TopicResourceEnum.values()) {
+  public static PermissionResourceType fromValue(String value) {
+    for (PermissionResourceType b : PermissionResourceType.values()) {
       if (b.value.equals(value)) {
         return b;
       }

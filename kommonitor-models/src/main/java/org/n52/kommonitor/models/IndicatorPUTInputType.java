@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
@@ -23,13 +24,13 @@ import jakarta.annotation.Generated;
  * IndicatorPUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class IndicatorPUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Valid
-  private List<String> allowedRoles = new ArrayList<>();
+  private List<String> permissions = new ArrayList<>();
 
   private String applicableSpatialUnit;
 
@@ -38,11 +39,8 @@ public class IndicatorPUTInputType implements Serializable {
   @Valid
   private List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorPUTInputType#IndicatorPUTInputType(List<String>, String, List<@Valid IndicatorPOSTInputTypeIndicatorValues>)}
-   */
-  @Deprecated
+  private String ownerId;
+
   public IndicatorPUTInputType() {
     super();
   }
@@ -50,38 +48,39 @@ public class IndicatorPUTInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPUTInputType(List<String> allowedRoles, String applicableSpatialUnit, List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
-    this.allowedRoles = allowedRoles;
+  public IndicatorPUTInputType(List<String> permissions, String applicableSpatialUnit, List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues, String ownerId) {
+    this.permissions = permissions;
     this.applicableSpatialUnit = applicableSpatialUnit;
     this.indicatorValues = indicatorValues;
+    this.ownerId = ownerId;
   }
 
-  public IndicatorPUTInputType allowedRoles(List<String> allowedRoles) {
-    this.allowedRoles = allowedRoles;
+  public IndicatorPUTInputType permissions(List<String> permissions) {
+    this.permissions = permissions;
     return this;
   }
 
-  public IndicatorPUTInputType addAllowedRolesItem(String allowedRolesItem) {
-    if (this.allowedRoles == null) {
-      this.allowedRoles = new ArrayList<>();
+  public IndicatorPUTInputType addPermissionsItem(String permissionsItem) {
+    if (this.permissions == null) {
+      this.permissions = new ArrayList<>();
     }
-    this.allowedRoles.add(allowedRolesItem);
+    this.permissions.add(permissionsItem);
     return this;
   }
 
   /**
-   * list of role identifiers that have read access rights for this dataset
-   * @return allowedRoles
+   * list of permissions on this entity
+   * @return permissions
   */
   @NotNull 
-  @Schema(name = "allowedRoles", description = "list of role identifiers that have read access rights for this dataset", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("allowedRoles")
-  public List<String> getAllowedRoles() {
-    return allowedRoles;
+  @Schema(name = "permissions", description = "list of permissions on this entity", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("permissions")
+  public List<String> getPermissions() {
+    return permissions;
   }
 
-  public void setAllowedRoles(List<String> allowedRoles) {
-    this.allowedRoles = allowedRoles;
+  public void setPermissions(List<String> permissions) {
+    this.permissions = permissions;
   }
 
   public IndicatorPUTInputType applicableSpatialUnit(String applicableSpatialUnit) {
@@ -152,6 +151,26 @@ public class IndicatorPUTInputType implements Serializable {
     this.indicatorValues = indicatorValues;
   }
 
+  public IndicatorPUTInputType ownerId(String ownerId) {
+    this.ownerId = ownerId;
+    return this;
+  }
+
+  /**
+   * identifier of the owning group
+   * @return ownerId
+  */
+  @NotNull 
+  @Schema(name = "ownerId", description = "identifier of the owning group", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("ownerId")
+  public String getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(String ownerId) {
+    this.ownerId = ownerId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -161,25 +180,27 @@ public class IndicatorPUTInputType implements Serializable {
       return false;
     }
     IndicatorPUTInputType indicatorPUTInputType = (IndicatorPUTInputType) o;
-    return Objects.equals(this.allowedRoles, indicatorPUTInputType.allowedRoles) &&
+    return Objects.equals(this.permissions, indicatorPUTInputType.permissions) &&
         Objects.equals(this.applicableSpatialUnit, indicatorPUTInputType.applicableSpatialUnit) &&
         Objects.equals(this.defaultClassificationMapping, indicatorPUTInputType.defaultClassificationMapping) &&
-        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues);
+        Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues) &&
+        Objects.equals(this.ownerId, indicatorPUTInputType.ownerId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, applicableSpatialUnit, defaultClassificationMapping, indicatorValues);
+    return Objects.hash(permissions, applicableSpatialUnit, defaultClassificationMapping, indicatorValues, ownerId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPUTInputType {\n");
-    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
+    sb.append("    permissions: ").append(toIndentedString(permissions)).append("\n");
     sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
     sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
+    sb.append("    ownerId: ").append(toIndentedString(ownerId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

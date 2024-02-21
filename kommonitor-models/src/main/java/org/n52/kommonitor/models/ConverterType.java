@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-22T12:01:51.805157800+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -47,11 +48,6 @@ public class ConverterType implements Serializable {
   @Valid
   private List<String> datasources;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ConverterType#ConverterType(String, List<String>)}
-   */
-  @Deprecated
   public ConverterType() {
     super();
   }

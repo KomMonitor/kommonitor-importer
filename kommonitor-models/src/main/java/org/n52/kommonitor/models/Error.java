@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Error", description = "A default error that will be responded if an unexpected server error occurs")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
 public class Error implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,11 +35,6 @@ public class Error implements Serializable {
   @Valid
   private List<String> errors;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Error#Error(Integer, String)}
-   */
-  @Deprecated
   public Error() {
     super();
   }

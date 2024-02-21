@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.n52.kommonitor.models.ColorType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -25,13 +23,10 @@ import jakarta.annotation.Generated;
  * GeoresourcePATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class GeoresourcePATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  @Valid
-  private List<String> allowedRoles;
 
   private String aoiColor;
 
@@ -59,11 +54,6 @@ public class GeoresourcePATCHInputType implements Serializable {
 
   private String topicReference;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link GeoresourcePATCHInputType#GeoresourcePATCHInputType(CommonMetadataType)}
-   */
-  @Deprecated
   public GeoresourcePATCHInputType() {
     super();
   }
@@ -73,34 +63,6 @@ public class GeoresourcePATCHInputType implements Serializable {
    */
   public GeoresourcePATCHInputType(CommonMetadataType metadata) {
     this.metadata = metadata;
-  }
-
-  public GeoresourcePATCHInputType allowedRoles(List<String> allowedRoles) {
-    this.allowedRoles = allowedRoles;
-    return this;
-  }
-
-  public GeoresourcePATCHInputType addAllowedRolesItem(String allowedRolesItem) {
-    if (this.allowedRoles == null) {
-      this.allowedRoles = new ArrayList<>();
-    }
-    this.allowedRoles.add(allowedRolesItem);
-    return this;
-  }
-
-  /**
-   * list of role identifiers that have read access rights for this dataset
-   * @return allowedRoles
-  */
-  
-  @Schema(name = "allowedRoles", description = "list of role identifiers that have read access rights for this dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("allowedRoles")
-  public List<String> getAllowedRoles() {
-    return allowedRoles;
-  }
-
-  public void setAllowedRoles(List<String> allowedRoles) {
-    this.allowedRoles = allowedRoles;
   }
 
   public GeoresourcePATCHInputType aoiColor(String aoiColor) {
@@ -372,8 +334,7 @@ public class GeoresourcePATCHInputType implements Serializable {
       return false;
     }
     GeoresourcePATCHInputType georesourcePATCHInputType = (GeoresourcePATCHInputType) o;
-    return Objects.equals(this.allowedRoles, georesourcePATCHInputType.allowedRoles) &&
-        Objects.equals(this.aoiColor, georesourcePATCHInputType.aoiColor) &&
+    return Objects.equals(this.aoiColor, georesourcePATCHInputType.aoiColor) &&
         Objects.equals(this.datasetName, georesourcePATCHInputType.datasetName) &&
         Objects.equals(this.isAOI, georesourcePATCHInputType.isAOI) &&
         Objects.equals(this.isLOI, georesourcePATCHInputType.isLOI) &&
@@ -390,14 +351,13 @@ public class GeoresourcePATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, aoiColor, datasetName, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
+    return Objects.hash(aoiColor, datasetName, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GeoresourcePATCHInputType {\n");
-    sb.append("    allowedRoles: ").append(toIndentedString(allowedRoles)).append("\n");
     sb.append("    aoiColor: ").append(toIndentedString(aoiColor)).append("\n");
     sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    isAOI: ").append(toIndentedString(isAOI)).append("\n");

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.DefaultClassificationMappingItemType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class DefaultClassificationMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,11 +33,6 @@ public class DefaultClassificationMappingType implements Serializable {
   @Valid
   private List<@Valid DefaultClassificationMappingItemType> items = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link DefaultClassificationMappingType#DefaultClassificationMappingType(String, List<@Valid DefaultClassificationMappingItemType>)}
-   */
-  @Deprecated
   public DefaultClassificationMappingType() {
     super();
   }
