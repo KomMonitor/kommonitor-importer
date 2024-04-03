@@ -1,6 +1,7 @@
 # Change Log
 
-## 3.2.3
+## 3.2.4
+* Add support for ID property as Feature object member [a4c5f1b](a4c5f1bd3bccfba38e192cbe190b13e2587f6a85)
 * Small config updates [35fe659](35fe65910ebde9e46a651c97c6be6beb08dbcb7b)
 * Update doc files [8c5e95d](8c5e95d359f1a9b6bb8838843db55c897d790158)
 * Update API client classes according the latest Open API spec [4e8dbeb](4e8dbebc56b30b761f1da89ad1fdc51fafb0841f)
