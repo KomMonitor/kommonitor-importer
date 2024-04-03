@@ -100,7 +100,7 @@ public class FeatureDecoder {
     public SpatialResource decodeFeatureToSpatialResource(SimpleFeature feature,
                                                           SpatialResourcePropertyMappingType propertyMapping,
                                                           CoordinateReferenceSystem sourceCrs) throws DecodingException {
-        String id = getPropertyValueAsString(feature, propertyMapping.getIdentifierProperty());
+        String id = getIdPropertyValue(feature, propertyMapping.getIdentifierProperty());
         String name = getPropertyValueAsString(feature, propertyMapping.getNameProperty());
         String arisenFrom = propertyMapping.getArisenFromProperty() == null ? null :
                 getPropertyValueAsString(feature, propertyMapping.getArisenFromProperty());
@@ -474,6 +474,19 @@ public class FeatureDecoder {
             return parsePropertyValueAsInteger(property.getValue());
         } catch (NumberFormatException ex) {
             throw new DecodingException(String.format("Could not decode property '%s' as '%s'", propertyName, Integer.class.getName()));
+        }
+    }
+
+    private String getIdPropertyValue(SimpleFeature feature, String identifierProperty) throws DecodingException {
+        if (feature.getProperty(identifierProperty) == null) {
+            if (feature.getID() == null) {
+                throw new DecodingException(String.format("No ID property exists with name '%s'.", identifierProperty));
+            } else {
+                LOG.warn("No ID property exists with name '{}'. Use Feature ID instead.", identifierProperty);
+                return feature.getID();
+            }
+        } else {
+            return getPropertyValueAsString(feature, identifierProperty);
         }
     }
 
