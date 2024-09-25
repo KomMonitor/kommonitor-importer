@@ -18,7 +18,7 @@ COPY . /app/kommonitor-importer/
 RUN mvn -f ./kommonitor-importer/pom.xml clean install -Dapp.finalName=kommonitor-importer-app
 
 # ---- Run the application ----
-FROM eclipse-temurin:17-alpine
+FROM eclipse-temurin:17.0.11_9-jdk-alpine
 WORKDIR /app
 
 # Copy from the base build image
