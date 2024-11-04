@@ -18,6 +18,7 @@ import org.n52.kommonitor.models.IndicatorSpatialUnitJoinItem;
 import org.n52.kommonitor.models.IndicatorTypeEnum;
 import org.n52.kommonitor.models.OgcServicesType;
 import org.n52.kommonitor.models.PermissionLevelType;
+import org.n52.kommonitor.models.RegionalReferenceValueType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -33,7 +34,7 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -54,6 +55,9 @@ public class IndicatorOverviewType implements Serializable {
   private CreationTypeEnum creationType;
 
   private DefaultClassificationMappingType defaultClassificationMapping;
+
+  @Valid
+  private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
 
   private BigDecimal displayOrder;
 
@@ -105,12 +109,13 @@ public class IndicatorOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorOverviewType(String abbreviation, List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, String characteristicValue, CreationTypeEnum creationType, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, List<@Valid OgcServicesType> ogcServices, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
+  public IndicatorOverviewType(String abbreviation, List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, String characteristicValue, CreationTypeEnum creationType, List<@Valid RegionalReferenceValueType> regionalReferenceValues, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, List<@Valid OgcServicesType> ogcServices, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
     this.abbreviation = abbreviation;
     this.applicableDates = applicableDates;
     this.applicableSpatialUnits = applicableSpatialUnits;
     this.characteristicValue = characteristicValue;
     this.creationType = creationType;
+    this.regionalReferenceValues = regionalReferenceValues;
     this.indicatorId = indicatorId;
     this.indicatorName = indicatorName;
     this.interpretation = interpretation;
@@ -287,6 +292,34 @@ public class IndicatorOverviewType implements Serializable {
 
   public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
+  }
+
+  public IndicatorOverviewType regionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
+    return this;
+  }
+
+  public IndicatorOverviewType addRegionalReferenceValuesItem(RegionalReferenceValueType regionalReferenceValuesItem) {
+    if (this.regionalReferenceValues == null) {
+      this.regionalReferenceValues = new ArrayList<>();
+    }
+    this.regionalReferenceValues.add(regionalReferenceValuesItem);
+    return this;
+  }
+
+  /**
+   * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
+   * @return regionalReferenceValues
+  */
+  @NotNull @Valid 
+  @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("regionalReferenceValues")
+  public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
+    return regionalReferenceValues;
+  }
+
+  public void setRegionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
   }
 
   public IndicatorOverviewType displayOrder(BigDecimal displayOrder) {
@@ -725,6 +758,7 @@ public class IndicatorOverviewType implements Serializable {
         Objects.equals(this.characteristicValue, indicatorOverviewType.characteristicValue) &&
         Objects.equals(this.creationType, indicatorOverviewType.creationType) &&
         Objects.equals(this.defaultClassificationMapping, indicatorOverviewType.defaultClassificationMapping) &&
+        Objects.equals(this.regionalReferenceValues, indicatorOverviewType.regionalReferenceValues) &&
         Objects.equals(this.displayOrder, indicatorOverviewType.displayOrder) &&
         Objects.equals(this.indicatorId, indicatorOverviewType.indicatorId) &&
         Objects.equals(this.indicatorName, indicatorOverviewType.indicatorName) &&
@@ -748,7 +782,7 @@ public class IndicatorOverviewType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, permissions, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, displayOrder, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, ownerId, processDescription, referenceDateNote, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions, isPublic);
+    return Objects.hash(abbreviation, permissions, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, regionalReferenceValues, displayOrder, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, ownerId, processDescription, referenceDateNote, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions, isPublic);
   }
 
   @Override
@@ -762,6 +796,7 @@ public class IndicatorOverviewType implements Serializable {
     sb.append("    characteristicValue: ").append(toIndentedString(characteristicValue)).append("\n");
     sb.append("    creationType: ").append(toIndentedString(creationType)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    regionalReferenceValues: ").append(toIndentedString(regionalReferenceValues)).append("\n");
     sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    indicatorName: ").append(toIndentedString(indicatorName)).append("\n");

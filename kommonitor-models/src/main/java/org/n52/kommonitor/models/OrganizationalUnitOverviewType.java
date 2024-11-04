@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.n52.kommonitor.models.AdminRoleType;
 import org.n52.kommonitor.models.PermissionOverviewType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitOverviewType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
 public class OrganizationalUnitOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,7 +45,12 @@ public class OrganizationalUnitOverviewType implements Serializable {
   @Valid
   private List<@Valid PermissionOverviewType> permissions = new ArrayList<>();
 
+  @Valid
+  private List<AdminRoleType> userAdminRoles = new ArrayList<>();
+
   private String parentId;
+
+  private String mandantId;
 
   @Valid
   private List<String> children = new ArrayList<>();
@@ -56,13 +62,15 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public OrganizationalUnitOverviewType(String organizationalUnitId, String name, Boolean mandant, String keycloakId, String contact, List<@Valid PermissionOverviewType> permissions, List<String> children) {
+  public OrganizationalUnitOverviewType(String organizationalUnitId, String name, Boolean mandant, String keycloakId, String contact, List<@Valid PermissionOverviewType> permissions, List<AdminRoleType> userAdminRoles, String parentId, List<String> children) {
     this.organizationalUnitId = organizationalUnitId;
     this.name = name;
     this.mandant = mandant;
     this.keycloakId = keycloakId;
     this.contact = contact;
     this.permissions = permissions;
+    this.userAdminRoles = userAdminRoles;
+    this.parentId = parentId;
     this.children = children;
   }
 
@@ -214,6 +222,34 @@ public class OrganizationalUnitOverviewType implements Serializable {
     this.permissions = permissions;
   }
 
+  public OrganizationalUnitOverviewType userAdminRoles(List<AdminRoleType> userAdminRoles) {
+    this.userAdminRoles = userAdminRoles;
+    return this;
+  }
+
+  public OrganizationalUnitOverviewType addUserAdminRolesItem(AdminRoleType userAdminRolesItem) {
+    if (this.userAdminRoles == null) {
+      this.userAdminRoles = new ArrayList<>();
+    }
+    this.userAdminRoles.add(userAdminRolesItem);
+    return this;
+  }
+
+  /**
+   * list of admin roles that are effective on this group for the current user
+   * @return userAdminRoles
+  */
+  @NotNull @Valid 
+  @Schema(name = "userAdminRoles", description = "list of admin roles that are effective on this group for the current user", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("userAdminRoles")
+  public List<AdminRoleType> getUserAdminRoles() {
+    return userAdminRoles;
+  }
+
+  public void setUserAdminRoles(List<AdminRoleType> userAdminRoles) {
+    this.userAdminRoles = userAdminRoles;
+  }
+
   public OrganizationalUnitOverviewType parentId(String parentId) {
     this.parentId = parentId;
     return this;
@@ -223,8 +259,8 @@ public class OrganizationalUnitOverviewType implements Serializable {
    * uuid of the parent group
    * @return parentId
   */
-  
-  @Schema(name = "parentId", description = "uuid of the parent group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull 
+  @Schema(name = "parentId", description = "uuid of the parent group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("parentId")
   public String getParentId() {
     return parentId;
@@ -232,6 +268,26 @@ public class OrganizationalUnitOverviewType implements Serializable {
 
   public void setParentId(String parentId) {
     this.parentId = parentId;
+  }
+
+  public OrganizationalUnitOverviewType mandantId(String mandantId) {
+    this.mandantId = mandantId;
+    return this;
+  }
+
+  /**
+   * uuid of the group that acts as mandant
+   * @return mandantId
+  */
+  
+  @Schema(name = "mandantId", description = "uuid of the group that acts as mandant", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("mandantId")
+  public String getMandantId() {
+    return mandantId;
+  }
+
+  public void setMandantId(String mandantId) {
+    this.mandantId = mandantId;
   }
 
   public OrganizationalUnitOverviewType children(List<String> children) {
@@ -278,13 +334,15 @@ public class OrganizationalUnitOverviewType implements Serializable {
         Objects.equals(this.contact, organizationalUnitOverviewType.contact) &&
         Objects.equals(this.description, organizationalUnitOverviewType.description) &&
         Objects.equals(this.permissions, organizationalUnitOverviewType.permissions) &&
+        Objects.equals(this.userAdminRoles, organizationalUnitOverviewType.userAdminRoles) &&
         Objects.equals(this.parentId, organizationalUnitOverviewType.parentId) &&
+        Objects.equals(this.mandantId, organizationalUnitOverviewType.mandantId) &&
         Objects.equals(this.children, organizationalUnitOverviewType.children);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(organizationalUnitId, name, mandant, keycloakId, contact, description, permissions, parentId, children);
+    return Objects.hash(organizationalUnitId, name, mandant, keycloakId, contact, description, permissions, userAdminRoles, parentId, mandantId, children);
   }
 
   @Override
@@ -298,7 +356,9 @@ public class OrganizationalUnitOverviewType implements Serializable {
     sb.append("    contact: ").append(toIndentedString(contact)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    permissions: ").append(toIndentedString(permissions)).append("\n");
+    sb.append("    userAdminRoles: ").append(toIndentedString(userAdminRoles)).append("\n");
     sb.append("    parentId: ").append(toIndentedString(parentId)).append("\n");
+    sb.append("    mandantId: ").append(toIndentedString(mandantId)).append("\n");
     sb.append("    children: ").append(toIndentedString(children)).append("\n");
     sb.append("}");
     return sb.toString();

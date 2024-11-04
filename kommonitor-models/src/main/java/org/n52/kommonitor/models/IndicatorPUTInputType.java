@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeIndicatorValues;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -24,7 +23,7 @@ import jakarta.annotation.Generated;
  * IndicatorPUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-26T07:42:31.257276800+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
 public class IndicatorPUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,8 +32,6 @@ public class IndicatorPUTInputType implements Serializable {
   private List<String> permissions = new ArrayList<>();
 
   private String applicableSpatialUnit;
-
-  private DefaultClassificationMappingType defaultClassificationMapping;
 
   @Valid
   private List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues = new ArrayList<>();
@@ -104,26 +101,6 @@ public class IndicatorPUTInputType implements Serializable {
 
   public void setApplicableSpatialUnit(String applicableSpatialUnit) {
     this.applicableSpatialUnit = applicableSpatialUnit;
-  }
-
-  public IndicatorPUTInputType defaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
-    this.defaultClassificationMapping = defaultClassificationMapping;
-    return this;
-  }
-
-  /**
-   * Get defaultClassificationMapping
-   * @return defaultClassificationMapping
-  */
-  @Valid 
-  @Schema(name = "defaultClassificationMapping", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("defaultClassificationMapping")
-  public DefaultClassificationMappingType getDefaultClassificationMapping() {
-    return defaultClassificationMapping;
-  }
-
-  public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
-    this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
   public IndicatorPUTInputType indicatorValues(List<@Valid IndicatorPOSTInputTypeIndicatorValues> indicatorValues) {
@@ -205,7 +182,6 @@ public class IndicatorPUTInputType implements Serializable {
     IndicatorPUTInputType indicatorPUTInputType = (IndicatorPUTInputType) o;
     return Objects.equals(this.permissions, indicatorPUTInputType.permissions) &&
         Objects.equals(this.applicableSpatialUnit, indicatorPUTInputType.applicableSpatialUnit) &&
-        Objects.equals(this.defaultClassificationMapping, indicatorPUTInputType.defaultClassificationMapping) &&
         Objects.equals(this.indicatorValues, indicatorPUTInputType.indicatorValues) &&
         Objects.equals(this.isPublic, indicatorPUTInputType.isPublic) &&
         Objects.equals(this.ownerId, indicatorPUTInputType.ownerId);
@@ -213,7 +189,7 @@ public class IndicatorPUTInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(permissions, applicableSpatialUnit, defaultClassificationMapping, indicatorValues, isPublic, ownerId);
+    return Objects.hash(permissions, applicableSpatialUnit, indicatorValues, isPublic, ownerId);
   }
 
   @Override
@@ -222,7 +198,6 @@ public class IndicatorPUTInputType implements Serializable {
     sb.append("class IndicatorPUTInputType {\n");
     sb.append("    permissions: ").append(toIndentedString(permissions)).append("\n");
     sb.append("    applicableSpatialUnit: ").append(toIndentedString(applicableSpatialUnit)).append("\n");
-    sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
     sb.append("    indicatorValues: ").append(toIndentedString(indicatorValues)).append("\n");
     sb.append("    isPublic: ").append(toIndentedString(isPublic)).append("\n");
     sb.append("    ownerId: ").append(toIndentedString(ownerId)).append("\n");

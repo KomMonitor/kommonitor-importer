@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import org.n52.kommonitor.models.ColorType;
 import org.n52.kommonitor.models.CommonMetadataType;
+import org.n52.kommonitor.models.PoiMarkerStyleEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  * GeoresourcePATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
 public class GeoresourcePATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -45,6 +46,10 @@ public class GeoresourcePATCHInputType implements Serializable {
   private BigDecimal loiWidth;
 
   private CommonMetadataType metadata;
+
+  private PoiMarkerStyleEnum poiMarkerStyle;
+
+  private String poiMarkerText;
 
   private ColorType poiMarkerColor;
 
@@ -245,6 +250,46 @@ public class GeoresourcePATCHInputType implements Serializable {
     this.metadata = metadata;
   }
 
+  public GeoresourcePATCHInputType poiMarkerStyle(PoiMarkerStyleEnum poiMarkerStyle) {
+    this.poiMarkerStyle = poiMarkerStyle;
+    return this;
+  }
+
+  /**
+   * Get poiMarkerStyle
+   * @return poiMarkerStyle
+  */
+  @Valid 
+  @Schema(name = "poiMarkerStyle", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("poiMarkerStyle")
+  public PoiMarkerStyleEnum getPoiMarkerStyle() {
+    return poiMarkerStyle;
+  }
+
+  public void setPoiMarkerStyle(PoiMarkerStyleEnum poiMarkerStyle) {
+    this.poiMarkerStyle = poiMarkerStyle;
+  }
+
+  public GeoresourcePATCHInputType poiMarkerText(String poiMarkerText) {
+    this.poiMarkerText = poiMarkerText;
+    return this;
+  }
+
+  /**
+   * the poi marker text string to be used if poiMarkerStyle is set to text
+   * @return poiMarkerText
+  */
+  @Size(max = 3) 
+  @Schema(name = "poiMarkerText", description = "the poi marker text string to be used if poiMarkerStyle is set to text", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("poiMarkerText")
+  public String getPoiMarkerText() {
+    return poiMarkerText;
+  }
+
+  public void setPoiMarkerText(String poiMarkerText) {
+    this.poiMarkerText = poiMarkerText;
+  }
+
   public GeoresourcePATCHInputType poiMarkerColor(ColorType poiMarkerColor) {
     this.poiMarkerColor = poiMarkerColor;
     return this;
@@ -343,6 +388,8 @@ public class GeoresourcePATCHInputType implements Serializable {
         Objects.equals(this.loiDashArrayString, georesourcePATCHInputType.loiDashArrayString) &&
         Objects.equals(this.loiWidth, georesourcePATCHInputType.loiWidth) &&
         Objects.equals(this.metadata, georesourcePATCHInputType.metadata) &&
+        Objects.equals(this.poiMarkerStyle, georesourcePATCHInputType.poiMarkerStyle) &&
+        Objects.equals(this.poiMarkerText, georesourcePATCHInputType.poiMarkerText) &&
         Objects.equals(this.poiMarkerColor, georesourcePATCHInputType.poiMarkerColor) &&
         Objects.equals(this.poiSymbolBootstrap3Name, georesourcePATCHInputType.poiSymbolBootstrap3Name) &&
         Objects.equals(this.poiSymbolColor, georesourcePATCHInputType.poiSymbolColor) &&
@@ -351,7 +398,7 @@ public class GeoresourcePATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(aoiColor, datasetName, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
+    return Objects.hash(aoiColor, datasetName, isAOI, isLOI, isPOI, loiColor, loiDashArrayString, loiWidth, metadata, poiMarkerStyle, poiMarkerText, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
   }
 
   @Override
@@ -367,6 +414,8 @@ public class GeoresourcePATCHInputType implements Serializable {
     sb.append("    loiDashArrayString: ").append(toIndentedString(loiDashArrayString)).append("\n");
     sb.append("    loiWidth: ").append(toIndentedString(loiWidth)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    poiMarkerStyle: ").append(toIndentedString(poiMarkerStyle)).append("\n");
+    sb.append("    poiMarkerText: ").append(toIndentedString(poiMarkerText)).append("\n");
     sb.append("    poiMarkerColor: ").append(toIndentedString(poiMarkerColor)).append("\n");
     sb.append("    poiSymbolBootstrap3Name: ").append(toIndentedString(poiSymbolBootstrap3Name)).append("\n");
     sb.append("    poiSymbolColor: ").append(toIndentedString(poiSymbolColor)).append("\n");

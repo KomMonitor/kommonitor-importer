@@ -15,6 +15,7 @@ import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import org.n52.kommonitor.models.IndicatorTypeEnum;
+import org.n52.kommonitor.models.RegionalReferenceValueType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -30,7 +31,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,6 +45,9 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   private String datasetName;
 
   private DefaultClassificationMappingType defaultClassificationMapping;
+
+  @Valid
+  private List<@Valid RegionalReferenceValueType> regionalReferenceValues;
 
   private BigDecimal displayOrder;
 
@@ -190,6 +194,34 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
+  }
+
+  public IndicatorMetadataPATCHInputType regionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
+    return this;
+  }
+
+  public IndicatorMetadataPATCHInputType addRegionalReferenceValuesItem(RegionalReferenceValueType regionalReferenceValuesItem) {
+    if (this.regionalReferenceValues == null) {
+      this.regionalReferenceValues = new ArrayList<>();
+    }
+    this.regionalReferenceValues.add(regionalReferenceValuesItem);
+    return this;
+  }
+
+  /**
+   * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
+   * @return regionalReferenceValues
+  */
+  @Valid 
+  @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("regionalReferenceValues")
+  public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
+    return regionalReferenceValues;
+  }
+
+  public void setRegionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
   }
 
   public IndicatorMetadataPATCHInputType displayOrder(BigDecimal displayOrder) {
@@ -490,6 +522,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
         Objects.equals(this.creationType, indicatorMetadataPATCHInputType.creationType) &&
         Objects.equals(this.datasetName, indicatorMetadataPATCHInputType.datasetName) &&
         Objects.equals(this.defaultClassificationMapping, indicatorMetadataPATCHInputType.defaultClassificationMapping) &&
+        Objects.equals(this.regionalReferenceValues, indicatorMetadataPATCHInputType.regionalReferenceValues) &&
         Objects.equals(this.displayOrder, indicatorMetadataPATCHInputType.displayOrder) &&
         Objects.equals(this.indicatorType, indicatorMetadataPATCHInputType.indicatorType) &&
         Objects.equals(this.interpretation, indicatorMetadataPATCHInputType.interpretation) &&
@@ -507,7 +540,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, characteristicValue, creationType, datasetName, defaultClassificationMapping, displayOrder, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, processDescription, referenceDateNote, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
+    return Objects.hash(abbreviation, characteristicValue, creationType, datasetName, defaultClassificationMapping, regionalReferenceValues, displayOrder, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, processDescription, referenceDateNote, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
   }
 
   @Override
@@ -519,6 +552,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     sb.append("    creationType: ").append(toIndentedString(creationType)).append("\n");
     sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    regionalReferenceValues: ").append(toIndentedString(regionalReferenceValues)).append("\n");
     sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    indicatorType: ").append(toIndentedString(indicatorType)).append("\n");
     sb.append("    interpretation: ").append(toIndentedString(interpretation)).append("\n");
