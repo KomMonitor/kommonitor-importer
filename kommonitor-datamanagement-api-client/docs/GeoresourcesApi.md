@@ -15,7 +15,7 @@ All URIs are relative to *http://localhost:8085*
 | [**getGeoresourceById**](GeoresourcesApi.md#getGeoresourceById) | **GET** /georesources/{georesourceId} | retrieve information about available features of the selected geo-resource dataset |
 | [**getGeoresourceByIdAndYearAndMonth**](GeoresourcesApi.md#getGeoresourceByIdAndYearAndMonth) | **GET** /georesources/{georesourceId}/{year}/{month}/{day} | retrieve the features according to the selected geo-resource dataset and selected year and month as GeoJSON |
 | [**getGeoresourceByIdAndYearAndMonthWithoutGeometry**](GeoresourcesApi.md#getGeoresourceByIdAndYearAndMonthWithoutGeometry) | **GET** /georesources/{georesourceId}/{year}/{month}/{day}/without-geometry | retrieve only the properties without geometry of the features according to the selected public geo-resource dataset and selected year and month as GeoJSON |
-| [**getGeoresourcePermissionsById**](GeoresourcesApi.md#getGeoresourcePermissionsById) | **GET** /georesources/{georesourceId}/permissions | retrieve information about the permissions for the selected geo-resource dataset |
+| [**getGeoresourcePermissionsById**](GeoresourcesApi.md#getGeoresourcePermissionsById) | **GET** /georesources/{georesourceId}/permissions | retrieve information about the permissions for the selected geo-resource |
 | [**getGeoresourceSchemaByLevel**](GeoresourcesApi.md#getGeoresourceSchemaByLevel) | **GET** /georesources/{georesourceId}/schema | retrieve the JSON schema for the selected geo-resource dataset |
 | [**getGeoresources**](GeoresourcesApi.md#getGeoresources) | **GET** /georesources | retrieve information about available features of different geo-resource datasets |
 | [**getSingleGeoresourceFeatureById**](GeoresourcesApi.md#getSingleGeoresourceFeatureById) | **GET** /georesources/{georesourceId}/singleFeature/{featureId} | retrieve single feature database records for all applicable periods of validity for the selected geo-resource dataset (hence might contain the target feature multiple times if it exists for different periods of validity) |
@@ -23,6 +23,8 @@ All URIs are relative to *http://localhost:8085*
 | [**updateGeoresourceAsBody**](GeoresourcesApi.md#updateGeoresourceAsBody) | **PUT** /georesources/{georesourceId} | Modify/Update the features of the selected geo-resource dataset |
 | [**updateGeoresourceFeatureRecordAsBody**](GeoresourcesApi.md#updateGeoresourceFeatureRecordAsBody) | **PUT** /georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Modify/Update the feature record of the selected georesource dataset feature |
 | [**updateGeoresourceMetadataAsBody**](GeoresourcesApi.md#updateGeoresourceMetadataAsBody) | **PATCH** /georesources/{georesourceId} | Modify/Update the metadata of the selected geo-resource dataset |
+| [**updateGeoresourceOwnership**](GeoresourcesApi.md#updateGeoresourceOwnership) | **PUT** /georesources/{georesourceId}/ownership | update the ownership for the selected geo-resource dataset |
+| [**updateGeoresourcePermissions**](GeoresourcesApi.md#updateGeoresourcePermissions) | **PUT** /georesources/{georesourceId}/permissions | update the permissions for the selected geo-resource dataset |
 
 
 
@@ -869,9 +871,9 @@ public class Example {
 
 > List&lt;PermissionLevelType&gt; getGeoresourcePermissionsById(georesourceId)
 
-retrieve information about the permissions for the selected geo-resource dataset
+retrieve information about the permissions for the selected geo-resource
 
-retrieve information about the permissions for the selected geo-resource dataset
+retrieve information about the permissions for the selected geo-resource
 
 ### Example
 
@@ -1478,4 +1480,156 @@ null (empty response body)
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **405** | Invalid input |  -  |
+
+
+## updateGeoresourceOwnership
+
+> updateGeoresourceOwnership(georesourceId, ownerInputType)
+
+update the ownership for the selected geo-resource dataset
+
+update the ownership for the selected geo-resource dataset
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
+        String georesourceId = "georesourceId_example"; // String | identifier of the geo-resource dataset
+        OwnerInputType ownerInputType = new OwnerInputType(); // OwnerInputType | GeoResource ownership input
+        try {
+            apiInstance.updateGeoresourceOwnership(georesourceId, ownerInputType);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesApi#updateGeoresourceOwnership");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **georesourceId** | **String**| identifier of the geo-resource dataset | |
+| **ownerInputType** | [**OwnerInputType**](OwnerInputType.md)| GeoResource ownership input | [optional] |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | No Content |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## updateGeoresourcePermissions
+
+> updateGeoresourcePermissions(georesourceId, permissionLevelInputType)
+
+update the permissions for the selected geo-resource dataset
+
+update the permissions for the selected geo-resource dataset
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
+        String georesourceId = "georesourceId_example"; // String | identifier of the geo-resource dataset
+        PermissionLevelInputType permissionLevelInputType = new PermissionLevelInputType(); // PermissionLevelInputType | GeoResource permission level input
+        try {
+            apiInstance.updateGeoresourcePermissions(georesourceId, permissionLevelInputType);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesApi#updateGeoresourcePermissions");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **georesourceId** | **String**| identifier of the geo-resource dataset | |
+| **permissionLevelInputType** | [**PermissionLevelInputType**](PermissionLevelInputType.md)| GeoResource permission level input | [optional] |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | No Content |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
 

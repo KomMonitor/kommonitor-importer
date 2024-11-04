@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Import_GeoresourcePOSTInputType", description = "Definitions for importing an new georesource")
 @JsonTypeName("Import_GeoresourcePOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
 public class ImportGeoresourcePOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -41,11 +41,6 @@ public class ImportGeoresourcePOSTInputType implements Serializable {
 
   private Boolean dryRun;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ImportGeoresourcePOSTInputType#ImportGeoresourcePOSTInputType(GeoresourcePOSTInputType, DataSourceDefinitionType, ConverterDefinitionType, SpatialResourcePropertyMappingType, Boolean)}
-   */
-  @Deprecated
   public ImportGeoresourcePOSTInputType() {
     super();
   }

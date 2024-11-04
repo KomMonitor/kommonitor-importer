@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ParameterType", description = "Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
 public class ParameterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -73,11 +73,6 @@ public class ParameterType implements Serializable {
 
   private TypeEnum type;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ParameterType#ParameterType(String)}
-   */
-  @Deprecated
   public ParameterType() {
     super();
   }

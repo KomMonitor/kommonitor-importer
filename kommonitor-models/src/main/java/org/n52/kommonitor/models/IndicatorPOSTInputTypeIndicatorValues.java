@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeValueMapping;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeIndicatorValues
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class IndicatorPOSTInputTypeIndicatorValues implements Serializable {
 
   private static final long serialVersionUID = 1L;

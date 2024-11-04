@@ -24,7 +24,10 @@ All URIs are relative to *http://localhost:8085*
 | [**updateIndicatorDisplayOrder**](IndicatorsApi.md#updateIndicatorDisplayOrder) | **PATCH** /indicators/display-order | Update displayOrder for submitted indicators |
 | [**updateIndicatorFeatureRecordAsBody**](IndicatorsApi.md#updateIndicatorFeatureRecordAsBody) | **PUT** /indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Modify/Update the feature record of the selected indicator dataset feature |
 | [**updateIndicatorMetadataAsBody**](IndicatorsApi.md#updateIndicatorMetadataAsBody) | **PATCH** /indicators/{indicatorId} | Modify/Update the metadata of the selected indicator dataset |
-| [**updateIndicatorRoles**](IndicatorsApi.md#updateIndicatorRoles) | **PATCH** /indicators/{indicatorId}/{spatialUnitId} | Modify/Update the selected indicator dataset |
+| [**updateIndicatorOwnership**](IndicatorsApi.md#updateIndicatorOwnership) | **PUT** /indicators/{indicatorId}/ownership | Modify/Update the selected indicator dataset ownership |
+| [**updateIndicatorOwnershipBySpatialUnit**](IndicatorsApi.md#updateIndicatorOwnershipBySpatialUnit) | **PUT** /indicators/{indicatorId}/{spatialUnitId}/ownership | Modify/Update the selected indicator dataset ownership |
+| [**updateIndicatorPermissions**](IndicatorsApi.md#updateIndicatorPermissions) | **PUT** /indicators/{indicatorId}/permissions | Modify/Update the selected indicator dataset permissions |
+| [**updateIndicatorPermissionsBySpatialUnit**](IndicatorsApi.md#updateIndicatorPermissionsBySpatialUnit) | **PUT** /indicators/{indicatorId}/{spatialUnitId}/permissions | Modify/Update the selected indicator dataset permissions |
 
 
 
@@ -1587,11 +1590,84 @@ null (empty response body)
 | **405** | Invalid input |  -  |
 
 
-## updateIndicatorRoles
+## updateIndicatorOwnership
 
-> updateIndicatorRoles(indicatorId, spatialUnitId, indicatorData)
+> updateIndicatorOwnership(indicatorId, indicatorData)
 
-Modify/Update the selected indicator dataset
+Modify/Update the selected indicator dataset ownership
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        OwnerInputType indicatorData = new OwnerInputType(); // OwnerInputType | Indicator parameters input
+        try {
+            apiInstance.updateIndicatorOwnership(indicatorId, indicatorData);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#updateIndicatorOwnership");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **indicatorData** | [**OwnerInputType**](OwnerInputType.md)| Indicator parameters input | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | No Content |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateIndicatorOwnershipBySpatialUnit
+
+> updateIndicatorOwnershipBySpatialUnit(indicatorId, spatialUnitId, indicatorData)
+
+Modify/Update the selected indicator dataset ownership
 
 ### Example
 
@@ -1616,11 +1692,11 @@ public class Example {
         IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
         String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
         String spatialUnitId = "spatialUnitId_example"; // String | the unique identifier of the spatial level
-        IndicatorPATCHInputType indicatorData = new IndicatorPATCHInputType(); // IndicatorPATCHInputType | Indicator parameters input
+        OwnerInputType indicatorData = new OwnerInputType(); // OwnerInputType | Indicator parameters input
         try {
-            apiInstance.updateIndicatorRoles(indicatorId, spatialUnitId, indicatorData);
+            apiInstance.updateIndicatorOwnershipBySpatialUnit(indicatorId, spatialUnitId, indicatorData);
         } catch (ApiException e) {
-            System.err.println("Exception when calling IndicatorsApi#updateIndicatorRoles");
+            System.err.println("Exception when calling IndicatorsApi#updateIndicatorOwnershipBySpatialUnit");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -1637,7 +1713,156 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
 | **spatialUnitId** | **String**| the unique identifier of the spatial level | |
-| **indicatorData** | [**IndicatorPATCHInputType**](IndicatorPATCHInputType.md)| Indicator parameters input | |
+| **indicatorData** | [**OwnerInputType**](OwnerInputType.md)| Indicator parameters input | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **204** | No Content |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateIndicatorPermissions
+
+> updateIndicatorPermissions(indicatorId, indicatorData)
+
+Modify/Update the selected indicator dataset permissions
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        PermissionLevelInputType indicatorData = new PermissionLevelInputType(); // PermissionLevelInputType | Indicator parameters input
+        try {
+            apiInstance.updateIndicatorPermissions(indicatorId, indicatorData);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#updateIndicatorPermissions");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **indicatorData** | [**PermissionLevelInputType**](PermissionLevelInputType.md)| Indicator parameters input | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **204** | No Content |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateIndicatorPermissionsBySpatialUnit
+
+> updateIndicatorPermissionsBySpatialUnit(indicatorId, spatialUnitId, indicatorData)
+
+Modify/Update the selected indicator dataset permissions
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        String spatialUnitId = "spatialUnitId_example"; // String | the unique identifier of the spatial level
+        PermissionLevelInputType indicatorData = new PermissionLevelInputType(); // PermissionLevelInputType | Indicator parameters input
+        try {
+            apiInstance.updateIndicatorPermissionsBySpatialUnit(indicatorId, spatialUnitId, indicatorData);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#updateIndicatorPermissionsBySpatialUnit");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **spatialUnitId** | **String**| the unique identifier of the spatial level | |
+| **indicatorData** | [**PermissionLevelInputType**](PermissionLevelInputType.md)| Indicator parameters input | |
 
 ### Return type
 

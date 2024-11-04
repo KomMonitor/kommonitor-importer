@@ -3,6 +3,8 @@ package org.n52.kommonitor.datamanagement.api.client;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import java.math.BigDecimal;
+import org.n52.kommonitor.models.OwnerInputType;
+import org.n52.kommonitor.models.PermissionLevelInputType;
 import org.n52.kommonitor.models.PermissionLevelType;
 import org.n52.kommonitor.models.SpatialUnitOverviewType;
 import org.n52.kommonitor.models.SpatialUnitPATCHInputType;
@@ -30,7 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-02-21T12:45:23.890552600+01:00[Europe/Berlin]")
 @Component("org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi")
 public class SpatialUnitsApi {
     private ApiClient apiClient;
@@ -1140,5 +1142,136 @@ public class SpatialUnitsApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/spatial-units/{spatialUnitId}", HttpMethod.PATCH, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * update information about the ownership for the selected spatial unit dataset
+     * update information about the ownership for the selected spatial unit dataset
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param spatialUnitId identifier of the spatial unit dataset (required)
+     * @param ownerInputType Spatial unit ownership input. (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateSpatialUnitsOwnership(String spatialUnitId, OwnerInputType ownerInputType) throws RestClientException {
+        updateSpatialUnitsOwnershipWithHttpInfo(spatialUnitId, ownerInputType);
+    }
+
+    /**
+     * update information about the ownership for the selected spatial unit dataset
+     * update information about the ownership for the selected spatial unit dataset
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param spatialUnitId identifier of the spatial unit dataset (required)
+     * @param ownerInputType Spatial unit ownership input. (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateSpatialUnitsOwnershipWithHttpInfo(String spatialUnitId, OwnerInputType ownerInputType) throws RestClientException {
+        Object localVarPostBody = ownerInputType;
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateSpatialUnitsOwnership");
+        }
+        
+        // verify the required parameter 'ownerInputType' is set
+        if (ownerInputType == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'ownerInputType' when calling updateSpatialUnitsOwnership");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("spatialUnitId", spatialUnitId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/ownership", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * update information about the permissions for the selected spatial unit dataset
+     * update information about the permissions for the selected spatial unit dataset
+     * <p><b>200</b> - OK
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param spatialUnitId identifier of the spatial unit dataset (required)
+     * @param permissionLevelInputType Spatial unit permission level input. (required)
+     * @return List&lt;PermissionLevelType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public List<PermissionLevelType> updateSpatialUnitsPermissions(String spatialUnitId, PermissionLevelInputType permissionLevelInputType) throws RestClientException {
+        return updateSpatialUnitsPermissionsWithHttpInfo(spatialUnitId, permissionLevelInputType).getBody();
+    }
+
+    /**
+     * update information about the permissions for the selected spatial unit dataset
+     * update information about the permissions for the selected spatial unit dataset
+     * <p><b>200</b> - OK
+     * <p><b>400</b> - Invalid status value
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param spatialUnitId identifier of the spatial unit dataset (required)
+     * @param permissionLevelInputType Spatial unit permission level input. (required)
+     * @return ResponseEntity&lt;List&lt;PermissionLevelType&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<PermissionLevelType>> updateSpatialUnitsPermissionsWithHttpInfo(String spatialUnitId, PermissionLevelInputType permissionLevelInputType) throws RestClientException {
+        Object localVarPostBody = permissionLevelInputType;
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateSpatialUnitsPermissions");
+        }
+        
+        // verify the required parameter 'permissionLevelInputType' is set
+        if (permissionLevelInputType == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'permissionLevelInputType' when calling updateSpatialUnitsPermissions");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("spatialUnitId", spatialUnitId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<List<PermissionLevelType>> localReturnType = new ParameterizedTypeReference<List<PermissionLevelType>>() {};
+        return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/permissions", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }

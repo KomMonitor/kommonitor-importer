@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorReferenceType", description = "a reference to another indicator, e.g. a sub-indicator that is used to compute the main indicator")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class IndicatorReferenceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -31,11 +31,6 @@ public class IndicatorReferenceType implements Serializable {
 
   private String referencedIndicatorName;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorReferenceType#IndicatorReferenceType(String, String, String)}
-   */
-  @Deprecated
   public IndicatorReferenceType() {
     super();
   }

@@ -6,10 +6,11 @@ import java.math.BigDecimal;
 import org.n52.kommonitor.models.IndicatorMetadataPATCHInputType;
 import org.n52.kommonitor.models.IndicatorOverviewType;
 import org.n52.kommonitor.models.IndicatorPATCHDisplayOrderInputType;
-import org.n52.kommonitor.models.IndicatorPATCHInputType;
 import org.n52.kommonitor.models.IndicatorPOSTInputType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
 import org.n52.kommonitor.models.IndicatorPropertiesWithoutGeomType;
+import org.n52.kommonitor.models.OwnerInputType;
+import org.n52.kommonitor.models.PermissionLevelInputType;
 import org.n52.kommonitor.models.PermissionLevelType;
 
 import java.util.Collections;
@@ -33,7 +34,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-02-21T12:45:23.890552600+01:00[Europe/Berlin]")
 @Component("org.n52.kommonitor.datamanagement.api.client.IndicatorsApi")
 public class IndicatorsApi {
     private ApiClient apiClient;
@@ -1436,7 +1437,68 @@ public class IndicatorsApi {
         return apiClient.invokeAPI("/indicators/{indicatorId}", HttpMethod.PATCH, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
-     * Modify/Update the selected indicator dataset
+     * Modify/Update the selected indicator dataset ownership
+     * 
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateIndicatorOwnership(String indicatorId, OwnerInputType indicatorData) throws RestClientException {
+        updateIndicatorOwnershipWithHttpInfo(indicatorId, indicatorData);
+    }
+
+    /**
+     * Modify/Update the selected indicator dataset ownership
+     * 
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateIndicatorOwnershipWithHttpInfo(String indicatorId, OwnerInputType indicatorData) throws RestClientException {
+        Object localVarPostBody = indicatorData;
+        
+        // verify the required parameter 'indicatorId' is set
+        if (indicatorId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling updateIndicatorOwnership");
+        }
+        
+        // verify the required parameter 'indicatorData' is set
+        if (indicatorData == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorData' when calling updateIndicatorOwnership");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("indicatorId", indicatorId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/indicators/{indicatorId}/ownership", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Modify/Update the selected indicator dataset ownership
      * 
      * <p><b>200</b> - OK
      * <p><b>204</b> - No Content
@@ -1448,12 +1510,12 @@ public class IndicatorsApi {
      * @param indicatorData Indicator parameters input (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateIndicatorRoles(String indicatorId, String spatialUnitId, IndicatorPATCHInputType indicatorData) throws RestClientException {
-        updateIndicatorRolesWithHttpInfo(indicatorId, spatialUnitId, indicatorData);
+    public void updateIndicatorOwnershipBySpatialUnit(String indicatorId, String spatialUnitId, OwnerInputType indicatorData) throws RestClientException {
+        updateIndicatorOwnershipBySpatialUnitWithHttpInfo(indicatorId, spatialUnitId, indicatorData);
     }
 
     /**
-     * Modify/Update the selected indicator dataset
+     * Modify/Update the selected indicator dataset ownership
      * 
      * <p><b>200</b> - OK
      * <p><b>204</b> - No Content
@@ -1466,22 +1528,22 @@ public class IndicatorsApi {
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updateIndicatorRolesWithHttpInfo(String indicatorId, String spatialUnitId, IndicatorPATCHInputType indicatorData) throws RestClientException {
+    public ResponseEntity<Void> updateIndicatorOwnershipBySpatialUnitWithHttpInfo(String indicatorId, String spatialUnitId, OwnerInputType indicatorData) throws RestClientException {
         Object localVarPostBody = indicatorData;
         
         // verify the required parameter 'indicatorId' is set
         if (indicatorId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling updateIndicatorRoles");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling updateIndicatorOwnershipBySpatialUnit");
         }
         
         // verify the required parameter 'spatialUnitId' is set
         if (spatialUnitId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateIndicatorRoles");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateIndicatorOwnershipBySpatialUnit");
         }
         
         // verify the required parameter 'indicatorData' is set
         if (indicatorData == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorData' when calling updateIndicatorRoles");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorData' when calling updateIndicatorOwnershipBySpatialUnit");
         }
         
         // create path and map variables
@@ -1504,6 +1566,138 @@ public class IndicatorsApi {
         String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}", HttpMethod.PATCH, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+        return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/ownership", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Modify/Update the selected indicator dataset permissions
+     * 
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateIndicatorPermissions(String indicatorId, PermissionLevelInputType indicatorData) throws RestClientException {
+        updateIndicatorPermissionsWithHttpInfo(indicatorId, indicatorData);
+    }
+
+    /**
+     * Modify/Update the selected indicator dataset permissions
+     * 
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateIndicatorPermissionsWithHttpInfo(String indicatorId, PermissionLevelInputType indicatorData) throws RestClientException {
+        Object localVarPostBody = indicatorData;
+        
+        // verify the required parameter 'indicatorId' is set
+        if (indicatorId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling updateIndicatorPermissions");
+        }
+        
+        // verify the required parameter 'indicatorData' is set
+        if (indicatorData == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorData' when calling updateIndicatorPermissions");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("indicatorId", indicatorId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/indicators/{indicatorId}/permissions", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Modify/Update the selected indicator dataset permissions
+     * 
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void updateIndicatorPermissionsBySpatialUnit(String indicatorId, String spatialUnitId, PermissionLevelInputType indicatorData) throws RestClientException {
+        updateIndicatorPermissionsBySpatialUnitWithHttpInfo(indicatorId, spatialUnitId, indicatorData);
+    }
+
+    /**
+     * Modify/Update the selected indicator dataset permissions
+     * 
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param indicatorData Indicator parameters input (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updateIndicatorPermissionsBySpatialUnitWithHttpInfo(String indicatorId, String spatialUnitId, PermissionLevelInputType indicatorData) throws RestClientException {
+        Object localVarPostBody = indicatorData;
+        
+        // verify the required parameter 'indicatorId' is set
+        if (indicatorId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling updateIndicatorPermissionsBySpatialUnit");
+        }
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateIndicatorPermissionsBySpatialUnit");
+        }
+        
+        // verify the required parameter 'indicatorData' is set
+        if (indicatorData == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorData' when calling updateIndicatorPermissionsBySpatialUnit");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("indicatorId", indicatorId);
+        uriVariables.put("spatialUnitId", spatialUnitId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/permissions", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }

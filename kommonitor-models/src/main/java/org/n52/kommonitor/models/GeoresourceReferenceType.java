@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "GeoresourceReferenceType", description = "a reference to georesource, e.g. a resource that is used to compute the main indicator")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class GeoresourceReferenceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -31,11 +31,6 @@ public class GeoresourceReferenceType implements Serializable {
 
   private String referencedGeoresourceName;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link GeoresourceReferenceType#GeoresourceReferenceType(String, String, String)}
-   */
-  @Deprecated
   public GeoresourceReferenceType() {
     super();
   }

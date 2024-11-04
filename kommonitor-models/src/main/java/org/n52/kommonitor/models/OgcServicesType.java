@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * OgcServicesType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:28.028923700+01:00[Europe/Berlin]")
 public class OgcServicesType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,11 +32,6 @@ public class OgcServicesType implements Serializable {
 
   private String wmsUrl;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link OgcServicesType#OgcServicesType(String, String, String, String)}
-   */
-  @Deprecated
   public OgcServicesType() {
     super();
   }
