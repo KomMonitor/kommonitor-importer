@@ -203,14 +203,6 @@ public class IndicatorsApiControllerIT {
 
         indicatorPutBody.setApplicableSpatialUnit("testSpatialUnitId");
 
-        DefaultClassificationMappingItemType classItemMapping = new DefaultClassificationMappingItemType();
-        classItemMapping.setDefaultColorAsHex("#2f8f67");
-        classItemMapping.setDefaultCustomRating("testRating");
-        DefaultClassificationMappingType classMapping = new DefaultClassificationMappingType();
-        classMapping.setColorBrewerSchemeName("testColorSchema");
-        classMapping.setItems(Arrays.asList(classItemMapping));
-        indicatorPutBody.setDefaultClassificationMapping(classMapping);
-
         indicatorUpdate.setIndicatorPutBody(indicatorPutBody);
         indicatorUpdate.setIndicatorId(RESOURCE_ID);
 
