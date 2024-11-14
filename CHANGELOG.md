@@ -1,6 +1,15 @@
 # Change Log
 
-## 3.2.4
+## 4.0.0-beta.1
+* Seta beta version [61ea497](61ea497d21360b0cff3dabce780e2cd731818855)
+* fix erronous regionalReferenceValueType API model [5fe5de3](5fe5de3fcdd77afb97870f39a02b5911e090224f)
+* Remove deprecated properties from indicator test entity [4b3ed7c](4b3ed7c18652714a32ef8224759687cdf70adafa)
+* Genereate latest models [d7def55](d7def5580d369299a0f11e2dadfc7f112b54dd43)
+* Merge branch &#39;project/kme-va-2023&#39; into develop [9bc8a0f](9bc8a0fa7b94c15d7aa9ee975ab3a94ee809795c)
+    * Regenerate latest API models [a2fa4e1](a2fa4e18f1abebbb66e356e635f24fcb3e6df807)
+    * Generate latest API client classes [466bc71](466bc7175d6f84985ac4fd837b3bf02a6a70c23a)
+    * Generate latest models [ad80c28](ad80c28aafc979b6bcbb17e4cd5948908e5c8776)
+* Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
 * Add support for ID property as Feature object member [a4c5f1b](a4c5f1bd3bccfba38e192cbe190b13e2587f6a85)
 * Small config updates [35fe659](35fe65910ebde9e46a651c97c6be6beb08dbcb7b)
 * Update doc files [8c5e95d](8c5e95d359f1a9b6bb8838843db55c897d790158)
