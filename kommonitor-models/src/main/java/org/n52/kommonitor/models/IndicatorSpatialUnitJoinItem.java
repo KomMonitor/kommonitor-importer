@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.PermissionLevelType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  * IndicatorSpatialUnitJoinItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class IndicatorSpatialUnitJoinItem implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -37,11 +38,6 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   @Valid
   private List<PermissionLevelType> userPermissions;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorSpatialUnitJoinItem#IndicatorSpatialUnitJoinItem(String, String)}
-   */
-  @Deprecated
   public IndicatorSpatialUnitJoinItem() {
     super();
   }

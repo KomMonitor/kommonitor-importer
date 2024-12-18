@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * CommonMetadataType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class CommonMetadataType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -92,11 +92,6 @@ public class CommonMetadataType implements Serializable {
 
   private UpdateIntervalEnum updateInterval;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link CommonMetadataType#CommonMetadataType(String, String, String, BigDecimal, UpdateIntervalEnum)}
-   */
-  @Deprecated
   public CommonMetadataType() {
     super();
   }
@@ -262,7 +257,7 @@ public class CommonMetadataType implements Serializable {
    * @return sridEPSG
   */
   @NotNull @Valid 
-  @Schema(name = "sridEPSG", description = "the coordinate reference system of the dataset as EPSG code", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "sridEPSG", example = "0.0", description = "the coordinate reference system of the dataset as EPSG code", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("sridEPSG")
   public BigDecimal getSridEPSG() {
     return sridEPSG;

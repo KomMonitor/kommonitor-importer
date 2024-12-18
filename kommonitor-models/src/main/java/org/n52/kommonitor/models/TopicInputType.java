@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.TopicResourceEnum;
 import org.n52.kommonitor.models.TopicTypeEnum;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  * TopicInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class TopicInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -42,11 +43,6 @@ public class TopicInputType implements Serializable {
 
   private TopicTypeEnum topicType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TopicInputType#TopicInputType(String, String, TopicTypeEnum)}
-   */
-  @Deprecated
   public TopicInputType() {
     super();
   }

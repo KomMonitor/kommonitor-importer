@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterValueType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "DataSourceDefinitionType", description = "Holds various information about the datasource for importing new resources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.174370900+01:00[Europe/Berlin]")
 public class DataSourceDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -77,11 +78,6 @@ public class DataSourceDefinitionType implements Serializable {
   @Valid
   private List<@Valid ParameterValueType> parameters;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link DataSourceDefinitionType#DataSourceDefinitionType(TypeEnum)}
-   */
-  @Deprecated
   public DataSourceDefinitionType() {
     super();
   }

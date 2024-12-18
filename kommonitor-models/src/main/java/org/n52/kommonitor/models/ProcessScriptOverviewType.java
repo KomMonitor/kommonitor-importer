@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ProcessInputType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  * ProcessScriptOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class ProcessScriptOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -46,11 +47,6 @@ public class ProcessScriptOverviewType implements Serializable {
   @Valid
   private List<@Valid ProcessInputType> variableProcessParameters = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ProcessScriptOverviewType#ProcessScriptOverviewType(String, String, String, List<String>, List<String>, String, List<@Valid ProcessInputType>)}
-   */
-  @Deprecated
   public ProcessScriptOverviewType() {
     super();
   }

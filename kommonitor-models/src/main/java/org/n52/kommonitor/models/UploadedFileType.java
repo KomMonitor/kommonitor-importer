@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "UploadedFileType", description = "Definition of an uploaded file")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.174370900+01:00[Europe/Berlin]")
 public class UploadedFileType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,11 +29,6 @@ public class UploadedFileType implements Serializable {
 
   private String contentType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link UploadedFileType#UploadedFileType(String)}
-   */
-  @Deprecated
   public UploadedFileType() {
     super();
   }

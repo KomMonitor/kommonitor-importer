@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.CreationTypeEnum;
@@ -17,6 +18,7 @@ import org.n52.kommonitor.models.IndicatorSpatialUnitJoinItem;
 import org.n52.kommonitor.models.IndicatorTypeEnum;
 import org.n52.kommonitor.models.OgcServicesType;
 import org.n52.kommonitor.models.PermissionLevelType;
+import org.n52.kommonitor.models.RegionalReferenceValueType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -32,7 +34,7 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -53,6 +55,9 @@ public class IndicatorOverviewType implements Serializable {
   private CreationTypeEnum creationType;
 
   private DefaultClassificationMappingType defaultClassificationMapping;
+
+  @Valid
+  private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
 
   private BigDecimal displayOrder;
 
@@ -75,6 +80,8 @@ public class IndicatorOverviewType implements Serializable {
 
   private String processDescription;
 
+  private Integer precision;
+
   private String referenceDateNote;
 
   @Valid
@@ -93,11 +100,6 @@ public class IndicatorOverviewType implements Serializable {
   @Valid
   private List<PermissionLevelType> userPermissions;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorOverviewType#IndicatorOverviewType(String, List<String>, List<@Valid IndicatorSpatialUnitJoinItem>, String, CreationTypeEnum, String, String, String, Boolean, CommonMetadataType, List<@Valid OgcServicesType>, String, List<String>, String, String)}
-   */
-  @Deprecated
   public IndicatorOverviewType() {
     super();
   }
@@ -105,12 +107,13 @@ public class IndicatorOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorOverviewType(String abbreviation, List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, String characteristicValue, CreationTypeEnum creationType, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, List<@Valid OgcServicesType> ogcServices, String processDescription, List<String> tags, String topicReference, String unit) {
+  public IndicatorOverviewType(String abbreviation, List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, String characteristicValue, CreationTypeEnum creationType, List<@Valid RegionalReferenceValueType> regionalReferenceValues, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, List<@Valid OgcServicesType> ogcServices, String processDescription, List<String> tags, String topicReference, String unit) {
     this.abbreviation = abbreviation;
     this.applicableDates = applicableDates;
     this.applicableSpatialUnits = applicableSpatialUnits;
     this.characteristicValue = characteristicValue;
     this.creationType = creationType;
+    this.regionalReferenceValues = regionalReferenceValues;
     this.indicatorId = indicatorId;
     this.indicatorName = indicatorName;
     this.interpretation = interpretation;
@@ -285,6 +288,34 @@ public class IndicatorOverviewType implements Serializable {
 
   public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
+  }
+
+  public IndicatorOverviewType regionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
+    return this;
+  }
+
+  public IndicatorOverviewType addRegionalReferenceValuesItem(RegionalReferenceValueType regionalReferenceValuesItem) {
+    if (this.regionalReferenceValues == null) {
+      this.regionalReferenceValues = new ArrayList<>();
+    }
+    this.regionalReferenceValues.add(regionalReferenceValuesItem);
+    return this;
+  }
+
+  /**
+   * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
+   * @return regionalReferenceValues
+  */
+  @NotNull @Valid 
+  @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("regionalReferenceValues")
+  public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
+    return regionalReferenceValues;
+  }
+
+  public void setRegionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
+    this.regionalReferenceValues = regionalReferenceValues;
   }
 
   public IndicatorOverviewType displayOrder(BigDecimal displayOrder) {
@@ -495,6 +526,26 @@ public class IndicatorOverviewType implements Serializable {
     this.processDescription = processDescription;
   }
 
+  public IndicatorOverviewType precision(Integer precision) {
+    this.precision = precision;
+    return this;
+  }
+
+  /**
+   * Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.
+   * @return precision
+  */
+  
+  @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("precision")
+  public Integer getPrecision() {
+    return precision;
+  }
+
+  public void setPrecision(Integer precision) {
+    this.precision = precision;
+  }
+
   public IndicatorOverviewType referenceDateNote(String referenceDateNote) {
     this.referenceDateNote = referenceDateNote;
     return this;
@@ -683,6 +734,7 @@ public class IndicatorOverviewType implements Serializable {
         Objects.equals(this.characteristicValue, indicatorOverviewType.characteristicValue) &&
         Objects.equals(this.creationType, indicatorOverviewType.creationType) &&
         Objects.equals(this.defaultClassificationMapping, indicatorOverviewType.defaultClassificationMapping) &&
+        Objects.equals(this.regionalReferenceValues, indicatorOverviewType.regionalReferenceValues) &&
         Objects.equals(this.displayOrder, indicatorOverviewType.displayOrder) &&
         Objects.equals(this.indicatorId, indicatorOverviewType.indicatorId) &&
         Objects.equals(this.indicatorName, indicatorOverviewType.indicatorName) &&
@@ -693,6 +745,7 @@ public class IndicatorOverviewType implements Serializable {
         Objects.equals(this.metadata, indicatorOverviewType.metadata) &&
         Objects.equals(this.ogcServices, indicatorOverviewType.ogcServices) &&
         Objects.equals(this.processDescription, indicatorOverviewType.processDescription) &&
+        Objects.equals(this.precision, indicatorOverviewType.precision) &&
         Objects.equals(this.referenceDateNote, indicatorOverviewType.referenceDateNote) &&
         Objects.equals(this.referencedGeoresources, indicatorOverviewType.referencedGeoresources) &&
         Objects.equals(this.referencedIndicators, indicatorOverviewType.referencedIndicators) &&
@@ -704,7 +757,7 @@ public class IndicatorOverviewType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, allowedRoles, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, displayOrder, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, processDescription, referenceDateNote, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions);
+    return Objects.hash(abbreviation, allowedRoles, applicableDates, applicableSpatialUnits, characteristicValue, creationType, defaultClassificationMapping, regionalReferenceValues, displayOrder, indicatorId, indicatorName, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, ogcServices, processDescription, precision, referenceDateNote, referencedGeoresources, referencedIndicators, tags, topicReference, unit, userPermissions);
   }
 
   @Override
@@ -718,6 +771,7 @@ public class IndicatorOverviewType implements Serializable {
     sb.append("    characteristicValue: ").append(toIndentedString(characteristicValue)).append("\n");
     sb.append("    creationType: ").append(toIndentedString(creationType)).append("\n");
     sb.append("    defaultClassificationMapping: ").append(toIndentedString(defaultClassificationMapping)).append("\n");
+    sb.append("    regionalReferenceValues: ").append(toIndentedString(regionalReferenceValues)).append("\n");
     sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    indicatorName: ").append(toIndentedString(indicatorName)).append("\n");
@@ -728,6 +782,7 @@ public class IndicatorOverviewType implements Serializable {
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    ogcServices: ").append(toIndentedString(ogcServices)).append("\n");
     sb.append("    processDescription: ").append(toIndentedString(processDescription)).append("\n");
+    sb.append("    precision: ").append(toIndentedString(precision)).append("\n");
     sb.append("    referenceDateNote: ").append(toIndentedString(referenceDateNote)).append("\n");
     sb.append("    referencedGeoresources: ").append(toIndentedString(referencedGeoresources)).append("\n");
     sb.append("    referencedIndicators: ").append(toIndentedString(referencedIndicators)).append("\n");

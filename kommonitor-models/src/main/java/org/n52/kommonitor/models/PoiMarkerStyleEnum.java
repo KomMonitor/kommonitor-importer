@@ -18,35 +18,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines assignable colors for different feature styles, such as POI, LOI and AOI colors.
+ * the poi marker type, either text or symbol
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
-public enum ColorType {
+public enum PoiMarkerStyleEnum {
   
-  WHITE("white"),
+  TEXT("text"),
   
-  RED("red"),
-  
-  ORANGE("orange"),
-  
-  BEIGE("beige"),
-  
-  GREEN("green"),
-  
-  BLUE("blue"),
-  
-  PURPLE("purple"),
-  
-  PINK("pink"),
-  
-  GRAY("gray"),
-  
-  BLACK("black");
+  SYMBOL("symbol");
 
   private String value;
 
-  ColorType(String value) {
+  PoiMarkerStyleEnum(String value) {
     this.value = value;
   }
 
@@ -61,8 +45,8 @@ public enum ColorType {
   }
 
   @JsonCreator
-  public static ColorType fromValue(String value) {
-    for (ColorType b : ColorType.values()) {
+  public static PoiMarkerStyleEnum fromValue(String value) {
+    for (PoiMarkerStyleEnum b : PoiMarkerStyleEnum.values()) {
       if (b.value.equals(value)) {
         return b;
       }

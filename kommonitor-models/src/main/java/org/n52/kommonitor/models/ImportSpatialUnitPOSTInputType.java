@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Import_SpatialUnitPOSTInputType", description = "Definitions for importing an new spatial unit from a certain datasource")
 @JsonTypeName("Import_SpatialUnitPOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:29.191576230+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.174370900+01:00[Europe/Berlin]")
 public class ImportSpatialUnitPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -41,11 +41,6 @@ public class ImportSpatialUnitPOSTInputType implements Serializable {
 
   private Boolean dryRun;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ImportSpatialUnitPOSTInputType#ImportSpatialUnitPOSTInputType(SpatialUnitPOSTInputType, DataSourceDefinitionType, ConverterDefinitionType, SpatialResourcePropertyMappingType, Boolean)}
-   */
-  @Deprecated
   public ImportSpatialUnitPOSTInputType() {
     super();
   }

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.RoleOverviewType;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitOverviewType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class OrganizationalUnitOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,11 +40,6 @@ public class OrganizationalUnitOverviewType implements Serializable {
   @Valid
   private List<@Valid RoleOverviewType> roles = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link OrganizationalUnitOverviewType#OrganizationalUnitOverviewType(String, String, String, List<@Valid RoleOverviewType>)}
-   */
-  @Deprecated
   public OrganizationalUnitOverviewType() {
     super();
   }

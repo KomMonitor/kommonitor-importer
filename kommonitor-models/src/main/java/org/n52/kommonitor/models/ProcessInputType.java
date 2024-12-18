@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * ProcessInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class ProcessInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -77,11 +77,6 @@ public class ProcessInputType implements Serializable {
 
   private String name;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ProcessInputType#ProcessInputType(DataTypeEnum, String, String, String)}
-   */
-  @Deprecated
   public ProcessInputType() {
     super();
   }

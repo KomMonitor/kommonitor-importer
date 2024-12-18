@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * IndicatorPropertiesWithoutGeomType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class IndicatorPropertiesWithoutGeomType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,11 +32,6 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
 
   private String validEndDate;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorPropertiesWithoutGeomType#IndicatorPropertiesWithoutGeomType(String, String, String, String)}
-   */
-  @Deprecated
   public IndicatorPropertiesWithoutGeomType() {
     super();
   }

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import jakarta.annotation.Generated;
  * IndicatorPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-10-23T17:54:30.264884973+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class IndicatorPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,11 +30,6 @@ public class IndicatorPATCHInputType implements Serializable {
   @Valid
   private List<String> allowedRoles = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link IndicatorPATCHInputType#IndicatorPATCHInputType(List<String>)}
-   */
-  @Deprecated
   public IndicatorPATCHInputType() {
     super();
   }

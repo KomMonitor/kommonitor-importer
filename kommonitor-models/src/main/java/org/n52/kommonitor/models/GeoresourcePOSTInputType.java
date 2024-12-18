@@ -7,10 +7,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ColorType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.PeriodOfValidityType;
+import org.n52.kommonitor.models.PoiMarkerStyleEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -26,7 +28,7 @@ import jakarta.annotation.Generated;
  * GeoresourcePOSTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class GeoresourcePOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -58,6 +60,10 @@ public class GeoresourcePOSTInputType implements Serializable {
 
   private PeriodOfValidityType periodOfValidity;
 
+  private PoiMarkerStyleEnum poiMarkerStyle;
+
+  private String poiMarkerText;
+
   private ColorType poiMarkerColor;
 
   private String poiSymbolBootstrap3Name;
@@ -66,11 +72,6 @@ public class GeoresourcePOSTInputType implements Serializable {
 
   private String topicReference;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link GeoresourcePOSTInputType#GeoresourcePOSTInputType(String, Boolean, Boolean, Boolean, CommonMetadataType, PeriodOfValidityType)}
-   */
-  @Deprecated
   public GeoresourcePOSTInputType() {
     super();
   }
@@ -355,6 +356,46 @@ public class GeoresourcePOSTInputType implements Serializable {
     this.periodOfValidity = periodOfValidity;
   }
 
+  public GeoresourcePOSTInputType poiMarkerStyle(PoiMarkerStyleEnum poiMarkerStyle) {
+    this.poiMarkerStyle = poiMarkerStyle;
+    return this;
+  }
+
+  /**
+   * Get poiMarkerStyle
+   * @return poiMarkerStyle
+  */
+  @Valid 
+  @Schema(name = "poiMarkerStyle", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("poiMarkerStyle")
+  public PoiMarkerStyleEnum getPoiMarkerStyle() {
+    return poiMarkerStyle;
+  }
+
+  public void setPoiMarkerStyle(PoiMarkerStyleEnum poiMarkerStyle) {
+    this.poiMarkerStyle = poiMarkerStyle;
+  }
+
+  public GeoresourcePOSTInputType poiMarkerText(String poiMarkerText) {
+    this.poiMarkerText = poiMarkerText;
+    return this;
+  }
+
+  /**
+   * the poi marker text string to be used if poiMarkerStyle is set to text
+   * @return poiMarkerText
+  */
+  @Size(max = 3) 
+  @Schema(name = "poiMarkerText", description = "the poi marker text string to be used if poiMarkerStyle is set to text", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("poiMarkerText")
+  public String getPoiMarkerText() {
+    return poiMarkerText;
+  }
+
+  public void setPoiMarkerText(String poiMarkerText) {
+    this.poiMarkerText = poiMarkerText;
+  }
+
   public GeoresourcePOSTInputType poiMarkerColor(ColorType poiMarkerColor) {
     this.poiMarkerColor = poiMarkerColor;
     return this;
@@ -457,6 +498,8 @@ public class GeoresourcePOSTInputType implements Serializable {
         Objects.equals(this.loiWidth, georesourcePOSTInputType.loiWidth) &&
         Objects.equals(this.metadata, georesourcePOSTInputType.metadata) &&
         Objects.equals(this.periodOfValidity, georesourcePOSTInputType.periodOfValidity) &&
+        Objects.equals(this.poiMarkerStyle, georesourcePOSTInputType.poiMarkerStyle) &&
+        Objects.equals(this.poiMarkerText, georesourcePOSTInputType.poiMarkerText) &&
         Objects.equals(this.poiMarkerColor, georesourcePOSTInputType.poiMarkerColor) &&
         Objects.equals(this.poiSymbolBootstrap3Name, georesourcePOSTInputType.poiSymbolBootstrap3Name) &&
         Objects.equals(this.poiSymbolColor, georesourcePOSTInputType.poiSymbolColor) &&
@@ -465,7 +508,7 @@ public class GeoresourcePOSTInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(allowedRoles, aoiColor, datasetName, geoJsonString, isAOI, isLOI, isPOI, jsonSchema, loiColor, loiDashArrayString, loiWidth, metadata, periodOfValidity, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
+    return Objects.hash(allowedRoles, aoiColor, datasetName, geoJsonString, isAOI, isLOI, isPOI, jsonSchema, loiColor, loiDashArrayString, loiWidth, metadata, periodOfValidity, poiMarkerStyle, poiMarkerText, poiMarkerColor, poiSymbolBootstrap3Name, poiSymbolColor, topicReference);
   }
 
   @Override
@@ -485,6 +528,8 @@ public class GeoresourcePOSTInputType implements Serializable {
     sb.append("    loiWidth: ").append(toIndentedString(loiWidth)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    periodOfValidity: ").append(toIndentedString(periodOfValidity)).append("\n");
+    sb.append("    poiMarkerStyle: ").append(toIndentedString(poiMarkerStyle)).append("\n");
+    sb.append("    poiMarkerText: ").append(toIndentedString(poiMarkerText)).append("\n");
     sb.append("    poiMarkerColor: ").append(toIndentedString(poiMarkerColor)).append("\n");
     sb.append("    poiSymbolBootstrap3Name: ").append(toIndentedString(poiSymbolBootstrap3Name)).append("\n");
     sb.append("    poiSymbolColor: ").append(toIndentedString(poiSymbolColor)).append("\n");
