@@ -1,6 +1,7 @@
 # Change Log
 
 ## 3.2.5
+* Fix IT compilation [3c08ebf](3c08ebf082da790e850e11613128fb721581b622)
 * Raise Data Management API version for dev Docker setup [8a319bd](8a319bd98e75afd626d8cfc0a186a678ef23160b)
 * Update models [42b5020](42b50203d330e936cff8bae09252dba784291580)
 * Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
