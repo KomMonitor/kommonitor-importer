@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingItemType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class DefaultClassificationMappingItemType implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -10,6 +10,11 @@
     * Generate latest API client classes [466bc71](466bc7175d6f84985ac4fd837b3bf02a6a70c23a)
     * Generate latest models [ad80c28](ad80c28aafc979b6bcbb17e4cd5948908e5c8776)
 * Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
+## 3.2.5
+* Fix IT compilation [3c08ebf](3c08ebf082da790e850e11613128fb721581b622)
+* Raise Data Management API version for dev Docker setup [8a319bd](8a319bd98e75afd626d8cfc0a186a678ef23160b)
+* Update models [42b5020](42b50203d330e936cff8bae09252dba784291580)
+* Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
 * Add support for ID property as Feature object member [a4c5f1b](a4c5f1bd3bccfba38e192cbe190b13e2587f6a85)
 * Small config updates [35fe659](35fe65910ebde9e46a651c97c6be6beb08dbcb7b)
 * Update doc files [8c5e95d](8c5e95d359f1a9b6bb8838843db55c897d790158)

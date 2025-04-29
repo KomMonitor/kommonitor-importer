@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * RegionalReferenceValueType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-13T22:06:48.977295200+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class RegionalReferenceValueType implements Serializable {
 
   private static final long serialVersionUID = 1L;

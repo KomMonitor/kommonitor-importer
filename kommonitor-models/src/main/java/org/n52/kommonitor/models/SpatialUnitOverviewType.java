@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * SpatialUnitOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-26T07:42:31.257276800+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class SpatialUnitOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -151,7 +151,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * flag whether the resource is publicly accessible
    * @return isPublic
   */
-  @NotNull 
+  @NotNull
   @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isPublic")
   public Boolean getIsPublic() {
@@ -339,7 +339,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * if true, then KomMonitor web client map application will offer this spatial unit as outline layer in legend control
    * @return isOutlineLayer
   */
-  
+
   @Schema(name = "isOutlineLayer", description = "if true, then KomMonitor web client map application will offer this spatial unit as outline layer in legend control", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isOutlineLayer")
   public Boolean getIsOutlineLayer() {
@@ -359,7 +359,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * outline color for this layer as hex code
    * @return outlineColor
   */
-  
+
   @Schema(name = "outlineColor", description = "outline color for this layer as hex code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineColor")
   public String getOutlineColor() {
@@ -379,7 +379,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * outline width as stroke width for outline geometry
    * @return outlineWidth
   */
-  @Valid 
+  @Valid
   @Schema(name = "outlineWidth", description = "outline width as stroke width for outline geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineWidth")
   public BigDecimal getOutlineWidth() {
@@ -399,7 +399,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * string of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)
    * @return outlineDashArrayString
   */
-  
+
   @Schema(name = "outlineDashArrayString", description = "string of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineDashArrayString")
   public String getOutlineDashArrayString() {
@@ -419,7 +419,7 @@ public class SpatialUnitOverviewType implements Serializable {
    * identifier of the owning group
    * @return ownerId
   */
-  
+
   @Schema(name = "ownerId", description = "identifier of the owning group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ownerId")
   public String getOwnerId() {

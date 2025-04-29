@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-11-04T15:30:32.738846500+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -60,6 +60,8 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   private String lowestSpatialUnitForComputation;
 
   private CommonMetadataType metadata;
+
+  private Integer precision;
 
   private String processDescription;
 
@@ -213,7 +215,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
    * @return regionalReferenceValues
   */
-  @Valid 
+  @Valid
   @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("regionalReferenceValues")
   public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
@@ -342,6 +344,26 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   public void setMetadata(CommonMetadataType metadata) {
     this.metadata = metadata;
+  }
+
+  public IndicatorMetadataPATCHInputType precision(Integer precision) {
+    this.precision = precision;
+    return this;
+  }
+
+  /**
+   * Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.
+   * @return precision
+  */
+
+  @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("precision")
+  public Integer getPrecision() {
+    return precision;
+  }
+
+  public void setPrecision(Integer precision) {
+    this.precision = precision;
   }
 
   public IndicatorMetadataPATCHInputType processDescription(String processDescription) {
@@ -529,6 +551,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
         Objects.equals(this.isHeadlineIndicator, indicatorMetadataPATCHInputType.isHeadlineIndicator) &&
         Objects.equals(this.lowestSpatialUnitForComputation, indicatorMetadataPATCHInputType.lowestSpatialUnitForComputation) &&
         Objects.equals(this.metadata, indicatorMetadataPATCHInputType.metadata) &&
+        Objects.equals(this.precision, indicatorMetadataPATCHInputType.precision) &&
         Objects.equals(this.processDescription, indicatorMetadataPATCHInputType.processDescription) &&
         Objects.equals(this.referenceDateNote, indicatorMetadataPATCHInputType.referenceDateNote) &&
         Objects.equals(this.refrencesToGeoresources, indicatorMetadataPATCHInputType.refrencesToGeoresources) &&
@@ -540,7 +563,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(abbreviation, characteristicValue, creationType, datasetName, defaultClassificationMapping, regionalReferenceValues, displayOrder, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, processDescription, referenceDateNote, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
+    return Objects.hash(abbreviation, characteristicValue, creationType, datasetName, defaultClassificationMapping, regionalReferenceValues, displayOrder, indicatorType, interpretation, isHeadlineIndicator, lowestSpatialUnitForComputation, metadata, precision, processDescription, referenceDateNote, refrencesToGeoresources, refrencesToOtherIndicators, tags, topicReference, unit);
   }
 
   @Override
@@ -559,6 +582,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     sb.append("    isHeadlineIndicator: ").append(toIndentedString(isHeadlineIndicator)).append("\n");
     sb.append("    lowestSpatialUnitForComputation: ").append(toIndentedString(lowestSpatialUnitForComputation)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    precision: ").append(toIndentedString(precision)).append("\n");
     sb.append("    processDescription: ").append(toIndentedString(processDescription)).append("\n");
     sb.append("    referenceDateNote: ").append(toIndentedString(referenceDateNote)).append("\n");
     sb.append("    refrencesToGeoresources: ").append(toIndentedString(refrencesToGeoresources)).append("\n");

@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Error", description = "A default error that will be responded if an unexpected server error occurs")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-21T12:40:27.304865200+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.174370900+01:00[Europe/Berlin]")
 public class Error implements Serializable {
 
   private static final long serialVersionUID = 1L;

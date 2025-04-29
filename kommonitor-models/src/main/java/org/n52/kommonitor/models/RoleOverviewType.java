@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "RoleOverviewType", description = "Combination of organizationalUnit and permissionLevel to control access to a resource")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-01-30T10:55:32.223531300+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
 public class RoleOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -31,11 +31,6 @@ public class RoleOverviewType implements Serializable {
 
   private String roleId;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link RoleOverviewType#RoleOverviewType(PermissionLevelType, String)}
-   */
-  @Deprecated
   public RoleOverviewType() {
     super();
   }
