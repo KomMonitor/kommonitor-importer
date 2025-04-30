@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class DefaultClassificationMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -39,11 +39,11 @@ public class DefaultClassificationMappingType implements Serializable {
    */
   public enum ClassificationMethodEnum {
     REGIONAL_DEFAULT("REGIONAL_DEFAULT"),
-
+    
     JENKS("JENKS"),
-
+    
     EQUAL_INTERVAL("EQUAL_INTERVAL"),
-
+    
     QUANTILE("QUANTILE");
 
     private String value;
@@ -123,7 +123,7 @@ public class DefaultClassificationMappingType implements Serializable {
    * maximum: 9
    * @return numClasses
   */
-  @NotNull @Valid @DecimalMin("1") @DecimalMax("9")
+  @NotNull @Valid @DecimalMin("1") @DecimalMax("9") 
   @Schema(name = "numClasses", description = "the number of classes", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("numClasses")
   public BigDecimal getNumClasses() {
@@ -143,7 +143,7 @@ public class DefaultClassificationMappingType implements Serializable {
    * the classification method as enumeration
    * @return classificationMethod
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "classificationMethod", description = "the classification method as enumeration", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("classificationMethod")
   public ClassificationMethodEnum getClassificationMethod() {

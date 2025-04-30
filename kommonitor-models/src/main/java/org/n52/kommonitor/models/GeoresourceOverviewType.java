@@ -29,7 +29,7 @@ import jakarta.annotation.Generated;
  * GeoresourceOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class GeoresourceOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -288,7 +288,7 @@ public class GeoresourceOverviewType implements Serializable {
    * flag whether the resource is publicly accessible
    * @return isPublic
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isPublic")
   public Boolean getIsPublic() {
@@ -388,7 +388,7 @@ public class GeoresourceOverviewType implements Serializable {
    * identifier of the owning group
    * @return ownerId
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "ownerId", description = "identifier of the owning group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("ownerId")
   public String getOwnerId() {
@@ -408,7 +408,7 @@ public class GeoresourceOverviewType implements Serializable {
    * Get poiMarkerStyle
    * @return poiMarkerStyle
   */
-  @Valid
+  @Valid 
   @Schema(name = "poiMarkerStyle", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("poiMarkerStyle")
   public PoiMarkerStyleEnum getPoiMarkerStyle() {
@@ -428,7 +428,7 @@ public class GeoresourceOverviewType implements Serializable {
    * the poi marker text string to be used if poiMarkerStyle is set to text
    * @return poiMarkerText
   */
-  @Size(max = 3)
+  @Size(max = 3) 
   @Schema(name = "poiMarkerText", description = "the poi marker text string to be used if poiMarkerStyle is set to text", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("poiMarkerText")
   public String getPoiMarkerText() {

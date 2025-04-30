@@ -34,7 +34,7 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -313,7 +313,7 @@ public class IndicatorOverviewType implements Serializable {
    * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
    * @return regionalReferenceValues
   */
-  @NotNull @Valid
+  @NotNull @Valid 
   @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("regionalReferenceValues")
   public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
@@ -521,7 +521,7 @@ public class IndicatorOverviewType implements Serializable {
    * identifier of the owning group
    * @return ownerId
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "ownerId", description = "identifier of the owning group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("ownerId")
   public String getOwnerId() {
@@ -561,7 +561,7 @@ public class IndicatorOverviewType implements Serializable {
    * Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.
    * @return precision
   */
-
+  
   @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("precision")
   public Integer getPrecision() {
@@ -753,7 +753,7 @@ public class IndicatorOverviewType implements Serializable {
    * flag whether the resource is publicly accessible
    * @return isPublic
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isPublic")
   public Boolean getIsPublic() {

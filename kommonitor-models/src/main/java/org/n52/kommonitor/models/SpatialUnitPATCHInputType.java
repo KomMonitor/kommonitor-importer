@@ -5,10 +5,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.math.BigDecimal;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -25,7 +21,7 @@ import jakarta.annotation.Generated;
  * SpatialUnitPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class SpatialUnitPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -69,7 +65,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * the name of the spatial unit - its \"spatialUnitLevel\"
    * @return datasetName
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "datasetName", description = "the name of the spatial unit - its \"spatialUnitLevel\"", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("datasetName")
   public String getDatasetName() {
@@ -149,7 +145,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * if true, then KomMonitor web client map application will offer this spatial unit as outline layer in legend control
    * @return isOutlineLayer
   */
-
+  
   @Schema(name = "isOutlineLayer", description = "if true, then KomMonitor web client map application will offer this spatial unit as outline layer in legend control", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isOutlineLayer")
   public Boolean getIsOutlineLayer() {
@@ -169,7 +165,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * outline color for this layer as hex code
    * @return outlineColor
   */
-
+  
   @Schema(name = "outlineColor", description = "outline color for this layer as hex code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineColor")
   public String getOutlineColor() {
@@ -189,7 +185,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * outline width as stroke width for outline geometry
    * @return outlineWidth
   */
-  @Valid
+  @Valid 
   @Schema(name = "outlineWidth", description = "outline width as stroke width for outline geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineWidth")
   public BigDecimal getOutlineWidth() {
@@ -209,7 +205,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * string of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)
    * @return outlineDashArrayString
   */
-
+  
   @Schema(name = "outlineDashArrayString", description = "string of line stroke dash array for lines of interest (e.g. 20,20; see https://developer.mozilla.org/de/docs/Web/SVG/Attribute/stroke-dasharray)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineDashArrayString")
   public String getOutlineDashArrayString() {

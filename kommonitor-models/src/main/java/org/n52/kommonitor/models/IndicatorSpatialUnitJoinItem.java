@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * IndicatorSpatialUnitJoinItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class IndicatorSpatialUnitJoinItem implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -71,7 +71,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
    * list of permissions on this entity
    * @return permissions
   */
-
+  
   @Schema(name = "permissions", description = "list of permissions on this entity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("permissions")
   public List<String> getPermissions() {
@@ -179,7 +179,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
    * flag whether the resource is publicly accessible
    * @return isPublic
   */
-
+  
   @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isPublic")
   public Boolean getIsPublic() {

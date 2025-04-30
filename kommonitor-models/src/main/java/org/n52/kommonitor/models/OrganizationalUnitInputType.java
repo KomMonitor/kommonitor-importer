@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitInputType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class OrganizationalUnitInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -62,7 +62,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * unique id of this organizational Unit
    * @return organizationalUnitId
   */
-
+  
   @Schema(name = "organizationalUnitId", description = "unique id of this organizational Unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("organizationalUnitId")
   public String getOrganizationalUnitId() {
@@ -82,7 +82,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * name of this organizational Unit
    * @return name
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "name", description = "name of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -102,7 +102,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * flag whether this unit is an autonomous mandant
    * @return mandant
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "mandant", description = "flag whether this unit is an autonomous mandant", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mandant")
   public Boolean getMandant() {
@@ -122,7 +122,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * uuid of the corresponding Keycloak group
    * @return keycloakId
   */
-  @NotNull
+  @NotNull 
   @Schema(name = "keycloakId", description = "uuid of the corresponding Keycloak group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("keycloakId")
   public String getKeycloakId() {
@@ -182,7 +182,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * uuid of the parent group
    * @return parentId
   */
-
+  
   @Schema(name = "parentId", description = "uuid of the parent group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parentId")
   public String getParentId() {

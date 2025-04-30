@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-18T08:37:30.988928+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -215,7 +215,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)
    * @return regionalReferenceValues
   */
-  @Valid
+  @Valid 
   @Schema(name = "regionalReferenceValues", description = "list of optional regional reference values (i.e. regional sum, average, spatiallyUnassignable)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("regionalReferenceValues")
   public List<@Valid RegionalReferenceValueType> getRegionalReferenceValues() {
@@ -355,7 +355,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.
    * @return precision
   */
-
+  
   @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("precision")
   public Integer getPrecision() {
