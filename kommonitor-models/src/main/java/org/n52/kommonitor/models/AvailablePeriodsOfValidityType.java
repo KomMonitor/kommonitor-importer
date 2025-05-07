@@ -6,13 +6,14 @@ import java.io.Serializable;
 
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
+import jakarta.annotation.Generated;
 
 /**
  * array of periods of validity, each consisting of a start and end date
  */
 @ApiModel(description = "array of periods of validity, each consisting of a start and end date")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-13T17:03:30.872+01:00")
 
 public class AvailablePeriodsOfValidityType extends ArrayList<PeriodOfValidityType> implements Serializable {
   private static final long serialVersionUID = 1L;

@@ -7,16 +7,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.*;
+import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * The respective name/reference of the target feature dataset in case of the underlying data source has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.)
  */
 @ApiModel(description = "The respective name/reference of the target feature dataset in case of the underlying data source has more than one geodata source (e.g. multiple layers, featureTypes, database tables, etc.)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class DatasetReferenceType  implements Serializable {
   private static final long serialVersionUID = 1L;

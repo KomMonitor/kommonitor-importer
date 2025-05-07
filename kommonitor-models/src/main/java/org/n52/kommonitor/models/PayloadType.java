@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+
+import jakarta.annotation.Generated;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -14,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @ApiModel(description = "The payload of the dataset that should we imported. Might be either provided inline or as a reference on a remote dataset.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-11-28T19:57:45.678+01:00")
 
 public class PayloadType  implements Serializable {
   private static final long serialVersionUID = 1L;

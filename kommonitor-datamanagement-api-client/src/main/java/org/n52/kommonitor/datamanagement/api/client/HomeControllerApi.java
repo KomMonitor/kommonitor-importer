@@ -1,5 +1,6 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
+import jakarta.annotation.Generated;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 
@@ -24,7 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
 @Component
 public class HomeControllerApi {
     private ApiClient apiClient;

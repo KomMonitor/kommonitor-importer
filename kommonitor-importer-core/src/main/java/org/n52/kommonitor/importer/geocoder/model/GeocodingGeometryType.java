@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * GeocodingGeometryType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-03-14T08:15:39.526Z[GMT]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-03-14T08:15:39.526Z[GMT]")
 
 
 public class GeocodingGeometryType   {

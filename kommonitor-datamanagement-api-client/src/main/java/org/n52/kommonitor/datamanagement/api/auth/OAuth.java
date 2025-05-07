@@ -1,9 +1,10 @@
 package org.n52.kommonitor.datamanagement.api.auth;
 
+import jakarta.annotation.Generated;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.MultiValueMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
 public class OAuth implements Authentication {
     private String accessToken;
 

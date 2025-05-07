@@ -1,5 +1,6 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
+import jakarta.annotation.Generated;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
 import org.n52.kommonitor.models.ProcessScriptOverviewType;
@@ -25,7 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
 @Component("org.n52.kommonitor.datamanagement.api.client.ProcessScriptsPublicApi")
 public class ProcessScriptsPublicApi {
     private ApiClient apiClient;

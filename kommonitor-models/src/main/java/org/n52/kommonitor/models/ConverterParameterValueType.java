@@ -5,16 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.*;
+import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Additional parameter as key-value-pair that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
  */
 @ApiModel(description = "Additional parameter as key-value-pair that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T13:51:50.987+01:00")
 
 public class ConverterParameterValueType  implements Serializable {
   private static final long serialVersionUID = 1L;

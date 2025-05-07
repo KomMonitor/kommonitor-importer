@@ -3,6 +3,7 @@ package org.n52.kommonitor.importer.api;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import org.n52.kommonitor.importer.api.encoder.ConverterEncoder;
 import org.n52.kommonitor.importer.api.exceptions.ResourceNotFoundException;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-12-02T16:59:46.021+01:00")
 @BaseController
 public class ConvertersApiController implements ConvertersApi {
 

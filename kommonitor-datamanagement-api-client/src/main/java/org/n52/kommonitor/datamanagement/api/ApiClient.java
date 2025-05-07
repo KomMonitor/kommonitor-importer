@@ -1,5 +1,6 @@
 package org.n52.kommonitor.datamanagement.api;
 
+import jakarta.annotation.Generated;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ import java.time.OffsetDateTime;
 import org.n52.kommonitor.datamanagement.api.auth.Authentication;
 import org.n52.kommonitor.datamanagement.api.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2023-08-10T16:49:27.441698800+02:00[Europe/Berlin]")
 @Component
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
