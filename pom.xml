@@ -34,7 +34,7 @@
         <jts.version>1.19.0</jts.version>
         <maven-surefire.version>3.2.2</maven-surefire.version>
         <maven-failsafe.version>3.2.2</maven-failsafe.version>
-        <geotools.version>26.3</geotools.version>
+        <geotools.version>32.2</geotools.version>
         <release-plugin.version>3.0.1</release-plugin.version>
         <changelog-plugin.version>0.6.0</changelog-plugin.version>
         <log4j.version>2.24.3</log4j.version>
@@ -138,11 +138,6 @@
                         <groupId>com.vividsolutions</groupId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.geotools</groupId>
-                <artifactId>gt-opengis</artifactId>
-                <version>${geotools.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.geotools</groupId>
@@ -263,11 +258,11 @@
                 <artifactId>httpclient5</artifactId>
                 <version>5.4.4</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>io.swagger.core.v3</groupId>-->
-<!--                <artifactId>swagger-core-jakarta</artifactId>-->
-<!--                <version>2.2.30</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core-jakarta</artifactId>
+                <version>2.2.30</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

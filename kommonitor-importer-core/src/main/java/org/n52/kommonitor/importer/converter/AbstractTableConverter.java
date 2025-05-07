@@ -27,8 +27,8 @@ import org.n52.kommonitor.importer.geocoder.model.GeocodingPropertiesType.Geocod
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.*;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
+import org.geotools.api.feature.simple.SimpleFeature;
+import org.geotools.api.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
