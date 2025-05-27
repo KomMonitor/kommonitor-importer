@@ -1,6 +1,13 @@
 # Change Log
 
-## 4.0.0-beta.1
+## 4.1.0-beta.1
+* Regenerate API classes [ae0e816](ae0e8166d4717cfd068ca2a4b9daa250faba7d53)
+* Regenerate model classes [15a7d1d](15a7d1d429cec1b7388e384c6a51990bc6a6d07f)
+* Merge branch &#39;master&#39; into develop [de3377d](de3377dc32e06b731266996f4e3be400bba295fc)
+    * Fix IT compilation [3c08ebf](3c08ebf082da790e850e11613128fb721581b622)
+    * Raise Data Management API version for dev Docker setup [8a319bd](8a319bd98e75afd626d8cfc0a186a678ef23160b)
+    * Update models [42b5020](42b50203d330e936cff8bae09252dba784291580)
+* Raise cache actions version [8bb380a](8bb380ae67f9dc9b6e50cf9e28b784d8c31c0d0c)
 * Seta beta version [61ea497](61ea497d21360b0cff3dabce780e2cd731818855)
 * fix erronous regionalReferenceValueType API model [5fe5de3](5fe5de3fcdd77afb97870f39a02b5911e090224f)
 * Remove deprecated properties from indicator test entity [4b3ed7c](4b3ed7c18652714a32ef8224759687cdf70adafa)
@@ -9,11 +16,6 @@
     * Regenerate latest API models [a2fa4e1](a2fa4e18f1abebbb66e356e635f24fcb3e6df807)
     * Generate latest API client classes [466bc71](466bc7175d6f84985ac4fd837b3bf02a6a70c23a)
     * Generate latest models [ad80c28](ad80c28aafc979b6bcbb17e4cd5948908e5c8776)
-* Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
-## 3.2.5
-* Fix IT compilation [3c08ebf](3c08ebf082da790e850e11613128fb721581b622)
-* Raise Data Management API version for dev Docker setup [8a319bd](8a319bd98e75afd626d8cfc0a186a678ef23160b)
-* Update models [42b5020](42b50203d330e936cff8bae09252dba784291580)
 * Pin Eclipse Temurin image version [49ca4c6](49ca4c601d828dfde3a8d8a2541a9b5e57f91825)
 * Add support for ID property as Feature object member [a4c5f1b](a4c5f1bd3bccfba38e192cbe190b13e2587f6a85)
 * Small config updates [35fe659](35fe65910ebde9e46a651c97c6be6beb08dbcb7b)
