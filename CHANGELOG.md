@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.1.0-beta.1
+## 4.1.0
 * Regenerate API classes [ae0e816](ae0e8166d4717cfd068ca2a4b9daa250faba7d53)
 * Regenerate model classes [15a7d1d](15a7d1d429cec1b7388e384c6a51990bc6a6d07f)
 * Merge branch &#39;master&#39; into develop [de3377d](de3377dc32e06b731266996f4e3be400bba295fc)
