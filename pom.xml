@@ -38,7 +38,7 @@
         <release-plugin.version>3.0.1</release-plugin.version>
         <changelog-plugin.version>0.6.0</changelog-plugin.version>
         <log4j.version>2.21.1</log4j.version>
-        <poi.version>5.2.4</poi.version>
+        <poi.version>5.4.0</poi.version>
         <kommonitor-oas.version>latest</kommonitor-oas.version>
         <openapi-codegen.version>7.1.0</openapi-codegen.version>
     </properties>
