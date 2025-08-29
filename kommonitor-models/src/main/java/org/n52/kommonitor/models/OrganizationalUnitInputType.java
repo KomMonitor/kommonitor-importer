@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitInputType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-08-29T14:27:18.306243400+02:00[Europe/Berlin]")
 public class OrganizationalUnitInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -46,10 +46,9 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public OrganizationalUnitInputType(String name, Boolean mandant, String keycloakId, String contact) {
+  public OrganizationalUnitInputType(String name, Boolean mandant, String contact) {
     this.name = name;
     this.mandant = mandant;
-    this.keycloakId = keycloakId;
     this.contact = contact;
   }
 
@@ -122,8 +121,8 @@ public class OrganizationalUnitInputType implements Serializable {
    * uuid of the corresponding Keycloak group
    * @return keycloakId
   */
-  @NotNull 
-  @Schema(name = "keycloakId", description = "uuid of the corresponding Keycloak group", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "keycloakId", description = "uuid of the corresponding Keycloak group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("keycloakId")
   public String getKeycloakId() {
     return keycloakId;
