@@ -43,9 +43,9 @@ public class UploadApiController implements UploadApi {
 
     public ResponseEntity<String> upload(
             @Parameter(description = "The name that will be used for storing the file on the server", required = true)
-            @RequestParam(value = "filename", required = true) String filename,
-            @Parameter(description = "file detail")
-            @Valid @RequestPart("file") MultipartFile file
+            @Valid @RequestParam(value = "filename", required = false) String filename,
+            @Parameter(description = "The file to upload")
+            @RequestPart(value = "file", required = false) MultipartFile file
             ) throws UploadException {
         LOG.info("Recevied 'upload' request for file: {}", filename != null ? filename : file.getOriginalFilename());
 
