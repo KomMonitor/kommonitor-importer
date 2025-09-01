@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**filterPublicGeoresources**](GeoresourcesPublicApi.md#filterPublicGeoresources) | **POST** /public/georesources/filter | Filter public georesources |
 | [**getAllPublicGeoresourceFeaturesById**](GeoresourcesPublicApi.md#getAllPublicGeoresourceFeaturesById) | **GET** /public/georesources/{georesourceId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getAllPublicGeoresourceFeaturesByIdWithoutGeometry**](GeoresourcesPublicApi.md#getAllPublicGeoresourceFeaturesByIdWithoutGeometry) | **GET** /public/georesources/{georesourceId}/allFeatures/without-geometry | retrieve only the properties without geometry of all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getPublicGeoresourceById**](GeoresourcesPublicApi.md#getPublicGeoresourceById) | **GET** /public/georesources/{georesourceId} | retrieve information about available features of the selected public geo-resource dataset |
@@ -14,6 +15,76 @@ All URIs are relative to *http://localhost:8085*
 | [**getPublicSingleGeoresourceFeatureById**](GeoresourcesPublicApi.md#getPublicSingleGeoresourceFeatureById) | **GET** /public/georesources/{georesourceId}/singleFeature/{featureId} | retrieve single feature database records for all applicable periods of validity for the selected geo-resource dataset (hence might contain the target feature multiple times if it exists for different periods of validity) |
 | [**getPublicSingleGeoresourceFeatureRecordById**](GeoresourcesPublicApi.md#getPublicSingleGeoresourceFeatureRecordById) | **GET** /public/georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | retrieve single feature database record specified by its unique database primary key id |
 
+
+
+## filterPublicGeoresources
+
+> List&lt;GeoresourceOverviewType&gt; filterPublicGeoresources(resourceFilterType)
+
+Filter public georesources
+
+Filter public georesource datasets according to the specified filter
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        GeoresourcesPublicApi apiInstance = new GeoresourcesPublicApi(defaultClient);
+        ResourceFilterType resourceFilterType = new ResourceFilterType(); // ResourceFilterType | filter data
+        try {
+            List<GeoresourceOverviewType> result = apiInstance.filterPublicGeoresources(resourceFilterType);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesPublicApi#filterPublicGeoresources");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **resourceFilterType** | [**ResourceFilterType**](ResourceFilterType.md)| filter data | |
+
+### Return type
+
+[**List&lt;GeoresourceOverviewType&gt;**](GeoresourceOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
 
 
 ## getAllPublicGeoresourceFeaturesById

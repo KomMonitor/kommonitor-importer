@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost:8085*
 | [**deleteGeoresourceByIdAndYearAndMonth**](GeoresourcesApi.md#deleteGeoresourceByIdAndYearAndMonth) | **DELETE** /georesources/{georesourceId}/{year}/{month}/{day} | Delete the features/contents of the selected geo-resource dataset, selected by year and month |
 | [**deleteSingleGeoresourceFeatureById**](GeoresourcesApi.md#deleteSingleGeoresourceFeatureById) | **DELETE** /georesources/{georesourceId}/singleFeature/{featureId} | Delete all database records for the specified feature of the selected geo-resource dataset |
 | [**deleteSingleGeoresourceFeatureRecordById**](GeoresourcesApi.md#deleteSingleGeoresourceFeatureRecordById) | **DELETE** /georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Delete single feature database record specified by its unique database primary key id for the specified feature of the selected geo-resource dataset |
+| [**filterGeoresources**](GeoresourcesApi.md#filterGeoresources) | **POST** /georesources/filter | Filter georesources |
 | [**getAllGeoresourceFeaturesById**](GeoresourcesApi.md#getAllGeoresourceFeaturesById) | **GET** /georesources/{georesourceId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getAllGeoresourceFeaturesByIdWithoutGeometry**](GeoresourcesApi.md#getAllGeoresourceFeaturesByIdWithoutGeometry) | **GET** /georesources/{georesourceId}/allFeatures/without-geometry | retrieve only the properties without geometry of all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getGeoresourceById**](GeoresourcesApi.md#getGeoresourceById) | **GET** /georesources/{georesourceId} | retrieve information about available features of the selected geo-resource dataset |
@@ -474,6 +475,76 @@ null (empty response body)
 | **204** | No Content |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+
+
+## filterGeoresources
+
+> List&lt;GeoresourceOverviewType&gt; filterGeoresources(resourceFilterType)
+
+Filter georesources
+
+Filter georesource datasets according to the specified filter
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
+        ResourceFilterType resourceFilterType = new ResourceFilterType(); // ResourceFilterType | filter data
+        try {
+            List<GeoresourceOverviewType> result = apiInstance.filterGeoresources(resourceFilterType);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesApi#filterGeoresources");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **resourceFilterType** | [**ResourceFilterType**](ResourceFilterType.md)| filter data | |
+
+### Return type
+
+[**List&lt;GeoresourceOverviewType&gt;**](GeoresourceOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
 
 
 ## getAllGeoresourceFeaturesById

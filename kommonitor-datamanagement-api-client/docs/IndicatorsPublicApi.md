@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost:8085*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**filterPublicIndicators**](IndicatorsPublicApi.md#filterPublicIndicators) | **POST** /public/indicators/filter | Filter public indicators |
 | [**getPublicIndicatorById**](IndicatorsPublicApi.md#getPublicIndicatorById) | **GET** /public/indicators/{indicatorId} | retrieve information about the selected public indicator |
 | [**getPublicIndicatorBySpatialUnitIdAndId**](IndicatorsPublicApi.md#getPublicIndicatorBySpatialUnitIdAndId) | **GET** /public/indicators/{indicatorId}/{spatialUnitId} | retrieve the public indicator for the selected spatial unit as GeoJSON |
 | [**getPublicIndicatorBySpatialUnitIdAndIdAndYearAndMonth**](IndicatorsPublicApi.md#getPublicIndicatorBySpatialUnitIdAndIdAndYearAndMonth) | **GET** /public/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day} | retrieve the public indicator for the selected public spatial unit, year and month as GeoJSON |
@@ -13,6 +14,76 @@ All URIs are relative to *http://localhost:8085*
 | [**getPublicSingleIndicatorFeatureById**](IndicatorsPublicApi.md#getPublicSingleIndicatorFeatureById) | **GET** /public/indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId} | retrieve single feature database records for all applicable periods of validity for the selected indicator dataset (hence might contain the target feature multiple times if it exists for different periods of validity) |
 | [**getPublicSingleIndicatorFeatureRecordById**](IndicatorsPublicApi.md#getPublicSingleIndicatorFeatureRecordById) | **GET** /public/indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | retrieve single feature database record specified by its unique database primary key id |
 
+
+
+## filterPublicIndicators
+
+> List&lt;IndicatorOverviewType&gt; filterPublicIndicators(resourceFilterType)
+
+Filter public indicators
+
+Filter public indicators datasets according to the specified filter
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        IndicatorsPublicApi apiInstance = new IndicatorsPublicApi(defaultClient);
+        ResourceFilterType resourceFilterType = new ResourceFilterType(); // ResourceFilterType | filter data
+        try {
+            List<IndicatorOverviewType> result = apiInstance.filterPublicIndicators(resourceFilterType);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsPublicApi#filterPublicIndicators");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **resourceFilterType** | [**ResourceFilterType**](ResourceFilterType.md)| filter data | |
+
+### Return type
+
+[**List&lt;IndicatorOverviewType&gt;**](IndicatorOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
 
 
 ## getPublicIndicatorById

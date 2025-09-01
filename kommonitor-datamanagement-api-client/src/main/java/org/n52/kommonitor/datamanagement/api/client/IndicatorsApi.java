@@ -1,7 +1,7 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
-import jakarta.annotation.Generated;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.BaseApi;
 
 import java.math.BigDecimal;
 import org.n52.kommonitor.models.IndicatorMetadataPATCHInputType;
@@ -13,6 +13,7 @@ import org.n52.kommonitor.models.IndicatorPropertiesWithoutGeomType;
 import org.n52.kommonitor.models.OwnerInputType;
 import org.n52.kommonitor.models.PermissionLevelInputType;
 import org.n52.kommonitor.models.PermissionLevelType;
+import org.n52.kommonitor.models.ResourceFilterType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,26 +36,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-02-21T12:45:23.890552600+01:00[Europe/Berlin]")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.IndicatorsApi")
-public class IndicatorsApi {
-    private ApiClient apiClient;
+public class IndicatorsApi extends BaseApi {
 
     public IndicatorsApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     @Autowired
     public IndicatorsApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -456,6 +448,62 @@ public class IndicatorsApi {
         return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * Filter indicators
+     * Filter indicators datasets according to the specified filter
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param resourceFilterType filter data (required)
+     * @return List&lt;IndicatorOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public List<IndicatorOverviewType> filterIndicators(ResourceFilterType resourceFilterType) throws RestClientException {
+        return filterIndicatorsWithHttpInfo(resourceFilterType).getBody();
+    }
+
+    /**
+     * Filter indicators
+     * Filter indicators datasets according to the specified filter
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param resourceFilterType filter data (required)
+     * @return ResponseEntity&lt;List&lt;IndicatorOverviewType&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<IndicatorOverviewType>> filterIndicatorsWithHttpInfo(ResourceFilterType resourceFilterType) throws RestClientException {
+        Object localVarPostBody = resourceFilterType;
+        
+        // verify the required parameter 'resourceFilterType' is set
+        if (resourceFilterType == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'resourceFilterType' when calling filterIndicators");
+        }
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<List<IndicatorOverviewType>> localReturnType = new ParameterizedTypeReference<List<IndicatorOverviewType>>() {};
+        return apiClient.invokeAPI("/indicators/filter", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * retrieve information about the selected indicator
      * retrieve information about the selected indicator
      * <p><b>200</b> - OK
@@ -568,7 +616,7 @@ public class IndicatorsApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/octed-stream"
@@ -662,7 +710,7 @@ public class IndicatorsApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/octed-stream"
@@ -1063,7 +1111,7 @@ public class IndicatorsApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -1149,7 +1197,7 @@ public class IndicatorsApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -1700,5 +1748,28 @@ public class IndicatorsApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/permissions", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }
