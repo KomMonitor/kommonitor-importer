@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "DataSourceType", description = "Holds various information about the datasource for importing new resources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class DataSourceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -77,7 +77,7 @@ public class DataSourceType implements Serializable {
   private TypeEnum type;
 
   @Valid
-  private List<@Valid ParameterType> parameters = new ArrayList<>();
+  private @Nullable List<@Valid ParameterType> parameters;
 
   public DataSourceType() {
     super();
@@ -110,7 +110,7 @@ public class DataSourceType implements Serializable {
     this.type = type;
   }
 
-  public DataSourceType parameters(List<@Valid ParameterType> parameters) {
+  public DataSourceType parameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -130,11 +130,11 @@ public class DataSourceType implements Serializable {
   @Valid 
   @Schema(name = "parameters", description = "list with descriptions of additional parameters that are required for retrieving datasets from a datasource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")
-  public List<@Valid ParameterType> getParameters() {
+  public @Nullable List<@Valid ParameterType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<@Valid ParameterType> parameters) {
+  public void setParameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
   }
 

@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterDefinitionType", description = "Definition of an converter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ConverterDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -77,7 +77,7 @@ public class ConverterDefinitionType implements Serializable {
   private @Nullable EncodingMethodEnum encodingMethod;
 
   @Valid
-  private List<@Valid ParameterValueType> parameters = new ArrayList<>();
+  private @Nullable List<@Valid ParameterValueType> parameters;
 
   public ConverterDefinitionType() {
     super();
@@ -191,7 +191,7 @@ public class ConverterDefinitionType implements Serializable {
     this.encodingMethod = encodingMethod;
   }
 
-  public ConverterDefinitionType parameters(List<@Valid ParameterValueType> parameters) {
+  public ConverterDefinitionType parameters(@Nullable List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -211,11 +211,11 @@ public class ConverterDefinitionType implements Serializable {
   @Valid 
   @Schema(name = "parameters", description = "list of additional format related parameters as key-value-pairs that are required for decoding", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")
-  public List<@Valid ParameterValueType> getParameters() {
+  public @Nullable List<@Valid ParameterValueType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<@Valid ParameterValueType> parameters) {
+  public void setParameters(@Nullable List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
   }
 

@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,21 +33,21 @@ public class ConverterType implements Serializable {
   private String name;
 
   @Valid
-  private List<String> mimeTypes = new ArrayList<>();
+  private List<String> mimeTypes;
 
   @Valid
-  private List<String> schemas = new ArrayList<>();
+  private @Nullable List<String> schemas;
 
   @Valid
-  private List<String> encodings = new ArrayList<>();
+  private @Nullable List<String> encodings;
 
   private @Nullable String defaultEncoding;
 
   @Valid
-  private List<@Valid ParameterType> parameters = new ArrayList<>();
+  private @Nullable List<@Valid ParameterType> parameters;
 
   @Valid
-  private List<String> datasources = new ArrayList<>();
+  private @Nullable List<String> datasources;
 
   public ConverterType() {
     super();
@@ -109,7 +109,7 @@ public class ConverterType implements Serializable {
     this.mimeTypes = mimeTypes;
   }
 
-  public ConverterType schemas(List<String> schemas) {
+  public ConverterType schemas(@Nullable List<String> schemas) {
     this.schemas = schemas;
     return this;
   }
@@ -129,15 +129,15 @@ public class ConverterType implements Serializable {
   
   @Schema(name = "schemas", description = "list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("schemas")
-  public List<String> getSchemas() {
+  public @Nullable List<String> getSchemas() {
     return schemas;
   }
 
-  public void setSchemas(List<String> schemas) {
+  public void setSchemas(@Nullable List<String> schemas) {
     this.schemas = schemas;
   }
 
-  public ConverterType encodings(List<String> encodings) {
+  public ConverterType encodings(@Nullable List<String> encodings) {
     this.encodings = encodings;
     return this;
   }
@@ -157,11 +157,11 @@ public class ConverterType implements Serializable {
   
   @Schema(name = "encodings", description = "list of encodings that are supported by the converter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("encodings")
-  public List<String> getEncodings() {
+  public @Nullable List<String> getEncodings() {
     return encodings;
   }
 
-  public void setEncodings(List<String> encodings) {
+  public void setEncodings(@Nullable List<String> encodings) {
     this.encodings = encodings;
   }
 
@@ -185,7 +185,7 @@ public class ConverterType implements Serializable {
     this.defaultEncoding = defaultEncoding;
   }
 
-  public ConverterType parameters(List<@Valid ParameterType> parameters) {
+  public ConverterType parameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -205,15 +205,15 @@ public class ConverterType implements Serializable {
   @Valid 
   @Schema(name = "parameters", description = "list with descriptions of additional parameters that are required for decoding a certain dataset format", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")
-  public List<@Valid ParameterType> getParameters() {
+  public @Nullable List<@Valid ParameterType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<@Valid ParameterType> parameters) {
+  public void setParameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
   }
 
-  public ConverterType datasources(List<String> datasources) {
+  public ConverterType datasources(@Nullable List<String> datasources) {
     this.datasources = datasources;
     return this;
   }
@@ -233,11 +233,11 @@ public class ConverterType implements Serializable {
   
   @Schema(name = "datasources", description = "list of supported datasources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("datasources")
-  public List<String> getDatasources() {
+  public @Nullable List<String> getDatasources() {
     return datasources;
   }
 
-  public void setDatasources(List<String> datasources) {
+  public void setDatasources(@Nullable List<String> datasources) {
     this.datasources = datasources;
   }
 

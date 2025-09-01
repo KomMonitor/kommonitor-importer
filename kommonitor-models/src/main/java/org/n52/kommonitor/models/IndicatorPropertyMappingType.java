@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorPropertyMappingType", description = "Definitions for mapping datasource properties to required properties for indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,12 +34,12 @@ public class IndicatorPropertyMappingType implements Serializable {
   private String spatialReferenceKeyProperty;
 
   @Valid
-  private List<@Valid TimeseriesMappingType> timeseriesMappings = new ArrayList<>();
+  private @Nullable List<@Valid TimeseriesMappingType> timeseriesMappings;
 
   private Boolean keepMissingOrNullValueIndicator;
 
   @Valid
-  private List<@Valid AttributeMappingType> attributeMappings = new ArrayList<>();
+  private @Nullable List<@Valid AttributeMappingType> attributeMappings;
 
   public IndicatorPropertyMappingType() {
     super();
@@ -73,7 +73,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     this.spatialReferenceKeyProperty = spatialReferenceKeyProperty;
   }
 
-  public IndicatorPropertyMappingType timeseriesMappings(List<@Valid TimeseriesMappingType> timeseriesMappings) {
+  public IndicatorPropertyMappingType timeseriesMappings(@Nullable List<@Valid TimeseriesMappingType> timeseriesMappings) {
     this.timeseriesMappings = timeseriesMappings;
     return this;
   }
@@ -93,11 +93,11 @@ public class IndicatorPropertyMappingType implements Serializable {
   @Valid 
   @Schema(name = "timeseriesMappings", description = "list of property mappings for timeseries values", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timeseriesMappings")
-  public List<@Valid TimeseriesMappingType> getTimeseriesMappings() {
+  public @Nullable List<@Valid TimeseriesMappingType> getTimeseriesMappings() {
     return timeseriesMappings;
   }
 
-  public void setTimeseriesMappings(List<@Valid TimeseriesMappingType> timeseriesMappings) {
+  public void setTimeseriesMappings(@Nullable List<@Valid TimeseriesMappingType> timeseriesMappings) {
     this.timeseriesMappings = timeseriesMappings;
   }
 
@@ -121,7 +121,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     this.keepMissingOrNullValueIndicator = keepMissingOrNullValueIndicator;
   }
 
-  public IndicatorPropertyMappingType attributeMappings(List<@Valid AttributeMappingType> attributeMappings) {
+  public IndicatorPropertyMappingType attributeMappings(@Nullable List<@Valid AttributeMappingType> attributeMappings) {
     this.attributeMappings = attributeMappings;
     return this;
   }
@@ -141,11 +141,11 @@ public class IndicatorPropertyMappingType implements Serializable {
   @Valid 
   @Schema(name = "attributeMappings", description = "list of additional attribute mappings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attributeMappings")
-  public List<@Valid AttributeMappingType> getAttributeMappings() {
+  public @Nullable List<@Valid AttributeMappingType> getAttributeMappings() {
     return attributeMappings;
   }
 
-  public void setAttributeMappings(List<@Valid AttributeMappingType> attributeMappings) {
+  public void setAttributeMappings(@Nullable List<@Valid AttributeMappingType> attributeMappings) {
     this.attributeMappings = attributeMappings;
   }
 

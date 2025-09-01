@@ -100,6 +100,7 @@
                                         <dateLibrary>java8</dateLibrary>
                                         <serializableModel>true</serializableModel>
                                         <useSpringBoot3>true</useSpringBoot3>
+                                        <containerDefaultToNull>true</containerDefaultToNull>
                                     </configOptions>
                                 </configuration>
                             </execution>

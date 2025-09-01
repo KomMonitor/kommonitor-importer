@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ImportResponseType", description = "Contains information about imported resource features")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ImportResponseType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,13 +32,13 @@ public class ImportResponseType implements Serializable {
   private @Nullable String uri;
 
   @Valid
-  private List<String> importedFeatures = new ArrayList<>();
+  private @Nullable List<String> importedFeatures;
 
   @Valid
-  private List<String> errors = new ArrayList<>();
+  private @Nullable List<String> errors;
 
   @Valid
-  private List<String> warnings = new ArrayList<>();
+  private @Nullable List<String> warnings;
 
   public ImportResponseType uri(@Nullable String uri) {
     this.uri = uri;
@@ -60,7 +60,7 @@ public class ImportResponseType implements Serializable {
     this.uri = uri;
   }
 
-  public ImportResponseType importedFeatures(List<String> importedFeatures) {
+  public ImportResponseType importedFeatures(@Nullable List<String> importedFeatures) {
     this.importedFeatures = importedFeatures;
     return this;
   }
@@ -80,15 +80,15 @@ public class ImportResponseType implements Serializable {
   
   @Schema(name = "importedFeatures", description = "list of IDs that indicate those resource features that were imported succesfully", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("importedFeatures")
-  public List<String> getImportedFeatures() {
+  public @Nullable List<String> getImportedFeatures() {
     return importedFeatures;
   }
 
-  public void setImportedFeatures(List<String> importedFeatures) {
+  public void setImportedFeatures(@Nullable List<String> importedFeatures) {
     this.importedFeatures = importedFeatures;
   }
 
-  public ImportResponseType errors(List<String> errors) {
+  public ImportResponseType errors(@Nullable List<String> errors) {
     this.errors = errors;
     return this;
   }
@@ -108,15 +108,15 @@ public class ImportResponseType implements Serializable {
   
   @Schema(name = "errors", description = "List of error messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("errors")
-  public List<String> getErrors() {
+  public @Nullable List<String> getErrors() {
     return errors;
   }
 
-  public void setErrors(List<String> errors) {
+  public void setErrors(@Nullable List<String> errors) {
     this.errors = errors;
   }
 
-  public ImportResponseType warnings(List<String> warnings) {
+  public ImportResponseType warnings(@Nullable List<String> warnings) {
     this.warnings = warnings;
     return this;
   }
@@ -136,11 +136,11 @@ public class ImportResponseType implements Serializable {
   
   @Schema(name = "warnings", description = "List of warning messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("warnings")
-  public List<String> getWarnings() {
+  public @Nullable List<String> getWarnings() {
     return warnings;
   }
 
-  public void setWarnings(List<String> warnings) {
+  public void setWarnings(@Nullable List<String> warnings) {
     this.warnings = warnings;
   }
 

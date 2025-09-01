@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Error", description = "A default error that will be responded if an unexpected server error occurs")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class Error implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,7 +34,7 @@ public class Error implements Serializable {
   private String message;
 
   @Valid
-  private List<String> errors = new ArrayList<>();
+  private @Nullable List<String> errors;
 
   public Error() {
     super();
@@ -88,7 +88,7 @@ public class Error implements Serializable {
     this.message = message;
   }
 
-  public Error errors(List<String> errors) {
+  public Error errors(@Nullable List<String> errors) {
     this.errors = errors;
     return this;
   }
@@ -108,11 +108,11 @@ public class Error implements Serializable {
   
   @Schema(name = "errors", description = "List of error messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("errors")
-  public List<String> getErrors() {
+  public @Nullable List<String> getErrors() {
     return errors;
   }
 
-  public void setErrors(List<String> errors) {
+  public void setErrors(@Nullable List<String> errors) {
     this.errors = errors;
   }
 

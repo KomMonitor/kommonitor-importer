@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "TimeseriesMappingType", description = "Definitions for mapping datasource properties to required properties for timeseries values")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class TimeseriesMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;

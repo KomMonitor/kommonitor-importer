@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "SpatialResourcePropertyMappingType", description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class SpatialResourcePropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
   private Boolean keepMissingOrNullValueAttributes;
 
   @Valid
-  private List<@Valid AttributeMappingType> attributes = new ArrayList<>();
+  private @Nullable List<@Valid AttributeMappingType> attributes;
 
   public SpatialResourcePropertyMappingType() {
     super();
@@ -200,7 +200,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
   }
 
-  public SpatialResourcePropertyMappingType attributes(List<@Valid AttributeMappingType> attributes) {
+  public SpatialResourcePropertyMappingType attributes(@Nullable List<@Valid AttributeMappingType> attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -220,11 +220,11 @@ public class SpatialResourcePropertyMappingType implements Serializable {
   @Valid 
   @Schema(name = "attributes", description = "list of additional attribute mappings (will be skipped, if `keepAttributes` is true)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attributes")
-  public List<@Valid AttributeMappingType> getAttributes() {
+  public @Nullable List<@Valid AttributeMappingType> getAttributes() {
     return attributes;
   }
 
-  public void setAttributes(List<@Valid AttributeMappingType> attributes) {
+  public void setAttributes(@Nullable List<@Valid AttributeMappingType> attributes) {
     this.attributes = attributes;
   }
 
