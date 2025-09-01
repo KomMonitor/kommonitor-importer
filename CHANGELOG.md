@@ -1,6 +1,11 @@
 # Change Log
 
-## 4.1.1-beta.1
+## 4.1.1-beta.2
+* Update API client classes [6241bf2](6241bf2e9142034cd66c8b2df9fec1f4d691c9db)
+* Regenerate model classes [da681a5](da681a5fd250920a432fab2905116c6254edd1c3)
+* Regenerate API classes [97fd485](97fd48511cb8ab732b9f93d641af2951e40d9ed7)
+* Update dependencies [d348d92](d348d9256a14b4719b8c5c636353499845e91892)
+* Update Docker setup [f486ceb](f486ceb5d302b59f0cb1a71ee94d0cb9a96ee29a)
 * Update models class [f4f3715](f4f3715d62ef35e600a6f8deeb9b18fd93f84a90)
 * Merge branch &#39;master&#39; into develop [112cd03](112cd03450baa4aaf26c5e393713e04ac88630a1)
 * Update GeoTools library and fix package import [807d047](807d04793a73f38eaf0e5ce3ac3b61de22001855)
