@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -19,16 +20,16 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeRefrencesToOtherIndicators
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPOSTInputTypeRefrencesToOtherIndicators implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String indicatorId;
+  private @Nullable String indicatorId;
 
-  private String referenceDescription;
+  private @Nullable String referenceDescription;
 
-  public IndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorId(String indicatorId) {
+  public IndicatorPOSTInputTypeRefrencesToOtherIndicators indicatorId(@Nullable String indicatorId) {
     this.indicatorId = indicatorId;
     return this;
   }
@@ -36,19 +37,19 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators implements Seriali
   /**
    * identifier of the referenced indicator
    * @return indicatorId
-  */
+   */
   
   @Schema(name = "indicatorId", description = "identifier of the referenced indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indicatorId")
-  public String getIndicatorId() {
+  public @Nullable String getIndicatorId() {
     return indicatorId;
   }
 
-  public void setIndicatorId(String indicatorId) {
+  public void setIndicatorId(@Nullable String indicatorId) {
     this.indicatorId = indicatorId;
   }
 
-  public IndicatorPOSTInputTypeRefrencesToOtherIndicators referenceDescription(String referenceDescription) {
+  public IndicatorPOSTInputTypeRefrencesToOtherIndicators referenceDescription(@Nullable String referenceDescription) {
     this.referenceDescription = referenceDescription;
     return this;
   }
@@ -56,15 +57,15 @@ public class IndicatorPOSTInputTypeRefrencesToOtherIndicators implements Seriali
   /**
    * short description of how the indicator is referenced to the superior one
    * @return referenceDescription
-  */
+   */
   
   @Schema(name = "referenceDescription", description = "short description of how the indicator is referenced to the superior one", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("referenceDescription")
-  public String getReferenceDescription() {
+  public @Nullable String getReferenceDescription() {
     return referenceDescription;
   }
 
-  public void setReferenceDescription(String referenceDescription) {
+  public void setReferenceDescription(@Nullable String referenceDescription) {
     this.referenceDescription = referenceDescription;
   }
 

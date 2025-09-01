@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeValueMapping;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,17 +24,17 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeIndicatorValues
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPOSTInputTypeIndicatorValues implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String spatialReferenceKey;
+  private @Nullable String spatialReferenceKey;
 
   @Valid
-  private List<@Valid IndicatorPOSTInputTypeValueMapping> valueMapping;
+  private List<@Valid IndicatorPOSTInputTypeValueMapping> valueMapping = new ArrayList<>();
 
-  public IndicatorPOSTInputTypeIndicatorValues spatialReferenceKey(String spatialReferenceKey) {
+  public IndicatorPOSTInputTypeIndicatorValues spatialReferenceKey(@Nullable String spatialReferenceKey) {
     this.spatialReferenceKey = spatialReferenceKey;
     return this;
   }
@@ -41,15 +42,15 @@ public class IndicatorPOSTInputTypeIndicatorValues implements Serializable {
   /**
    * identifier (uuid) of the spatial feature to which the values shall be applied
    * @return spatialReferenceKey
-  */
+   */
   
   @Schema(name = "spatialReferenceKey", description = "identifier (uuid) of the spatial feature to which the values shall be applied", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("spatialReferenceKey")
-  public String getSpatialReferenceKey() {
+  public @Nullable String getSpatialReferenceKey() {
     return spatialReferenceKey;
   }
 
-  public void setSpatialReferenceKey(String spatialReferenceKey) {
+  public void setSpatialReferenceKey(@Nullable String spatialReferenceKey) {
     this.spatialReferenceKey = spatialReferenceKey;
   }
 
@@ -69,7 +70,7 @@ public class IndicatorPOSTInputTypeIndicatorValues implements Serializable {
   /**
    * an array of entries mapping an indicator value to a timestamp as mapping key
    * @return valueMapping
-  */
+   */
   @Valid 
   @Schema(name = "valueMapping", description = "an array of entries mapping an indicator value to a timestamp as mapping key", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("valueMapping")

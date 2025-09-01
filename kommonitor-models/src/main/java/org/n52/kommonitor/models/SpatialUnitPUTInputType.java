@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.n52.kommonitor.models.PeriodOfValidityType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -20,14 +21,14 @@ import jakarta.annotation.Generated;
  * SpatialUnitPUTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class SpatialUnitPUTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String geoJsonString;
 
-  private Boolean isPartialUpdate;
+  private @Nullable Boolean isPartialUpdate;
 
   private PeriodOfValidityType periodOfValidity;
 
@@ -51,7 +52,7 @@ public class SpatialUnitPUTInputType implements Serializable {
   /**
    * a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'
    * @return geoJsonString
-  */
+   */
   @NotNull 
   @Schema(name = "geoJsonString", description = "a valid GeoJSON string containing the features consisting of a geometry and a unique identifier as property 'uuid'", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("geoJsonString")
@@ -63,7 +64,7 @@ public class SpatialUnitPUTInputType implements Serializable {
     this.geoJsonString = geoJsonString;
   }
 
-  public SpatialUnitPUTInputType isPartialUpdate(Boolean isPartialUpdate) {
+  public SpatialUnitPUTInputType isPartialUpdate(@Nullable Boolean isPartialUpdate) {
     this.isPartialUpdate = isPartialUpdate;
     return this;
   }
@@ -71,15 +72,15 @@ public class SpatialUnitPUTInputType implements Serializable {
   /**
    * if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted
    * @return isPartialUpdate
-  */
+   */
   
   @Schema(name = "isPartialUpdate", description = "if set to TRUE, then a partial upload of geometries is possible. Missing features that are already in the database will then not be deleted", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isPartialUpdate")
-  public Boolean getIsPartialUpdate() {
+  public @Nullable Boolean getIsPartialUpdate() {
     return isPartialUpdate;
   }
 
-  public void setIsPartialUpdate(Boolean isPartialUpdate) {
+  public void setIsPartialUpdate(@Nullable Boolean isPartialUpdate) {
     this.isPartialUpdate = isPartialUpdate;
   }
 
@@ -91,7 +92,7 @@ public class SpatialUnitPUTInputType implements Serializable {
   /**
    * Get periodOfValidity
    * @return periodOfValidity
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "periodOfValidity", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("periodOfValidity")

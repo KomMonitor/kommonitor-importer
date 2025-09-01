@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -21,14 +22,14 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "AttributeMappingType", description = "Definitions for mapping of additional attributes of datasets from a data source")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class AttributeMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String name;
 
-  private String mappingName;
+  private @Nullable String mappingName;
 
   /**
    * data type of the parameter
@@ -42,7 +43,7 @@ public class AttributeMappingType implements Serializable {
     
     DATE("date");
 
-    private String value;
+    private final String value;
 
     TypeEnum(String value) {
       this.value = value;
@@ -91,7 +92,7 @@ public class AttributeMappingType implements Serializable {
   /**
    * name of the attribute from the origin dataset
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of the attribute from the origin dataset", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -103,7 +104,7 @@ public class AttributeMappingType implements Serializable {
     this.name = name;
   }
 
-  public AttributeMappingType mappingName(String mappingName) {
+  public AttributeMappingType mappingName(@Nullable String mappingName) {
     this.mappingName = mappingName;
     return this;
   }
@@ -111,15 +112,15 @@ public class AttributeMappingType implements Serializable {
   /**
    * name that should be used for importing the attribute into KomMonitor
    * @return mappingName
-  */
+   */
   
   @Schema(name = "mappingName", description = "name that should be used for importing the attribute into KomMonitor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("mappingName")
-  public String getMappingName() {
+  public @Nullable String getMappingName() {
     return mappingName;
   }
 
-  public void setMappingName(String mappingName) {
+  public void setMappingName(@Nullable String mappingName) {
     this.mappingName = mappingName;
   }
 
@@ -131,7 +132,7 @@ public class AttributeMappingType implements Serializable {
   /**
    * data type of the parameter
    * @return type
-  */
+   */
   @NotNull 
   @Schema(name = "type", description = "data type of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("type")

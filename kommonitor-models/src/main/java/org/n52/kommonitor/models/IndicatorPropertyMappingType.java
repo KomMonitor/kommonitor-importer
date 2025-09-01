@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.AttributeMappingType;
 import org.n52.kommonitor.models.TimeseriesMappingType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -25,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorPropertyMappingType", description = "Definitions for mapping datasource properties to required properties for indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,12 +34,12 @@ public class IndicatorPropertyMappingType implements Serializable {
   private String spatialReferenceKeyProperty;
 
   @Valid
-  private List<@Valid TimeseriesMappingType> timeseriesMappings;
+  private List<@Valid TimeseriesMappingType> timeseriesMappings = new ArrayList<>();
 
   private Boolean keepMissingOrNullValueIndicator;
 
   @Valid
-  private List<@Valid AttributeMappingType> attributeMappings;
+  private List<@Valid AttributeMappingType> attributeMappings = new ArrayList<>();
 
   public IndicatorPropertyMappingType() {
     super();
@@ -60,7 +61,7 @@ public class IndicatorPropertyMappingType implements Serializable {
   /**
    * property that contains the identifier of the spatial feature to which the values shall be applied
    * @return spatialReferenceKeyProperty
-  */
+   */
   @NotNull 
   @Schema(name = "spatialReferenceKeyProperty", description = "property that contains the identifier of the spatial feature to which the values shall be applied", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("spatialReferenceKeyProperty")
@@ -88,7 +89,7 @@ public class IndicatorPropertyMappingType implements Serializable {
   /**
    * list of property mappings for timeseries values
    * @return timeseriesMappings
-  */
+   */
   @Valid 
   @Schema(name = "timeseriesMappings", description = "list of property mappings for timeseries values", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timeseriesMappings")
@@ -108,7 +109,7 @@ public class IndicatorPropertyMappingType implements Serializable {
   /**
    * Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.
    * @return keepMissingOrNullValueIndicator
-  */
+   */
   @NotNull 
   @Schema(name = "keepMissingOrNullValueIndicator", description = "Indicates if missing Indicators or Indicators with a null value should be kept. Missing Indicators will be added with a null value and Indicators that hold a null value will be kept.", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("keepMissingOrNullValueIndicator")
@@ -136,7 +137,7 @@ public class IndicatorPropertyMappingType implements Serializable {
   /**
    * list of additional attribute mappings
    * @return attributeMappings
-  */
+   */
   @Valid 
   @Schema(name = "attributeMappings", description = "list of additional attribute mappings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("attributeMappings")

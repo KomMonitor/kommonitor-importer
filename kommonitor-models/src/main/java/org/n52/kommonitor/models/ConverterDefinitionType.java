@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterValueType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -25,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterDefinitionType", description = "Definition of an converter that should be used for decoding a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators and importing it")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ConverterDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -34,9 +35,9 @@ public class ConverterDefinitionType implements Serializable {
 
   private String mimeType;
 
-  private String schema;
+  private @Nullable String schema;
 
-  private String encoding;
+  private @Nullable String encoding;
 
   /**
    * Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.
@@ -46,7 +47,7 @@ public class ConverterDefinitionType implements Serializable {
     
     AUTO("auto");
 
-    private String value;
+    private final String value;
 
     EncodingMethodEnum(String value) {
       this.value = value;
@@ -73,10 +74,10 @@ public class ConverterDefinitionType implements Serializable {
     }
   }
 
-  private EncodingMethodEnum encodingMethod;
+  private @Nullable EncodingMethodEnum encodingMethod;
 
   @Valid
-  private List<@Valid ParameterValueType> parameters;
+  private List<@Valid ParameterValueType> parameters = new ArrayList<>();
 
   public ConverterDefinitionType() {
     super();
@@ -98,7 +99,7 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * unique name of the converter
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "unique name of the converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -118,7 +119,7 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml
    * @return mimeType
-  */
+   */
   @NotNull 
   @Schema(name = "mimeType", description = "the MIME-type of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mimeType")
@@ -130,7 +131,7 @@ public class ConverterDefinitionType implements Serializable {
     this.mimeType = mimeType;
   }
 
-  public ConverterDefinitionType schema(String schema) {
+  public ConverterDefinitionType schema(@Nullable String schema) {
     this.schema = schema;
     return this;
   }
@@ -138,19 +139,19 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)
    * @return schema
-  */
+   */
   
   @Schema(name = "schema", description = "the schema of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("schema")
-  public String getSchema() {
+  public @Nullable String getSchema() {
     return schema;
   }
 
-  public void setSchema(String schema) {
+  public void setSchema(@Nullable String schema) {
     this.schema = schema;
   }
 
-  public ConverterDefinitionType encoding(String encoding) {
+  public ConverterDefinitionType encoding(@Nullable String encoding) {
     this.encoding = encoding;
     return this;
   }
@@ -158,19 +159,19 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * encoding procedure or character set used (e.g. raw, base64, or UTF-8)
    * @return encoding
-  */
+   */
   
   @Schema(name = "encoding", description = "encoding procedure or character set used (e.g. raw, base64, or UTF-8)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("encoding")
-  public String getEncoding() {
+  public @Nullable String getEncoding() {
     return encoding;
   }
 
-  public void setEncoding(String encoding) {
+  public void setEncoding(@Nullable String encoding) {
     this.encoding = encoding;
   }
 
-  public ConverterDefinitionType encodingMethod(EncodingMethodEnum encodingMethod) {
+  public ConverterDefinitionType encodingMethod(@Nullable EncodingMethodEnum encodingMethod) {
     this.encodingMethod = encodingMethod;
     return this;
   }
@@ -178,15 +179,15 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.
    * @return encodingMethod
-  */
+   */
   
   @Schema(name = "encodingMethod", description = "Mechanism, which should be used to determine the encoding of the dataset. Supported values are `manual` | (encoding has to be defined manually by setting the `encoding` parameter) and `auto` (the converter will | apply an automatically encoding detection strategy; which strategy will be used depends on the converter).| If no or an unsupported encoding method will be provided, the converter will decide on its own, which strategy | will be applied.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("encodingMethod")
-  public EncodingMethodEnum getEncodingMethod() {
+  public @Nullable EncodingMethodEnum getEncodingMethod() {
     return encodingMethod;
   }
 
-  public void setEncodingMethod(EncodingMethodEnum encodingMethod) {
+  public void setEncodingMethod(@Nullable EncodingMethodEnum encodingMethod) {
     this.encodingMethod = encodingMethod;
   }
 
@@ -206,7 +207,7 @@ public class ConverterDefinitionType implements Serializable {
   /**
    * list of additional format related parameters as key-value-pairs that are required for decoding
    * @return parameters
-  */
+   */
   @Valid 
   @Schema(name = "parameters", description = "list of additional format related parameters as key-value-pairs that are required for decoding", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")

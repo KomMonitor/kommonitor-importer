@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "TimeseriesMappingType", description = "Definitions for mapping datasource properties to required properties for timeseries values")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class TimeseriesMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,9 +31,9 @@ public class TimeseriesMappingType implements Serializable {
   private String indicatorValueProperty;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate timestamp;
+  private @Nullable LocalDate timestamp;
 
-  private String timestampProperty;
+  private @Nullable String timestampProperty;
 
   public TimeseriesMappingType() {
     super();
@@ -53,7 +54,7 @@ public class TimeseriesMappingType implements Serializable {
   /**
    * property that contains the numeric value of the indicator
    * @return indicatorValueProperty
-  */
+   */
   @NotNull 
   @Schema(name = "indicatorValueProperty", description = "property that contains the numeric value of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("indicatorValueProperty")
@@ -65,7 +66,7 @@ public class TimeseriesMappingType implements Serializable {
     this.indicatorValueProperty = indicatorValueProperty;
   }
 
-  public TimeseriesMappingType timestamp(LocalDate timestamp) {
+  public TimeseriesMappingType timestamp(@Nullable LocalDate timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -73,19 +74,19 @@ public class TimeseriesMappingType implements Serializable {
   /**
    * optional timestamp value for the indicator that will be used if there is no property containing timestamp information
    * @return timestamp
-  */
+   */
   @Valid 
   @Schema(name = "timestamp", description = "optional timestamp value for the indicator that will be used if there is no property containing timestamp information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timestamp")
-  public LocalDate getTimestamp() {
+  public @Nullable LocalDate getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(LocalDate timestamp) {
+  public void setTimestamp(@Nullable LocalDate timestamp) {
     this.timestamp = timestamp;
   }
 
-  public TimeseriesMappingType timestampProperty(String timestampProperty) {
+  public TimeseriesMappingType timestampProperty(@Nullable String timestampProperty) {
     this.timestampProperty = timestampProperty;
     return this;
   }
@@ -93,15 +94,15 @@ public class TimeseriesMappingType implements Serializable {
   /**
    * property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)
    * @return timestampProperty
-  */
+   */
   
   @Schema(name = "timestampProperty", description = "property that contains the timestamp (year, month and date) according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timestampProperty")
-  public String getTimestampProperty() {
+  public @Nullable String getTimestampProperty() {
     return timestampProperty;
   }
 
-  public void setTimestampProperty(String timestampProperty) {
+  public void setTimestampProperty(@Nullable String timestampProperty) {
     this.timestampProperty = timestampProperty;
   }
 

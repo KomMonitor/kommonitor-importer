@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -20,24 +21,24 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitInputType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-08-29T14:27:18.306243400+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class OrganizationalUnitInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String organizationalUnitId;
+  private @Nullable String organizationalUnitId;
 
   private String name;
 
   private Boolean mandant;
 
-  private String keycloakId;
+  private @Nullable String keycloakId;
 
   private String contact;
 
-  private String description;
+  private @Nullable String description;
 
-  private String parentId;
+  private @Nullable String parentId;
 
   public OrganizationalUnitInputType() {
     super();
@@ -52,7 +53,7 @@ public class OrganizationalUnitInputType implements Serializable {
     this.contact = contact;
   }
 
-  public OrganizationalUnitInputType organizationalUnitId(String organizationalUnitId) {
+  public OrganizationalUnitInputType organizationalUnitId(@Nullable String organizationalUnitId) {
     this.organizationalUnitId = organizationalUnitId;
     return this;
   }
@@ -60,15 +61,15 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * unique id of this organizational Unit
    * @return organizationalUnitId
-  */
+   */
   
   @Schema(name = "organizationalUnitId", description = "unique id of this organizational Unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("organizationalUnitId")
-  public String getOrganizationalUnitId() {
+  public @Nullable String getOrganizationalUnitId() {
     return organizationalUnitId;
   }
 
-  public void setOrganizationalUnitId(String organizationalUnitId) {
+  public void setOrganizationalUnitId(@Nullable String organizationalUnitId) {
     this.organizationalUnitId = organizationalUnitId;
   }
 
@@ -80,7 +81,7 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * name of this organizational Unit
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -100,7 +101,7 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * flag whether this unit is an autonomous mandant
    * @return mandant
-  */
+   */
   @NotNull 
   @Schema(name = "mandant", description = "flag whether this unit is an autonomous mandant", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mandant")
@@ -112,7 +113,7 @@ public class OrganizationalUnitInputType implements Serializable {
     this.mandant = mandant;
   }
 
-  public OrganizationalUnitInputType keycloakId(String keycloakId) {
+  public OrganizationalUnitInputType keycloakId(@Nullable String keycloakId) {
     this.keycloakId = keycloakId;
     return this;
   }
@@ -120,15 +121,15 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * uuid of the corresponding Keycloak group
    * @return keycloakId
-  */
+   */
   
   @Schema(name = "keycloakId", description = "uuid of the corresponding Keycloak group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("keycloakId")
-  public String getKeycloakId() {
+  public @Nullable String getKeycloakId() {
     return keycloakId;
   }
 
-  public void setKeycloakId(String keycloakId) {
+  public void setKeycloakId(@Nullable String keycloakId) {
     this.keycloakId = keycloakId;
   }
 
@@ -140,7 +141,7 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * contact information of the person responsible for this group
    * @return contact
-  */
+   */
   @NotNull 
   @Schema(name = "contact", description = "contact information of the person responsible for this group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("contact")
@@ -152,7 +153,7 @@ public class OrganizationalUnitInputType implements Serializable {
     this.contact = contact;
   }
 
-  public OrganizationalUnitInputType description(String description) {
+  public OrganizationalUnitInputType description(@Nullable String description) {
     this.description = description;
     return this;
   }
@@ -160,19 +161,19 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * additional information
    * @return description
-  */
+   */
   
   @Schema(name = "description", description = "additional information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
-  public String getDescription() {
+  public @Nullable String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(@Nullable String description) {
     this.description = description;
   }
 
-  public OrganizationalUnitInputType parentId(String parentId) {
+  public OrganizationalUnitInputType parentId(@Nullable String parentId) {
     this.parentId = parentId;
     return this;
   }
@@ -180,15 +181,15 @@ public class OrganizationalUnitInputType implements Serializable {
   /**
    * uuid of the parent group
    * @return parentId
-  */
+   */
   
   @Schema(name = "parentId", description = "uuid of the parent group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parentId")
-  public String getParentId() {
+  public @Nullable String getParentId() {
     return parentId;
   }
 
-  public void setParentId(String parentId) {
+  public void setParentId(@Nullable String parentId) {
     this.parentId = parentId;
   }
 

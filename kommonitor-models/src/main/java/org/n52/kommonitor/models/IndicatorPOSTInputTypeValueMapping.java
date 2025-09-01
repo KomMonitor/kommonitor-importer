@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -21,17 +22,17 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPOSTInputTypeValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private Float indicatorValue;
+  private @Nullable Float indicatorValue;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate timestamp;
+  private @Nullable LocalDate timestamp;
 
-  public IndicatorPOSTInputTypeValueMapping indicatorValue(Float indicatorValue) {
+  public IndicatorPOSTInputTypeValueMapping indicatorValue(@Nullable Float indicatorValue) {
     this.indicatorValue = indicatorValue;
     return this;
   }
@@ -39,19 +40,19 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
   /**
    * the numeric extent of the indicator for the timestamp
    * @return indicatorValue
-  */
+   */
   
   @Schema(name = "indicatorValue", example = "0.0", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indicatorValue")
-  public Float getIndicatorValue() {
+  public @Nullable Float getIndicatorValue() {
     return indicatorValue;
   }
 
-  public void setIndicatorValue(Float indicatorValue) {
+  public void setIndicatorValue(@Nullable Float indicatorValue) {
     this.indicatorValue = indicatorValue;
   }
 
-  public IndicatorPOSTInputTypeValueMapping timestamp(LocalDate timestamp) {
+  public IndicatorPOSTInputTypeValueMapping timestamp(@Nullable LocalDate timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -59,15 +60,15 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
   /**
    * timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)
    * @return timestamp
-  */
+   */
   @Valid 
   @Schema(name = "timestamp", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timestamp")
-  public LocalDate getTimestamp() {
+  public @Nullable LocalDate getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(LocalDate timestamp) {
+  public void setTimestamp(@Nullable LocalDate timestamp) {
     this.timestamp = timestamp;
   }
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.n52.kommonitor.models.PermissionLevelType;
 import org.n52.kommonitor.models.PermissionResourceType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,14 +24,14 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "PermissionOverviewType", description = "Metadata of a permission")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class PermissionOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private PermissionLevelType permissionLevel;
 
-  private PermissionResourceType permissioneType;
+  private @Nullable PermissionResourceType permissioneType;
 
   private String permissionId;
 
@@ -54,7 +55,7 @@ public class PermissionOverviewType implements Serializable {
   /**
    * Get permissionLevel
    * @return permissionLevel
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "permissionLevel", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("permissionLevel")
@@ -66,7 +67,7 @@ public class PermissionOverviewType implements Serializable {
     this.permissionLevel = permissionLevel;
   }
 
-  public PermissionOverviewType permissioneType(PermissionResourceType permissioneType) {
+  public PermissionOverviewType permissioneType(@Nullable PermissionResourceType permissioneType) {
     this.permissioneType = permissioneType;
     return this;
   }
@@ -74,15 +75,15 @@ public class PermissionOverviewType implements Serializable {
   /**
    * Get permissioneType
    * @return permissioneType
-  */
+   */
   @Valid 
   @Schema(name = "permissioneType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("permissioneType")
-  public PermissionResourceType getPermissioneType() {
+  public @Nullable PermissionResourceType getPermissioneType() {
     return permissioneType;
   }
 
-  public void setPermissioneType(PermissionResourceType permissioneType) {
+  public void setPermissioneType(@Nullable PermissionResourceType permissioneType) {
     this.permissioneType = permissioneType;
   }
 
@@ -94,7 +95,7 @@ public class PermissionOverviewType implements Serializable {
   /**
    * the unique identifier of the permission
    * @return permissionId
-  */
+   */
   @NotNull 
   @Schema(name = "permissionId", description = "the unique identifier of the permission", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("permissionId")

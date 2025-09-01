@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -21,7 +22,7 @@ import jakarta.annotation.Generated;
  * RegionalReferenceValueType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:47.117824300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class RegionalReferenceValueType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,11 +30,11 @@ public class RegionalReferenceValueType implements Serializable {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate referenceDate;
 
-  private Float regionalSum;
+  private @Nullable Float regionalSum;
 
-  private Float regionalAverage;
+  private @Nullable Float regionalAverage;
 
-  private Float spatiallyUnassignable;
+  private @Nullable Float spatiallyUnassignable;
 
   public RegionalReferenceValueType() {
     super();
@@ -54,7 +55,7 @@ public class RegionalReferenceValueType implements Serializable {
   /**
    * reference date according to ISO 8601 (e.g. 2018-01-30)
    * @return referenceDate
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "referenceDate", description = "reference date according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("referenceDate")
@@ -66,7 +67,7 @@ public class RegionalReferenceValueType implements Serializable {
     this.referenceDate = referenceDate;
   }
 
-  public RegionalReferenceValueType regionalSum(Float regionalSum) {
+  public RegionalReferenceValueType regionalSum(@Nullable Float regionalSum) {
     this.regionalSum = regionalSum;
     return this;
   }
@@ -74,19 +75,19 @@ public class RegionalReferenceValueType implements Serializable {
   /**
    * regional sum value
    * @return regionalSum
-  */
+   */
   
   @Schema(name = "regionalSum", description = "regional sum value", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("regionalSum")
-  public Float getRegionalSum() {
+  public @Nullable Float getRegionalSum() {
     return regionalSum;
   }
 
-  public void setRegionalSum(Float regionalSum) {
+  public void setRegionalSum(@Nullable Float regionalSum) {
     this.regionalSum = regionalSum;
   }
 
-  public RegionalReferenceValueType regionalAverage(Float regionalAverage) {
+  public RegionalReferenceValueType regionalAverage(@Nullable Float regionalAverage) {
     this.regionalAverage = regionalAverage;
     return this;
   }
@@ -94,19 +95,19 @@ public class RegionalReferenceValueType implements Serializable {
   /**
    * regional average value
    * @return regionalAverage
-  */
+   */
   
   @Schema(name = "regionalAverage", description = "regional average value", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("regionalAverage")
-  public Float getRegionalAverage() {
+  public @Nullable Float getRegionalAverage() {
     return regionalAverage;
   }
 
-  public void setRegionalAverage(Float regionalAverage) {
+  public void setRegionalAverage(@Nullable Float regionalAverage) {
     this.regionalAverage = regionalAverage;
   }
 
-  public RegionalReferenceValueType spatiallyUnassignable(Float spatiallyUnassignable) {
+  public RegionalReferenceValueType spatiallyUnassignable(@Nullable Float spatiallyUnassignable) {
     this.spatiallyUnassignable = spatiallyUnassignable;
     return this;
   }
@@ -114,15 +115,15 @@ public class RegionalReferenceValueType implements Serializable {
   /**
    * number of items that cannot be spatially assigned to any spatial unit
    * @return spatiallyUnassignable
-  */
+   */
   
   @Schema(name = "spatiallyUnassignable", description = "number of items that cannot be spatially assigned to any spatial unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("spatiallyUnassignable")
-  public Float getSpatiallyUnassignable() {
+  public @Nullable Float getSpatiallyUnassignable() {
     return spatiallyUnassignable;
   }
 
-  public void setSpatiallyUnassignable(Float spatiallyUnassignable) {
+  public void setSpatiallyUnassignable(@Nullable Float spatiallyUnassignable) {
     this.spatiallyUnassignable = spatiallyUnassignable;
   }
 

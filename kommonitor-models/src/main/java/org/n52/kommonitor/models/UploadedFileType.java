@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -20,14 +21,14 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "UploadedFileType", description = "Definition of an uploaded file")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class UploadedFileType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String name;
 
-  private String contentType;
+  private @Nullable String contentType;
 
   public UploadedFileType() {
     super();
@@ -48,7 +49,7 @@ public class UploadedFileType implements Serializable {
   /**
    * name of the uploaded file
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of the uploaded file", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -60,7 +61,7 @@ public class UploadedFileType implements Serializable {
     this.name = name;
   }
 
-  public UploadedFileType contentType(String contentType) {
+  public UploadedFileType contentType(@Nullable String contentType) {
     this.contentType = contentType;
     return this;
   }
@@ -68,15 +69,15 @@ public class UploadedFileType implements Serializable {
   /**
    * Content type of the uploaded files
    * @return contentType
-  */
+   */
   
   @Schema(name = "contentType", description = "Content type of the uploaded files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("contentType")
-  public String getContentType() {
+  public @Nullable String getContentType() {
     return contentType;
   }
 
-  public void setContentType(String contentType) {
+  public void setContentType(@Nullable String contentType) {
     this.contentType = contentType;
   }
 

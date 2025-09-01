@@ -9,6 +9,7 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.GeoresourcePUTInputType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Update_GeoresourcePOSTInputType", description = "Definitions for updating a georesource from a certain datasource")
 @JsonTypeName("Update_GeoresourcePOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class UpdateGeoresourcePOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -67,7 +68,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * the unique ID of the georesource that shall be updated
    * @return georesourceId
-  */
+   */
   @NotNull 
   @Schema(name = "georesourceId", description = "the unique ID of the georesource that shall be updated", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("georesourceId")
@@ -87,7 +88,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * Get georesourcePutBody
    * @return georesourcePutBody
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "georesourcePutBody", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("georesourcePutBody")
@@ -107,7 +108,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * Get dataSource
    * @return dataSource
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "dataSource", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("dataSource")
@@ -127,7 +128,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * Get converter
    * @return converter
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("converter")
@@ -147,7 +148,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * Get propertyMapping
    * @return propertyMapping
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "propertyMapping", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("propertyMapping")
@@ -167,7 +168,7 @@ public class UpdateGeoresourcePOSTInputType implements Serializable {
   /**
    * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
    * @return dryRun
-  */
+   */
   @NotNull 
   @Schema(name = "dryRun", description = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("dryRun")

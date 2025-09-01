@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T12:23:45.798187400+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -35,18 +36,18 @@ public class ConverterType implements Serializable {
   private List<String> mimeTypes = new ArrayList<>();
 
   @Valid
-  private List<String> schemas;
+  private List<String> schemas = new ArrayList<>();
 
   @Valid
-  private List<String> encodings;
+  private List<String> encodings = new ArrayList<>();
 
-  private String defaultEncoding;
-
-  @Valid
-  private List<@Valid ParameterType> parameters;
+  private @Nullable String defaultEncoding;
 
   @Valid
-  private List<String> datasources;
+  private List<@Valid ParameterType> parameters = new ArrayList<>();
+
+  @Valid
+  private List<String> datasources = new ArrayList<>();
 
   public ConverterType() {
     super();
@@ -68,7 +69,7 @@ public class ConverterType implements Serializable {
   /**
    * unique name of the converter
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "unique name of the converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -96,7 +97,7 @@ public class ConverterType implements Serializable {
   /**
    * list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter
    * @return mimeTypes
-  */
+   */
   @NotNull 
   @Schema(name = "mimeTypes", description = "list of MIME-types of the source format according to https://www.iana.org/assignments/media-types/media-types.xhtml that are supported by the converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mimeTypes")
@@ -124,7 +125,7 @@ public class ConverterType implements Serializable {
   /**
    * list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter
    * @return schemas
-  */
+   */
   
   @Schema(name = "schemas", description = "list of schemas of the source format (e.g. http://schemas.opengis.net/gml/3.0.0/base/feature.xsd for MIME-type text/xml) that are supported by the converter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("schemas")
@@ -152,7 +153,7 @@ public class ConverterType implements Serializable {
   /**
    * list of encodings that are supported by the converter
    * @return encodings
-  */
+   */
   
   @Schema(name = "encodings", description = "list of encodings that are supported by the converter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("encodings")
@@ -164,7 +165,7 @@ public class ConverterType implements Serializable {
     this.encodings = encodings;
   }
 
-  public ConverterType defaultEncoding(String defaultEncoding) {
+  public ConverterType defaultEncoding(@Nullable String defaultEncoding) {
     this.defaultEncoding = defaultEncoding;
     return this;
   }
@@ -172,15 +173,15 @@ public class ConverterType implements Serializable {
   /**
    * Default encoding that will be expected by converter.
    * @return defaultEncoding
-  */
+   */
   
   @Schema(name = "defaultEncoding", description = "Default encoding that will be expected by converter.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultEncoding")
-  public String getDefaultEncoding() {
+  public @Nullable String getDefaultEncoding() {
     return defaultEncoding;
   }
 
-  public void setDefaultEncoding(String defaultEncoding) {
+  public void setDefaultEncoding(@Nullable String defaultEncoding) {
     this.defaultEncoding = defaultEncoding;
   }
 
@@ -200,7 +201,7 @@ public class ConverterType implements Serializable {
   /**
    * list with descriptions of additional parameters that are required for decoding a certain dataset format
    * @return parameters
-  */
+   */
   @Valid 
   @Schema(name = "parameters", description = "list with descriptions of additional parameters that are required for decoding a certain dataset format", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")
@@ -228,7 +229,7 @@ public class ConverterType implements Serializable {
   /**
    * list of supported datasources
    * @return datasources
-  */
+   */
   
   @Schema(name = "datasources", description = "list of supported datasources", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("datasources")
