@@ -1,6 +1,7 @@
 # Change Log
 
-## 4.1.1-beta.2
+## 4.1.1
+* Change model class generation config and regenerate models [9538269](9538269c5d6bbd75952a043d1aedf599471b840c)
 * Update API client classes [6241bf2](6241bf2e9142034cd66c8b2df9fec1f4d691c9db)
 * Regenerate model classes [da681a5](da681a5fd250920a432fab2905116c6254edd1c3)
 * Regenerate API classes [97fd485](97fd48511cb8ab732b9f93d641af2951e40d9ed7)
