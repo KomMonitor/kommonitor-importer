@@ -3,7 +3,7 @@
     <parent>
         <artifactId>kommonitor-importer</artifactId>
         <groupId>org.n52.kommonitor</groupId>
-        <version>4.1.1-beta.3-SNAPSHOT</version>
+        <version>4.1.1</version>
     </parent>
     <properties>
         <app.finalName>${artifactId}-${version}</app.finalName>
