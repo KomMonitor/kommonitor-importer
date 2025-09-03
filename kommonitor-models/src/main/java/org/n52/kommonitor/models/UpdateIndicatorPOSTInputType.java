@@ -5,6 +5,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.n52.kommonitor.models.AggregationType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
@@ -27,10 +31,13 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Update_IndicatorPOSTInputType", description = "Definitions for updating a new indicator from a certain datasource")
 @JsonTypeName("Update_IndicatorPOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-03T15:33:10.965342700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class UpdateIndicatorPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  @Valid
+  private @Nullable List<@Valid AggregationType> aggregations;
 
   private String indicatorId;
 
@@ -58,6 +65,34 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
     this.converter = converter;
     this.propertyMapping = propertyMapping;
     this.dryRun = dryRun;
+  }
+
+  public UpdateIndicatorPOSTInputType aggregations(@Nullable List<@Valid AggregationType> aggregations) {
+    this.aggregations = aggregations;
+    return this;
+  }
+
+  public UpdateIndicatorPOSTInputType addAggregationsItem(AggregationType aggregationsItem) {
+    if (this.aggregations == null) {
+      this.aggregations = new ArrayList<>();
+    }
+    this.aggregations.add(aggregationsItem);
+    return this;
+  }
+
+  /**
+   * list of aggregations for higher spatial units
+   * @return aggregations
+   */
+  @Valid 
+  @Schema(name = "aggregations", description = "list of aggregations for higher spatial units", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("aggregations")
+  public @Nullable List<@Valid AggregationType> getAggregations() {
+    return aggregations;
+  }
+
+  public void setAggregations(@Nullable List<@Valid AggregationType> aggregations) {
+    this.aggregations = aggregations;
   }
 
   public UpdateIndicatorPOSTInputType indicatorId(String indicatorId) {
@@ -189,7 +224,8 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
       return false;
     }
     UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType = (UpdateIndicatorPOSTInputType) o;
-    return Objects.equals(this.indicatorId, updateIndicatorPOSTInputType.indicatorId) &&
+    return Objects.equals(this.aggregations, updateIndicatorPOSTInputType.aggregations) &&
+        Objects.equals(this.indicatorId, updateIndicatorPOSTInputType.indicatorId) &&
         Objects.equals(this.indicatorPutBody, updateIndicatorPOSTInputType.indicatorPutBody) &&
         Objects.equals(this.dataSource, updateIndicatorPOSTInputType.dataSource) &&
         Objects.equals(this.converter, updateIndicatorPOSTInputType.converter) &&
@@ -199,13 +235,14 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorId, indicatorPutBody, dataSource, converter, propertyMapping, dryRun);
+    return Objects.hash(aggregations, indicatorId, indicatorPutBody, dataSource, converter, propertyMapping, dryRun);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateIndicatorPOSTInputType {\n");
+    sb.append("    aggregations: ").append(toIndentedString(aggregations)).append("\n");
     sb.append("    indicatorId: ").append(toIndentedString(indicatorId)).append("\n");
     sb.append("    indicatorPutBody: ").append(toIndentedString(indicatorPutBody)).append("\n");
     sb.append("    dataSource: ").append(toIndentedString(dataSource)).append("\n");
