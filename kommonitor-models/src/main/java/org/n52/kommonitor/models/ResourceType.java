@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets ResourceType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
-public enum ResourceType {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+public enum ResourceType implements Serializable {
   
   GEORESOURCES("georesources"),
   
@@ -32,7 +32,7 @@ public enum ResourceType {
   
   INDICATORSPATIALUNITS("indicatorspatialunits");
 
-  private String value;
+  private final String value;
 
   ResourceType(String value) {
     this.value = value;

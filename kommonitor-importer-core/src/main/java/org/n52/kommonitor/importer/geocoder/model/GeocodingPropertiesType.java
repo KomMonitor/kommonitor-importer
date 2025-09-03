@@ -20,11 +20,13 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import jakarta.annotation.Generated;
+
 /**
  * GeocodingPropertiesType
  */
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-08-25T09:59:40.286Z[GMT]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2022-08-25T09:59:40.286Z[GMT]")
 public class GeocodingPropertiesType {
   @JsonProperty("category")
   private String category = null;

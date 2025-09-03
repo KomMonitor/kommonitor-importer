@@ -2,6 +2,7 @@ package org.n52.kommonitor.importer.geocoder.model;
 
 import java.util.Objects;
 
+import jakarta.annotation.Generated;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * GeocodingStructuredBatchInputType
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-04-05T20:53:57.529Z[GMT]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-04-05T20:53:57.529Z[GMT]")
 
 
 public class GeocodingStructuredBatchInputType   {

@@ -4,7 +4,7 @@
 
     <groupId>org.n52.kommonitor</groupId>
     <artifactId>kommonitor-importer</artifactId>
-    <version>4.1.1-SNAPSHOT</version>
+    <version>4.1.1</version>
     <modules>
         <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
@@ -20,7 +20,7 @@
 	    <url>https://github.com/KomMonitor/kommonitor-importer/</url>
         <connection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</connection>
         <developerConnection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</developerConnection>
-	    <tag>4.1.0-beta.1-SNAPSHOT</tag>
+	    <tag>4.1.1</tag>
   </scm>
 
     <properties>
@@ -29,18 +29,18 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.version>3.1.5</spring-boot.version>
-        <api-client.version>4.1.1-SNAPSHOT</api-client.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <api-client.version>4.1.1</api-client.version>
         <jts.version>1.19.0</jts.version>
         <maven-surefire.version>3.2.2</maven-surefire.version>
         <maven-failsafe.version>3.2.2</maven-failsafe.version>
-        <geotools.version>26.3</geotools.version>
+        <geotools.version>33.2</geotools.version>
         <release-plugin.version>3.0.1</release-plugin.version>
         <changelog-plugin.version>0.6.0</changelog-plugin.version>
-        <log4j.version>2.21.1</log4j.version>
-        <poi.version>5.2.4</poi.version>
+        <log4j.version>2.25.1</log4j.version>
+        <poi.version>5.4.1</poi.version>
         <kommonitor-oas.version>latest</kommonitor-oas.version>
-        <openapi-codegen.version>7.1.0</openapi-codegen.version>
+        <openapi-codegen.version>7.15.0</openapi-codegen.version>
     </properties>
 
     <dependencyManagement>
@@ -48,7 +48,7 @@
 			<dependency>
 			    <groupId>org.apache.tika</groupId>
 			    <artifactId>tika-parsers-standard-package</artifactId>
-			    <version>2.9.0</version>
+			    <version>3.2.2</version>
 			    <exclusions>
                     <exclusion>
                         <artifactId>geoapi</artifactId>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>2.10.1</version>
+                <version>2.13.1</version>
             </dependency>
 
 
@@ -94,7 +94,7 @@
 			<dependency>
 			    <groupId>com.opencsv</groupId>
 			    <artifactId>opencsv</artifactId>
-			    <version>5.8</version>
+			    <version>5.12.0</version>
 			</dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -138,11 +138,6 @@
                         <groupId>com.vividsolutions</groupId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.geotools</groupId>
-                <artifactId>gt-opengis</artifactId>
-                <version>${geotools.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.geotools</groupId>
@@ -213,6 +208,11 @@
 			    <artifactId>log4j-api</artifactId>
 			    <version>${log4j.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
 
             <!-- Import dependency management from Spring Boot -->
             <dependency>
@@ -225,7 +225,7 @@
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.2.0</version>
+                <version>2.8.11</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.swagger.core.v3</groupId>
@@ -236,7 +236,7 @@
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.6.0</version>
+                <version>7.15.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.swagger.core.v3</groupId>
@@ -251,17 +251,17 @@
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
-                <version>0.2.6</version>
+                <version>0.2.7</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>
-                <version>5.2.1</version>
+                <version>5.5</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-core-jakarta</artifactId>
-                <version>2.2.18</version>
+                <version>2.2.36</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

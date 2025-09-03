@@ -7,14 +7,15 @@ networks:
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:20.0.5
+    image: kommonitor/keycloak:26.3.1-postgres
+    entrypoint: /opt/keycloak/bin/kc.sh start-dev
     container_name: keycloak
     restart: unless-stopped
     volumes:
       - ./realms/realm-export.json:/opt/keycloak/data/import/realm.json
     command:
-      - start-dev
       - --import-realm
+      - --features=admin-fine-grained-authz:v1,scripts,token-exchange:v1
     expose:
       - 8080
     ports:
@@ -22,8 +23,8 @@ services:
     networks:
       - kommonitor
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_DB=dev-file
   kommonitor-proxy:
     image: nginx:latest
@@ -40,11 +41,12 @@ services:
     networks:
       - kommonitor
   kommonitor-data-management:
-    image: kommonitor/data-management:4.0.1
+    image: kommonitor/data-management:5.1.1
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
-      - kommonitor-db
+      kommonitor-db:
+        condition: service_healthy
     ports:
       - "8085:8085"
     networks:
@@ -55,12 +57,17 @@ services:
       - ./config/data-management.env
       - ./config/keycloak.env
   kommonitor-db:
-    image: postgis/postgis:latest
+    image: postgis/postgis:15-master
     container_name: kommonitor-db
     restart: unless-stopped
     networks:
       - kommonitor
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     env_file:
       - ./config/db.env

@@ -9,6 +9,7 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.n52.kommonitor.models.IndicatorPUTInputType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Update_IndicatorPOSTInputType", description = "Definitions for updating a new indicator from a certain datasource")
 @JsonTypeName("Update_IndicatorPOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class UpdateIndicatorPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -67,7 +68,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * the unique ID of the indicator that shall be updated
    * @return indicatorId
-  */
+   */
   @NotNull 
   @Schema(name = "indicatorId", description = "the unique ID of the indicator that shall be updated", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("indicatorId")
@@ -87,7 +88,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * Get indicatorPutBody
    * @return indicatorPutBody
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "indicatorPutBody", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("indicatorPutBody")
@@ -107,7 +108,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * Get dataSource
    * @return dataSource
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "dataSource", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("dataSource")
@@ -127,7 +128,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * Get converter
    * @return converter
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "converter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("converter")
@@ -147,7 +148,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * Get propertyMapping
    * @return propertyMapping
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "propertyMapping", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("propertyMapping")
@@ -167,7 +168,7 @@ public class UpdateIndicatorPOSTInputType implements Serializable {
   /**
    * Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.
    * @return dryRun
-  */
+   */
   @NotNull 
   @Schema(name = "dryRun", description = "Indicate wether to perform a dry run ('true') or not (default 'false'). If true the import will be performed without doing a POST request to the Data Management API. However, the response contains information about the entitites that would have been imported and possbile import errors.", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("dryRun")

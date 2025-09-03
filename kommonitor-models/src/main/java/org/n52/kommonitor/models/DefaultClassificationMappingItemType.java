@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingItemType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class DefaultClassificationMappingItemType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -52,7 +53,7 @@ public class DefaultClassificationMappingItemType implements Serializable {
   /**
    * spatial unit id for manual classification
    * @return spatialUnitId
-  */
+   */
   @NotNull 
   @Schema(name = "spatialUnitId", description = "spatial unit id for manual classification", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("spatialUnitId")
@@ -80,7 +81,7 @@ public class DefaultClassificationMappingItemType implements Serializable {
   /**
    * array of numeric break values
    * @return breaks
-  */
+   */
   @NotNull 
   @Schema(name = "breaks", description = "array of numeric break values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("breaks")

@@ -1,8 +1,8 @@
 package org.n52.kommonitor.importer.entities;
 
+import jakarta.validation.constraints.NotNull;
 import org.locationtech.jts.geom.Geometry;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;

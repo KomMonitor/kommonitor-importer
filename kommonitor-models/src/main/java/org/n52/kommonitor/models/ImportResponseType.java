@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,23 +24,23 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ImportResponseType", description = "Contains information about imported resource features")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ImportResponseType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String uri;
+  private @Nullable String uri;
 
   @Valid
-  private List<String> importedFeatures;
+  private @Nullable List<String> importedFeatures;
 
   @Valid
-  private List<String> errors;
+  private @Nullable List<String> errors;
 
   @Valid
-  private List<String> warnings;
+  private @Nullable List<String> warnings;
 
-  public ImportResponseType uri(String uri) {
+  public ImportResponseType uri(@Nullable String uri) {
     this.uri = uri;
     return this;
   }
@@ -47,19 +48,19 @@ public class ImportResponseType implements Serializable {
   /**
    * URIs of the newly created spatial unit resource
    * @return uri
-  */
+   */
   
   @Schema(name = "uri", description = "URIs of the newly created spatial unit resource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uri")
-  public String getUri() {
+  public @Nullable String getUri() {
     return uri;
   }
 
-  public void setUri(String uri) {
+  public void setUri(@Nullable String uri) {
     this.uri = uri;
   }
 
-  public ImportResponseType importedFeatures(List<String> importedFeatures) {
+  public ImportResponseType importedFeatures(@Nullable List<String> importedFeatures) {
     this.importedFeatures = importedFeatures;
     return this;
   }
@@ -75,19 +76,19 @@ public class ImportResponseType implements Serializable {
   /**
    * list of IDs that indicate those resource features that were imported succesfully
    * @return importedFeatures
-  */
+   */
   
   @Schema(name = "importedFeatures", description = "list of IDs that indicate those resource features that were imported succesfully", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("importedFeatures")
-  public List<String> getImportedFeatures() {
+  public @Nullable List<String> getImportedFeatures() {
     return importedFeatures;
   }
 
-  public void setImportedFeatures(List<String> importedFeatures) {
+  public void setImportedFeatures(@Nullable List<String> importedFeatures) {
     this.importedFeatures = importedFeatures;
   }
 
-  public ImportResponseType errors(List<String> errors) {
+  public ImportResponseType errors(@Nullable List<String> errors) {
     this.errors = errors;
     return this;
   }
@@ -103,19 +104,19 @@ public class ImportResponseType implements Serializable {
   /**
    * List of error messages that occurred during the import
    * @return errors
-  */
+   */
   
   @Schema(name = "errors", description = "List of error messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("errors")
-  public List<String> getErrors() {
+  public @Nullable List<String> getErrors() {
     return errors;
   }
 
-  public void setErrors(List<String> errors) {
+  public void setErrors(@Nullable List<String> errors) {
     this.errors = errors;
   }
 
-  public ImportResponseType warnings(List<String> warnings) {
+  public ImportResponseType warnings(@Nullable List<String> warnings) {
     this.warnings = warnings;
     return this;
   }
@@ -131,15 +132,15 @@ public class ImportResponseType implements Serializable {
   /**
    * List of warning messages that occurred during the import
    * @return warnings
-  */
+   */
   
   @Schema(name = "warnings", description = "List of warning messages that occurred during the import", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("warnings")
-  public List<String> getWarnings() {
+  public @Nullable List<String> getWarnings() {
     return warnings;
   }
 
-  public void setWarnings(List<String> warnings) {
+  public void setWarnings(@Nullable List<String> warnings) {
     this.warnings = warnings;
   }
 

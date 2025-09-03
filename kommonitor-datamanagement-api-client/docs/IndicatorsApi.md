@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost:8085*
 | [**deleteIndicatorByIdAndYearAndMonth**](IndicatorsApi.md#deleteIndicatorByIdAndYearAndMonth) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day} | Delete the features/contents of the selected indicator dataset, selected by year and month |
 | [**deleteSingleIndicatorFeatureById**](IndicatorsApi.md#deleteSingleIndicatorFeatureById) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId} | Delete all database records for the specified feature of the selected indicator dataset |
 | [**deleteSingleIndicatorFeatureRecordById**](IndicatorsApi.md#deleteSingleIndicatorFeatureRecordById) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Delete single feature database record specified by its unique database primary key id for the specified feature of the selected indicator dataset |
+| [**filterIndicators**](IndicatorsApi.md#filterIndicators) | **POST** /indicators/filter | Filter indicators |
 | [**getIndicatorById**](IndicatorsApi.md#getIndicatorById) | **GET** /indicators/{indicatorId} | retrieve information about the selected indicator |
 | [**getIndicatorBySpatialUnitIdAndId**](IndicatorsApi.md#getIndicatorBySpatialUnitIdAndId) | **GET** /indicators/{indicatorId}/{spatialUnitId} | retrieve the indicator for the selected spatial unit as GeoJSON |
 | [**getIndicatorBySpatialUnitIdAndIdAndYearAndMonth**](IndicatorsApi.md#getIndicatorBySpatialUnitIdAndIdAndYearAndMonth) | **GET** /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day} | retrieve the indicator for the selected spatial unit, year and month as GeoJSON |
@@ -490,6 +491,76 @@ null (empty response body)
 | **204** | No Content |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+
+
+## filterIndicators
+
+> List&lt;IndicatorOverviewType&gt; filterIndicators(resourceFilterType)
+
+Filter indicators
+
+Filter indicators datasets according to the specified filter
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        ResourceFilterType resourceFilterType = new ResourceFilterType(); // ResourceFilterType | filter data
+        try {
+            List<IndicatorOverviewType> result = apiInstance.filterIndicators(resourceFilterType);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#filterIndicators");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **resourceFilterType** | [**ResourceFilterType**](ResourceFilterType.md)| filter data | |
+
+### Return type
+
+[**List&lt;IndicatorOverviewType&gt;**](IndicatorOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
 
 
 ## getIndicatorById

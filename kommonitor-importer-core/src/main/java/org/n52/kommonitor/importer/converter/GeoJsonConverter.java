@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.geojson.Feature;
 import org.geojson.FeatureCollection;
+import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.referencing.CRS;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
@@ -19,7 +20,6 @@ import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.DataSourceType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

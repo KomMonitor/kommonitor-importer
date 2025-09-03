@@ -47,21 +47,21 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
         return http.build();
     }
-
-    @Bean
-    @ConditionalOnProperty(
-            value="keycloak.enabled",
-            havingValue = "false",
-            matchIfMissing = false)
-    SecurityFilterChain unsecuredFilterChain(final HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll()
-                )
-                .build();
-    }
+//
+//    @Bean
+//    @ConditionalOnProperty(
+//            value="keycloak.enabled",
+//            havingValue = "false",
+//            matchIfMissing = false)
+//    SecurityFilterChain unsecuredFilterChain(final HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .authorizeHttpRequests((requests) -> requests
+//                        .anyRequest().permitAll()
+//                )
+//                .build();
+//    }
 
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

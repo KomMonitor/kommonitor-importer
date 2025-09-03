@@ -3,7 +3,7 @@
     <parent>
         <artifactId>kommonitor-importer</artifactId>
         <groupId>org.n52.kommonitor</groupId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -27,10 +27,6 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-core-jakarta</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -100,6 +96,7 @@
                                         <dateLibrary>java8</dateLibrary>
                                         <serializableModel>true</serializableModel>
                                         <useSpringBoot3>true</useSpringBoot3>
+                                        <containerDefaultToNull>true</containerDefaultToNull>
                                     </configOptions>
                                 </configuration>
                             </execution>

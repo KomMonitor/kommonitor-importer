@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
-public enum IndicatorTypeEnum {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+public enum IndicatorTypeEnum implements Serializable {
   
   STATUS_ABSOLUTE("STATUS_ABSOLUTE"),
   
@@ -36,7 +36,7 @@ public enum IndicatorTypeEnum {
   
   DYNAMIC_STANDARDIZED("DYNAMIC_STANDARDIZED");
 
-  private String value;
+  private final String value;
 
   IndicatorTypeEnum(String value) {
     this.value = value;

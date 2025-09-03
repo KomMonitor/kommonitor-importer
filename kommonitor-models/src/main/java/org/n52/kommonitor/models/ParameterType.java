@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -21,16 +22,16 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ParameterType", description = "Definition of an additional parameter that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ParameterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String name;
 
-  private String description;
+  private @Nullable String description;
 
-  private Boolean mandatory;
+  private @Nullable Boolean mandatory;
 
   /**
    * type of the parameter
@@ -44,7 +45,7 @@ public class ParameterType implements Serializable {
     
     ARRAY("array");
 
-    private String value;
+    private final String value;
 
     TypeEnum(String value) {
       this.value = value;
@@ -71,7 +72,7 @@ public class ParameterType implements Serializable {
     }
   }
 
-  private TypeEnum type;
+  private @Nullable TypeEnum type;
 
   public ParameterType() {
     super();
@@ -92,7 +93,7 @@ public class ParameterType implements Serializable {
   /**
    * name of the parameter
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -104,7 +105,7 @@ public class ParameterType implements Serializable {
     this.name = name;
   }
 
-  public ParameterType description(String description) {
+  public ParameterType description(@Nullable String description) {
     this.description = description;
     return this;
   }
@@ -112,19 +113,19 @@ public class ParameterType implements Serializable {
   /**
    * description of the parameter
    * @return description
-  */
+   */
   
   @Schema(name = "description", description = "description of the parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
-  public String getDescription() {
+  public @Nullable String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(@Nullable String description) {
     this.description = description;
   }
 
-  public ParameterType mandatory(Boolean mandatory) {
+  public ParameterType mandatory(@Nullable Boolean mandatory) {
     this.mandatory = mandatory;
     return this;
   }
@@ -132,19 +133,19 @@ public class ParameterType implements Serializable {
   /**
    * indicates wether the parameter is mandatory or optional
    * @return mandatory
-  */
+   */
   
   @Schema(name = "mandatory", description = "indicates wether the parameter is mandatory or optional", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("mandatory")
-  public Boolean getMandatory() {
+  public @Nullable Boolean getMandatory() {
     return mandatory;
   }
 
-  public void setMandatory(Boolean mandatory) {
+  public void setMandatory(@Nullable Boolean mandatory) {
     this.mandatory = mandatory;
   }
 
-  public ParameterType type(TypeEnum type) {
+  public ParameterType type(@Nullable TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -152,15 +153,15 @@ public class ParameterType implements Serializable {
   /**
    * type of the parameter
    * @return type
-  */
+   */
   
   @Schema(name = "type", description = "type of the parameter", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
-  public TypeEnum getType() {
+  public @Nullable TypeEnum getType() {
     return type;
   }
 
-  public void setType(TypeEnum type) {
+  public void setType(@Nullable TypeEnum type) {
     this.type = type;
   }
 

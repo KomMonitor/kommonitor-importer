@@ -1,9 +1,11 @@
 package org.n52.kommonitor.datamanagement.api.client;
 
 import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.BaseApi;
 
 import java.math.BigDecimal;
 import org.n52.kommonitor.models.GeoresourceOverviewType;
+import org.n52.kommonitor.models.ResourceFilterType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,28 +28,75 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-01-30T13:33:53.805125800+01:00[Europe/Berlin]")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.GeoresourcesPublicApi")
-public class GeoresourcesPublicApi {
-    private ApiClient apiClient;
+public class GeoresourcesPublicApi extends BaseApi {
 
     public GeoresourcesPublicApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     @Autowired
     public GeoresourcesPublicApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
-    public ApiClient getApiClient() {
-        return apiClient;
+    /**
+     * Filter public georesources
+     * Filter public georesource datasets according to the specified filter
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param resourceFilterType filter data (required)
+     * @return List&lt;GeoresourceOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public List<GeoresourceOverviewType> filterPublicGeoresources(ResourceFilterType resourceFilterType) throws RestClientException {
+        return filterPublicGeoresourcesWithHttpInfo(resourceFilterType).getBody();
     }
 
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
+    /**
+     * Filter public georesources
+     * Filter public georesource datasets according to the specified filter
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param resourceFilterType filter data (required)
+     * @return ResponseEntity&lt;List&lt;GeoresourceOverviewType&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<GeoresourceOverviewType>> filterPublicGeoresourcesWithHttpInfo(ResourceFilterType resourceFilterType) throws RestClientException {
+        Object localVarPostBody = resourceFilterType;
+        
+        // verify the required parameter 'resourceFilterType' is set
+        if (resourceFilterType == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'resourceFilterType' when calling filterPublicGeoresources");
+        }
+        
 
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<List<GeoresourceOverviewType>> localReturnType = new ParameterizedTypeReference<List<GeoresourceOverviewType>>() {};
+        return apiClient.invokeAPI("/public/georesources/filter", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
     /**
      * retrieve all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)
      * retrieve all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity)
@@ -96,7 +145,7 @@ public class GeoresourcesPublicApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -296,7 +345,7 @@ public class GeoresourcesPublicApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/octed-stream"
@@ -551,7 +600,7 @@ public class GeoresourcesPublicApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -629,7 +678,7 @@ public class GeoresourcesPublicApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "simplifyGeometries", simplifyGeometries));
-
+        
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -642,5 +691,28 @@ public class GeoresourcesPublicApi {
 
         ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
         return apiClient.invokeAPI("/public/georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

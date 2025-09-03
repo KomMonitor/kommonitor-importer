@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -19,7 +20,7 @@ import jakarta.annotation.Generated;
  * IndicatorPropertiesWithoutGeomType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPropertiesWithoutGeomType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -54,7 +55,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
   /**
    * the id of the spatial feature
    * @return id
-  */
+   */
   @NotNull 
   @Schema(name = "id", description = "the id of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
@@ -74,7 +75,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
   /**
    * the name of the spatial feature
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "the name of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -94,7 +95,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
   /**
    * the start date from which on the spatial feature is valid
    * @return validStartDate
-  */
+   */
   @NotNull 
   @Schema(name = "validStartDate", description = "the start date from which on the spatial feature is valid", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("validStartDate")
@@ -114,7 +115,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
   /**
    * the end date until the spatial feature is valid - or null if not set
    * @return validEndDate
-  */
+   */
   @NotNull 
   @Schema(name = "validEndDate", description = "the end date until the spatial feature is valid - or null if not set", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("validEndDate")

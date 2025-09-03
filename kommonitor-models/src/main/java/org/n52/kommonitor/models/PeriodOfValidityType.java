@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -22,13 +23,13 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "PeriodOfValidityType", description = "definition of the period of validity of a certain dataset")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class PeriodOfValidityType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate endDate;
+  private @Nullable LocalDate endDate;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate startDate;
@@ -44,7 +45,7 @@ public class PeriodOfValidityType implements Serializable {
     this.startDate = startDate;
   }
 
-  public PeriodOfValidityType endDate(LocalDate endDate) {
+  public PeriodOfValidityType endDate(@Nullable LocalDate endDate) {
     this.endDate = endDate;
     return this;
   }
@@ -52,15 +53,15 @@ public class PeriodOfValidityType implements Serializable {
   /**
    * an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.
    * @return endDate
-  */
+   */
   @Valid 
   @Schema(name = "endDate", description = "an optional timestamp representing the ending date according to ISO 8601 (e.g. 2018-01-30). The parameter can be omitted, if the end date is unknown.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("endDate")
-  public LocalDate getEndDate() {
+  public @Nullable LocalDate getEndDate() {
     return endDate;
   }
 
-  public void setEndDate(LocalDate endDate) {
+  public void setEndDate(@Nullable LocalDate endDate) {
     this.endDate = endDate;
   }
 
@@ -72,7 +73,7 @@ public class PeriodOfValidityType implements Serializable {
   /**
    * a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)
    * @return startDate
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "startDate", description = "a timestamp representing the starting date according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("startDate")

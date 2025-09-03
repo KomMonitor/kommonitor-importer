@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -20,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ParameterValueType", description = "Additional parameter as key-value-pair that is either required for retrieving a dataset from a certain datsource | or for converting the dataset in a certain format (e.g. separator for CSV-based datasets)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ParameterValueType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class ParameterValueType implements Serializable {
   /**
    * name of the parameter
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -69,7 +70,7 @@ public class ParameterValueType implements Serializable {
   /**
    * value of the parameter
    * @return value
-  */
+   */
   @NotNull 
   @Schema(name = "value", description = "value of the parameter", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("value")

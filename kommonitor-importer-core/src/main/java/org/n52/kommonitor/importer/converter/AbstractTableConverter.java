@@ -5,6 +5,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import jakarta.validation.Valid;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -26,15 +27,14 @@ import org.n52.kommonitor.importer.geocoder.model.GeocodingPropertiesType.Geocod
 import org.n52.kommonitor.importer.geocoder.model.GeocodingStructuredBatchInputType;
 import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.*;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
+import org.geotools.api.feature.simple.SimpleFeature;
+import org.geotools.api.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Proxy;

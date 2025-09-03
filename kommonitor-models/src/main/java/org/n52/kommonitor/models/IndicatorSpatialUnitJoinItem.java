@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.PermissionLevelType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,24 +24,24 @@ import jakarta.annotation.Generated;
  * IndicatorSpatialUnitJoinItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorSpatialUnitJoinItem implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Valid
-  private List<String> permissions;
+  private List<String> permissions = new ArrayList<>();
 
-  private String ownerId;
+  private @Nullable String ownerId;
 
   private String spatialUnitId;
 
   private String spatialUnitName;
 
   @Valid
-  private List<PermissionLevelType> userPermissions;
+  private List<PermissionLevelType> userPermissions = new ArrayList<>();
 
-  private Boolean isPublic;
+  private @Nullable Boolean isPublic;
 
   public IndicatorSpatialUnitJoinItem() {
     super();
@@ -70,7 +71,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * list of permissions on this entity
    * @return permissions
-  */
+   */
   
   @Schema(name = "permissions", description = "list of permissions on this entity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("permissions")
@@ -82,7 +83,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
     this.permissions = permissions;
   }
 
-  public IndicatorSpatialUnitJoinItem ownerId(String ownerId) {
+  public IndicatorSpatialUnitJoinItem ownerId(@Nullable String ownerId) {
     this.ownerId = ownerId;
     return this;
   }
@@ -90,15 +91,15 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * identifier of the owning group
    * @return ownerId
-  */
+   */
   
   @Schema(name = "ownerId", description = "identifier of the owning group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ownerId")
-  public String getOwnerId() {
+  public @Nullable String getOwnerId() {
     return ownerId;
   }
 
-  public void setOwnerId(String ownerId) {
+  public void setOwnerId(@Nullable String ownerId) {
     this.ownerId = ownerId;
   }
 
@@ -110,7 +111,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * ID of the applicable spatial unit
    * @return spatialUnitId
-  */
+   */
   @NotNull 
   @Schema(name = "spatialUnitId", description = "ID of the applicable spatial unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("spatialUnitId")
@@ -130,7 +131,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * name of the applicable spatial unit
    * @return spatialUnitName
-  */
+   */
   @NotNull 
   @Schema(name = "spatialUnitName", description = "name of the applicable spatial unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("spatialUnitName")
@@ -158,7 +159,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * list of permissions that are effective on this dataset for the current user
    * @return userPermissions
-  */
+   */
   @Valid 
   @Schema(name = "userPermissions", description = "list of permissions that are effective on this dataset for the current user", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userPermissions")
@@ -170,7 +171,7 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
     this.userPermissions = userPermissions;
   }
 
-  public IndicatorSpatialUnitJoinItem isPublic(Boolean isPublic) {
+  public IndicatorSpatialUnitJoinItem isPublic(@Nullable Boolean isPublic) {
     this.isPublic = isPublic;
     return this;
   }
@@ -178,15 +179,15 @@ public class IndicatorSpatialUnitJoinItem implements Serializable {
   /**
    * flag whether the resource is publicly accessible
    * @return isPublic
-  */
+   */
   
   @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("isPublic")
-  public Boolean getIsPublic() {
+  public @Nullable Boolean getIsPublic() {
     return isPublic;
   }
 
-  public void setIsPublic(Boolean isPublic) {
+  public void setIsPublic(@Nullable Boolean isPublic) {
     this.isPublic = isPublic;
   }
 

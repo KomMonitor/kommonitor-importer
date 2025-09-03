@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.AdminRoleType;
 import org.n52.kommonitor.models.PermissionOverviewType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -25,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitOverviewType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class OrganizationalUnitOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -40,7 +41,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
 
   private String contact;
 
-  private String description;
+  private @Nullable String description;
 
   @Valid
   private List<@Valid PermissionOverviewType> permissions = new ArrayList<>();
@@ -50,7 +51,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
 
   private String parentId;
 
-  private String mandantId;
+  private @Nullable String mandantId;
 
   @Valid
   private List<String> children = new ArrayList<>();
@@ -82,7 +83,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * unique id of this organizational Unit
    * @return organizationalUnitId
-  */
+   */
   @NotNull 
   @Schema(name = "organizationalUnitId", description = "unique id of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("organizationalUnitId")
@@ -102,7 +103,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * name of this organizational Unit
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", description = "name of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -122,7 +123,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * flag whether this unit is an autonomous mandant
    * @return mandant
-  */
+   */
   @NotNull 
   @Schema(name = "mandant", description = "flag whether this unit is an autonomous mandant", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mandant")
@@ -142,7 +143,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * uuid of the corresponding Keycloak group
    * @return keycloakId
-  */
+   */
   @NotNull 
   @Schema(name = "keycloakId", description = "uuid of the corresponding Keycloak group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("keycloakId")
@@ -162,7 +163,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * contact information of the person responsible for this group
    * @return contact
-  */
+   */
   @NotNull 
   @Schema(name = "contact", description = "contact information of the person responsible for this group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("contact")
@@ -174,7 +175,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
     this.contact = contact;
   }
 
-  public OrganizationalUnitOverviewType description(String description) {
+  public OrganizationalUnitOverviewType description(@Nullable String description) {
     this.description = description;
     return this;
   }
@@ -182,15 +183,15 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * additional information
    * @return description
-  */
+   */
   
   @Schema(name = "description", description = "additional information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
-  public String getDescription() {
+  public @Nullable String getDescription() {
     return description;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(@Nullable String description) {
     this.description = description;
   }
 
@@ -210,7 +211,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * Get permissions
    * @return permissions
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "permissions", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("permissions")
@@ -238,7 +239,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * list of admin roles that are effective on this group for the current user
    * @return userAdminRoles
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "userAdminRoles", description = "list of admin roles that are effective on this group for the current user", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("userAdminRoles")
@@ -258,7 +259,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * uuid of the parent group
    * @return parentId
-  */
+   */
   @NotNull 
   @Schema(name = "parentId", description = "uuid of the parent group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("parentId")
@@ -270,7 +271,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
     this.parentId = parentId;
   }
 
-  public OrganizationalUnitOverviewType mandantId(String mandantId) {
+  public OrganizationalUnitOverviewType mandantId(@Nullable String mandantId) {
     this.mandantId = mandantId;
     return this;
   }
@@ -278,15 +279,15 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * uuid of the group that acts as mandant
    * @return mandantId
-  */
+   */
   
   @Schema(name = "mandantId", description = "uuid of the group that acts as mandant", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("mandantId")
-  public String getMandantId() {
+  public @Nullable String getMandantId() {
     return mandantId;
   }
 
-  public void setMandantId(String mandantId) {
+  public void setMandantId(@Nullable String mandantId) {
     this.mandantId = mandantId;
   }
 
@@ -306,7 +307,7 @@ public class OrganizationalUnitOverviewType implements Serializable {
   /**
    * uuids of the first-level children
    * @return children
-  */
+   */
   @NotNull 
   @Schema(name = "children", description = "uuids of the first-level children", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("children")

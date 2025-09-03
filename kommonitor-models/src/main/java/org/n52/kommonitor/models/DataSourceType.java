@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.n52.kommonitor.models.ParameterType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -25,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "DataSourceType", description = "Holds various information about the datasource for importing new resources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.228371+02:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class DataSourceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -46,7 +47,7 @@ public class DataSourceType implements Serializable {
     
     OGCAPI_FEATURES("OGCAPI_FEATURES");
 
-    private String value;
+    private final String value;
 
     TypeEnum(String value) {
       this.value = value;
@@ -76,7 +77,7 @@ public class DataSourceType implements Serializable {
   private TypeEnum type;
 
   @Valid
-  private List<@Valid ParameterType> parameters;
+  private @Nullable List<@Valid ParameterType> parameters;
 
   public DataSourceType() {
     super();
@@ -97,7 +98,7 @@ public class DataSourceType implements Serializable {
   /**
    * the type of datasource from which geodata or indicator data should be retrieved
    * @return type
-  */
+   */
   @NotNull 
   @Schema(name = "type", description = "the type of datasource from which geodata or indicator data should be retrieved", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("type")
@@ -109,7 +110,7 @@ public class DataSourceType implements Serializable {
     this.type = type;
   }
 
-  public DataSourceType parameters(List<@Valid ParameterType> parameters) {
+  public DataSourceType parameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -125,15 +126,15 @@ public class DataSourceType implements Serializable {
   /**
    * list with descriptions of additional parameters that are required for retrieving datasets from a datasource
    * @return parameters
-  */
+   */
   @Valid 
   @Schema(name = "parameters", description = "list with descriptions of additional parameters that are required for retrieving datasets from a datasource", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("parameters")
-  public List<@Valid ParameterType> getParameters() {
+  public @Nullable List<@Valid ParameterType> getParameters() {
     return parameters;
   }
 
-  public void setParameters(List<@Valid ParameterType> parameters) {
+  public void setParameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
   }
 

@@ -21,14 +21,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets TopicResourceEnum
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-30T07:59:21.998538600+02:00[Europe/Berlin]")
-public enum TopicResourceEnum {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+public enum TopicResourceEnum implements Serializable {
   
   INDICATOR("indicator"),
   
   GEORESOURCE("georesource");
 
-  private String value;
+  private final String value;
 
   TopicResourceEnum(String value) {
     this.value = value;

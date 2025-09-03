@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+
+import jakarta.annotation.Generated;
 import org.springframework.validation.annotation.Validated;
 
 /**
@@ -12,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
  */
 @ApiModel(description = "Reference on another resource")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:32:58.267+01:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-01-10T12:32:58.267+01:00")
 
 public class ResourceReferenceType  implements Serializable {
   private static final long serialVersionUID = 1L;
