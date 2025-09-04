@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ import org.n52.kommonitor.models.TimeseriesMappingType;
 /**
  * @author <a href="mailto:s.drost@52north.org">Sebastian Drost</a>
  */
-public class TableAddressConverter_excelToCsv_Test {
+public class TableAddressConverterExcelToCsvTest {
 
     private final static String MIME_TYPE = "application/excel-spreadsheet";
     private final static String ENCODING = "UTF-8";
@@ -80,9 +79,10 @@ public class TableAddressConverter_excelToCsv_Test {
 
     }
 
-    @Test
     @DisplayName("Test convert SpatialResources for CSV dataset")
     void testConvertSpatialResourcesForCsvDataset() throws ConverterException, ImportParameterException {
+        //TODO implement proper tests with mocks and not real HTTP calls
+
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("features_fromAddress.xlsx").getFile());
         Dataset<InputStream> dataset = new Dataset(file);

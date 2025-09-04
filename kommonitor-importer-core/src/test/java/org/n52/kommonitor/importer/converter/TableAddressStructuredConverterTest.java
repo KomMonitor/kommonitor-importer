@@ -104,9 +104,10 @@ public class TableAddressStructuredConverterTest {
 
     }
 
-    @Test
     @DisplayName("Test convert SpatialResources for CSV dataset")
     void testConvertSpatialResourcesForCsvDataset() throws ConverterException, ImportParameterException {
+        //TODO implement proper tests with mocks and not real HTTP calls
+
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("features_fromAddressStructured.csv").getFile());
         Dataset<InputStream> dataset = new Dataset(file);
