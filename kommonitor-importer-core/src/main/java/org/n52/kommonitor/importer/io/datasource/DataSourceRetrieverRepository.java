@@ -16,7 +16,7 @@ import java.util.Optional;
 public class DataSourceRetrieverRepository {
 
     @Autowired
-    private List<AbstractDataSourceRetriever> retrieverList;
+    private List<AbstractDataSourceRetriever<?>> retrieverList;
 
     /**
      * Retrieve a certain {@link AbstractDataSourceRetriever} implementation by its name
@@ -24,8 +24,8 @@ public class DataSourceRetrieverRepository {
      * @param type the type of a certain {@link AbstractDataSourceRetriever} implementation
      * @return an {@link Optional} describing the found {@link AbstractDataSourceRetriever} implementation
      */
-    public Optional<AbstractDataSourceRetriever> getDataSourceRetriever(String type) {
-        Optional<AbstractDataSourceRetriever> retrieverOpt = this.retrieverList.stream()
+    public Optional<AbstractDataSourceRetriever<?>> getDataSourceRetriever(String type) {
+        Optional<AbstractDataSourceRetriever<?>> retrieverOpt = this.retrieverList.stream()
                 .filter(i -> i.getType().equals(type))
                 .findFirst();
         return retrieverOpt;
@@ -36,7 +36,7 @@ public class DataSourceRetrieverRepository {
      *
      * @return a list of all registered {@link AbstractDataSourceRetriever} implementations
      */
-    public List<AbstractDataSourceRetriever> getAll() {
+    public List<AbstractDataSourceRetriever<?>> getAll() {
         return Collections.unmodifiableList(this.retrieverList);
     }
 }

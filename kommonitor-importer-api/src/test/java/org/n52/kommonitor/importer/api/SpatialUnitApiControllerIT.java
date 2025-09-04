@@ -74,7 +74,7 @@ public class SpatialUnitApiControllerIT {
     private DataSourceRetrieverRepository retrieverRepository;
 
     @MockBean
-    private AbstractDataSourceRetriever retriever;
+    private AbstractDataSourceRetriever<?> retriever;
 
     @MockBean
     private SpatialResourceJsonEncoder encoder;

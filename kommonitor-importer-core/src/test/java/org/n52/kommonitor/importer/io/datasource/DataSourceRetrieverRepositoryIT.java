@@ -33,7 +33,7 @@ public class DataSourceRetrieverRepositoryIT {
     void testGetAllConverters() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        List<AbstractDataSourceRetriever> retrieverList = repo.getAll();
+        List<AbstractDataSourceRetriever<?>> retrieverList = repo.getAll();
 
         Assertions.assertEquals(1, retrieverList.size());
     }

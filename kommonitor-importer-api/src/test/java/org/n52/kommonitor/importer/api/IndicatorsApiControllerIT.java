@@ -71,7 +71,7 @@ public class IndicatorsApiControllerIT {
     private DataSourceRetrieverRepository retrieverRepository;
 
     @MockBean
-    private AbstractDataSourceRetriever retriever;
+    private AbstractDataSourceRetriever<?> retriever;
 
     @MockBean
     private IndicatorEncoder encoder;

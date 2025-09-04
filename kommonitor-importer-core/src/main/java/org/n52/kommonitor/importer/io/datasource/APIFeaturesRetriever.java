@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 @Component
 public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStream> {
 
-    private static Logger LOG = LoggerFactory.getLogger(APIFeaturesRetriever.class);
+    private static final Logger LOG = LoggerFactory.getLogger(APIFeaturesRetriever.class);
 
     private static final String TYPE = DataSourceType.TypeEnum.OGCAPI_FEATURES.getValue();
     private static final String PARAM_URL = "url";
@@ -75,7 +75,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Value("${proxy.port:#{null}}")
     protected Integer proxyPort;
 
-    public APIFeaturesRetriever() throws IOException {
+    public APIFeaturesRetriever() {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         featureJSON = new FeatureJSON();

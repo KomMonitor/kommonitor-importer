@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,22 +39,18 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
 
         String fieldErrorMessage = "";
         String globalErrorMessage = "";
         if (ex.getBindingResult().getFieldErrorCount() > 0) {
-            Map errorMessages = new HashMap<>();
-            ex.getBindingResult().getFieldErrors().forEach(e -> {
-                errorMessages.put(e.getField(), e.getDefaultMessage());
-            });
+            Map<String, String> errorMessages = new HashMap<>();
+            ex.getBindingResult().getFieldErrors().forEach(e -> errorMessages.put(e.getField(), e.getDefaultMessage()));
             fieldErrorMessage = String.format("Invalid request content:%n%s", errorMessages);
         }
         if (ex.getBindingResult().getGlobalErrorCount() > 0) {
-            List errorMessages = new ArrayList();
-            ex.getBindingResult().getGlobalErrors().forEach(e -> {
-                errorMessages.add(e.getDefaultMessage());
-            });
+            List<String> errorMessages = new ArrayList<>();
+            ex.getBindingResult().getGlobalErrors().forEach(e -> errorMessages.add(e.getDefaultMessage()));
             globalErrorMessage = String.format("Unexpected error(s):%n%s", errorMessages);
         }
 
@@ -66,7 +61,7 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity handleHttpMessageNotReadableExceptions(HttpMessageNotReadableException ex) throws IOException {
+    public ResponseEntity<?> handleHttpMessageNotReadableExceptions(HttpMessageNotReadableException ex) {
         LOG.error("Failed reading HTTP message: {}", ex.getMessage());
         LOG.debug("Failed reading HTTP message", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -74,14 +69,14 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity handleResourceNotFoundExceptions(ResourceNotFoundException ex) {
-        LOG.error(String.format("No '%s' resource available with requested id '%s' ", ex.getResource().getName(), ex.getType()));
+    public ResponseEntity<?> handleResourceNotFoundExceptions(ResourceNotFoundException ex) {
+        LOG.error("No '{}' resource available with requested id '{}' ", ex.getResource().getName(), ex.getType());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ErrorFactory.getError(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
     }
 
     @ExceptionHandler(ImportParameterException.class)
-    public ResponseEntity handleImportParameterExceptions(ImportParameterException ex) {
+    public ResponseEntity<?> handleImportParameterExceptions(ImportParameterException ex) {
         LOG.error("Invalid request parameters: {}", ex.getMessage());
         LOG.debug("Invalid request parameters", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -89,7 +84,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler({ImportException.class, UploadException.class})
-    public ResponseEntity handleImportExceptions(Exception ex) {
+    public ResponseEntity<?> handleImportExceptions(Exception ex) {
         LOG.error("Error while handling import request: {}", ex.getMessage());
         LOG.debug("Error while handling import request", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -100,12 +95,11 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler({RestClientException.class})
-    public ResponseEntity handleKomMonitorManagementError(Exception ex) {
+    public ResponseEntity<?> handleKomMonitorManagementError(Exception ex) {
         LOG.error("Data Management API client error: {}", ex.getMessage());
         LOG.debug("Data Management API client error", ex);
 
-        if (ex instanceof HttpServerErrorException) {
-            HttpServerErrorException serverError = (HttpServerErrorException) ex;
+        if (ex instanceof HttpServerErrorException serverError) {
             String responseBodyAsString = serverError.getResponseBodyAsString();
 
             String errorMessageFromManagementApi = "Error in KomMonitor Data Management API: ";

@@ -49,7 +49,7 @@ public class DatasourceTypesApiIT {
     private DataSourceRetrieverRepository repository;
 
     @MockBean
-    private AbstractDataSourceRetriever retriever;
+    private AbstractDataSourceRetriever<?> retriever;
 
     @MockBean
     private ImportMonitor monitor;
