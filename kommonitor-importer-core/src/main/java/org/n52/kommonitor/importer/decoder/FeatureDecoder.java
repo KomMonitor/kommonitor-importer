@@ -22,10 +22,7 @@ import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
-import org.n52.kommonitor.models.AttributeMappingType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
-import org.n52.kommonitor.models.TimeseriesMappingType;
+import org.n52.kommonitor.models.*;
 import org.geotools.api.feature.Property;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.feature.simple.SimpleFeatureType;
@@ -144,7 +141,8 @@ public class FeatureDecoder {
      * @return the decoded {@link List<IndicatorValue>}
      */
     public List<IndicatorValue> decodeFeatureCollectionToIndicatorValues(SimpleFeatureCollection featureCollection,
-                                                                         IndicatorPropertyMappingType propertyMapping) {
+                                                                         IndicatorPropertyMappingType propertyMapping,
+                                                                         List<AggregationType> aggregationDefinitions) {
         //TODO implement a more dedicated solution for differentiate
         // various options of how TimeSeriesValues are encoded
         // as feature properties
@@ -167,7 +165,7 @@ public class FeatureDecoder {
                 while (iterator.hasNext()) {
                     SimpleFeature feature = iterator.next();
                     try {
-                        IndicatorValue indicator = decodeFeatureToIndicatorValue(feature, propertyMapping);
+                        IndicatorValue indicator = decodeFeatureToIndicatorValue(feature, propertyMapping, aggregationDefinitions);
                         result.add(indicator);
                     } catch (DecodingException e) {
                         LOG.error(String.format("Decoding failed for feature %s", feature.getID()));
@@ -188,7 +186,11 @@ public class FeatureDecoder {
      * @return the decoded {@link IndicatorValue}
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    public IndicatorValue decodeFeatureToIndicatorValue(SimpleFeature feature, IndicatorPropertyMappingType propertyMapping) throws DecodingException {
+    public IndicatorValue decodeFeatureToIndicatorValue(
+            SimpleFeature feature,
+            IndicatorPropertyMappingType propertyMapping,
+            List<AggregationType> aggregationDefinition
+    ) throws DecodingException {
         List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
@@ -203,15 +205,26 @@ public class FeatureDecoder {
             } catch (DecodingException e) {
                 LOG.warn("Could not decode time series value for feature {}. Cause: {}.", feature.getID(), e.getMessage());
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
-
             }
         });
         
         // sort list of timeseries entries by date ascending
         timeSeriesValues.sort(Comparator.comparing(TimeseriesValue::getTimestamp));
-        
-        return new IndicatorValue(getPropertyValueAsString(feature,
-                propertyMapping.getSpatialReferenceKeyProperty()), timeSeriesValues);
+
+        if (aggregationDefinition != null) {
+            Map<String, String> spatialUnitReferences = getUpperSpatialUnitReferences(feature, aggregationDefinition);
+            return new IndicatorValue(getPropertyValueAsString(
+                    feature,
+                    propertyMapping.getSpatialReferenceKeyProperty()),
+                    timeSeriesValues,
+                    spatialUnitReferences
+            );
+        }
+        return new IndicatorValue(getPropertyValueAsString(
+                feature,
+                propertyMapping.getSpatialReferenceKeyProperty()),
+                timeSeriesValues
+        );
     }
 
     /**
@@ -436,6 +449,20 @@ public class FeatureDecoder {
             throw new DecodingException(String.format("Could not decode geometry. " +
                     "Feature attribute has been parsed as '%s' with value: '%s'", geom.getClass().getName(), geom));
         }
+    }
+
+    Map<String, String> getUpperSpatialUnitReferences(SimpleFeature feature, List<AggregationType> aggregationDefinition) {
+        Map<String, String> spatialUnitReferences = new HashMap<>();
+        aggregationDefinition.forEach(a -> {
+            String keyProp = a.getSpatialReferenceKeyProperty();
+            try {
+                spatialUnitReferences.put(keyProp, getPropertyValueAsString(feature, keyProp));
+            } catch (DecodingException ex) {
+                LOG.warn("Could not decode spatial reference key {} for feature {}. Cause: {}.", keyProp,  feature.getID(), ex.getMessage());
+                addMonitoringMessage(keyProp, feature, ex.getMessage());
+            }
+        });
+        return spatialUnitReferences;
     }
 
     /**

@@ -13,10 +13,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.feature.simple.SimpleFeatureType;
 import org.geotools.api.referencing.FactoryException;
@@ -148,7 +145,17 @@ public class GeopackageConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(input, converterDefinition, propertyMapping);
+            return convertIndicators(input, converterDefinition, propertyMapping, null);
+        } catch (IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
+    }
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException {
+        InputStream input = getInputStream(converterDefinition, dataset);
+        try {
+            return convertIndicators(input, converterDefinition, propertyMapping, aggregationDefinitions);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -163,7 +170,9 @@ public class GeopackageConverter extends AbstractConverter {
 
     private List<IndicatorValue> convertIndicators(InputStream dataset,
                                                    ConverterDefinitionType converterDefinition,
-                                                   IndicatorPropertyMappingType propertyMapping)
+                                                   IndicatorPropertyMappingType propertyMapping,
+                                                   List<AggregationType> aggregationDefinitions
+                                                   )
             throws IOException, ImportParameterException {
         // Store temp file
         Path tmpFile = storeDatasetAsTempFile(dataset);
@@ -171,7 +180,7 @@ public class GeopackageConverter extends AbstractConverter {
 
         FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpFile, converterDefinition);
 
-        List<IndicatorValue> indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping);
+        List<IndicatorValue> indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping, aggregationDefinitions);
 
         // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
         // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues

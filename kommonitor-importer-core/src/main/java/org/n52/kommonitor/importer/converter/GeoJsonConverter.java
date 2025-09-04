@@ -16,10 +16,7 @@ import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.utils.FileUtils;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -155,7 +152,17 @@ public class GeoJsonConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(converterDefinition, input, propertyMapping);
+            return convertIndicators(converterDefinition, input, propertyMapping, null);
+        } catch (IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
+    }
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException {
+        InputStream input = getInputStream(converterDefinition, dataset);
+        try {
+            return convertIndicators(converterDefinition, input, propertyMapping, aggregationDefinitions);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -172,7 +179,8 @@ public class GeoJsonConverter extends AbstractConverter {
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                    InputStream dataset,
-                                                   IndicatorPropertyMappingType propertyMapping)
+                                                   IndicatorPropertyMappingType propertyMapping,
+                                                   List<AggregationType> aggregationDefinitions)
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
 
@@ -185,7 +193,7 @@ public class GeoJsonConverter extends AbstractConverter {
         for (Feature feature : featureCollection) {
             SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
             try {
-                indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping));
+                indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping, aggregationDefinitions));
             } catch (DecodingException ex) {
                 LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                 LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));

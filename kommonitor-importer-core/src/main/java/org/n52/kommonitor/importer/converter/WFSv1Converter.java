@@ -23,10 +23,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.picocontainer.MutablePicoContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -133,7 +130,17 @@ public class WFSv1Converter extends AbstractConverter {
                                                   IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(converterDefinition, input, propertyMapping);
+            return convertIndicators(converterDefinition, input, propertyMapping, null);
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
+    }
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException {
+        InputStream input = getInputStream(converterDefinition, dataset);
+        try {
+            return convertIndicators(converterDefinition, input, propertyMapping, aggregationDefinitions);
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -183,12 +190,13 @@ public class WFSv1Converter extends AbstractConverter {
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                    InputStream dataset,
-                                                   IndicatorPropertyMappingType propertyMapping)
+                                                   IndicatorPropertyMappingType propertyMapping,
+                                                   List<AggregationType> aggregationDefinitions)
             throws ImportParameterException, ParserConfigurationException, SAXException, IOException, ConverterException {
 
         SimpleFeatureCollection collection = parseFeatureCollection(converterDefinition, dataset);
 
-        return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping);
+        return featureDecoder.decodeFeatureCollectionToIndicatorValues(collection, propertyMapping, aggregationDefinitions);
     }
 
     private SimpleFeatureCollection parseFeatureCollection(ConverterDefinitionType converterDefinition, InputStream dataset)

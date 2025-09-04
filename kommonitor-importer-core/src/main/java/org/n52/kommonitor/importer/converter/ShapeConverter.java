@@ -13,10 +13,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.DecodingException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.models.ConverterDefinitionType;
-import org.n52.kommonitor.models.DataSourceType;
-import org.n52.kommonitor.models.IndicatorPropertyMappingType;
-import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
+import org.n52.kommonitor.models.*;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.feature.simple.SimpleFeatureType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.Error;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -249,7 +247,17 @@ public class ShapeConverter extends AbstractConverter {
             throws ConverterException, ImportParameterException {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
-            return convertIndicators(converterDefinition, input, propertyMapping);
+            return convertIndicators(converterDefinition, input, propertyMapping, null);
+        } catch (IOException ex) {
+            throw new ConverterException("Error while parsing dataset.", ex);
+        }
+    }
+
+    @Override
+    public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException {
+        InputStream input = getInputStream(converterDefinition, dataset);
+        try {
+            return convertIndicators(converterDefinition, input, propertyMapping, aggregationDefinitions);
         } catch (IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
@@ -257,7 +265,8 @@ public class ShapeConverter extends AbstractConverter {
 
     private List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,
                                                    InputStream dataset,
-                                                   IndicatorPropertyMappingType propertyMapping)
+                                                   IndicatorPropertyMappingType propertyMapping,
+                                                   List<AggregationType> aggregationDefinitions)
             throws IOException {
         List<IndicatorValue> indicatorValueList = new ArrayList<>();
 
@@ -270,7 +279,7 @@ public class ShapeConverter extends AbstractConverter {
             while (features.hasNext()) {
                 SimpleFeature simpleFeature = features.next();
                 try {
-                    indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping));
+                    indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping, aggregationDefinitions));
                 } catch (DecodingException ex) {
                     LOG.error(String.format("Decoding failed for feature %s", simpleFeature.getID()));
                     LOG.debug(String.format("Failed feature decoding attributes: %s", simpleFeature.getAttributes()));
