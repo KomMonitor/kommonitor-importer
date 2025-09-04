@@ -54,11 +54,12 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
         LOG.info("Received 'importSpatialUnit' request for spatial unit level: {}", featureData.getSpatialUnitPostBody().getSpatialUnitLevel());
         LOG.debug("'importSpatialUnit' request POST body: {}", featureData);
 
-        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
-        if (!requestHandlertOpt.isPresent()) {
+        Optional<AbstractRequestHandler<ImportSpatialUnitPOSTInputType>> requestHandlerOpt = requestHandlerRepository.getRequestHandler(featureData);
+
+        if (requestHandlerOpt.isEmpty()) {
             throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
         }
-        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+        return requestHandlerOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
 
@@ -67,11 +68,12 @@ public class SpatialUnitsApiController implements SpatialUnitsApi {
         LOG.info("Received 'updateSpatialUnit' request for spatial unit: {}", featureData.getSpatialUnitId());
         LOG.debug("'updateSpatialUnit' request POST body: {}", featureData);
 
-        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
-        if (!requestHandlertOpt.isPresent()) {
+        Optional<AbstractRequestHandler<UpdateSpatialUnitPOSTInputType>> requestHandlerOpt = requestHandlerRepository.getRequestHandler(featureData);
+
+        if (requestHandlerOpt.isEmpty()) {
             throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
         }
-        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+        return requestHandlerOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
 }

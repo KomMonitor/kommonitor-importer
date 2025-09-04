@@ -8,9 +8,7 @@ import jakarta.validation.Valid;
 import org.n52.kommonitor.importer.api.exceptions.ImportException;
 import org.n52.kommonitor.importer.api.handler.AbstractRequestHandler;
 import org.n52.kommonitor.importer.api.handler.RequestHandlerRepository;
-import org.n52.kommonitor.importer.converter.ConverterRepository;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
-import org.n52.kommonitor.importer.io.datasource.DataSourceRetrieverRepository;
 import org.n52.kommonitor.models.ImportGeoresourcePOSTInputType;
 import org.n52.kommonitor.models.ImportResponseType;
 import org.n52.kommonitor.models.UpdateGeoresourcePOSTInputType;
@@ -30,12 +28,6 @@ public class GeoresourcesApiController implements GeoresourcesApi {
     private static final Logger LOG = LoggerFactory.getLogger(GeoresourcesApiController.class);
 
     @Autowired
-    private ConverterRepository converterRepository;
-
-    @Autowired
-    private DataSourceRetrieverRepository retrieverRepository;
-
-    @Autowired
     private RequestHandlerRepository requestHandlerRepository;
 
     private final ObjectMapper objectMapper;
@@ -48,17 +40,18 @@ public class GeoresourcesApiController implements GeoresourcesApi {
         this.request = request;
     }
 
+    @Override
     public ResponseEntity<ImportResponseType> importGeoresource(
             @Parameter(description = "feature data", required = true)
             @Valid @RequestBody ImportGeoresourcePOSTInputType featureData) throws ImportException, ImportParameterException {
         LOG.info("Received 'importGeoresource' request for dataset name: {}", featureData.getGeoresourcePostBody().getDatasetName());
         LOG.debug("'importGeoresource' POST request body: {}", featureData);
 
-        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
-        if (!requestHandlertOpt.isPresent()) {
+        Optional<AbstractRequestHandler<ImportGeoresourcePOSTInputType>> requestHandlerOpt = requestHandlerRepository.getRequestHandler(featureData);
+        if (requestHandlerOpt.isEmpty()) {
             throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
         }
-        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+        return requestHandlerOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 
     @Override
@@ -66,10 +59,11 @@ public class GeoresourcesApiController implements GeoresourcesApi {
         LOG.info("Received 'updateGeoresource' request for Georesource: {}", featureData.getGeoresourceId());
         LOG.debug("'updateGeoresource' POST request body: {}", featureData);
 
-        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(featureData);
-        if (!requestHandlertOpt.isPresent()) {
+        Optional<AbstractRequestHandler<UpdateGeoresourcePOSTInputType>> requestHandlerOpt = requestHandlerRepository.getRequestHandler(featureData);
+
+        if (requestHandlerOpt.isEmpty()) {
             throw new ImportException(String.format("No request handler found for request type '%s'", featureData.getClass()));
         }
-        return requestHandlertOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
+        return requestHandlerOpt.get().handleRequest(featureData, featureData.getDataSource(), featureData.getConverter());
     }
 }

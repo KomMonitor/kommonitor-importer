@@ -45,7 +45,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
     public ImportResponseType handleRequestForType(ImportSpatialUnitPOSTInputType requestResourceType,
                                                    AbstractConverter converter,
                                                    ConverterDefinitionType converterDefinition,
-                                                   Dataset dataset)
+                                                   Dataset<?> dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -78,7 +78,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
         }
 
         List<String> convertedResourceIds = validResources.stream()
-                .map(s -> s.getId())
+                .map(SpatialResource::getId)
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
         return importResponse;

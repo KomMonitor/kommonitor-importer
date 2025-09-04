@@ -45,7 +45,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
     public ImportResponseType handleRequestForType(ImportGeoresourcePOSTInputType requestResourceType,
                                                    AbstractConverter converter,
                                                    ConverterDefinitionType converterDefinition,
-                                                   Dataset dataset)
+                                                   Dataset<?> dataset)
             throws ConverterException, RestClientException, ImportParameterException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -78,7 +78,7 @@ public class GeoresourceImportHandler extends AbstractRequestHandler<ImportGeore
         }
 
         List<String> convertedResourceIds = validResources.stream()
-                .map(s -> s.getId())
+                .map(SpatialResource::getId)
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
         return importResponse;

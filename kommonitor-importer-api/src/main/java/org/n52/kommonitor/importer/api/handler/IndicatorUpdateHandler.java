@@ -42,7 +42,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     @Override
     protected ImportResponseType handleRequestForType(UpdateIndicatorPOSTInputType requestResourceType,
                                                       AbstractConverter converter,
-                                                      ConverterDefinitionType converterDefinition, Dataset dataset)
+                                                      ConverterDefinitionType converterDefinition, Dataset<?> dataset)
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
@@ -71,7 +71,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         }
 
         List<String> convertedResourceIds = validIndicators.stream()
-                .map(s -> s.getSpatialReferenceKey())
+                .map(IndicatorValue::getSpatialReferenceKey)
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
         return importResponse;
