@@ -28,6 +28,15 @@ public class IndicatorEncoder {
         return indicator;
     }
 
+    public IndicatorPUTInputType encode(IndicatorPUTInputType indicatorPutType, List<IndicatorValue> indicatorValues) {
+        if (indicatorValues != null) {
+            indicatorPutType.setIndicatorValues(indicatorValues.stream()
+                    .map(this::encodeIndicatorValues)
+                    .collect(Collectors.toList()));
+        }
+        return indicatorPutType;
+    }
+
     private IndicatorPOSTInputTypeIndicatorValues encodeIndicatorValues(IndicatorValue indicatorValues) {
         IndicatorPOSTInputTypeIndicatorValues result = new IndicatorPOSTInputTypeIndicatorValues();
         result.setSpatialReferenceKey(indicatorValues.getSpatialReferenceKey());

@@ -216,7 +216,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
         } catch (IOException | URISyntaxException ex) {
             LOG.debug(String.format("Failed retrieving dataset for datasource: %n%s", datasource), ex);
             String errorUrl = (request != null) ? request.getAuthority() + request.getRequestUri() : url;
-            monitor.addFailedConversion("Failed retrieving dataset for datasource", ex.getLocalizedMessage());
             throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", errorUrl), ex);
         }
     }

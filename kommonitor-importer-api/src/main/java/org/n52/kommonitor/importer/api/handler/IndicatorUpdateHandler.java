@@ -9,6 +9,7 @@ import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,9 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     @Autowired
     private IndicatorCalculator indicatorCalculator;
 
+    @Autowired
+    private ImportMonitor monitor;
+
     public boolean supports(Object requestType) {
         return requestType instanceof UpdateIndicatorPOSTInputType;
     }
@@ -62,14 +66,16 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
             throw new ConverterException("No valid Indicator could be parsed from the specified data source");
         }
 
-        Map<String, List<IndicatorValue>> aggregatedIndicators;
+        Map<String, List<IndicatorValue>> aggregatedIndicators = new HashMap<>();
+        Map<String, String> keyPropSpatialUnitMap = new HashMap<>();
+
         if (!(requestResourceType.getAggregations() != null && requestResourceType.getAggregations().isEmpty())) {
-            aggregatedIndicators = new HashMap<>();
             requestResourceType.getAggregations().forEach(a -> {
                 String spatialRefKeyProp = a.getSpatialReferenceKeyProperty();
                 if (aggregatedIndicators.containsKey(spatialRefKeyProp)) {
                     LOG.warn("Aggregation for spatial reference key '{}' already exists and will be overwritten.", spatialRefKeyProp);
                 }
+                keyPropSpatialUnitMap.put(spatialRefKeyProp, a.getIndicatorPutBody().getApplicableSpatialUnit());
                 List<IndicatorValue> aggregation = null;
                 try {
                     aggregation = indicatorCalculator.aggregate(validIndicators, a.getAggregateFunction(), a.getSpatialReferenceKeyProperty());
@@ -85,6 +91,24 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
 
         if (!requestResourceType.getDryRun()) {
             importResponse = postUpdateIndicatorRequest(requestResourceType, validIndicators);
+            if (!aggregatedIndicators.isEmpty()) {
+                requestResourceType.getAggregations().forEach( a-> {
+                    if (aggregatedIndicators.containsKey(a.getSpatialReferenceKeyProperty())) {
+                        IndicatorPUTInputType indicatorPutBody = encoder.encode(a.getIndicatorPutBody(), aggregatedIndicators.get(a.getSpatialReferenceKeyProperty()));
+                        try {
+                            postUpdateIndicatorRequest(indicatorPutBody, requestResourceType.getIndicatorId());
+
+                        } catch (RestClientException ex) {
+                            monitor.addFailedAggregation(a.getIndicatorPutBody().getApplicableSpatialUnit(), ex.getMessage());
+                        }
+                    } else {
+                        LOG.error("No aggregation available for spatial unit '{}' with property key '{}'",
+                                a.getIndicatorPutBody().getApplicableSpatialUnit(),
+                                a.getSpatialReferenceKeyProperty());
+                    }
+
+                });
+            }
         } else {
             importResponse = new ImportResponseType();
         }
@@ -93,14 +117,19 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
                 .map(IndicatorValue::getSpatialReferenceKey)
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
+        
         return importResponse;
     }
 
     private ImportResponseType postUpdateIndicatorRequest(UpdateIndicatorPOSTInputType requestResourceType, List<IndicatorValue> validIndicators) {
         IndicatorPUTInputType indicatorPutInput = encoder.encode(requestResourceType, validIndicators);
-        LOG.info("Perform 'updateIndicator' request for Indicator: {}", requestResourceType.getIndicatorId());
+        return postUpdateIndicatorRequest(indicatorPutInput, requestResourceType.getIndicatorId());
+    }
+
+    private ImportResponseType postUpdateIndicatorRequest(IndicatorPUTInputType indicatorPutInput, String indicatorId) {
+        LOG.info("Perform 'updateIndicator' request for Indicator: {}", indicatorId);
         LOG.debug("'updateIndicator' request PUT body: {}", indicatorPutInput);
-        ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(requestResourceType.getIndicatorId(), indicatorPutInput);
+        ResponseEntity<Void> response = apiClient.updateIndicatorAsBodyWithHttpInfo(indicatorId, indicatorPutInput);
         String location = response.getHeaders().getFirst(LOCATION_HEADER_KEY);
         LOG.info("Successfully executed 'updateIndicator' request. Updated Indicators: {}", location);
 
