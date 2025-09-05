@@ -51,6 +51,8 @@ services:
       - "8085:8085"
     networks:
       - kommonitor
+    volumes:
+      - ./storage/database/data:/var/lib/postgresql/data
     links:
       - kommonitor-db
     env_file:
