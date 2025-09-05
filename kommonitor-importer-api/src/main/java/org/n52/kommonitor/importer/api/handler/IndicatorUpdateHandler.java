@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.api.handler;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.java.Log;
 import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.calculator.IndicatorCalculator;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,19 +96,20 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
             if (!aggregatedIndicators.isEmpty()) {
                 requestResourceType.getAggregations().forEach( a-> {
                     if (aggregatedIndicators.containsKey(a.getSpatialReferenceKeyProperty())) {
+                        LOG.info("Import aggregated indicators for spatial unit '{}'.", a.getIndicatorPutBody().getApplicableSpatialUnit());
                         IndicatorPUTInputType indicatorPutBody = encoder.encode(a.getIndicatorPutBody(), aggregatedIndicators.get(a.getSpatialReferenceKeyProperty()));
                         try {
                             postUpdateIndicatorRequest(indicatorPutBody, requestResourceType.getIndicatorId());
 
                         } catch (RestClientException ex) {
                             monitor.addFailedAggregation(a.getIndicatorPutBody().getApplicableSpatialUnit(), ex.getMessage());
+                            aggregatedIndicators.remove(a.getSpatialReferenceKeyProperty());
                         }
                     } else {
                         LOG.error("No aggregation available for spatial unit '{}' with property key '{}'",
                                 a.getIndicatorPutBody().getApplicableSpatialUnit(),
                                 a.getSpatialReferenceKeyProperty());
                     }
-
                 });
             }
         } else {
@@ -117,6 +120,19 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
                 .map(IndicatorValue::getSpatialReferenceKey)
                 .collect(Collectors.toList());
         importResponse.setImportedFeatures(convertedResourceIds);
+
+        List<ImportedAggregationsType> importedAggregations = new ArrayList<>();
+        aggregatedIndicators.forEach((k, v) -> {
+            importedAggregations.add(
+                    new ImportedAggregationsType(
+                            keyPropSpatialUnitMap.get(k),
+                            v.stream()
+                                    .map(IndicatorValue::getSpatialReferenceKey)
+                                    .collect(Collectors.toList())
+                    )
+            );
+        });
+        importResponse.setImportedAggregations(importedAggregations);
         
         return importResponse;
     }

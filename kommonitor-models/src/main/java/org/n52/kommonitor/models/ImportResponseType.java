@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.n52.kommonitor.models.ImportedAggregationsType;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ImportResponseType", description = "Contains information about imported resource features")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-05T13:50:32.126009500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ImportResponseType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,6 +34,9 @@ public class ImportResponseType implements Serializable {
 
   @Valid
   private @Nullable List<String> importedFeatures;
+
+  @Valid
+  private @Nullable List<@Valid ImportedAggregationsType> importedAggregations;
 
   @Valid
   private @Nullable List<String> errors;
@@ -74,11 +78,11 @@ public class ImportResponseType implements Serializable {
   }
 
   /**
-   * list of IDs that indicate those resource features that were imported succesfully
+   * list of IDs that indicate those resource features that were imported successfully
    * @return importedFeatures
    */
   
-  @Schema(name = "importedFeatures", description = "list of IDs that indicate those resource features that were imported succesfully", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "importedFeatures", description = "list of IDs that indicate those resource features that were imported successfully", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("importedFeatures")
   public @Nullable List<String> getImportedFeatures() {
     return importedFeatures;
@@ -86,6 +90,34 @@ public class ImportResponseType implements Serializable {
 
   public void setImportedFeatures(@Nullable List<String> importedFeatures) {
     this.importedFeatures = importedFeatures;
+  }
+
+  public ImportResponseType importedAggregations(@Nullable List<@Valid ImportedAggregationsType> importedAggregations) {
+    this.importedAggregations = importedAggregations;
+    return this;
+  }
+
+  public ImportResponseType addImportedAggregationsItem(ImportedAggregationsType importedAggregationsItem) {
+    if (this.importedAggregations == null) {
+      this.importedAggregations = new ArrayList<>();
+    }
+    this.importedAggregations.add(importedAggregationsItem);
+    return this;
+  }
+
+  /**
+   * Get importedAggregations
+   * @return importedAggregations
+   */
+  @Valid 
+  @Schema(name = "importedAggregations", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("importedAggregations")
+  public @Nullable List<@Valid ImportedAggregationsType> getImportedAggregations() {
+    return importedAggregations;
+  }
+
+  public void setImportedAggregations(@Nullable List<@Valid ImportedAggregationsType> importedAggregations) {
+    this.importedAggregations = importedAggregations;
   }
 
   public ImportResponseType errors(@Nullable List<String> errors) {
@@ -155,13 +187,14 @@ public class ImportResponseType implements Serializable {
     ImportResponseType importResponseType = (ImportResponseType) o;
     return Objects.equals(this.uri, importResponseType.uri) &&
         Objects.equals(this.importedFeatures, importResponseType.importedFeatures) &&
+        Objects.equals(this.importedAggregations, importResponseType.importedAggregations) &&
         Objects.equals(this.errors, importResponseType.errors) &&
         Objects.equals(this.warnings, importResponseType.warnings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uri, importedFeatures, errors, warnings);
+    return Objects.hash(uri, importedFeatures, importedAggregations, errors, warnings);
   }
 
   @Override
@@ -170,6 +203,7 @@ public class ImportResponseType implements Serializable {
     sb.append("class ImportResponseType {\n");
     sb.append("    uri: ").append(toIndentedString(uri)).append("\n");
     sb.append("    importedFeatures: ").append(toIndentedString(importedFeatures)).append("\n");
+    sb.append("    importedAggregations: ").append(toIndentedString(importedAggregations)).append("\n");
     sb.append("    errors: ").append(toIndentedString(errors)).append("\n");
     sb.append("    warnings: ").append(toIndentedString(warnings)).append("\n");
     sb.append("}");
