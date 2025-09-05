@@ -64,7 +64,7 @@ public class AggregationFunctionTest {
         timeseries.add(new TimeseriesValue(50f, LocalDate.of(2020,1,1)));
         timeseries.add(new TimeseriesValue(51f, LocalDate.of(2021,1,1)));
         timeseries.add(new TimeseriesValue(52f, LocalDate.of(2022,1,1)));
-        timeseries.add(new TimeseriesValue(53f, LocalDate.of(2023,1,1)));
+        timeseries.add(new TimeseriesValue(null, LocalDate.of(2023,1,1)));
         timeseries.add(new TimeseriesValue(54f, LocalDate.of(2024,1,1)));
         return timeseries;
     }
@@ -151,5 +151,6 @@ public class AggregationFunctionTest {
         Assertions.assertEquals(6, result.get(2).getTimeSeriesValueList().size());
         Assertions.assertEquals(3f, result.get(2).getTimeSeriesValueList().get(0).getValue());
         Assertions.assertEquals(2f, result.get(2).getTimeSeriesValueList().get(1).getValue());
+        Assertions.assertEquals(2f, result.get(2).getTimeSeriesValueList().get(3).getValue());
     }
 }

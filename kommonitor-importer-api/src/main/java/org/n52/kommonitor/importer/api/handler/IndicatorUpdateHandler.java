@@ -56,10 +56,20 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
             throws ConverterException, ImportParameterException, RestClientException {
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
-        List<IndicatorValue> indicatorValues = converter.convertIndicators(
-                converterDefinition,
-                dataset,
-                requestResourceType.getPropertyMapping());
+
+        List<IndicatorValue> indicatorValues;
+        if (requestResourceType.getAggregations() != null && !requestResourceType.getAggregations().isEmpty()) {
+            indicatorValues = converter.convertIndicators(
+                    converterDefinition,
+                    dataset,
+                    requestResourceType.getPropertyMapping(),
+                    requestResourceType.getAggregations());
+        } else {
+            indicatorValues = converter.convertIndicators(
+                    converterDefinition,
+                    dataset,
+                    requestResourceType.getPropertyMapping());
+        }
 
         List<IndicatorValue> validIndicators = indicatorValues.stream()
                 .filter(s -> validator.isValid(s, requestResourceType.getPropertyMapping().getKeepMissingOrNullValueIndicator()))
@@ -71,7 +81,7 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         Map<String, List<IndicatorValue>> aggregatedIndicators = new HashMap<>();
         Map<String, String> keyPropSpatialUnitMap = new HashMap<>();
 
-        if (!(requestResourceType.getAggregations() != null && requestResourceType.getAggregations().isEmpty())) {
+        if (requestResourceType.getAggregations() != null && !requestResourceType.getAggregations().isEmpty()) {
             requestResourceType.getAggregations().forEach(a -> {
                 String spatialRefKeyProp = a.getSpatialReferenceKeyProperty();
                 if (aggregatedIndicators.containsKey(spatialRefKeyProp)) {
