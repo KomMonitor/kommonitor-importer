@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "AggregationType", description = "Definition of an aggregation for a higher spatial unit")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-03T15:33:10.965342700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-08T15:57:13.274083500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class AggregationType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -40,7 +40,9 @@ public class AggregationType implements Serializable {
     
     MIN("MIN"),
     
-    SUM("SUM");
+    SUM("SUM"),
+    
+    MEDIAN("MEDIAN");
 
     private final String value;
 
