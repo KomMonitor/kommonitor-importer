@@ -57,9 +57,15 @@ public abstract class AbstractAggregationFunction implements AggregationFunction
         return groupedIndicators;
     }
 
-    private List<TimeseriesValue> aggregateValues(Map<LocalDate, List<Float>> groupedValues) {
+    protected List<TimeseriesValue> aggregateValues(Map<LocalDate, List<Float>> groupedValues) {
         return groupedValues.entrySet().stream()
-                .map(e -> new TimeseriesValue(aggregateValues(e.getValue()), e.getKey()))
+                .map(e -> {
+                    Float result = aggregateValues(e.getValue());
+                    if (result != null && result.isNaN()) {
+                        result = null;
+                    }
+                    return new TimeseriesValue(result, e.getKey());
+                })
                 .collect(Collectors.toList());
     }
 

@@ -1,12 +1,21 @@
 package org.n52.kommonitor.importer.calculator;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
+import org.n52.kommonitor.importer.entities.TimeseriesValue;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
+
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.when;
 
 public class AbstractAggregationFunctionTest {
 
@@ -62,6 +71,38 @@ public class AbstractAggregationFunctionTest {
         Assertions.assertEquals(52f, groupedValues.get(LocalDate.of(2022,1,1)).get(2));
         Assertions.assertEquals(51f, groupedValues.get(LocalDate.of(2021,1,1)).get(1));
         Assertions.assertEquals(25f, groupedValues.get(LocalDate.of(2025,1,1)).get(0));
+    }
+
+    @Test
+    void testAggregateValues() {
+        Map<LocalDate, List<Float>> groupedValues = new HashMap<>();
+        List<Float> valueList01 = Arrays.asList(12f, 13f, 14f, 15f, 16f);
+        List<Float> valueList02 = Arrays.asList(12f, 13f, 14f, null, 16f);
+        List<Float> valueList03 = Arrays.asList(null, null);
+        List<Float> valueList04 = List.of();
+
+        groupedValues.put(LocalDate.of(2020, 1, 1), valueList01);
+        groupedValues.put(LocalDate.of(2021, 1, 1), valueList02);
+        groupedValues.put(LocalDate.of(2022, 1, 1), valueList03);
+        groupedValues.put(LocalDate.of(2023, 1, 1), valueList04);
+
+        AbstractAggregationFunction aggregationFunction = new AggregationMeanFunction();
+
+        List<TimeseriesValue> result = aggregationFunction.aggregateValues(groupedValues);
+
+        Assertions.assertEquals(4, result.size());
+
+        Assertions.assertEquals(LocalDate.of(2020, 1, 1), result.get(0).getTimestamp());
+        Assertions.assertNotNull(result.get(0).getValue());
+
+        Assertions.assertEquals(LocalDate.of(2021, 1, 1), result.get(1).getTimestamp());
+        Assertions.assertNotNull(result.get(1).getValue());
+
+        Assertions.assertEquals(LocalDate.of(2022, 1, 1), result.get(2).getTimestamp());
+        Assertions.assertNull(result.get(2).getValue());
+
+        Assertions.assertEquals(LocalDate.of(2023, 1, 1), result.get(3).getTimestamp());
+        Assertions.assertNull(result.get(3).getValue());
     }
 
 }

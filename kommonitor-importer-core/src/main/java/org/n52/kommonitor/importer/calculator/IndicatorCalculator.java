@@ -30,6 +30,21 @@ public class IndicatorCalculator {
             case COUNT -> {
                 return new AggregationCountFunction();
             }
+            case MAX -> {
+                return new AggregationMaxFunction();
+            }
+            case MIN -> {
+                return new AggregationMinFunction();
+            }
+            case MEAN -> {
+                return new AggregationMeanFunction();
+            }
+            case MEDIAN -> {
+                return new AggregationMedianFunction();
+            }
+            case SUM -> {
+                return new AggregationSumFunction();
+            }
             default -> {
                 throw new ImportParameterException(String.format("Aggregate function '%s' is not supported.", aggregateFunction));
             }

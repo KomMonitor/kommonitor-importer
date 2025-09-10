@@ -40,6 +40,16 @@ public class AggregationCountFunctionTest {
     }
 
     @Test
+    void testAggregateValuesCountForNullList() {
+        List<Float> values = Arrays.asList(null, null);
+
+        AbstractAggregationFunction aggregationFunction = new AggregationCountFunction();
+        Float result = aggregationFunction.aggregateValues(values);
+
+        Assertions.assertEquals(0, result);
+    }
+
+    @Test
     void testAggregateCount() {
         List<IndicatorValue> valueList = Arrays.asList(provider.getValue01(), provider.getValue02(), provider.getValue03(),
                 provider.getValue04(), provider.getValue05(), provider.getValue06());
