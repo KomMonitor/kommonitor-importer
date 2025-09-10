@@ -217,7 +217,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -231,7 +231,7 @@ class FeatureDecoderTest {
         mapping.setTimestamp(LocalDate.parse(TIMESTAMP_PROP_VALUE));
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
