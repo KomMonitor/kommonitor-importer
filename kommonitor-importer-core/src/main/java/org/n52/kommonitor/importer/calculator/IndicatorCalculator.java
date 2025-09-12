@@ -17,6 +17,7 @@ public class IndicatorCalculator {
             AggregationType.@NotNull AggregateFunctionEnum aggregateFunction,
             @NotNull String spatialReferenceKeyProperty) throws ImportParameterException {
         List<IndicatorValue> preparedIndicators = indicators.stream()
+                .filter(i -> i.getUpperSpatialUnitReferences().containsKey(spatialReferenceKeyProperty))
                 .map(i -> new IndicatorValue(
                         i.getUpperSpatialUnitReferences().get(spatialReferenceKeyProperty),
                         i.getTimeSeriesValueList()))

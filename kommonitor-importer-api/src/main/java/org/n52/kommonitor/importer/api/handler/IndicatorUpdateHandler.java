@@ -91,7 +91,16 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
                 List<IndicatorValue> aggregation = null;
                 try {
                     aggregation = indicatorCalculator.aggregate(validIndicators, a.getAggregateFunction(), a.getSpatialReferenceKeyProperty());
-                    aggregatedIndicators.put(spatialRefKeyProp, aggregation);
+                    if (aggregation != null && !aggregation.isEmpty()) {
+                        aggregatedIndicators.put(spatialRefKeyProp, aggregation);
+                    } else {
+                        LOG.info("No aggregated values for spatial unit with reference property '{}'.", a.getSpatialReferenceKeyProperty());
+                        monitor.addFailedAggregation(
+                                a.getIndicatorPutBody().getApplicableSpatialUnit(),
+                                String.format("No aggregated values for spatial unit with reference property '%s'.", a.getSpatialReferenceKeyProperty())
+                        );
+                    }
+
                 } catch (ImportParameterException e) {
                     LOG.error("Can not calculate aggregation for spatial unit with reference key property '{}'." +
                             " Aggregate function '{}' is not supported.", spatialRefKeyProp, a.getAggregateFunction());
