@@ -5,6 +5,7 @@ import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
+import org.n52.kommonitor.models.AggregationType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
@@ -38,5 +39,15 @@ public interface Converter {
      * @return the converted {@link List<IndicatorValue>}
      */
     List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException;
+
+    /**
+     * Decodes a dataset into {@link List<IndicatorValue>} according to a given {@link ConverterDefinitionType}
+     *
+     * @param converterDefinition the {@link ConverterDefinitionType} used to decode the dataset
+     * @param dataset the {@link Dataset} that contains the data to convert
+     * @param aggregationDefinitions defines aggregations for higher spatial units
+     * @return the converted {@link List<IndicatorValue>}
+     */
+    List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException;
 
 }

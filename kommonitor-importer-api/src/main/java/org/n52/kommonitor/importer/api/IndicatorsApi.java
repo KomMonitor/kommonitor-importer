@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T10:33:50.760291700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-04T08:36:34.666758+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 @Validated
 @Tag(name = "indicators", description = "Municipal indicators that provide statiscial time series information")
 public interface IndicatorsApi {
@@ -46,7 +46,7 @@ public interface IndicatorsApi {
      * POST /indicators/update : Update or create a new indicator dataset
      * Update or create an indicator dataset for a certain period of time and spatial unit/level. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /indicators of KomMonitor Data Management API
      *
-     * @param updateIndicatorPOSTInputType Definitions to create or update indicators (optional)
+     * @param updateIndicatorPOSTInputType Definitions to create or update indicators (required)
      * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthenticated (status code 401)
@@ -78,7 +78,7 @@ public interface IndicatorsApi {
     )
     
     ResponseEntity<ImportResponseType> updateIndicator(
-        @Parameter(name = "UpdateIndicatorPOSTInputType", description = "Definitions to create or update indicators") @Valid @RequestBody(required = false) @Nullable UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType
+        @Parameter(name = "UpdateIndicatorPOSTInputType", description = "Definitions to create or update indicators", required = true) @Valid @RequestBody UpdateIndicatorPOSTInputType updateIndicatorPOSTInputType
     ) throws Exception;
 
 }

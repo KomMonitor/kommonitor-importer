@@ -5,6 +5,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Monitoring class that holds information about a converting process and the affected resources.
@@ -22,9 +23,12 @@ public class ImportMonitor {
 
     private Map<String, List<String>> incidents;
 
+    private Map<String, List<String>> failedAggregations;
+
     public ImportMonitor() {
         this.failedConversions = new HashMap<>();
         this.incidents = new HashMap<>();
+        this.failedAggregations = new HashMap<>();
     }
 
     public Map<String, List<String>> getFailedConversions() {
@@ -35,6 +39,10 @@ public class ImportMonitor {
         return incidents;
     }
 
+    public Map<String, List<String>> getFailedAggregations() {
+        return failedAggregations;
+    }
+
     /**
      * Adds information about a failed resource conversion.
      *
@@ -42,13 +50,7 @@ public class ImportMonitor {
      * @param cause cause of the conversion fail
      */
     public void addFailedConversion(String id, String cause) {
-        if (failedConversions.containsKey(id)) {
-            failedConversions.get(id).add(cause);
-        } else {
-            List<String> causes = new ArrayList();
-            causes.add(cause);
-            failedConversions.put(id, causes);
-        }
+        addFailure(failedConversions, id, cause);
     }
 
     /**
@@ -58,12 +60,27 @@ public class ImportMonitor {
      * @param cause cause of the incident
      */
     public void addConversionIncident(String id, String cause) {
-        if (incidents.containsKey(id)) {
-            incidents.get(id).add(cause);
+        addFailure(incidents, id, cause);
+    }
+
+    /**
+     * Adds information about a failed aggregation.
+     *
+     * @param id    the ID of the resource for which the conversion failed
+     * @param cause cause of the conversion fail
+     */
+    public void addFailedAggregation(String id, String cause) {
+        addFailure(failedAggregations, id, cause);
+    }
+
+
+    private void addFailure(Map<String, List<String>> failureMap, String id, String cause) {
+        if (failureMap.containsKey(id)) {
+            failureMap.get(id).add(cause);
         } else {
-            List<String> causes = new ArrayList();
+            List<String> causes = new ArrayList<>();
             causes.add(cause);
-            incidents.put(id, causes);
+            failureMap.put(id, causes);
         }
     }
 
@@ -73,9 +90,17 @@ public class ImportMonitor {
      * @return list of error messages as String
      */
     public List<String> getErrorMessages() {
-        return failedConversions.keySet().stream()
+        List<String> aggregationErrorMessages = failedAggregations.keySet().stream()
+                .map(k -> String.format("Failed aggregation for spatial unit '%s'. Cause(s): %s", k, failedAggregations.get(k)))
+                .toList();
+
+        List<String> conversionErrorMessages = failedConversions.keySet().stream()
                 .map(k -> String.format("Failed conversion for resource '%s'. Cause(s): %s", k, failedConversions.get(k)))
-                .collect(Collectors.toList());
+                .toList();
+
+        return Stream.of(aggregationErrorMessages, conversionErrorMessages)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     /**

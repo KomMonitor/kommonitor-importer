@@ -23,9 +23,9 @@ public class AbstractConverterTest {
     private static final String MIME_TYPE = "application/xml";
     private static final String ENCODING = "UTF-8";
     private static final String SCHEMA = "http://schemas.opengis.net/gml/3.2.1/gml.xsd";
-    private static Set supportedMimeTypes;
-    private static Set supportedSchemas;
-    private static Set supportedEncodings;
+    private static Set<String> supportedMimeTypes;
+    private static Set<String> supportedSchemas;
+    private static Set<String> supportedEncodings;
 
     @BeforeAll
     static void init() {

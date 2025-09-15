@@ -27,7 +27,7 @@ spring:
     check-template-location: false
 logging:
   level:
-    org.n52.kommonitor: DEBUG
+    org.n52.kommonitor: INFO
 kommonitor:
   importer:
     datamanagement-api-url: http://localhost:8085/management

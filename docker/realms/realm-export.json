@@ -698,7 +698,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "keycloak-cli-secret",
       "redirectUris": [],
       "webOrigins": [],
       "notBefore": 0,

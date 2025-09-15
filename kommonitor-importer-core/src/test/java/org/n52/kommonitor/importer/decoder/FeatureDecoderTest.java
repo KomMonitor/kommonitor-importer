@@ -204,7 +204,7 @@ class FeatureDecoderTest {
         IndicatorPropertyMappingType mapping = createIndicatorPropertyMapping();
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeatureToIndicatorValue(feature, mapping);
+        IndicatorValue indicator = decoder.decodeFeatureToIndicatorValue(feature, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -217,7 +217,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -231,7 +231,7 @@ class FeatureDecoderTest {
         mapping.setTimestamp(LocalDate.parse(TIMESTAMP_PROP_VALUE));
         SimpleFeature feature = mockSimpleFeature();
 
-        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false);
+        IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -251,7 +251,7 @@ class FeatureDecoderTest {
         Mockito.when(iterator.hasNext()).thenReturn(true, false);
         Mockito.when(iterator.next()).thenReturn(feature);
 
-        List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping);
+        List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicators.get(0).getSpatialReferenceKey());
         Assertions.assertEquals(12.123, indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
@@ -287,7 +287,7 @@ class FeatureDecoderTest {
         Mockito.when(iterator.hasNext()).thenReturn(true, false);
         Mockito.when(iterator.next()).thenReturn(feature);
 
-        List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping);
+        List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicators.get(0).getSpatialReferenceKey());
         Assertions.assertEquals(VALUE_PROP_VALUE, indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);

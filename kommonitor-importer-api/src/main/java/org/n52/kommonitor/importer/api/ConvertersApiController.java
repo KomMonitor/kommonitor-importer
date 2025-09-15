@@ -51,7 +51,7 @@ public class ConvertersApiController implements ConvertersApi {
         LOG.info("Recevied 'getConverterByName' request for name: {}", name);
 
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(name);
-        if (!converterOpt.isPresent()) {
+        if (converterOpt.isEmpty()) {
             throw new ResourceNotFoundException(AbstractConverter.class, name);
         }
         return new ResponseEntity<ConverterType>(encoder.encode(converterOpt.get()), HttpStatus.OK);

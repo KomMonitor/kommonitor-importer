@@ -32,11 +32,11 @@ import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -65,28 +65,28 @@ public class GeoresourcesApiControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private ConverterRepository converterRepository;
 
-    @MockBean
+    @MockitoBean
     private AbstractConverter converter;
 
-    @MockBean
+    @MockitoBean
     private DataSourceRetrieverRepository retrieverRepository;
 
-    @MockBean
-    private AbstractDataSourceRetriever retriever;
+    @MockitoBean
+    private AbstractDataSourceRetriever<?> retriever;
 
-    @MockBean
+    @MockitoBean
     private SpatialResourceJsonEncoder encoder;
 
-    @MockBean
+    @MockitoBean
     private GeoresourcesApi apiClient;
 
-    @MockBean
+    @MockitoBean
     private EntityValidator validator;
 
-    @MockBean
+    @MockitoBean
     private ImportMonitor monitor;
 
     private static ImportGeoresourcePOSTInputType geoImportBody;

@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 @Component
 public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStream> {
 
-    private static Logger LOG = LoggerFactory.getLogger(APIFeaturesRetriever.class);
+    private static final Logger LOG = LoggerFactory.getLogger(APIFeaturesRetriever.class);
 
     private static final String TYPE = DataSourceType.TypeEnum.OGCAPI_FEATURES.getValue();
     private static final String PARAM_URL = "url";
@@ -75,7 +75,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Value("${proxy.port:#{null}}")
     protected Integer proxyPort;
 
-    public APIFeaturesRetriever() throws IOException {
+    public APIFeaturesRetriever() {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         featureJSON = new FeatureJSON();
@@ -216,7 +216,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
         } catch (IOException | URISyntaxException ex) {
             LOG.debug(String.format("Failed retrieving dataset for datasource: %n%s", datasource), ex);
             String errorUrl = (request != null) ? request.getAuthority() + request.getRequestUri() : url;
-            monitor.addFailedConversion("Failed retrieving dataset for datasource", ex.getLocalizedMessage());
             throw new DataSourceRetrieverException(String.format("Failed retrieving dataset from URL '%s'", errorUrl), ex);
         }
     }

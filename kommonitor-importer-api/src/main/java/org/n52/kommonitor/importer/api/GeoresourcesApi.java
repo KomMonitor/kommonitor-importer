@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T10:33:50.760291700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-04T08:36:34.666758+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 @Validated
 @Tag(name = "georesources", description = "Additional georesources that are necessary for the computation of indicators (e.g. land use, locations of schools, streets/ways)")
 public interface GeoresourcesApi {
@@ -47,7 +47,7 @@ public interface GeoresourcesApi {
      * POST /georesources : Import a new geo-resource
      * Import a geo-resource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /georesources of KomMonitor Data Management API
      *
-     * @param importGeoresourcePOSTInputType Definitions to create georesources (optional)
+     * @param importGeoresourcePOSTInputType Definitions to create georesources (required)
      * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthenticated (status code 401)
@@ -79,7 +79,7 @@ public interface GeoresourcesApi {
     )
     
     ResponseEntity<ImportResponseType> importGeoresource(
-        @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources") @Valid @RequestBody(required = false) @Nullable ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
+        @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
     ) throws Exception;
 
 
@@ -88,7 +88,7 @@ public interface GeoresourcesApi {
      * POST /georesources/update : Update a georesource
      * Update a georesource dataset for a certain period of time. Parses Input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /georesources of KomMonitor Data Management API
      *
-     * @param updateGeoresourcePOSTInputType Definitions to update georesources (optional)
+     * @param updateGeoresourcePOSTInputType Definitions to update georesources (required)
      * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthenticated (status code 401)
@@ -120,7 +120,7 @@ public interface GeoresourcesApi {
     )
     
     ResponseEntity<ImportResponseType> updateGeoresource(
-        @Parameter(name = "UpdateGeoresourcePOSTInputType", description = "Definitions to update georesources") @Valid @RequestBody(required = false) @Nullable UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType
+        @Parameter(name = "UpdateGeoresourcePOSTInputType", description = "Definitions to update georesources", required = true) @Valid @RequestBody UpdateGeoresourcePOSTInputType updateGeoresourcePOSTInputType
     ) throws Exception;
 
 }

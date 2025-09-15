@@ -148,8 +148,17 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset,
 			IndicatorPropertyMappingType propertyMapping) throws ConverterException, ImportParameterException {
 		try {
-            return convertIndicatorsFromTable(converterDefinition, dataset, propertyMapping);
+            return convertIndicatorsFromTable(converterDefinition, dataset, propertyMapping, null);
         } catch (Exception e) {
+			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws ConverterException, ImportParameterException {
+		try {
+			return convertIndicatorsFromTable(converterDefinition, dataset, propertyMapping, aggregationDefinitions);
+		} catch (Exception e) {
 			throw new ConverterException("Error while parsing dataset. Error message: " + e.getMessage(), e);
 		}
 	}
@@ -168,8 +177,18 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected abstract List<SpatialResource> convertSpatialResourcesFromTable(ConverterDefinitionType converterDefinition,
 			Dataset dataset, SpatialResourcePropertyMappingType propertyMapping) throws Exception;
 
-	protected abstract List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition,
-			Dataset dataset, IndicatorPropertyMappingType propertyMapping) throws Exception;
+	protected abstract List<IndicatorValue> convertIndicatorsFromTable(
+			ConverterDefinitionType converterDefinition,
+			Dataset dataset,
+			IndicatorPropertyMappingType propertyMapping
+	) throws Exception;
+
+	protected abstract List<IndicatorValue> convertIndicatorsFromTable(
+			ConverterDefinitionType converterDefinition,
+			Dataset dataset,
+			IndicatorPropertyMappingType propertyMapping,
+			List<AggregationType> aggregationDefinitions
+	) throws Exception;
 
 	protected File convertDataToFile(ConverterDefinitionType converterDefinition, Dataset dataset, Object data)
 			throws IOException, ConverterException {

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class RequestHandlerRepository {
     @Autowired
-    private List<AbstractRequestHandler> requestHandlerList;
+    private List<AbstractRequestHandler<?>> requestHandlerList;
 
     /**
      * Retrieve a certain {@link AbstractRequestHandler} implementation by its class name
@@ -20,10 +20,14 @@ public class RequestHandlerRepository {
      * @param requestType the request type to get a {@link AbstractRequestHandler} for
      * @return an {@link Optional} describing the found {@link AbstractRequestHandler} implementation
      */
-    public Optional<AbstractRequestHandler> getRequestHandler(Object requestType) {
-        Optional<AbstractRequestHandler> handlerOpt = this.requestHandlerList.stream()
+    public <T> Optional<AbstractRequestHandler<T>> getRequestHandler(T requestType) {
+        Optional<AbstractRequestHandler<?>> handlerOpt = this.requestHandlerList.stream()
                 .filter(i -> i.supports(requestType))
                 .findFirst();
-        return handlerOpt;
+        return handlerOpt.map(handler -> {
+            @SuppressWarnings("unchecked")
+            AbstractRequestHandler<T> typedHandler = (AbstractRequestHandler<T>) handler;
+            return typedHandler;
+        });
     }
 }

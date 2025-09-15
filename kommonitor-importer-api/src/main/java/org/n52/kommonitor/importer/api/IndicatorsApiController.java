@@ -42,12 +42,11 @@ public class IndicatorsApiController implements IndicatorsApi {
         LOG.info("Received 'updateIndicator' request for Indicator: {}", indicatorData.getIndicatorId());
         LOG.debug("'updateGeoresource' POST request body: {}", indicatorData);
 
-        Optional<AbstractRequestHandler> requestHandlertOpt = requestHandlerRepository.getRequestHandler(indicatorData);
-        if (!requestHandlertOpt.isPresent()) {
+        Optional<AbstractRequestHandler<UpdateIndicatorPOSTInputType>> requestHandlertOpt = requestHandlerRepository.getRequestHandler(indicatorData);
+        if (requestHandlertOpt.isEmpty()) {
             throw new ImportException(String.format("No request handler found for request type '%s'", indicatorData.getClass()));
         }
         return requestHandlertOpt.get().handleRequest(indicatorData, indicatorData.getDataSource(), indicatorData.getConverter());
     }
-
 
 }

@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T10:33:50.760291700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-04T08:36:34.666758+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 @Validated
 @Tag(name = "spatial-units", description = "Spatial units/levels for which indicators can be associated (e.g. rastercells, building blocks, quarters, city districts, city boroughs, city)")
 public interface SpatialUnitsApi {
@@ -47,7 +47,7 @@ public interface SpatialUnitsApi {
      * POST /spatial-units : Import a new spatial unit
      * Import a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls POST /spatial-units of KomMonitor Data Management API
      *
-     * @param importSpatialUnitPOSTInputType Definitions to import spatial units (optional)
+     * @param importSpatialUnitPOSTInputType Definitions to import spatial units (required)
      * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthenticated (status code 401)
@@ -79,7 +79,7 @@ public interface SpatialUnitsApi {
     )
     
     ResponseEntity<ImportResponseType> importSpatialUnit(
-        @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units") @Valid @RequestBody(required = false) @Nullable ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
+        @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
     ) throws Exception;
 
 
@@ -88,7 +88,7 @@ public interface SpatialUnitsApi {
      * POST /spatial-units/update : Update a spatial unit
      * Update a new spatial unit for a certain period of time. Parses input source, extracts relevant data, performs schema mapping to KomMonitor data model and calls PUT /spatial-units of KomMonitor Data Management API
      *
-     * @param updateSpatialUnitPOSTInputType Definitions to update spatial units (optional)
+     * @param updateSpatialUnitPOSTInputType Definitions to update spatial units (required)
      * @return List of created feature IDs (status code 200)
      *         or Bad Request (status code 400)
      *         or Unauthenticated (status code 401)
@@ -120,7 +120,7 @@ public interface SpatialUnitsApi {
     )
     
     ResponseEntity<ImportResponseType> updateSpatialUnit(
-        @Parameter(name = "UpdateSpatialUnitPOSTInputType", description = "Definitions to update spatial units") @Valid @RequestBody(required = false) @Nullable UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType
+        @Parameter(name = "UpdateSpatialUnitPOSTInputType", description = "Definitions to update spatial units", required = true) @Valid @RequestBody UpdateSpatialUnitPOSTInputType updateSpatialUnitPOSTInputType
     ) throws Exception;
 
 }

@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class DataSourceRetrieverRepositoryIT {
 
     private static final String RETRIEVER_TYPE = "testRetriever";
 
-    @MockBean
-    private AbstractDataSourceRetriever retriever;
+    @MockitoBean
+    private AbstractDataSourceRetriever<?> retriever;
 
     @Autowired
     private DataSourceRetrieverRepository repo;
@@ -33,7 +33,7 @@ public class DataSourceRetrieverRepositoryIT {
     void testGetAllConverters() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        List<AbstractDataSourceRetriever> retrieverList = repo.getAll();
+        List<AbstractDataSourceRetriever<?>> retrieverList = repo.getAll();
 
         Assertions.assertEquals(1, retrieverList.size());
     }
@@ -43,7 +43,7 @@ public class DataSourceRetrieverRepositoryIT {
     void testGetConverterIsPresent() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDataSourceRetriever(RETRIEVER_TYPE);
+        Optional<AbstractDataSourceRetriever<?>> retrieverOpt = repo.getDataSourceRetriever(RETRIEVER_TYPE);
 
         Assertions.assertTrue(retrieverOpt.isPresent());
     }
@@ -53,7 +53,7 @@ public class DataSourceRetrieverRepositoryIT {
     void testGetConverterIsNotPresent() {
         Mockito.when(retriever.getType()).thenReturn(RETRIEVER_TYPE);
 
-        Optional<AbstractDataSourceRetriever> retrieverOpt = repo.getDataSourceRetriever("anotherRetriever");
+        Optional<AbstractDataSourceRetriever<?>> retrieverOpt = repo.getDataSourceRetriever("anotherRetriever");
 
         Assertions.assertFalse(retrieverOpt.isPresent());
     }

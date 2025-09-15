@@ -15,6 +15,7 @@ import org.n52.kommonitor.importer.entities.SpatialResource;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingFeatureType;
 import org.n52.kommonitor.importer.geocoder.model.GeocodingOutputType;
+import org.n52.kommonitor.models.AggregationType;
 import org.n52.kommonitor.models.ConverterDefinitionType;
 import org.n52.kommonitor.models.IndicatorPropertyMappingType;
 import org.n52.kommonitor.models.SpatialResourcePropertyMappingType;
@@ -162,7 +163,18 @@ public class TableConverter_address_string extends AbstractTableConverter {
         // the FeatureCollection will be read with a Jackson based parser, first.
         SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
         
-		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping);
+		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping, null);
+	}
+
+	@Override
+	protected List<IndicatorValue> convertIndicatorsFromTable(ConverterDefinitionType converterDefinition, Dataset dataset, IndicatorPropertyMappingType propertyMapping, List<AggregationType> aggregationDefinitions) throws Exception {
+		Optional<String> sepOpt = this.getParameterValue(PARAM_SEP, converterDefinition.getParameters());
+
+		// Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
+		// the FeatureCollection will be read with a Jackson based parser, first.
+		SimpleFeatureCollection featureCollection = retrieveFeatureCollectionFromTable_attributesOnly(converterDefinition, dataset, sepOpt);
+
+		return featureDecoder.decodeFeatureCollectionToIndicatorValues(featureCollection, propertyMapping, aggregationDefinitions);
 	}
 
 	@Override

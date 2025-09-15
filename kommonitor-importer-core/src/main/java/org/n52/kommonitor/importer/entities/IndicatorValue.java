@@ -2,10 +2,7 @@ package org.n52.kommonitor.importer.entities;
 
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * POJO for indicator related information
@@ -16,6 +13,7 @@ public class IndicatorValue {
 
     private String spatialReferenceKey;
     private List<TimeseriesValue> timeSeriesValueList;
+    private Map<String, String> upperSpatialUnitReferences;
 
     public IndicatorValue(){
 
@@ -24,6 +22,13 @@ public class IndicatorValue {
     public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<TimeseriesValue> timeSeriesValueList) {
         this.spatialReferenceKey = spatialReferenceKey;
         this.timeSeriesValueList = timeSeriesValueList;
+        this.upperSpatialUnitReferences = new HashMap<>();
+    }
+
+    public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<TimeseriesValue> timeSeriesValueList, @NotNull Map<String, String> spatialUnitReferences) {
+        this.spatialReferenceKey = spatialReferenceKey;
+        this.timeSeriesValueList = timeSeriesValueList;
+        this.upperSpatialUnitReferences = spatialUnitReferences;
     }
 
     public String getSpatialReferenceKey() {
@@ -36,5 +41,13 @@ public class IndicatorValue {
 
     public void setTimeSeriesValueList(@NotNull List<TimeseriesValue> timeSeriesValueList) {
         this.timeSeriesValueList = timeSeriesValueList;
+    }
+
+    public Map<String, String> getUpperSpatialUnitReferences() {
+        return upperSpatialUnitReferences;
+    }
+
+    public void setUpperSpatialUnitReferences(@NotNull Map<String, String> upperSpatialUnitReferences) {
+        this.upperSpatialUnitReferences = upperSpatialUnitReferences;
     }
 }

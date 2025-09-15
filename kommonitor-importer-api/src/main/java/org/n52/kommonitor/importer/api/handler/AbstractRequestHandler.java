@@ -71,13 +71,13 @@ public abstract class AbstractRequestHandler<T> {
     public ResponseEntity<ImportResponseType> handleRequest(T requestResourceType,
                                                             DataSourceDefinitionType dataSourceDefinition,
                                                             ConverterDefinitionType converterDefinition) throws ImportException, ImportParameterException {
-        Optional<AbstractDataSourceRetriever> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
+        Optional<AbstractDataSourceRetriever<?>> retrieverOpt = retrieverRepository.getDataSourceRetriever(dataSourceDefinition.getType().name());
         Optional<AbstractConverter> converterOpt = converterRepository.getConverter(converterDefinition.getName());
         checkRequest(retrieverOpt, converterOpt, dataSourceDefinition, converterDefinition);
         try {
             LOG.info("Retrieving dataset from datasource: {}", dataSourceDefinition.getType());
             LOG.debug("Datasource definition: {}", dataSourceDefinition);
-            Dataset dataset = retrieverOpt.get().retrieveDataset(dataSourceDefinition);
+            Dataset<?> dataset = retrieverOpt.get().retrieveDataset(dataSourceDefinition);
 
             ImportResponseType importResponse = handleRequestForType(requestResourceType, converterOpt.get(), converterDefinition, dataset);
             importResponse.setErrors(monitor.getErrorMessages());
@@ -98,10 +98,10 @@ public abstract class AbstractRequestHandler<T> {
     protected abstract ImportResponseType handleRequestForType(T requestResourceType,
                                                                AbstractConverter abstractConverter,
                                                                ConverterDefinitionType converterDefinition,
-                                                               Dataset dataset) throws ConverterException, ImportParameterException, RestClientException;
+                                                               Dataset<?> dataset) throws ConverterException, ImportParameterException, RestClientException;
 
 
-    private void checkRequest(Optional<AbstractDataSourceRetriever> retrieverOpt,
+    private void checkRequest(Optional<AbstractDataSourceRetriever<?>> retrieverOpt,
                               Optional<AbstractConverter> converterOpt,
                               DataSourceDefinitionType datasourceDefinition,
                               ConverterDefinitionType converterDefinition) throws ImportParameterException {
