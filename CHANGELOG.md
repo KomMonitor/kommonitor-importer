@@ -1,6 +1,26 @@
 # Change Log
 
-## 4.1.1
+## 4.2.0-beta.1
+* Set default log level to DEBUG [1582c81](1582c81a3bf31e627492c6be7e217e44d2f55de6)
+* Fix empty value list for aggregation [2e70c12](2e70c12940b34f8890b9a8c828285290ee0f233c)
+* Fix higher spatial unit aggregation [f8b4d32](f8b4d32f94595914c65c6303b6919e3a589b5536)
+* Increase minor version [3f8d5c7](3f8d5c72d010c905c7c4e361fd618bd52b287712)
+* Implement further agregation functions and add tests [b19e2af](b19e2af397881d59369deae73949dc73dbd5e076)
+* Refactor unit tests and add tests for aggregation count [3d439d7](3d439d75d1853b6725990dcff59a1be6c74b39b4)
+* Add aggregation type to models [b313283](b313283ae302721ff566f1921f302a0fb5d8d3c8)
+* Fix count aggregation [c24693f](c24693f23dfd782bd003be2d682e316bc2d4222c)
+* Adjust docker test setup [b0bc09b](b0bc09b42175a170ffb31862b2241041f86b3823)
+* Include successfully aggregated features in response [56335a7](56335a7636a7577e806b7f7f4ca02dab9dce0151)
+* Take into account results for aggregations in response and monitor [460c434](460c43444772e1463fa82e042d906b84a306ce16)
+* Implement aggregation unit tests [09c66bf](09c66bfc7b0c169ac41d3a021231ebfec37ef25a)
+* Implement count aggregation [cf081ad](cf081ad657ffcee15a576359be0696faecf73175)
+* Fix tests [200a3c6](200a3c670c25e1daad8a70a2de5e08f458d7dd27)
+* Introduce aggregation for higher spatial units [1f89cf5](1f89cf5f551cc4625d5c0453411b1585e492a45e)
+* Replace deprecated mock annotation [7b2a86b](7b2a86b83c037609f8cea0563e1658f7a68172a9)
+* Refactor DataSourceRetrieverRepository [be426e5](be426e5e94f60ae1827b39fedc454ab809bcdfae)
+* Refactor controller classes [38b6c0d](38b6c0d59c017c6716877cdd0acbea64c2c302b1)
+* Regenerate API classes for introducing required POST body constraint [1ef3e3d](1ef3e3dc26cd7102edbad8f9d7c039f46dac8b6a)
+* Generate models for new aggregation parameter [07f32d9](07f32d9ccd2576faa103ab2e4d39e0dbe381d62b)
 * Change model class generation config and regenerate models [9538269](9538269c5d6bbd75952a043d1aedf599471b840c)
 * Update API client classes [6241bf2](6241bf2e9142034cd66c8b2df9fec1f4d691c9db)
 * Regenerate model classes [da681a5](da681a5fd250920a432fab2905116c6254edd1c3)
