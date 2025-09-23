@@ -144,7 +144,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
                 byte[] response = apiClient.getAllSpatialUnitFeaturesById(bboxValue,  "original");
 
                 // Extract bbox for first stage filtering (intersection with bbox)
-                DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) featureJSON.readFeatureCollection(response);
+                DefaultFeatureCollection featureCollection = (DefaultFeatureCollection) featureJSON.readFeatureCollection(new ByteArrayInputStream(response));
                 ReferencedEnvelope envelope = featureCollection.getBounds();
                 bbox = String.format(Locale.US, "%f,%f,%f,%f", envelope.getMinX(), envelope.getMinY(), envelope.getMaxX(), envelope.getMaxY());
 
