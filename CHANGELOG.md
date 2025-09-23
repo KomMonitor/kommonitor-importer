@@ -1,6 +1,7 @@
 # Change Log
 
-## 3.2.5
+## 3.2.6
+* Fix reading features in a byte array [75b13f1](75b13f113ab491da5a2bad618cc3a136e96532b7)
 * Fix IT compilation [3c08ebf](3c08ebf082da790e850e11613128fb721581b622)
 * Raise Data Management API version for dev Docker setup [8a319bd](8a319bd98e75afd626d8cfc0a186a678ef23160b)
 * Update models [42b5020](42b50203d330e936cff8bae09252dba784291580)
