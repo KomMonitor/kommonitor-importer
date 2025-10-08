@@ -1,6 +1,8 @@
 # Change Log
 
-## 4.1.1
+## 4.1.2
+* Set SNAPSHOT version [02b5a41](02b5a418c504505a8a581766504049fdd0535b01)
+* Update Docker base run image [0dabb2d](0dabb2dadd49cb59fa715ee046a2d87f65bae089)
 * Change model class generation config and regenerate models [9538269](9538269c5d6bbd75952a043d1aedf599471b840c)
 * Update API client classes [6241bf2](6241bf2e9142034cd66c8b2df9fec1f4d691c9db)
 * Regenerate model classes [da681a5](da681a5fd250920a432fab2905116c6254edd1c3)
