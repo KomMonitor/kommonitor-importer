@@ -4,7 +4,7 @@
 
     <groupId>org.n52.kommonitor</groupId>
     <artifactId>kommonitor-importer</artifactId>
-    <version>4.1.2-SNAPSHOT</version>
+    <version>4.1.2</version>
     <modules>
         <module>kommonitor-models</module>
         <module>kommonitor-importer-api</module>
@@ -20,7 +20,7 @@
 	    <url>https://github.com/KomMonitor/kommonitor-importer/</url>
         <connection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</connection>
         <developerConnection>scm:git:https://github.com/KomMonitor/kommonitor-importer.git</developerConnection>
-	    <tag>4.1.1</tag>
+	    <tag>4.1.2</tag>
   </scm>
 
     <properties>
@@ -30,7 +30,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring-boot.version>3.5.5</spring-boot.version>
-        <api-client.version>4.1.2-SNAPSHOT</api-client.version>
+        <api-client.version>4.1.2</api-client.version>
         <jts.version>1.19.0</jts.version>
         <maven-surefire.version>3.2.2</maven-surefire.version>
         <maven-failsafe.version>3.2.2</maven-failsafe.version>
