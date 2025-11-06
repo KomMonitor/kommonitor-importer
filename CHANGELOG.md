@@ -1,6 +1,8 @@
 # Change Log
 
-## 4.2.0-beta.1
+## 4.2.0
+* Update base Docker run image [00e3796](00e379681fc2216ecf62e3d701c80464398cf3f4)
+* Fix reading features in a byte array [c6a35d5](c6a35d5b6a65f1d22ff37905a8a3f37e0a6e39f5)
 * Set default log level to DEBUG [1582c81](1582c81a3bf31e627492c6be7e217e44d2f55de6)
 * Fix empty value list for aggregation [2e70c12](2e70c12940b34f8890b9a8c828285290ee0f233c)
 * Fix higher spatial unit aggregation [f8b4d32](f8b4d32f94595914c65c6303b6919e3a589b5536)
