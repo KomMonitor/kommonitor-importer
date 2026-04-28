@@ -37,6 +37,9 @@ public class TableConverter_address_string extends AbstractTableConverter {
     private static final String PARAM_ADDRESS_DESC = "Spalte mit gesamter Adressinformation als eine Zeichenkette mit beliebiger Struktur";
 
     @Autowired
+    RestTemplate restTemplate;
+    
+    @Autowired
     public TableConverter_address_string(FeatureDecoder featureDecoder) {
     	super(featureDecoder);        
     }
@@ -117,8 +120,6 @@ public class TableConverter_address_string extends AbstractTableConverter {
     	URI uri = URI.create(geocoderQueryUrl);
 		
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
-		
-		RestTemplate restTemplate = createRestTemplate();
 
 	    GeocodingOutputType geocoderResponse = restTemplate.getForObject(uri, GeocodingOutputType.class);
 

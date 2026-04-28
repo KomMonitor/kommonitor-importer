@@ -1,9 +1,19 @@
 package org.n52.kommonitor.importer.io.datasource;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.geotools.api.feature.simple.SimpleFeature;
@@ -23,16 +33,13 @@ import org.n52.kommonitor.models.DataSourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.annotation.PostConstruct;
 
 /**
  * Retriever for remote datasets that can be requested with a HTTP GET.
@@ -69,11 +76,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private ImportMonitor monitor;
 
     private HttpHelper httpHelper;
-    @Value("${proxy.host:#{null}}")
-    protected String proxyHost;
-
-    @Value("${proxy.port:#{null}}")
-    protected Integer proxyPort;
 
     public APIFeaturesRetriever() {
         mapper = new ObjectMapper();
@@ -83,11 +85,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
 
     @PostConstruct
     public void postConstruct() throws IOException {
-        if (proxyHost != null && proxyPort != null) {
-            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
-        } else {
             httpHelper = HttpHelper.getBasicHttpHelper();
-        }
     }
 
     public APIFeaturesRetriever(HttpHelper httpHelper) throws IOException {

@@ -1,6 +1,12 @@
 package org.n52.kommonitor.importer.io.datasource;
 
-import jakarta.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.exceptions.DataSourceRetrieverException;
 import org.n52.kommonitor.importer.exceptions.ImportParameterException;
@@ -8,15 +14,9 @@ import org.n52.kommonitor.importer.io.http.HttpHelper;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Retriever for remote datasets that can be requested with a HTTP GET.
@@ -34,19 +34,9 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
             "The dataset will be retrieved with a HTTP GET request for that URL.";
     private HttpHelper httpHelper;
 
-    @Value("${proxy.host:#{null}}")
-    private String proxyHost;
-
-    @Value("${proxy.port:#{null}}")
-    private Integer proxyPort;
-
     @PostConstruct
     public void postConstruct() throws IOException {
-        if (proxyHost != null && proxyPort != null) {
-            httpHelper = HttpHelper.getProxyHttpHelper(proxyHost, proxyPort);
-        } else {
             httpHelper = HttpHelper.getBasicHttpHelper();
-        }
     }
 
     @Override

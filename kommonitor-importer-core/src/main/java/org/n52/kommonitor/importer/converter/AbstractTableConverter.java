@@ -29,15 +29,11 @@ import org.n52.kommonitor.importer.utils.FileUtils;
 import org.n52.kommonitor.models.*;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.api.feature.simple.SimpleFeatureType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
@@ -73,12 +69,6 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	
 	protected static final String PARAM_SEP = "Trennzeichen";
 	protected static final String PARAM_SEP_DESC = "Trennzeichensymbol des CSV Datensatzes - nur bei CSV anzugeben";
-
-	@Value("${proxy.host:#{null}}")
-	protected String proxyHost;
-
-	@Value("${proxy.port:#{null}}")
-	protected Integer proxyPort;
 	
 	@Value("${kommonitor.importer.geocoder-api-url:https://geocoder.fbg-hsbo.de/geocoder}")
     protected String geocoder_baseUrl;
@@ -86,14 +76,9 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	protected FeatureDecoder featureDecoder;
 	
 	protected Set<ConverterParameter> params;
-
-	public String getProxyHost() {
-		return proxyHost;
-	}
-
-	public Integer getProxyPort() {
-		return proxyPort;
-	}
+	
+	@Autowired
+	RestTemplate restTemplate;
 
 	public AbstractTableConverter(FeatureDecoder featureDecoder) {
 		this.featureDecoder = featureDecoder;
@@ -434,22 +419,8 @@ public abstract class AbstractTableConverter extends AbstractConverter {
     	URI uri = URI.create(geocoderQueryUrl);
 		
 		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
-		
-		RestTemplate restTemplate = createRestTemplate();
 
 		return restTemplate.postForObject(uri, queryStringList.toArray(), GeocodingOutputType[].class);
-	}
-
-	protected RestTemplate createRestTemplate() {
-		if(getProxyHost() != null && getProxyPort() != null) {
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(getProxyHost(), getProxyPort()));
-			SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-			requestFactory.setProxy(proxy);
-			return new RestTemplate(requestFactory);
-		}
-		else {
-			return new RestTemplate();
-		}
 	}
 
 	protected Map<String, GeocodingOutputType> queryGeolocation_byStructuredInput(
@@ -468,9 +439,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 		
     	URI uri = URI.create(geocoderQueryUrl);
 		
-		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);
-		
-		RestTemplate restTemplate = createRestTemplate();
+		LOG.info("Querying KomMonitor geocoder service for address with URL: {}", uri);	
 
 	    GeocodingOutputType[] geocoderResponseArray = restTemplate.postForObject(uri, queryInputList.toArray(), GeocodingOutputType[].class);
 	    

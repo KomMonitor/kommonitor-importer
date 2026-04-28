@@ -1,5 +1,8 @@
 package org.n52.kommonitor.importer.io.http;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.cache.CacheConfig;
@@ -8,15 +11,11 @@ import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Helper class for executing HTTP requests
@@ -31,14 +30,6 @@ public class HttpHelper {
 
     public static HttpHelper getBasicHttpHelper() throws IOException {
         return new HttpHelper(getHttpClientBuilder().build());
-    }
-
-    public static HttpHelper getProxyHttpHelper(String host, int port) throws IOException {
-        CloseableHttpClient client = getHttpClientBuilder()
-                .setProxy(new HttpHost(host, port))
-                .build();
-
-        return new HttpHelper(client);
     }
 
     public HttpHelper(CloseableHttpClient client) {

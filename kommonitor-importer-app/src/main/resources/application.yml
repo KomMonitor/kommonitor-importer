@@ -53,7 +53,9 @@ springdoc:
       clientId: kommonitor-importer
       clientSecret: importer-secret
 
-# Set a proxy for geocoder requests
+# Set a proxy for external requests
 #proxy:
-#  host: host.to.proxy
-#  port: 8080
+#  host: proxyhost
+#  port: 8888
+#  user: username
+#  password: password
