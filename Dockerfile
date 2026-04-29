@@ -24,5 +24,9 @@ WORKDIR /app
 # Copy from the base build image
 COPY --from=build app/kommonitor-importer/kommonitor-importer-app/target/kommonitor-importer-app.jar /app/kommonitor-importer-app.jar
 
+# Copy the modified entrypoint.sh
+COPY --from=build --chmod=755 app/kommonitor-importer/entrypoint.sh /__cacert_entrypoint.sh
+ENTRYPOINT ["/__cacert_entrypoint.sh"]
+
 # Set the entrypoint for starting the app
 CMD ["sh", "-c", "java ${JAVA_OPTS} -jar /app/kommonitor-importer-app.jar"]
