@@ -1,11 +1,21 @@
 package org.n52.kommonitor.importer;
 
+import java.io.IOException;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +27,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -24,6 +36,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtIssuerValidator;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,39 +66,127 @@ public class GlobalProxyConfig {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri:#{null}}")
     private String issuerUri;
     
-    @Bean
-    @Primary // Markiert diesen RestTemplate als Standard für Autowiring
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        
-        // 1. Basis-Konfiguration des JDK HttpClients
-        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(10));
-
-        // 2. Proxy-Konfiguration (nur wenn Host und Port gesetzt sind)
-        if (proxyHost != null && !proxyHost.isEmpty() && proxyPort != null) {
-            log.info("Configuring global RestTemplate with Proxy {}:{}", proxyHost, proxyPort);
+    private Set<Pattern> nonProxyPatterns;
+    
+    @PostConstruct
+    public void init() {
+        // Erst die Hosts mergen und System Properties setzen
+        setupSystemProperties();
+        // Dann sofort die Patterns daraus generieren
+        setupNonProxyPatterns();
+    }
+    
+    private void setupSystemProperties() {
+        if (proxyHost != null && proxyPort != null) {
+            log.info("Initializing global JVM proxy settings: {}:{}", proxyHost, proxyPort);
             
-            httpClientBuilder.proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
+            String existingHosts = System.getProperty("http.nonProxyHosts");
+            Set<String> hosts = new HashSet<>(Arrays.asList(
+                "localhost", "127.0.0.1", "host.docker.internal", 
+                "kommonitor-data-management", "data-management", "*management"
+            ));
 
-            if (proxyUser != null && !proxyUser.isEmpty()) {
-                log.info("Global RestTemplate uses proxy authentication for user: {}", proxyUser);
-                httpClientBuilder.authenticator(new Authenticator() {
+            if (existingHosts != null && !existingHosts.isEmpty()) {
+                Arrays.stream(existingHosts.split("\\|"))
+                      .map(String::trim)
+                      .filter(s -> !s.isEmpty())
+                      .forEach(hosts::add);
+            }
+
+            String combinedHosts = String.join("|", hosts);
+            System.setProperty("http.nonProxyHosts", combinedHosts);
+            System.setProperty("https.nonProxyHosts", combinedHosts);
+        	
+            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+            System.setProperty("http.proxyHost", proxyHost);
+            System.setProperty("http.proxyPort", String.valueOf(proxyPort));
+            System.setProperty("https.proxyHost", proxyHost);
+            System.setProperty("https.proxyPort", String.valueOf(proxyPort));
+            
+            if (proxyUser != null && proxyPassword != null) {
+                Authenticator.setDefault(new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
+                        // Explizite Prüfung: Nur für Proxies!
+                        if (getRequestorType() == RequestorType.PROXY) {
+                            return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
+                        }
+                        return null; 
                     }
                 });
             }
-        } else {
-            log.info("Configuring global RestTemplate WITHOUT proxy (direct connection).");
         }
+    }
 
-        // 3. Den Client in die Spring RequestFactory einbetten
+    private void setupNonProxyPatterns() {
+        String systemNonProxy = System.getProperty("http.nonProxyHosts", "");
+        this.nonProxyPatterns = Arrays.stream(systemNonProxy.split("\\|"))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(host -> host.replace(".", "\\.").replace("*", ".*"))
+                .map(regex -> Pattern.compile("^" + regex + "$", Pattern.CASE_INSENSITIVE))
+                .collect(Collectors.toSet());
+                
+        log.info("Initialized Proxy Bypass for hosts: {}", systemNonProxy);
+    }
+    
+    private boolean isInternal(String host) {
+        if (host == null || host.isEmpty()) return false;
+        
+        // Prüft, ob der Host gegen eines der Patterns matcht
+        return nonProxyPatterns.stream().anyMatch(pattern -> pattern.matcher(host).matches());
+    }
+    
+    @Bean
+    @Primary
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    	// (wir müsen berücksichtigen, dass Imorter intern Data Management aufruft)
+    	// dies muss ohne proxy und ohne proxy headers erfolgen
+    	
+        // 1. HttpClient OHNE Authenticator bauen 
+        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(10))
+                .proxy(new ProxySelector() {
+                    @Override
+                    public List<Proxy> select(URI uri) {
+                        if (isInternal(uri.getHost())) {
+                            return List.of(Proxy.NO_PROXY);
+                        }
+                        return List.of(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)));
+                    }
+
+                    @Override
+                    public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+                        log.error("Proxy connection failed for {}", uri, ioe);
+                    }
+                });
+
+        // 2. RequestFactory erstellen
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClientBuilder.build());
 
-        // 4. Den RestTemplate über den Builder erstellen
+        // 3. Den Interceptor so bauen, dass er Proxy- UND Bearer-Auth sauber trennt
         return builder
                 .requestFactory(() -> requestFactory)
+                .additionalInterceptors((request, body, execution) -> {
+                    String host = request.getURI().getHost();
+
+                    // A) Immer den Bearer Token für den Ziel-Service setzen
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    if (auth instanceof JwtAuthenticationToken jwt) {
+                        request.getHeaders().setBearerAuth(jwt.getToken().getTokenValue());
+                        log.debug("Setting Bearer Auth for request to {}", host);
+                    }
+
+                    // B) NUR wenn es EXTERN ist, manuell Proxy-Auth setzen
+                    if (!isInternal(host) && proxyUser != null) {
+                        String authStr = proxyUser + ":" + proxyPassword;
+                        String encodedAuth = java.util.Base64.getEncoder().encodeToString(authStr.getBytes());
+                        request.getHeaders().set("Proxy-Authorization", "Basic " + encodedAuth);
+                        log.debug("Setting Proxy-Authorization for external request to {}", host);
+                    }
+
+                    return execution.execute(request, body);
+                })
                 .build();
     }
     
@@ -150,33 +251,5 @@ public class GlobalProxyConfig {
         
     }
 
-    @PostConstruct
-    public void initGlobalProxy() {
-        if (proxyHost != null && proxyPort != null) {
-            log.info("Initializing global JVM proxy settings: {}:{}", proxyHost, proxyPort);
-        	
-            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
-            System.setProperty("http.proxyHost", proxyHost);
-            System.setProperty("http.proxyPort", String.valueOf(proxyPort));
-            System.setProperty("https.proxyHost", proxyHost);
-            System.setProperty("https.proxyPort", String.valueOf(proxyPort));
-            System.setProperty("http.nonProxyHosts", "localhost|127.0.0.1|host.docker.internal");
-
-            if (proxyUser != null && proxyPassword != null) {
-                log.info("Setting global Authenticator for proxy user: {}", proxyUser);
-                Authenticator.setDefault(new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        if (getRequestorType() == RequestorType.PROXY) {
-                            log.debug("Global Authenticator providing credentials for proxy request");
-                            return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
-                        }
-                        return null;
-                    }
-                });
-            }
-        } else {
-            log.debug("Global proxy settings skipped - properties not set.");
-        }
-    }
+    
 }
