@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjust POM ([95e1c56](https://github.com/KomMonitor/kommonitor-importer/commit/95e1c56466dd8426a053bcb0cfcfe343c9520753))
 - [maven-release-plugin] Update CHANGELOG.md ([3cf2b39](https://github.com/KomMonitor/kommonitor-importer/commit/3cf2b39a4c71dff05c5dc5312bd8fd5ee6076217))
 - Change pom ([54644fb](https://github.com/KomMonitor/kommonitor-importer/commit/54644fb2e9b94e632dc172a4991d89a26f540b78))
+- [maven-release-plugin] Update CHANGELOG.md ([6d94644](https://github.com/KomMonitor/kommonitor-importer/commit/6d94644707eb7a9a856a93cd3091c63491c101bf))
 
 ## [4.2.1]
 >  5 May 2026
