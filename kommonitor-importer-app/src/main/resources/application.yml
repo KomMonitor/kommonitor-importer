@@ -55,7 +55,10 @@ springdoc:
 
 # Set a proxy for external requests
 #proxy:
-#  host: proxyhost
+#  host: localhost
 #  port: 8888
-#  user: username
+#  user: admin
 #  password: password
+#  # Hosts that should bypass the proxy (comma- or pipe-separated).
+#  # Add all internal service hostnames here, e.g.:
+#  nonProxyHosts: kommonitor-data-management,keycloak
