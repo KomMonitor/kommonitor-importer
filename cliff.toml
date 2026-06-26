@@ -55,7 +55,7 @@ footer = """
 trim = true
 
 [git]
-tag_pattern = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+tag_pattern = "^v?[0-9]+\\.[0-9]+\\.[0-9]+(-SNAPSHOT)?$"
 skip_tags = "-SNAPSHOT"
 # Order releases topologically instead of chronologically.
 topo_order = true

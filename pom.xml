@@ -353,7 +353,11 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <pushChanges>false</pushChanges>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <preparationGoals>clean verify exec:exec@generate-changelog scm:checkin -DpushChanges=false -Dincludes=CHANGELOG.md -Dmessage="[maven-release-plugin] Update CHANGELOG.md" verify</preparationGoals>
+<!--                    <preparationGoals>clean verify exec:exec@generate-changelog scm:checkin -DpushChanges=false -Dincludes=CHANGELOG.md -Dmessage="[maven-release-plugin] Update CHANGELOG.md" verify</preparationGoals>-->
+
+                    <preparationGoals>clean verify exec:exec@generate-changelog verify</preparationGoals>
+
+                    <arguments>-DdryRun=${dryRun}</arguments>
                 </configuration>
             </plugin>
         </plugins>
