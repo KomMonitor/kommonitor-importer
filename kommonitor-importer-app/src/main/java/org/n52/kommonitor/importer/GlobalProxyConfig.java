@@ -136,8 +136,7 @@ public class GlobalProxyConfig {
             
             String existingHosts = System.getProperty("http.nonProxyHosts");
             Set<String> hosts = new HashSet<>(Arrays.asList(
-                "localhost", "127.0.0.1", "host.docker.internal",
-                "kommonitor-data-management", "data-management", "*management"
+                "localhost", "127.0.0.1"
             ));
 
             if (existingHosts != null && !existingHosts.isEmpty()) {
