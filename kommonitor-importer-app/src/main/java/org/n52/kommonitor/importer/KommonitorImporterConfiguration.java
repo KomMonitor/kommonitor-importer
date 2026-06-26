@@ -38,6 +38,9 @@ public class KommonitorImporterConfiguration {
         this.restTemplateBuilder = builder;
     }
 
+    @Autowired
+    private GlobalProxyConfig globalProxyConfig;
+
     @Value("${keycloak.enabled}")
     private boolean keycloakEnabled;
 
@@ -59,10 +62,11 @@ public class KommonitorImporterConfiguration {
                 .setConnectionRequestTimeout(5, TimeUnit.MINUTES)
                 .build();
 
-        CloseableHttpClient httpClient = HttpClientBuilder.create()
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setDefaultRequestConfig(requestConfig)
-                .setDefaultHeaders(defaultHeaders)
-                .build();
+                .setDefaultHeaders(defaultHeaders);
+        globalProxyConfig.applyProxyToApacheBuilder(httpClientBuilder);
+        CloseableHttpClient httpClient = httpClientBuilder.build();
 
         RestTemplate restTemplate = restTemplateBuilder
                 .requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient))

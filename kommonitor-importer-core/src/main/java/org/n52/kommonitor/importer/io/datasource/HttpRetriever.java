@@ -14,6 +14,7 @@ import org.n52.kommonitor.importer.io.http.HttpHelper;
 import org.n52.kommonitor.models.DataSourceDefinitionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
@@ -32,11 +33,14 @@ public class HttpRetriever extends AbstractDataSourceRetriever<InputStream> {
     private static final String PARAM_URL = "URL";
     private static final String PARAM_URL_DESC = "An URL that references a dataset. " +
             "The dataset will be retrieved with a HTTP GET request for that URL.";
+    @Autowired(required = false)
     private HttpHelper httpHelper;
 
     @PostConstruct
     public void postConstruct() throws IOException {
+        if (httpHelper == null) {
             httpHelper = HttpHelper.getBasicHttpHelper();
+        }
     }
 
     @Override

@@ -9,14 +9,24 @@ import java.net.ProxySelector;
 import java.net.SocketAddress;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.nio.file.Files;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.cache.CacheConfig;
+import org.apache.hc.client5.http.impl.cache.CachingHttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.routing.SystemDefaultRoutePlanner;
+import org.n52.kommonitor.importer.io.http.HttpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,14 +69,17 @@ public class GlobalProxyConfig {
 
     @Value("${proxy.password:#{null}}")
     private String proxyPassword;
-    
+
+    @Value("${proxy.nonProxyHosts:#{null}}")
+    private String proxyNonProxyHosts;
+
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri:#{null}}")
     private String jwkSetUri;
     
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri:#{null}}")
     private String issuerUri;
     
-    private Set<Pattern> nonProxyPatterns;
+    private Set<Pattern> nonProxyPatterns = Collections.emptySet();
     
     /**
      * Hilfsmethode zur Prüfung der Basis-Proxy-Konfiguration
@@ -123,12 +136,19 @@ public class GlobalProxyConfig {
             
             String existingHosts = System.getProperty("http.nonProxyHosts");
             Set<String> hosts = new HashSet<>(Arrays.asList(
-                "localhost", "127.0.0.1", "host.docker.internal", 
+                "localhost", "127.0.0.1", "host.docker.internal",
                 "kommonitor-data-management", "data-management", "*management"
             ));
 
             if (existingHosts != null && !existingHosts.isEmpty()) {
                 Arrays.stream(existingHosts.split("\\|"))
+                      .map(String::trim)
+                      .filter(s -> !s.isEmpty())
+                      .forEach(hosts::add);
+            }
+
+            if (proxyNonProxyHosts != null && !proxyNonProxyHosts.trim().isEmpty()) {
+                Arrays.stream(proxyNonProxyHosts.split("[,|]"))
                       .map(String::trim)
                       .filter(s -> !s.isEmpty())
                       .forEach(hosts::add);
@@ -176,11 +196,59 @@ public class GlobalProxyConfig {
     
     private boolean isInternal(String host) {
         if (host == null || host.isEmpty()) return false;
-        
-        // Prüft, ob der Host gegen eines der Patterns matcht
         return nonProxyPatterns.stream().anyMatch(pattern -> pattern.matcher(host).matches());
     }
-    
+
+    private ProxySelector buildProxySelector() {
+        return new ProxySelector() {
+            @Override
+            public List<Proxy> select(URI uri) {
+                if (isInternal(uri.getHost())) {
+                    log.debug("Internal request to {} - bypassing proxy.", uri.getHost());
+                    return List.of(Proxy.NO_PROXY);
+                }
+                return List.of(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)));
+            }
+
+            @Override
+            public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
+                log.error("Connection to proxy {}:{} failed for URI: {}", proxyHost, proxyPort, uri, ioe);
+            }
+        };
+    }
+
+    /**
+     * Applies proxy settings (route planner + credentials) to an Apache HttpClient 5 builder.
+     * Uses the JVM system properties set during initialization for routing decisions, so that
+     * nonProxyHosts are respected automatically.
+     */
+    public void applyProxyToApacheBuilder(HttpClientBuilder builder) {
+        builder.setRoutePlanner(new SystemDefaultRoutePlanner(null, ProxySelector.getDefault()));
+        if (isProxyConfigured() && hasProxyCredentials()) {
+            BasicCredentialsProvider creds = new BasicCredentialsProvider();
+            creds.setCredentials(
+                new AuthScope(proxyHost, proxyPort),
+                new UsernamePasswordCredentials(proxyUser, proxyPassword.toCharArray())
+            );
+            builder.setDefaultCredentialsProvider(creds);
+        }
+    }
+
+    @Bean
+    public HttpHelper httpHelper() throws IOException {
+        CacheConfig cacheConfig = CacheConfig.custom()
+                .setMaxCacheEntries(100)
+                .setMaxObjectSize(50000)
+                .build();
+        CachingHttpClientBuilder builder = CachingHttpClientBuilder.create()
+                .setCacheConfig(cacheConfig)
+                .setCacheDir(Files.createTempFile("kommonitor_httphelper", "cache").toFile());
+        applyProxyToApacheBuilder(builder);
+        log.info("HttpHelper: {} proxy for Apache HttpClient.",
+                isProxyConfigured() ? "Configured " + proxyHost + ":" + proxyPort + " as" : "No");
+        return new HttpHelper(builder.build());
+    }
+
     @Bean
     @Primary
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -191,23 +259,7 @@ public class GlobalProxyConfig {
         // Nur einen ProxySelector einbauen, wenn die Basis-Parameter da sind
         if (isProxyConfigured()) {
             log.info("RestTemplate: Proxy configuration detected ({}:{}).", proxyHost, proxyPort);
-            httpClientBuilder.proxy(new ProxySelector() {
-                @Override
-                public List<Proxy> select(URI uri) {
-                    // Wenn intern, dann Proxy umgehen
-                    if (isInternal(uri.getHost())) {
-                        log.debug("Internal request to {} - bypassing proxy.", uri.getHost());
-                        return List.of(Proxy.NO_PROXY);
-                    }
-                    // Wenn extern, konfigurierten Proxy nutzen
-                    return List.of(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort)));
-                }
-
-                @Override
-                public void connectFailed(URI uri, SocketAddress sa, IOException ioe) {
-                    log.error("Connection to proxy {}:{} failed for URI: {}", proxyHost, proxyPort, uri, ioe);
-                }
-            });
+            httpClientBuilder.proxy(buildProxySelector());
         } else {
             log.info("RestTemplate: No proxy configured (direct connection).");
         }
@@ -246,9 +298,9 @@ public class GlobalProxyConfig {
     	// 1. Basis-Decoder mit der JWK-Set-URI erstellen
         if (isProxyConfigured()) {
             log.info("Configuring JwtDecoder to use Proxy {}:{}", proxyHost, proxyPort);
-            
+
             HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
-                    .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
+                    .proxy(buildProxySelector());
 
             if (hasProxyCredentials()) {
                 log.info("Proxy authentication enabled for user: {}", proxyUser);
