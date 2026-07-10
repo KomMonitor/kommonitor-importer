@@ -65,7 +65,6 @@ public class SwaggerSecurityConfig {
         return new OAuthFlows().authorizationCode(flow);
     }
 
-
     private OAuthFlow createAuthorizationCodeFlow() {
         return new OAuthFlow()
                 .authorizationUrl(String.format("%s/realms/%s/protocol/openid-connect/auth", AUTH_SERVER, REALM))

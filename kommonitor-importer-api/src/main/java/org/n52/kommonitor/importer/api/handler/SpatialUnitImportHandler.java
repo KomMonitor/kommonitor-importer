@@ -1,6 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -65,7 +65,7 @@ public class SpatialUnitImportHandler extends AbstractRequestHandler<ImportSpati
             SpatialUnitPOSTInputType spatialUnitPostInput = requestResourceType.getSpatialUnitPostBody();
             try {
                 spatialUnitPostInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
-            } catch (JsonProcessingException ex) {
+            } catch (JacksonException ex) {
                 throw new ImportParameterException("Could not encode SpatialUnit.", ex);
             }
 

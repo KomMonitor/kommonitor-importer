@@ -1,6 +1,5 @@
 package org.n52.kommonitor.importer.api;
 
-
 import jakarta.annotation.Generated;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;

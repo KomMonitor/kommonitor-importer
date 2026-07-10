@@ -33,7 +33,6 @@ public class TableConverter_address_street_housenumber_city extends AbstractTabl
     private static final String PARAM_POSTCODE_COL = "Postleitzahl_Spaltenname";
     private static final String PARAM_POSTCODE_DESC = "Spalte mit Postleitzahl";
 
-
     @Autowired
     public TableConverter_address_street_housenumber_city(FeatureDecoder featureDecoder) {
     	super(featureDecoder);        

@@ -38,7 +38,6 @@ public class ConverterParameterValueType  implements Serializable {
   @ApiModelProperty(required = true, value = "name of the decoding parameter")
   @NotNull
 
-
   public String getName() {
     return name;
   }
@@ -59,7 +58,6 @@ public class ConverterParameterValueType  implements Serializable {
   @ApiModelProperty(required = true, value = "value of the decoding parameter")
   @NotNull
 
-
   public String getValue() {
     return value;
   }
@@ -67,7 +65,6 @@ public class ConverterParameterValueType  implements Serializable {
   public void setValue(String value) {
     this.value = value;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

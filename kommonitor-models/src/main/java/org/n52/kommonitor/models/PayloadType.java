@@ -69,7 +69,6 @@ public class PayloadType  implements Serializable {
   **/
   @ApiModelProperty(value = "specifies the the way the payload content will be provided. Possible values are 'DATA' for providing data inline or 'REFERENCE' to specifiy an URL that references some remote data.")
 
-
   public InputTypeEnum getInputType() {
     return inputType;
   }
@@ -89,7 +88,6 @@ public class PayloadType  implements Serializable {
   **/
   @ApiModelProperty(value = "the content according to the selected sourceFormat (i.e. an URL to a WFS, or Base64 encoded String of a zipped ShapeFile or GeoJSON)")
 
-
   public String getContent() {
     return content;
   }
@@ -97,7 +95,6 @@ public class PayloadType  implements Serializable {
   public void setContent(String content) {
     this.content = content;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

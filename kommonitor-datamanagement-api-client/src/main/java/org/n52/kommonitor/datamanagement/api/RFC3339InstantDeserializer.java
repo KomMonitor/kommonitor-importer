@@ -12,7 +12,6 @@
 
 package org.n52.kommonitor.datamanagement.api;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -23,17 +22,14 @@ import java.time.temporal.TemporalAccessor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeFeature;
-import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ext.javatime.deser.InstantDeserializer;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeserializer<T> {
     private static final long serialVersionUID = 1L;
-    private final static boolean DEFAULT_NORMALIZE_ZONE_ID = JavaTimeFeature.NORMALIZE_DESERIALIZED_ZONE_ID.enabledByDefault();
-    private final static boolean DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
-    = JavaTimeFeature.ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS.enabledByDefault();
 
     public static final RFC3339InstantDeserializer<Instant> INSTANT = new RFC3339InstantDeserializer<>(
         Instant.class, DateTimeFormatter.ISO_INSTANT,
@@ -41,9 +37,9 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
         a -> Instant.ofEpochMilli( a.value ),
         a -> Instant.ofEpochSecond( a.integer, a.fraction ),
         null,
-        true, // yes, replace zero offset with Z
-        DEFAULT_NORMALIZE_ZONE_ID,
-        DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
+        true,   // replace zero offset with Z
+        false,  // normalizeZoneId default
+        false   // readNumericStringsAsTimestamp default
     );
 
     public static final RFC3339InstantDeserializer<OffsetDateTime> OFFSET_DATE_TIME = new RFC3339InstantDeserializer<>(
@@ -54,9 +50,9 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
         (d, z) -> ( d.isEqual( OffsetDateTime.MIN ) || d.isEqual( OffsetDateTime.MAX ) ?
         d :
         d.withOffsetSameInstant( z.getRules().getOffset( d.toLocalDateTime() ) ) ),
-        true, // yes, replace zero offset with Z
-        DEFAULT_NORMALIZE_ZONE_ID,
-        DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
+        true,   // replace zero offset with Z
+        false,  // normalizeZoneId default
+        false   // readNumericStringsAsTimestamp default
     );
 
     public static final RFC3339InstantDeserializer<ZonedDateTime> ZONED_DATE_TIME = new RFC3339InstantDeserializer<>(
@@ -65,9 +61,9 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
         a -> ZonedDateTime.ofInstant( Instant.ofEpochMilli( a.value ), a.zoneId ),
         a -> ZonedDateTime.ofInstant( Instant.ofEpochSecond( a.integer, a.fraction ), a.zoneId ),
         ZonedDateTime::withZoneSameInstant,
-        false, // keep zero offset and Z separate since zones explicitly supported
-        DEFAULT_NORMALIZE_ZONE_ID,
-        DEFAULT_ALWAYS_ALLOW_STRINGIFIED_DATE_TIMESTAMPS
+        false,  // keep zero offset and Z separate since zones explicitly supported
+        false,  // normalizeZoneId default
+        false   // readNumericStringsAsTimestamp default
     );
 
     protected RFC3339InstantDeserializer(
@@ -94,7 +90,7 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
     }
 
     @Override
-    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws IOException {
+    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws JacksonException {
         return super._fromString(p, ctxt, string0.replace( ' ', 'T' ));
     }
 }

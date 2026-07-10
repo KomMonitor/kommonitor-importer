@@ -36,8 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import jakarta.annotation.PostConstruct;
 
@@ -78,8 +79,9 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     private HttpHelper httpHelper;
 
     public APIFeaturesRetriever() {
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper = JsonMapper.builder()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
         featureJSON = new FeatureJSON();
     }
 
@@ -89,8 +91,9 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     }
 
     public APIFeaturesRetriever(HttpHelper httpHelper) throws IOException {
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper = JsonMapper.builder()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
         featureJSON = new FeatureJSON();
         this.httpHelper = httpHelper;
     }
@@ -126,7 +129,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
 
         String filter = this.getParameterValue(PARAM_CUSTOM_FILTER, datasource.getParameters())
                 .orElse(null);
-
 
         HttpGet request = null;
         try {
@@ -167,7 +169,6 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
                 }
             }
             request = new HttpGet(builder.build());
-
 
             boolean hasNextPage = false;
             do {

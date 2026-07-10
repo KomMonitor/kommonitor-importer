@@ -82,7 +82,6 @@ public interface SpatialUnitsApi {
         @Parameter(name = "ImportSpatialUnitPOSTInputType", description = "Definitions to import spatial units", required = true) @Valid @RequestBody ImportSpatialUnitPOSTInputType importSpatialUnitPOSTInputType
     ) throws Exception;
 
-
     public static final String PATH_UPDATE_SPATIAL_UNIT = "/spatial-units/update";
     /**
      * POST /spatial-units/update : Update a spatial unit

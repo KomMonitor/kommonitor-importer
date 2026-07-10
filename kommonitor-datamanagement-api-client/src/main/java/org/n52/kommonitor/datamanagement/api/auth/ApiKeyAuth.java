@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package org.n52.kommonitor.datamanagement.api.auth;
 
 import org.springframework.http.HttpHeaders;

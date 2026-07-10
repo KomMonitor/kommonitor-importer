@@ -76,7 +76,6 @@ class FeatureDecoderTest {
         decoder = new FeatureDecoder(geomHelper, monitor);
     }
 
-
     @Test
     @DisplayName("Test single feature decoding to SpatialResource")
     void testDecodeFeatureToSpatialResource() throws DecodingException, FactoryException, NoSuchAuthorityCodeException {

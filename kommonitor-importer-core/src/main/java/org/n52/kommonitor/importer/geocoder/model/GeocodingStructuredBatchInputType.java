@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Validated
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-04-05T20:53:57.529Z[GMT]")
 
-
 public class GeocodingStructuredBatchInputType   {
   @JsonProperty("country")
   private String country = null;
@@ -171,7 +170,6 @@ public class GeocodingStructuredBatchInputType   {
   public void setHousenumber(String housenumber) {
     this.housenumber = housenumber;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

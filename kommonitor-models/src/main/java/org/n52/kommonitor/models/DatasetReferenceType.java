@@ -74,7 +74,6 @@ public class DatasetReferenceType  implements Serializable {
   @ApiModelProperty(required = true, value = "Type of the dataset reference. Can be an attribute for tabular data or FeatureType if the underlying datasource is Feature like.")
   @NotNull
 
-
   public TypeEnum getType() {
     return type;
   }
@@ -93,7 +92,6 @@ public class DatasetReferenceType  implements Serializable {
    * @return name
   **/
   @ApiModelProperty(value = "name of the attribute that contains a certain value for referencing the target dataset")
-
 
   public String getName() {
     return name;
@@ -115,7 +113,6 @@ public class DatasetReferenceType  implements Serializable {
   @ApiModelProperty(required = true, value = "the value that specifies the target dataset to be referenced")
   @NotNull
 
-
   public String getValue() {
     return value;
   }
@@ -123,7 +120,6 @@ public class DatasetReferenceType  implements Serializable {
   public void setValue(String value) {
     this.value = value;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

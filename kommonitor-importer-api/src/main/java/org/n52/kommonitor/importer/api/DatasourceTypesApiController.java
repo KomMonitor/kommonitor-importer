@@ -1,7 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +41,6 @@ public class DatasourceTypesApiController implements DatasourceTypesApi {
     @org.springframework.beans.factory.annotation.Autowired
     public DatasourceTypesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
-        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         this.request = request;
     }
 

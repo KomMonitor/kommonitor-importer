@@ -1,10 +1,6 @@
 package org.n52.kommonitor.importer.api.encoder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
 import org.geotools.geojson.geom.GeometryJSON;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.kommonitor.importer.entities.SpatialResource;
@@ -13,6 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +41,6 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
     private static final String FIELD_NAME_VALID_START_DATE = "validStartDate";
     private static final String FIELD_NAME_VALID_END_DATE = "validEndDate";
 
-
     private static final String TYPE_VALUE_FEATURE_COLLECTION = "FeatureCollection";
     private static final String TYPE_VALUE_FEATURE = "Feature";
 
@@ -63,7 +62,7 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
         spatialResource.forEach(s -> {
             try {
                 featuresArrayNode.add(encodeSpatialResourceAsJsonNode(s));
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 LOG.warn("Could not encode geometry: {}", s.getGeom().toText());
             }
         });
@@ -71,11 +70,11 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
         return rootNode;
     }
 
-    public String encodeSpatialResourcesAsString(List<SpatialResource> spatialResource) throws JsonProcessingException {
+    public String encodeSpatialResourcesAsString(List<SpatialResource> spatialResource) throws JacksonException {
         return mapper.writeValueAsString(encodeSpatialResourcesAsJsonNode(spatialResource));
     }
 
-    public JsonNode encodeSpatialResourceAsJsonNode(SpatialResource resource) throws JsonProcessingException {
+    public JsonNode encodeSpatialResourceAsJsonNode(SpatialResource resource) throws JacksonException {
         ObjectNode featureNode = mapper.createObjectNode();
         featureNode.put(FIELD_NAME_TYPE, TYPE_VALUE_FEATURE);
         featureNode.set(FIELD_NAME_PROPERTIES, encodeProperties(resource));
@@ -94,7 +93,7 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
         return propertiesNode;
     }
 
-    public JsonNode encodeGeometry(Geometry geom) throws JsonProcessingException {
+    public JsonNode encodeGeometry(Geometry geom) throws JacksonException {
         return mapper.readTree(geomJson.toString(geom));
     }
 
@@ -115,7 +114,6 @@ public class SpatialResourceJsonEncoder implements InitializingBean {
             }
         });
     }
-
 
     @Override
     public void afterPropertiesSet() throws Exception {

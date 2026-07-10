@@ -1,8 +1,8 @@
 package org.n52.kommonitor.importer.api.encoder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
 import org.junit.jupiter.api.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -88,7 +88,7 @@ public class SpatialResourceJsonEncoderTest {
 
     @Test
     @DisplayName("Test encode Feature")
-    public void testEncodeFeature() throws JsonProcessingException {
+    public void testEncodeFeature() throws JacksonException {
         resource = new SpatialResource(RESOURCE_ID, RESOURCE_NAME, point, RESOURCE_ARISEN_FROM, startDate, endDate, null);
         JsonNode featureNode = encoder.encodeSpatialResourceAsJsonNode(resource);
 
@@ -99,7 +99,7 @@ public class SpatialResourceJsonEncoderTest {
 
     @Test
     @DisplayName("Test encode FeatureCollection")
-    public void testEncodeFeatureCollection() throws JsonProcessingException {
+    public void testEncodeFeatureCollection() throws JacksonException {
         resource = new SpatialResource(RESOURCE_ID, RESOURCE_NAME, point, RESOURCE_ARISEN_FROM, startDate, endDate, null);
         JsonNode featureNode = encoder.encodeSpatialResourcesAsJsonNode(Arrays.asList(resource, resource));
 

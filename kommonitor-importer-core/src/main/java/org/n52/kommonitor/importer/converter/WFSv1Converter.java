@@ -55,7 +55,6 @@ public class WFSv1Converter extends AbstractConverter {
         this.featureDecoder = featureDecoder;
     }
 
-
     @Override
     public String initName() {
         return NAME;
@@ -122,7 +121,6 @@ public class WFSv1Converter extends AbstractConverter {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
-
 
     @Override
     public List<IndicatorValue> convertIndicators(ConverterDefinitionType converterDefinition,

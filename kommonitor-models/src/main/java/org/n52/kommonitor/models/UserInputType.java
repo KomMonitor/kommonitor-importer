@@ -43,7 +43,6 @@ public class UserInputType  implements Serializable {
   @ApiModelProperty(required = true, value = "the user name from the login credentials")
   @NotNull
 
-
   public String getUserName() {
     return userName;
   }
@@ -63,7 +62,6 @@ public class UserInputType  implements Serializable {
   **/
   @ApiModelProperty(required = true, value = "the user password from the login credentials")
   @NotNull
-
 
   public String getPassword() {
     return password;
@@ -90,7 +88,6 @@ public class UserInputType  implements Serializable {
   @ApiModelProperty(required = true, value = "list of role identifiers; the user is associated with the rights/priviledges of each specififed role.")
   @NotNull
 
-
   public List<String> getRoles() {
     return roles;
   }
@@ -98,7 +95,6 @@ public class UserInputType  implements Serializable {
   public void setRoles(List<String> roles) {
     this.roles = roles;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

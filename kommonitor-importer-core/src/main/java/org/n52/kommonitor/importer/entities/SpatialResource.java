@@ -28,7 +28,6 @@ public class SpatialResource {
 
     }
 
-
     public SpatialResource(@NotNull String id, @NotNull String name, @NotNull Geometry geom, String arisenFrom, LocalDate startDate, LocalDate endDate, Map attributes) {
         this.id = id;
         this.name = name;

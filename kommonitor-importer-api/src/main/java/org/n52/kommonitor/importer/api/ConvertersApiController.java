@@ -1,7 +1,5 @@
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Comparator;
 import java.util.List;
@@ -41,7 +40,6 @@ public class ConvertersApiController implements ConvertersApi {
     @org.springframework.beans.factory.annotation.Autowired
     public ConvertersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
-        this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         this.request = request;
     }
 

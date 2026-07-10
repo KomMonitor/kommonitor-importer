@@ -56,5 +56,4 @@ public class AggregationMedianFunctionTest {
         Assertions.assertEquals(Float.NaN, result);
     }
 
-
 }

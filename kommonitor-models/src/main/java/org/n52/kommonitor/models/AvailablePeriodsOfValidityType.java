@@ -18,7 +18,6 @@ import jakarta.annotation.Generated;
 public class AvailablePeriodsOfValidityType extends ArrayList<PeriodOfValidityType> implements Serializable {
   private static final long serialVersionUID = 1L;
 
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

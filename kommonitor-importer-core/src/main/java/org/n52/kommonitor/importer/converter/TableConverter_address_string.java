@@ -105,7 +105,6 @@ public class TableConverter_address_string extends AbstractTableConverter {
 	}
 
 
-
 	private SimpleFeature queryGeometryFromAddressString(SimpleFeature feature, Optional<String> addressCoordOpt, SimpleFeatureBuilder featureBuilder) throws Exception {
 		
 		String addressAsString = (String)feature.getAttribute(addressCoordOpt.get());

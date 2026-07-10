@@ -46,5 +46,4 @@ public class AggregationMaxFunctionTest {
         Assertions.assertEquals(Float.NaN, result);
     }
 
-
 }

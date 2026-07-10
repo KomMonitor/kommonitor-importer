@@ -48,5 +48,4 @@ public class AggregationMeanFunctionTest {
         Assertions.assertEquals(Float.NaN, result);
     }
 
-
 }
