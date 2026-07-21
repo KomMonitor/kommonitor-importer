@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.n52.kommonitor.models.AbstractClassificationMappingType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.CreationTypeEnum;
-import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import org.n52.kommonitor.models.IndicatorTypeEnum;
@@ -32,7 +32,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private @Nullable String datasetName;
 
-  private @Nullable DefaultClassificationMappingType defaultClassificationMapping;
+  private @Nullable AbstractClassificationMappingType defaultClassificationMapping;
 
   @Valid
   private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
@@ -179,7 +179,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     this.datasetName = datasetName;
   }
 
-  public IndicatorMetadataPATCHInputType defaultClassificationMapping(@Nullable DefaultClassificationMappingType defaultClassificationMapping) {
+  public IndicatorMetadataPATCHInputType defaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
     return this;
   }
@@ -191,11 +191,11 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   @Valid 
   @Schema(name = "defaultClassificationMapping", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultClassificationMapping")
-  public @Nullable DefaultClassificationMappingType getDefaultClassificationMapping() {
+  public @Nullable AbstractClassificationMappingType getDefaultClassificationMapping() {
     return defaultClassificationMapping;
   }
 
-  public void setDefaultClassificationMapping(@Nullable DefaultClassificationMappingType defaultClassificationMapping) {
+  public void setDefaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
@@ -237,7 +237,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return displayOrder
    */
   @Valid 
-  @Schema(name = "displayOrder", example = "0.0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "displayOrder", example = "0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("displayOrder")
   public @Nullable BigDecimal getDisplayOrder() {
     return displayOrder;

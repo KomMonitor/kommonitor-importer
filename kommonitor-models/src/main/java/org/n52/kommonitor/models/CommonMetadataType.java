@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * CommonMetadataType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class CommonMetadataType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class CommonMetadataType implements Serializable {
 
   private @Nullable String note;
 
-  private BigDecimal sridEPSG;
+  private @Nullable BigDecimal sridEPSG;
 
   /**
    * Gets or Sets updateInterval
@@ -100,11 +100,10 @@ public class CommonMetadataType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public CommonMetadataType(String contact, String datasource, String description, BigDecimal sridEPSG, UpdateIntervalEnum updateInterval) {
+  public CommonMetadataType(String contact, String datasource, String description, UpdateIntervalEnum updateInterval) {
     this.contact = contact;
     this.datasource = datasource;
     this.description = description;
-    this.sridEPSG = sridEPSG;
     this.updateInterval = updateInterval;
   }
 
@@ -248,7 +247,7 @@ public class CommonMetadataType implements Serializable {
     this.note = note;
   }
 
-  public CommonMetadataType sridEPSG(BigDecimal sridEPSG) {
+  public CommonMetadataType sridEPSG(@Nullable BigDecimal sridEPSG) {
     this.sridEPSG = sridEPSG;
     return this;
   }
@@ -257,14 +256,14 @@ public class CommonMetadataType implements Serializable {
    * the coordinate reference system of the dataset as EPSG code
    * @return sridEPSG
    */
-  @NotNull @Valid 
-  @Schema(name = "sridEPSG", example = "0.0", description = "the coordinate reference system of the dataset as EPSG code", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Valid 
+  @Schema(name = "sridEPSG", example = "0.0", description = "the coordinate reference system of the dataset as EPSG code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("sridEPSG")
-  public BigDecimal getSridEPSG() {
+  public @Nullable BigDecimal getSridEPSG() {
     return sridEPSG;
   }
 
-  public void setSridEPSG(BigDecimal sridEPSG) {
+  public void setSridEPSG(@Nullable BigDecimal sridEPSG) {
     this.sridEPSG = sridEPSG;
   }
 

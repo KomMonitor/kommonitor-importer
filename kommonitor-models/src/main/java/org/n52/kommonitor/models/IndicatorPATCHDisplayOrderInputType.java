@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * IndicatorPATCHDisplayOrderInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPATCHDisplayOrderInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -48,11 +48,11 @@ public class IndicatorPATCHDisplayOrderInputType implements Serializable {
   }
 
   /**
-   * the new displayOrder value
+   * the new display order value
    * @return displayOrder
    */
   @NotNull @Valid 
-  @Schema(name = "displayOrder", example = "0.0", description = "the new displayOrder value", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "displayOrder", example = "0.0", description = "the new display order value", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("displayOrder")
   public BigDecimal getDisplayOrder() {
     return displayOrder;

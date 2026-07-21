@@ -20,34 +20,20 @@ import jakarta.annotation.Generated;
  * OgcServicesType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class OgcServicesType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String defaultStyleName;
+  private @Nullable String defaultStyleName;
 
-  private String spatialUnit;
+  private @Nullable String spatialUnit;
 
-  private String wfsUrl;
+  private @Nullable String wfsUrl;
 
-  private String wmsUrl;
+  private @Nullable String wmsUrl;
 
-  public OgcServicesType() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public OgcServicesType(String defaultStyleName, String spatialUnit, String wfsUrl, String wmsUrl) {
-    this.defaultStyleName = defaultStyleName;
-    this.spatialUnit = spatialUnit;
-    this.wfsUrl = wfsUrl;
-    this.wmsUrl = wmsUrl;
-  }
-
-  public OgcServicesType defaultStyleName(String defaultStyleName) {
+  public OgcServicesType defaultStyleName(@Nullable String defaultStyleName) {
     this.defaultStyleName = defaultStyleName;
     return this;
   }
@@ -56,18 +42,18 @@ public class OgcServicesType implements Serializable {
    * the name of the default style (SLD) that is published and applied to the associated dataset
    * @return defaultStyleName
    */
-  @NotNull 
-  @Schema(name = "defaultStyleName", description = "the name of the default style (SLD) that is published and applied to the associated dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "defaultStyleName", description = "the name of the default style (SLD) that is published and applied to the associated dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultStyleName")
-  public String getDefaultStyleName() {
+  public @Nullable String getDefaultStyleName() {
     return defaultStyleName;
   }
 
-  public void setDefaultStyleName(String defaultStyleName) {
+  public void setDefaultStyleName(@Nullable String defaultStyleName) {
     this.defaultStyleName = defaultStyleName;
   }
 
-  public OgcServicesType spatialUnit(String spatialUnit) {
+  public OgcServicesType spatialUnit(@Nullable String spatialUnit) {
     this.spatialUnit = spatialUnit;
     return this;
   }
@@ -76,18 +62,18 @@ public class OgcServicesType implements Serializable {
    * the name of the spatial unit
    * @return spatialUnit
    */
-  @NotNull 
-  @Schema(name = "spatialUnit", description = "the name of the spatial unit", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "spatialUnit", description = "the name of the spatial unit", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("spatialUnit")
-  public String getSpatialUnit() {
+  public @Nullable String getSpatialUnit() {
     return spatialUnit;
   }
 
-  public void setSpatialUnit(String spatialUnit) {
+  public void setSpatialUnit(@Nullable String spatialUnit) {
     this.spatialUnit = spatialUnit;
   }
 
-  public OgcServicesType wfsUrl(String wfsUrl) {
+  public OgcServicesType wfsUrl(@Nullable String wfsUrl) {
     this.wfsUrl = wfsUrl;
     return this;
   }
@@ -96,18 +82,18 @@ public class OgcServicesType implements Serializable {
    * the URL of a running WFS instance serving the spatial features of the associated dataset
    * @return wfsUrl
    */
-  @NotNull 
-  @Schema(name = "wfsUrl", description = "the URL of a running WFS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "wfsUrl", description = "the URL of a running WFS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("wfsUrl")
-  public String getWfsUrl() {
+  public @Nullable String getWfsUrl() {
     return wfsUrl;
   }
 
-  public void setWfsUrl(String wfsUrl) {
+  public void setWfsUrl(@Nullable String wfsUrl) {
     this.wfsUrl = wfsUrl;
   }
 
-  public OgcServicesType wmsUrl(String wmsUrl) {
+  public OgcServicesType wmsUrl(@Nullable String wmsUrl) {
     this.wmsUrl = wmsUrl;
     return this;
   }
@@ -116,14 +102,14 @@ public class OgcServicesType implements Serializable {
    * the URL of a running WMS instance serving the spatial features of the associated dataset
    * @return wmsUrl
    */
-  @NotNull 
-  @Schema(name = "wmsUrl", description = "the URL of a running WMS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "wmsUrl", description = "the URL of a running WMS instance serving the spatial features of the associated dataset", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("wmsUrl")
-  public String getWmsUrl() {
+  public @Nullable String getWmsUrl() {
     return wmsUrl;
   }
 
-  public void setWmsUrl(String wmsUrl) {
+  public void setWmsUrl(@Nullable String wmsUrl) {
     this.wmsUrl = wmsUrl;
   }
 

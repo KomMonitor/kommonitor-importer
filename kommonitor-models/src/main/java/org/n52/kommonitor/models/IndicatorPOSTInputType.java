@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.n52.kommonitor.models.AbstractClassificationMappingType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.CreationTypeEnum;
-import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToGeoresources;
 import org.n52.kommonitor.models.IndicatorPOSTInputTypeRefrencesToOtherIndicators;
 import org.n52.kommonitor.models.IndicatorTypeEnum;
@@ -31,12 +31,12 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String abbreviation;
+  private @Nullable String abbreviation;
 
   @Valid
   private List<String> permissions = new ArrayList<>();
@@ -47,7 +47,7 @@ public class IndicatorPOSTInputType implements Serializable {
 
   private String datasetName;
 
-  private DefaultClassificationMappingType defaultClassificationMapping;
+  private AbstractClassificationMappingType defaultClassificationMapping;
 
   private @Nullable BigDecimal displayOrder;
 
@@ -91,8 +91,7 @@ public class IndicatorPOSTInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPOSTInputType(String abbreviation, List<String> permissions, String characteristicValue, CreationTypeEnum creationType, String datasetName, DefaultClassificationMappingType defaultClassificationMapping, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
-    this.abbreviation = abbreviation;
+  public IndicatorPOSTInputType(List<String> permissions, String characteristicValue, CreationTypeEnum creationType, String datasetName, AbstractClassificationMappingType defaultClassificationMapping, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
     this.permissions = permissions;
     this.characteristicValue = characteristicValue;
     this.creationType = creationType;
@@ -109,7 +108,7 @@ public class IndicatorPOSTInputType implements Serializable {
     this.isPublic = isPublic;
   }
 
-  public IndicatorPOSTInputType abbreviation(String abbreviation) {
+  public IndicatorPOSTInputType abbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
     return this;
   }
@@ -118,14 +117,14 @@ public class IndicatorPOSTInputType implements Serializable {
    * abbreviated mark of the indicator
    * @return abbreviation
    */
-  @NotNull 
-  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("abbreviation")
-  public String getAbbreviation() {
+  public @Nullable String getAbbreviation() {
     return abbreviation;
   }
 
-  public void setAbbreviation(String abbreviation) {
+  public void setAbbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
   }
 
@@ -217,7 +216,7 @@ public class IndicatorPOSTInputType implements Serializable {
     this.datasetName = datasetName;
   }
 
-  public IndicatorPOSTInputType defaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
+  public IndicatorPOSTInputType defaultClassificationMapping(AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
     return this;
   }
@@ -229,11 +228,11 @@ public class IndicatorPOSTInputType implements Serializable {
   @NotNull @Valid 
   @Schema(name = "defaultClassificationMapping", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("defaultClassificationMapping")
-  public DefaultClassificationMappingType getDefaultClassificationMapping() {
+  public AbstractClassificationMappingType getDefaultClassificationMapping() {
     return defaultClassificationMapping;
   }
 
-  public void setDefaultClassificationMapping(DefaultClassificationMappingType defaultClassificationMapping) {
+  public void setDefaultClassificationMapping(AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
@@ -247,7 +246,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return displayOrder
    */
   @Valid 
-  @Schema(name = "displayOrder", example = "0.0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "displayOrder", example = "0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("displayOrder")
   public @Nullable BigDecimal getDisplayOrder() {
     return displayOrder;

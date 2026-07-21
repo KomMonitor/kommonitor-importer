@@ -22,37 +22,26 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorPOSTInputTypeValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private @Nullable Float indicatorValue;
-
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private @Nullable LocalDate timestamp;
+  private LocalDate timestamp;
 
-  public IndicatorPOSTInputTypeValueMapping indicatorValue(@Nullable Float indicatorValue) {
-    this.indicatorValue = indicatorValue;
-    return this;
+  public IndicatorPOSTInputTypeValueMapping() {
+    super();
   }
 
   /**
-   * the numeric extent of the indicator for the timestamp
-   * @return indicatorValue
+   * Constructor with only required parameters
    */
-  
-  @Schema(name = "indicatorValue", example = "0.0", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("indicatorValue")
-  public @Nullable Float getIndicatorValue() {
-    return indicatorValue;
+  public IndicatorPOSTInputTypeValueMapping(LocalDate timestamp) {
+    this.timestamp = timestamp;
   }
 
-  public void setIndicatorValue(@Nullable Float indicatorValue) {
-    this.indicatorValue = indicatorValue;
-  }
-
-  public IndicatorPOSTInputTypeValueMapping timestamp(@Nullable LocalDate timestamp) {
+  public IndicatorPOSTInputTypeValueMapping timestamp(LocalDate timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -61,14 +50,14 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
    * timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)
    * @return timestamp
    */
-  @Valid 
-  @Schema(name = "timestamp", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @NotNull @Valid 
+  @Schema(name = "timestamp", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("timestamp")
-  public @Nullable LocalDate getTimestamp() {
+  public LocalDate getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(@Nullable LocalDate timestamp) {
+  public void setTimestamp(LocalDate timestamp) {
     this.timestamp = timestamp;
   }
 
@@ -81,20 +70,18 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
       return false;
     }
     IndicatorPOSTInputTypeValueMapping indicatorPOSTInputTypeValueMapping = (IndicatorPOSTInputTypeValueMapping) o;
-    return Objects.equals(this.indicatorValue, indicatorPOSTInputTypeValueMapping.indicatorValue) &&
-        Objects.equals(this.timestamp, indicatorPOSTInputTypeValueMapping.timestamp);
+    return Objects.equals(this.timestamp, indicatorPOSTInputTypeValueMapping.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(indicatorValue, timestamp);
+    return Objects.hash(timestamp);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPOSTInputTypeValueMapping {\n");
-    sb.append("    indicatorValue: ").append(toIndentedString(indicatorValue)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("}");
     return sb.toString();

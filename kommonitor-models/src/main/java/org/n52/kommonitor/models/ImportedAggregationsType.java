@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ImportedAggregationsType", description = "Contains information about imported aggregated features")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-05T13:55:51.977247900+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class ImportedAggregationsType implements Serializable {
 
   private static final long serialVersionUID = 1L;

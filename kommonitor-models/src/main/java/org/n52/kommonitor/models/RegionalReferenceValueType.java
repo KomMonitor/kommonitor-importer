@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * RegionalReferenceValueType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class RegionalReferenceValueType implements Serializable {
 
   private static final long serialVersionUID = 1L;

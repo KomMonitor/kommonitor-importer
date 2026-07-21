@@ -21,12 +21,12 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "GeoresourceReferenceType", description = "a reference to georesource, e.g. a resource that is used to compute the main indicator")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class GeoresourceReferenceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String referencedGeoresourceDescription;
+  private @Nullable String referencedGeoresourceDescription;
 
   private String referencedGeoresourceId;
 
@@ -39,13 +39,12 @@ public class GeoresourceReferenceType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public GeoresourceReferenceType(String referencedGeoresourceDescription, String referencedGeoresourceId, String referencedGeoresourceName) {
-    this.referencedGeoresourceDescription = referencedGeoresourceDescription;
+  public GeoresourceReferenceType(String referencedGeoresourceId, String referencedGeoresourceName) {
     this.referencedGeoresourceId = referencedGeoresourceId;
     this.referencedGeoresourceName = referencedGeoresourceName;
   }
 
-  public GeoresourceReferenceType referencedGeoresourceDescription(String referencedGeoresourceDescription) {
+  public GeoresourceReferenceType referencedGeoresourceDescription(@Nullable String referencedGeoresourceDescription) {
     this.referencedGeoresourceDescription = referencedGeoresourceDescription;
     return this;
   }
@@ -54,14 +53,14 @@ public class GeoresourceReferenceType implements Serializable {
    * a meaningful description of how the referenced georesource is related to the main indicator
    * @return referencedGeoresourceDescription
    */
-  @NotNull 
-  @Schema(name = "referencedGeoresourceDescription", description = "a meaningful description of how the referenced georesource is related to the main indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "referencedGeoresourceDescription", description = "a meaningful description of how the referenced georesource is related to the main indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("referencedGeoresourceDescription")
-  public String getReferencedGeoresourceDescription() {
+  public @Nullable String getReferencedGeoresourceDescription() {
     return referencedGeoresourceDescription;
   }
 
-  public void setReferencedGeoresourceDescription(String referencedGeoresourceDescription) {
+  public void setReferencedGeoresourceDescription(@Nullable String referencedGeoresourceDescription) {
     this.referencedGeoresourceDescription = referencedGeoresourceDescription;
   }
 

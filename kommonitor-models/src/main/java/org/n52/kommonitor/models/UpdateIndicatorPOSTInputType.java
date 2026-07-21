@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Update_IndicatorPOSTInputType", description = "Definitions for updating a new indicator from a certain datasource")
 @JsonTypeName("Update_IndicatorPOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-03T15:33:10.965342700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class UpdateIndicatorPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;

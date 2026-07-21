@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * TopicOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class TopicOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -44,6 +44,8 @@ public class TopicOverviewType implements Serializable {
 
   private TopicTypeEnum topicType;
 
+  private Integer displayOrder;
+
   public TopicOverviewType() {
     super();
   }
@@ -51,11 +53,12 @@ public class TopicOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public TopicOverviewType(String topicDescription, String topicId, String topicName, TopicTypeEnum topicType) {
+  public TopicOverviewType(String topicDescription, String topicId, String topicName, TopicTypeEnum topicType, Integer displayOrder) {
     this.topicDescription = topicDescription;
     this.topicId = topicId;
     this.topicName = topicName;
     this.topicType = topicType;
+    this.displayOrder = displayOrder;
   }
 
   public TopicOverviewType subTopics(List<@Valid TopicOverviewType> subTopics) {
@@ -186,6 +189,26 @@ public class TopicOverviewType implements Serializable {
     this.topicType = topicType;
   }
 
+  public TopicOverviewType displayOrder(Integer displayOrder) {
+    this.displayOrder = displayOrder;
+    return this;
+  }
+
+  /**
+   * an order number to control display order in clients
+   * @return displayOrder
+   */
+  @NotNull 
+  @Schema(name = "displayOrder", example = "0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("displayOrder")
+  public Integer getDisplayOrder() {
+    return displayOrder;
+  }
+
+  public void setDisplayOrder(Integer displayOrder) {
+    this.displayOrder = displayOrder;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -200,12 +223,13 @@ public class TopicOverviewType implements Serializable {
         Objects.equals(this.topicId, topicOverviewType.topicId) &&
         Objects.equals(this.topicName, topicOverviewType.topicName) &&
         Objects.equals(this.topicResource, topicOverviewType.topicResource) &&
-        Objects.equals(this.topicType, topicOverviewType.topicType);
+        Objects.equals(this.topicType, topicOverviewType.topicType) &&
+        Objects.equals(this.displayOrder, topicOverviewType.displayOrder);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subTopics, topicDescription, topicId, topicName, topicResource, topicType);
+    return Objects.hash(subTopics, topicDescription, topicId, topicName, topicResource, topicType, displayOrder);
   }
 
   @Override
@@ -218,6 +242,7 @@ public class TopicOverviewType implements Serializable {
     sb.append("    topicName: ").append(toIndentedString(topicName)).append("\n");
     sb.append("    topicResource: ").append(toIndentedString(topicResource)).append("\n");
     sb.append("    topicType: ").append(toIndentedString(topicType)).append("\n");
+    sb.append("    displayOrder: ").append(toIndentedString(displayOrder)).append("\n");
     sb.append("}");
     return sb.toString();
   }

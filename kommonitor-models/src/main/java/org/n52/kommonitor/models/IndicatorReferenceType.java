@@ -21,12 +21,12 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorReferenceType", description = "a reference to another indicator, e.g. a sub-indicator that is used to compute the main indicator")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorReferenceType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String referencedIndicatorDescription;
+  private @Nullable String referencedIndicatorDescription;
 
   private String referencedIndicatorId;
 
@@ -39,13 +39,12 @@ public class IndicatorReferenceType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorReferenceType(String referencedIndicatorDescription, String referencedIndicatorId, String referencedIndicatorName) {
-    this.referencedIndicatorDescription = referencedIndicatorDescription;
+  public IndicatorReferenceType(String referencedIndicatorId, String referencedIndicatorName) {
     this.referencedIndicatorId = referencedIndicatorId;
     this.referencedIndicatorName = referencedIndicatorName;
   }
 
-  public IndicatorReferenceType referencedIndicatorDescription(String referencedIndicatorDescription) {
+  public IndicatorReferenceType referencedIndicatorDescription(@Nullable String referencedIndicatorDescription) {
     this.referencedIndicatorDescription = referencedIndicatorDescription;
     return this;
   }
@@ -54,14 +53,14 @@ public class IndicatorReferenceType implements Serializable {
    * a meaningful description of how the referenced indicator is related to the main indicator
    * @return referencedIndicatorDescription
    */
-  @NotNull 
-  @Schema(name = "referencedIndicatorDescription", description = "a meaningful description of how the referenced indicator is related to the main indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "referencedIndicatorDescription", description = "a meaningful description of how the referenced indicator is related to the main indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("referencedIndicatorDescription")
-  public String getReferencedIndicatorDescription() {
+  public @Nullable String getReferencedIndicatorDescription() {
     return referencedIndicatorDescription;
   }
 
-  public void setReferencedIndicatorDescription(String referencedIndicatorDescription) {
+  public void setReferencedIndicatorDescription(@Nullable String referencedIndicatorDescription) {
     this.referencedIndicatorDescription = referencedIndicatorDescription;
   }
 

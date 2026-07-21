@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "SpatialResourcePropertyMappingType", description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:24:59.129000700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class SpatialResourcePropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.n52.kommonitor.models.AbstractClassificationMappingType;
 import org.n52.kommonitor.models.CommonMetadataType;
 import org.n52.kommonitor.models.CreationTypeEnum;
-import org.n52.kommonitor.models.DefaultClassificationMappingType;
 import org.n52.kommonitor.models.GeoresourceReferenceType;
 import org.n52.kommonitor.models.IndicatorReferenceType;
 import org.n52.kommonitor.models.IndicatorSpatialUnitJoinItem;
@@ -35,12 +35,12 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-09-01T16:25:00.685068500+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String abbreviation;
+  private @Nullable String abbreviation;
 
   @Valid
   private List<String> permissions = new ArrayList<>();
@@ -51,11 +51,11 @@ public class IndicatorOverviewType implements Serializable {
   @Valid
   private List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits = new ArrayList<>();
 
-  private String characteristicValue;
+  private @Nullable String characteristicValue;
 
   private CreationTypeEnum creationType;
 
-  private @Nullable DefaultClassificationMappingType defaultClassificationMapping;
+  private @Nullable AbstractClassificationMappingType defaultClassificationMapping;
 
   @Valid
   private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
@@ -81,7 +81,7 @@ public class IndicatorOverviewType implements Serializable {
 
   private String ownerId;
 
-  private String processDescription;
+  private @Nullable String processDescription;
 
   private @Nullable Integer precision;
 
@@ -112,11 +112,9 @@ public class IndicatorOverviewType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorOverviewType(String abbreviation, List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, String characteristicValue, CreationTypeEnum creationType, List<@Valid RegionalReferenceValueType> regionalReferenceValues, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, List<@Valid OgcServicesType> ogcServices, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
-    this.abbreviation = abbreviation;
+  public IndicatorOverviewType(List<String> applicableDates, List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits, CreationTypeEnum creationType, List<@Valid RegionalReferenceValueType> regionalReferenceValues, String indicatorId, String indicatorName, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String ownerId, List<String> tags, String topicReference, String unit, Boolean isPublic) {
     this.applicableDates = applicableDates;
     this.applicableSpatialUnits = applicableSpatialUnits;
-    this.characteristicValue = characteristicValue;
     this.creationType = creationType;
     this.regionalReferenceValues = regionalReferenceValues;
     this.indicatorId = indicatorId;
@@ -124,16 +122,14 @@ public class IndicatorOverviewType implements Serializable {
     this.interpretation = interpretation;
     this.isHeadlineIndicator = isHeadlineIndicator;
     this.metadata = metadata;
-    this.ogcServices = ogcServices;
     this.ownerId = ownerId;
-    this.processDescription = processDescription;
     this.tags = tags;
     this.topicReference = topicReference;
     this.unit = unit;
     this.isPublic = isPublic;
   }
 
-  public IndicatorOverviewType abbreviation(String abbreviation) {
+  public IndicatorOverviewType abbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
     return this;
   }
@@ -142,14 +138,14 @@ public class IndicatorOverviewType implements Serializable {
    * abbreviated mark of the indicator
    * @return abbreviation
    */
-  @NotNull 
-  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("abbreviation")
-  public String getAbbreviation() {
+  public @Nullable String getAbbreviation() {
     return abbreviation;
   }
 
-  public void setAbbreviation(String abbreviation) {
+  public void setAbbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
   }
 
@@ -237,7 +233,7 @@ public class IndicatorOverviewType implements Serializable {
     this.applicableSpatialUnits = applicableSpatialUnits;
   }
 
-  public IndicatorOverviewType characteristicValue(String characteristicValue) {
+  public IndicatorOverviewType characteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
     return this;
   }
@@ -246,14 +242,14 @@ public class IndicatorOverviewType implements Serializable {
    * the distuingishing characteristic value of the indicator
    * @return characteristicValue
    */
-  @NotNull 
-  @Schema(name = "characteristicValue", description = "the distuingishing characteristic value of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "characteristicValue", description = "the distuingishing characteristic value of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("characteristicValue")
-  public String getCharacteristicValue() {
+  public @Nullable String getCharacteristicValue() {
     return characteristicValue;
   }
 
-  public void setCharacteristicValue(String characteristicValue) {
+  public void setCharacteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
   }
 
@@ -277,7 +273,7 @@ public class IndicatorOverviewType implements Serializable {
     this.creationType = creationType;
   }
 
-  public IndicatorOverviewType defaultClassificationMapping(@Nullable DefaultClassificationMappingType defaultClassificationMapping) {
+  public IndicatorOverviewType defaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
     return this;
   }
@@ -289,11 +285,11 @@ public class IndicatorOverviewType implements Serializable {
   @Valid 
   @Schema(name = "defaultClassificationMapping", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("defaultClassificationMapping")
-  public @Nullable DefaultClassificationMappingType getDefaultClassificationMapping() {
+  public @Nullable AbstractClassificationMappingType getDefaultClassificationMapping() {
     return defaultClassificationMapping;
   }
 
-  public void setDefaultClassificationMapping(@Nullable DefaultClassificationMappingType defaultClassificationMapping) {
+  public void setDefaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
 
@@ -502,8 +498,8 @@ public class IndicatorOverviewType implements Serializable {
    * list of available OGC services for that indicator for different spatial units
    * @return ogcServices
    */
-  @NotNull @Valid 
-  @Schema(name = "ogcServices", description = "list of available OGC services for that indicator for different spatial units", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Valid 
+  @Schema(name = "ogcServices", description = "list of available OGC services for that indicator for different spatial units", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ogcServices")
   public List<@Valid OgcServicesType> getOgcServices() {
     return ogcServices;
@@ -533,7 +529,7 @@ public class IndicatorOverviewType implements Serializable {
     this.ownerId = ownerId;
   }
 
-  public IndicatorOverviewType processDescription(String processDescription) {
+  public IndicatorOverviewType processDescription(@Nullable String processDescription) {
     this.processDescription = processDescription;
     return this;
   }
@@ -542,14 +538,14 @@ public class IndicatorOverviewType implements Serializable {
    * description about how the indicator was computed
    * @return processDescription
    */
-  @NotNull 
-  @Schema(name = "processDescription", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "processDescription", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("processDescription")
-  public String getProcessDescription() {
+  public @Nullable String getProcessDescription() {
     return processDescription;
   }
 
-  public void setProcessDescription(String processDescription) {
+  public void setProcessDescription(@Nullable String processDescription) {
     this.processDescription = processDescription;
   }
 
