@@ -6,6 +6,7 @@ import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
 import org.n52.kommonitor.importer.api.encoder.IndicatorEncoder;
 import org.n52.kommonitor.importer.calculator.IndicatorCalculator;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
+import org.n52.kommonitor.importer.decoder.DecoderConfig;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 import org.n52.kommonitor.importer.exceptions.ConverterException;
@@ -45,6 +46,9 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
     @Autowired
     private ImportMonitor monitor;
 
+    @Autowired
+    private DecoderConfig decoderConfig;
+
     public boolean supports(Object requestType) {
         return requestType instanceof UpdateIndicatorPOSTInputType;
     }
@@ -57,8 +61,18 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         LOG.info("Converting dataset with converter: {}", converter.getName());
         LOG.debug("Converter definition: {}", converterDefinition);
 
+        ClassificationTypeEnum classificationType = this.getClassificationType(requestResourceType.getIndicatorId());
+        if (classificationType == null) {
+            LOG.warn("Indicator '{}' has no classification type defined. Assuming default '{}'.",
+                    requestResourceType.getIndicatorId(), decoderConfig.getClassificationType());
+        } else {
+            decoderConfig.setClassificationType(classificationType);
+        }
+
         List<IndicatorValue> indicatorValues;
-        if (requestResourceType.getAggregations() != null && !requestResourceType.getAggregations().isEmpty()) {
+        if (classificationType.equals(ClassificationTypeEnum.QUANTITATIVE)
+                && requestResourceType.getAggregations() != null
+                && !requestResourceType.getAggregations().isEmpty()) {
             indicatorValues = converter.convertIndicators(
                     converterDefinition,
                     dataset,
@@ -81,7 +95,9 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         Map<String, List<IndicatorValue>> aggregatedIndicators = new HashMap<>();
         Map<String, String> keyPropSpatialUnitMap = new HashMap<>();
 
-        if (requestResourceType.getAggregations() != null && !requestResourceType.getAggregations().isEmpty()) {
+        if (classificationType.equals(ClassificationTypeEnum.QUANTITATIVE)
+                && requestResourceType.getAggregations() != null
+                && !requestResourceType.getAggregations().isEmpty()) {
             requestResourceType.getAggregations().forEach(a -> {
                 String spatialRefKeyProp = a.getSpatialReferenceKeyProperty();
                 if (aggregatedIndicators.containsKey(spatialRefKeyProp)) {
@@ -171,5 +187,16 @@ public class IndicatorUpdateHandler extends AbstractRequestHandler<UpdateIndicat
         ImportResponseType importResponse = new ImportResponseType();
         importResponse.setUri(location);
         return importResponse;
+    }
+
+    private ClassificationTypeEnum getClassificationType(String indicatorId) {
+        LOG.debug("Perform request for Indicator: {}", indicatorId);
+        ResponseEntity<IndicatorOverviewType> response = apiClient.getIndicatorByIdWithHttpInfo(indicatorId);
+        IndicatorOverviewType indicator = response.getBody();
+        if (indicator != null && indicator.getDefaultClassificationMapping() != null) {
+            return indicator.getDefaultClassificationMapping().getClassificationType();
+        } else {
+            return null;
+        }
     }
 }

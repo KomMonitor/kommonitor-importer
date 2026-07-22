@@ -73,7 +73,8 @@ class FeatureDecoderTest {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        decoder = new FeatureDecoder(geomHelper, monitor);
+        DecoderConfig config = new DecoderConfig();
+        decoder = new FeatureDecoder(geomHelper, monitor, config);
     }
 
 
@@ -162,7 +163,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, false);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToNumericalTimeseriesValue(feature, mapping, false);
 
         Assertions.assertEquals(12.123, timeseriesValue.getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), timeseriesValue.getTimestamp());
@@ -176,7 +177,7 @@ class FeatureDecoderTest {
         mapping.setIndicatorValueProperty("missingProperty");
         SimpleFeature feature = mockSimpleFeature();
 
-        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToNumericalTimeseriesValue(feature, mapping, true);
 
         Assertions.assertNull(timeseriesValue.getValue());
     }
@@ -193,7 +194,7 @@ class FeatureDecoderTest {
         SimpleFeature feature = mockSimpleFeature();
         Mockito.when(feature.getProperty("indicatorProperty")).thenReturn(indicatorProperty);
 
-        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToNumericalTimeseriesValue(feature, mapping, true);
 
         Assertions.assertNull(timeseriesValue.getValue());
     }

@@ -51,10 +51,13 @@ public class FeatureDecoder {
     @Autowired
     private ImportMonitor monitor;
 
+    private DecoderConfig decoderConfig;
+
     @Autowired
-    public FeatureDecoder(GeometryHelper geometryHelper, ImportMonitor monitor) {
+    public FeatureDecoder(GeometryHelper geometryHelper, ImportMonitor monitor, DecoderConfig decoderConfig) {
         this.geomHelper = geometryHelper;
         this.monitor = monitor;
+        this.decoderConfig = decoderConfig;
     }
 
     /**
@@ -207,7 +210,7 @@ public class FeatureDecoder {
                 addMonitoringMessage(propertyMapping.getSpatialReferenceKeyProperty(), feature, e.getMessage());
             }
         });
-        
+
         // sort list of timeseries entries by date ascending
         timeSeriesValues.sort(Comparator.comparing(TimeseriesValue::getTimestamp));
 
@@ -259,7 +262,7 @@ public class FeatureDecoder {
                 monitor.addFailedConversion(spatialRefKey, e.getMessage());
             }
         });
-        
+
         // sort list of timeseries entries by date ascending
         timeSeries.sort(Comparator.comparing(TimeseriesValue::getTimestamp));
 
@@ -275,16 +278,30 @@ public class FeatureDecoder {
         return new IndicatorValue(spatialRefKey, timeSeries);
     }
 
+    TimeseriesValue<?> decodeFeatureToTimeseriesValue(SimpleFeature feature,
+                                                      TimeseriesMappingType propertyMappingType,
+                                                      boolean keepMissingOrNullValueIndicator
+    ) throws DecodingException {
+        ClassificationTypeEnum classificationType = decoderConfig.getClassificationType();
+        if (classificationType.equals(ClassificationTypeEnum.QUANTITATIVE)) {
+            return decodeFeatureToNumericalTimeseriesValue(feature, propertyMappingType, keepMissingOrNullValueIndicator);
+        } else if (classificationType.equals(ClassificationTypeEnum.QUALITATIVE)) {
+            return decodeFeatureToCategoricalTimeseriesValue(feature, propertyMappingType, keepMissingOrNullValueIndicator);
+        } else {
+            throw new DecodingException(String.format("Unsupported classification type: %s", classificationType));
+        }
+    }
+
     /**
-     * Decode a {@link SimpleFeature} as {@link TimeseriesValue} by mapping certain feature properties
+     * Decode a {@link SimpleFeature} as numerical {@link TimeseriesValue} by mapping certain feature properties
      *
-     * @param feature             the {@link SimpleFeature} to decode
+     * @param feature the {@link SimpleFeature} to decode
      * @param propertyMappingType definition of property mappings
      * @return the decoded {@link TimeseriesValue} or NULL if the indicator value does not exist and missing or NULL value
      * properties should be kept
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    TimeseriesValue<Float> decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
+    TimeseriesValue<Float> decodeFeatureToNumericalTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
         Float indicatorValue = null;
         if (keepMissingOrNullValueIndicator) {
             Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
@@ -294,9 +311,44 @@ public class FeatureDecoder {
         } else {
             indicatorValue = getPropertyValueAsFloat(feature, propertyMappingType.getIndicatorValueProperty());
         }
-        
+
         if (indicatorValue != null && indicatorValue.isNaN()) {
         	indicatorValue = null;
+        }
+
+        LocalDate timeStamp;
+        if (propertyMappingType.getTimestampProperty() == null || propertyMappingType.getTimestampProperty().isEmpty()) {
+            timeStamp = propertyMappingType.getTimestamp();
+        } else {
+            timeStamp = getPropertyValueAsDate(feature, propertyMappingType.getTimestampProperty());
+        }
+        return new TimeseriesValue<>(indicatorValue, timeStamp);
+    }
+
+    /**
+     * Decode a {@link SimpleFeature} as categorical {@link TimeseriesValue} by mapping certain feature properties
+     *
+     * @param feature the {@link SimpleFeature} to decode
+     * @param propertyMappingType definition of property mappings
+     * @return the decoded {@link TimeseriesValue} or NULL if the indicator value does not exist and missing or NULL value
+     * properties should be kept
+     * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
+     */
+    TimeseriesValue<String> decodeFeatureToCategoricalTimeseriesValue(SimpleFeature feature,
+                                                                      TimeseriesMappingType propertyMappingType,
+                                                                      boolean keepMissingOrNullValueIndicator) throws DecodingException {
+        String indicatorValue = null;
+        if (keepMissingOrNullValueIndicator) {
+            Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
+            if (indicatorValueProperty != null && indicatorValueProperty.getValue() != null) {
+                indicatorValue = getPropertyValueAsString(indicatorValueProperty);
+            }
+        } else {
+            indicatorValue = getPropertyValueAsString(feature);
+        }
+
+        if (indicatorValue != null && indicatorValue.isEmpty()) {
+            indicatorValue = null;
         }
 
         LocalDate timeStamp;
@@ -449,9 +501,9 @@ public class FeatureDecoder {
      * @throws DecodingException if the geometry attribute could not be decoded succesfully
      */
     Geometry getGeometry(SimpleFeature feature, SimpleFeatureType simpleFeatureType) throws DecodingException {
-    	
+
     	GeometryDescriptor geomDesc = simpleFeatureType.getGeometryDescriptor();
-    	
+
         if (geomDesc == null) {
             throw new DecodingException("Could not decode geometry property.");
         }
@@ -691,7 +743,7 @@ public class FeatureDecoder {
 
 	public void addMonitoringMessage(String id, String message) {
 		monitor.addFailedConversion(String.valueOf(id), message);
-		
+
 	}
 
 

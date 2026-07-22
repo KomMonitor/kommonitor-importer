@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.n52.kommonitor.importer.decoder.DecoderConfig;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.entities.Dataset;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
@@ -44,7 +45,8 @@ public class TableLatLonConverterTest {
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        converter = new TableConverter_latLon(new FeatureDecoder(geomHelper, monitor));
+        DecoderConfig config = new DecoderConfig();
+        converter = new TableConverter_latLon(new FeatureDecoder(geomHelper, monitor, config));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);

@@ -1,6 +1,7 @@
 package org.n52.kommonitor.importer.converter;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.n52.kommonitor.importer.decoder.DecoderConfig;
 import org.n52.kommonitor.importer.decoder.FeatureDecoder;
 import org.n52.kommonitor.importer.utils.GeometryHelper;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
@@ -18,7 +19,8 @@ public class APIFeaturesConverterTest extends GeoJsonConverterTest{
         GeometryHelper geomHelper = new GeometryHelper();
         geomHelper.afterPropertiesSet();
         ImportMonitor monitor = new ImportMonitor();
-        converter = new APIFeaturesConverter(new FeatureDecoder(geomHelper, monitor));
+        DecoderConfig config = new DecoderConfig();
+        converter = new APIFeaturesConverter(new FeatureDecoder(geomHelper, monitor, config));
 
         convDef = new ConverterDefinitionType();
         convDef.setMimeType(MIME_TYPE);
