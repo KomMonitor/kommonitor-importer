@@ -1,9 +1,11 @@
 package org.n52.kommonitor.importer.api.encoder;
 
+import org.n52.kommonitor.importer.decoder.DecoderConfig;
 import org.n52.kommonitor.importer.entities.IndicatorValue;
 
 import org.n52.kommonitor.importer.entities.TimeseriesValue;
 import org.n52.kommonitor.models.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
  */
 @Component
 public class IndicatorEncoder {
+
+    @Autowired
+    private DecoderConfig decoderConfig;
 
     public IndicatorPUTInputType encode(UpdateIndicatorPOSTInputType importResourceType, List<IndicatorValue> indicatorValues) {
         IndicatorPUTInputType indicator = importResourceType.getIndicatorPutBody();
@@ -39,6 +44,7 @@ public class IndicatorEncoder {
 
     private IndicatorPOSTInputTypeIndicatorValues encodeIndicatorValues(IndicatorValue indicatorValues) {
         IndicatorPOSTInputTypeIndicatorValues result = new IndicatorPOSTInputTypeIndicatorValues();
+        result.setValueType(getIndicatorValueType());
         result.setSpatialReferenceKey(indicatorValues.getSpatialReferenceKey());
         result.setValueMapping(indicatorValues.getTimeSeriesValueList().stream()
                 .map(this::encodeTimeSeriesValues)
@@ -58,6 +64,16 @@ public class IndicatorEncoder {
             result.setIndicatorValue(value instanceof Float f ? f : null);
             result.setTimestamp(timeseriesValue.getTimestamp());
             return result;
+        }
+    }
+
+    private IndicatorValueTypeEnum getIndicatorValueType() {
+        if (decoderConfig.getClassificationType().equals(ClassificationTypeEnum.QUANTITATIVE)) {
+            return IndicatorValueTypeEnum.NUMERIC;
+        } else if (decoderConfig.getClassificationType().equals(ClassificationTypeEnum.QUALITATIVE)) {
+            return IndicatorValueTypeEnum.CATEGORICAL;
+        } else {
+            return IndicatorValueTypeEnum.NUMERIC;
         }
     }
 }
