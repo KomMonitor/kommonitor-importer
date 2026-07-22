@@ -18,7 +18,7 @@ public abstract class AbstractAggregationFunction implements AggregationFunction
         List<IndicatorValue> aggregatedIndicators = new ArrayList<>();
         groupedIndicators.forEach((k,v) -> {
             Map<LocalDate, List<Float>> groupedValues = groupIndicatorsByTimestamp(v);
-            List<TimeseriesValue> aggregatedValues = aggregateValues(groupedValues);
+            List<TimeseriesValue<Float>> aggregatedValues = aggregateValues(groupedValues);
             IndicatorValue aggregatedIndicator = new IndicatorValue(k, aggregatedValues);
             aggregatedIndicators.add(aggregatedIndicator);
         });
@@ -46,10 +46,10 @@ public abstract class AbstractAggregationFunction implements AggregationFunction
         indicators.forEach(i -> {
             i.getTimeSeriesValueList().forEach(t -> {
                 if (groupedIndicators.containsKey(t.getTimestamp())) {
-                    groupedIndicators.get(t.getTimestamp()).add(t.getValue());
+                    groupedIndicators.get(t.getTimestamp()).add((Float) t.getValue());
                 } else {
                     List<Float> values = new ArrayList<>();
-                    values.add(t.getValue());
+                    values.add((Float) t.getValue());
                     groupedIndicators.put(t.getTimestamp(), values);
                 }
             });
@@ -57,14 +57,14 @@ public abstract class AbstractAggregationFunction implements AggregationFunction
         return groupedIndicators;
     }
 
-    protected List<TimeseriesValue> aggregateValues(Map<LocalDate, List<Float>> groupedValues) {
+    protected List<TimeseriesValue<Float>> aggregateValues(Map<LocalDate, List<Float>> groupedValues) {
         return groupedValues.entrySet().stream()
                 .map(e -> {
                     Float result = aggregateValues(e.getValue());
                     if (result != null && result.isNaN()) {
                         result = null;
                     }
-                    return new TimeseriesValue(result, e.getKey());
+                    return new TimeseriesValue<>(result, e.getKey());
                 })
                 .collect(Collectors.toList());
     }

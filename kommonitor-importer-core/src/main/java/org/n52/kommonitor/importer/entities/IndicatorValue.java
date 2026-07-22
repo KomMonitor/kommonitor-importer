@@ -12,22 +12,22 @@ import java.util.*;
 public class IndicatorValue {
 
     private String spatialReferenceKey;
-    private List<TimeseriesValue> timeSeriesValueList;
+    private List<TimeseriesValue<?>> timeSeriesValueList;
     private Map<String, String> upperSpatialUnitReferences;
 
-    public IndicatorValue(){
+    public IndicatorValue() {
 
     }
 
-    public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<TimeseriesValue> timeSeriesValueList) {
+    public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<? extends TimeseriesValue<?>> timeSeriesValueList) {
         this.spatialReferenceKey = spatialReferenceKey;
-        this.timeSeriesValueList = timeSeriesValueList;
+        this.timeSeriesValueList = new ArrayList<>(timeSeriesValueList);
         this.upperSpatialUnitReferences = new HashMap<>();
     }
 
-    public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<TimeseriesValue> timeSeriesValueList, @NotNull Map<String, String> spatialUnitReferences) {
+    public IndicatorValue(@NotNull String spatialReferenceKey, @NotNull List<? extends TimeseriesValue<?>> timeSeriesValueList, @NotNull Map<String, String> spatialUnitReferences) {
         this.spatialReferenceKey = spatialReferenceKey;
-        this.timeSeriesValueList = timeSeriesValueList;
+        this.timeSeriesValueList = new ArrayList<>(timeSeriesValueList);
         this.upperSpatialUnitReferences = spatialUnitReferences;
     }
 
@@ -35,11 +35,11 @@ public class IndicatorValue {
         return spatialReferenceKey;
     }
 
-    public List<TimeseriesValue> getTimeSeriesValueList() {
+    public List<TimeseriesValue<?>> getTimeSeriesValueList() {
         return timeSeriesValueList;
     }
 
-    public void setTimeSeriesValueList(@NotNull List<TimeseriesValue> timeSeriesValueList) {
+    public void setTimeSeriesValueList(@NotNull List<TimeseriesValue<?>> timeSeriesValueList) {
         this.timeSeriesValueList = timeSeriesValueList;
     }
 

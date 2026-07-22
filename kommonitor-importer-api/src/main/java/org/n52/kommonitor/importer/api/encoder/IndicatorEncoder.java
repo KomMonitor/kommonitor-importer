@@ -46,10 +46,18 @@ public class IndicatorEncoder {
         return result;
     }
 
-    private IndicatorPOSTInputTypeValueMapping encodeTimeSeriesValues(TimeseriesValue timeseriesValue) {
-        IndicatorPOSTInputTypeValueMapping result = new IndicatorPOSTInputTypeValueMapping();
-        result.setIndicatorValue(timeseriesValue.getValue());
-        result.setTimestamp(timeseriesValue.getTimestamp());
-        return result;
+    private IndicatorPOSTInputTypeValueMapping encodeTimeSeriesValues(TimeseriesValue<?> timeseriesValue) {
+        Object value = timeseriesValue.getValue();
+        if (value instanceof String s) {
+            IndicatorPOSTInputTypeCategoricalValueMapping result = new IndicatorPOSTInputTypeCategoricalValueMapping();
+            result.setIndicatorValue(s);
+            result.setTimestamp(timeseriesValue.getTimestamp());
+            return result;
+        } else {
+            IndicatorPOSTInputTypeNumericalValueMapping result = new IndicatorPOSTInputTypeNumericalValueMapping();
+            result.setIndicatorValue(value instanceof Float f ? f : null);
+            result.setTimestamp(timeseriesValue.getTimestamp());
+            return result;
+        }
     }
 }

@@ -191,10 +191,10 @@ public class FeatureDecoder {
             IndicatorPropertyMappingType propertyMapping,
             List<AggregationType> aggregationDefinition
     ) throws DecodingException {
-        List<TimeseriesValue> timeSeriesValues = new ArrayList<>();
+        List<TimeseriesValue<?>> timeSeriesValues = new ArrayList<>();
         propertyMapping.getTimeseriesMappings().forEach(pM -> {
             try {
-                TimeseriesValue value = decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator());
+                TimeseriesValue<?> value = decodeFeatureToTimeseriesValue(feature, pM, propertyMapping.getKeepMissingOrNullValueIndicator());
                 if (value.getValue() == null) {
                     monitor.addConversionIncident(
                             feature.getID(),
@@ -243,10 +243,10 @@ public class FeatureDecoder {
                                                    TimeseriesMappingType timeSeriesMappingType,
                                                    boolean keepMissingOrNullValueIndicator,
                                                    List<AggregationType> aggregationDefinitions) {
-        List<TimeseriesValue> timeSeries = new ArrayList<>();
+        List<TimeseriesValue<?>> timeSeries = new ArrayList<>();
         features.forEach(f -> {
             try {
-                TimeseriesValue value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueIndicator);
+                TimeseriesValue<?> value = decodeFeatureToTimeseriesValue(f, timeSeriesMappingType, keepMissingOrNullValueIndicator);
                 if (value.getValue() == null) {
                     monitor.addConversionIncident(
                             spatialRefKey,
@@ -284,7 +284,7 @@ public class FeatureDecoder {
      * properties should be kept
      * @throws DecodingException if a certain property could not be decoded from the {@link SimpleFeature}
      */
-    TimeseriesValue decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
+    TimeseriesValue<Float> decodeFeatureToTimeseriesValue(SimpleFeature feature, TimeseriesMappingType propertyMappingType, boolean keepMissingOrNullValueIndicator) throws DecodingException {
         Float indicatorValue = null;
         if (keepMissingOrNullValueIndicator) {
             Property indicatorValueProperty = feature.getProperty(propertyMappingType.getIndicatorValueProperty());
@@ -305,7 +305,7 @@ public class FeatureDecoder {
         } else {
             timeStamp = getPropertyValueAsDate(feature, propertyMappingType.getTimestampProperty());
         }
-        return new TimeseriesValue(indicatorValue, timeStamp);
+        return new TimeseriesValue<>(indicatorValue, timeStamp);
     }
 
     /**

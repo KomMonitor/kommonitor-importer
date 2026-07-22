@@ -55,7 +55,7 @@ public class EntityValidator {
             return false;
         }
         boolean isValid = true;
-        for (TimeseriesValue t : entity.getTimeSeriesValueList()) {
+        for (TimeseriesValue<?> t : entity.getTimeSeriesValueList()) {
             if (!isValid(t, allowMissingIndicator)) {
                 isValid = false;
                 LOG.warn("No valid TimeSeriesValue for Indicator: {}", t);
@@ -70,14 +70,14 @@ public class EntityValidator {
      * @param entity the entity to check validity for
      * @return true if the validation check was succesful
      */
-    public boolean isValid(TimeseriesValue entity, boolean allowMissingIndicator) {
+    public boolean isValid(TimeseriesValue<?> entity, boolean allowMissingIndicator) {
         if (entity.getValue() == null) {
             if (allowMissingIndicator)
                 return true;
             else
                 return false;
         } else {
-            if (Float.isNaN(entity.getValue()) && !allowMissingIndicator) {
+            if (entity.getValue() instanceof Float f && Float.isNaN(f) && !allowMissingIndicator) {
                 return false;
             }
             if (entity.getTimestamp() == null) {

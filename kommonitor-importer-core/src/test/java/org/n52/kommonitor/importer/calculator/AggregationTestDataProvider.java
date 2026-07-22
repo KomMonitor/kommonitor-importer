@@ -50,43 +50,43 @@ public class AggregationTestDataProvider {
         return value06;
     }
 
-    private @NotNull List<TimeseriesValue> createTimeseriesValues01() {
-        List<TimeseriesValue> timeseries = new ArrayList<>();
-        timeseries.add(new TimeseriesValue(20f, LocalDate.of(2020,1,1)));
-        timeseries.add(new TimeseriesValue(21f, LocalDate.of(2021,1,1)));
-        timeseries.add(new TimeseriesValue(22f, LocalDate.of(2022,1,1)));
-        timeseries.add(new TimeseriesValue(23f, LocalDate.of(2023,1,1)));
-        timeseries.add(new TimeseriesValue(24f, LocalDate.of(2024,1,1)));
-        timeseries.add(new TimeseriesValue(25f, LocalDate.of(2025,1,1)));
+    private @NotNull List<TimeseriesValue<?>> createTimeseriesValues01() {
+        List<TimeseriesValue<?>> timeseries = new ArrayList<>();
+        timeseries.add(new TimeseriesValue<>(20f, LocalDate.of(2020,1,1)));
+        timeseries.add(new TimeseriesValue<>(21f, LocalDate.of(2021,1,1)));
+        timeseries.add(new TimeseriesValue<>(22f, LocalDate.of(2022,1,1)));
+        timeseries.add(new TimeseriesValue<>(23f, LocalDate.of(2023,1,1)));
+        timeseries.add(new TimeseriesValue<>(24f, LocalDate.of(2024,1,1)));
+        timeseries.add(new TimeseriesValue<>(25f, LocalDate.of(2025,1,1)));
         return timeseries;
     }
 
-    private @NotNull List<TimeseriesValue> createTimeseriesValues02() {
-        List<TimeseriesValue> timeseries = new ArrayList<>();
-        timeseries.add(new TimeseriesValue(30f, LocalDate.of(2020,1,1)));
-        timeseries.add(new TimeseriesValue(32f, LocalDate.of(2022,1,1)));
-        timeseries.add(new TimeseriesValue(33f, LocalDate.of(2023,1,1)));
-        timeseries.add(new TimeseriesValue(34f, LocalDate.of(2024,1,1)));
-        timeseries.add(new TimeseriesValue(35f, LocalDate.of(2025,1,1)));
+    private @NotNull List<TimeseriesValue<?>> createTimeseriesValues02() {
+        List<TimeseriesValue<?>> timeseries = new ArrayList<>();
+        timeseries.add(new TimeseriesValue<>(30f, LocalDate.of(2020,1,1)));
+        timeseries.add(new TimeseriesValue<>(32f, LocalDate.of(2022,1,1)));
+        timeseries.add(new TimeseriesValue<>(33f, LocalDate.of(2023,1,1)));
+        timeseries.add(new TimeseriesValue<>(34f, LocalDate.of(2024,1,1)));
+        timeseries.add(new TimeseriesValue<>(35f, LocalDate.of(2025,1,1)));
         return timeseries;
     }
 
-    private @NotNull List<TimeseriesValue> createTimeseriesValues03() {
-        List<TimeseriesValue> timeseries = new ArrayList<>();
-        timeseries.add(new TimeseriesValue(40f, LocalDate.of(2020,1,1)));
-        timeseries.add(new TimeseriesValue(42f, LocalDate.of(2022,1,1)));
-        timeseries.add(new TimeseriesValue(43f, LocalDate.of(2023,1,1)));
-        timeseries.add(new TimeseriesValue(45f, LocalDate.of(2025,1,1)));
+    private @NotNull List<TimeseriesValue<?>> createTimeseriesValues03() {
+        List<TimeseriesValue<?>> timeseries = new ArrayList<>();
+        timeseries.add(new TimeseriesValue<>(40f, LocalDate.of(2020,1,1)));
+        timeseries.add(new TimeseriesValue<>(42f, LocalDate.of(2022,1,1)));
+        timeseries.add(new TimeseriesValue<>(43f, LocalDate.of(2023,1,1)));
+        timeseries.add(new TimeseriesValue<>(45f, LocalDate.of(2025,1,1)));
         return timeseries;
     }
 
-    private @NotNull List<TimeseriesValue> createTimeseriesValues04() {
-        List<TimeseriesValue> timeseries = new ArrayList<>();
-        timeseries.add(new TimeseriesValue(50f, LocalDate.of(2020,1,1)));
-        timeseries.add(new TimeseriesValue(51f, LocalDate.of(2021,1,1)));
-        timeseries.add(new TimeseriesValue(52f, LocalDate.of(2022,1,1)));
-        timeseries.add(new TimeseriesValue(null, LocalDate.of(2023,1,1)));
-        timeseries.add(new TimeseriesValue(54f, LocalDate.of(2024,1,1)));
+    private @NotNull List<TimeseriesValue<?>> createTimeseriesValues04() {
+        List<TimeseriesValue<?>> timeseries = new ArrayList<>();
+        timeseries.add(new TimeseriesValue<>(50f, LocalDate.of(2020,1,1)));
+        timeseries.add(new TimeseriesValue<>(51f, LocalDate.of(2021,1,1)));
+        timeseries.add(new TimeseriesValue<>(52f, LocalDate.of(2022,1,1)));
+        timeseries.add(new TimeseriesValue<>(null, LocalDate.of(2023,1,1)));
+        timeseries.add(new TimeseriesValue<>(54f, LocalDate.of(2024,1,1)));
         return timeseries;
     }
 }

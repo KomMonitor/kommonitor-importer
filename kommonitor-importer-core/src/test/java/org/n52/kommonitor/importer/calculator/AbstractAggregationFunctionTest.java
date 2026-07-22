@@ -88,7 +88,7 @@ public class AbstractAggregationFunctionTest {
 
         AbstractAggregationFunction aggregationFunction = new AggregationMeanFunction();
 
-        List<TimeseriesValue> result = aggregationFunction.aggregateValues(groupedValues);
+        List<TimeseriesValue<Float>> result = aggregationFunction.aggregateValues(groupedValues);
 
         Assertions.assertEquals(4, result.size());
 

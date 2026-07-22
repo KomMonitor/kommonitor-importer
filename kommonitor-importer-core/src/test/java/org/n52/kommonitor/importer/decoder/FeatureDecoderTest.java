@@ -162,7 +162,7 @@ class FeatureDecoderTest {
         mapping.setTimestampProperty(TIMESTAMP_PROP);
         SimpleFeature feature = mockSimpleFeature();
 
-        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, false);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, false);
 
         Assertions.assertEquals(12.123, timeseriesValue.getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), timeseriesValue.getTimestamp());
@@ -176,7 +176,7 @@ class FeatureDecoderTest {
         mapping.setIndicatorValueProperty("missingProperty");
         SimpleFeature feature = mockSimpleFeature();
 
-        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
 
         Assertions.assertNull(timeseriesValue.getValue());
     }
@@ -193,7 +193,7 @@ class FeatureDecoderTest {
         SimpleFeature feature = mockSimpleFeature();
         Mockito.when(feature.getProperty("indicatorProperty")).thenReturn(indicatorProperty);
 
-        TimeseriesValue timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
+        TimeseriesValue<Float> timeseriesValue = decoder.decodeFeatureToTimeseriesValue(feature, mapping, true);
 
         Assertions.assertNull(timeseriesValue.getValue());
     }
@@ -207,7 +207,7 @@ class FeatureDecoderTest {
         IndicatorValue indicator = decoder.decodeFeatureToIndicatorValue(feature, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
-        Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(12.123, (Float) indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
     }
 
     @Test
@@ -220,7 +220,7 @@ class FeatureDecoderTest {
         IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
-        Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(12.123, (Float) indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicator.getTimeSeriesValueList().get(0).getTimestamp());
     }
 
@@ -234,7 +234,7 @@ class FeatureDecoderTest {
         IndicatorValue indicator = decoder.decodeFeaturesToIndicatorValues(REF_KEY_PROP_VALUE, Collections.singletonList(feature), mapping, false, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicator.getSpatialReferenceKey());
-        Assertions.assertEquals(12.123, indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(12.123, (Float) indicator.getTimeSeriesValueList().get(0).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicator.getTimeSeriesValueList().get(0).getTimestamp());
     }
 
@@ -254,7 +254,7 @@ class FeatureDecoderTest {
         List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicators.get(0).getSpatialReferenceKey());
-        Assertions.assertEquals(12.123, indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(12.123, (Float) indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicators.get(0).getTimeSeriesValueList().get(0).getTimestamp());
     }
 
@@ -290,9 +290,9 @@ class FeatureDecoderTest {
         List<IndicatorValue> indicators = decoder.decodeFeatureCollectionToIndicatorValues(featureCollection, mapping, null);
 
         Assertions.assertEquals(REF_KEY_PROP_VALUE, indicators.get(0).getSpatialReferenceKey());
-        Assertions.assertEquals(VALUE_PROP_VALUE, indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
+        Assertions.assertEquals(VALUE_PROP_VALUE, (Float) indicators.get(0).getTimeSeriesValueList().get(0).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 1, 1), indicators.get(0).getTimeSeriesValueList().get(0).getTimestamp());
-        Assertions.assertEquals(VALUE_PROP_2_VALUE, indicators.get(0).getTimeSeriesValueList().get(1).getValue(), 0.0001);
+        Assertions.assertEquals(VALUE_PROP_2_VALUE, (Float) indicators.get(0).getTimeSeriesValueList().get(1).getValue(), 0.0001);
         Assertions.assertEquals(LocalDate.of(2020, 9, 15), indicators.get(0).getTimeSeriesValueList().get(1).getTimestamp());
     }
 

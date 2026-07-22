@@ -111,7 +111,7 @@ public class GeoJsonConverterTest {
         Assertions.assertEquals(4, indicators.size());
         Assertions.assertEquals("b_02", indicator.getSpatialReferenceKey());
 
-        TimeseriesValue tv = indicator.getTimeSeriesValueList().get(0);
+        TimeseriesValue<?> tv = indicator.getTimeSeriesValueList().get(0);
         Assertions.assertEquals("2020-01-01", tv.getTimestamp().toString());
         Assertions.assertEquals(40158.f, tv.getValue());
         tv = indicator.getTimeSeriesValueList().get(1);
@@ -136,14 +136,14 @@ public class GeoJsonConverterTest {
         Assertions.assertEquals(4, indicators.size());
         Assertions.assertEquals("b_03", indicator.getSpatialReferenceKey());
 
-        TimeseriesValue tv = indicator.getTimeSeriesValueList().get(0);
+        TimeseriesValue<?> tv = indicator.getTimeSeriesValueList().get(0);
         Assertions.assertEquals("2020-01-01", tv.getTimestamp().toString());
         Assertions.assertEquals(30875.f, tv.getValue());
         tv = indicator.getTimeSeriesValueList().get(1);
         Assertions.assertEquals(32930.f, tv.getValue());
         Assertions.assertEquals("2021-01-01", tv.getTimestamp().toString());
         tv = indicator.getTimeSeriesValueList().get(2);
-        Assertions.assertEquals(29162, tv.getValue());
+        Assertions.assertEquals(29162.f, (Float) tv.getValue());
         Assertions.assertEquals("2022-01-01", tv.getTimestamp().toString());
     }
 
@@ -186,10 +186,10 @@ public class GeoJsonConverterTest {
     @DisplayName(("Test group IndicatorValues"))
     void testGroupIndicatorValues() {
         String refKey = "ID_01";
-        List<TimeseriesValue> timeSeriesValues01 = new ArrayList<>();
-        timeSeriesValues01.add(new TimeseriesValue(1.234f, LocalDate.now()));
-        List<TimeseriesValue> timeSeriesValues02 = new ArrayList<>();
-        timeSeriesValues02.add(new TimeseriesValue(9.876f, LocalDate.now()));
+        List<TimeseriesValue<?>> timeSeriesValues01 = new ArrayList<>();
+        timeSeriesValues01.add(new TimeseriesValue<>(1.234f, LocalDate.now()));
+        List<TimeseriesValue<?>> timeSeriesValues02 = new ArrayList<>();
+        timeSeriesValues02.add(new TimeseriesValue<>(9.876f, LocalDate.now()));
         List<IndicatorValue> indicatorValues = Arrays.asList(
                 new IndicatorValue(refKey, timeSeriesValues01),
                 new IndicatorValue(refKey, timeSeriesValues02));
