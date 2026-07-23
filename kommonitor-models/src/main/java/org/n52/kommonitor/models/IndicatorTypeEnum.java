@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -20,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * indicates whether the indicator is a status indicator (values represent the extent of the watched phenomenon for a certain point in time) or a dynamic indicator (values represent the change of extent of the watched phenomenon within a certain period of time)
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public enum IndicatorTypeEnum implements Serializable {
   
   STATUS_ABSOLUTE("STATUS_ABSOLUTE"),

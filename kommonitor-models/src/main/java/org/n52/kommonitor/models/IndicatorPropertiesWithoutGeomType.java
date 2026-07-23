@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -19,7 +20,7 @@ import jakarta.annotation.Generated;
  * IndicatorPropertiesWithoutGeomType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorPropertiesWithoutGeomType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -62,6 +63,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(String id) {
     this.id = id;
   }
@@ -82,6 +84,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -102,6 +105,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
     return validStartDate;
   }
 
+  @JsonProperty("validStartDate")
   public void setValidStartDate(String validStartDate) {
     this.validStartDate = validStartDate;
   }
@@ -122,6 +126,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
     return validEndDate;
   }
 
+  @JsonProperty("validEndDate")
   public void setValidEndDate(String validEndDate) {
     this.validEndDate = validEndDate;
   }
@@ -162,11 +167,8 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

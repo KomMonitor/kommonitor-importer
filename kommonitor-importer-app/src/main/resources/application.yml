@@ -28,6 +28,7 @@ spring:
 logging:
   level:
     org.n52.kommonitor: INFO
+    root: INFO
 kommonitor:
   importer:
     datamanagement-api-url: http://localhost:8085/management

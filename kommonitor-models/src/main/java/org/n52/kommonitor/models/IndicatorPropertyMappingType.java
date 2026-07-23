@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -25,19 +26,17 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "IndicatorPropertyMappingType", description = "Definitions for mapping datasource properties to required properties for indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorPropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String spatialReferenceKeyProperty;
 
-  @Valid
   private @Nullable List<@Valid TimeseriesMappingType> timeseriesMappings;
 
   private Boolean keepMissingOrNullValueIndicator;
 
-  @Valid
   private @Nullable List<@Valid AttributeMappingType> attributeMappings;
 
   public IndicatorPropertyMappingType() {
@@ -68,6 +67,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     return spatialReferenceKeyProperty;
   }
 
+  @JsonProperty("spatialReferenceKeyProperty")
   public void setSpatialReferenceKeyProperty(String spatialReferenceKeyProperty) {
     this.spatialReferenceKeyProperty = spatialReferenceKeyProperty;
   }
@@ -96,6 +96,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     return timeseriesMappings;
   }
 
+  @JsonProperty("timeseriesMappings")
   public void setTimeseriesMappings(@Nullable List<@Valid TimeseriesMappingType> timeseriesMappings) {
     this.timeseriesMappings = timeseriesMappings;
   }
@@ -116,6 +117,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     return keepMissingOrNullValueIndicator;
   }
 
+  @JsonProperty("keepMissingOrNullValueIndicator")
   public void setKeepMissingOrNullValueIndicator(Boolean keepMissingOrNullValueIndicator) {
     this.keepMissingOrNullValueIndicator = keepMissingOrNullValueIndicator;
   }
@@ -144,6 +146,7 @@ public class IndicatorPropertyMappingType implements Serializable {
     return attributeMappings;
   }
 
+  @JsonProperty("attributeMappings")
   public void setAttributeMappings(@Nullable List<@Valid AttributeMappingType> attributeMappings) {
     this.attributeMappings = attributeMappings;
   }
@@ -184,11 +187,8 @@ public class IndicatorPropertyMappingType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

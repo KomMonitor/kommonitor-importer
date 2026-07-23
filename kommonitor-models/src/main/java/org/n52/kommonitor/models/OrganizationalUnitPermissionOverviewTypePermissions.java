@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -26,21 +27,17 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("OrganizationalUnitPermissionOverviewType_permissions")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class OrganizationalUnitPermissionOverviewTypePermissions implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @Valid
   private List<@Valid OrganizationalUnitPermissionOverviewElementType> georesources = new ArrayList<>();
 
-  @Valid
   private List<@Valid OrganizationalUnitPermissionOverviewElementType> spatialunits = new ArrayList<>();
 
-  @Valid
   private List<@Valid OrganizationalUnitPermissionOverviewElementType> indicators = new ArrayList<>();
 
-  @Valid
   private List<OrganizationalUnitPermissionOverviewSpatialUnitElementType> indicatorspatialunits = new ArrayList<>();
 
   public OrganizationalUnitPermissionOverviewTypePermissions georesources(List<@Valid OrganizationalUnitPermissionOverviewElementType> georesources) {
@@ -67,6 +64,7 @@ public class OrganizationalUnitPermissionOverviewTypePermissions implements Seri
     return georesources;
   }
 
+  @JsonProperty("georesources")
   public void setGeoresources(List<@Valid OrganizationalUnitPermissionOverviewElementType> georesources) {
     this.georesources = georesources;
   }
@@ -95,6 +93,7 @@ public class OrganizationalUnitPermissionOverviewTypePermissions implements Seri
     return spatialunits;
   }
 
+  @JsonProperty("spatialunits")
   public void setSpatialunits(List<@Valid OrganizationalUnitPermissionOverviewElementType> spatialunits) {
     this.spatialunits = spatialunits;
   }
@@ -123,6 +122,7 @@ public class OrganizationalUnitPermissionOverviewTypePermissions implements Seri
     return indicators;
   }
 
+  @JsonProperty("indicators")
   public void setIndicators(List<@Valid OrganizationalUnitPermissionOverviewElementType> indicators) {
     this.indicators = indicators;
   }
@@ -151,6 +151,7 @@ public class OrganizationalUnitPermissionOverviewTypePermissions implements Seri
     return indicatorspatialunits;
   }
 
+  @JsonProperty("indicatorspatialunits")
   public void setIndicatorspatialunits(List<OrganizationalUnitPermissionOverviewSpatialUnitElementType> indicatorspatialunits) {
     this.indicatorspatialunits = indicatorspatialunits;
   }
@@ -191,11 +192,8 @@ public class OrganizationalUnitPermissionOverviewTypePermissions implements Seri
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

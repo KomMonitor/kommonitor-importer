@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -20,7 +21,7 @@ import jakarta.annotation.Generated;
  * OrganizationalUnitPermissionOverviewSpatialUnitElementType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -63,6 +64,7 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(UUID id) {
     this.id = id;
   }
@@ -83,6 +85,7 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
     return permissionLevel;
   }
 
+  @JsonProperty("permissionLevel")
   public void setPermissionLevel(String permissionLevel) {
     this.permissionLevel = permissionLevel;
   }
@@ -103,6 +106,7 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
     return roleId;
   }
 
+  @JsonProperty("roleId")
   public void setRoleId(UUID roleId) {
     this.roleId = roleId;
   }
@@ -123,6 +127,7 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
     return spatialUnitId;
   }
 
+  @JsonProperty("spatialUnitId")
   public void setSpatialUnitId(UUID spatialUnitId) {
     this.spatialUnitId = spatialUnitId;
   }
@@ -163,11 +168,8 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

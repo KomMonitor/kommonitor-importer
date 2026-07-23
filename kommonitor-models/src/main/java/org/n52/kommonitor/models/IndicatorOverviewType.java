@@ -27,6 +27,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -34,20 +35,17 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private @Nullable String abbreviation;
 
-  @Valid
   private List<String> permissions = new ArrayList<>();
 
-  @Valid
   private List<String> applicableDates = new ArrayList<>();
 
-  @Valid
   private List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits = new ArrayList<>();
 
   private @Nullable String characteristicValue;
@@ -56,7 +54,6 @@ public class IndicatorOverviewType implements Serializable {
 
   private @Nullable AbstractClassificationMappingType defaultClassificationMapping;
 
-  @Valid
   private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
 
   private @Nullable BigDecimal displayOrder;
@@ -75,7 +72,6 @@ public class IndicatorOverviewType implements Serializable {
 
   private CommonMetadataType metadata;
 
-  @Valid
   private List<@Valid OgcServicesType> ogcServices = new ArrayList<>();
 
   private String ownerId;
@@ -86,20 +82,16 @@ public class IndicatorOverviewType implements Serializable {
 
   private @Nullable String referenceDateNote;
 
-  @Valid
   private List<@Valid GeoresourceReferenceType> referencedGeoresources = new ArrayList<>();
 
-  @Valid
   private List<@Valid IndicatorReferenceType> referencedIndicators = new ArrayList<>();
 
-  @Valid
   private List<String> tags = new ArrayList<>();
 
   private String topicReference;
 
   private String unit;
 
-  @Valid
   private List<PermissionLevelType> userPermissions = new ArrayList<>();
 
   private Boolean isPublic;
@@ -144,6 +136,7 @@ public class IndicatorOverviewType implements Serializable {
     return abbreviation;
   }
 
+  @JsonProperty("abbreviation")
   public void setAbbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
   }
@@ -172,6 +165,7 @@ public class IndicatorOverviewType implements Serializable {
     return permissions;
   }
 
+  @JsonProperty("permissions")
   public void setPermissions(List<String> permissions) {
     this.permissions = permissions;
   }
@@ -200,6 +194,7 @@ public class IndicatorOverviewType implements Serializable {
     return applicableDates;
   }
 
+  @JsonProperty("applicableDates")
   public void setApplicableDates(List<String> applicableDates) {
     this.applicableDates = applicableDates;
   }
@@ -228,6 +223,7 @@ public class IndicatorOverviewType implements Serializable {
     return applicableSpatialUnits;
   }
 
+  @JsonProperty("applicableSpatialUnits")
   public void setApplicableSpatialUnits(List<@Valid IndicatorSpatialUnitJoinItem> applicableSpatialUnits) {
     this.applicableSpatialUnits = applicableSpatialUnits;
   }
@@ -248,6 +244,7 @@ public class IndicatorOverviewType implements Serializable {
     return characteristicValue;
   }
 
+  @JsonProperty("characteristicValue")
   public void setCharacteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
   }
@@ -268,6 +265,7 @@ public class IndicatorOverviewType implements Serializable {
     return creationType;
   }
 
+  @JsonProperty("creationType")
   public void setCreationType(CreationTypeEnum creationType) {
     this.creationType = creationType;
   }
@@ -288,6 +286,7 @@ public class IndicatorOverviewType implements Serializable {
     return defaultClassificationMapping;
   }
 
+  @JsonProperty("defaultClassificationMapping")
   public void setDefaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
@@ -316,6 +315,7 @@ public class IndicatorOverviewType implements Serializable {
     return regionalReferenceValues;
   }
 
+  @JsonProperty("regionalReferenceValues")
   public void setRegionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
     this.regionalReferenceValues = regionalReferenceValues;
   }
@@ -336,6 +336,7 @@ public class IndicatorOverviewType implements Serializable {
     return displayOrder;
   }
 
+  @JsonProperty("displayOrder")
   public void setDisplayOrder(@Nullable BigDecimal displayOrder) {
     this.displayOrder = displayOrder;
   }
@@ -356,6 +357,7 @@ public class IndicatorOverviewType implements Serializable {
     return indicatorId;
   }
 
+  @JsonProperty("indicatorId")
   public void setIndicatorId(String indicatorId) {
     this.indicatorId = indicatorId;
   }
@@ -376,6 +378,7 @@ public class IndicatorOverviewType implements Serializable {
     return indicatorName;
   }
 
+  @JsonProperty("indicatorName")
   public void setIndicatorName(String indicatorName) {
     this.indicatorName = indicatorName;
   }
@@ -396,6 +399,7 @@ public class IndicatorOverviewType implements Serializable {
     return indicatorType;
   }
 
+  @JsonProperty("indicatorType")
   public void setIndicatorType(@Nullable IndicatorTypeEnum indicatorType) {
     this.indicatorType = indicatorType;
   }
@@ -416,6 +420,7 @@ public class IndicatorOverviewType implements Serializable {
     return interpretation;
   }
 
+  @JsonProperty("interpretation")
   public void setInterpretation(String interpretation) {
     this.interpretation = interpretation;
   }
@@ -436,6 +441,7 @@ public class IndicatorOverviewType implements Serializable {
     return isHeadlineIndicator;
   }
 
+  @JsonProperty("isHeadlineIndicator")
   public void setIsHeadlineIndicator(Boolean isHeadlineIndicator) {
     this.isHeadlineIndicator = isHeadlineIndicator;
   }
@@ -456,6 +462,7 @@ public class IndicatorOverviewType implements Serializable {
     return lowestSpatialUnitForComputation;
   }
 
+  @JsonProperty("lowestSpatialUnitForComputation")
   public void setLowestSpatialUnitForComputation(@Nullable String lowestSpatialUnitForComputation) {
     this.lowestSpatialUnitForComputation = lowestSpatialUnitForComputation;
   }
@@ -476,6 +483,7 @@ public class IndicatorOverviewType implements Serializable {
     return metadata;
   }
 
+  @JsonProperty("metadata")
   public void setMetadata(CommonMetadataType metadata) {
     this.metadata = metadata;
   }
@@ -504,6 +512,7 @@ public class IndicatorOverviewType implements Serializable {
     return ogcServices;
   }
 
+  @JsonProperty("ogcServices")
   public void setOgcServices(List<@Valid OgcServicesType> ogcServices) {
     this.ogcServices = ogcServices;
   }
@@ -524,6 +533,7 @@ public class IndicatorOverviewType implements Serializable {
     return ownerId;
   }
 
+  @JsonProperty("ownerId")
   public void setOwnerId(String ownerId) {
     this.ownerId = ownerId;
   }
@@ -544,6 +554,7 @@ public class IndicatorOverviewType implements Serializable {
     return processDescription;
   }
 
+  @JsonProperty("processDescription")
   public void setProcessDescription(@Nullable String processDescription) {
     this.processDescription = processDescription;
   }
@@ -564,6 +575,7 @@ public class IndicatorOverviewType implements Serializable {
     return precision;
   }
 
+  @JsonProperty("precision")
   public void setPrecision(@Nullable Integer precision) {
     this.precision = precision;
   }
@@ -584,6 +596,7 @@ public class IndicatorOverviewType implements Serializable {
     return referenceDateNote;
   }
 
+  @JsonProperty("referenceDateNote")
   public void setReferenceDateNote(@Nullable String referenceDateNote) {
     this.referenceDateNote = referenceDateNote;
   }
@@ -612,6 +625,7 @@ public class IndicatorOverviewType implements Serializable {
     return referencedGeoresources;
   }
 
+  @JsonProperty("referencedGeoresources")
   public void setReferencedGeoresources(List<@Valid GeoresourceReferenceType> referencedGeoresources) {
     this.referencedGeoresources = referencedGeoresources;
   }
@@ -640,6 +654,7 @@ public class IndicatorOverviewType implements Serializable {
     return referencedIndicators;
   }
 
+  @JsonProperty("referencedIndicators")
   public void setReferencedIndicators(List<@Valid IndicatorReferenceType> referencedIndicators) {
     this.referencedIndicators = referencedIndicators;
   }
@@ -668,6 +683,7 @@ public class IndicatorOverviewType implements Serializable {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<String> tags) {
     this.tags = tags;
   }
@@ -688,6 +704,7 @@ public class IndicatorOverviewType implements Serializable {
     return topicReference;
   }
 
+  @JsonProperty("topicReference")
   public void setTopicReference(String topicReference) {
     this.topicReference = topicReference;
   }
@@ -708,6 +725,7 @@ public class IndicatorOverviewType implements Serializable {
     return unit;
   }
 
+  @JsonProperty("unit")
   public void setUnit(String unit) {
     this.unit = unit;
   }
@@ -736,6 +754,7 @@ public class IndicatorOverviewType implements Serializable {
     return userPermissions;
   }
 
+  @JsonProperty("userPermissions")
   public void setUserPermissions(List<PermissionLevelType> userPermissions) {
     this.userPermissions = userPermissions;
   }
@@ -756,6 +775,7 @@ public class IndicatorOverviewType implements Serializable {
     return isPublic;
   }
 
+  @JsonProperty("isPublic")
   public void setIsPublic(Boolean isPublic) {
     this.isPublic = isPublic;
   }
@@ -844,11 +864,8 @@ public class IndicatorOverviewType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

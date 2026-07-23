@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -24,28 +25,23 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ConverterType", description = "Converter that enables the converting of a certain dataset format into the KomMonitor specific format of georesources, spatial units and indicators")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class ConverterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private String name;
 
-  @Valid
   private List<String> mimeTypes;
 
-  @Valid
   private @Nullable List<String> schemas;
 
-  @Valid
   private @Nullable List<String> encodings;
 
   private @Nullable String defaultEncoding;
 
-  @Valid
   private @Nullable List<@Valid ParameterType> parameters;
 
-  @Valid
   private @Nullable List<String> datasources;
 
   public ConverterType() {
@@ -76,6 +72,7 @@ public class ConverterType implements Serializable {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -104,6 +101,7 @@ public class ConverterType implements Serializable {
     return mimeTypes;
   }
 
+  @JsonProperty("mimeTypes")
   public void setMimeTypes(List<String> mimeTypes) {
     this.mimeTypes = mimeTypes;
   }
@@ -132,6 +130,7 @@ public class ConverterType implements Serializable {
     return schemas;
   }
 
+  @JsonProperty("schemas")
   public void setSchemas(@Nullable List<String> schemas) {
     this.schemas = schemas;
   }
@@ -160,6 +159,7 @@ public class ConverterType implements Serializable {
     return encodings;
   }
 
+  @JsonProperty("encodings")
   public void setEncodings(@Nullable List<String> encodings) {
     this.encodings = encodings;
   }
@@ -180,6 +180,7 @@ public class ConverterType implements Serializable {
     return defaultEncoding;
   }
 
+  @JsonProperty("defaultEncoding")
   public void setDefaultEncoding(@Nullable String defaultEncoding) {
     this.defaultEncoding = defaultEncoding;
   }
@@ -208,6 +209,7 @@ public class ConverterType implements Serializable {
     return parameters;
   }
 
+  @JsonProperty("parameters")
   public void setParameters(@Nullable List<@Valid ParameterType> parameters) {
     this.parameters = parameters;
   }
@@ -236,6 +238,7 @@ public class ConverterType implements Serializable {
     return datasources;
   }
 
+  @JsonProperty("datasources")
   public void setDatasources(@Nullable List<String> datasources) {
     this.datasources = datasources;
   }
@@ -282,11 +285,8 @@ public class ConverterType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -25,7 +26,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "DataSourceDefinitionType", description = "Holds various information about the datasource for importing new resources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class DataSourceDefinitionType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -75,7 +76,6 @@ public class DataSourceDefinitionType implements Serializable {
 
   private TypeEnum type;
 
-  @Valid
   private @Nullable List<@Valid ParameterValueType> parameters;
 
   public DataSourceDefinitionType() {
@@ -105,6 +105,7 @@ public class DataSourceDefinitionType implements Serializable {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(TypeEnum type) {
     this.type = type;
   }
@@ -133,6 +134,7 @@ public class DataSourceDefinitionType implements Serializable {
     return parameters;
   }
 
+  @JsonProperty("parameters")
   public void setParameters(@Nullable List<@Valid ParameterValueType> parameters) {
     this.parameters = parameters;
   }
@@ -169,11 +171,8 @@ public class DataSourceDefinitionType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -36,7 +36,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DefaultClassificationMappingType.class, name = "QUANTITATIVE")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class AbstractClassificationMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -75,6 +75,7 @@ public class AbstractClassificationMappingType implements Serializable {
     return classificationType;
   }
 
+  @JsonProperty("classificationType")
   public void setClassificationType(@Nullable ClassificationTypeEnum classificationType) {
     this.classificationType = classificationType;
   }
@@ -95,6 +96,7 @@ public class AbstractClassificationMappingType implements Serializable {
     return colorBrewerSchemeName;
   }
 
+  @JsonProperty("colorBrewerSchemeName")
   public void setColorBrewerSchemeName(String colorBrewerSchemeName) {
     this.colorBrewerSchemeName = colorBrewerSchemeName;
   }
@@ -110,13 +112,14 @@ public class AbstractClassificationMappingType implements Serializable {
    * maximum: 9
    * @return numClasses
    */
-  @NotNull @Valid @DecimalMin("1") @DecimalMax("9") 
+  @NotNull @Valid @DecimalMin(value = "1") @DecimalMax(value = "9") 
   @Schema(name = "numClasses", description = "the number of classes", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("numClasses")
   public BigDecimal getNumClasses() {
     return numClasses;
   }
 
+  @JsonProperty("numClasses")
   public void setNumClasses(BigDecimal numClasses) {
     this.numClasses = numClasses;
   }
@@ -155,11 +158,8 @@ public class AbstractClassificationMappingType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

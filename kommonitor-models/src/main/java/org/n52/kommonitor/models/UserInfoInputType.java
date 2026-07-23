@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -22,24 +23,19 @@ import jakarta.annotation.Generated;
  * UserInfoInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class UserInfoInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @Valid
   private List<String> georesourceFavourites = new ArrayList<>();
 
-  @Valid
   private List<String> indicatorFavourites = new ArrayList<>();
 
-  @Valid
   private List<String> georesourceTopicFavourites = new ArrayList<>();
 
-  @Valid
   private List<String> indicatorTopicFavourites = new ArrayList<>();
 
-  @Valid
   private List<String> webServiceFavourites = new ArrayList<>();
 
   public UserInfoInputType georesourceFavourites(List<String> georesourceFavourites) {
@@ -66,6 +62,7 @@ public class UserInfoInputType implements Serializable {
     return georesourceFavourites;
   }
 
+  @JsonProperty("georesourceFavourites")
   public void setGeoresourceFavourites(List<String> georesourceFavourites) {
     this.georesourceFavourites = georesourceFavourites;
   }
@@ -94,6 +91,7 @@ public class UserInfoInputType implements Serializable {
     return indicatorFavourites;
   }
 
+  @JsonProperty("indicatorFavourites")
   public void setIndicatorFavourites(List<String> indicatorFavourites) {
     this.indicatorFavourites = indicatorFavourites;
   }
@@ -122,6 +120,7 @@ public class UserInfoInputType implements Serializable {
     return georesourceTopicFavourites;
   }
 
+  @JsonProperty("georesourceTopicFavourites")
   public void setGeoresourceTopicFavourites(List<String> georesourceTopicFavourites) {
     this.georesourceTopicFavourites = georesourceTopicFavourites;
   }
@@ -150,6 +149,7 @@ public class UserInfoInputType implements Serializable {
     return indicatorTopicFavourites;
   }
 
+  @JsonProperty("indicatorTopicFavourites")
   public void setIndicatorTopicFavourites(List<String> indicatorTopicFavourites) {
     this.indicatorTopicFavourites = indicatorTopicFavourites;
   }
@@ -178,6 +178,7 @@ public class UserInfoInputType implements Serializable {
     return webServiceFavourites;
   }
 
+  @JsonProperty("webServiceFavourites")
   public void setWebServiceFavourites(List<String> webServiceFavourites) {
     this.webServiceFavourites = webServiceFavourites;
   }
@@ -220,11 +221,8 @@ public class UserInfoInputType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

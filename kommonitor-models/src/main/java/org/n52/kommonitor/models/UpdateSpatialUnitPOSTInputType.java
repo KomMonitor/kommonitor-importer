@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -26,7 +27,7 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "Update_SpatialUnitPOSTInputType", description = "Definitions for updating an spatial unit from a certain datasource")
 @JsonTypeName("Update_SpatialUnitPOSTInputType")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class UpdateSpatialUnitPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -75,6 +76,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return spatialUnitId;
   }
 
+  @JsonProperty("spatialUnitId")
   public void setSpatialUnitId(String spatialUnitId) {
     this.spatialUnitId = spatialUnitId;
   }
@@ -95,6 +97,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return spatialUnitPutBody;
   }
 
+  @JsonProperty("spatialUnitPutBody")
   public void setSpatialUnitPutBody(SpatialUnitPUTInputType spatialUnitPutBody) {
     this.spatialUnitPutBody = spatialUnitPutBody;
   }
@@ -115,6 +118,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return dataSource;
   }
 
+  @JsonProperty("dataSource")
   public void setDataSource(DataSourceDefinitionType dataSource) {
     this.dataSource = dataSource;
   }
@@ -135,6 +139,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return converter;
   }
 
+  @JsonProperty("converter")
   public void setConverter(ConverterDefinitionType converter) {
     this.converter = converter;
   }
@@ -155,6 +160,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return propertyMapping;
   }
 
+  @JsonProperty("propertyMapping")
   public void setPropertyMapping(SpatialResourcePropertyMappingType propertyMapping) {
     this.propertyMapping = propertyMapping;
   }
@@ -175,6 +181,7 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
     return dryRun;
   }
 
+  @JsonProperty("dryRun")
   public void setDryRun(Boolean dryRun) {
     this.dryRun = dryRun;
   }
@@ -219,11 +226,8 @@ public class UpdateSpatialUnitPOSTInputType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Error", description = "A default error that will be responded if an unexpected server error occurs")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class Error implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,7 +33,6 @@ public class Error implements Serializable {
 
   private String message;
 
-  @Valid
   private @Nullable List<String> errors;
 
   public Error() {
@@ -63,6 +63,7 @@ public class Error implements Serializable {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -83,6 +84,7 @@ public class Error implements Serializable {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;
   }
@@ -111,6 +113,7 @@ public class Error implements Serializable {
     return errors;
   }
 
+  @JsonProperty("errors")
   public void setErrors(@Nullable List<String> errors) {
     this.errors = errors;
   }
@@ -149,11 +152,8 @@ public class Error implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

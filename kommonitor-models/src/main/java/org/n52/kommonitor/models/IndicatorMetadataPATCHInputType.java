@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -31,7 +32,7 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -46,7 +47,6 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private @Nullable AbstractClassificationMappingType defaultClassificationMapping;
 
-  @Valid
   private List<@Valid RegionalReferenceValueType> regionalReferenceValues = new ArrayList<>();
 
   private @Nullable BigDecimal displayOrder;
@@ -67,13 +67,10 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private @Nullable String referenceDateNote;
 
-  @Valid
   private List<@Valid IndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources = new ArrayList<>();
 
-  @Valid
   private List<@Valid IndicatorPOSTInputTypeRefrencesToOtherIndicators> refrencesToOtherIndicators = new ArrayList<>();
 
-  @Valid
   private List<String> tags = new ArrayList<>();
 
   private String topicReference;
@@ -114,6 +111,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return abbreviation;
   }
 
+  @JsonProperty("abbreviation")
   public void setAbbreviation(String abbreviation) {
     this.abbreviation = abbreviation;
   }
@@ -134,6 +132,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return characteristicValue;
   }
 
+  @JsonProperty("characteristicValue")
   public void setCharacteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
   }
@@ -154,6 +153,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return creationType;
   }
 
+  @JsonProperty("creationType")
   public void setCreationType(@Nullable CreationTypeEnum creationType) {
     this.creationType = creationType;
   }
@@ -174,6 +174,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return datasetName;
   }
 
+  @JsonProperty("datasetName")
   public void setDatasetName(@Nullable String datasetName) {
     this.datasetName = datasetName;
   }
@@ -194,6 +195,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return defaultClassificationMapping;
   }
 
+  @JsonProperty("defaultClassificationMapping")
   public void setDefaultClassificationMapping(@Nullable AbstractClassificationMappingType defaultClassificationMapping) {
     this.defaultClassificationMapping = defaultClassificationMapping;
   }
@@ -222,6 +224,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return regionalReferenceValues;
   }
 
+  @JsonProperty("regionalReferenceValues")
   public void setRegionalReferenceValues(List<@Valid RegionalReferenceValueType> regionalReferenceValues) {
     this.regionalReferenceValues = regionalReferenceValues;
   }
@@ -242,6 +245,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return displayOrder;
   }
 
+  @JsonProperty("displayOrder")
   public void setDisplayOrder(@Nullable BigDecimal displayOrder) {
     this.displayOrder = displayOrder;
   }
@@ -262,6 +266,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return indicatorType;
   }
 
+  @JsonProperty("indicatorType")
   public void setIndicatorType(@Nullable IndicatorTypeEnum indicatorType) {
     this.indicatorType = indicatorType;
   }
@@ -282,6 +287,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return interpretation;
   }
 
+  @JsonProperty("interpretation")
   public void setInterpretation(String interpretation) {
     this.interpretation = interpretation;
   }
@@ -302,6 +308,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return isHeadlineIndicator;
   }
 
+  @JsonProperty("isHeadlineIndicator")
   public void setIsHeadlineIndicator(Boolean isHeadlineIndicator) {
     this.isHeadlineIndicator = isHeadlineIndicator;
   }
@@ -322,6 +329,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return lowestSpatialUnitForComputation;
   }
 
+  @JsonProperty("lowestSpatialUnitForComputation")
   public void setLowestSpatialUnitForComputation(@Nullable String lowestSpatialUnitForComputation) {
     this.lowestSpatialUnitForComputation = lowestSpatialUnitForComputation;
   }
@@ -342,6 +350,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return metadata;
   }
 
+  @JsonProperty("metadata")
   public void setMetadata(CommonMetadataType metadata) {
     this.metadata = metadata;
   }
@@ -362,6 +371,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return precision;
   }
 
+  @JsonProperty("precision")
   public void setPrecision(@Nullable Integer precision) {
     this.precision = precision;
   }
@@ -382,6 +392,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return processDescription;
   }
 
+  @JsonProperty("processDescription")
   public void setProcessDescription(String processDescription) {
     this.processDescription = processDescription;
   }
@@ -402,6 +413,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return referenceDateNote;
   }
 
+  @JsonProperty("referenceDateNote")
   public void setReferenceDateNote(@Nullable String referenceDateNote) {
     this.referenceDateNote = referenceDateNote;
   }
@@ -430,6 +442,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return refrencesToGeoresources;
   }
 
+  @JsonProperty("refrencesToGeoresources")
   public void setRefrencesToGeoresources(List<@Valid IndicatorPOSTInputTypeRefrencesToGeoresources> refrencesToGeoresources) {
     this.refrencesToGeoresources = refrencesToGeoresources;
   }
@@ -458,6 +471,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return refrencesToOtherIndicators;
   }
 
+  @JsonProperty("refrencesToOtherIndicators")
   public void setRefrencesToOtherIndicators(List<@Valid IndicatorPOSTInputTypeRefrencesToOtherIndicators> refrencesToOtherIndicators) {
     this.refrencesToOtherIndicators = refrencesToOtherIndicators;
   }
@@ -486,6 +500,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<String> tags) {
     this.tags = tags;
   }
@@ -506,6 +521,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return topicReference;
   }
 
+  @JsonProperty("topicReference")
   public void setTopicReference(String topicReference) {
     this.topicReference = topicReference;
   }
@@ -526,6 +542,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     return unit;
   }
 
+  @JsonProperty("unit")
   public void setUnit(String unit) {
     this.unit = unit;
   }
@@ -598,11 +615,8 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

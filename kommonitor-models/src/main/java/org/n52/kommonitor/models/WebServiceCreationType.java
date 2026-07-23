@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * WebServiceCreationType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:03.721718300+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class WebServiceCreationType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -53,7 +53,6 @@ public class WebServiceCreationType implements Serializable {
 
   private String ownerId;
 
-  @Valid
   private List<String> permissions = new ArrayList<>();
 
   public WebServiceCreationType() {
@@ -91,6 +90,7 @@ public class WebServiceCreationType implements Serializable {
     return contact;
   }
 
+  @JsonProperty("contact")
   public void setContact(String contact) {
     this.contact = contact;
   }
@@ -111,6 +111,7 @@ public class WebServiceCreationType implements Serializable {
     return connectionDetails;
   }
 
+  @JsonProperty("connectionDetails")
   public void setConnectionDetails(WmsConnectionInfoType connectionDetails) {
     this.connectionDetails = connectionDetails;
   }
@@ -131,6 +132,7 @@ public class WebServiceCreationType implements Serializable {
     return databasis;
   }
 
+  @JsonProperty("databasis")
   public void setDatabasis(@Nullable String databasis) {
     this.databasis = databasis;
   }
@@ -151,6 +153,7 @@ public class WebServiceCreationType implements Serializable {
     return datasource;
   }
 
+  @JsonProperty("datasource")
   public void setDatasource(String datasource) {
     this.datasource = datasource;
   }
@@ -171,6 +174,7 @@ public class WebServiceCreationType implements Serializable {
     return description;
   }
 
+  @JsonProperty("description")
   public void setDescription(String description) {
     this.description = description;
   }
@@ -191,6 +195,7 @@ public class WebServiceCreationType implements Serializable {
     return note;
   }
 
+  @JsonProperty("note")
   public void setNote(@Nullable String note) {
     this.note = note;
   }
@@ -211,6 +216,7 @@ public class WebServiceCreationType implements Serializable {
     return serviceResource;
   }
 
+  @JsonProperty("serviceResource")
   public void setServiceResource(@Nullable ServiceResourceEnum serviceResource) {
     this.serviceResource = serviceResource;
   }
@@ -231,6 +237,7 @@ public class WebServiceCreationType implements Serializable {
     return title;
   }
 
+  @JsonProperty("title")
   public void setTitle(String title) {
     this.title = title;
   }
@@ -251,6 +258,7 @@ public class WebServiceCreationType implements Serializable {
     return topicReference;
   }
 
+  @JsonProperty("topicReference")
   public void setTopicReference(String topicReference) {
     this.topicReference = topicReference;
   }
@@ -271,6 +279,7 @@ public class WebServiceCreationType implements Serializable {
     return isPublic;
   }
 
+  @JsonProperty("isPublic")
   public void setIsPublic(Boolean isPublic) {
     this.isPublic = isPublic;
   }
@@ -291,6 +300,7 @@ public class WebServiceCreationType implements Serializable {
     return ownerId;
   }
 
+  @JsonProperty("ownerId")
   public void setOwnerId(String ownerId) {
     this.ownerId = ownerId;
   }
@@ -319,6 +329,7 @@ public class WebServiceCreationType implements Serializable {
     return permissions;
   }
 
+  @JsonProperty("permissions")
   public void setPermissions(List<String> permissions) {
     this.permissions = permissions;
   }
@@ -375,11 +386,8 @@ public class WebServiceCreationType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

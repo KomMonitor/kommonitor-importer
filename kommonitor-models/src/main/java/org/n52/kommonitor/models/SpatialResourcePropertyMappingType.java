@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 import java.util.*;
 import jakarta.annotation.Generated;
 
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "SpatialResourcePropertyMappingType", description = "Definitions for mapping datasource properties to required properties for spatial units and georesources")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-21T15:22:02.462169700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:18.040039400+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class SpatialResourcePropertyMappingType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -43,7 +44,6 @@ public class SpatialResourcePropertyMappingType implements Serializable {
 
   private Boolean keepMissingOrNullValueAttributes;
 
-  @Valid
   private @Nullable List<@Valid AttributeMappingType> attributes;
 
   public SpatialResourcePropertyMappingType() {
@@ -75,6 +75,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return identifierProperty;
   }
 
+  @JsonProperty("identifierProperty")
   public void setIdentifierProperty(@Nullable String identifierProperty) {
     this.identifierProperty = identifierProperty;
   }
@@ -95,6 +96,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return nameProperty;
   }
 
+  @JsonProperty("nameProperty")
   public void setNameProperty(String nameProperty) {
     this.nameProperty = nameProperty;
   }
@@ -115,6 +117,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return validStartDateProperty;
   }
 
+  @JsonProperty("validStartDateProperty")
   public void setValidStartDateProperty(@Nullable String validStartDateProperty) {
     this.validStartDateProperty = validStartDateProperty;
   }
@@ -135,6 +138,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return validEndDateProperty;
   }
 
+  @JsonProperty("validEndDateProperty")
   public void setValidEndDateProperty(@Nullable String validEndDateProperty) {
     this.validEndDateProperty = validEndDateProperty;
   }
@@ -155,6 +159,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return arisenFromProperty;
   }
 
+  @JsonProperty("arisenFromProperty")
   public void setArisenFromProperty(@Nullable String arisenFromProperty) {
     this.arisenFromProperty = arisenFromProperty;
   }
@@ -175,6 +180,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return keepAttributes;
   }
 
+  @JsonProperty("keepAttributes")
   public void setKeepAttributes(Boolean keepAttributes) {
     this.keepAttributes = keepAttributes;
   }
@@ -195,6 +201,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return keepMissingOrNullValueAttributes;
   }
 
+  @JsonProperty("keepMissingOrNullValueAttributes")
   public void setKeepMissingOrNullValueAttributes(Boolean keepMissingOrNullValueAttributes) {
     this.keepMissingOrNullValueAttributes = keepMissingOrNullValueAttributes;
   }
@@ -223,6 +230,7 @@ public class SpatialResourcePropertyMappingType implements Serializable {
     return attributes;
   }
 
+  @JsonProperty("attributes")
   public void setAttributes(@Nullable List<@Valid AttributeMappingType> attributes) {
     this.attributes = attributes;
   }
@@ -271,11 +279,8 @@ public class SpatialResourcePropertyMappingType implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+  private String toIndentedString(@Nullable Object o) {
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 
