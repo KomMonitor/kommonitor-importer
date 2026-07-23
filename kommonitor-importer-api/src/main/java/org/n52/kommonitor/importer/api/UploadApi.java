@@ -74,7 +74,6 @@ public interface UploadApi {
         
     ) throws Exception;
 
-
     public static final String PATH_UPLOAD = "/upload";
     /**
      * POST /upload : Upload a file

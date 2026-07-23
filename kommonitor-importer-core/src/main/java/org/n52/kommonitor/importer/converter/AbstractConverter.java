@@ -35,7 +35,6 @@ public abstract class AbstractConverter implements InitializingBean, Converter {
 
     private Set<ConverterParameter> converterParameters;
 
-
     @Override
     public String getName() {
         return name;

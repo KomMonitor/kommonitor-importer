@@ -51,7 +51,6 @@ public class APIFeaturesRetrieverTest {
         Assertions.assertEquals(2, fc.size());
     }
 
-
     private DataSourceDefinitionType createDataSourceDefinition() {
         DataSourceDefinitionType dataSourceDefinition = new DataSourceDefinitionType(DataSourceDefinitionType.TypeEnum.HTTP);
 

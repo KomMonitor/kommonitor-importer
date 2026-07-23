@@ -46,5 +46,4 @@ public class AggregationMinFunctionTest {
         Assertions.assertEquals(Float.NaN, result);
     }
 
-
 }

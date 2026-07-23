@@ -1,6 +1,6 @@
 package org.n52.kommonitor.importer.api.handler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
 import org.n52.kommonitor.importer.api.encoder.SpatialResourceJsonEncoder;
 import org.n52.kommonitor.importer.converter.AbstractConverter;
@@ -67,7 +67,7 @@ public class GeoresourceUpdateHandler extends AbstractRequestHandler<UpdateGeore
             georesourcePutInput.isPartialUpdate(requestResourceType.getGeoresourcePutBody().getIsPartialUpdate());
             try {
                 georesourcePutInput.setGeoJsonString(spatialResourceEncoder.encodeSpatialResourcesAsString(validResources));
-            } catch (JsonProcessingException ex) {
+            } catch (JacksonException ex) {
                 throw new ImportParameterException("Could not encode Georesource.", ex);
             }
 

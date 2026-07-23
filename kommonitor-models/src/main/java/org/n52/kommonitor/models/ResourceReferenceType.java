@@ -36,7 +36,6 @@ public class ResourceReferenceType  implements Serializable {
   **/
   @ApiModelProperty(value = "identifier of the referenced resource")
 
-
   public String getResourceId() {
     return resourceId;
   }
@@ -56,7 +55,6 @@ public class ResourceReferenceType  implements Serializable {
   **/
   @ApiModelProperty(value = "short description of how the resource is referenced to the superior one")
 
-
   public String getReferenceDescription() {
     return referenceDescription;
   }
@@ -64,7 +62,6 @@ public class ResourceReferenceType  implements Serializable {
   public void setReferenceDescription(String referenceDescription) {
     this.referenceDescription = referenceDescription;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

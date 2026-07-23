@@ -46,5 +46,4 @@ public class AggregationSumFunctionTest {
         Assertions.assertEquals(Float.NaN, result);
     }
 
-
 }

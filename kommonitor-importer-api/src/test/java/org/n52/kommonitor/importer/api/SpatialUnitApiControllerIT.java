@@ -1,11 +1,11 @@
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.node.ObjectNode;
+
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -99,7 +99,6 @@ public class SpatialUnitApiControllerIT {
         spatialUnitImportBody = createSpatialUnitImportType();
         spatialUnitUpdateBody = createSpatialUnitUpdateType();
         mapper = new ObjectMapper()
-                .registerModule(new JavaTimeModule())
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 
@@ -387,7 +386,7 @@ public class SpatialUnitApiControllerIT {
         return spatialUnitUpdate;
     }
 
-    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException, DataSourceRetrieverException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JacksonException, DataSourceRetrieverException {
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenReturn(Mockito.mock(Dataset.class));
 

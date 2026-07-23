@@ -34,5 +34,4 @@ public class APIFeaturesConverterTest extends GeoJsonConverterTest{
         spatialResourcePropertyMapping.setKeepMissingOrNullValueAttributes(false);
     }
 
-
 }

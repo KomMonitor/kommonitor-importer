@@ -43,7 +43,6 @@ public class UserOverviewType  implements Serializable {
   @ApiModelProperty(required = true, value = "the unique identifier of the user")
   @NotNull
 
-
   public String getUserId() {
     return userId;
   }
@@ -63,7 +62,6 @@ public class UserOverviewType  implements Serializable {
   **/
   @ApiModelProperty(required = true, value = "the user name from the login credentials")
   @NotNull
-
 
   public String getUserName() {
     return userName;
@@ -99,7 +97,6 @@ public class UserOverviewType  implements Serializable {
   public void setRoles(List<RoleOverviewType> roles) {
     this.roles = roles;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

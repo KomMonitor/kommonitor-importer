@@ -100,7 +100,6 @@ public abstract class AbstractRequestHandler<T> {
                                                                ConverterDefinitionType converterDefinition,
                                                                Dataset<?> dataset) throws ConverterException, ImportParameterException, RestClientException;
 
-
     private void checkRequest(Optional<AbstractDataSourceRetriever<?>> retrieverOpt,
                               Optional<AbstractConverter> converterOpt,
                               DataSourceDefinitionType datasourceDefinition,
@@ -114,6 +113,5 @@ public abstract class AbstractRequestHandler<T> {
         }
         converterOpt.get().validateDefinition(converterDefinition);
     }
-
 
 }

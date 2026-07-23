@@ -3,7 +3,6 @@ package org.n52.kommonitor.datamanagement.api.client;
 import jakarta.annotation.Generated;
 import org.n52.kommonitor.datamanagement.api.ApiClient;
 
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

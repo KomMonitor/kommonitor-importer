@@ -82,7 +82,6 @@ public interface GeoresourcesApi {
         @Parameter(name = "ImportGeoresourcePOSTInputType", description = "Definitions to create georesources", required = true) @Valid @RequestBody ImportGeoresourcePOSTInputType importGeoresourcePOSTInputType
     ) throws Exception;
 
-
     public static final String PATH_UPDATE_GEORESOURCE = "/georesources/update";
     /**
      * POST /georesources/update : Update a georesource

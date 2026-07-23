@@ -4,10 +4,10 @@ server:
 spring:
   application:
     name: kommonitor-import-api
-  jackson:
-    date-format: io.swagger.RFC3339DateFormat
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
+#  jackson:
+#    date-format: io.swagger.RFC3339DateFormat
+#    serialization:
+#      WRITE_DATES_AS_TIMESTAMPS: false
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher  
@@ -51,7 +51,7 @@ springdoc:
     oauth2RedirectUrl:  http://localhost:8087/swagger-ui/oauth2-redirect.html
     oauth:
       clientId: kommonitor-importer
-      clientSecret: importer-secret
+      clientSecret: ZQDi5kGATUhG67HdMYYUthhrsask2SjK
 
 # Set a proxy for external requests
 #proxy:

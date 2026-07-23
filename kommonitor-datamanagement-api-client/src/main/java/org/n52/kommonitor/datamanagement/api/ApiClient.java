@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package org.n52.kommonitor.datamanagement.api;
 
 import org.apache.commons.logging.Log;
@@ -42,7 +41,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.openapitools.jackson.nullable.JsonNullableModule;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -216,7 +214,6 @@ public class ApiClient extends JavaTimeFormatter {
 
 
 
-
     /**
      * Helper method to set access token for the first OAuth2 authentication.
      *
@@ -240,7 +237,6 @@ public class ApiClient extends JavaTimeFormatter {
         }
         throw new RuntimeException("No OAuth2 authentication configured!");
     }
-
 
     /**
      * Set the User-Agent header's value (by adding to the default header map).

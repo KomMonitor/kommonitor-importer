@@ -73,7 +73,6 @@ public class ImportMonitor {
         addFailure(failedAggregations, id, cause);
     }
 
-
     private void addFailure(Map<String, List<String>> failureMap, String id, String cause) {
         if (failureMap.containsKey(id)) {
             failureMap.get(id).add(cause);

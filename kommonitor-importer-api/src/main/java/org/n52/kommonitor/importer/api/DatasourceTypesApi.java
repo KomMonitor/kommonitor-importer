@@ -79,7 +79,6 @@ public interface DatasourceTypesApi {
         @Parameter(name = "type", description = "unique type of the datasource", required = true, in = ParameterIn.PATH) @PathVariable("type") String type
     ) throws Exception;
 
-
     public static final String PATH_GET_SUPPORTED_DATA_SOURCE_TYPES = "/datasourceTypes";
     /**
      * GET /datasourceTypes : Retrieve information about all supported datasource types

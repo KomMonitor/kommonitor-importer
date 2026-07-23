@@ -1,9 +1,9 @@
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -230,7 +230,7 @@ public class IndicatorsApiControllerIT {
 
     }
 
-    private void prepareMocks() throws ConverterException, ImportParameterException, JsonProcessingException, DataSourceRetrieverException {
+    private void prepareMocks() throws ConverterException, ImportParameterException, JacksonException, DataSourceRetrieverException {
         Mockito.when(retriever.retrieveDataset(Mockito.any(DataSourceDefinitionType.class)))
                 .thenReturn(Mockito.mock(Dataset.class));
 
@@ -255,6 +255,5 @@ public class IndicatorsApiControllerIT {
                 .thenReturn(Mockito.mock(IndicatorPUTInputType.class));
         Mockito.when(validator.isValid(Mockito.any(IndicatorValue.class), Mockito.eq(false))).thenReturn(true);
     }
-
 
 }

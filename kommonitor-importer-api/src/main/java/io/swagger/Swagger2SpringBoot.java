@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-
 @SpringBootApplication
 @ComponentScan(basePackages = { "io.swagger", "org.n52.kommonitor.importer.api" , "io.swagger.configuration"})
 public class Swagger2SpringBoot implements CommandLineRunner {

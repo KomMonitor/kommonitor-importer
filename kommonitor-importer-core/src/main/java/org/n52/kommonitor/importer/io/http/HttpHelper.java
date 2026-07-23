@@ -81,7 +81,6 @@ public class HttpHelper {
 
     static class ByteArrayResponseHandler implements HttpClientResponseHandler<byte[]> {
 
-
         @Override
         public byte[] handleResponse(ClassicHttpResponse httpResponse) throws IOException {
             if (httpResponse.getCode() >= 300) {

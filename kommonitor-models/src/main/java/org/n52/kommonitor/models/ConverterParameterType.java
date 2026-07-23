@@ -12,7 +12,6 @@ import jakarta.annotation.Generated;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
-
 /**
  * Definition of an additional parameter that is required for decoding a certain dataset format (e.g. separator for CSV-based datasets)
  */
@@ -79,7 +78,6 @@ public class ConverterParameterType  implements Serializable {
   @ApiModelProperty(required = true, value = "name of the decoding parameter")
   @NotNull
 
-
   public String getName() {
     return name;
   }
@@ -98,7 +96,6 @@ public class ConverterParameterType  implements Serializable {
    * @return description
   **/
   @ApiModelProperty(value = "description of the decoding parameter")
-
 
   public String getDescription() {
     return description;
@@ -119,7 +116,6 @@ public class ConverterParameterType  implements Serializable {
   **/
   @ApiModelProperty(value = "type of the parameter")
 
-
   public TypeEnum getType() {
     return type;
   }
@@ -127,7 +123,6 @@ public class ConverterParameterType  implements Serializable {
   public void setType(TypeEnum type) {
     this.type = type;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

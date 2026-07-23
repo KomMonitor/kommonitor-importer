@@ -79,7 +79,6 @@ public interface ConvertersApi {
         @Parameter(name = "name", description = "unique name of the converter", required = true, in = ParameterIn.PATH) @PathVariable("name") String name
     ) throws Exception;
 
-
     public static final String PATH_GET_CONVERTERS = "/converters";
     /**
      * GET /converters : Retrieve information about all available converters

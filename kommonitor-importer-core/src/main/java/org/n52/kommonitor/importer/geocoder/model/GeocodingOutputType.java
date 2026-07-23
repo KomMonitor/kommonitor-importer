@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Validated
 @Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-03-14T08:15:39.526Z[GMT]")
 
-
 public class GeocodingOutputType   {
   @JsonProperty("type")
   private String type = "FeatureCollection";
@@ -68,7 +67,6 @@ public class GeocodingOutputType   {
   public void setFeatures(List<GeocodingFeatureType> features) {
     this.features = features;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {

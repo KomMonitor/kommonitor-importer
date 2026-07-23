@@ -107,7 +107,6 @@ public class GeocodingPropertiesType {
   @JsonProperty("geocodedesc")
   private String geocodedesc = null;
 
-
   public String getGeocodedesc() {
 	return geocodedesc;
 }
@@ -303,7 +302,6 @@ public GeocodingPropertiesType category(String category) {
     this.geocoderank = geocoderank;
   }
 
-
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -331,7 +329,6 @@ public GeocodingPropertiesType category(String category) {
   public int hashCode() {
     return Objects.hash(category, type, displayName, country, state, postcode, city, district, street, housenumber, geocoderank);
   }
-
 
   @Override
   public String toString() {

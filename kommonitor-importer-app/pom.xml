@@ -3,7 +3,7 @@
     <parent>
         <artifactId>kommonitor-importer</artifactId>
         <groupId>org.n52.kommonitor</groupId>
-        <version>4.2.2</version>
+        <version>4.3.0-SNAPSHOT</version>
     </parent>
     <properties>
         <app.finalName>${artifactId}-${version}</app.finalName>
@@ -39,7 +39,15 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
         <dependency>

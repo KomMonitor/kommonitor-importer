@@ -1,6 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;

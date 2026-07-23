@@ -150,5 +150,4 @@ public class WFSv1ConverterTest {
         Assertions.assertThrows(ImportParameterException.class, () -> converter.convertSpatialResources(convDef, dataset, spatialResourcePropertyMapping));
     }
 
-
 }
