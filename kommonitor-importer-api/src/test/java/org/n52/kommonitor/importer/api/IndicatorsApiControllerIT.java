@@ -1,5 +1,6 @@
 package org.n52.kommonitor.importer.api;
 
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -28,7 +29,6 @@ import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

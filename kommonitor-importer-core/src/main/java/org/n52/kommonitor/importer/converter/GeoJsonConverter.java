@@ -3,8 +3,6 @@ package org.n52.kommonitor.importer.converter;
 import java.io.*;
 import java.util.*;
 
-import org.geojson.Feature;
-import org.geojson.FeatureCollection;
 import org.geotools.api.feature.simple.SimpleFeature;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.referencing.CRS;
@@ -20,7 +18,9 @@ import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -111,7 +111,7 @@ public class GeoJsonConverter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertSpatialResources(converterDefinition, input, propertyMapping);
-        } catch (IOException ex) {
+        } catch (JacksonException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -127,12 +127,12 @@ public class GeoJsonConverter extends AbstractConverter {
 
         // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser.
-        FeatureCollection featureCollection = readFeatureCollection(dataset, converterDefinition);
+        JsonNode features = readFeatureCollection(dataset, converterDefinition);
 
         // Each SimpleFeature will be then read by the use of GeoTools and handled separately, in order to avoid
         // parsing issues.
-        for (Feature feature : featureCollection) {
-            SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
+        for (JsonNode featureNode : features) {
+            SimpleFeature simpleFeature = featureJson.readFeature(featureNode.toString());
             try {
                 spatialResources.add(featureDecoder.decodeFeatureToSpatialResource(simpleFeature, propertyMapping, CRS.decode(crs)));
             } catch (DecodingException ex) {
@@ -155,7 +155,7 @@ public class GeoJsonConverter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertIndicators(converterDefinition, input, propertyMapping, null);
-        } catch (IOException ex) {
+        } catch (JacksonException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -165,7 +165,7 @@ public class GeoJsonConverter extends AbstractConverter {
         InputStream input = getInputStream(converterDefinition, dataset);
         try {
             return convertIndicators(converterDefinition, input, propertyMapping, aggregationDefinitions);
-        } catch (IOException ex) {
+        } catch (JacksonException | IOException ex) {
             throw new ConverterException("Error while parsing dataset.", ex);
         }
     }
@@ -188,12 +188,12 @@ public class GeoJsonConverter extends AbstractConverter {
 
         // Due to GeoTools decoding issues when handling SimpleFeatures with different schemas within a FeatureCollection,
         // the FeatureCollection will be read with a Jackson based parser.
-        FeatureCollection featureCollection = readFeatureCollection(dataset, converterDefinition);
+        JsonNode features = readFeatureCollection(dataset, converterDefinition);
 
         // Each SimpleFeature will be then read by the use of GeoTools and handled separately, in order to avoid
         // parsing issues.
-        for (Feature feature : featureCollection) {
-            SimpleFeature simpleFeature = featureJson.readFeature(mapper.writeValueAsString(feature));
+        for (JsonNode featureNode : features) {
+            SimpleFeature simpleFeature = featureJson.readFeature(featureNode.toString());
             try {
                 indicatorValueList.add(featureDecoder.decodeFeatureToIndicatorValue(simpleFeature, propertyMapping, aggregationDefinitions));
             } catch (DecodingException ex) {
@@ -211,8 +211,8 @@ public class GeoJsonConverter extends AbstractConverter {
         return indicatorValueList;
     }
 
-    private FeatureCollection readFeatureCollection(InputStream dataset, ConverterDefinitionType converterDefinition) throws IOException {
-        // Wrap InputStream to BufferedInpuStream so that stream will be resetted after encoding detection
+    private JsonNode readFeatureCollection(InputStream dataset, ConverterDefinitionType converterDefinition) throws IOException {
+        // Wrap InputStream to BufferedInputStream so that stream will be reset after encoding detection
         InputStream bufferedDataset = new BufferedInputStream(dataset);
 
         String encoding;
@@ -231,7 +231,8 @@ public class GeoJsonConverter extends AbstractConverter {
             }
         }
 
-        return mapper.readValue(new InputStreamReader(bufferedDataset, encoding), FeatureCollection.class);
+        JsonNode root = mapper.readTree(new InputStreamReader(bufferedDataset, encoding));
+        return root.path("features");
     }
 
     private ConverterParameter createCrsParameter() {

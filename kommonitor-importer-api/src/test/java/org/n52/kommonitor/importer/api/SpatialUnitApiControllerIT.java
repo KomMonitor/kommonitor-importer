@@ -1,9 +1,11 @@
 package org.n52.kommonitor.importer.api;
 
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.node.ObjectNode;
 
 import org.apache.http.entity.ContentType;
@@ -31,7 +33,6 @@ import org.n52.kommonitor.importer.utils.EntityValidator;
 import org.n52.kommonitor.importer.utils.ImportMonitor;
 import org.n52.kommonitor.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,8 +99,7 @@ public class SpatialUnitApiControllerIT {
     static void init() {
         spatialUnitImportBody = createSpatialUnitImportType();
         spatialUnitUpdateBody = createSpatialUnitUpdateType();
-        mapper = new ObjectMapper()
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper = JsonMapper.builder().build();
     }
 
     @Test
