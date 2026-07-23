@@ -8,7 +8,6 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.SocketAddress;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -251,19 +250,17 @@ public class GlobalProxyConfig {
     @Bean
     @Primary
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        // 1. HttpClient konfigurieren
-        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(10));
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+        applyProxyToApacheBuilder(httpClientBuilder);
 
-        // Nur einen ProxySelector einbauen, wenn die Basis-Parameter da sind
         if (isProxyConfigured()) {
             log.info("RestTemplate: Proxy configuration detected ({}:{}).", proxyHost, proxyPort);
-            httpClientBuilder.proxy(buildProxySelector());
         } else {
             log.info("RestTemplate: No proxy configured (direct connection).");
         }
 
-        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClientBuilder.build());
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
+        requestFactory.setConnectionRequestTimeout(Duration.ofSeconds(10));
 
         return builder
                 .requestFactory(() -> requestFactory)
@@ -298,20 +295,10 @@ public class GlobalProxyConfig {
         if (isProxyConfigured()) {
             log.info("Configuring JwtDecoder to use Proxy {}:{}", proxyHost, proxyPort);
 
-            HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
-                    .proxy(buildProxySelector());
+            HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+            applyProxyToApacheBuilder(httpClientBuilder);
 
-            if (hasProxyCredentials()) {
-                log.info("Proxy authentication enabled for user: {}", proxyUser);
-                httpClientBuilder.authenticator(new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(proxyUser, proxyPassword.toCharArray());
-                    }
-                });
-            }
-
-            JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClientBuilder.build());
+            HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
             RestTemplate restTemplate = new RestTemplate(requestFactory);
             
             // WICHTIG: Verbessertes Error Handling für den Zertifikats-Abruf
