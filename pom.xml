@@ -327,6 +327,9 @@
                                 <arguments>
                                     <argument>--config</argument>
                                     <argument>${project.basedir}/cliff.toml</argument>
+                                    <argument>--tag</argument>
+                                    <argument>${project.version}</argument>
+                                    <argument>--offline</argument>
                                     <argument>--output</argument>
                                     <argument>${project.basedir}/CHANGELOG.md</argument>
                                 </arguments>
