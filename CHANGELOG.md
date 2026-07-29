@@ -5,15 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [4.2.3]
+> 29 Jul 2026
 
 ### Added
 
 - Add config for git-cliff and adjust maven release build ([b63e7e8](https://github.com/KomMonitor/kommonitor-importer/commit/b63e7e875e2c2c8faf696af79e30c0a1e32a7b59))
+- Add non-proxy settings ([105abff](https://github.com/KomMonitor/kommonitor-importer/commit/105abff926ab2d0fec2ce9d60eff9cc0f7e0caeb))
+- Add proxy config template ([4db2531](https://github.com/KomMonitor/kommonitor-importer/commit/4db253103e8a959c4727c636a7bc713f21cbdaf3))
 
 ### Changed
 
+- Update changelog ([33ced43](https://github.com/KomMonitor/kommonitor-importer/commit/33ced43df32e5174c163c505c8e978e85e67c4d4))
+- Refine pattern for git cliff changelog and release integration ([63b64d3](https://github.com/KomMonitor/kommonitor-importer/commit/63b64d36a4a8ecd934011cf0eacb48abac6291d7))
+- Merge branch 'feature/http-proxy' ([fb64e3c](https://github.com/KomMonitor/kommonitor-importer/commit/fb64e3c32284fa79291ddc6bf24f2fab64e4d1f9))
+- Sync version over modules ([1aa56d1](https://github.com/KomMonitor/kommonitor-importer/commit/1aa56d122091d838384aa5b3d0a85e250b2e479e))
+- Adjust CHANGELOG update for release ([9283016](https://github.com/KomMonitor/kommonitor-importer/commit/92830164fe5c52892d719485db1f3f249fd9569a))
+- Adjust git-cliff command ([f897d23](https://github.com/KomMonitor/kommonitor-importer/commit/f897d23057b847399219988c6229b601470f86f2))
+
+### Removed
+
+- Remove some hardcoded non-proxy hosts ([d48f03d](https://github.com/KomMonitor/kommonitor-importer/commit/d48f03dbe2a7d14f3ccf90a9b3c46552240e5ba6))
+- Remove redundant release profile ([9bee2b9](https://github.com/KomMonitor/kommonitor-importer/commit/9bee2b9ad8a71a8c57fbfb7e45ff74ebad3311e3))
+
+## [4.2.2]
+>  3 Jun 2026
+
+### Changed
+
+- Aff git-cliff config ([3c079d6](https://github.com/KomMonitor/kommonitor-importer/commit/3c079d6094112fe1f34c9e8ec28b3ffe8872db09))
 - [maven-release-plugin] prepare for next development iteration ([984f0cd](https://github.com/KomMonitor/kommonitor-importer/commit/984f0cd8f4e81443495498c46277e5be7102840c))
+- Merge branch 'develop' into feature/test ([e3b49f8](https://github.com/KomMonitor/kommonitor-importer/commit/e3b49f8029b24d7fbf7c8cabb2d26ac3c2f47682))
+- Adjust POM ([95e1c56](https://github.com/KomMonitor/kommonitor-importer/commit/95e1c56466dd8426a053bcb0cfcfe343c9520753))
+- [maven-release-plugin] Update CHANGELOG.md ([3cf2b39](https://github.com/KomMonitor/kommonitor-importer/commit/3cf2b39a4c71dff05c5dc5312bd8fd5ee6076217))
+- Change pom ([54644fb](https://github.com/KomMonitor/kommonitor-importer/commit/54644fb2e9b94e632dc172a4991d89a26f540b78))
+- [maven-release-plugin] Update CHANGELOG.md ([6d94644](https://github.com/KomMonitor/kommonitor-importer/commit/6d94644707eb7a9a856a93cd3091c63491c101bf))
+- [maven-release-plugin] Update CHANGELOG.md ([b3d3647](https://github.com/KomMonitor/kommonitor-importer/commit/b3d3647699d9f4855967313005d696b01bb3e8d8))
+- [maven-release-plugin] Update CHANGELOG.md ([a39b774](https://github.com/KomMonitor/kommonitor-importer/commit/a39b77472b23f6b783c78e5b7d8b34b91de2941e))
+- [maven-release-plugin] Update CHANGELOG.md ([bfe928d](https://github.com/KomMonitor/kommonitor-importer/commit/bfe928d40bf05e755fd2a8509a9a4857bddc976f))
+- [maven-release-plugin] prepare release 4.2.2 ([83d6059](https://github.com/KomMonitor/kommonitor-importer/commit/83d60594027c338a5b4f3c801f1110a590de61e7))
+
+### Removed
+
+- Remove things ([05f90b9](https://github.com/KomMonitor/kommonitor-importer/commit/05f90b9ea9c7b1169fe3b3c818fe43b7ea120d08))
 
 ## [4.2.1]
 >  5 May 2026
@@ -921,7 +955,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove hard coded setting ([0270e9c](https://github.com/KomMonitor/kommonitor-importer/commit/0270e9cc53d4ee4eca94cee7dad349a214e95f62))
 - Remove default setting of content type header due to invalid duplicate header value when requesting KomMonitor management component ([9734987](https://github.com/KomMonitor/kommonitor-importer/commit/97349871edac387e7d9deb7ca2bee21219acfb5e))
 
-[unreleased]: https://github.com/KomMonitor/kommonitor-importer/compare/4.2.1..HEAD
+[4.2.3]: https://github.com/KomMonitor/kommonitor-importer/compare/4.2.2..4.2.3
+[4.2.2]: https://github.com/KomMonitor/kommonitor-importer/compare/4.2.1..4.2.2
 [4.2.1]: https://github.com/KomMonitor/kommonitor-importer/compare/4.2.0..4.2.1
 [4.2.0]: https://github.com/KomMonitor/kommonitor-importer/compare/4.1.1..4.2.0
 [4.1.1]: https://github.com/KomMonitor/kommonitor-importer/compare/4.1.0..4.1.1
