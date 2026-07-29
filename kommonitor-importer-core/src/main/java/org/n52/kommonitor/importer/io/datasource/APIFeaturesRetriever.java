@@ -75,6 +75,7 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
     @Autowired
     private ImportMonitor monitor;
 
+    @Autowired(required = false)
     private HttpHelper httpHelper;
 
     public APIFeaturesRetriever() {
@@ -85,7 +86,9 @@ public class APIFeaturesRetriever extends AbstractDataSourceRetriever<InputStrea
 
     @PostConstruct
     public void postConstruct() throws IOException {
+        if (httpHelper == null) {
             httpHelper = HttpHelper.getBasicHttpHelper();
+        }
     }
 
     public APIFeaturesRetriever(HttpHelper httpHelper) throws IOException {
