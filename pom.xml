@@ -353,7 +353,7 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <pushChanges>false</pushChanges>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <preparationGoals>clean verify exec:exec@generate-changelog verify</preparationGoals>
+                    <preparationGoals>clean verify exec:exec@generate-changelog scm:checkin -DpushChanges=false -Dincludes=CHANGELOG.md -Dmessage="[maven-release-plugin] Update CHANGELOG.md" verify</preparationGoals>
                     <arguments>-DdryRun=${dryRun}</arguments>
                 </configuration>
             </plugin>
@@ -422,6 +422,9 @@
                                     <arguments>
                                         <argument>--config</argument>
                                         <argument>${project.basedir}/cliff.toml</argument>
+                                        <argument>--tag</argument>
+                                        <argument>${project.version}</argument>
+                                        <argument>--offline</argument>
                                         <argument>--output</argument>
                                         <argument>${project.basedir}/CHANGELOG.md</argument>
                                     </arguments>
