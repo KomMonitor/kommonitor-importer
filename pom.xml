@@ -37,7 +37,7 @@
         <geotools.version>33.2</geotools.version>
         <release-plugin.version>3.0.1</release-plugin.version>
         <changelog-plugin.version>0.6.0</changelog-plugin.version>
-        <log4j.version>2.25.1</log4j.version>
+        <log4j.version>2.25.3</log4j.version>
         <poi.version>5.4.1</poi.version>
         <kommonitor-oas.version>latest</kommonitor-oas.version>
         <openapi-codegen.version>7.15.0</openapi-codegen.version>
