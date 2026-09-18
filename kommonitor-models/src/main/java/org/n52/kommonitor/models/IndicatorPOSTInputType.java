@@ -31,7 +31,7 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class IndicatorPOSTInputType implements Serializable {
 
   private List<String> permissions = new ArrayList<>();
 
-  private String characteristicValue;
+  private @Nullable String characteristicValue;
 
   private CreationTypeEnum creationType;
 
@@ -87,9 +87,8 @@ public class IndicatorPOSTInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPOSTInputType(List<String> permissions, String characteristicValue, CreationTypeEnum creationType, String datasetName, AbstractClassificationMappingType defaultClassificationMapping, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
+  public IndicatorPOSTInputType(List<String> permissions, CreationTypeEnum creationType, String datasetName, AbstractClassificationMappingType defaultClassificationMapping, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String ownerId, String processDescription, List<String> tags, String topicReference, String unit, Boolean isPublic) {
     this.permissions = permissions;
-    this.characteristicValue = characteristicValue;
     this.creationType = creationType;
     this.datasetName = datasetName;
     this.defaultClassificationMapping = defaultClassificationMapping;
@@ -114,7 +113,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return abbreviation
    */
   
-  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "abbreviation", example = "U6", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("abbreviation")
   public @Nullable String getAbbreviation() {
     return abbreviation;
@@ -143,7 +142,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return permissions
    */
   @NotNull 
-  @Schema(name = "permissions", description = "list of permissions on this entity", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "permissions", example = "[\"creator\"]", description = "list of permissions on this entity", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("permissions")
   public List<String> getPermissions() {
     return permissions;
@@ -154,7 +153,7 @@ public class IndicatorPOSTInputType implements Serializable {
     this.permissions = permissions;
   }
 
-  public IndicatorPOSTInputType characteristicValue(String characteristicValue) {
+  public IndicatorPOSTInputType characteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
     return this;
   }
@@ -163,15 +162,15 @@ public class IndicatorPOSTInputType implements Serializable {
    * the distuingishing characteristic value of the indicator
    * @return characteristicValue
    */
-  @NotNull 
-  @Schema(name = "characteristicValue", description = "the distuingishing characteristic value of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "characteristicValue", description = "the distuingishing characteristic value of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("characteristicValue")
-  public String getCharacteristicValue() {
+  public @Nullable String getCharacteristicValue() {
     return characteristicValue;
   }
 
   @JsonProperty("characteristicValue")
-  public void setCharacteristicValue(String characteristicValue) {
+  public void setCharacteristicValue(@Nullable String characteristicValue) {
     this.characteristicValue = characteristicValue;
   }
 
@@ -206,7 +205,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return datasetName
    */
   @NotNull 
-  @Schema(name = "datasetName", description = "the meaningful name of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "datasetName", example = "Share of children under 6 years", description = "the meaningful name of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("datasetName")
   public String getDatasetName() {
     return datasetName;
@@ -248,7 +247,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return displayOrder
    */
   @Valid 
-  @Schema(name = "displayOrder", example = "0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "displayOrder", example = "1", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("displayOrder")
   public @Nullable BigDecimal getDisplayOrder() {
     return displayOrder;
@@ -290,7 +289,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return interpretation
    */
   @NotNull 
-  @Schema(name = "interpretation", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "interpretation", example = "Higher values indicate a younger population structure.", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("interpretation")
   public String getInterpretation() {
     return interpretation;
@@ -311,7 +310,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return isHeadlineIndicator
    */
   @NotNull 
-  @Schema(name = "isHeadlineIndicator", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "isHeadlineIndicator", example = "true", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isHeadlineIndicator")
   public Boolean getIsHeadlineIndicator() {
     return isHeadlineIndicator;
@@ -374,7 +373,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return precision
    */
   
-  @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "precision", example = "2", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("precision")
   public @Nullable Integer getPrecision() {
     return precision;
@@ -416,7 +415,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return processDescription
    */
   @NotNull 
-  @Schema(name = "processDescription", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "processDescription", example = "Number of children under 6 divided by total population.", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("processDescription")
   public String getProcessDescription() {
     return processDescription;
@@ -524,7 +523,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return tags
    */
   @NotNull 
-  @Schema(name = "tags", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "tags", example = "[\"demography\",\"children\"]", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("tags")
   public List<String> getTags() {
     return tags;
@@ -545,7 +544,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return topicReference
    */
   @NotNull 
-  @Schema(name = "topicReference", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicReference", example = "demography", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicReference")
   public String getTopicReference() {
     return topicReference;
@@ -566,7 +565,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return unit
    */
   @NotNull 
-  @Schema(name = "unit", description = "unit of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "unit", example = "percent", description = "unit of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("unit")
   public String getUnit() {
     return unit;
@@ -587,7 +586,7 @@ public class IndicatorPOSTInputType implements Serializable {
    * @return isPublic
    */
   @NotNull 
-  @Schema(name = "isPublic", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "isPublic", example = "false", description = "flag whether the resource is publicly accessible", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isPublic")
   public Boolean getIsPublic() {
     return isPublic;

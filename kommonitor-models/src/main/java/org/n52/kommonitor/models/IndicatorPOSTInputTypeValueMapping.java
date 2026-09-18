@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorPOSTInputTypeValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ public class IndicatorPOSTInputTypeValueMapping implements Serializable {
    * @return timestamp
    */
   @NotNull @Valid 
-  @Schema(name = "timestamp", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "timestamp", example = "2020-01-01", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("timestamp")
   public LocalDate getTimestamp() {
     return timestamp;

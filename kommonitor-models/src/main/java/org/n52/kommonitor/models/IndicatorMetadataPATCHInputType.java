@@ -32,12 +32,12 @@ import jakarta.annotation.Generated;
  * IndicatorMetadataPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorMetadataPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  private String abbreviation;
+  private @Nullable String abbreviation;
 
   private @Nullable String characteristicValue;
 
@@ -84,8 +84,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public IndicatorMetadataPATCHInputType(String abbreviation, String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String processDescription, List<String> tags, String topicReference, String unit) {
-    this.abbreviation = abbreviation;
+  public IndicatorMetadataPATCHInputType(String interpretation, Boolean isHeadlineIndicator, CommonMetadataType metadata, String processDescription, List<String> tags, String topicReference, String unit) {
     this.interpretation = interpretation;
     this.isHeadlineIndicator = isHeadlineIndicator;
     this.metadata = metadata;
@@ -95,7 +94,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
     this.unit = unit;
   }
 
-  public IndicatorMetadataPATCHInputType abbreviation(String abbreviation) {
+  public IndicatorMetadataPATCHInputType abbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
     return this;
   }
@@ -104,15 +103,15 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * abbreviated mark of the indicator
    * @return abbreviation
    */
-  @NotNull 
-  @Schema(name = "abbreviation", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  
+  @Schema(name = "abbreviation", example = "U6", description = "abbreviated mark of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("abbreviation")
-  public String getAbbreviation() {
+  public @Nullable String getAbbreviation() {
     return abbreviation;
   }
 
   @JsonProperty("abbreviation")
-  public void setAbbreviation(String abbreviation) {
+  public void setAbbreviation(@Nullable String abbreviation) {
     this.abbreviation = abbreviation;
   }
 
@@ -168,7 +167,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return datasetName
    */
   
-  @Schema(name = "datasetName", description = "the meaningful name of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "datasetName", example = "Share of children under 6 years", description = "the meaningful name of the indicator", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("datasetName")
   public @Nullable String getDatasetName() {
     return datasetName;
@@ -239,7 +238,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return displayOrder
    */
   @Valid 
-  @Schema(name = "displayOrder", example = "0", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "displayOrder", example = "1", description = "an order number to control display order in clients", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("displayOrder")
   public @Nullable BigDecimal getDisplayOrder() {
     return displayOrder;
@@ -281,7 +280,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return interpretation
    */
   @NotNull 
-  @Schema(name = "interpretation", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "interpretation", example = "Higher values indicate a younger population structure.", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("interpretation")
   public String getInterpretation() {
     return interpretation;
@@ -302,7 +301,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return isHeadlineIndicator
    */
   @NotNull 
-  @Schema(name = "isHeadlineIndicator", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "isHeadlineIndicator", example = "true", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isHeadlineIndicator")
   public Boolean getIsHeadlineIndicator() {
     return isHeadlineIndicator;
@@ -365,7 +364,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return precision
    */
   
-  @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "precision", example = "2", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("precision")
   public @Nullable Integer getPrecision() {
     return precision;
@@ -386,7 +385,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return processDescription
    */
   @NotNull 
-  @Schema(name = "processDescription", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "processDescription", example = "Number of children under 6 divided by total population.", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("processDescription")
   public String getProcessDescription() {
     return processDescription;
@@ -494,7 +493,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return tags
    */
   @NotNull 
-  @Schema(name = "tags", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "tags", example = "[\"demography\",\"children\"]", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("tags")
   public List<String> getTags() {
     return tags;
@@ -515,7 +514,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return topicReference
    */
   @NotNull 
-  @Schema(name = "topicReference", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicReference", example = "demography", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicReference")
   public String getTopicReference() {
     return topicReference;
@@ -536,7 +535,7 @@ public class IndicatorMetadataPATCHInputType implements Serializable {
    * @return unit
    */
   @NotNull 
-  @Schema(name = "unit", description = "unit of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "unit", example = "percent", description = "unit of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("unit")
   public String getUnit() {
     return unit;

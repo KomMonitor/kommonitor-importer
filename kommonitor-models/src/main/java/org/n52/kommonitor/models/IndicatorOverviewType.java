@@ -35,7 +35,7 @@ import jakarta.annotation.Generated;
  * IndicatorOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -414,7 +414,7 @@ public class IndicatorOverviewType implements Serializable {
    * @return interpretation
    */
   @NotNull 
-  @Schema(name = "interpretation", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "interpretation", example = "Higher values indicate a younger population structure.", description = "interpretation of the indicator values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("interpretation")
   public String getInterpretation() {
     return interpretation;
@@ -435,7 +435,7 @@ public class IndicatorOverviewType implements Serializable {
    * @return isHeadlineIndicator
    */
   @NotNull 
-  @Schema(name = "isHeadlineIndicator", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "isHeadlineIndicator", example = "true", description = "boolean value indicating if the indicator is a headline indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("isHeadlineIndicator")
   public Boolean getIsHeadlineIndicator() {
     return isHeadlineIndicator;
@@ -548,7 +548,7 @@ public class IndicatorOverviewType implements Serializable {
    * @return processDescription
    */
   
-  @Schema(name = "processDescription", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "processDescription", example = "Number of children under 6 divided by total population.", description = "description about how the indicator was computed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("processDescription")
   public @Nullable String getProcessDescription() {
     return processDescription;
@@ -569,7 +569,7 @@ public class IndicatorOverviewType implements Serializable {
    * @return precision
    */
   
-  @Schema(name = "precision", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "precision", example = "2", description = "Defines the number of decimal places for indicator values. If null, there is no predefined precision for this indicator.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("precision")
   public @Nullable Integer getPrecision() {
     return precision;
@@ -677,7 +677,7 @@ public class IndicatorOverviewType implements Serializable {
    * @return tags
    */
   @NotNull 
-  @Schema(name = "tags", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "tags", example = "[\"demography\",\"children\"]", description = "list of tag labels for the indicator", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("tags")
   public List<String> getTags() {
     return tags;

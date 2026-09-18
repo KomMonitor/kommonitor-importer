@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
  * TopicInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class TopicInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public class TopicInputType implements Serializable {
    * @return topicDescription
    */
   @NotNull 
-  @Schema(name = "topicDescription", description = "short description of the topic", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicDescription", example = "Indicators describing the population structure.", description = "short description of the topic", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicDescription")
   public String getTopicDescription() {
     return topicDescription;
@@ -137,7 +137,7 @@ public class TopicInputType implements Serializable {
    * @return topicName
    */
   @NotNull 
-  @Schema(name = "topicName", description = "the topic name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicName", example = "Demography", description = "the topic name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicName")
   public String getTopicName() {
     return topicName;

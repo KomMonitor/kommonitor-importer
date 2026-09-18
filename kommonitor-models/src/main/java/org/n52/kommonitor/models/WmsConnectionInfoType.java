@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * WmsConnectionInfoType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class WmsConnectionInfoType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -100,7 +100,7 @@ public class WmsConnectionInfoType implements Serializable {
    * @return baseUrl
    */
   @NotNull 
-  @Schema(name = "baseUrl", description = "the base URL of the WMS web service", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "baseUrl", example = "https://geoserver.example.org/kommonitor/wms", description = "the base URL of the WMS web service", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("baseUrl")
   public String getBaseUrl() {
     return baseUrl;
@@ -121,7 +121,7 @@ public class WmsConnectionInfoType implements Serializable {
    * @return layerName
    */
   @NotNull 
-  @Schema(name = "layerName", description = "the layer Name of the WMS web service", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "layerName", example = "kommonitor:schools", description = "the layer Name of the WMS web service", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("layerName")
   public String getLayerName() {
     return layerName;

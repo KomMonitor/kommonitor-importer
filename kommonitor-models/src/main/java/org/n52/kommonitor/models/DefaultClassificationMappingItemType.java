@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * DefaultClassificationMappingItemType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class DefaultClassificationMappingItemType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -54,7 +54,7 @@ public class DefaultClassificationMappingItemType implements Serializable {
    * @return spatialUnitId
    */
   @NotNull 
-  @Schema(name = "spatialUnitId", description = "spatial unit id for manual classification", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "spatialUnitId", example = "5a1b2c3d-0001-4e5f-8a9b-000000000001", description = "spatial unit id for manual classification", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("spatialUnitId")
   public String getSpatialUnitId() {
     return spatialUnitId;
@@ -83,7 +83,7 @@ public class DefaultClassificationMappingItemType implements Serializable {
    * @return breaks
    */
   @NotNull 
-  @Schema(name = "breaks", description = "array of numeric break values", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "breaks", example = "[0.0,10.0,20.0]", description = "array of numeric break values", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("breaks")
   public List<Float> getBreaks() {
     return breaks;

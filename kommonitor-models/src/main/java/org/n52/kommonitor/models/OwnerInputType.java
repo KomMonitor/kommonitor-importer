@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * OwnerInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class OwnerInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -48,7 +48,7 @@ public class OwnerInputType implements Serializable {
    * @return ownerId
    */
   @NotNull 
-  @Schema(name = "ownerId", description = "ID of the owning group", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "ownerId", example = "3c9f8b12-0002-4a1b-9c33-1a2b3c4d5e02", description = "ID of the owning group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("ownerId")
   public String getOwnerId() {
     return ownerId;

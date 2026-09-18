@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "OrganizationalUnitInputType", description = "organizational unit (group)")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class OrganizationalUnitInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -84,7 +84,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * @return name
    */
   @NotNull 
-  @Schema(name = "name", description = "name of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", example = "District administration", description = "name of this organizational Unit", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -105,7 +105,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * @return mandant
    */
   @NotNull 
-  @Schema(name = "mandant", description = "flag whether this unit is an autonomous mandant", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "mandant", example = "true", description = "flag whether this unit is an autonomous mandant", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("mandant")
   public Boolean getMandant() {
     return mandant;
@@ -147,7 +147,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * @return contact
    */
   @NotNull 
-  @Schema(name = "contact", description = "contact information of the person responsible for this group", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "contact", example = "admin@example.org", description = "contact information of the person responsible for this group", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("contact")
   public String getContact() {
     return contact;
@@ -168,7 +168,7 @@ public class OrganizationalUnitInputType implements Serializable {
    * @return description
    */
   
-  @Schema(name = "description", description = "additional information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "description", example = "Administration of the example municipality.", description = "additional information", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("description")
   public @Nullable String getDescription() {
     return description;

@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * IndicatorPropertiesWithoutGeomType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class IndicatorPropertiesWithoutGeomType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -57,7 +57,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
    * @return id
    */
   @NotNull 
-  @Schema(name = "id", description = "the id of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "id", example = "8f14e45f-ceea-467d-9a1b-000000000101", description = "the id of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
   public String getId() {
     return id;
@@ -78,7 +78,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
    * @return name
    */
   @NotNull 
-  @Schema(name = "name", description = "the name of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "name", example = "District Centre", description = "the name of the spatial feature", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -99,7 +99,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
    * @return validStartDate
    */
   @NotNull 
-  @Schema(name = "validStartDate", description = "the start date from which on the spatial feature is valid", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "validStartDate", example = "2020-01-01", description = "the start date from which on the spatial feature is valid", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("validStartDate")
   public String getValidStartDate() {
     return validStartDate;
@@ -120,7 +120,7 @@ public class IndicatorPropertiesWithoutGeomType implements Serializable {
    * @return validEndDate
    */
   @NotNull 
-  @Schema(name = "validEndDate", description = "the end date until the spatial feature is valid - or null if not set", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "validEndDate", example = "2020-12-31", description = "the end date until the spatial feature is valid - or null if not set", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("validEndDate")
   public String getValidEndDate() {
     return validEndDate;

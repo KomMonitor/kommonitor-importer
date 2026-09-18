@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  * WebServiceOverviewType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class WebServiceOverviewType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -88,7 +88,7 @@ public class WebServiceOverviewType implements Serializable {
    * @return contact
    */
   @NotNull 
-  @Schema(name = "contact", description = "contact details where additional information can be achieved", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "contact", example = "KomMonitor Team, info@kommonitor.de", description = "contact details where additional information can be achieved", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("contact")
   public String getContact() {
     return contact;
@@ -151,7 +151,7 @@ public class WebServiceOverviewType implements Serializable {
    * @return datasource
    */
   @NotNull 
-  @Schema(name = "datasource", description = "information about the origin/source of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "datasource", example = "Municipal education department", description = "information about the origin/source of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("datasource")
   public String getDatasource() {
     return datasource;
@@ -172,7 +172,7 @@ public class WebServiceOverviewType implements Serializable {
    * @return description
    */
   @NotNull 
-  @Schema(name = "description", description = "description of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "description", example = "WMS serving the school locations.", description = "description of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("description")
   public String getDescription() {
     return description;
@@ -235,7 +235,7 @@ public class WebServiceOverviewType implements Serializable {
    * @return title
    */
   @NotNull 
-  @Schema(name = "title", description = "title of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "title", example = "Schools WMS", description = "title of the web service", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("title")
   public String getTitle() {
     return title;
@@ -256,7 +256,7 @@ public class WebServiceOverviewType implements Serializable {
    * @return topicReference
    */
   @NotNull 
-  @Schema(name = "topicReference", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicReference", example = "education", description = "id of the last topic hierarchy entity ", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicReference")
   public String getTopicReference() {
     return topicReference;

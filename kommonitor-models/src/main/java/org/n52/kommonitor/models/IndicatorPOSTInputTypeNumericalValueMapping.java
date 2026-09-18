@@ -22,8 +22,8 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeNumericalValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
-public class IndicatorPOSTInputTypeNumericalValueMapping extends IndicatorPOSTInputTypeValueMapping implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+public class IndicatorPOSTInputTypeNumericalValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class IndicatorPOSTInputTypeNumericalValueMapping extends IndicatorPOSTIn
    * @return timestamp
    */
   @NotNull @Valid 
-  @Schema(name = "timestamp", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "timestamp", example = "2020-01-01", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("timestamp")
   public LocalDate getTimestamp() {
     return timestamp;
@@ -75,7 +75,7 @@ public class IndicatorPOSTInputTypeNumericalValueMapping extends IndicatorPOSTIn
    * @return indicatorValue
    */
   @NotNull 
-  @Schema(name = "indicatorValue", example = "0.0", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "indicatorValue", example = "12.4", description = "the numeric extent of the indicator for the timestamp", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("indicatorValue")
   public Float getIndicatorValue() {
     return indicatorValue;

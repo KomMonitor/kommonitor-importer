@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * ResourceFilterType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class ResourceFilterType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -62,7 +62,7 @@ public class ResourceFilterType implements Serializable {
    * @return topicIds
    */
   @NotNull 
-  @Schema(name = "topicIds", description = "list of topics for which all resources should be filtered", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "topicIds", example = "[\"t-demography\",\"t-mobility\"]", description = "list of topics for which all resources should be filtered", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("topicIds")
   public List<String> getTopicIds() {
     return topicIds;
@@ -91,7 +91,7 @@ public class ResourceFilterType implements Serializable {
    * @return ids
    */
   @NotNull 
-  @Schema(name = "ids", description = "list of resources that should be filtered", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "ids", example = "[\"1d2e3f40-0001-4a5b-8c9d-000000000001\",\"1d2e3f40-0002-4a5b-8c9d-000000000002\"]", description = "list of resources that should be filtered", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("ids")
   public List<String> getIds() {
     return ids;

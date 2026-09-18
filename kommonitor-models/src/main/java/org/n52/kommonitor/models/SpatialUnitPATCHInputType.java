@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * SpatialUnitPATCHInputType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-23T12:40:19.067418300+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class SpatialUnitPATCHInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,10 +30,6 @@ public class SpatialUnitPATCHInputType implements Serializable {
   private String datasetName;
 
   private CommonMetadataType metadata;
-
-  private String nextLowerHierarchyLevel;
-
-  private String nextUpperHierarchyLevel;
 
   private Boolean isOutlineLayer = false;
 
@@ -50,11 +46,9 @@ public class SpatialUnitPATCHInputType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public SpatialUnitPATCHInputType(String datasetName, CommonMetadataType metadata, String nextLowerHierarchyLevel, String nextUpperHierarchyLevel) {
+  public SpatialUnitPATCHInputType(String datasetName, CommonMetadataType metadata) {
     this.datasetName = datasetName;
     this.metadata = metadata;
-    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
-    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
   }
 
   public SpatialUnitPATCHInputType datasetName(String datasetName) {
@@ -63,11 +57,11 @@ public class SpatialUnitPATCHInputType implements Serializable {
   }
 
   /**
-   * the name of the spatial unit - its \"spatialUnitLevel\"
+   * the name of the spatial unit - its \"spatialUnitLevel\". The name is unique only within a mandant.
    * @return datasetName
    */
   @NotNull 
-  @Schema(name = "datasetName", description = "the name of the spatial unit - its \"spatialUnitLevel\"", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "datasetName", example = "districts", description = "the name of the spatial unit - its \"spatialUnitLevel\". The name is unique only within a mandant.", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("datasetName")
   public String getDatasetName() {
     return datasetName;
@@ -97,48 +91,6 @@ public class SpatialUnitPATCHInputType implements Serializable {
   @JsonProperty("metadata")
   public void setMetadata(CommonMetadataType metadata) {
     this.metadata = metadata;
-  }
-
-  public SpatialUnitPATCHInputType nextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
-    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
-    return this;
-  }
-
-  /**
-   * the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level
-   * @return nextLowerHierarchyLevel
-   */
-  @NotNull 
-  @Schema(name = "nextLowerHierarchyLevel", description = "the identifier/name of the spatial unit level that contains the features of the nearest lower hierarchy level", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("nextLowerHierarchyLevel")
-  public String getNextLowerHierarchyLevel() {
-    return nextLowerHierarchyLevel;
-  }
-
-  @JsonProperty("nextLowerHierarchyLevel")
-  public void setNextLowerHierarchyLevel(String nextLowerHierarchyLevel) {
-    this.nextLowerHierarchyLevel = nextLowerHierarchyLevel;
-  }
-
-  public SpatialUnitPATCHInputType nextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
-    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
-    return this;
-  }
-
-  /**
-   * the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level
-   * @return nextUpperHierarchyLevel
-   */
-  @NotNull 
-  @Schema(name = "nextUpperHierarchyLevel", description = "the identifier/name of the spatial unit level that contains the features of the nearest upper hierarchy level", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("nextUpperHierarchyLevel")
-  public String getNextUpperHierarchyLevel() {
-    return nextUpperHierarchyLevel;
-  }
-
-  @JsonProperty("nextUpperHierarchyLevel")
-  public void setNextUpperHierarchyLevel(String nextUpperHierarchyLevel) {
-    this.nextUpperHierarchyLevel = nextUpperHierarchyLevel;
   }
 
   public SpatialUnitPATCHInputType isOutlineLayer(Boolean isOutlineLayer) {
@@ -172,7 +124,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * @return outlineColor
    */
   
-  @Schema(name = "outlineColor", description = "outline color for this layer as hex code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "outlineColor", example = "#333333", description = "outline color for this layer as hex code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineColor")
   public @Nullable String getOutlineColor() {
     return outlineColor;
@@ -193,7 +145,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
    * @return outlineWidth
    */
   @Valid 
-  @Schema(name = "outlineWidth", description = "outline width as stroke width for outline geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "outlineWidth", example = "2", description = "outline width as stroke width for outline geometry", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("outlineWidth")
   public @Nullable BigDecimal getOutlineWidth() {
     return outlineWidth;
@@ -236,8 +188,6 @@ public class SpatialUnitPATCHInputType implements Serializable {
     SpatialUnitPATCHInputType spatialUnitPATCHInputType = (SpatialUnitPATCHInputType) o;
     return Objects.equals(this.datasetName, spatialUnitPATCHInputType.datasetName) &&
         Objects.equals(this.metadata, spatialUnitPATCHInputType.metadata) &&
-        Objects.equals(this.nextLowerHierarchyLevel, spatialUnitPATCHInputType.nextLowerHierarchyLevel) &&
-        Objects.equals(this.nextUpperHierarchyLevel, spatialUnitPATCHInputType.nextUpperHierarchyLevel) &&
         Objects.equals(this.isOutlineLayer, spatialUnitPATCHInputType.isOutlineLayer) &&
         Objects.equals(this.outlineColor, spatialUnitPATCHInputType.outlineColor) &&
         Objects.equals(this.outlineWidth, spatialUnitPATCHInputType.outlineWidth) &&
@@ -246,7 +196,7 @@ public class SpatialUnitPATCHInputType implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(datasetName, metadata, nextLowerHierarchyLevel, nextUpperHierarchyLevel, isOutlineLayer, outlineColor, outlineWidth, outlineDashArrayString);
+    return Objects.hash(datasetName, metadata, isOutlineLayer, outlineColor, outlineWidth, outlineDashArrayString);
   }
 
   @Override
@@ -255,8 +205,6 @@ public class SpatialUnitPATCHInputType implements Serializable {
     sb.append("class SpatialUnitPATCHInputType {\n");
     sb.append("    datasetName: ").append(toIndentedString(datasetName)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
-    sb.append("    nextLowerHierarchyLevel: ").append(toIndentedString(nextLowerHierarchyLevel)).append("\n");
-    sb.append("    nextUpperHierarchyLevel: ").append(toIndentedString(nextUpperHierarchyLevel)).append("\n");
     sb.append("    isOutlineLayer: ").append(toIndentedString(isOutlineLayer)).append("\n");
     sb.append("    outlineColor: ").append(toIndentedString(outlineColor)).append("\n");
     sb.append("    outlineWidth: ").append(toIndentedString(outlineWidth)).append("\n");
