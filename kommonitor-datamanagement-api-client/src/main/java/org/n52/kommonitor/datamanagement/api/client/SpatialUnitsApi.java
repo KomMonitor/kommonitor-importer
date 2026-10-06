@@ -7,6 +7,11 @@ import java.math.BigDecimal;
 import org.n52.kommonitor.models.OwnerInputType;
 import org.n52.kommonitor.models.PermissionLevelInputType;
 import org.n52.kommonitor.models.PermissionLevelType;
+import org.n52.kommonitor.models.SpatialUnitHierarchyInputType;
+import org.n52.kommonitor.models.SpatialUnitHierarchyMemberInputType;
+import org.n52.kommonitor.models.SpatialUnitHierarchyMembershipInputType;
+import org.n52.kommonitor.models.SpatialUnitHierarchyOverviewType;
+import org.n52.kommonitor.models.SpatialUnitHierarchyPOSTInputType;
 import org.n52.kommonitor.models.SpatialUnitOverviewType;
 import org.n52.kommonitor.models.SpatialUnitPATCHInputType;
 import org.n52.kommonitor.models.SpatialUnitPOSTInputType;
@@ -33,7 +38,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-06T12:33:28.182741500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi")
 public class SpatialUnitsApi extends BaseApi {
 
@@ -103,6 +108,62 @@ public class SpatialUnitsApi extends BaseApi {
 
         ParameterizedTypeReference<SpatialUnitOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitOverviewType>() {};
         return apiClient.invokeAPI("/spatial-units", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Add a new spatial unit hierarchy
+     * Create a new hierarchy owned by a mandant. A mandant may own one or more hierarchies.
+     * <p><b>200</b> - OK
+     * <p><b>201</b> - Created
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyData hierarchy definition (required)
+     * @return SpatialUnitHierarchyOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitHierarchyOverviewType addSpatialUnitHierarchy(SpatialUnitHierarchyPOSTInputType hierarchyData) throws RestClientException {
+        return addSpatialUnitHierarchyWithHttpInfo(hierarchyData).getBody();
+    }
+
+    /**
+     * Add a new spatial unit hierarchy
+     * Create a new hierarchy owned by a mandant. A mandant may own one or more hierarchies.
+     * <p><b>200</b> - OK
+     * <p><b>201</b> - Created
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyData hierarchy definition (required)
+     * @return ResponseEntity&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitHierarchyOverviewType> addSpatialUnitHierarchyWithHttpInfo(SpatialUnitHierarchyPOSTInputType hierarchyData) throws RestClientException {
+        Object localVarPostBody = hierarchyData;
+        
+        // verify the required parameter 'hierarchyData' is set
+        if (hierarchyData == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyData' when calling addSpatialUnitHierarchy");
+        }
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<SpatialUnitHierarchyOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitHierarchyOverviewType>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Delete all features/contents of the selected spatial-unit dataset
@@ -413,6 +474,58 @@ public class SpatialUnitsApi extends BaseApi {
         return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/{year}/{month}/{day}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * Delete a spatial unit hierarchy
+     * Delete the selected spatial unit hierarchy. The spatial units that were members of the hierarchy are not deleted.
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void deleteSpatialUnitHierarchyById(String hierarchyId) throws RestClientException {
+        deleteSpatialUnitHierarchyByIdWithHttpInfo(hierarchyId);
+    }
+
+    /**
+     * Delete a spatial unit hierarchy
+     * Delete the selected spatial unit hierarchy. The spatial units that were members of the hierarchy are not deleted.
+     * <p><b>200</b> - OK
+     * <p><b>204</b> - No Content
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> deleteSpatialUnitHierarchyByIdWithHttpInfo(String hierarchyId) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'hierarchyId' is set
+        if (hierarchyId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyId' when calling deleteSpatialUnitHierarchyById");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("hierarchyId", hierarchyId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies/{hierarchyId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity)
      * retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity)
      * <p><b>200</b> - OK
@@ -621,6 +734,106 @@ public class SpatialUnitsApi extends BaseApi {
 
         ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
         return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * retrieve the available spatial unit hierarchies
+     * retrieve the available spatial unit hierarchies for the mandants the current user is allowed to access
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @return List&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public List<SpatialUnitHierarchyOverviewType> getSpatialUnitHierarchies() throws RestClientException {
+        return getSpatialUnitHierarchiesWithHttpInfo().getBody();
+    }
+
+    /**
+     * retrieve the available spatial unit hierarchies
+     * retrieve the available spatial unit hierarchies for the mandants the current user is allowed to access
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @return ResponseEntity&lt;List&lt;SpatialUnitHierarchyOverviewType&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<SpatialUnitHierarchyOverviewType>> getSpatialUnitHierarchiesWithHttpInfo() throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<List<SpatialUnitHierarchyOverviewType>> localReturnType = new ParameterizedTypeReference<List<SpatialUnitHierarchyOverviewType>>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * retrieve a single spatial unit hierarchy
+     * retrieve a single spatial unit hierarchy including its ordered members
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @return SpatialUnitHierarchyOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitHierarchyOverviewType getSpatialUnitHierarchyById(String hierarchyId) throws RestClientException {
+        return getSpatialUnitHierarchyByIdWithHttpInfo(hierarchyId).getBody();
+    }
+
+    /**
+     * retrieve a single spatial unit hierarchy
+     * retrieve a single spatial unit hierarchy including its ordered members
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @return ResponseEntity&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitHierarchyOverviewType> getSpatialUnitHierarchyByIdWithHttpInfo(String hierarchyId) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'hierarchyId' is set
+        if (hierarchyId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyId' when calling getSpatialUnitHierarchyById");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("hierarchyId", hierarchyId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<SpatialUnitHierarchyOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitHierarchyOverviewType>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies/{hierarchyId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about available features of different spatial units/levels
@@ -1071,6 +1284,204 @@ public class SpatialUnitsApi extends BaseApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Modify/Update a spatial unit hierarchy
+     * Modify/Update the metadata (e.g. name) of the selected spatial unit hierarchy
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @param hierarchyData hierarchy definition (required)
+     * @return SpatialUnitHierarchyOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitHierarchyOverviewType updateSpatialUnitHierarchy(String hierarchyId, SpatialUnitHierarchyInputType hierarchyData) throws RestClientException {
+        return updateSpatialUnitHierarchyWithHttpInfo(hierarchyId, hierarchyData).getBody();
+    }
+
+    /**
+     * Modify/Update a spatial unit hierarchy
+     * Modify/Update the metadata (e.g. name) of the selected spatial unit hierarchy
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @param hierarchyData hierarchy definition (required)
+     * @return ResponseEntity&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitHierarchyOverviewType> updateSpatialUnitHierarchyWithHttpInfo(String hierarchyId, SpatialUnitHierarchyInputType hierarchyData) throws RestClientException {
+        Object localVarPostBody = hierarchyData;
+        
+        // verify the required parameter 'hierarchyId' is set
+        if (hierarchyId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyId' when calling updateSpatialUnitHierarchy");
+        }
+        
+        // verify the required parameter 'hierarchyData' is set
+        if (hierarchyData == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyData' when calling updateSpatialUnitHierarchy");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("hierarchyId", hierarchyId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<SpatialUnitHierarchyOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitHierarchyOverviewType>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies/{hierarchyId}", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Set the ordered members of a spatial unit hierarchy
+     * Replace the full ordered list of spatial unit members of the selected hierarchy. This single operation covers reordering, removing and adding members within the hierarchy.
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @param members the ordered list of spatial unit members (required)
+     * @return SpatialUnitHierarchyOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitHierarchyOverviewType updateSpatialUnitHierarchyMembers(String hierarchyId, List<SpatialUnitHierarchyMemberInputType> members) throws RestClientException {
+        return updateSpatialUnitHierarchyMembersWithHttpInfo(hierarchyId, members).getBody();
+    }
+
+    /**
+     * Set the ordered members of a spatial unit hierarchy
+     * Replace the full ordered list of spatial unit members of the selected hierarchy. This single operation covers reordering, removing and adding members within the hierarchy.
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @param members the ordered list of spatial unit members (required)
+     * @return ResponseEntity&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitHierarchyOverviewType> updateSpatialUnitHierarchyMembersWithHttpInfo(String hierarchyId, List<SpatialUnitHierarchyMemberInputType> members) throws RestClientException {
+        Object localVarPostBody = members;
+        
+        // verify the required parameter 'hierarchyId' is set
+        if (hierarchyId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyId' when calling updateSpatialUnitHierarchyMembers");
+        }
+        
+        // verify the required parameter 'members' is set
+        if (members == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'members' when calling updateSpatialUnitHierarchyMembers");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("hierarchyId", hierarchyId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<SpatialUnitHierarchyOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitHierarchyOverviewType>() {};
+        return apiClient.invokeAPI("/spatial-unit-hierarchies/{hierarchyId}/members", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Set the hierarchies a spatial unit belongs to
+     * Replace the full set of hierarchy memberships for the selected spatial unit. This single operation covers placing the spatial unit into further hierarchies, changing its level within a hierarchy, and removing it from a hierarchy. All referenced hierarchies must belong to the spatial unit&#39;s mandant.
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param spatialUnitId the unique identifier of the spatial unit (required)
+     * @param hierarchies the full list of hierarchy memberships for the spatial unit (required)
+     * @return SpatialUnitOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitOverviewType updateSpatialUnitHierarchyMemberships(String spatialUnitId, List<SpatialUnitHierarchyMembershipInputType> hierarchies) throws RestClientException {
+        return updateSpatialUnitHierarchyMembershipsWithHttpInfo(spatialUnitId, hierarchies).getBody();
+    }
+
+    /**
+     * Set the hierarchies a spatial unit belongs to
+     * Replace the full set of hierarchy memberships for the selected spatial unit. This single operation covers placing the spatial unit into further hierarchies, changing its level within a hierarchy, and removing it from a hierarchy. All referenced hierarchies must belong to the spatial unit&#39;s mandant.
+     * <p><b>200</b> - OK
+     * <p><b>401</b> - API key is missing or invalid
+     * <p><b>403</b> - Forbidden
+     * <p><b>404</b> - Not Found
+     * <p><b>405</b> - Invalid input
+     * @param spatialUnitId the unique identifier of the spatial unit (required)
+     * @param hierarchies the full list of hierarchy memberships for the spatial unit (required)
+     * @return ResponseEntity&lt;SpatialUnitOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitOverviewType> updateSpatialUnitHierarchyMembershipsWithHttpInfo(String spatialUnitId, List<SpatialUnitHierarchyMembershipInputType> hierarchies) throws RestClientException {
+        Object localVarPostBody = hierarchies;
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling updateSpatialUnitHierarchyMemberships");
+        }
+        
+        // verify the required parameter 'hierarchies' is set
+        if (hierarchies == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchies' when calling updateSpatialUnitHierarchyMemberships");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("spatialUnitId", spatialUnitId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<SpatialUnitOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitOverviewType>() {};
+        return apiClient.invokeAPI("/spatial-units/{spatialUnitId}/hierarchies", HttpMethod.PUT, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Modify/Update the metadata of the selected spatial-unit

@@ -39,6 +39,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -70,7 +74,9 @@
                                             <version>${kommonitor-oas.version}</version>
                                             <type>jar</type>
                                             <includes>
-                                                specs/data-management/definitions.yaml,specs/data-management/kommonitor_dataAccessAPI.yaml
+                                                specs/data-management/definitions.yaml,
+                                                specs/data-management/kommonitor_dataAccessAPI.yaml,
+                                                specs/data-management/examples.yaml
                                             </includes>
                                             <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
                                         </artifactItem>
@@ -108,6 +114,7 @@
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
+                                        <useSpringBoot4>true</useSpringBoot4>
                                         <generateClientAsBean>true</generateClientAsBean>
                                     </configOptions>
                                 </configuration>

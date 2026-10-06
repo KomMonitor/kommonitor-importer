@@ -4,6 +4,7 @@ import org.n52.kommonitor.datamanagement.api.ApiClient;
 import org.n52.kommonitor.datamanagement.api.BaseApi;
 
 import java.math.BigDecimal;
+import java.io.File;
 import org.n52.kommonitor.models.IndicatorMetadataPATCHInputType;
 import org.n52.kommonitor.models.IndicatorOverviewType;
 import org.n52.kommonitor.models.IndicatorPATCHDisplayOrderInputType;
@@ -36,7 +37,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-06T12:33:28.182741500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.IndicatorsApi")
 public class IndicatorsApi extends BaseApi {
 
@@ -446,6 +447,154 @@ public class IndicatorsApi extends BaseApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * export the indicator for the selected spatial unit in a certain format
+     * export the indicator for the selected spatial in a certain +format
+     * <p><b>200</b> - OK
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return File
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public File exportIndicatorBySpatialUnitIdAndId(String indicatorId, String spatialUnitId, String format) throws RestClientException {
+        return exportIndicatorBySpatialUnitIdAndIdWithHttpInfo(indicatorId, spatialUnitId, format).getBody();
+    }
+
+    /**
+     * export the indicator for the selected spatial unit in a certain format
+     * export the indicator for the selected spatial in a certain +format
+     * <p><b>200</b> - OK
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> exportIndicatorBySpatialUnitIdAndIdWithHttpInfo(String indicatorId, String spatialUnitId, String format) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'indicatorId' is set
+        if (indicatorId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling exportIndicatorBySpatialUnitIdAndId");
+        }
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling exportIndicatorBySpatialUnitIdAndId");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("indicatorId", indicatorId);
+        uriVariables.put("spatialUnitId", spatialUnitId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "format", format));
+        
+
+        final String[] localVarAccepts = { 
+            "application/octed-stream"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/export", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * export the indicator for the selected spatial unit for a certain date in a certain format
+     * export the indicator for the selected spatial unit for a certain date in a certain format
+     * <p><b>200</b> - OK
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param year year for which the indicator shall be queried (required)
+     * @param month month for which the indicator shall be queried (required)
+     * @param day day for which datasets shall be queried (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return File
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public File exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth(String indicatorId, String spatialUnitId, BigDecimal year, BigDecimal month, BigDecimal day, String format) throws RestClientException {
+        return exportIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithHttpInfo(indicatorId, spatialUnitId, year, month, day, format).getBody();
+    }
+
+    /**
+     * export the indicator for the selected spatial unit for a certain date in a certain format
+     * export the indicator for the selected spatial unit for a certain date in a certain format
+     * <p><b>200</b> - OK
+     * @param indicatorId unique identifier of the selected indicator dataset (required)
+     * @param spatialUnitId the unique identifier of the spatial level (required)
+     * @param year year for which the indicator shall be queried (required)
+     * @param month month for which the indicator shall be queried (required)
+     * @param day day for which datasets shall be queried (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> exportIndicatorBySpatialUnitIdAndIdAndYearAndMonthWithHttpInfo(String indicatorId, String spatialUnitId, BigDecimal year, BigDecimal month, BigDecimal day, String format) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'indicatorId' is set
+        if (indicatorId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'indicatorId' when calling exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'spatialUnitId' is set
+        if (spatialUnitId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'spatialUnitId' when calling exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'year' is set
+        if (year == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'year' when calling exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'month' is set
+        if (month == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'month' when calling exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'day' is set
+        if (day == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'day' when calling exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("indicatorId", indicatorId);
+        uriVariables.put("spatialUnitId", spatialUnitId);
+        uriVariables.put("year", year);
+        uriVariables.put("month", month);
+        uriVariables.put("day", day);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "format", format));
+        
+
+        final String[] localVarAccepts = { 
+            "application/octed-stream"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}/export", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Filter indicators

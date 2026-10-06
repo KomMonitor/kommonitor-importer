@@ -5,14 +5,18 @@ All URIs are relative to *http://localhost:8085*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**addSpatialUnitAsBody**](SpatialUnitsApi.md#addSpatialUnitAsBody) | **POST** /spatial-units | Add a new spatial-unit |
+| [**addSpatialUnitHierarchy**](SpatialUnitsApi.md#addSpatialUnitHierarchy) | **POST** /spatial-unit-hierarchies | Add a new spatial unit hierarchy |
 | [**deleteAllSpatialUnitFeaturesById**](SpatialUnitsApi.md#deleteAllSpatialUnitFeaturesById) | **DELETE** /spatial-units/{spatialUnitId}/allFeatures | Delete all features/contents of the selected spatial-unit dataset |
 | [**deleteSingleSpatialUnitFeatureById**](SpatialUnitsApi.md#deleteSingleSpatialUnitFeatureById) | **DELETE** /spatial-units/{spatialUnitId}/singleFeature/{featureId} | Delete all database records for the specified feature of the selected spatial-unit dataset |
 | [**deleteSingleSpatialUnitFeatureRecordById**](SpatialUnitsApi.md#deleteSingleSpatialUnitFeatureRecordById) | **DELETE** /spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Delete single feature database record specified by its unique database primary key id for the specified feature of the selected spatial-unit dataset |
 | [**deleteSpatialUnitById**](SpatialUnitsApi.md#deleteSpatialUnitById) | **DELETE** /spatial-units/{spatialUnitId} | Delete the features/contents of the selected spatial-unit |
 | [**deleteSpatialUnitByIdAndYearAndMonth**](SpatialUnitsApi.md#deleteSpatialUnitByIdAndYearAndMonth) | **DELETE** /spatial-units/{spatialUnitId}/{year}/{month}/{day} | Delete the features/contents of the selected spatial-unit, year and month |
+| [**deleteSpatialUnitHierarchyById**](SpatialUnitsApi.md#deleteSpatialUnitHierarchyById) | **DELETE** /spatial-unit-hierarchies/{hierarchyId} | Delete a spatial unit hierarchy |
 | [**getAllSpatialUnitFeaturesById**](SpatialUnitsApi.md#getAllSpatialUnitFeaturesById) | **GET** /spatial-units/{spatialUnitId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getSingleSpatialUnitFeatureById**](SpatialUnitsApi.md#getSingleSpatialUnitFeatureById) | **GET** /spatial-units/{spatialUnitId}/singleFeature/{featureId} | retrieve single feature database records for all applicable periods of validity for the selected spatial-unit dataset (hence might contain the target feature multiple times if it exists for different periods of validity) |
 | [**getSingleSpatialUnitFeatureRecordById**](SpatialUnitsApi.md#getSingleSpatialUnitFeatureRecordById) | **GET** /spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | retrieve single feature database record specified by its unique database primary key id |
+| [**getSpatialUnitHierarchies**](SpatialUnitsApi.md#getSpatialUnitHierarchies) | **GET** /spatial-unit-hierarchies | retrieve the available spatial unit hierarchies |
+| [**getSpatialUnitHierarchyById**](SpatialUnitsApi.md#getSpatialUnitHierarchyById) | **GET** /spatial-unit-hierarchies/{hierarchyId} | retrieve a single spatial unit hierarchy |
 | [**getSpatialUnits**](SpatialUnitsApi.md#getSpatialUnits) | **GET** /spatial-units | retrieve information about available features of different spatial units/levels |
 | [**getSpatialUnitsById**](SpatialUnitsApi.md#getSpatialUnitsById) | **GET** /spatial-units/{spatialUnitId} | retrieve information about available features of the selected spatial unit/level |
 | [**getSpatialUnitsByIdAndYearAndMonth**](SpatialUnitsApi.md#getSpatialUnitsByIdAndYearAndMonth) | **GET** /spatial-units/{spatialUnitId}/{year}/{month}/{day} | retrieve the features according to the selected spatial unit/level and selected year and month as GeoJSON |
@@ -20,6 +24,9 @@ All URIs are relative to *http://localhost:8085*
 | [**getSpatialUnitsSchemaById**](SpatialUnitsApi.md#getSpatialUnitsSchemaById) | **GET** /spatial-units/{spatialUnitId}/schema | retrieve the JSON schema for the selected spatial unit/level |
 | [**updateSpatialUnitAsBody**](SpatialUnitsApi.md#updateSpatialUnitAsBody) | **PUT** /spatial-units/{spatialUnitId} | Modify/Update the features of the selected spatial-unit |
 | [**updateSpatialUnitFeatureRecordAsBody**](SpatialUnitsApi.md#updateSpatialUnitFeatureRecordAsBody) | **PUT** /spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Modify/Update the feature record of the selected spatial-unit dataset feature |
+| [**updateSpatialUnitHierarchy**](SpatialUnitsApi.md#updateSpatialUnitHierarchy) | **PUT** /spatial-unit-hierarchies/{hierarchyId} | Modify/Update a spatial unit hierarchy |
+| [**updateSpatialUnitHierarchyMembers**](SpatialUnitsApi.md#updateSpatialUnitHierarchyMembers) | **PUT** /spatial-unit-hierarchies/{hierarchyId}/members | Set the ordered members of a spatial unit hierarchy |
+| [**updateSpatialUnitHierarchyMemberships**](SpatialUnitsApi.md#updateSpatialUnitHierarchyMemberships) | **PUT** /spatial-units/{spatialUnitId}/hierarchies | Set the hierarchies a spatial unit belongs to |
 | [**updateSpatialUnitMetadataAsBody**](SpatialUnitsApi.md#updateSpatialUnitMetadataAsBody) | **PATCH** /spatial-units/{spatialUnitId} | Modify/Update the metadata of the selected spatial-unit |
 | [**updateSpatialUnitsOwnership**](SpatialUnitsApi.md#updateSpatialUnitsOwnership) | **PUT** /spatial-units/{spatialUnitId}/ownership | update information about the ownership for the selected spatial unit dataset |
 | [**updateSpatialUnitsPermissions**](SpatialUnitsApi.md#updateSpatialUnitsPermissions) | **PUT** /spatial-units/{spatialUnitId}/permissions | update information about the permissions for the selected spatial unit dataset |
@@ -99,6 +106,81 @@ public class Example {
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
+
+
+## addSpatialUnitHierarchy
+
+> SpatialUnitHierarchyOverviewType addSpatialUnitHierarchy(hierarchyData)
+
+Add a new spatial unit hierarchy
+
+Create a new hierarchy owned by a mandant. A mandant may own one or more hierarchies.
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        SpatialUnitHierarchyPOSTInputType hierarchyData = new SpatialUnitHierarchyPOSTInputType(); // SpatialUnitHierarchyPOSTInputType | hierarchy definition
+        try {
+            SpatialUnitHierarchyOverviewType result = apiInstance.addSpatialUnitHierarchy(hierarchyData);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#addSpatialUnitHierarchy");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyData** | [**SpatialUnitHierarchyPOSTInputType**](SpatialUnitHierarchyPOSTInputType.md)| hierarchy definition | |
+
+### Return type
+
+[**SpatialUnitHierarchyOverviewType**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **201** | Created |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
 | **405** | Invalid input |  -  |
 
 
@@ -479,6 +561,79 @@ null (empty response body)
 | **403** | Forbidden |  -  |
 
 
+## deleteSpatialUnitHierarchyById
+
+> deleteSpatialUnitHierarchyById(hierarchyId)
+
+Delete a spatial unit hierarchy
+
+Delete the selected spatial unit hierarchy. The spatial units that were members of the hierarchy are not deleted.
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String hierarchyId = "hierarchyId_example"; // String | the unique identifier of the hierarchy
+        try {
+            apiInstance.deleteSpatialUnitHierarchyById(hierarchyId);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#deleteSpatialUnitHierarchyById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyId** | **String**| the unique identifier of the hierarchy | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **204** | No Content |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+
+
 ## getAllSpatialUnitFeaturesById
 
 > byte[] getAllSpatialUnitFeaturesById(spatialUnitId, simplifyGeometries)
@@ -711,6 +866,150 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 | **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getSpatialUnitHierarchies
+
+> List&lt;SpatialUnitHierarchyOverviewType&gt; getSpatialUnitHierarchies()
+
+retrieve the available spatial unit hierarchies
+
+retrieve the available spatial unit hierarchies for the mandants the current user is allowed to access
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        try {
+            List<SpatialUnitHierarchyOverviewType> result = apiInstance.getSpatialUnitHierarchies();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#getSpatialUnitHierarchies");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;SpatialUnitHierarchyOverviewType&gt;**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getSpatialUnitHierarchyById
+
+> SpatialUnitHierarchyOverviewType getSpatialUnitHierarchyById(hierarchyId)
+
+retrieve a single spatial unit hierarchy
+
+retrieve a single spatial unit hierarchy including its ordered members
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String hierarchyId = "hierarchyId_example"; // String | the unique identifier of the hierarchy
+        try {
+            SpatialUnitHierarchyOverviewType result = apiInstance.getSpatialUnitHierarchyById(hierarchyId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#getSpatialUnitHierarchyById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyId** | **String**| the unique identifier of the hierarchy | |
+
+### Return type
+
+[**SpatialUnitHierarchyOverviewType**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |
@@ -1247,6 +1546,237 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **200** | OK - Updated |  -  |
 | **201** | Created |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateSpatialUnitHierarchy
+
+> SpatialUnitHierarchyOverviewType updateSpatialUnitHierarchy(hierarchyId, hierarchyData)
+
+Modify/Update a spatial unit hierarchy
+
+Modify/Update the metadata (e.g. name) of the selected spatial unit hierarchy
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String hierarchyId = "hierarchyId_example"; // String | the unique identifier of the hierarchy
+        SpatialUnitHierarchyInputType hierarchyData = new SpatialUnitHierarchyInputType(); // SpatialUnitHierarchyInputType | hierarchy definition
+        try {
+            SpatialUnitHierarchyOverviewType result = apiInstance.updateSpatialUnitHierarchy(hierarchyId, hierarchyData);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#updateSpatialUnitHierarchy");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyId** | **String**| the unique identifier of the hierarchy | |
+| **hierarchyData** | [**SpatialUnitHierarchyInputType**](SpatialUnitHierarchyInputType.md)| hierarchy definition | |
+
+### Return type
+
+[**SpatialUnitHierarchyOverviewType**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateSpatialUnitHierarchyMembers
+
+> SpatialUnitHierarchyOverviewType updateSpatialUnitHierarchyMembers(hierarchyId, members)
+
+Set the ordered members of a spatial unit hierarchy
+
+Replace the full ordered list of spatial unit members of the selected hierarchy. This single operation covers reordering, removing and adding members within the hierarchy.
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String hierarchyId = "hierarchyId_example"; // String | the unique identifier of the hierarchy
+        List<SpatialUnitHierarchyMemberInputType> members = Arrays.asList(); // List<SpatialUnitHierarchyMemberInputType> | the ordered list of spatial unit members
+        try {
+            SpatialUnitHierarchyOverviewType result = apiInstance.updateSpatialUnitHierarchyMembers(hierarchyId, members);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#updateSpatialUnitHierarchyMembers");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyId** | **String**| the unique identifier of the hierarchy | |
+| **members** | [**List&lt;SpatialUnitHierarchyMemberInputType&gt;**](SpatialUnitHierarchyMemberInputType.md)| the ordered list of spatial unit members | |
+
+### Return type
+
+[**SpatialUnitHierarchyOverviewType**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+| **405** | Invalid input |  -  |
+
+
+## updateSpatialUnitHierarchyMemberships
+
+> SpatialUnitOverviewType updateSpatialUnitHierarchyMemberships(spatialUnitId, hierarchies)
+
+Set the hierarchies a spatial unit belongs to
+
+Replace the full set of hierarchy memberships for the selected spatial unit. This single operation covers placing the spatial unit into further hierarchies, changing its level within a hierarchy, and removing it from a hierarchy. All referenced hierarchies must belong to the spatial unit&#39;s mandant.
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        SpatialUnitsApi apiInstance = new SpatialUnitsApi(defaultClient);
+        String spatialUnitId = "spatialUnitId_example"; // String | the unique identifier of the spatial unit
+        List<SpatialUnitHierarchyMembershipInputType> hierarchies = Arrays.asList(); // List<SpatialUnitHierarchyMembershipInputType> | the full list of hierarchy memberships for the spatial unit
+        try {
+            SpatialUnitOverviewType result = apiInstance.updateSpatialUnitHierarchyMemberships(spatialUnitId, hierarchies);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsApi#updateSpatialUnitHierarchyMemberships");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **spatialUnitId** | **String**| the unique identifier of the spatial unit | |
+| **hierarchies** | [**List&lt;SpatialUnitHierarchyMembershipInputType&gt;**](SpatialUnitHierarchyMembershipInputType.md)| the full list of hierarchy memberships for the spatial unit | |
+
+### Return type
+
+[**SpatialUnitOverviewType**](SpatialUnitOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
 | **404** | Not Found |  -  |

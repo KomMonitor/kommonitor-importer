@@ -10,6 +10,8 @@ All URIs are relative to *http://localhost:8085*
 | [**deleteIndicatorByIdAndYearAndMonth**](IndicatorsApi.md#deleteIndicatorByIdAndYearAndMonth) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day} | Delete the features/contents of the selected indicator dataset, selected by year and month |
 | [**deleteSingleIndicatorFeatureById**](IndicatorsApi.md#deleteSingleIndicatorFeatureById) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId} | Delete all database records for the specified feature of the selected indicator dataset |
 | [**deleteSingleIndicatorFeatureRecordById**](IndicatorsApi.md#deleteSingleIndicatorFeatureRecordById) | **DELETE** /indicators/{indicatorId}/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Delete single feature database record specified by its unique database primary key id for the specified feature of the selected indicator dataset |
+| [**exportIndicatorBySpatialUnitIdAndId**](IndicatorsApi.md#exportIndicatorBySpatialUnitIdAndId) | **GET** /indicators/{indicatorId}/{spatialUnitId}/export | export the indicator for the selected spatial unit in a certain format |
+| [**exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth**](IndicatorsApi.md#exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth) | **GET** /indicators/{indicatorId}/{spatialUnitId}/{year}/{month}/{day}/export | export the indicator for the selected spatial unit for a certain date in a certain format |
 | [**filterIndicators**](IndicatorsApi.md#filterIndicators) | **POST** /indicators/filter | Filter indicators |
 | [**getIndicatorById**](IndicatorsApi.md#getIndicatorById) | **GET** /indicators/{indicatorId} | retrieve information about the selected indicator |
 | [**getIndicatorBySpatialUnitIdAndId**](IndicatorsApi.md#getIndicatorBySpatialUnitIdAndId) | **GET** /indicators/{indicatorId}/{spatialUnitId} | retrieve the indicator for the selected spatial unit as GeoJSON |
@@ -491,6 +493,162 @@ null (empty response body)
 | **204** | No Content |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+
+
+## exportIndicatorBySpatialUnitIdAndId
+
+> File exportIndicatorBySpatialUnitIdAndId(indicatorId, spatialUnitId, format)
+
+export the indicator for the selected spatial unit in a certain format
+
+export the indicator for the selected spatial in a certain +format
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        String spatialUnitId = "spatialUnitId_example"; // String | the unique identifier of the spatial level
+        String format = "gpkg"; // String | Controls in which format the dataset should be downloaded. Supported values are ['gpkg']
+        try {
+            File result = apiInstance.exportIndicatorBySpatialUnitIdAndId(indicatorId, spatialUnitId, format);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#exportIndicatorBySpatialUnitIdAndId");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **spatialUnitId** | **String**| the unique identifier of the spatial level | |
+| **format** | **String**| Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] | [optional] [default to gpkg] [enum: gpkg] |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octed-stream
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+
+## exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth
+
+> File exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth(indicatorId, spatialUnitId, year, month, day, format)
+
+export the indicator for the selected spatial unit for a certain date in a certain format
+
+export the indicator for the selected spatial unit for a certain date in a certain format
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.IndicatorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        IndicatorsApi apiInstance = new IndicatorsApi(defaultClient);
+        String indicatorId = "indicatorId_example"; // String | unique identifier of the selected indicator dataset
+        String spatialUnitId = "spatialUnitId_example"; // String | the unique identifier of the spatial level
+        BigDecimal year = new BigDecimal(78); // BigDecimal | year for which the indicator shall be queried
+        BigDecimal month = new BigDecimal(78); // BigDecimal | month for which the indicator shall be queried
+        BigDecimal day = new BigDecimal(78); // BigDecimal | day for which datasets shall be queried
+        String format = "gpkg"; // String | Controls in which format the dataset should be downloaded. Supported values are ['gpkg']
+        try {
+            File result = apiInstance.exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth(indicatorId, spatialUnitId, year, month, day, format);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling IndicatorsApi#exportIndicatorBySpatialUnitIdAndIdAndYearAndMonth");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **indicatorId** | **String**| unique identifier of the selected indicator dataset | |
+| **spatialUnitId** | **String**| the unique identifier of the spatial level | |
+| **year** | **BigDecimal**| year for which the indicator shall be queried | |
+| **month** | **BigDecimal**| month for which the indicator shall be queried | |
+| **day** | **BigDecimal**| day for which datasets shall be queried | |
+| **format** | **String**| Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] | [optional] [default to gpkg] [enum: gpkg] |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octed-stream
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 
 
 ## filterIndicators

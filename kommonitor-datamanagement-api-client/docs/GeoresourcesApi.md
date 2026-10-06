@@ -10,6 +10,8 @@ All URIs are relative to *http://localhost:8085*
 | [**deleteGeoresourceByIdAndYearAndMonth**](GeoresourcesApi.md#deleteGeoresourceByIdAndYearAndMonth) | **DELETE** /georesources/{georesourceId}/{year}/{month}/{day} | Delete the features/contents of the selected geo-resource dataset, selected by year and month |
 | [**deleteSingleGeoresourceFeatureById**](GeoresourcesApi.md#deleteSingleGeoresourceFeatureById) | **DELETE** /georesources/{georesourceId}/singleFeature/{featureId} | Delete all database records for the specified feature of the selected geo-resource dataset |
 | [**deleteSingleGeoresourceFeatureRecordById**](GeoresourcesApi.md#deleteSingleGeoresourceFeatureRecordById) | **DELETE** /georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | Delete single feature database record specified by its unique database primary key id for the specified feature of the selected geo-resource dataset |
+| [**exportAllGeoresourceFeaturesById**](GeoresourcesApi.md#exportAllGeoresourceFeaturesById) | **GET** /georesources/{georesourceId}/allFeatures/export | export a georesource dataset in a certain format |
+| [**exportGeoresourceByIdAndYearAndMonth**](GeoresourcesApi.md#exportGeoresourceByIdAndYearAndMonth) | **GET** /georesources/{georesourceId}/{year}/{month}/{day}/export | export a georesource dataset for a certain date in a certain format |
 | [**filterGeoresources**](GeoresourcesApi.md#filterGeoresources) | **POST** /georesources/filter | Filter georesources |
 | [**getAllGeoresourceFeaturesById**](GeoresourcesApi.md#getAllGeoresourceFeaturesById) | **GET** /georesources/{georesourceId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getAllGeoresourceFeaturesByIdWithoutGeometry**](GeoresourcesApi.md#getAllGeoresourceFeaturesByIdWithoutGeometry) | **GET** /georesources/{georesourceId}/allFeatures/without-geometry | retrieve only the properties without geometry of all feature entries for all applicable periods of validity for the selected public geo-resource dataset (hence might contain each feature multiple times if they exist for different periods of validity) |
@@ -475,6 +477,158 @@ null (empty response body)
 | **204** | No Content |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+
+
+## exportAllGeoresourceFeaturesById
+
+> File exportAllGeoresourceFeaturesById(georesourceId, format)
+
+export a georesource dataset in a certain format
+
+export a georesource dataset in a certain format
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
+        String georesourceId = "georesourceId_example"; // String | unique identifier of the selected georesource dataset
+        String format = "gpkg"; // String | Controls in which format the dataset should be downloaded. Supported values are ['gpkg']
+        try {
+            File result = apiInstance.exportAllGeoresourceFeaturesById(georesourceId, format);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesApi#exportAllGeoresourceFeaturesById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **georesourceId** | **String**| unique identifier of the selected georesource dataset | |
+| **format** | **String**| Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] | [optional] [default to gpkg] [enum: gpkg] |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octed-stream
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+
+## exportGeoresourceByIdAndYearAndMonth
+
+> File exportGeoresourceByIdAndYearAndMonth(georesourceId, year, month, day, format)
+
+export a georesource dataset for a certain date in a certain format
+
+export a georesource dataset for a certain date in a certain format
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        GeoresourcesApi apiInstance = new GeoresourcesApi(defaultClient);
+        String georesourceId = "georesourceId_example"; // String | unique identifier of the selected georesource dataset
+        BigDecimal year = new BigDecimal(78); // BigDecimal | year for which datasets shall be queried
+        BigDecimal month = new BigDecimal(78); // BigDecimal | month for which datasets shall be queried
+        BigDecimal day = new BigDecimal(78); // BigDecimal | day for which datasets shall be queried
+        String format = "gpkg"; // String | Controls in which format the dataset should be downloaded. Supported values are ['gpkg']
+        try {
+            File result = apiInstance.exportGeoresourceByIdAndYearAndMonth(georesourceId, year, month, day, format);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GeoresourcesApi#exportGeoresourceByIdAndYearAndMonth");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **georesourceId** | **String**| unique identifier of the selected georesource dataset | |
+| **year** | **BigDecimal**| year for which datasets shall be queried | |
+| **month** | **BigDecimal**| month for which datasets shall be queried | |
+| **day** | **BigDecimal**| day for which datasets shall be queried | |
+| **format** | **String**| Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] | [optional] [default to gpkg] [enum: gpkg] |
+
+### Return type
+
+[**File**](File.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/octed-stream
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 
 
 ## filterGeoresources

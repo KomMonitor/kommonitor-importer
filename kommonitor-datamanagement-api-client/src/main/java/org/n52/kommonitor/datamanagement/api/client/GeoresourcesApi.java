@@ -4,6 +4,7 @@ import org.n52.kommonitor.datamanagement.api.ApiClient;
 import org.n52.kommonitor.datamanagement.api.BaseApi;
 
 import java.math.BigDecimal;
+import java.io.File;
 import org.n52.kommonitor.models.GeoresourceOverviewType;
 import org.n52.kommonitor.models.GeoresourcePATCHInputType;
 import org.n52.kommonitor.models.GeoresourcePOSTInputType;
@@ -34,7 +35,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-06T12:33:28.182741500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.GeoresourcesApi")
 public class GeoresourcesApi extends BaseApi {
 
@@ -412,6 +413,138 @@ public class GeoresourcesApi extends BaseApi {
 
         ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
         return apiClient.invokeAPI("/georesources/{georesourceId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.DELETE, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * export a georesource dataset in a certain format
+     * export a georesource dataset in a certain format
+     * <p><b>200</b> - OK
+     * @param georesourceId unique identifier of the selected georesource dataset (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return File
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public File exportAllGeoresourceFeaturesById(String georesourceId, String format) throws RestClientException {
+        return exportAllGeoresourceFeaturesByIdWithHttpInfo(georesourceId, format).getBody();
+    }
+
+    /**
+     * export a georesource dataset in a certain format
+     * export a georesource dataset in a certain format
+     * <p><b>200</b> - OK
+     * @param georesourceId unique identifier of the selected georesource dataset (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> exportAllGeoresourceFeaturesByIdWithHttpInfo(String georesourceId, String format) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'georesourceId' is set
+        if (georesourceId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'georesourceId' when calling exportAllGeoresourceFeaturesById");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("georesourceId", georesourceId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "format", format));
+        
+
+        final String[] localVarAccepts = { 
+            "application/octed-stream"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/georesources/{georesourceId}/allFeatures/export", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * export a georesource dataset for a certain date in a certain format
+     * export a georesource dataset for a certain date in a certain format
+     * <p><b>200</b> - OK
+     * @param georesourceId unique identifier of the selected georesource dataset (required)
+     * @param year year for which datasets shall be queried (required)
+     * @param month month for which datasets shall be queried (required)
+     * @param day day for which datasets shall be queried (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return File
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public File exportGeoresourceByIdAndYearAndMonth(String georesourceId, BigDecimal year, BigDecimal month, BigDecimal day, String format) throws RestClientException {
+        return exportGeoresourceByIdAndYearAndMonthWithHttpInfo(georesourceId, year, month, day, format).getBody();
+    }
+
+    /**
+     * export a georesource dataset for a certain date in a certain format
+     * export a georesource dataset for a certain date in a certain format
+     * <p><b>200</b> - OK
+     * @param georesourceId unique identifier of the selected georesource dataset (required)
+     * @param year year for which datasets shall be queried (required)
+     * @param month month for which datasets shall be queried (required)
+     * @param day day for which datasets shall be queried (required)
+     * @param format Controls in which format the dataset should be downloaded. Supported values are [&#39;gpkg&#39;] (optional, default to gpkg)
+     * @return ResponseEntity&lt;File&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<File> exportGeoresourceByIdAndYearAndMonthWithHttpInfo(String georesourceId, BigDecimal year, BigDecimal month, BigDecimal day, String format) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'georesourceId' is set
+        if (georesourceId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'georesourceId' when calling exportGeoresourceByIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'year' is set
+        if (year == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'year' when calling exportGeoresourceByIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'month' is set
+        if (month == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'month' when calling exportGeoresourceByIdAndYearAndMonth");
+        }
+        
+        // verify the required parameter 'day' is set
+        if (day == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'day' when calling exportGeoresourceByIdAndYearAndMonth");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("georesourceId", georesourceId);
+        uriVariables.put("year", year);
+        uriVariables.put("month", month);
+        uriVariables.put("day", day);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "format", format));
+        
+
+        final String[] localVarAccepts = { 
+            "application/octed-stream"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "kommonitor-data-access_oauth" };
+
+        ParameterizedTypeReference<File> localReturnType = new ParameterizedTypeReference<File>() {};
+        return apiClient.invokeAPI("/georesources/{georesourceId}/{year}/{month}/{day}/export", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Filter georesources

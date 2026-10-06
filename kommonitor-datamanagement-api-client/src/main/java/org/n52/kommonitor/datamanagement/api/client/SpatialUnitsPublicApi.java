@@ -4,6 +4,7 @@ import org.n52.kommonitor.datamanagement.api.ApiClient;
 import org.n52.kommonitor.datamanagement.api.BaseApi;
 
 import java.math.BigDecimal;
+import org.n52.kommonitor.models.SpatialUnitHierarchyOverviewType;
 import org.n52.kommonitor.models.SpatialUnitOverviewType;
 
 import java.util.Collections;
@@ -27,7 +28,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-09-01T12:50:21.566716700+02:00[Europe/Berlin]", comments = "Generator version: 7.15.0")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-10-06T12:33:28.182741500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 @Component("org.n52.kommonitor.datamanagement.api.client.SpatialUnitsPublicApi")
 public class SpatialUnitsPublicApi extends BaseApi {
 
@@ -249,6 +250,98 @@ public class SpatialUnitsPublicApi extends BaseApi {
 
         ParameterizedTypeReference<byte[]> localReturnType = new ParameterizedTypeReference<byte[]>() {};
         return apiClient.invokeAPI("/public/spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * retrieve the available public spatial unit hierarchies
+     * retrieve the publicly accessible spatial unit hierarchies
+     * <p><b>200</b> - OK
+     * <p><b>404</b> - Not Found
+     * @return List&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public List<SpatialUnitHierarchyOverviewType> getPublicSpatialUnitHierarchies() throws RestClientException {
+        return getPublicSpatialUnitHierarchiesWithHttpInfo().getBody();
+    }
+
+    /**
+     * retrieve the available public spatial unit hierarchies
+     * retrieve the publicly accessible spatial unit hierarchies
+     * <p><b>200</b> - OK
+     * <p><b>404</b> - Not Found
+     * @return ResponseEntity&lt;List&lt;SpatialUnitHierarchyOverviewType&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<SpatialUnitHierarchyOverviewType>> getPublicSpatialUnitHierarchiesWithHttpInfo() throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<List<SpatialUnitHierarchyOverviewType>> localReturnType = new ParameterizedTypeReference<List<SpatialUnitHierarchyOverviewType>>() {};
+        return apiClient.invokeAPI("/public/spatial-unit-hierarchies", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * retrieve a single public spatial unit hierarchy
+     * retrieve a single publicly accessible spatial unit hierarchy including its ordered members
+     * <p><b>200</b> - OK
+     * <p><b>404</b> - Not Found
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @return SpatialUnitHierarchyOverviewType
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public SpatialUnitHierarchyOverviewType getPublicSpatialUnitHierarchyById(String hierarchyId) throws RestClientException {
+        return getPublicSpatialUnitHierarchyByIdWithHttpInfo(hierarchyId).getBody();
+    }
+
+    /**
+     * retrieve a single public spatial unit hierarchy
+     * retrieve a single publicly accessible spatial unit hierarchy including its ordered members
+     * <p><b>200</b> - OK
+     * <p><b>404</b> - Not Found
+     * @param hierarchyId the unique identifier of the hierarchy (required)
+     * @return ResponseEntity&lt;SpatialUnitHierarchyOverviewType&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<SpatialUnitHierarchyOverviewType> getPublicSpatialUnitHierarchyByIdWithHttpInfo(String hierarchyId) throws RestClientException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'hierarchyId' is set
+        if (hierarchyId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'hierarchyId' when calling getPublicSpatialUnitHierarchyById");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("hierarchyId", hierarchyId);
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<SpatialUnitHierarchyOverviewType> localReturnType = new ParameterizedTypeReference<SpatialUnitHierarchyOverviewType>() {};
+        return apiClient.invokeAPI("/public/spatial-unit-hierarchies/{hierarchyId}", HttpMethod.GET, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * retrieve information about available features of different spatial units/levels

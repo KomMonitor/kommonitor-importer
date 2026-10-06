@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost:8085*
 |------------- | ------------- | -------------|
 | [**getTopicById**](TopicsPublicApi.md#getTopicById) | **GET** /public/topics/{topicId} | retrieve information about the selected topic |
 | [**getTopics**](TopicsPublicApi.md#getTopics) | **GET** /public/topics | retrieve information about available topics |
+| [**getTopicsDisplayOrderMode**](TopicsPublicApi.md#getTopicsDisplayOrderMode) | **GET** /public/topics/display-order/mode | the topics display order mode for georesources and indicators |
 
 
 
@@ -86,7 +87,7 @@ public class Example {
 
 ## getTopics
 
-> List&lt;TopicOverviewType&gt; getTopics()
+> List&lt;TopicOverviewType&gt; getTopics(topicType)
 
 retrieve information about available topics
 
@@ -113,11 +114,86 @@ public class Example {
         kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
 
         TopicsPublicApi apiInstance = new TopicsPublicApi(defaultClient);
+        String topicType = "indicator"; // String | Controls whether only topics for indicators or georesources should be returned. Supported values are ['georesource', 'indicator']
         try {
-            List<TopicOverviewType> result = apiInstance.getTopics();
+            List<TopicOverviewType> result = apiInstance.getTopics(topicType);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TopicsPublicApi#getTopics");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **topicType** | **String**| Controls whether only topics for indicators or georesources should be returned. Supported values are [&#39;georesource&#39;, &#39;indicator&#39;] | [optional] [enum: indicator, georesource] |
+
+### Return type
+
+[**List&lt;TopicOverviewType&gt;**](TopicOverviewType.md)
+
+### Authorization
+
+[kommonitor-data-access_oauth](../README.md#kommonitor-data-access_oauth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Invalid status value |  -  |
+| **401** | API key is missing or invalid |  -  |
+| **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getTopicsDisplayOrderMode
+
+> List&lt;TopicDisplayOrderModeOverviewType&gt; getTopicsDisplayOrderMode()
+
+the topics display order mode for georesources and indicators
+
+the topics display order mode for georesources and indicators
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.auth.*;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.TopicsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+        
+        // Configure OAuth2 access token for authorization: kommonitor-data-access_oauth
+        OAuth kommonitor-data-access_oauth = (OAuth) defaultClient.getAuthentication("kommonitor-data-access_oauth");
+        kommonitor-data-access_oauth.setAccessToken("YOUR ACCESS TOKEN");
+
+        TopicsPublicApi apiInstance = new TopicsPublicApi(defaultClient);
+        try {
+            List<TopicDisplayOrderModeOverviewType> result = apiInstance.getTopicsDisplayOrderMode();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TopicsPublicApi#getTopicsDisplayOrderMode");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -133,7 +209,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;TopicOverviewType&gt;**](TopicOverviewType.md)
+[**List&lt;TopicDisplayOrderModeOverviewType&gt;**](TopicDisplayOrderModeOverviewType.md)
 
 ### Authorization
 

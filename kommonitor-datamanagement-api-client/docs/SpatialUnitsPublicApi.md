@@ -7,6 +7,8 @@ All URIs are relative to *http://localhost:8085*
 | [**getAllPublicSpatialUnitFeaturesById**](SpatialUnitsPublicApi.md#getAllPublicSpatialUnitFeaturesById) | **GET** /public/spatial-units/{spatialUnitId}/allFeatures | retrieve all feature entries for all applicable periods of validity for the selected spatial unit/level (hence might contain each feature multiple times if they exist for different periods of validity) |
 | [**getPublicSingleSpatialUnitFeatureById**](SpatialUnitsPublicApi.md#getPublicSingleSpatialUnitFeatureById) | **GET** /public/spatial-units/{spatialUnitId}/singleFeature/{featureId} | retrieve single feature database records for all applicable periods of validity for the selected spatial-unit dataset (hence might contain the target feature multiple times if it exists for different periods of validity) |
 | [**getPublicSingleSpatialUnitFeatureRecordById**](SpatialUnitsPublicApi.md#getPublicSingleSpatialUnitFeatureRecordById) | **GET** /public/spatial-units/{spatialUnitId}/singleFeature/{featureId}/singleFeatureRecord/{featureRecordId} | retrieve single feature database record specified by its unique database primary key id |
+| [**getPublicSpatialUnitHierarchies**](SpatialUnitsPublicApi.md#getPublicSpatialUnitHierarchies) | **GET** /public/spatial-unit-hierarchies | retrieve the available public spatial unit hierarchies |
+| [**getPublicSpatialUnitHierarchyById**](SpatialUnitsPublicApi.md#getPublicSpatialUnitHierarchyById) | **GET** /public/spatial-unit-hierarchies/{hierarchyId} | retrieve a single public spatial unit hierarchy |
 | [**getPublicSpatialUnits**](SpatialUnitsPublicApi.md#getPublicSpatialUnits) | **GET** /public/spatial-units | retrieve information about available features of different spatial units/levels |
 | [**getPublicSpatialUnitsById**](SpatialUnitsPublicApi.md#getPublicSpatialUnitsById) | **GET** /public/spatial-units/{spatialUnitId} | retrieve information about available features of the selected spatial unit/level |
 | [**getPublicSpatialUnitsByIdAndYearAndMonth**](SpatialUnitsPublicApi.md#getPublicSpatialUnitsByIdAndYearAndMonth) | **GET** /public/spatial-units/{spatialUnitId}/{year}/{month}/{day} | retrieve the features according to the selected spatial unit/level and selected year and month as GeoJSON |
@@ -248,6 +250,136 @@ public class Example {
 | **400** | Invalid status value |  -  |
 | **401** | API key is missing or invalid |  -  |
 | **403** | Forbidden |  -  |
+| **404** | Not Found |  -  |
+
+
+## getPublicSpatialUnitHierarchies
+
+> List&lt;SpatialUnitHierarchyOverviewType&gt; getPublicSpatialUnitHierarchies()
+
+retrieve the available public spatial unit hierarchies
+
+retrieve the publicly accessible spatial unit hierarchies
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        SpatialUnitsPublicApi apiInstance = new SpatialUnitsPublicApi(defaultClient);
+        try {
+            List<SpatialUnitHierarchyOverviewType> result = apiInstance.getPublicSpatialUnitHierarchies();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsPublicApi#getPublicSpatialUnitHierarchies");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;SpatialUnitHierarchyOverviewType&gt;**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **404** | Not Found |  -  |
+
+
+## getPublicSpatialUnitHierarchyById
+
+> SpatialUnitHierarchyOverviewType getPublicSpatialUnitHierarchyById(hierarchyId)
+
+retrieve a single public spatial unit hierarchy
+
+retrieve a single publicly accessible spatial unit hierarchy including its ordered members
+
+### Example
+
+```java
+// Import classes:
+import org.n52.kommonitor.datamanagement.api.ApiClient;
+import org.n52.kommonitor.datamanagement.api.ApiException;
+import org.n52.kommonitor.datamanagement.api.Configuration;
+import org.n52.kommonitor.datamanagement.api.models.*;
+import org.n52.kommonitor.datamanagement.api.client.SpatialUnitsPublicApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:8085");
+
+        SpatialUnitsPublicApi apiInstance = new SpatialUnitsPublicApi(defaultClient);
+        String hierarchyId = "hierarchyId_example"; // String | the unique identifier of the hierarchy
+        try {
+            SpatialUnitHierarchyOverviewType result = apiInstance.getPublicSpatialUnitHierarchyById(hierarchyId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling SpatialUnitsPublicApi#getPublicSpatialUnitHierarchyById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **hierarchyId** | **String**| the unique identifier of the hierarchy | |
+
+### Return type
+
+[**SpatialUnitHierarchyOverviewType**](SpatialUnitHierarchyOverviewType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 | **404** | Not Found |  -  |
 
 
