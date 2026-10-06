@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Permissions for administrative tasks regarding resources, themes and users
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public enum AdminRoleType implements Serializable {
   
   CLIENT_USERS_CREATOR("client-users-creator"),

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.n52.kommonitor.models.ConnectionInfoType;
 import org.n52.kommonitor.models.ServiceTypeEnum;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,14 +23,10 @@ import jakarta.annotation.Generated;
  * WmsConnectionInfoType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
-public class WmsConnectionInfoType implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+public class WmsConnectionInfoType extends ConnectionInfoType implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  private @Nullable String id;
-
-  private ServiceTypeEnum serviceType;
 
   private String baseUrl;
 
@@ -42,52 +39,10 @@ public class WmsConnectionInfoType implements Serializable {
   /**
    * Constructor with only required parameters
    */
-  public WmsConnectionInfoType(ServiceTypeEnum serviceType, String baseUrl, String layerName) {
-    this.serviceType = serviceType;
+  public WmsConnectionInfoType(String baseUrl, String layerName, ServiceTypeEnum serviceType) {
+    super(serviceType);
     this.baseUrl = baseUrl;
     this.layerName = layerName;
-  }
-
-  public WmsConnectionInfoType id(@Nullable String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * the unique identifier of the web service
-   * @return id
-   */
-  
-  @Schema(name = "id", description = "the unique identifier of the web service", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("id")
-  public @Nullable String getId() {
-    return id;
-  }
-
-  @JsonProperty("id")
-  public void setId(@Nullable String id) {
-    this.id = id;
-  }
-
-  public WmsConnectionInfoType serviceType(ServiceTypeEnum serviceType) {
-    this.serviceType = serviceType;
-    return this;
-  }
-
-  /**
-   * Get serviceType
-   * @return serviceType
-   */
-  @NotNull @Valid 
-  @Schema(name = "serviceType", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("serviceType")
-  public ServiceTypeEnum getServiceType() {
-    return serviceType;
-  }
-
-  @JsonProperty("serviceType")
-  public void setServiceType(ServiceTypeEnum serviceType) {
-    this.serviceType = serviceType;
   }
 
   public WmsConnectionInfoType baseUrl(String baseUrl) {
@@ -132,6 +87,16 @@ public class WmsConnectionInfoType implements Serializable {
     this.layerName = layerName;
   }
 
+
+  public WmsConnectionInfoType id(String id) {
+    super.id(id);
+    return this;
+  }
+
+  public WmsConnectionInfoType serviceType(ServiceTypeEnum serviceType) {
+    super.serviceType(serviceType);
+    return this;
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -141,23 +106,21 @@ public class WmsConnectionInfoType implements Serializable {
       return false;
     }
     WmsConnectionInfoType wmsConnectionInfoType = (WmsConnectionInfoType) o;
-    return Objects.equals(this.id, wmsConnectionInfoType.id) &&
-        Objects.equals(this.serviceType, wmsConnectionInfoType.serviceType) &&
-        Objects.equals(this.baseUrl, wmsConnectionInfoType.baseUrl) &&
-        Objects.equals(this.layerName, wmsConnectionInfoType.layerName);
+    return Objects.equals(this.baseUrl, wmsConnectionInfoType.baseUrl) &&
+        Objects.equals(this.layerName, wmsConnectionInfoType.layerName) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, serviceType, baseUrl, layerName);
+    return Objects.hash(baseUrl, layerName, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class WmsConnectionInfoType {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    serviceType: ").append(toIndentedString(serviceType)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    baseUrl: ").append(toIndentedString(baseUrl)).append("\n");
     sb.append("    layerName: ").append(toIndentedString(layerName)).append("\n");
     sb.append("}");

@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.time.LocalDate;
+import org.n52.kommonitor.models.IndicatorPOSTInputTypeValueMapping;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,13 +23,10 @@ import jakarta.annotation.Generated;
  * IndicatorPOSTInputTypeCategoricalValueMapping
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
-public class IndicatorPOSTInputTypeCategoricalValueMapping implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+public class IndicatorPOSTInputTypeCategoricalValueMapping extends IndicatorPOSTInputTypeValueMapping implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate timestamp;
 
   private String indicatorValue;
 
@@ -39,30 +37,9 @@ public class IndicatorPOSTInputTypeCategoricalValueMapping implements Serializab
   /**
    * Constructor with only required parameters
    */
-  public IndicatorPOSTInputTypeCategoricalValueMapping(LocalDate timestamp, String indicatorValue) {
-    this.timestamp = timestamp;
+  public IndicatorPOSTInputTypeCategoricalValueMapping(String indicatorValue, LocalDate timestamp) {
+    super(timestamp);
     this.indicatorValue = indicatorValue;
-  }
-
-  public IndicatorPOSTInputTypeCategoricalValueMapping timestamp(LocalDate timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-  /**
-   * timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)
-   * @return timestamp
-   */
-  @NotNull @Valid 
-  @Schema(name = "timestamp", example = "2020-01-01", description = "timestamp consisting of year, month and day according to ISO 8601 (e.g. 2018-01-30)", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("timestamp")
-  public LocalDate getTimestamp() {
-    return timestamp;
-  }
-
-  @JsonProperty("timestamp")
-  public void setTimestamp(LocalDate timestamp) {
-    this.timestamp = timestamp;
   }
 
   public IndicatorPOSTInputTypeCategoricalValueMapping indicatorValue(String indicatorValue) {
@@ -86,6 +63,11 @@ public class IndicatorPOSTInputTypeCategoricalValueMapping implements Serializab
     this.indicatorValue = indicatorValue;
   }
 
+
+  public IndicatorPOSTInputTypeCategoricalValueMapping timestamp(LocalDate timestamp) {
+    super.timestamp(timestamp);
+    return this;
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -95,20 +77,20 @@ public class IndicatorPOSTInputTypeCategoricalValueMapping implements Serializab
       return false;
     }
     IndicatorPOSTInputTypeCategoricalValueMapping indicatorPOSTInputTypeCategoricalValueMapping = (IndicatorPOSTInputTypeCategoricalValueMapping) o;
-    return Objects.equals(this.timestamp, indicatorPOSTInputTypeCategoricalValueMapping.timestamp) &&
-        Objects.equals(this.indicatorValue, indicatorPOSTInputTypeCategoricalValueMapping.indicatorValue);
+    return Objects.equals(this.indicatorValue, indicatorPOSTInputTypeCategoricalValueMapping.indicatorValue) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(timestamp, indicatorValue);
+    return Objects.hash(indicatorValue, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IndicatorPOSTInputTypeCategoricalValueMapping {\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    indicatorValue: ").append(toIndentedString(indicatorValue)).append("\n");
     sb.append("}");
     return sb.toString();

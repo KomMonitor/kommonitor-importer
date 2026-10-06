@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.UUID;
+import org.n52.kommonitor.models.OrganizationalUnitPermissionOverviewElementType;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.io.Serializable;
@@ -21,16 +22,10 @@ import jakarta.annotation.Generated;
  * OrganizationalUnitPermissionOverviewSpatialUnitElementType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
-public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implements Serializable {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+public class OrganizationalUnitPermissionOverviewSpatialUnitElementType extends OrganizationalUnitPermissionOverviewElementType implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  private UUID id;
-
-  private String permissionLevel;
-
-  private UUID roleId;
 
   private UUID spatialUnitId;
 
@@ -41,74 +36,9 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
   /**
    * Constructor with only required parameters
    */
-  public OrganizationalUnitPermissionOverviewSpatialUnitElementType(UUID id, String permissionLevel, UUID roleId, UUID spatialUnitId) {
-    this.id = id;
-    this.permissionLevel = permissionLevel;
-    this.roleId = roleId;
+  public OrganizationalUnitPermissionOverviewSpatialUnitElementType(UUID spatialUnitId, UUID id, String permissionLevel, UUID roleId) {
+    super(id, permissionLevel, roleId);
     this.spatialUnitId = spatialUnitId;
-  }
-
-  public OrganizationalUnitPermissionOverviewSpatialUnitElementType id(UUID id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-   */
-  @NotNull @Valid 
-  @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("id")
-  public UUID getId() {
-    return id;
-  }
-
-  @JsonProperty("id")
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public OrganizationalUnitPermissionOverviewSpatialUnitElementType permissionLevel(String permissionLevel) {
-    this.permissionLevel = permissionLevel;
-    return this;
-  }
-
-  /**
-   * Get permissionLevel
-   * @return permissionLevel
-   */
-  @NotNull 
-  @Schema(name = "permissionLevel", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("permissionLevel")
-  public String getPermissionLevel() {
-    return permissionLevel;
-  }
-
-  @JsonProperty("permissionLevel")
-  public void setPermissionLevel(String permissionLevel) {
-    this.permissionLevel = permissionLevel;
-  }
-
-  public OrganizationalUnitPermissionOverviewSpatialUnitElementType roleId(UUID roleId) {
-    this.roleId = roleId;
-    return this;
-  }
-
-  /**
-   * Get roleId
-   * @return roleId
-   */
-  @NotNull @Valid 
-  @Schema(name = "roleId", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("roleId")
-  public UUID getRoleId() {
-    return roleId;
-  }
-
-  @JsonProperty("roleId")
-  public void setRoleId(UUID roleId) {
-    this.roleId = roleId;
   }
 
   public OrganizationalUnitPermissionOverviewSpatialUnitElementType spatialUnitId(UUID spatialUnitId) {
@@ -132,6 +62,21 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
     this.spatialUnitId = spatialUnitId;
   }
 
+
+  public OrganizationalUnitPermissionOverviewSpatialUnitElementType id(UUID id) {
+    super.id(id);
+    return this;
+  }
+
+  public OrganizationalUnitPermissionOverviewSpatialUnitElementType permissionLevel(String permissionLevel) {
+    super.permissionLevel(permissionLevel);
+    return this;
+  }
+
+  public OrganizationalUnitPermissionOverviewSpatialUnitElementType roleId(UUID roleId) {
+    super.roleId(roleId);
+    return this;
+  }
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -141,24 +86,20 @@ public class OrganizationalUnitPermissionOverviewSpatialUnitElementType implemen
       return false;
     }
     OrganizationalUnitPermissionOverviewSpatialUnitElementType organizationalUnitPermissionOverviewSpatialUnitElementType = (OrganizationalUnitPermissionOverviewSpatialUnitElementType) o;
-    return Objects.equals(this.id, organizationalUnitPermissionOverviewSpatialUnitElementType.id) &&
-        Objects.equals(this.permissionLevel, organizationalUnitPermissionOverviewSpatialUnitElementType.permissionLevel) &&
-        Objects.equals(this.roleId, organizationalUnitPermissionOverviewSpatialUnitElementType.roleId) &&
-        Objects.equals(this.spatialUnitId, organizationalUnitPermissionOverviewSpatialUnitElementType.spatialUnitId);
+    return Objects.equals(this.spatialUnitId, organizationalUnitPermissionOverviewSpatialUnitElementType.spatialUnitId) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, permissionLevel, roleId, spatialUnitId);
+    return Objects.hash(spatialUnitId, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OrganizationalUnitPermissionOverviewSpatialUnitElementType {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    permissionLevel: ").append(toIndentedString(permissionLevel)).append("\n");
-    sb.append("    roleId: ").append(toIndentedString(roleId)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    spatialUnitId: ").append(toIndentedString(spatialUnitId)).append("\n");
     sb.append("}");
     return sb.toString();

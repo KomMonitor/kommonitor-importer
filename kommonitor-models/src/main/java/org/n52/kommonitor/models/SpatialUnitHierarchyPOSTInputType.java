@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "SpatialUnitHierarchyPOSTInputType", description = "input for creating a mandant-owned spatial unit hierarchy, optionally with its ordered spatial unit members")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class SpatialUnitHierarchyPOSTInputType implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "SpatialUnitHierarchyMemberType", description = "a spatial unit member of a hierarchy. The ordering is kept coherent in both representations - hierarchyLevel is always set and the neighbouring spatial units are derived from it.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-09-18T15:43:41.475068700+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-10-06T13:10:45.645176500+02:00[Europe/Berlin]", comments = "Generator version: 7.23.0")
 public class SpatialUnitHierarchyMemberType implements Serializable {
 
   private static final long serialVersionUID = 1L;
