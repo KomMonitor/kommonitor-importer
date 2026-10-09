@@ -123,17 +123,15 @@ public class GeopackageConverter extends AbstractConverter {
         Path tmpFile = storeDatasetAsTempFile(dataset);
         LOG.debug("Stored Geopackage dataset temporarily under {}", tmpFile.toFile().getPath());
 
+        DataStore dataStore = null;
         try {
-            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpFile, converterDefinition);
+            dataStore = openDataStore(tmpFile);
+            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(dataStore, converterDefinition);
             spatialResources = featureDecoder.decodeFeatureCollectionToSpatialResources((SimpleFeatureCollection) collection, propertyMapping, CRS.decode(crsOpt.get()));
         } catch (FactoryException ex) {
             throw new ImportParameterException(String.format("Invalid CRS parameter '%s'.", crsOpt.get()), ex);
         } finally {
-            boolean deleted = tmpFile.toFile().delete();
-            if(deleted)
-                LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
-            else
-                LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
+            cleanUp(dataStore, tmpFile);
         }
         return spatialResources;
     }
@@ -178,9 +176,16 @@ public class GeopackageConverter extends AbstractConverter {
         Path tmpFile = storeDatasetAsTempFile(dataset);
         LOG.debug("Stored Geopackage dataset temporarily under {}", tmpFile.toFile().getPath());
 
-        FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(tmpFile, converterDefinition);
+        List<IndicatorValue> indicatorValueList;
+        DataStore dataStore = null;
+        try {
+            dataStore = openDataStore(tmpFile);
+            FeatureCollection<SimpleFeatureType, SimpleFeature> collection = readFeatureCollection(dataStore, converterDefinition);
 
-        List<IndicatorValue> indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping, aggregationDefinitions);
+            indicatorValueList = featureDecoder.decodeFeatureCollectionToIndicatorValues((SimpleFeatureCollection) collection, propertyMapping, aggregationDefinitions);
+        } finally {
+            cleanUp(dataStore, tmpFile);
+        }
 
         // Due to the GeoTools decoding issues, the grouping of Features with same ID but different timestamps
         // can't be performed by the FeatureDecoder. Therefore, the grouping has to be done for IndicatorValues
@@ -188,19 +193,10 @@ public class GeopackageConverter extends AbstractConverter {
         if (propertyMapping.getTimeseriesMappings().size() == 1) {
             indicatorValueList = groupIndicatorValues(indicatorValueList);
         }
-        boolean deleted = tmpFile.toFile().delete();
-        if(deleted)
-            LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
-        else
-            LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
         return indicatorValueList;
     }
 
-    private FeatureCollection<SimpleFeatureType, SimpleFeature> readFeatureCollection(Path tmpFile, ConverterDefinitionType converterDefinition)
-            throws IOException, ImportParameterException {
-
-        Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
-
+    private DataStore openDataStore(Path tmpFile) throws IOException {
         Map<String, Object> params = new HashMap();
         params.put("dbtype", "geopkg");
         params.put("database", tmpFile.toString());
@@ -210,6 +206,28 @@ public class GeopackageConverter extends AbstractConverter {
         if (dataStore == null) {
             throw new IOException("Error while reading Geopackage data source.");
         }
+        return dataStore;
+    }
+
+    /**
+     * Disposes the DataStore to release its database connections and deletes the temporary Geopackage file.
+     * Disposing has to be done before deletion, since an open Geopackage file can not be deleted on all platforms.
+     */
+    private void cleanUp(DataStore dataStore, Path tmpFile) {
+        if (dataStore != null) {
+            dataStore.dispose();
+        }
+        boolean deleted = tmpFile.toFile().delete();
+        if(deleted)
+            LOG.debug("Temp file {} successfully deleted.", tmpFile.toFile().getPath());
+        else
+            LOG.warn("Temp file {} could not be deleted.", tmpFile.toFile().getPath());
+    }
+
+    private FeatureCollection<SimpleFeatureType, SimpleFeature> readFeatureCollection(DataStore dataStore, ConverterDefinitionType converterDefinition)
+            throws IOException, ImportParameterException {
+
+        Optional<String> layerOpt = this.getParameterValue(PARAM_LAYER_, converterDefinition.getParameters());
 
         // Check if the layer parameter is set. If so, check if the layer is present within the Geopackage.
         // Otherwise, use the first layer name of the Geopackage.
