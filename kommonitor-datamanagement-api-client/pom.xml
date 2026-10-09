@@ -115,6 +115,7 @@
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
                                         <useSpringBoot4>true</useSpringBoot4>
+                                        <useJackson3>true</useJackson3>
                                         <generateClientAsBean>true</generateClientAsBean>
                                     </configOptions>
                                 </configuration>

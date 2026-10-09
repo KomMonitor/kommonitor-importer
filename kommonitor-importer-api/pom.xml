@@ -38,11 +38,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
@@ -86,16 +81,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-        </dependency>
-        
-        <!-- required for Java 9+ -->
-         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>                    
-         </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
         </dependency>
 
         <dependency>
@@ -163,7 +148,8 @@
                                     <configOptions>
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
-                                        <useSpringBoot3>true</useSpringBoot3>
+                                        <useSpringBoot4>true</useSpringBoot4>
+                                        <useJackson3>true</useJackson3>
                                         <skipDefaultInterface>true</skipDefaultInterface>
                                         <unhandledException>true</unhandledException>
                                     </configOptions>

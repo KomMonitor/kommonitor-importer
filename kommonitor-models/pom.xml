@@ -99,7 +99,8 @@
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
                                         <serializableModel>true</serializableModel>
-                                        <useSpringBoot3>true</useSpringBoot3>
+                                        <useSpringBoot4>true</useSpringBoot4>
+                                        <useJackson3>true</useJackson3>
                                         <containerDefaultToNull>true</containerDefaultToNull>
                                     </configOptions>
                                 </configuration>
@@ -128,7 +129,8 @@
                                         <sourceFolder>src/main/java</sourceFolder>
                                         <dateLibrary>java8</dateLibrary>
                                         <serializableModel>true</serializableModel>
-                                        <useSpringBoot3>true</useSpringBoot3>
+                                        <useSpringBoot4>true</useSpringBoot4>
+                                        <useJackson3>true</useJackson3>
                                     </configOptions>
                                     <openapiNormalizer>REF_AS_PARENT_IN_ALLOF=true</openapiNormalizer>
                                 </configuration>

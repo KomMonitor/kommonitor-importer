@@ -29,18 +29,26 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.version>4.1.0</spring-boot.version>
+        <kommonitor-oas.version>latest</kommonitor-oas.version>
+        <spring-boot.version>4.1.1</spring-boot.version>
         <api-client.version>5.0.0-SNAPSHOT</api-client.version>
         <jts.version>1.20.0</jts.version>
-        <maven-surefire.version>3.2.2</maven-surefire.version>
-        <maven-failsafe.version>3.2.2</maven-failsafe.version>
-        <geotools.version>33.2</geotools.version>
-        <release-plugin.version>3.0.1</release-plugin.version>
-        <changelog-plugin.version>0.6.0</changelog-plugin.version>
-        <log4j.version>2.25.1</log4j.version>
-        <poi.version>5.4.1</poi.version>
-        <kommonitor-oas.version>latest</kommonitor-oas.version>
-        <openapi-codegen.version>7.23.0</openapi-codegen.version>
+        <maven-surefire.version>3.6.0</maven-surefire.version>
+        <maven-failsafe.version>3.6.0</maven-failsafe.version>
+        <geotools.version>35.1</geotools.version>
+        <release-plugin.version>3.3.1</release-plugin.version>
+        <log4j.version>2.26.1</log4j.version>
+        <poi.version>5.5.1</poi.version>
+        <openapi-codegen.version>7.25.0</openapi-codegen.version>
+        <tika.version>4.1.0</tika.version>
+        <gson.version>2.14.0</gson.version>
+        <jaxb.version>4.0.5</jaxb.version>
+        <opencsv.version>5.12.0</opencsv.version>
+        <jackson-databind-nullable.version>0.2.12</jackson-databind-nullable.version>
+        <httpclient5.version>5.6.4</httpclient5.version>
+        <swagger-core-jakarta.version>2.2.54</swagger-core-jakarta.version>
+        <springdoc.version>3.1.1</springdoc.version>
+
         <git.cliff.skip>true</git.cliff.skip>
     </properties>
 
@@ -49,7 +57,8 @@
 			<dependency>
 			    <groupId>org.apache.tika</groupId>
 			    <artifactId>tika-parsers-standard-package</artifactId>
-			    <version>3.2.2</version>
+			    <version>${tika.version}</version>
+                <type>pom</type>
 			    <exclusions>
                     <exclusion>
                         <artifactId>geoapi</artifactId>
@@ -76,14 +85,7 @@
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>2.13.1</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>2.3.1</version>
+                <version>${gson.version}</version>
             </dependency>
 
 	        <dependency>
@@ -95,7 +97,7 @@
 			<dependency>
 			    <groupId>com.opencsv</groupId>
 			    <artifactId>opencsv</artifactId>
-			    <version>5.12.0</version>
+			    <version>${opencsv.version}</version>
 			</dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -193,12 +195,6 @@
             </dependency>
 
             <dependency>
-                <groupId>de.grundid.opendatalab</groupId>
-                <artifactId>geojson-jackson</artifactId>
-                <version>1.14</version>
-            </dependency>
-            
-            <dependency>
 			    <groupId>org.apache.logging.log4j</groupId>
 			    <artifactId>log4j-to-slf4j</artifactId>
 			    <version>${log4j.version}</version>
@@ -226,7 +222,7 @@
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>3.0.2</version>
+                <version>${springdoc.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.swagger.core.v3</groupId>
@@ -237,7 +233,7 @@
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.15.0</version>
+                <version>${openapi-codegen.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.swagger.core.v3</groupId>
@@ -252,17 +248,17 @@
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
-                <version>0.2.10</version>
+                <version>${jackson-databind-nullable.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>
-                <version>5.5</version>
+                <version>${httpclient5.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-core-jakarta</artifactId>
-                <version>2.2.36</version>
+                <version>${swagger-core-jakarta.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -284,17 +280,17 @@
             <releases><enabled>true</enabled></releases>
         </repository>
         -->
-        <repository>
-            <id>boundless</id>
-            <name>Boundless Repo</name>
-            <url>https://repo.boundlessgeo.com/main/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+<!--        <repository>-->
+<!--            <id>boundless</id>-->
+<!--            <name>Boundless Repo</name>-->
+<!--            <url>https://repo.boundlessgeo.com/main/</url>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
         <repository>
             <id>geotools</id>
             <name>Geotools Repo</name>
