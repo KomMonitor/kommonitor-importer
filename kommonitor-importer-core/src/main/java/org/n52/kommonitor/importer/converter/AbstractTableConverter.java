@@ -744,7 +744,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	      return result;
 	  }
 
-	  private static void removeBom(Path path) throws IOException {
+	  private void removeBom(Path path) throws IOException {
 
 	      if (isContainBOM(path)) {
 
@@ -752,7 +752,7 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 
 	          ByteBuffer bb = ByteBuffer.wrap(bytes);
 
-	          System.out.println("Found BOM!");
+	          LOG.debug("Found UTF-8 BOM in file {}.", path);
 
 	          byte[] bom = new byte[3];
 	          // get the first 3 bytes
@@ -762,13 +762,13 @@ public abstract class AbstractTableConverter extends AbstractConverter {
 	          byte[] contentAfterFirst3Bytes = new byte[bytes.length - 3];
 	          bb.get(contentAfterFirst3Bytes, 0, contentAfterFirst3Bytes.length);
 
-	          System.out.println("Remove the first 3 bytes, and overwrite the file!");
+	          LOG.debug("Removing UTF-8 BOM and overwriting file {}.", path);
 
 	          // override the same path
 	          Files.write(path, contentAfterFirst3Bytes);
 
 	      } else {
-	          System.out.println("This file doesn't contains UTF-8 BOM!");
+	          LOG.debug("File {} does not contain a UTF-8 BOM.", path);
 	      }
 
 	  }
