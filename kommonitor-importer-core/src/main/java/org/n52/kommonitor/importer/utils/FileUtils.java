@@ -13,8 +13,9 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tika.parser.txt.CharsetDetector;
-import org.apache.tika.parser.txt.CharsetMatch;
+import org.apache.commons.lang3.Strings;
+import org.apache.tika.detect.icu4j.CharsetDetector;
+import org.apache.tika.detect.icu4j.CharsetMatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +107,12 @@ public class FileUtils {
      */
     public static File convertFileToUtf8(File inputFile, File outputFile, String encoding) throws IOException {
         if (!outputFile.exists()) {
-            outputFile.createNewFile();
+            boolean created = outputFile.createNewFile();
+            if (created) {
+                LOGGER.debug("Successfully created file '{}'", outputFile.getName());
+            } else {
+                LOGGER.debug("File '{}' already exists.", outputFile.getName());
+            }
         }
 
         try (FileInputStream inputStream = new FileInputStream(inputFile);
@@ -115,18 +121,18 @@ public class FileUtils {
              FileOutputStream outputStream = new FileOutputStream(outputFile);
              OutputStreamWriter outputWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
                 IOUtils.copy(inputReader, outputWriter);
-
-                // delete inputFile
-                inputFile.delete();
-
-                return outputFile;
         }
+
+        // delete inputFile after all streams have been closed
+        inputFile.delete();
+
+        return outputFile;
     }
 
     private static boolean isUtf8(String encoding) {
         final Set<String> aliases = Sets.newHashSet("utf-8", "utf_8", "utf8");
         for (String utf8 : aliases) {
-            if (StringUtils.equalsIgnoreCase(utf8, encoding)) {
+            if (Strings.CI.equals(utf8, encoding)) {
                 return true;
             }
         }

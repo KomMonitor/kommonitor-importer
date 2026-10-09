@@ -97,6 +97,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers-standard-package</artifactId>
+            <type>pom</type>
 			    <exclusions>
                     <exclusion>
                         <artifactId>geoapi</artifactId>
@@ -104,6 +105,10 @@
                     </exclusion>
                 </exclusions>
 			</dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-encoding-detector-icu4j</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

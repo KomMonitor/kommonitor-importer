@@ -83,6 +83,11 @@
                 </exclusions>
 			</dependency>
             <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-encoding-detector-icu4j</artifactId>
+                <version>${tika.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
