@@ -7,7 +7,7 @@ networks:
 
 services:
   keycloak:
-    image: kommonitor/keycloak:26.3.1-postgres
+    image: kommonitor/keycloak:26.7.4-postgres
     entrypoint: /opt/keycloak/bin/kc.sh start-dev
     container_name: keycloak
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
     networks:
       - kommonitor
   kommonitor-data-management:
-    image: kommonitor/data-management:5.3.0-SNAPSHOT
+    image: kommonitor/data-management:6.0.0-SNAPSHOT
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
